@@ -9,7 +9,8 @@ var app = angular.module('myApp', [
     'ui.router',
     'ngDragDrop',
     'ui.bootstrap',
-    'angularSoap'
+    'angularSoap',
+    'map'
 ])
     .config(function ($stateProvider, $urlRouterProvider) {
         
@@ -17,7 +18,27 @@ var app = angular.module('myApp', [
         $stateProvider
             .state('home', {
                 url: '/',
-                controller: 'MainController',
-                templateUrl: 'js/app/main.tpl.html'
+                views: {
+                    'map': {
+                        controller: 'mapController',
+                        templateUrl: 'js/app/map/map.tpl.html'
+                    }
+                }
             });
+});
+
+
+app.constant('DefaultConfig', {
+    // Default for Maps
+    defaultZoom: 15,
+    defaultPosition: {
+        coords: {
+            longitude: 12.4830619,
+            latitude: 41.8932575
+        }
+    },
+    // Default for Geolocation
+    defaultEnableHighAccuracy: true,
+    defaultTimeout: 8000, // 8 seconds
+    defaultMaximumAge: 0 // 0 seconds, no-cache
 });

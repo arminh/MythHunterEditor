@@ -21,18 +21,22 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" src="js/vendor/xml2json.min.js"></script>
   <script type="text/javascript" src="js/vendor/angular-dragdrop.min.js"></script>
+
   <script type="text/javascript" src="js/vendor/soapclient.js"></script>
   <script type="text/javascript" src="js/vendor/angular.soap.js"></script>
 
-
+  <script src="http://openlayers.org/api/OpenLayers.js"></script>
 
   <script type="text/javascript" src="js/app/app.js"></script>
   <script type="text/javascript" src="js/app/main-controller.js"></script>
 
+  <script type="text/javascript" src="js/app/map/map.js"></script>
+  <script type="text/javascript" src="js/app/map/map-controller.js"></script>
+  <script type="text/javascript" src="js/app/map/map-service.js"></script>
 </head>
 <body>
-<div id='content' >
-  <div ui-view></div>
+<div id='content' ng-controller="mainController">
+  <div ui-view="map"></div>
 </div>
 </body>
 </html>

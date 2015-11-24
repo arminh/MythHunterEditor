@@ -2,8 +2,8 @@
  * Created by Armin on 18.04.2014.
  */
 
-app.controller("MainController",['$scope','$state', function ($scope, $state) {
+app.controller("mainController",['$scope','$state', function ($scope, $state) {
+	console.log("Here");
 
-	console.log("Main")
-    
+
 }]);
