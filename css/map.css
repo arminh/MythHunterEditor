@@ -1,19 +1,41 @@
-.map {
-    width: 100%;
-    height: 100%;
+#content {
+    margin:50px;
 }
 
-#openstreetmap {
+#mapView {
+    width: 100%;
+    height: 100%;
+    float: left;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.markerSelectorBox {
+    float: left;
+}
+
+.markerSelector{
     display: block;
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
+    margin-bottom: 10px;
 }
 
-#openstreetmap.active {
-    opacity: 1;
-    left: 0;
+#toolBar {
+    clear: left;
+    margin-top: 20px;
 }
+
+
+/*#startMarkerSelector {
+    position:absolute;
+    z-index:1000;
+    top:60px;
+    left:13px;
+    display: inline;
+}
+
+#endMarkerSelector {
+    position:absolute;
+    z-index:1000;
+    top:100px;
+    left:13px;
+}*/

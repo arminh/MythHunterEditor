@@ -1,4 +1,16 @@
-<div style="width:500px; height:500px" id="map"></div>
-<input id="mapSearchInput" ng-model="mapSearchQuery">
-<button id="mapSearchBtn" ng-click="goto(mapSearchQuery)">Search</button>
-<button id="mapSearchBtn" ng-click="activateDrag()">Drag</button>
+<div style="width:500px; height:500px" id="mapView">
+
+
+</div>
+<div id="markerSelectorBox">
+    <img src="media/start_marker.png" class="markerSelector" width="20" height="32"  ng-click="toggleMarker('start')"/>
+    <img src="media/end_marker.png" class="markerSelector" width="20" height="32"  ng-click="toggleMarker('end')"/>
+</div>
+<div id="toolBar">
+    <input id="mapSearchInput" ng-model="mapSearchQuery">
+    <button id="mapSearchBtn" ng-click="goto(mapSearchQuery)">Search</button>
+    <button id="mapDragBtn" ng-click="activateDrag()">Drag</button>
+</div>
+
+
+

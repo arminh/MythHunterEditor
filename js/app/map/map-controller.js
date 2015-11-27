@@ -4,8 +4,13 @@
 
 map.controller("mapController", ["$scope", "mapService", function($scope, mapService) {
 
-    mapService.init("map");
+    mapService.init("mapView");
 
+    $scope.activeCursor = "default";
+
+    $scope.toggleMarker = function(type) {
+        mapService.toggleMarker(type);
+    };
 
     $scope.goto = function(query) {
         mapService.search(query, searchSuccess, searchFail);
@@ -13,7 +18,7 @@ map.controller("mapController", ["$scope", "mapService", function($scope, mapSer
 
 
     function searchSuccess(response) {
-        mapService.setCenter(response[0].lon, response[0].lat)
+        mapService.setCenter(parseFloat(response[0].lon), parseFloat(response[0].lat), 17)
     }
 
     function searchFail(response) {
