@@ -2,24 +2,28 @@
  * Created by armin on 13.11.15.
  */
 
-map.factory('mapService', ["$http", 'DefaultConfig', function($http, DefaultConfig) {
+map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($rootScope, $http, DefaultConfig) {
     var mapService = {};
     var map = null;
     var source;
 
-    var features = [];
-    var activeMarker = "";
+    mapService.features = [];
 
-    var dragInteraction = null;
+    var clickEvent = null;
+    var popupOverlay = null;
 
     var drawInteraction = null;
     var drawEvent = null;
 
+    var removeInteraction = false;
+
+    var featureId = 0;
+
+    var activeMarker = "";
+
     mapService.init = function(container) {
 
         var title = new ol.layer.Tile({source: new ol.source.OSM()});
-
-
 
         source = new ol.source.Vector({});
 
@@ -39,9 +43,24 @@ map.factory('mapService', ["$http", 'DefaultConfig', function($http, DefaultConf
             target: container
         });
 
+        clickEvent = map.on("click", function(evt) {
+            if(drawInteraction)
+                return;
+
+            mapService.hideOverlay();
+            map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                if(removeInteraction == true) {
+                    $rootScope.$broadcast("markerRemoved", { marker: feature });
+                    map.removeInteraction(feature.drag);
+                    source.removeFeature(feature);
+                } else {
+                    $rootScope.$broadcast("markerClicked", { marker: feature });
+                }
+
+            });
+        });
 
         initGeolocation();
-        activateDrag();
     };
 
     function initGeolocation() {
@@ -50,8 +69,7 @@ map.factory('mapService', ["$http", 'DefaultConfig', function($http, DefaultConf
 
 
                 mapService.setCenter(position.coords.longitude, position.coords.latitude, 17);
-                //mapService.addMarker(position.coords.longitude, position.coords.latitude, "media/start_marker.png");
-                //mapService.addMarker(position.coords.longitude + 0.001, position.coords.latitude, "media/end_marker.png");
+                mapService.addMarker(position.coords.longitude, position.coords.latitude, "fight", "media/fight_marker.png");
             },
             function (error) {
                 console.log(error.msg);
@@ -62,45 +80,60 @@ map.factory('mapService', ["$http", 'DefaultConfig', function($http, DefaultConf
                 maximumAge: DefaultConfig.defaultMaximumAge
             }
         );
-    }
+    };
 
-    var activateDrag = function() {
+    var activateDrag = function(feature) {
 
-        console.log(features);
-
-        if(dragInteraction) {
-            removeDrag();
-        }
-
-        dragInteraction = new ol.interaction.Modify({
-            features: new ol.Collection(features),
+        var dragInteraction = new ol.interaction.Modify({
+            features: new ol.Collection([feature]),
             style: null
         });
+
+        dragInteraction.on('modifyend',function(evt){
+            $rootScope.$broadcast("markerChanged", { marker: evt.features.getArray()[0] });
+        });
+
+        feature.drag = dragInteraction;
 
         map.addInteraction(dragInteraction);
     };
 
-    var deactivateDrag = function() {
-        if(dragInteraction) {
-            dragInteraction.setActive(false);
-        }
+    mapService.addMarker = function(lon, lat, type, iconSrc) {
+        var iconStyle = new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                anchor: [0.5, 1],
+                src: iconSrc,
+                scale: 0.05,
+
+            }))
+        });
+
+        var marker = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
+        });
+        source.addFeature(marker);
+        initMarker(marker, iconStyle, type);
     };
 
-    var removeDrag = function() {
-        if(dragInteraction) {
-            map.removeInteraction(dragInteraction);
-        }
+    var initMarker = function(marker, style, type) {
+        marker.setStyle(style);
+        marker.setId(featureId++);
+        marker.type = type;
+
+        mapService.features.push(marker);
+        activateDrag(marker);
+        $rootScope.$broadcast("markerAdded", { marker: marker });
     };
 
-    var activateDraw = function() {
+    var activateDraw = function(activeMarker, iconSrc) {
 
-        deactivateDrag();
+        removeInteraction = false;
         removeDraw();
 
         var iconStyle = new ol.style.Style({
             image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                 anchor: [0.5, 1],
-                src: getMarkerSrc(activeMarker),
+                src: iconSrc,
                 scale: 0.05,
 
             }))
@@ -115,81 +148,44 @@ map.factory('mapService', ["$http", 'DefaultConfig', function($http, DefaultConf
         });
 
         drawEvent = drawInteraction.on('drawend', function (evt) {
-            evt.feature.setStyle(iconStyle);
-            features.push(evt.feature);
+            initMarker(evt.feature, iconStyle, activeMarker);
+
         });
         map.addInteraction(drawInteraction);
     };
 
-    var deactivateDraw = function() {
-        if(drawInteraction) {
-            drawInteraction.setActive(false);
-        }
-        activateDrag();
-    };
     var removeDraw = function() {
         if(drawInteraction) {
             map.removeInteraction(drawInteraction);
-        }
-    };
-
-
-    mapService.addMarker = function(lon, lat, imgSrc) {
-        var iconFeature = new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857')),
-            name: 'Null Island',
-            population: 4000,
-            rainfall: 500
-        });
-
-        var iconStyle = new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                anchor: [0.5, 0.5],
-                src: imgSrc,
-                scale: 0.05,
-            //    offset:
-
-            }))
-        });
-        iconFeature.setStyle(iconStyle);
-        source.addFeature(iconFeature);
-
-        iconFeature.on('change',function(){
-            //console.log('Feature Moved To:' + ol.proj.transform([this.getGeometry().getCoordinates()[0], this.getGeometry().getCoordinates()[1]], 'EPSG:3857', 'EPSG:4326'));
-            //console.log('Feature Moved To:' + [this.getGeometry().getCoordinates()[0] + this.getGeometry().getCoordinates()[1]]);
-            //console.log(features);
-        },iconFeature);
-        features.push(iconFeature);
-        activateDrag();
-    };
-
-    var getMarkerSrc = function(markerLabel) {
-        switch(markerLabel) {
-            case "start":
-                return "media/start_marker.png";
-            case "end":
-                return "media/end_marker.png";
-            default:
-                return "";
-        }
-    }
-
-    mapService.toggleMarker = function(markerLabel) {
-        if(activeMarker == markerLabel) {
+            drawInteraction = null;
             activeMarker = "";
-            deactivateDraw();
-        } else {
-            activeMarker = markerLabel;
-            activateDraw(markerLabel)
         }
     };
 
+    mapService.toggleMarker = function(type, iconSrc) {
+        if(activeMarker == type) {
+            removeDraw();
+            activeMarker = "";
+        } else {
+            activateDraw(type,iconSrc);
+            activeMarker = type;
 
+        }
+    };
+
+    mapService.toggleRemove = function() {
+        if(removeInteraction) {
+            removeInteraction = false;
+        } else {
+            removeInteraction = true;
+            removeDraw();
+        }
+    };
 
     mapService.setCenter = function(lon, lat, zoom) {
         map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'));
         map.getView().setZoom(zoom);
-    }
+    };
 
     mapService.search = function(query, successCallback, failCallback) {
         var url = "http://nominatim.openstreetmap.org/?q=" + query + "&format=json&callback=JSON_CALLBACK";
@@ -197,7 +193,25 @@ map.factory('mapService', ["$http", 'DefaultConfig', function($http, DefaultConf
         $http.get(url).success(successCallback).error(failCallback);
     };
 
+    mapService.addPopupOverlay = function(element) {
+        popupOverlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
+            element: element,
+            autoPan: true,
+            autoPanAnimation: {
+                duration: 250
+            }
+        }));
 
+        map.addOverlay(popupOverlay);
+    };
+
+    mapService.showOverlay = function(coordinates) {
+        popupOverlay.setPosition(coordinates);
+    };
+
+    mapService.hideOverlay = function() {
+        popupOverlay.setPosition(undefined);
+    };
 
     return mapService;
 }]);
