@@ -1,0 +1,91 @@
+#content {
+    margin:50px;
+}
+
+#mapView {
+    width: 100%;
+    height: 100%;
+    float: left;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+
+#toolBar {
+    clear: left;
+    margin-top: 20px;
+}
+
+/*****************MARKER*****************/
+.markerSelectorBox {
+    float: left;
+}
+
+.marker {
+
+}
+
+.markerSelector{
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    width: 20px;
+    height: 30px;
+}
+
+.markerLabel {
+    line-height: 30px;
+}
+
+/*****************POPUP*****************/
+
+#popup {
+    position: absolute;
+    background-color: white;
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    bottom: 12px;
+    left: -50px;
+}
+
+#popup:before {
+    border-top-color: #cccccc;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+
+#popup:after {
+    border-top-color: white;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+
+#popup:after, #popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+#popupCloser {
+    text-decoration: none;
+    position: absolute;
+    top: 2px;
+    right: 8px;
+}
+
+#popupCloser:after {
+    content: "✖";
+}
+
+#popupContent {
+
+}

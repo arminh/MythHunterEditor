@@ -1,0 +1,45 @@
+<div style="width:500px; height:500px" id="mapView">
+
+
+</div>
+<div id="markerSelectorBox">
+    <div class="marker">
+        <img src="media/fight_marker.png" class="markerSelector" ng-click="toggleMarker('fight')"/>
+        <p class="markerLabel">Fight</p>
+    </div>
+
+    <div class="marker">
+        <img src="media/quiz_marker.png" class="markerSelector" ng-click="toggleMarker('quiz')"/>
+        <p class="markerLabel">Quiz</p>
+    </div>
+
+    <div class="marker">
+        <img src="media/info_marker.png" class="markerSelector" ng-click="toggleMarker('info')"/>
+        <p class="markerLabel">Info</p>
+    </div>
+
+    <img src="media/delete_icon.png" class="markerSelector" width="20" height="32"  ng-click="toggleRemove()"/>
+</div>
+<div id="popup">
+    <div id="popupCloser"></div>
+    <div id="popupContent"></div>
+</div>
+
+
+<div ng-repeat="marker in markers" style="float:left">
+    <p>id: {{marker.id}}</p>
+    <p>type: {{marker.type}}</p>
+    <p>lon: {{marker.lon}}</p>
+    <p>lat: {{marker.lat}}</p>
+</div>
+
+<div id="toolBar">
+    <input id="mapSearchInput" ng-model="mapSearchQuery">
+    <button id="mapSearchBtn" ng-click="goto(mapSearchQuery)">Search</button>
+    <button id="mapDragBtn" ng-click="activateDrag()">Drag</button>
+</div>
+
+
+
+
+
