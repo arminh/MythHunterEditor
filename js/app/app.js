@@ -10,7 +10,8 @@ var app = angular.module('myApp', [
     'ngDragDrop',
     'ui.bootstrap',
     'angularSoap',
-    'map'
+    'map',
+    'questTree'
 ])
     .config(function ($stateProvider, $urlRouterProvider) {
         
@@ -22,6 +23,10 @@ var app = angular.module('myApp', [
                     'map': {
                         controller: 'mapController',
                         templateUrl: 'js/app/map/map.tpl.html'
+                    },
+                    'quest_tree': {
+                        controller: 'questTreeController',
+                        templateUrl: 'js/app/quest_tree/quest_tree.tpl.html'
                     }
                 }
             });
