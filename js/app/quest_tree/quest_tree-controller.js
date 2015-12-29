@@ -52,6 +52,59 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
         return line;
     };
 
+    var positionLine = function(line) {
+        console.log("Position");
+
+        var angle = getLineAngle(line);
+
+        if(line.start) {
+            var anchorLeft;
+            var anchorTop;
+
+            if(angle <= 45 || angle > 315) {
+                anchorLeft = line.start.left + line.start.width * line.start.scaleX;
+                anchorTop = line.start.top + (line.start.height / 2) * line.start.scaleY;
+            }
+            else if(angle <= 135) {
+                anchorLeft = line.start.left + (line.start.width / 2) * line.start.scaleX;
+                anchorTop = line.start.top;
+            }
+            else if(angle <= 225) {
+                anchorLeft = line.start.left;
+                anchorTop = line.start.top + (line.start.height / 2) * line.start.scaleY;
+            }
+            else if(angle <= 315) {
+                anchorLeft = line.start.left + (line.start.width / 2) * line.start.scaleX;
+                anchorTop = line.start.top + line.start.height * line.start.scaleY;
+            }
+
+            line.set({ x1: anchorLeft, y1: anchorTop });
+        }
+
+        if(line.end) {
+            if(angle <= 45 || angle > 315) {
+                anchorLeft = line.end.left;
+                anchorTop = line.end.top + (line.end.height / 2) * line.end.scaleY;
+            }
+            else if(angle <= 135) {
+                anchorLeft = line.end.left + (line.end.width / 2) * line.end.scaleX;
+                anchorTop = line.end.top + line.end.height * line.end.scaleY;
+            }
+            else if(angle <= 225) {
+                anchorLeft = line.end.left + line.end.width * line.end.scaleX;
+                anchorTop = line.end.top + (line.end.height / 2) * line.end.scaleY;
+            }
+            else if(angle <= 315) {
+                anchorLeft = line.end.left + (line.end.width / 2) * line.end.scaleX;
+                anchorTop = line.end.top;
+            }
+
+            line.set({ x2: anchorLeft, y2: anchorTop });
+        }
+
+
+    };
+
     var createArrowHead = function(line) {
 
         var width = 15;
@@ -68,6 +121,7 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
             width: 8
         });
 
+        triangle.set({ selectable:false });
         canvas.add(triangle);
         line.head = triangle;
 
@@ -75,6 +129,17 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
     };
 
     var positionArrowHead = function(line, head) {
+
+        var angle = getLineAngle(line);
+
+        var angleRad = angle * (Math.PI/180);
+        head.top = head.top - Math.cos(angleRad) * head.width / 2;
+        head.left = head.left - Math.sin(angleRad) * head.width / 2;
+
+        head.set({"angle": 90 - angle});
+    };
+
+    var getLineAngle = function(line) {
         var dy = (line.y1 - line.y2);
         var dx = (line.x2 - line.x1);
 
@@ -109,12 +174,7 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
             angle = angle + 360;
         }
 
-
-        var angleRad = angle * (Math.PI/180);
-        head.top = head.top - Math.cos(angleRad) * head.width / 2;
-        head.left = head.left - Math.sin(angleRad) * head.width / 2;
-
-        head.set({"angle": 90 - angle});
+        return angle;
     };
 
     createMarker("", 50, 50);
@@ -141,11 +201,11 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
             var anchorTop = obj.top + obj.height * obj.scaleY;
             var points = [ anchorLeft, anchorTop, pointer.x, pointer.y ];
 
-
-
             if(!drawing) {
 
                 line = createLine(points);
+                line.start = obj;
+                positionLine(line);
 
                 if(obj.lineStarts) {
                     obj.lineStarts.push(line);
@@ -155,15 +215,20 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
                 canvas.on('mouse:move', function(evt){
                     //if (!isDown) return;
                     var pointer = canvas.getPointer(evt.e);
+                    positionLine(line);
                     line.set({ x2: pointer.x, y2: pointer.y });
                     canvas.renderAll();
                 });
 
                 drawing = true;
             } else {
+                if(obj == line.start) {
+                    return;
+                }
 
                 canvas.off('mouse:move');
-                line.set({ x2: anchorLeft, y2: anchorTop });
+                line.end = obj;
+                positionLine(line);
                 createArrowHead(line);
 
                 if(obj.lineEnds) {
@@ -190,17 +255,15 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
     canvas.on('object:moving', function(evt) {
         var obj = evt.target;
 
-        var anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
-        var anchorTop = obj.top + obj.height * obj.scaleY;
         if(obj.lineStarts && obj.lineEnds) {
             for(var i = 0; i < obj.lineStarts.length; i++) {
-                obj.lineStarts[i].set({ x1: anchorLeft, y1: anchorTop });
+                positionLine(obj.lineStarts[i]);
                 canvas.remove(obj.lineStarts[i].head);
                 createArrowHead(obj.lineStarts[i]);
             }
 
             for(var i = 0; i < obj.lineEnds.length; i++) {
-                obj.lineEnds[i].set({ x2: anchorLeft, y2: anchorTop });
+                positionLine(obj.lineEnds[i]);
                 canvas.remove(obj.lineEnds[i].head);
                 createArrowHead(obj.lineEnds[i]);
             }
