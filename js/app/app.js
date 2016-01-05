@@ -10,7 +10,9 @@ var app = angular.module('myApp', [
     'ngDragDrop',
     'ui.bootstrap',
     'angularSoap',
-    'map'
+    'textAngular',
+    'map',
+    'gaptext'
 ])
     .config(function ($stateProvider, $urlRouterProvider) {
         
@@ -22,6 +24,10 @@ var app = angular.module('myApp', [
                     'map': {
                         controller: 'mapController',
                         templateUrl: 'js/app/map/map.tpl.html'
+                    },
+                    'gaptext': {
+                        controller: 'gaptextController',
+                        templateUrl: 'js/app/quest/quest.tpl.html'
                     }
                 }
             });
