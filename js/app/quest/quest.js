@@ -54,25 +54,6 @@ var gaptext = angular.module("gaptext", [])
                 iconclass: "fa fa-check-square-o checkBox",
                 tooltiptext: "Checkbox",
                 action: function(){
-                    var selectedElement;
-
-                    try{
-                        selectedElement = taSelection.getSelectionElement();
-
-                    }catch(e){}
-                    var $selected = angular.element(selectedElement);
-
-
-                    if(selectedElement !== undefined) {
-                        var tagName = selectedElement.tagName.toLowerCase();
-                        console.log(tagName);
-
-                        if(tagname == "input") {
-
-                        } else {
-
-                        }
-                    }
 
                     var selection = window.getSelection().toString();
 
