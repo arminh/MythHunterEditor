@@ -56,47 +56,56 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
         console.log("Position");
 
         var angle = getLineAngle(line);
+        var angleRad = angle * (Math.PI/180);
 
         if(line.start) {
-            var anchorLeft;
-            var anchorTop;
 
-            if(angle <= 45 || angle > 315) {
-                anchorLeft = line.start.left + line.start.width * line.start.scaleX;
-                anchorTop = line.start.top + (line.start.height / 2) * line.start.scaleY;
+            var obj = line.start;
+
+            var anchorLeft = line.start.left + (obj.width / 2) * obj.scaleX;
+            var anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
+
+            if(angle >= 0 || angle < 90) {
+                anchorLeft = anchorLeft + Math.cos(angleRad) * 15;
+                anchorTop = anchorTop - Math.sin(angleRad) * 25;
             }
-            else if(angle <= 135) {
-                anchorLeft = line.start.left + (line.start.width / 2) * line.start.scaleX;
-                anchorTop = line.start.top;
+            else if(angle >= 90 || angle < 180) {
+                anchorLeft = anchorLeft - Math.cos(angleRad) * 15;
+                anchorTop = anchorTop - Math.sin(angleRad) * 25;
             }
-            else if(angle <= 225) {
-                anchorLeft = line.start.left;
-                anchorTop = line.start.top + (line.start.height / 2) * line.start.scaleY;
+            else if(angle >= 180 || angle < 270) {
+                anchorLeft = anchorLeft - Math.cos(angleRad) * 15;
+                anchorTop = anchorTop + Math.sin(angleRad) * 25;
             }
-            else if(angle <= 315) {
-                anchorLeft = line.start.left + (line.start.width / 2) * line.start.scaleX;
-                anchorTop = line.start.top + line.start.height * line.start.scaleY;
+            else if(angle >= 270 || angle < 360) {
+                anchorLeft = anchorLeft + Math.cos(angleRad) * 15;
+                anchorTop = anchorTop + Math.sin(angleRad) * 25;
             }
 
             line.set({ x1: anchorLeft, y1: anchorTop });
         }
 
         if(line.end) {
-            if(angle <= 45 || angle > 315) {
-                anchorLeft = line.end.left;
-                anchorTop = line.end.top + (line.end.height / 2) * line.end.scaleY;
+            var obj = line.end;
+
+            var anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
+            var anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
+
+            if(angle >= 0 || angle < 90) {
+                anchorLeft = anchorLeft - Math.cos(angleRad) * 15;
+                anchorTop = anchorTop + Math.sin(angleRad) * 25;
             }
-            else if(angle <= 135) {
-                anchorLeft = line.end.left + (line.end.width / 2) * line.end.scaleX;
-                anchorTop = line.end.top + line.end.height * line.end.scaleY;
+            else if(angle >= 90 || angle < 180) {
+                anchorLeft = anchorLeft + Math.cos(angleRad) * 15;
+                anchorTop = anchorTop + Math.sin(angleRad) * 25;
             }
-            else if(angle <= 225) {
-                anchorLeft = line.end.left + line.end.width * line.end.scaleX;
-                anchorTop = line.end.top + (line.end.height / 2) * line.end.scaleY;
+            else if(angle >= 180 || angle < 270) {
+                anchorLeft = anchorLeft + Math.cos(angleRad) * 15;
+                anchorTop = anchorTop - Math.sin(angleRad) * 25;
             }
-            else if(angle <= 315) {
-                anchorLeft = line.end.left + (line.end.width / 2) * line.end.scaleX;
-                anchorTop = line.end.top;
+            else if(angle >= 270 || angle < 360) {
+                anchorLeft = anchorLeft - Math.cos(angleRad) * 15;
+                anchorTop = anchorTop - Math.sin(angleRad) * 25;
             }
 
             line.set({ x2: anchorLeft, y2: anchorTop });
@@ -198,7 +207,7 @@ quest_tree.controller("questTreeController", ["$scope", function($scope) {
             var pointer = canvas.getPointer(evt.e);
 
             var anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
-            var anchorTop = obj.top + obj.height * obj.scaleY;
+            var anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
             var points = [ anchorLeft, anchorTop, pointer.x, pointer.y ];
 
             if(!drawing) {
