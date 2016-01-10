@@ -2,6 +2,8 @@
  * Created by armin on 29.12.15.
  */
 
+var BLOCKELEMENTS = /^(address|article|aside|audio|blockquote|canvas|dd|div|dl|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|noscript|ol|output|p|pre|section|table|tfoot|ul|video)$/i;
+
 var radioCounter = 0;
 var checkboxCounter = 0;
 
@@ -55,11 +57,32 @@ var gaptext = angular.module("gaptext", [])
                 tooltiptext: "Checkbox",
                 action: function(){
 
-                    var selection = window.getSelection().toString();
+                    try{
+                        selectedElement = taSelection.getSelectionElement();
+                    }catch(e){}
 
-                    if(selection == "") {
-                        content = content + "<input ng-model type='checkbox' name='checkbox" + checkboxCounter + "' value='' ";
+                    var $selected = angular.element(selectedElement);
+                    if(selectedElement !== undefined) {
+                        var tagName = selectedElement.tagName.toLowerCase();
+
+                        if(tagName === "input") {
+
+                        } else if(tagName.match(BLOCKELEMENTS) && !$selected.hasClass('ta-bind')){
+
+                        } else if(tagName.match(BLOCKELEMENTS)){
+                            _nodes = taSelection.getOnlySelectedElements();
+                            if(_nodes.length === 0){
+                                $target = angular.element('<' + selfTag + '><li>' + selectedElement.innerHTML + '</li></' + selfTag + '>');
+                                $selected.html('');
+                                $selected.append($target);
+                            }
+                        }
                     }
+
+
+                    //handleExercise(selectedElement, "checkbox", taSelection);
+
+                    /*var selection = window.getSelection().toString();
 
                     var options = selection.split("\n");
                     var content = "";
@@ -73,7 +96,7 @@ var gaptext = angular.module("gaptext", [])
 
                     checkboxCounter++;
 
-                    this.$editor().wrapSelection("insertHTML", content);
+                    this.$editor().wrapSelection("insertHTML", content);*/
                 },
             });
             taOptions.toolbar[4].push('checkbox');
@@ -81,3 +104,23 @@ var gaptext = angular.module("gaptext", [])
             return taOptions;
         }]);
     });
+
+var handleExercise = function(selectedElement, exerciseType, taSelection) {
+    var $selected = angular.element(selectedElement);
+    if(selectedElement !== undefined) {
+        var tagName = selectedElement.tagName.toLowerCase();
+
+        if(tagName === "input") {
+
+        } else if(tagName.match(BLOCKELEMENTS) && !$selected.hasClass('ta-bind')){
+
+        } else if(tagName.match(BLOCKELEMENTS)){
+            _nodes = taSelection.getOnlySelectedElements();
+            if(_nodes.length === 0){
+                $target = angular.element('<' + selfTag + '><li>' + selectedElement.innerHTML + '</li></' + selfTag + '>');
+                $selected.html('');
+                $selected.append($target);
+            }
+        }
+    }
+};
