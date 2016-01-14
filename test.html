@@ -1,17 +1,44 @@
 <html>
-<head>
-    <title>OpenLayers Example</title>
-    <script src="http://openlayers.org/api/OpenLayers.js"></script>
-</head>
-<body>
-<div style="width:100%; height:100%" id="map"></div>
-<script defer="defer" type="text/javascript">
-    var map = new OpenLayers.Map('map');
-    var wms = new OpenLayers.Layer.WMS( "OpenLayers WMS",
-            "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
-    map.addLayer(wms);
-    map.zoomToMaxExtent();
-</script>
+    <head>
+        <style>
+            #quest-title {
+                font-size: 1.5em;
+            }
 
-</body>
+            #task-title {
+                font-size: 1.3em;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="quest-title">The Lion on the hill</div>
+        <div id="task-title">The Lion's master</div>
+
+        <div id="quest-content">
+            <h3>The search for the lion's master is almost at an end.</h3>
+            <p>
+                We tracked the <b>Lion</b> to its lair where is master is also living. Go up to
+                the sign in front of the lion and try to figure out the sponsor of the lion statue.
+            </p>
+            <p><i>(Tip: Think os a famous Austrian beer)</i></p>
+            <p><br/></p>
+            <p><b>Who is the lions's master?</b></p>
+            <p>
+                <input type="radio" name="radio1" value="Walter Puntigamer" checked="false"/>Walter Puntigamer
+                <input type="radio" name="radio1" value="Willhelm Gösser" checked="true"/>Willhelm Gösser
+                <input type="radio" name="radio1" value="Günther Murauer" checked="false"/>Günther Murauer
+            </p>
+            <p><br/></p>
+            <p><b>In which two years was the lion built and rebuilt?</b></p>
+            <p>
+                <input type="checkbox" name="checkbox1" value="1809" checked="false"/>1809
+                <input type="checkbox" name="checkbox1" value="1909" checked="true"/>1909
+                <input type="checkbox" name="checkbox1" value="1965" checked="true"/>1965
+            </p>
+            <p><br/></p>
+            <p>The lion was honors <input type="text" value="Günther Murauer"/></p>
+        </div>
+
+    </body>
 </html>

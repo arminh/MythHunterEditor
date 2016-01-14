@@ -7,6 +7,8 @@ var BLOCKELEMENTS = /^(address|article|aside|audio|blockquote|canvas|dd|div|dl|f
 var radioCounter = 0;
 var checkboxCounter = 0;
 
+
+
 var gaptext = angular.module("gaptext", [])
     .config(function($provide) {
         $provide.decorator('taOptions', ['taRegisterTool', 'taSelection', '$delegate', function(taRegisterTool, taSelection, taOptions) { // $delegate is the taOptions we are decorating
