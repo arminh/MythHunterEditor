@@ -187,10 +187,14 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
         map.getView().setZoom(zoom);
     };
 
-    mapService.search = function(query, successCallback, failCallback) {
+    mapService.search = function(query) {
+        console.log(query);
         var url = "http://nominatim.openstreetmap.org/?q=" + query + "&format=json&callback=JSON_CALLBACK";
 
-        $http.get(url).success(successCallback).error(failCallback);
+        return $http.get(url).then( function(result) {
+            console.log(result.data);
+            return result.data;
+        });
     };
 
     mapService.addPopupOverlay = function(element) {

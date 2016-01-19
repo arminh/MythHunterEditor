@@ -2,9 +2,31 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "mapService", function($scope, mapService) {
+map.controller("mapController", ["$scope", "mapService", "ngDialog", function($scope, mapService, ngDialog) {
+
+    $scope.mapSearchQuery = "";
 
     $scope.markers = [];
+
+    $scope.showQuestline = false;
+
+    $scope.sortableOptions = {
+        axis: 'y',
+        cancel: ".unsortable",
+        start: function(e, ui){
+            ui.placeholder.height(ui.item.height());
+        }
+        //containment: "#map-quests"
+    };
+
+    $scope.toggleQuestline = function() {
+        if($scope.showQuestline) {
+            $scope.showQuestline = false;
+        } else {
+            $scope.showQuestline = true;
+        }
+    };
+
 
     var popupContainer = document.getElementById('popup');
     var popupContent = $("#popupContent");
@@ -28,8 +50,18 @@ map.controller("mapController", ["$scope", "mapService", function($scope, mapSer
     };
 
 
-    $scope.goto = function(query) {
-        mapService.search(query, searchSuccess, searchFail);
+    $scope.search = function(query) {
+        return mapService.search(query);
+    };
+
+    $scope.goto = function () {
+        console.log($scope.selectedItem);
+        mapService.setCenter(parseFloat($scope.selectedItem.lon), parseFloat($scope.selectedItem.lat), 17)
+    };
+
+    $scope.newQuest = function() {
+        console.log("New Quest");
+        ngDialog.open({ template: 'js/app/map/create-marker.tpl.html' });
     };
 
     var getMarkerSrc = function(type) {
@@ -44,15 +76,6 @@ map.controller("mapController", ["$scope", "mapService", function($scope, mapSer
                 return "";
         }
     };
-
-
-    function searchSuccess(response) {
-        mapService.setCenter(parseFloat(response[0].lon), parseFloat(response[0].lat), 17)
-    }
-
-    function searchFail(response) {
-
-    }
 
     function fightTpl(lon, lat) {
         return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";

@@ -5,18 +5,47 @@
 
 <md-toolbar id="toolbar">
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleQuestline()">
             <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
         </md-button>
-        <h2>
-            <span>Toolbar with Icon Buttons</span>
-        </h2>
+
+        <md-autocomplete id="toolbar-search"
+                md-selected-item="selectedItem"
+                md-search-text="searchText"
+                md-items="item in search(searchText)"
+                md-item-text="item.display_name">
+            <span md-highlight-text="searchText">{{item.display_name}}</span>
+        </md-autocomplete>
+
+
+        <md-button id="toolbar-search-icon" class="md-icon-button" aria-label="Settings" ng-click="goto()">
+            <md-icon md-svg-icon="media/search_icon.svg"></md-icon>
+        </md-button>
+
         <span flex=""></span>
         <md-button class="md-icon-button" aria-label="More">
             <md-icon md-svg-icon="media/more_icon.svg"></md-icon>
         </md-button>
     </div>
 </md-toolbar>
+<div id="map-quests"  ng-show="showQuestline">
+    <ol id="map-quest-list" ui-sortable="sortableOptions" ng-model="markers">
+        <li ng-repeat = "marker in markers"><map-quest quest="marker"></map-quest></li>
+    </ol>
+    <div>
+        <div class="map-quest-add">
+            <md-button class="md-icon-button map-quest-icon" ng-click="newQuest()">
+                <md-icon md-svg-icon="media/add_icon.svg"></md-icon>
+            </md-button>
+        </div>
+    </div>
+</div>
+
+
+
+<!--<ul ui-sortable ng-model="items">
+    <li ng-repeat="item in items">{{ item }}</li>
+</ul>-->
 
 <div id="markerSelectorBox">
     <div class="marker">
