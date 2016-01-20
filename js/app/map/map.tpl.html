@@ -10,15 +10,20 @@
         </md-button>
 
         <md-autocomplete id="toolbar-search"
-                md-selected-item="selectedItem"
-                md-search-text="searchText"
-                md-items="item in search(searchText)"
-                md-item-text="item.display_name">
+                         placeholder="Find location ..."
+                         md-selected-item="selectedItem"
+                         md-search-text="searchText"
+                         md-items="item in search(searchText)"
+                         md-item-text="item.display_name"
+                         md-autoselect="true" md-selected-item-change="goto(selectedItem)">
             <span md-highlight-text="searchText">{{item.display_name}}</span>
+            <md-not-found>
+                No matches found.
+            </md-not-found>
         </md-autocomplete>
 
 
-        <md-button id="toolbar-search-icon" class="md-icon-button" aria-label="Settings" ng-click="goto()">
+        <md-button id="toolbar-search-icon" class="md-icon-button" aria-label="Settings" ng-click="searchAndGo(searchText)">
             <md-icon md-svg-icon="media/search_icon.svg"></md-icon>
         </md-button>
 

@@ -188,11 +188,9 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
     };
 
     mapService.search = function(query) {
-        console.log(query);
         var url = "http://nominatim.openstreetmap.org/?q=" + query + "&format=json&callback=JSON_CALLBACK";
 
         return $http.get(url).then( function(result) {
-            console.log(result.data);
             return result.data;
         });
     };

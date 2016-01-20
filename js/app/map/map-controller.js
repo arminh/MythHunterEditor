@@ -2,7 +2,7 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "mapService", "ngDialog", function($scope, mapService, ngDialog) {
+map.controller("mapController", ["$scope", "mapService", "ngDialog", "$modal", function($scope, mapService, ngDialog, $modal) {
 
     $scope.mapSearchQuery = "";
 
@@ -54,14 +54,28 @@ map.controller("mapController", ["$scope", "mapService", "ngDialog", function($s
         return mapService.search(query);
     };
 
-    $scope.goto = function () {
-        console.log($scope.selectedItem);
-        mapService.setCenter(parseFloat($scope.selectedItem.lon), parseFloat($scope.selectedItem.lat), 17)
+    $scope.goto = function (location) {
+        if(location) {
+            mapService.setCenter(parseFloat(location.lon), parseFloat(location.lat), 17);
+        }
+    };
+
+    $scope.searchAndGo = function(query) {
+        mapService.search(query).then(function(location) {
+            if(location[0]) {
+                mapService.setCenter(parseFloat(location[0].lon), parseFloat(location[0].lat), 17);
+            }
+        });
     };
 
     $scope.newQuest = function() {
         console.log("New Quest");
-        ngDialog.open({ template: 'js/app/map/create-marker.tpl.html' });
+        //ngDialog.open({ template: 'js/app/map/create-marker.tpl.html', controller: "createMarkerController" });#
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'js/app/map/create-marker.tpl.html',
+            controller: 'createMarkerController'
+        });
     };
 
     var getMarkerSrc = function(type) {

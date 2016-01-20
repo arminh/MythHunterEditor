@@ -22,6 +22,15 @@ a#content {
 
 .ngdialog {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ngdialog-content {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
 }
 
 /*****************TOOLBAR*****************/
@@ -123,6 +132,42 @@ a#content {
     float: right;
 }
 
+/*****************CHOOSE MARKER*****************/
+
+.choose-marker-container {
+
+}
+
+.choose-marker-content {
+    text-align: justify;
+}
+
+.choose-marker-content:after {
+    content: '';
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0
+}
+
+.choose-marker-close {
+    position: absolute;
+    top:0px;
+    right: 0px;
+}
+
+.choose-marker-btn {
+    margin-left: 25px;
+    margin-right: 25px;
+    vertical-align: top;
+    align: center;
+    display: inline-block;
+    padding: 30px;
+}
+
+.choose-marker-icon {
+     height: 30px;
+ }
 /*****************MARKER*****************/
 #markerSelectorBox {
     position: absolute;

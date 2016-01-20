@@ -3,3 +3,6 @@
  */
 
 var map = angular.module("map", []);
+
+map.constant("MARKER_TYPES", {
+});
