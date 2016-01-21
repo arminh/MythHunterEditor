@@ -33,6 +33,8 @@
         </md-button>
     </div>
 </md-toolbar>
+
+
 <div id="map-quests"  ng-show="showQuestline">
     <ol id="map-quest-list" ui-sortable="sortableOptions" ng-model="markers">
         <li ng-repeat = "marker in markers"><map-quest quest="marker"></map-quest></li>

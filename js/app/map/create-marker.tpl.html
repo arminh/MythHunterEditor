@@ -2,35 +2,40 @@
     <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
 </md-button>
 <div class="modal-header">
-    <h3 class="modal-title">Choose task type</h3>
+    <h3 class="modal-title">Create Quest</h3>
 </div>
 <div class="modal-body">
-    <ul>
-        <li ng-repeat="item in items">
-            <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-        </li>
-    </ul>
-    Selected: <b>{{ selected.item }}</b>
+    <div class="choose-info-container">
+        <p>Enter a title for the task:</p>
+        <input class="choose-info-input choose-info-title" ng-model="name" placeholder="Enter title"/><br>
+
+        <p>Enter a description for the task:</p>
+        <textarea class="choose-info-input choose-info-description" ng-model="description" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="choose-task-container">
+        <p>Choose the type of task you want to create for your quest:</p>
+        <div class = "choose-marker-content">
+            <md-button ng-repeat="(marker, attrs) in markers" ng-click="markerSelected(attrs.type, $index)"
+                       aria-label="{{attrs.name}}" class="choose-marker-btn" ng-style="markerBtnStyle"
+                       ng-class="{ 'active-marker': $index == selectedIndex }">
+                <img class="choose-marker-icon" ng-src="{{attrs.path}}"/>
+                <p class="choose-marker-label">{{attrs.name}}</p>
+                <md-tooltip style="z-index:10000">{{attrs.description}}</md-tooltip>
+            </md-button>
+
+            <!-- <md-radio-group  layout="row" layout-align="center center".>
+                 <md-radio-button ng-repeat="(marker, attrs) in markers"  ng-value="attrs.name"  aria-label="{{attrs.name}}"  class="md-primary">
+                     <img class="choose-marker-icon" ng-src="{{attrs.path}}"/>
+                     <p class="choose-marker-label">{{attrs.name}}</p>
+                 </md-radio-button>
+             </md-radio-group>-->
+        </div>
+    </div>
+
+
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-warning" type="button" ng-click="close()">Cancel</button>
 </div>
-
-<!--
-<div class="choose-marker-container">
-    <md-button class="md-icon-button choose-marker-close" ng-click="close()">
-        <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
-    </md-button>
-    <div class = "choose-marker-content">
-        <button class="choose-marker-btn">
-            <img class="choose-marker-icon" src="media/fight_marker.png"/>
-        </button>
-        <button class="choose-marker-btn">
-            <img class="choose-marker-icon" src="media/quiz_marker.png"/>
-        </button>
-        <button class="choose-marker-btn">
-            <img class="choose-marker-icon" src="media/info_marker.png"/>
-        </button>
-    </div>
-</div>-->

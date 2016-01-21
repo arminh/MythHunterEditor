@@ -69,7 +69,7 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
 
 
                 mapService.setCenter(position.coords.longitude, position.coords.latitude, 17);
-                mapService.addMarker(position.coords.longitude, position.coords.latitude, "fight", "media/fight_marker.png");
+                mapService.addMarker(position.coords.longitude, position.coords.latitude, "fight", "Current location", "media/fight_marker.png");
             },
             function (error) {
                 console.log(error.msg);
@@ -98,7 +98,7 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
         map.addInteraction(dragInteraction);
     };
 
-    mapService.addMarker = function(lon, lat, type, iconSrc) {
+    mapService.addMarker = function(lon, lat, type, name, iconSrc) {
         var iconStyle = new ol.style.Style({
             image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                 anchor: [0.5, 1],
@@ -112,20 +112,22 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
         });
         source.addFeature(marker);
-        initMarker(marker, iconStyle, type);
+        initMarker(marker, iconStyle, type, name);
     };
 
-    var initMarker = function(marker, style, type) {
+    var initMarker = function(marker, style, type, name) {
         marker.setStyle(style);
         marker.setId(featureId++);
         marker.type = type;
+        marker.name = name;
+        console.log(marker.name);
 
         mapService.features.push(marker);
         activateDrag(marker);
         $rootScope.$broadcast("markerAdded", { marker: marker });
     };
 
-    var activateDraw = function(activeMarker, iconSrc) {
+    var activateDraw = function(activeMarker, name, iconSrc, continuousPlacing) {
 
         removeInteraction = false;
         removeDraw();
@@ -148,7 +150,11 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
         });
 
         drawEvent = drawInteraction.on('drawend', function (evt) {
-            initMarker(evt.feature, iconStyle, activeMarker);
+            if(!continuousPlacing) {
+                removeDraw();
+                initMarker(evt.feature, iconStyle, activeMarker, name);
+            }
+
 
         });
         map.addInteraction(drawInteraction);
@@ -162,12 +168,16 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
         }
     };
 
-    mapService.toggleMarker = function(type, iconSrc) {
+    mapService.drawMarker = function(type, name, iconSrc) {
+            activateDraw(type, name, iconSrc, false);
+    };
+
+    mapService.toggleMarker = function(type, name, iconSrc) {
         if(activeMarker == type) {
             removeDraw();
             activeMarker = "";
         } else {
-            activateDraw(type,iconSrc);
+            activateDraw(type, name, iconSrc, true);
             activeMarker = type;
 
         }

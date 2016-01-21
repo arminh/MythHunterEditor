@@ -2,7 +2,7 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "mapService", "ngDialog", "$modal", function($scope, mapService, ngDialog, $modal) {
+map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", function($scope, $modal, mapService, MARKERS) {
 
     $scope.mapSearchQuery = "";
 
@@ -12,7 +12,7 @@ map.controller("mapController", ["$scope", "mapService", "ngDialog", "$modal", f
 
     $scope.sortableOptions = {
         axis: 'y',
-        cancel: ".unsortable",
+        cancel: ".unsortable, input",
         start: function(e, ui){
             ui.placeholder.height(ui.item.height());
         }
@@ -41,8 +41,8 @@ map.controller("mapController", ["$scope", "mapService", "ngDialog", "$modal", f
         return false;
     });
 
-    $scope.toggleMarker = function(type) {
-        mapService.toggleMarker(type, getMarkerSrc(type));
+    $scope.toggleMarker = function(type, name) {
+        mapService.toggleMarker(type, name, getMarkerSrc(type));
     };
 
     $scope.toggleRemove = function() {
@@ -70,22 +70,26 @@ map.controller("mapController", ["$scope", "mapService", "ngDialog", "$modal", f
 
     $scope.newQuest = function() {
         console.log("New Quest");
-        //ngDialog.open({ template: 'js/app/map/create-marker.tpl.html', controller: "createMarkerController" });#
         var modalInstance = $modal.open({
             animation: true,
+            size: "lg",
             templateUrl: 'js/app/map/create-marker.tpl.html',
             controller: 'createMarkerController'
+        });
+
+        modalInstance.result.then(function (task) {
+            mapService.drawMarker(task.type, task.name, getMarkerSrc(task.type));
         });
     };
 
     var getMarkerSrc = function(type) {
         switch(type) {
             case "fight":
-                return "media/fight_marker.png";
+                return MARKERS.fight.path;
             case "quiz":
-                return "media/quiz_marker.png";
+                return MARKERS.quiz.path;
             case "info":
-                return "media/info_marker.png";
+                return MARKERS.info.path;
             default:
                 return "";
         }
@@ -98,7 +102,7 @@ map.controller("mapController", ["$scope", "mapService", "ngDialog", "$modal", f
     $scope.$on('markerAdded', function(evt, args) {
 
         var marker = args.marker;
-        console.log(marker.getId());
+        console.log(marker);
 
         var coord = marker.getGeometry().getCoordinates();
         var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
@@ -106,6 +110,7 @@ map.controller("mapController", ["$scope", "mapService", "ngDialog", "$modal", f
         $scope.markers.push({
             id: marker.getId(),
             type: marker.type,
+            name: marker.name,
             lon: coordinates[0],
             lat: coordinates[1],
             popupTpl: fightTpl(coordinates[0], coordinates[1]),

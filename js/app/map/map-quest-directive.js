@@ -6,7 +6,7 @@ map.directive("mapQuest", function() {
     return {
         restrict: 'E',
         scope: {
-            quest: '=',
+            quest: '='
         },
         templateUrl: "js/app/map/map-quest.tpl.html"
     }

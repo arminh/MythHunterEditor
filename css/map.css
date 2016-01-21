@@ -20,17 +20,12 @@ a#content {
     width: 30px;
 }
 
-.ngdialog {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.md-container, .md-lable {
+    display: block;
 }
 
-.ngdialog-content {
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 10px;
+.error {
+    color: red;
 }
 
 /*****************TOOLBAR*****************/
@@ -132,22 +127,57 @@ a#content {
     float: right;
 }
 
+.map-quest-input {
+    font-size: 14px;
+    box-sizing: border-box;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+    background: 0 0;
+    padding: 0 15px;
+    line-height: 40px;
+    height: 40px;
+}
+
 /*****************CHOOSE MARKER*****************/
 
-.choose-marker-container {
+.choose-info-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
 
+.choose-info-input {
+    box-sizing: border-box;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+    background: 0 0;
+    padding: 0 15px;
+    line-height: 40px;
+    height: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.choose-info-title {
+    font-size: 18px;
+}
+
+.choose-info-description {
+    font-size: 14px;
+}
+
+.choose-task-container {
+    text-align: center;
+}
+
+
+.choose-marker-container {
+    text-align: center;
 }
 
 .choose-marker-content {
-    text-align: justify;
-}
-
-.choose-marker-content:after {
-    content: '';
-    width: 100%;
-    display: inline-block;
-    font-size: 0;
-    line-height: 0
+    text-align: center;
 }
 
 .choose-marker-close {
@@ -160,14 +190,23 @@ a#content {
     margin-left: 25px;
     margin-right: 25px;
     vertical-align: top;
-    align: center;
     display: inline-block;
-    padding: 30px;
+    padding: 10px;
+    margin-bottom: 30px;
 }
 
 .choose-marker-icon {
      height: 30px;
  }
+
+.choose-marker-label {
+
+    font-size: 16px;
+}
+
+.active-marker {
+    background-color: #bbbbbb;
+}
 /*****************MARKER*****************/
 #markerSelectorBox {
     position: absolute;
@@ -193,6 +232,8 @@ a#content {
 .markerLabel {
     line-height: 30px;
 }
+
+
 
 /*****************POPUP*****************/
 
