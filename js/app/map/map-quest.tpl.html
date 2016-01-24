@@ -1,0 +1,7 @@
+<div class="map-quest">
+    <img aria-label="icon" class="map-quest-icon" ng-src="{{quest.type == 'fight'  && 'media/fight_marker.png' || quest.type == 'quiz'  && 'media/quiz_marker.png' || quest.type == 'info'  && 'media/info_marker.png'}}">
+    <input class="map-quest-input" type="text" placeholder="Enter task name ..." value="quest.name" ng-model="quest.name"/>
+    <md-button aria-label="edit" class="md-icon-button map-quest-edit">
+        <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+    </md-button>
+</div>

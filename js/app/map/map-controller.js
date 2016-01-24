@@ -2,9 +2,31 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "mapService", function($scope, mapService) {
+map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", function($scope, $modal, mapService, MARKERS) {
+
+    $scope.mapSearchQuery = "";
 
     $scope.markers = [];
+
+    $scope.showQuestline = false;
+
+    $scope.sortableOptions = {
+        axis: 'y',
+        cancel: ".unsortable, input",
+        start: function(e, ui){
+            ui.placeholder.height(ui.item.height());
+        }
+        //containment: "#map-quests"
+    };
+
+    $scope.toggleQuestline = function() {
+        if($scope.showQuestline) {
+            $scope.showQuestline = false;
+        } else {
+            $scope.showQuestline = true;
+        }
+    };
+
 
     var popupContainer = document.getElementById('popup');
     var popupContent = $("#popupContent");
@@ -19,8 +41,8 @@ map.controller("mapController", ["$scope", "mapService", function($scope, mapSer
         return false;
     });
 
-    $scope.toggleMarker = function(type) {
-        mapService.toggleMarker(type, getMarkerSrc(type));
+    $scope.toggleMarker = function(type, name) {
+        mapService.toggleMarker(type, name, getMarkerSrc(type));
     };
 
     $scope.toggleRemove = function() {
@@ -28,31 +50,50 @@ map.controller("mapController", ["$scope", "mapService", function($scope, mapSer
     };
 
 
-    $scope.goto = function(query) {
-        mapService.search(query, searchSuccess, searchFail);
+    $scope.search = function(query) {
+        return mapService.search(query);
+    };
+
+    $scope.goto = function (location) {
+        if(location) {
+            mapService.setCenter(parseFloat(location.lon), parseFloat(location.lat), 17);
+        }
+    };
+
+    $scope.searchAndGo = function(query) {
+        mapService.search(query).then(function(location) {
+            if(location[0]) {
+                mapService.setCenter(parseFloat(location[0].lon), parseFloat(location[0].lat), 17);
+            }
+        });
+    };
+
+    $scope.newQuest = function() {
+        console.log("New Quest");
+        var modalInstance = $modal.open({
+            animation: true,
+            size: "lg",
+            templateUrl: 'js/app/map/create-marker.tpl.html',
+            controller: 'createMarkerController'
+        });
+
+        modalInstance.result.then(function (task) {
+            mapService.drawMarker(task.type, task.name, getMarkerSrc(task.type));
+        });
     };
 
     var getMarkerSrc = function(type) {
         switch(type) {
             case "fight":
-                return "media/fight_marker.png";
+                return MARKERS.fight.path;
             case "quiz":
-                return "media/quiz_marker.png";
+                return MARKERS.quiz.path;
             case "info":
-                return "media/info_marker.png";
+                return MARKERS.info.path;
             default:
                 return "";
         }
     };
-
-
-    function searchSuccess(response) {
-        mapService.setCenter(parseFloat(response[0].lon), parseFloat(response[0].lat), 17)
-    }
-
-    function searchFail(response) {
-
-    }
 
     function fightTpl(lon, lat) {
         return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";
@@ -61,7 +102,7 @@ map.controller("mapController", ["$scope", "mapService", function($scope, mapSer
     $scope.$on('markerAdded', function(evt, args) {
 
         var marker = args.marker;
-        console.log(marker.getId());
+        console.log(marker);
 
         var coord = marker.getGeometry().getCoordinates();
         var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
@@ -69,6 +110,7 @@ map.controller("mapController", ["$scope", "mapService", function($scope, mapSer
         $scope.markers.push({
             id: marker.getId(),
             type: marker.type,
+            name: marker.name,
             lon: coordinates[0],
             lat: coordinates[1],
             popupTpl: fightTpl(coordinates[0], coordinates[1]),

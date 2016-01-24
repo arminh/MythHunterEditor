@@ -6,9 +6,12 @@
 
 // Declare app level module which depends on filters, and services
 var app = angular.module('myApp', [
+    'ngMaterial',
     'ui.router',
-    'ngDragDrop',
     'ui.bootstrap',
+    'ui.sortable',
+    'ngDialog',
+    'ngDragDrop',
     'angularSoap',
     'map'
 ])
