@@ -68,13 +68,13 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", fu
         });
     };
 
-    $scope.newQuest = function() {
-        console.log("New Quest");
+    $scope.newTask = function() {
         var modalInstance = $modal.open({
             animation: true,
+
             size: "lg",
-            templateUrl: 'js/app/map/create-marker.tpl.html',
-            controller: 'createMarkerController'
+            templateUrl: 'js/app/task/task.tpl.html',
+            controller: 'createTaskController'
         });
 
         modalInstance.result.then(function (task) {

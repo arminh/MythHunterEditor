@@ -141,12 +141,12 @@ a#content {
 
 /*****************CHOOSE MARKER*****************/
 
-.choose-info-container {
+.task-info {
     margin-bottom: 20px;
     text-align: center;
 }
 
-.choose-info-input {
+.task-info-input {
     box-sizing: border-box;
     border: none;
     box-shadow: none;
@@ -159,15 +159,15 @@ a#content {
     width: 100%;
 }
 
-.choose-info-title {
+.task-info-title {
     font-size: 18px;
 }
 
-.choose-info-description {
+.task-info-description {
     font-size: 14px;
 }
 
-.choose-task-container {
+.task-type {
     text-align: center;
 }
 
@@ -176,7 +176,7 @@ a#content {
     text-align: center;
 }
 
-.choose-marker-content {
+.task-type-selection {
     text-align: center;
 }
 
@@ -195,11 +195,11 @@ a#content {
     margin-bottom: 30px;
 }
 
-.choose-marker-icon {
+.tasl-type-icon {
      height: 30px;
  }
 
-.choose-marker-label {
+.task-type-label {
 
     font-size: 16px;
 }

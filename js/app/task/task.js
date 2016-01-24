@@ -7,8 +7,6 @@ var BLOCKELEMENTS = /^(address|article|aside|audio|blockquote|canvas|dd|div|dl|f
 var radioCounter = 0;
 var checkboxCounter = 0;
 
-
-
 var taskEditor = angular.module("taskeditor", []);
 
 taskEditor.directive('taskEditor', function() {
@@ -16,6 +14,7 @@ taskEditor.directive('taskEditor', function() {
     return {
         restrict: 'E',
         scope: {
+            content: "="
         },
         templateUrl: 'js/app/task/taskeditor.tpl.html',
         controller: "taskeditorController"
