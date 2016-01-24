@@ -9,8 +9,21 @@ var checkboxCounter = 0;
 
 
 
-var gaptext = angular.module("gaptext", [])
-    .config(function($provide) {
+var taskEditor = angular.module("taskeditor", []);
+
+taskEditor.directive('taskEditor', function() {
+    console.log("taskEditor directive");
+    return {
+        restrict: 'E',
+        scope: {
+        },
+        templateUrl: 'js/app/task/taskeditor.tpl.html',
+        controller: "taskeditorController"
+    };
+});
+
+
+taskEditor.config(function($provide) {
         $provide.decorator('taOptions', ['taRegisterTool', 'taSelection', '$delegate', function(taRegisterTool, taSelection, taOptions) { // $delegate is the taOptions we are decorating
             taOptions.toolbar = [
                 ['h1', 'h2', 'h3', 'p'],
@@ -24,7 +37,6 @@ var gaptext = angular.module("gaptext", [])
                 iconclass: "fa fa-file-text-o inputBox",
                 tooltiptext: "Input box",
                 action: function(){
-                    this.$editor().wrapSelection("insertHTML", "<input type='text' value='" + window.getSelection().toString() + "'></input>", true);
                 }
             });
             taOptions.toolbar[4].push('inputBox');
@@ -59,7 +71,7 @@ var gaptext = angular.module("gaptext", [])
                 tooltiptext: "Checkbox",
                 action: function(){
 
-                    try{
+                    /*try{
                         selectedElement = taSelection.getSelectionElement();
                     }catch(e){}
 
@@ -79,12 +91,12 @@ var gaptext = angular.module("gaptext", [])
                                 $selected.append($target);
                             }
                         }
-                    }
+                    }*/
 
 
                     //handleExercise(selectedElement, "checkbox", taSelection);
 
-                    /*var selection = window.getSelection().toString();
+                    var selection = window.getSelection().toString();
 
                     var options = selection.split("\n");
                     var content = "";
@@ -98,7 +110,7 @@ var gaptext = angular.module("gaptext", [])
 
                     checkboxCounter++;
 
-                    this.$editor().wrapSelection("insertHTML", content);*/
+                    this.$editor().wrapSelection("insertHTML", content);
                 },
             });
             taOptions.toolbar[4].push('checkbox');

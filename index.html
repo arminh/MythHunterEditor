@@ -13,7 +13,7 @@
 
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/map.css">
-  <link rel="stylesheet" href="css/quest.css">
+  <link rel="stylesheet" href="css/task.css">
 
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -49,13 +49,12 @@
   <script type="text/javascript" src="js/app/map/map-controller.js"></script>
   <script type="text/javascript" src="js/app/map/map-service.js"></script>
 
-  <script type="text/javascript" src="js/app/quest/quest.js"></script>
-  <script type="text/javascript" src="js/app/quest/quest-controller.js"></script>
+  <script type="text/javascript" src="js/app/task/task.js"></script>
+  <script type="text/javascript" src="js/app/task/taskeditor-controller.js"></script>
 </head>
 <body>
 <div id='content' ng-controller="mainController">
-  <!--<div ui-view="map"></div>-->
-  <div ui-view="gaptext"></div>
+  <task-editor></task-editor>
 </div>
 </body>
 </html>

@@ -2,26 +2,15 @@
  * Created by armin on 29.12.15.
  */
 
-gaptext.controller("gaptextController", ["$scope", function($scope) {
-
-    var checkboxCounter = 0;
-
-    var questtitle = "The Lion on the hill";
-    var taskTitle = "The lion's master;";
-
-    var quizGroups = {};
+taskEditor.controller("taskeditorController", ["$scope", function($scope) {
 
     $scope.htmlVariable;
 
-    $scope.$on("saveQuest", function() {
-        console.log("Hallo");
-    });
 
-
-    $scope.saveQuest = function() {
+  /*  $scope.saveQuest = function() {
         $scope.quest = "";
         $scope.quest += "<html><head></head><body>";
-        $scope.quest += "<div id='quest-title'>" + questtitle + "</div>";
+        $scope.quest += "<div id='task-title'>" + questtitle + "</div>";
         $scope.quest += "<div id='task-title'>" + questtitle + "</div>";
         $scope.quest += "<div id='content'>";
 
@@ -38,7 +27,7 @@ gaptext.controller("gaptextController", ["$scope", function($scope) {
         }
 
 
-        var temp = $("#quest").find("[id^='taTextElement']");
+        var temp = $("#task").find("[id^='taTextElement']");
 
         var checkboxes = $(temp).find("input[type='checkbox']");
 
@@ -66,5 +55,5 @@ gaptext.controller("gaptextController", ["$scope", function($scope) {
         }
 
         console.log(quizGroups);
-    };
+    };*/
 }]);

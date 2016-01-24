@@ -12,7 +12,7 @@ var app = angular.module('myApp', [
     'angularSoap',
     'textAngular',
     'map',
-    'gaptext'
+    'taskeditor'
 ])
     .config(function ($stateProvider, $urlRouterProvider) {
         
@@ -25,10 +25,6 @@ var app = angular.module('myApp', [
                         controller: 'mapController',
                         templateUrl: 'js/app/map/map.tpl.html'
                     },
-                    'gaptext': {
-                        controller: 'gaptextController',
-                        templateUrl: 'js/app/quest/quest.tpl.html'
-                    }
                 }
             });
 });
