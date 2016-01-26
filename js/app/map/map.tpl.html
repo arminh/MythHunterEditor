@@ -35,13 +35,13 @@
 </md-toolbar>
 
 
-<div id="map-quests"  ng-show="showQuestline">
-    <ol id="map-quest-list" ui-sortable="sortableOptions" ng-model="markers">
-        <li ng-repeat = "marker in markers"><map-quest quest="marker"></map-quest></li>
+<div id="map-tasks" ng-show="showQuestline">
+    <ol id="map-task-list" ui-sortable="sortableOptions" ng-model="markers">
+        <li ng-repeat = "marker in markers"><map-task task="marker" edit="editTask(task)"></map-task></li>
     </ol>
     <div>
-        <div class="map-quest-add">
-            <md-button class="md-icon-button map-quest-icon" ng-click="newTask()">
+        <div class="map-task-add">
+            <md-button class="md-icon-button map-task-icon" ng-click="newTask()">
                 <md-icon md-svg-icon="media/add_icon.svg"></md-icon>
             </md-button>
         </div>
