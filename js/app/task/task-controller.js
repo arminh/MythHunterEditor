@@ -2,19 +2,18 @@
  * Created by armin on 19.01.16.
  */
 
-map.controller("createTaskController", ["$scope", "$modalInstance", "MARKERS", function($scope, $modalInstance, MARKERS) {
-    $scope.markers = MARKERS;
+map.controller("createTaskController", ["$scope", "$modalInstance", "MARKERS", "task", function($scope, $modalInstance, MARKERS, task) {
+    $scope.tasks = MARKERS;
 
-    $scope.name = "";
-    $scope.description = "";
-    $scope.content = "";
-    $scope.type;
-
+    $scope.name = task.name;
+    $scope.description = task.description;
+    $scope.content = task.content;
+    $scope.type = task.type;
 
     $scope.error = false;
 
     $scope.markerBtnStyle = {
-        "width": (100 / Object.keys($scope.markers).length / 2) + '%',
+        "width": (100 / Object.keys($scope.tasks).length / 2) + '%',
         "display": "inline-block",
         "vertical-align": "top"
     };
@@ -25,6 +24,7 @@ map.controller("createTaskController", ["$scope", "$modalInstance", "MARKERS", f
     };
 
     $scope.ok = function() {
+
         $modalInstance.close({
             type: $scope.type,
             name: $scope.name,

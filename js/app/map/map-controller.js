@@ -2,11 +2,12 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", function($scope, $modal, mapService, MARKERS) {
+map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "Task", function($scope, $modal, mapService, MARKERS, Task) {
 
     $scope.mapSearchQuery = "";
 
-    $scope.markers = [];
+    $scope.tasks = [];
+    var taskId = 0;
 
     $scope.showQuestline = false;
 
@@ -69,18 +70,54 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", fu
     };
 
     $scope.newTask = function() {
-        var modalInstance = $modal.open({
-            animation: true,
+        var task = new Task();
 
-            size: "lg",
-            templateUrl: 'js/app/task/task.tpl.html',
-            controller: 'createTaskController'
-        });
+        var modal = openTaskDialog(task);
 
-        modalInstance.result.then(function (task) {
-            mapService.drawMarker(task.type, task.name, getMarkerSrc(task.type));
+        modal.then(function (result) {
+            task.name = result.name;
+            task.description = result.description;
+            task.content = result.content;
+            task.type = result.type;
+
+            $scope.tasks[taskId] = task;
+            mapService.drawMarker(taskId, getMarkerSrc(task.type));
+            taskId++;
         });
     };
+
+    $scope.editTask = function(task) {
+        var modal = openTaskDialog(task);
+
+        modal.then(function (result) {
+            task.name = result.name;
+            task.description = result.description;
+            task.content = result.content;
+            task.type = result.type;
+
+            var marker = mapService.getMarkerById(task.markerId);
+            marker.iconSrc = getMarkerSrc(task.type);
+            mapService.refreshMap();
+        });
+    };
+
+    var openTaskDialog = function(task) {
+        var modalInstance = $modal.open({
+            animation: true,
+            backdrop: 'static',
+            size: "lg",
+            templateUrl: 'js/app/task/task.tpl.html',
+            controller: 'createTaskController',
+            resolve: {
+                task: function () {
+                    return task;
+                }
+            }
+        });
+
+        return modalInstance.result;
+    };
+
 
     var getMarkerSrc = function(type) {
         switch(type) {
@@ -101,21 +138,26 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", fu
 
     $scope.$on('markerAdded', function(evt, args) {
 
-        var marker = args.marker;
-        console.log(marker);
+        var markerId = args.markerId;
+        var marker = mapService.getMarkerById(markerId);
 
         var coord = marker.getGeometry().getCoordinates();
         var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
 
-        $scope.markers.push({
-            id: marker.getId(),
-            type: marker.type,
-            name: marker.name,
+        var task = $scope.tasks[markerId];
+
+        console.log(markerId);
+        console.log(task);
+
+        task.init({
             lon: coordinates[0],
             lat: coordinates[1],
             popupTpl: fightTpl(coordinates[0], coordinates[1]),
-            marker: marker
+            markerId: markerId
         });
+
+        console.log(task);
+
         $scope.$apply();
     });
 
@@ -129,11 +171,11 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", fu
         var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
         console.log(coordinates);
 
-        for(var i = 0; i < $scope.markers.length; i++) {
-            if($scope.markers[i].id == changedMarkerId) {
-                $scope.markers[i].lon = coordinates[0];
-                $scope.markers[i].lat = coordinates[1];
-                $scope.markers[i].popupTpl = fightTpl(coordinates[0], coordinates[1]);
+        for(var i = 0; i < $scope.tasks.length; i++) {
+            if($scope.tasks[i].id == changedMarkerId) {
+                $scope.tasks[i].lon = coordinates[0];
+                $scope.tasks[i].lat = coordinates[1];
+                $scope.tasks[i].popupTpl = fightTpl(coordinates[0], coordinates[1]);
                 $scope.$apply();
             }
         }
@@ -143,21 +185,22 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", fu
         var delMarker = args.marker;
         var delMarkerId = delMarker.getId();
 
-        for(var i = 0; i < $scope.markers.length; i++) {
-            if($scope.markers[i].id == delMarkerId) {
-                $scope.markers.splice(i, 1);
+        for(var i = 0; i < $scope.tasks.length; i++) {
+            if($scope.tasks[i].id == delMarkerId) {
+                $scope.tasks.splice(i, 1);
                 $scope.$apply();
             }
         }
     });
 
     $scope.$on('markerClicked', function(evt, args) {
+        console.log("Marker clicked");
         var clickedMarker = args.marker;
         var clickedMarkerId = clickedMarker.getId();
 
-        for(var i = 0; i < $scope.markers.length; i++) {
-            if ($scope.markers[i].id == clickedMarkerId) {
-                popupContent.html($scope.markers[i].popupTpl);
+        for(var i = 0; i < $scope.tasks.length; i++) {
+            if ($scope.tasks[i].id == clickedMarkerId) {
+                popupContent.html($scope.tasks[i].popupTpl);
                 mapService.showOverlay(clickedMarker.getGeometry().getCoordinates());
                 //mapService.hideOverlay();
             }

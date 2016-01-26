@@ -36,8 +36,8 @@
 
 
 <div id="map-tasks" ng-show="showQuestline">
-    <ol id="map-task-list" ui-sortable="sortableOptions" ng-model="markers">
-        <li ng-repeat = "marker in markers"><map-task task="marker" edit="editTask(task)"></map-task></li>
+    <ol id="map-task-list" ui-sortable="sortableOptions" ng-model="tasks">
+        <li ng-repeat = "task in tasks"><map-task task="task" edit="editTask(task)"></map-task></li>
     </ol>
     <div>
         <div class="map-task-add">
@@ -82,7 +82,7 @@
 </div>
 
 
-<!--<div ng-repeat="marker in markers" style="float:left">
+<!--<div ng-repeat="marker in tasks" style="float:left">
     <p>id: {{marker.id}}</p>
     <p>type: {{marker.type}}</p>
     <p>lon: {{marker.lon}}</p>

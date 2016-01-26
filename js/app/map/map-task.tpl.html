@@ -1,0 +1,7 @@
+<div class="map-task">
+    <img aria-label="icon" class="map-task-icon" ng-src="{{task.type == 'fight'  && 'media/fight_marker.png' || task.type == 'quiz'  && 'media/quiz_marker.png' || task.type == 'info'  && 'media/info_marker.png'}}">
+    <input class="map-task-input" type="text" placeholder="Enter task name ..." value="task.name" ng-model="task.name"/>
+    <md-button aria-label="edit" class="md-icon-button map-task-edit" ng-click="edit(task)">
+        <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+    </md-button>
+</div>

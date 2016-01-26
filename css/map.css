@@ -68,7 +68,7 @@ a#content {
 
 }
 
-#map-quests {
+#map-tasks {
     position: absolute;
     top: 80px;
     left: 10px;
@@ -82,12 +82,12 @@ a#content {
     box-shadow: 5px 5px 5px #888888;
 }
 
-#map-quest-list {
+#map-task-list {
     padding-left: 0px;
     margin-bottom: 0px;
 }
 
-.map-quest {
+.map-task {
     cursor: move;
     padding: 10px;
     width: 100%;
@@ -100,7 +100,7 @@ a#content {
     box-shadow: inset 0px -5px 5px #888888;
 }
 
-.map-quest-add {
+.map-task-add {
     padding: 10px;
     width: 100%;
     background-color: #fff;
@@ -112,22 +112,22 @@ a#content {
     box-shadow: inset 0px -5px 5px #888888;
 }
 
-.map-quest-icon {
+.map-task-icon {
     height: 20px;
     margin-left: 20px;
     margin-right: 20px;
     vertical-align: middle;
 }
 
-.map-quest-label {
+.map-task-label {
     vertical-align: middle;
 }
 
-.map-quest-edit {
+.map-task-edit {
     float: right;
 }
 
-.map-quest-input {
+.map-task-input {
     font-size: 14px;
     box-sizing: border-box;
     border: none;

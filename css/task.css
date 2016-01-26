@@ -13,3 +13,7 @@
 .modal-header {
     text-align: center;
 }
+
+.modal-backdrop {
+    bottom:0;
+}

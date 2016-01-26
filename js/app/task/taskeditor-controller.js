@@ -8,11 +8,11 @@ taskEditor.controller("taskeditorController", ["$scope", function($scope) {
 
 
   /*  $scope.saveQuest = function() {
-        $scope.quest = "";
-        $scope.quest += "<html><head></head><body>";
-        $scope.quest += "<div id='task-title'>" + questtitle + "</div>";
-        $scope.quest += "<div id='task-title'>" + questtitle + "</div>";
-        $scope.quest += "<div id='content'>";
+        $scope.task = "";
+        $scope.task += "<html><head></head><body>";
+        $scope.task += "<div id='task-title'>" + questtitle + "</div>";
+        $scope.task += "<div id='task-title'>" + questtitle + "</div>";
+        $scope.task += "<div id='content'>";
 
         questContent = $.parseHTML($scope.htmlVariable);
         console.log(questContent);

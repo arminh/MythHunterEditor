@@ -21,7 +21,7 @@
     <div class="task-type">
         <p>Choose the type of task you want to create for your quest:</p>
         <div class = "task-type-selection">
-            <md-button ng-repeat="(marker, attrs) in markers" ng-click="markerSelected(attrs.type, $index)"
+            <md-button ng-repeat="(marker, attrs) in tasks" ng-click="markerSelected(attrs.type, $index)"
                        aria-label="{{attrs.name}}" class="choose-marker-btn" ng-style="markerBtnStyle"
                        ng-class="{ 'active-marker': $index == selectedIndex }">
                 <img class="tasl-type-icon" ng-src="{{attrs.path}}"/>

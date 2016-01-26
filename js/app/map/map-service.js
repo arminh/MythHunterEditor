@@ -17,7 +17,7 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
 
     var removeInteraction = false;
 
-    var featureId = 0;
+
 
     var activeMarker = "";
 
@@ -43,6 +43,35 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             target: container
         });
 
+        activateClick();
+
+        initGeolocation();
+    };
+
+    function initGeolocation() {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+
+
+                mapService.setCenter(position.coords.longitude, position.coords.latitude, 17);
+                //mapService.addMarker(position.coords.longitude, position.coords.latitude, "fight", "Current location", "media/fight_marker.png");
+            },
+            function (error) {
+                console.log(error.msg);
+            },
+            {
+                enableHighAccuracy: DefaultConfig.defaultEnableHighAccuracy,
+                timeout: DefaultConfig.defaultTimeout,
+                maximumAge: DefaultConfig.defaultMaximumAge
+            }
+        );
+    };
+
+    mapService.refreshMap = function() {
+        map.renderSync();
+    };
+
+    var activateClick = function() {
         clickEvent = map.on("click", function(evt) {
             if(drawInteraction)
                 return;
@@ -59,27 +88,10 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
 
             });
         });
-
-        initGeolocation();
     };
 
-    function initGeolocation() {
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-
-
-                mapService.setCenter(position.coords.longitude, position.coords.latitude, 17);
-                mapService.addMarker(position.coords.longitude, position.coords.latitude, "fight", "Current location", "media/fight_marker.png");
-            },
-            function (error) {
-                console.log(error.msg);
-            },
-            {
-                enableHighAccuracy: DefaultConfig.defaultEnableHighAccuracy,
-                timeout: DefaultConfig.defaultTimeout,
-                maximumAge: DefaultConfig.defaultMaximumAge
-            }
-        );
+    var removeClick = function() {
+        map.unByKey(clickEvent);
     };
 
     var activateDrag = function(feature) {
@@ -98,7 +110,11 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
         map.addInteraction(dragInteraction);
     };
 
-    mapService.addMarker = function(lon, lat, type, name, iconSrc) {
+    mapService.getMarkerById = function(id) {
+        return mapService.features[id];
+    };
+
+    mapService.addMarker = function(id, lon, lat, iconSrc) {
         var iconStyle = new ol.style.Style({
             image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                 anchor: [0.5, 1],
@@ -112,24 +128,41 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
         });
         source.addFeature(marker);
-        initMarker(marker, iconStyle, type, name);
+        initMarker(marker, iconStyle, id);
     };
 
-    var initMarker = function(marker, style, type, name) {
-        marker.setStyle(style);
-        marker.setId(featureId++);
-        marker.type = type;
-        marker.name = name;
-        console.log(marker.name);
+    var initMarker = function(marker, iconSrc, id) {
 
-        mapService.features.push(marker);
+        marker.iconSrc = iconSrc;
+
+        styleFunction = function(){
+            return [new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: this.iconSrc,
+                    scale: 0.05
+                })
+            })];
+        };
+
+        marker.setStyle(styleFunction);
+        marker.setId(id);
+
+        mapService.features[id] = marker;
         activateDrag(marker);
-        $rootScope.$broadcast("markerAdded", { marker: marker });
+        $rootScope.$broadcast("markerAdded", { markerId: id });
     };
 
-    var activateDraw = function(activeMarker, name, iconSrc, continuousPlacing) {
+    mapService.drawMarker = function(task, iconSrc) {
+        activateDraw(task, iconSrc, false);
+    };
+
+
+    var activateDraw = function(id, iconSrc, continuousPlacing) {
 
         removeInteraction = false;
+
+        removeClick();
         removeDraw();
 
         var iconStyle = new ol.style.Style({
@@ -141,18 +174,18 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             }))
         });
 
-
         drawInteraction = new ol.interaction.Draw({
             source: source,
             type: "Point",
             style: iconStyle,
-            geometryName: activeMarker
+            geometryName: id
         });
 
         drawEvent = drawInteraction.on('drawend', function (evt) {
+            console.log("Drawend");
             if(!continuousPlacing) {
+                initMarker(evt.feature, iconSrc, id);
                 removeDraw();
-                initMarker(evt.feature, iconStyle, activeMarker, name);
             }
 
 
@@ -165,11 +198,8 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             map.removeInteraction(drawInteraction);
             drawInteraction = null;
             activeMarker = "";
+            //activateClick();
         }
-    };
-
-    mapService.drawMarker = function(type, name, iconSrc) {
-            activateDraw(type, name, iconSrc, false);
     };
 
     mapService.toggleMarker = function(type, name, iconSrc) {
