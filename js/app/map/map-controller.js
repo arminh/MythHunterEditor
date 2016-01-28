@@ -5,6 +5,12 @@
 map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "Task", function($scope, $modal, mapService, MARKERS, Task) {
 
     $scope.mapSearchQuery = "";
+    $scope.drawing = false;
+
+    var activeMarker = "";
+    var currentTask = null;
+
+    $scope.continueDrawing = false;
 
     $scope.tasks = [];
     var taskId = 0;
@@ -42,8 +48,34 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "T
         return false;
     });
 
-    $scope.toggleMarker = function(type, name) {
-        mapService.toggleMarker(type, name, getMarkerSrc(type));
+    var newTask = function() {
+        var task = new Task();
+        task.id = taskId;
+        return task;
+    };
+
+    var addTask = function(task) {
+        $scope.tasks[task.id] = task;
+        taskId++;
+    };
+
+    $scope.toggleMarker = function(type) {
+        if(activeMarker == type) {
+            activeMarker = "";
+            $scope.continueDrawing = false;
+            $scope.drawing = false;
+
+            mapService.stopDrawing();
+        } else {
+            mapService.stopDrawing();
+            activeMarker = type;
+            $scope.continueDrawing = true;
+            $scope.drawing = true;
+
+            currentTask = newTask();
+            currentTask.type = activeMarker;
+            mapService.drawMarker(currentTask.id, getMarkerSrc(activeMarker));
+        }
     };
 
     $scope.toggleRemove = function() {
@@ -70,19 +102,18 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "T
     };
 
     $scope.newTask = function() {
-        var task = new Task();
+        currentTask = newTask();
 
-        var modal = openTaskDialog(task);
+        var modal = openTaskDialog(currentTask);
 
         modal.then(function (result) {
-            task.name = result.name;
-            task.description = result.description;
-            task.content = result.content;
-            task.type = result.type;
+            currentTask.name = result.name;
+            currentTask.description = result.description;
+            currentTask.content = result.content;
+            currentTask.type = result.type;
 
-            $scope.tasks[taskId] = task;
-            mapService.drawMarker(taskId, getMarkerSrc(task.type));
-            taskId++;
+            mapService.drawMarker(currentTask.id, getMarkerSrc(currentTask.type));
+            $scope.drawing = true;
         });
     };
 
@@ -144,21 +175,25 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "T
         var coord = marker.getGeometry().getCoordinates();
         var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
 
-        var task = $scope.tasks[markerId];
-
-        console.log(markerId);
-        console.log(task);
-
-        task.init({
+        currentTask.init({
             lon: coordinates[0],
             lat: coordinates[1],
             popupTpl: fightTpl(coordinates[0], coordinates[1]),
             markerId: markerId
         });
-
-        console.log(task);
-
+        addTask(currentTask);
         $scope.$apply();
+
+
+        if($scope.continueDrawing) {
+            currentTask = newTask();
+            currentTask.type = activeMarker;
+            mapService.drawMarker(currentTask.id, getMarkerSrc(activeMarker));
+        } else {
+            $scope.drawing = false;
+            $scope.$apply();
+        }
+
     });
 
     $scope.$on('markerChanged', function(evt, args) {

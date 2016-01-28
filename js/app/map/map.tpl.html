@@ -3,7 +3,7 @@
 
 </div>
 
-<md-toolbar id="toolbar">
+<md-toolbar id="toolbar" ng-hide="drawing">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleQuestline()">
             <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
@@ -35,7 +35,7 @@
 </md-toolbar>
 
 
-<div id="map-tasks" ng-show="showQuestline">
+<div id="map-tasks" ng-show="showQuestline"  ng-hide="drawing">
     <ol id="map-task-list" ui-sortable="sortableOptions" ng-model="tasks">
         <li ng-repeat = "task in tasks"><map-task task="task" edit="editTask(task)"></map-task></li>
     </ol>
@@ -54,7 +54,7 @@
     <li ng-repeat="item in items">{{ item }}</li>
 </ul>-->
 
-<div id="markerSelectorBox">
+<div id="markerSelectorBox" ng-hide="drawing && !continueDrawing">
     <div class="marker">
         <img src="media/fight_marker.png" class="markerSelector" ng-click="toggleMarker('fight')"/>
 <!--

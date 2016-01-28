@@ -4,8 +4,6 @@
 
 taskEditor.controller("taskeditorController", ["$scope", function($scope) {
 
-    $scope.content = "";
-
 
   /*  $scope.saveQuest = function() {
         $scope.task = "";

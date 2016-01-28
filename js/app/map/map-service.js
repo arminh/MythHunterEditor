@@ -135,7 +135,7 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
 
         marker.iconSrc = iconSrc;
 
-        styleFunction = function(){
+        var styleFunction = function(){
             return [new ol.style.Style({
                 image: new ol.style.Icon({
                     anchor: [0.5, 1],
@@ -154,11 +154,15 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
     };
 
     mapService.drawMarker = function(task, iconSrc) {
-        activateDraw(task, iconSrc, false);
+        activateDraw(task, iconSrc);
+    };
+
+    mapService.stopDrawing = function() {
+      removeDraw();
     };
 
 
-    var activateDraw = function(id, iconSrc, continuousPlacing) {
+    var activateDraw = function(id, iconSrc) {
 
         removeInteraction = false;
 
@@ -183,12 +187,8 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
 
         drawEvent = drawInteraction.on('drawend', function (evt) {
             console.log("Drawend");
-            if(!continuousPlacing) {
-                initMarker(evt.feature, iconSrc, id);
-                removeDraw();
-            }
-
-
+            removeDraw();
+            initMarker(evt.feature, iconSrc, id);
         });
         map.addInteraction(drawInteraction);
     };
@@ -199,17 +199,6 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             drawInteraction = null;
             activeMarker = "";
             //activateClick();
-        }
-    };
-
-    mapService.toggleMarker = function(type, name, iconSrc) {
-        if(activeMarker == type) {
-            removeDraw();
-            activeMarker = "";
-        } else {
-            activateDraw(type, name, iconSrc, true);
-            activeMarker = type;
-
         }
     };
 

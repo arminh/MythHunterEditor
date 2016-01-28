@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="task-info">
-        <p>Enter a title for the task:</p>
+        <p>Enter a title for the task: </p>
         <input class="task-info-input task-info-title" ng-model="name" placeholder="Enter title"/><br>
 
         <p>Enter a description for the task:</p>
@@ -15,15 +15,14 @@
 
     <div class="task-content">
         <task-editor content="content"></task-editor>
-
     </div>
 
     <div class="task-type">
-        <p>Choose the type of task you want to create for your quest:</p>
+        <p>Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !type">(Please choose the task type)</span></p>
         <div class = "task-type-selection">
             <md-button ng-repeat="(marker, attrs) in tasks" ng-click="markerSelected(attrs.type, $index)"
                        aria-label="{{attrs.name}}" class="choose-marker-btn" ng-style="markerBtnStyle"
-                       ng-class="{ 'active-marker': $index == selectedIndex }">
+                       ng-class="{ 'active-marker': type == attrs.type }">
                 <img class="tasl-type-icon" ng-src="{{attrs.path}}"/>
                 <p class="task-type-label">{{attrs.name}}</p>
                 <md-tooltip style="z-index:10000">{{attrs.description}}</md-tooltip>

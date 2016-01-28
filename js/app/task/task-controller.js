@@ -21,9 +21,14 @@ map.controller("createTaskController", ["$scope", "$modalInstance", "MARKERS", "
     $scope.markerSelected = function(type, index) {
         $scope.type = type;
         $scope.selectedIndex = index;
+        console.log($scope.content);
     };
 
     $scope.ok = function() {
+        if(!$scope.type) {
+            $scope.error = true;
+            return;
+        }
 
         $modalInstance.close({
             type: $scope.type,
@@ -31,7 +36,7 @@ map.controller("createTaskController", ["$scope", "$modalInstance", "MARKERS", "
             description: $scope.description,
             content: $scope.content
         });
-    }
+    };
 
     $scope.close = function() {
         $modalInstance.dismiss('cancel')
