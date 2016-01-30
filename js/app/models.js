@@ -2,7 +2,30 @@
  * Created by armin on 26.01.16.
  */
 
+app.factory('Quest', function() {
+    function Quest() {
+        this.name = "";
+        this.description = "";
+        this.startTask = null;
+        this.content = "";
+        this.
+        this.tasks = array();
+    }
 
+    Quest.prototype = {
+        constructor: Quest
+    };
+
+    Quest.prototype.addTask = function(task) {
+        task.push(task);
+    };
+
+    Quest.prototype.init = function(config) {
+
+    };
+
+    return (Quest);
+});
 
 app.factory('Task', function() {
     function Task() {

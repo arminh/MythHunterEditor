@@ -2,7 +2,7 @@
  * Created by armin on 29.12.15.
  */
 
-taskEditor.controller("taskeditorController", ["$scope", function($scope) {
+task.controller("taskeditorController", ["$scope", function($scope) {
 
 
   /*  $scope.saveQuest = function() {

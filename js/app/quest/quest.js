@@ -7,10 +7,9 @@ var BLOCKELEMENTS = /^(address|article|aside|audio|blockquote|canvas|dd|div|dl|f
 var radioCounter = 0;
 var checkboxCounter = 0;
 
-var task = angular.module("task", []);
+var questEditor = angular.module("questeditor", []);
 
-task.directive('taskEditor', function() {
-    console.log("task directive");
+taskEditor.directive('questeditor', function() {
     return {
         restrict: 'E',
         scope: {
@@ -22,7 +21,7 @@ task.directive('taskEditor', function() {
 });
 
 
-task.config(function($provide) {
+taskEditor.config(function($provide) {
         $provide.decorator('taOptions', ['taRegisterTool', 'taSelection', '$delegate', function(taRegisterTool, taSelection, taOptions) { // $delegate is the taOptions we are decorating
             taOptions.toolbar = [
                 ['h1', 'h2', 'h3', 'p'],

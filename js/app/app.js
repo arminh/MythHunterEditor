@@ -14,8 +14,9 @@ var app = angular.module('myApp', [
     'ngDragDrop',
     'angularSoap',
     'textAngular',
+    'profile',
     'map',
-    'taskeditor'
+    'task'
 ])
     .config(function ($stateProvider, $urlRouterProvider) {
         
@@ -23,12 +24,8 @@ var app = angular.module('myApp', [
         $stateProvider
             .state('home', {
                 url: '/',
-                views: {
-                    'map': {
-                        controller: 'mapController',
-                        templateUrl: 'js/app/map/map.tpl.html'
-                    },
-                }
+                controller: 'profileController',
+                templateUrl: 'js/app/profile/profile.tpl.html'
             });
 });
 

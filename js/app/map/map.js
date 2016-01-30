@@ -24,3 +24,12 @@ map.constant("MARKERS", {
         description: "Displaying information"
     }
 });
+
+map.config(function ($stateProvider, $urlRouterProvider){
+    $stateProvider
+    .state('map', {
+        url: '/quest',
+        controller: 'mapController',
+        templateUrl: 'js/app/map/map.tpl.html'
+    });
+});
