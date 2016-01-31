@@ -12,11 +12,11 @@ var app = angular.module('myApp', [
     'ui.sortable',
     'ngDialog',
     'ngDragDrop',
-    'angularSoap',
     'textAngular',
     'profile',
     'map',
     'task'
+
 ])
     .config(function ($stateProvider, $urlRouterProvider) {
         
