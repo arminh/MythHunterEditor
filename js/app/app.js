@@ -9,7 +9,6 @@ var app = angular.module('myApp', [
     'ui.router',
     'ngDragDrop',
     'ui.bootstrap',
-    'angularSoap'
 ])
     .config(function ($stateProvider, $urlRouterProvider) {
         
