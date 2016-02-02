@@ -2,7 +2,7 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "Task", function($scope, $modal, mapService, MARKERS, Task) {
+map.controller("mapController", ["$scope", "$modal", "mapService", "backendService", "MARKERS", "Task", "HTMLText", function($scope, $modal, mapService, backendService, MARKERS, Task, HTMLText) {
 
     $scope.mapSearchQuery = "";
     $scope.drawing = false;
@@ -50,6 +50,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "T
 
     var newTask = function() {
         var task = new Task();
+        task.html = new HTMLText();
         task.id = taskId;
         return task;
     };
@@ -109,7 +110,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "T
         modal.then(function (result) {
             currentTask.name = result.name;
             currentTask.description = result.description;
-            currentTask.content = result.content;
+            currentTask.html = new HTMLText(result.content);
             currentTask.type = result.type;
 
             mapService.drawMarker(currentTask.id, getMarkerSrc(currentTask.type));
@@ -123,7 +124,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "T
         modal.then(function (result) {
             task.name = result.name;
             task.description = result.description;
-            task.content = result.content;
+            task.html = new HTMLText(result.content);
             task.type = result.type;
 
             var marker = mapService.getMarkerById(task.markerId);
@@ -233,6 +234,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "T
         var clickedMarker = args.marker;
         var clickedMarkerId = clickedMarker.getId();
 
+
         for(var i = 0; i < $scope.tasks.length; i++) {
             if ($scope.tasks[i].id == clickedMarkerId) {
                 popupContent.html($scope.tasks[i].popupTpl);
@@ -243,5 +245,14 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "MARKERS", "T
 
 
     });
+
+    $scope.save = function() {
+
+        for(var i=0; i<$scope.tasks.length; i++) {
+            backendService.addTask($scope.tasks[i]).then(function(result) {
+            });
+        }
+        console.log($scope.tasks);
+    }
 
 }]);

@@ -2,14 +2,24 @@
  * Created by armin on 26.01.16.
  */
 
+app.factory('HTMLText', function() {
+    function HTMLText(content) {
+        this.id = -1;
+        this.content = content;
+        this.changed = false;
+    }
+
+    return (HTMLText);
+});
+
 app.factory('Quest', function() {
     function Quest() {
         this.name = "";
         this.description = "";
         this.startTask = null;
-        this.content = "";
-        this.
+        this.html = null;
         this.tasks = array();
+        this.changed = false;
     }
 
     Quest.prototype = {
@@ -32,12 +42,13 @@ app.factory('Task', function() {
         this.id = null;
         this.name = "";
         this.description = "";
-        this.content = "";
+        this.html = null;
         this.type = null;
         this.lon = null;
         this.lat = null;
         this.popupTpl = "";
         this.markerId = -1;
+        this.changed = false;
     }
 
     Task.prototype = {
@@ -55,6 +66,8 @@ app.factory('Task', function() {
         if(config.popupTpl) this.popupTpl = config.popupTpl;
         if(config.markerId != undefined) this.markerId = config.markerId;
     };
+
+
 
     return (Task);
 });

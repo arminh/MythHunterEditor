@@ -7,7 +7,7 @@ map.controller("createTaskController", ["$scope", "$modalInstance", "MARKERS", "
 
     $scope.name = task.name;
     $scope.description = task.description;
-    $scope.content = task.content;
+    $scope.content = task.html.content;
     $scope.type = task.type;
 
     $scope.error = false;
