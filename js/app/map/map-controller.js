@@ -2,20 +2,17 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "$modal", "mapService", "backendService", "MARKERS", "Task", "HTMLText", function($scope, $modal, mapService, backendService, MARKERS, Task, HTMLText) {
+map.controller("mapController", ["$scope", "$modal", "mapService", "backendService", "MARKERS", "TaskService", function($scope, $modal, mapService, backendService, MARKERS, TaskService) {
 
-    $scope.mapSearchQuery = "";
     $scope.drawing = false;
 
     var activeMarker = "";
     var currentTask = null;
 
     $scope.continueDrawing = false;
-
-    $scope.tasks = [];
-    var taskId = 0;
-
     $scope.showQuestline = false;
+
+    $scope.tasks = TaskService.tasks;
 
     $scope.sortableOptions = {
         axis: 'y',
@@ -34,7 +31,6 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
         }
     };
 
-
     var popupContainer = document.getElementById('popup');
     var popupContent = $("#popupContent");
     var popupCloser = $("#popupCloser");
@@ -47,18 +43,6 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
         popupCloser.blur();
         return false;
     });
-
-    var newTask = function() {
-        var task = new Task();
-        task.html = new HTMLText();
-        task.id = taskId;
-        return task;
-    };
-
-    var addTask = function(task) {
-        $scope.tasks[task.id] = task;
-        taskId++;
-    };
 
     $scope.toggleMarker = function(type) {
         if(activeMarker == type) {
@@ -73,7 +57,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
             $scope.continueDrawing = true;
             $scope.drawing = true;
 
-            currentTask = newTask();
+            currentTask = TaskService.createTask();
             currentTask.type = activeMarker;
             mapService.drawMarker(currentTask.id, getMarkerSrc(activeMarker));
         }
@@ -82,7 +66,6 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
     $scope.toggleRemove = function() {
         mapService.toggleRemove();
     };
-
 
     $scope.search = function(query) {
         return mapService.search(query);
@@ -94,24 +77,18 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
         }
     };
 
-    $scope.searchAndGo = function(query) {
-        mapService.search(query).then(function(location) {
-            if(location[0]) {
-                mapService.setCenter(parseFloat(location[0].lon), parseFloat(location[0].lat), 17);
-            }
-        });
-    };
-
     $scope.newTask = function() {
-        currentTask = newTask();
+        currentTask = TaskService.createTask();
 
         var modal = openTaskDialog(currentTask);
 
         modal.then(function (result) {
-            currentTask.name = result.name;
-            currentTask.description = result.description;
-            currentTask.html = new HTMLText(result.content);
-            currentTask.type = result.type;
+            currentTask.init({
+                name: result.name,
+                description: result.description,
+                type: result.type,
+                content: result.content
+            });
 
             mapService.drawMarker(currentTask.id, getMarkerSrc(currentTask.type));
             $scope.drawing = true;
@@ -122,14 +99,15 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
         var modal = openTaskDialog(task);
 
         modal.then(function (result) {
-            task.name = result.name;
-            task.description = result.description;
-            task.html = new HTMLText(result.content);
-            task.type = result.type;
+            currentTask.init({
+                name: result.name,
+                description: result.description,
+                type: result.type,
+                content: result.content
+            });
 
             var marker = mapService.getMarkerById(task.markerId);
             marker.iconSrc = getMarkerSrc(task.type);
-            mapService.refreshMap();
         });
     };
 
@@ -182,12 +160,12 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
             popupTpl: fightTpl(coordinates[0], coordinates[1]),
             markerId: markerId
         });
-        addTask(currentTask);
+        TaskService.addTask(currentTask);
         $scope.$apply();
 
 
         if($scope.continueDrawing) {
-            currentTask = newTask();
+            currentTask = TaskService.createTask();
             currentTask.type = activeMarker;
             mapService.drawMarker(currentTask.id, getMarkerSrc(activeMarker));
         } else {
@@ -199,13 +177,11 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
 
     $scope.$on('markerChanged', function(evt, args) {
 
-
         var changedMarker = args.marker;
         var changedMarkerId = changedMarker.getId();
 
         var coord = changedMarker.getGeometry().getCoordinates();
         var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
-        console.log(coordinates);
 
         for(var i = 0; i < $scope.tasks.length; i++) {
             if($scope.tasks[i].id == changedMarkerId) {
@@ -249,8 +225,9 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
     $scope.save = function() {
 
         for(var i=0; i<$scope.tasks.length; i++) {
-            backendService.addTask($scope.tasks[i]).then(function(result) {
-            });
+/*            backendService.TaskService.addTask($scope.tasks[i]).then(function(result) {
+            });*/
+            $scope.tasks[i].upload();
         }
         console.log($scope.tasks);
     }
