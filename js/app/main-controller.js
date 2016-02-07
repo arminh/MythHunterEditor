@@ -4,6 +4,7 @@
 
 
 
-app.controller("mainController",['$scope','$state', function ($scope, $state) {
+app.controller("mainController",['$scope','$state', 'MainService', function ($scope, $state, MainService) {
 
+    MainService.createUser();
 }]);

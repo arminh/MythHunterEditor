@@ -14,8 +14,9 @@ var app = angular.module('myApp', [
     'ngDragDrop',
     'textAngular',
     'profile',
-    'map',
-    'task'
+    'quest',
+    'task',
+    'map'
 
 ])
     .config(function ($stateProvider, $urlRouterProvider) {

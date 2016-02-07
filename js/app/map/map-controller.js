@@ -2,7 +2,13 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "$modal", "mapService", "backendService", "MARKERS", "TaskService", function($scope, $modal, mapService, backendService, MARKERS, TaskService) {
+map.controller("mapController", ["$scope", "$modal", "mapService", "backendService", "MARKERS", "MainService", function($scope, $modal, mapService, backendService, MARKERS, MainService) {
+
+    var user = MainService.getUser();
+    var quest = user.getCurrentQuest();
+    if(!quest) {
+        quest = user.createQuest();
+    }
 
     $scope.drawing = false;
 
@@ -12,7 +18,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
     $scope.continueDrawing = false;
     $scope.showQuestline = false;
 
-    $scope.tasks = TaskService.tasks;
+    $scope.tasks = quest.tasks;
 
     $scope.sortableOptions = {
         axis: 'y',
@@ -57,7 +63,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
             $scope.continueDrawing = true;
             $scope.drawing = true;
 
-            currentTask = TaskService.createTask();
+            currentTask = quest.createTask();
             currentTask.type = activeMarker;
             mapService.drawMarker(currentTask.id, getMarkerSrc(activeMarker));
         }
@@ -78,7 +84,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
     };
 
     $scope.newTask = function() {
-        currentTask = TaskService.createTask();
+        currentTask = quest.createTask();
 
         var modal = openTaskDialog(currentTask);
 
@@ -160,12 +166,12 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
             popupTpl: fightTpl(coordinates[0], coordinates[1]),
             markerId: markerId
         });
-        TaskService.addTask(currentTask);
+        quest.addTask(currentTask);
         $scope.$apply();
 
 
         if($scope.continueDrawing) {
-            currentTask = TaskService.createTask();
+            currentTask = quest.createTask();
             currentTask.type = activeMarker;
             mapService.drawMarker(currentTask.id, getMarkerSrc(activeMarker));
         } else {
