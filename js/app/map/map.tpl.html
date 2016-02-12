@@ -36,15 +36,15 @@
 
 
 <div id="map-tasks" ng-show="showQuestline"  ng-hide="drawing">
+    <map-task ng-if="startTask" task="startTask" edit="editTask(startTask)"></map-task>
+
     <ol id="map-task-list" ui-sortable="sortableOptions" ng-model="tasks">
         <li ng-repeat = "task in tasks"><map-task task="task" edit="editTask(task)"></map-task></li>
     </ol>
-    <div>
-        <div class="map-task-add">
-            <md-button class="md-icon-button map-task-icon" ng-click="newTask()">
-                <md-icon md-svg-icon="media/add_icon.svg"></md-icon>
-            </md-button>
-        </div>
+    <div class="map-task-add">
+        <md-button class="md-icon-button map-task-icon" ng-click="newTask()">
+            <md-icon md-svg-icon="media/add_icon.svg"></md-icon>
+        </md-button>
     </div>
 </div>
 

@@ -2,22 +2,22 @@
     <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
 </md-button>
 <div class="modal-header">
-    <h3 class="modal-title">Create Quest</h3>
+    <h3 class="modal-title">Create Task</h3>
 </div>
 <div class="modal-body">
     <div class="task-info">
         <p>Enter a title for the task: </p>
         <input class="task-info-input task-info-title" ng-model="name" placeholder="Enter title"/><br>
 
-        <p>Enter a description for the task:</p>
+      <!--  <p>Enter a description for the task:</p>
         <textarea class="task-info-input task-info-description" ng-model="description" placeholder="Enter description"></textarea>
-    </div>
+   --> </div>
 
     <div class="task-content">
-        <task-editor content="content"></task-editor>
+        <div text-angular ng-model="content" id="task-text"></div><br>
     </div>
 
-    <div class="task-type">
+    <div class="task-type" ng-hide="type == 'start'">
         <p>Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !type">(Please choose the task type)</span></p>
         <div class = "task-type-selection">
             <md-button ng-repeat="(marker, attrs) in tasks" ng-click="markerSelected(attrs.type, $index)"

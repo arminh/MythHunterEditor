@@ -9,19 +9,6 @@ var checkboxCounter = 0;
 
 var task = angular.module("task", []);
 
-task.directive('taskEditor', function() {
-    console.log("task directive");
-    return {
-        restrict: 'E',
-        scope: {
-            content: "="
-        },
-        templateUrl: 'js/app/task/taskeditor.tpl.html',
-        controller: "taskeditorController"
-    };
-});
-
-
 task.config(function($provide) {
         $provide.decorator('taOptions', ['taRegisterTool', 'taSelection', '$delegate', function(taRegisterTool, taSelection, taOptions) { // $delegate is the taOptions we are decorating
             taOptions.toolbar = [

@@ -2,7 +2,7 @@
  * Created by armin on 13.11.15.
  */
 
-map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($rootScope, $http, DefaultConfig) {
+map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', function($rootScope, $http, $q, DefaultConfig) {
     var map = null;
     var source;
 
@@ -16,9 +16,9 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
 
     var removeInteraction = false;
 
-
-
     var activeMarker = "";
+
+    var markerId = 0;
 
     function init(container) {
 
@@ -109,7 +109,7 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
         return features[id];
     }
 
-    function addMarker(id, lon, lat, iconSrc) {
+    function addMarker(lon, lat, iconSrc) {
         var iconStyle = new ol.style.Style({
             image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                 anchor: [0.5, 1],
@@ -123,10 +123,10 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
         });
         source.addFeature(marker);
-        initMarker(marker, iconStyle, id);
+        initMarker(marker, iconStyle);
     }
 
-    function initMarker(marker, iconSrc, id) {
+    function initMarker(marker, iconSrc, deferred) {
 
         marker.iconSrc = iconSrc;
 
@@ -134,22 +134,25 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             return [new ol.style.Style({
                 image: new ol.style.Icon({
                     anchor: [0.5, 1],
-                    src: this.iconSrc,
+                    src: iconSrc,
                     scale: 0.05
                 })
             })];
         };
 
         marker.setStyle(styleFunction);
-        marker.setId(id);
+        marker.setId(features.length);
 
-        features[id] = marker;
+        features[features.length] = marker;
         activateDrag(marker);
-        $rootScope.$broadcast("markerAdded", { markerId: id });
+        deferred.resolve(features.length - 1);
+        //$rootScope.$broadcast("markerAdded", { markerId: features.length - 1 });
     }
 
-    function drawMarker(task, iconSrc) {
-        activateDraw(task, iconSrc);
+    function drawMarker(iconSrc) {
+        var deferred = $q.defer();
+        activateDraw(iconSrc, deferred);
+        return deferred.promise;
     }
 
     function stopDrawing() {
@@ -157,7 +160,7 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
     }
 
 
-    function activateDraw(id, iconSrc) {
+    function activateDraw(iconSrc, deferred) {
 
         removeInteraction = false;
 
@@ -177,13 +180,13 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
             source: source,
             type: "Point",
             style: iconStyle,
-            geometryName: id
+            geometryName: "Marker"
         });
 
         drawEvent = drawInteraction.on('drawend', function (evt) {
             console.log("Drawend");
             removeDraw();
-            initMarker(evt.feature, iconSrc, id);
+            initMarker(evt.feature, iconSrc, deferred);
         });
         map.addInteraction(drawInteraction);
     }
@@ -249,7 +252,7 @@ map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($roo
         search: search,
         addPopupOverlay: addPopupOverlay,
         showOverlay: showOverlay,
-        hideOverlay: hideOverlay,
+        hideOverlay: hideOverlay
 
     }
 }]);

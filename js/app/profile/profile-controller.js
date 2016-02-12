@@ -2,13 +2,14 @@
  * Created by armin on 13.11.15.
  */
 
-profile.controller("profileController", ["$scope", "$state", "MainService", function($scope, $state, MainService) {
+profile.controller("profileController", ["$scope", "$state", '$modal', "MainService", function($scope, $state, $modal, MainService) {
 
     $scope.newQuest = function() {
-        var user = MainService.getUser();
-        user.createQuest();
-        console.log(user);
         $state.go("map");
     };
+
+
+
+
 
 }]);

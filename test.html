@@ -1,5 +1,8 @@
+<!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <title>Test</title>
         <style>
             #quest-title {
                 font-size: 1.5em;
@@ -9,36 +12,53 @@
                 font-size: 1.3em;
             }
 
+            #container {
+                background-color: #fff;
+            }
+
+            .footer-btn {
+
+            }
+
         </style>
     </head>
     <body>
-        <div id="quest-title">The Lion on the hill</div>
-        <div id="task-title">The Lion's master</div>
+        <div id="container">
+            <div id="quest-title">The Lion on the hill</div>
+            <div id="task-title">The Lion's master</div>
 
-        <div id="quest-content">
-            <h3>The search for the lion's master is almost at an end.</h3>
-            <p>
-                We tracked the <b>Lion</b> to its lair where is master is also living. Go up to
-                the sign in front of the lion and try to figure out the sponsor of the lion statue.
-            </p>
-            <p><i>(Tip: Think os a famous Austrian beer)</i></p>
-            <p><br/></p>
-            <p><b>Who is the lions's master?</b></p>
-            <p>
-                <input type="radio" name="radio1" value="Walter Puntigamer" checked="false"/>Walter Puntigamer
-                <input type="radio" name="radio1" value="Willhelm Gösser" checked="true"/>Willhelm Gösser
-                <input type="radio" name="radio1" value="Günther Murauer" checked="false"/>Günther Murauer
-            </p>
-            <p><br/></p>
-            <p><b>In which two years was the lion built and rebuilt?</b></p>
-            <p>
-                <input type="checkbox" name="checkbox1" value="1809" checked="false"/>1809
-                <input type="checkbox" name="checkbox1" value="1909" checked="true"/>1909
-                <input type="checkbox" name="checkbox1" value="1965" checked="true"/>1965
-            </p>
-            <p><br/></p>
-            <p>The lion was honors <input type="text" value="Günther Murauer"/></p>
+            <div id="quest-content">
+                <form action="">
+                    <h3>The search for the lion's master is almost at an end.</h3>
+                    <p>
+                        We tracked the <b>Lion</b> to its lair where is master is also living. Go up to
+                        the sign in front of the lion and try to figure out the sponsor of the lion statue.
+                    </p>
+                    <p><i>(Tip: Think of a famous Austrian beer)</i></p>
+                    <br>
+                    <p><b>Who is the lions's master?</b></p>
+                    <p>
+                        <label><input type="radio" name="radio1" value="Walter Puntigamer" checked="false"/>Walter Puntigamer</label><br>
+                        <label><input type="radio" name="radio1" value="Willhelm Gösser" checked="true"/>Willhelm Gösser</label><br>
+                        <label><input type="radio" name="radio1" value="Günther Murauer" checked="false"/>Günther Murauer</label>
+                    </p>
+                   <br>
+                    <p><b>In which two years was the lion built and rebuilt?</b></p>
+                    <p>
+                        <label><input type="checkbox" name="checkbox1" value="1809" checked="false"/>1809</label><br>
+                        <label><input type="checkbox" name="checkbox1" value="1909" checked="true"/>1909</label><br>
+                        <label><input type="checkbox" name="checkbox1" value="1965" checked="true"/>1965</label>
+                    </p>
+                    <p><br></p>
+                    <p>The lion was honors <input style="color: red" type="text" value="Günther Murauer"/></p>
+                </form>
+            </div>
         </div>
 
+        <p id="start-info" style="display:none"> </p>
+        <div id="quest-footer">
+            <button class="footer-btn" id="start-btn">Start</button>
+            <button class="footer-btn" id="cancel-btn">Cancel</button>
+        </div>
     </body>
 </html>

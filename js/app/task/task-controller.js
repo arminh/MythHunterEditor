@@ -2,7 +2,7 @@
  * Created by armin on 19.01.16.
  */
 
-map.controller("createTaskController", ["$scope", "$modalInstance", "MARKERS", "task", function($scope, $modalInstance, MARKERS, task) {
+map.controller("TaskController", ["$scope", "$modalInstance", "MARKERS", "task", function($scope, $modalInstance, MARKERS, task) {
     $scope.tasks = MARKERS;
 
     $scope.name = task.name;

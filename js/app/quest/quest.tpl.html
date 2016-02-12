@@ -6,31 +6,16 @@
 </div>
 <div class="modal-body">
     <div class="task-info">
-        <p>Enter a title for the task: </p>
+        <p>Enter a title for the quest: </p>
         <input class="task-info-input task-info-title" ng-model="name" placeholder="Enter title"/><br>
-
-        <p>Enter a description for the task:</p>
-        <textarea class="task-info-input task-info-description" ng-model="description" placeholder="Enter description"></textarea>
     </div>
 
     <div class="task-content">
-        <task-editor content="content"></task-editor>
+        <div text-angular ng-model="quest_content" id="quest-text"></div>
+        <input type="checkbox" ng-model="separateDescription"/> Use separate description for Start marker
+        <div ng-show="separateDescription" text-angular ng-model="task_content" id="task-text"></div>
+
     </div>
-
-    <div class="task-type">
-        <p>Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !type">(Please choose the task type)</span></p>
-        <div class = "task-type-selection">
-            <md-button ng-repeat="(marker, attrs) in tasks" ng-click="markerSelected(attrs.type, $index)"
-                       aria-label="{{attrs.name}}" class="choose-marker-btn" ng-style="markerBtnStyle"
-                       ng-class="{ 'active-marker': type == attrs.type }">
-                <img class="tasl-type-icon" ng-src="{{attrs.path}}"/>
-                <p class="task-type-label">{{attrs.name}}</p>
-                <md-tooltip style="z-index:10000">{{attrs.description}}</md-tooltip>
-            </md-button>
-        </div>
-    </div>
-
-
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>

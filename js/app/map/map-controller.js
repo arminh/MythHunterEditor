@@ -2,13 +2,17 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "$modal", "mapService", "backendService", "MARKERS", "MainService", function($scope, $modal, mapService, backendService, MARKERS, MainService) {
+map.controller("mapController", ["$scope", "$modal", "$q", "mapService", "backendService", "MARKERS", "MainService", "Task", function($scope, $modal, $q, mapService, backendService, MARKERS, MainService, Task) {
 
     var user = MainService.getUser();
-    var quest = user.getCurrentQuest();
-    if(!quest) {
-        quest = user.createQuest();
-    }
+    var quest = null;
+    $scope.startTask = null;
+
+    $q.when(user.getCurrentQuest()).then(function(result) {
+        quest = result;
+        this.tasks = quest.tasks;
+        this.startTask = quest.startTask;
+    }.bind($scope));
 
     $scope.drawing = false;
 
@@ -18,11 +22,10 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
     $scope.continueDrawing = false;
     $scope.showQuestline = false;
 
-    $scope.tasks = quest.tasks;
 
     $scope.sortableOptions = {
         axis: 'y',
-        cancel: ".unsortable, input",
+        cancel: ".fixed, input",
         start: function(e, ui){
             ui.placeholder.height(ui.item.height());
         }
@@ -62,12 +65,21 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
             activeMarker = type;
             $scope.continueDrawing = true;
             $scope.drawing = true;
+            drawMarker();
 
-            currentTask = quest.createTask();
-            currentTask.type = activeMarker;
-            mapService.drawMarker(currentTask.id, getMarkerSrc(activeMarker));
         }
     };
+
+    function drawMarker() {
+        var task = new Task();
+        task.type = activeMarker;
+        task.drawMarker().then(function() {
+            quest.addTask(task);
+            if(this.continueDrawing) {
+                drawMarker();
+            }
+        }.bind($scope));
+    }
 
     $scope.toggleRemove = function() {
         mapService.toggleRemove();
@@ -84,56 +96,18 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
     };
 
     $scope.newTask = function() {
-        currentTask = quest.createTask();
-
-        var modal = openTaskDialog(currentTask);
-
-        modal.then(function (result) {
-            currentTask.init({
-                name: result.name,
-                description: result.description,
-                type: result.type,
-                content: result.content
+        var task = new Task();
+        task.create().then(function() {
+            task.drawMarker().then(function()
+            {
+                quest.addTask(task);
             });
-
-            mapService.drawMarker(currentTask.id, getMarkerSrc(currentTask.type));
-            $scope.drawing = true;
         });
     };
 
     $scope.editTask = function(task) {
-        var modal = openTaskDialog(task);
-
-        modal.then(function (result) {
-            currentTask.init({
-                name: result.name,
-                description: result.description,
-                type: result.type,
-                content: result.content
-            });
-
-            var marker = mapService.getMarkerById(task.markerId);
-            marker.iconSrc = getMarkerSrc(task.type);
-        });
+        task.edit();
     };
-
-    var openTaskDialog = function(task) {
-        var modalInstance = $modal.open({
-            animation: true,
-            backdrop: 'static',
-            size: "lg",
-            templateUrl: 'js/app/task/task.tpl.html',
-            controller: 'createTaskController',
-            resolve: {
-                task: function () {
-                    return task;
-                }
-            }
-        });
-
-        return modalInstance.result;
-    };
-
 
     var getMarkerSrc = function(type) {
         switch(type) {
@@ -152,7 +126,7 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
         return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";
     }
 
-    $scope.$on('markerAdded', function(evt, args) {
+/*    $scope.$on('markerAdded', function(evt, args) {
 
         var markerId = args.markerId;
         var marker = mapService.getMarkerById(markerId);
@@ -160,26 +134,26 @@ map.controller("mapController", ["$scope", "$modal", "mapService", "backendServi
         var coord = marker.getGeometry().getCoordinates();
         var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
 
-        currentTask.init({
+        var task = new Task();
+
+        task.init({
             lon: coordinates[0],
             lat: coordinates[1],
             popupTpl: fightTpl(coordinates[0], coordinates[1]),
             markerId: markerId
         });
-        quest.addTask(currentTask);
+        quest.addTask(task);
         $scope.$apply();
 
 
         if($scope.continueDrawing) {
-            currentTask = quest.createTask();
-            currentTask.type = activeMarker;
-            mapService.drawMarker(currentTask.id, getMarkerSrc(activeMarker));
+            mapService.drawMarker(getMarkerSrc(activeMarker));
         } else {
             $scope.drawing = false;
             $scope.$apply();
         }
 
-    });
+    });*/
 
     $scope.$on('markerChanged', function(evt, args) {
 
