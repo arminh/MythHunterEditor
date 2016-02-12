@@ -203,13 +203,7 @@ map.controller("mapController", ["$scope", "$modal", "$q", "mapService", "backen
     });
 
     $scope.save = function() {
-
-        for(var i=0; i<$scope.tasks.length; i++) {
-/*            backendService.TaskService.addTask($scope.tasks[i]).then(function(result) {
-            });*/
-            $scope.tasks[i].upload();
-        }
-        console.log($scope.tasks);
+        user.uploadQuest();
     }
 
 }]);

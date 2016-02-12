@@ -8,7 +8,8 @@ task.factory('HTMLText', function($q) {
     var backend = new backend_com_wsdl_IBackend();
     backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
 
-    function HTMLText(content) {
+    function HTMLText(parent) {
+        this.parent = parent;
         this.id = -1;
         this.content = content;
         this.changed = false;
@@ -21,6 +22,7 @@ task.factory('HTMLText', function($q) {
         this.remoteHtml.setHtml(this.content);
 
         if(this.id == -1) {
+            console.log(this.remoteHtml);
             backend.addHtml(
                 function(result) {
                     this.id = result.getReturn().getId();
@@ -33,6 +35,11 @@ task.factory('HTMLText', function($q) {
         }
 
         return deferred.promise;
+    };
+
+    HTMLText.prototype.changed = function() {
+        this.changed = true;
+        parent.changed();
     };
 
     return (HTMLText);

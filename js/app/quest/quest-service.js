@@ -4,15 +4,14 @@
 quest.factory('Quest', function($modal, $q, Task, HTMLText) {
 
     function Quest() {
+        this.remoteId = -1;
         this.creatorId = -1;
         this.tasks = [];
         this.taskId = 0;
         this.name = "";
         this.description = "";
-        this.content = "";
         this.startTask = null;
-        this.currentTask = null;
-        this.html = null;
+        this.html = new HTMLText(this);
         this.tasks = [];
         this.changed = false;
     }
@@ -23,20 +22,22 @@ quest.factory('Quest', function($modal, $q, Task, HTMLText) {
 
     Quest.prototype.create = function() {
         var deffered = $q.defer();
-
         openQuestDialog(this).then(function(result) {
             this.name = result.name;
-            this.html = new HTMLText(result.quest_content);
+            this.html.content = result.quest_content;
             this.startTask = new Task();
             this.name = result.name;
 
+            this.startTask.parent = this;
             this.startTask.name = result.name;
             this.startTask.html.content = result.task_content;
             this.startTask.type = "start";
             this.startTask.fixed = true;
             this.startTask.drawMarker().then(function() {
+                console.log(this);
+                deffered.resolve(this);
             }.bind(this));
-            deffered.resolve(this);
+
         }.bind(this));
 
         return deffered.promise;
@@ -46,26 +47,60 @@ quest.factory('Quest', function($modal, $q, Task, HTMLText) {
 
     };
 
-    Quest.prototype.createTask = function() {
-        this.currentTask = new Task();
-        this.currentTask.id = this.taskId;
-        this.currentTask.create();
+    Quest.prototype.changed = function() {
+        this.changed = true;
     };
 
     Quest.prototype.addTask = function(task) {
+        task.parent = this;
         this.tasks[this.taskId] = task;
         this.taskId++;
     };
 
-    Quest.prototype.getTask = function(id) {
-       //return this.tasks[]
-    };
-
     Quest.prototype.upload = function() {
-        var deferred = $q.defer();
 
         this.remoteQuest = new backend_com_wsdl_quest();
         this.remoteQuest.setCreaterId(this.creatorId);
+
+        var promises = [];
+
+        if(this.html.id == -1 || this.html.changed == true) {
+            promises.push(this.html.upload());
+        }
+
+        if(this.startTask.remoteId == -1 || this.startTask.changed == true) {
+            promises.push(this.startTask.upload());
+        }
+
+        for(var i=0; i < this.tasks.length; i++) {
+            if(this.tasks[i].remoteId == -1 || this.tasks[i].changed == true) {
+                promises.push(this.tasks[i].upload());
+            }
+        }
+
+        var deferred = $q.defer();
+
+        $q.all(promises).then(function(responses) {
+            this.remoteQuest.setHtmlId(responses[0]);
+            this.remoteQuest.setStartMarker(responses[1]);
+
+            var taskIds = [];
+            for(var i=2; i < responses.length; i++) {
+                taskIds.push(responses[i].getId());
+            }
+            this.remoteQuest.setMarkers(taskIds);
+
+            backend.addQuest(
+                function(result) {
+                    console.log(result.getReturn());
+                    this.remoteId = result.getReturn().getId();
+                    deferred.resolve(this.remoteId);
+                }.bind(this),
+                function(error) {
+                    deferred.reject(error)
+                },
+                this.remoteQuest);
+        }.bind(this));
 
         return deferred.promise;
     };

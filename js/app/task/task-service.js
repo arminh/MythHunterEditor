@@ -5,9 +5,10 @@
 task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
 
     function Task() {
+        this.parent = null;
         this.remoteId = -1;
         this.name = "";
-        this.html = new HTMLText();
+        this.html = new HTMLText(this);
         this.type = null;
         this.lon = null;
         this.lat = null;
@@ -25,7 +26,7 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
         return openTaskDialog(this).then(function (result) {
             this.name = result.name;
             this.type = result.type;
-            this.content = result.content;
+            this.html.content = result.content;
         }.bind(this));
     };
 
@@ -33,10 +34,12 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
         return openTaskDialog(this).then(function (result) {
             this.name = result.name;
             this.type = result.type;
-            this.content = result.content;
+            this.html.content = result.content;
 
             var marker = mapService.getMarkerById(this.markerId);
             marker.iconSrc = getMarkerSrc(this.type);
+
+            this.changed();
 
         }.bind(this));
     };
@@ -68,6 +71,11 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
         if(config.markerId != undefined) this.markerId = config.markerId;
     };
 
+    Task.prototype.changed = function() {
+        this.changed = true;
+        parent.changed();
+    };
+
     Task.prototype.upload = function() {
         var deferred = $q.defer();
 
@@ -81,6 +89,7 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
                 this.remoteTask = new backend_com_wsdl_quizMarker();
                 break;
             case "info":
+            case "start":
                 this.remoteTask = new backend_com_wsdl_infoMarker();
                 break;
         }
@@ -101,25 +110,27 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
     };
 
     Task.prototype.finishUpload = function(promise) {
+        console.log(this.remoteTask);
         switch(this.type) {
             case "fight":
                 backend.addFightMarker(function(result) {
                         this.remoteId = result.getReturn().getId();
-                        promise.resolve(this.remoteId);
+                        promise.resolve(result.getReturn());
                 }.bind(this),
                     function(error) { promise.reject(error) }, this.remoteTask);
                 break;
             case "quiz":
                 backend.addQuizMarker(function(result) {
                         this.remoteId = result.getReturn().getId();
-                        promise.resolve(this.remoteId);
+                        promise.resolve(result.getReturn());
                     }.bind(this),
                     function(error) { promise.reject(error) }, this.remoteTask);
                 break;
+            case "start":
             case "info":
                 backend.addInfoMarker(function(result) {
                         this.remoteId = result.getReturn().getId();
-                        promise.resolve(this.remoteId);
+                        promise.resolve(result.getReturn());
                     }.bind(this),
                     function(error) { promise.reject(error) }, this.remoteTask);
                 break;
