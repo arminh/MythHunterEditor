@@ -11,4 +11,8 @@ map.controller("mapTaskController", ["$scope", "mapService", function($scope, ma
     $scope.preview = function(task) {
 
     };
+
+    $scope.$watch("task.name", function() {
+        $scope.task.change();
+    });
 }]);

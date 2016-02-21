@@ -2,17 +2,21 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "$modal", "$q", "mapService", "backendService", "MARKERS", "MainService", "Task", function($scope, $modal, $q, mapService, backendService, MARKERS, MainService, Task) {
+map.controller("mapController", function($scope, $rootScope, $modal, $q, mapService, backendService, MARKERS, MainService, AuthenticationService, Task) {
 
-    var user = MainService.getUser();
-    var quest = null;
     $scope.startTask = null;
 
-    $q.when(user.getCurrentQuest()).then(function(result) {
-        quest = result;
-        this.tasks = quest.tasks;
-        this.startTask = quest.startTask;
-    }.bind($scope));
+    var user = AuthenticationService.getUser();
+    var quest = user.getCurrentQuest();
+
+    if(!quest) {
+        user.newQuest().then(function(result) {
+            quest = result;
+            this.tasks = quest.tasks;
+            this.startTask = quest.startTask;
+        }.bind($scope));
+    }
+
 
     $scope.drawing = false;
 
@@ -160,20 +164,19 @@ map.controller("mapController", ["$scope", "$modal", "$q", "mapService", "backen
         var changedMarker = args.marker;
         var changedMarkerId = changedMarker.getId();
 
-        var coord = changedMarker.getGeometry().getCoordinates();
-        var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
+        if($scope.startTask.markerId == changedMarkerId) {
+            $scope.startTask.updateMarker(changedMarker);
+        }
 
         for(var i = 0; i < $scope.tasks.length; i++) {
-            if($scope.tasks[i].id == changedMarkerId) {
-                $scope.tasks[i].lon = coordinates[0];
-                $scope.tasks[i].lat = coordinates[1];
-                $scope.tasks[i].popupTpl = fightTpl(coordinates[0], coordinates[1]);
+            if($scope.tasks[i].markerId == changedMarkerId) {
+                $scope.tasks[i].updateMarker(changedMarker);
                 $scope.$apply();
             }
         }
     });
 
-    $scope.$on('markerRemoved', function(evt, args) {
+/*    $scope.$on('markerRemoved', function(evt, args) {
         var delMarker = args.marker;
         var delMarkerId = delMarker.getId();
 
@@ -183,9 +186,9 @@ map.controller("mapController", ["$scope", "$modal", "$q", "mapService", "backen
                 $scope.$apply();
             }
         }
-    });
+    });*/
 
-    $scope.$on('markerClicked', function(evt, args) {
+/*    $scope.$on('markerClicked', function(evt, args) {
         console.log("Marker clicked");
         var clickedMarker = args.marker;
         var clickedMarkerId = clickedMarker.getId();
@@ -200,10 +203,10 @@ map.controller("mapController", ["$scope", "$modal", "$q", "mapService", "backen
         }
 
 
-    });
+    });*/
 
     $scope.save = function() {
         user.uploadQuest();
     }
 
-}]);
+});

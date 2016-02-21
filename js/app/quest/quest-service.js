@@ -1,7 +1,7 @@
 /**
  * Created by armin on 04.02.16.
  */
-quest.factory('Quest', function($modal, $q, Task, HTMLText) {
+quest.factory('Quest', function($modal, $cookies, $q, Task, HTMLText) {
 
     function Quest() {
         this.remoteId = -1;
@@ -20,7 +20,8 @@ quest.factory('Quest', function($modal, $q, Task, HTMLText) {
         constructor: Quest
     };
 
-    Quest.prototype.create = function() {
+    Quest.prototype.create = function(owner) {
+        console.log(this);
         var deffered = $q.defer();
         openQuestDialog(this).then(function(result) {
             this.name = result.name;
@@ -28,7 +29,7 @@ quest.factory('Quest', function($modal, $q, Task, HTMLText) {
             this.startTask = new Task();
             this.name = result.name;
 
-            this.startTask.parent = this;
+            this.startTask.quest = this;
             this.startTask.name = result.name;
             this.startTask.html.content = result.task_content;
             this.startTask.type = "start";
@@ -47,14 +48,16 @@ quest.factory('Quest', function($modal, $q, Task, HTMLText) {
 
     };
 
-    Quest.prototype.changed = function() {
+    Quest.prototype.change = function() {
         this.changed = true;
+        console.log("Quest changed");
     };
 
     Quest.prototype.addTask = function(task) {
-        task.parent = this;
+        task.quest = this;
         this.tasks[this.taskId] = task;
         this.taskId++;
+        this.change();
     };
 
     Quest.prototype.upload = function() {

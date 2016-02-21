@@ -5,7 +5,7 @@
 task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
 
     function Task() {
-        this.parent = null;
+        this.quest = null;
         this.remoteId = -1;
         this.name = "";
         this.html = new HTMLText(this);
@@ -32,31 +32,36 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
 
     Task.prototype.edit = function() {
         return openTaskDialog(this).then(function (result) {
-            this.name = result.name;
-            this.type = result.type;
-            this.html.content = result.content;
-
-            var marker = mapService.getMarkerById(this.markerId);
-            marker.iconSrc = getMarkerSrc(this.type);
-
-            this.changed();
+            if(this.name != result.name) {
+                this.name = result.name;
+                this.change();
+            }
+            if(this.type != result.type) {
+                this.type = result.type;
+                var marker = mapService.getMarkerById(this.markerId);
+                marker.iconSrc = getMarkerSrc(this.type);
+                this.change();
+            }
+            if(this.html.content != result.content) {
+                this.html.content = result.content;
+                this.html.change();
+            }
 
         }.bind(this));
     };
 
     Task.prototype.drawMarker = function() {
-        return mapService.drawMarker(getMarkerSrc(this.type)).then(function(result) {
-            var marker = mapService.getMarkerById(result);
-            var coord = marker.getGeometry().getCoordinates();
-            var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
-
-            this.init({
-                lon: coordinates[0],
-                lat: coordinates[1],
-                popupTpl: fightTpl(coordinates[0], coordinates[1]),
-                markerId: result
-            });
+        return mapService.drawMarker(getMarkerSrc(this.type)).then(function(markerId) {
+            var marker = mapService.getMarkerById(markerId);
+            this.markerId = markerId;
+            this.initFromMarker(marker);
         }.bind(this));
+    };
+
+    Task.prototype.change = function() {
+        console.log("Task changed");
+        this.changed = true;
+        this.quest.change();
     };
 
     Task.prototype.init = function(config) {
@@ -71,10 +76,27 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
         if(config.markerId != undefined) this.markerId = config.markerId;
     };
 
-    Task.prototype.changed = function() {
-        this.changed = true;
-        parent.changed();
+    Task.prototype.updateMarker = function(marker) {
+
+        this.initFromMarker(marker);
+        this.change();
     };
+
+    Task.prototype.initFromMarker = function(marker) {
+        var coord = marker.getGeometry().getCoordinates();
+        var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
+
+        this.lon = coordinates[0];
+        this.lat = coordinates[1];
+        this.popupTpl = fightTpl(coordinates[0], coordinates[1]);
+    };
+
+    Task.prototype.change = function() {
+        console.log("Task changed");
+        this.changed = true;
+        this.quest.change();
+    };
+
 
     Task.prototype.upload = function() {
         var deferred = $q.defer();
@@ -146,6 +168,7 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
             controller: 'TaskController',
             resolve: {
                 task: function () {
+                    console.log(task);
                     return task;
                 }
             }

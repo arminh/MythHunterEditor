@@ -6,5 +6,7 @@
 
 app.controller("mainController",['$scope','$state', 'MainService', function ($scope, $state, MainService) {
 
-    MainService.createUser();
+    $scope.login = function() {
+        $state.go("login");
+    }
 }]);
