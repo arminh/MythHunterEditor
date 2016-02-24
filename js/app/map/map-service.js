@@ -110,23 +110,14 @@ map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', functio
     }
 
     function addMarker(lon, lat, iconSrc) {
-        var iconStyle = new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                anchor: [0.5, 1],
-                src: iconSrc,
-                scale: 0.05,
-
-            }))
-        });
-
         var marker = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
         });
         source.addFeature(marker);
-        initMarker(marker, iconStyle);
+        return initMarker(marker, iconSrc);
     }
 
-    function initMarker(marker, iconSrc, deferred) {
+    function initMarker(marker, iconSrc) {
 
         marker.iconSrc = iconSrc;
 
@@ -145,8 +136,7 @@ map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', functio
 
         features[features.length] = marker;
         activateDrag(marker);
-        deferred.resolve(features.length - 1);
-        //$rootScope.$broadcast("markerAdded", { markerId: features.length - 1 });
+        return features.length - 1;
     }
 
     function drawMarker(iconSrc) {
@@ -186,7 +176,8 @@ map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', functio
         drawEvent = drawInteraction.on('drawend', function (evt) {
             console.log("Drawend");
             removeDraw();
-            initMarker(evt.feature, iconSrc, deferred);
+            var markerId = initMarker(evt.feature, iconSrc);
+            deferred.resolve(markerId);
         });
         map.addInteraction(drawInteraction);
     }

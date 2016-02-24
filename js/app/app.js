@@ -8,6 +8,8 @@
 var app = angular.module('myApp', [
     'ngMaterial',
     'ngCookies',
+    'ngStorage',
+    'ngCookies',
     'ui.router',
     'ui.bootstrap',
     'ui.sortable',
@@ -22,62 +24,72 @@ var app = angular.module('myApp', [
 ]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/profile');
     $stateProvider
-        .state('home', {
-            url: '/',
+        .state('app', {
+            url: '',
             controller: 'mainController',
-            templateUrl: 'js/app/main.tpl.html'
+            templateUrl: 'js/app/main.tpl.html',
+            abstract: true
         });
     $stateProvider
-        .state('profile', {
+        .state('app.profile', {
             url: '/profile',
             controller: 'profileController',
             templateUrl: 'js/app/profile/profile.tpl.html'
         });
     $stateProvider
-        .state('login', {
+        .state('app.login', {
             url: '/login',
             controller: 'loginController',
             templateUrl: 'js/app/authentication/login.tpl.html'
         });
     $stateProvider
-        .state('register', {
+        .state('app.register', {
             url: '/register',
             controller: 'registerController',
             templateUrl: 'js/app/authentication/register.tpl.html'
         });
     $stateProvider
-        .state('map', {
+        .state('app.map', {
             url: '/quest',
             controller: 'mapController',
             templateUrl: 'js/app/map/map.tpl.html'
         });
 });
 
-app.run(function ($rootScope, $location, $cookies, AuthenticationService) {
-    var user = $cookies.getObject("user");
-    if(user) {
-        user = AuthenticationService.initUser(user);
-    }
-
-    if (user) {
-        //TODO: set http header
-    }
+app.run(function ($rootScope, $q, $location, $cookies, AuthenticationService, User) {
+    var credentials = $cookies.getObject("credentials");
+    AuthenticationService.setCredentials(credentials);
 
     $rootScope.$on('$locationChangeStart', function () {
         var user = AuthenticationService.getUser();
+        var credentials = AuthenticationService.getCredentials();
 
-        var restricted = false;
-        if ($location.path() != "/login" && $location.path() != "/register") {
-            restricted = true;
+        if(!user && credentials) {
+            AuthenticationService.login(credentials.username, credentials.password).then(function(result) {
+                var user = new User();
+                user.initFromRemote(result);
+                AuthenticationService.setUser(user);
+                testAccess(user);
+            });
+        } else {
+            testAccess(user);
         }
 
-        if (restricted && !user) {
-            $location.path('/login');
+        function testAccess(user) {
+            var restricted = false;
+            if ($location.path() != "/login" && $location.path() != "/register") {
+                restricted = true;
+            }
+
+            if (restricted && !user) {
+                $location.path('/login');
+            }
         }
     });
 });
+
 
 
 app.constant('DefaultConfig', {

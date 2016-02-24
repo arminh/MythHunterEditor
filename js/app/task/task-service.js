@@ -2,10 +2,9 @@
  * Created by armin on 04.02.16.
  */
 
-task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
+task.factory('Task', function($modal, $q, AuthenticationService, mapService, MARKERS, HTMLText) {
 
     function Task() {
-        this.quest = null;
         this.remoteId = -1;
         this.name = "";
         this.html = new HTMLText(this);
@@ -58,10 +57,15 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
         }.bind(this));
     };
 
+    Task.prototype.addMarker = function() {
+        return mapService.addMarker(this.lon, this.lat, getMarkerSrc(this.type));
+    };
+
     Task.prototype.change = function() {
         console.log("Task changed");
+        AuthenticationService.getUser().backup();
         this.changed = true;
-        this.quest.change();
+        //this.quest.change();
     };
 
     Task.prototype.init = function(config) {
@@ -74,6 +78,22 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
         if(config.lat != undefined) this.lat = config.lat;
         if(config.popupTpl != undefined) this.popupTpl = config.popupTpl;
         if(config.markerId != undefined) this.markerId = config.markerId;
+    };
+
+    Task.prototype.initFromObject = function(taskObject) {
+        this.changed = taskObject.changed;
+        this.fixed = taskObject.fixed;
+        this.name = taskObject.name;
+        this.lon = taskObject.lon;
+        this.lat = taskObject.lat;
+        this.popupTpl = taskObject.popupTpl;
+        this.remoteId = taskObject.remoteId;
+        this.type = taskObject.type;
+        this.markerId = taskObject.markerId;
+
+        var html = new HTMLText();
+        html.initFromObject(taskObject.html);
+        this.html = html;
     };
 
     Task.prototype.updateMarker = function(marker) {
@@ -93,10 +113,9 @@ task.factory('Task', function($modal, $q, MARKERS, mapService, HTMLText) {
 
     Task.prototype.change = function() {
         console.log("Task changed");
+        AuthenticationService.getUser().backup();
         this.changed = true;
-        this.quest.change();
     };
-
 
     Task.prototype.upload = function() {
         var deferred = $q.defer();

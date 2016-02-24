@@ -25,6 +25,5 @@ map.controller("QuestController", ["$scope", "$state", "$modalInstance", functio
 
     $scope.close = function() {
         $modalInstance.dismiss('cancel');
-        $state.go("home");
     };
 }]);

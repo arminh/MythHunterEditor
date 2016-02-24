@@ -3,13 +3,12 @@
  */
 
 
-task.factory('HTMLText', function($q) {
+task.factory('HTMLText', function($q, AuthenticationService) {
 
     var backend = new backend_com_wsdl_IBackend();
     backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
 
-    function HTMLText(ancestor) {
-        this.ancestor = ancestor;
+    function HTMLText() {
         this.id = -1;
         this.content = "";
         this.changed = false;
@@ -37,10 +36,16 @@ task.factory('HTMLText', function($q) {
         return deferred.promise;
     };
 
+    HTMLText.prototype.initFromObject = function(htmlTextObject) {
+        this.changed = htmlTextObject.changed;
+        this.content = htmlTextObject.content;
+        this.id = htmlTextObject.id;
+    };
+
     HTMLText.prototype.change = function() {
         console.log("Html changed");
         this.changed = true;
-        this.ancestor.change();
+        AuthenticationService.getUser().backup();
     };
 
     return (HTMLText);

@@ -1,13 +1,12 @@
 /**
  * Created by armin on 04.02.16.
  */
-quest.factory('Quest', function($modal, $cookies, $q, Task, HTMLText) {
+quest.factory('Quest', function($modal, $q, AuthenticationService, Task, HTMLText) {
 
     function Quest() {
         this.remoteId = -1;
         this.creatorId = -1;
         this.tasks = [];
-        this.taskId = 0;
         this.name = "";
         this.description = "";
         this.startTask = null;
@@ -20,26 +19,31 @@ quest.factory('Quest', function($modal, $cookies, $q, Task, HTMLText) {
         constructor: Quest
     };
 
-    Quest.prototype.create = function(owner) {
+    Quest.prototype.create = function(creatorId) {
         console.log(this);
         var deffered = $q.defer();
-        openQuestDialog(this).then(function(result) {
-            this.name = result.name;
-            this.html.content = result.quest_content;
-            this.startTask = new Task();
-            this.name = result.name;
+        this.creatorId = creatorId;
+        openQuestDialog(this).then(
+            function(result) {
+                this.name = result.name;
+                this.html.content = result.quest_content;
+                this.startTask = new Task();
+                this.name = result.name;
 
-            this.startTask.quest = this;
-            this.startTask.name = result.name;
-            this.startTask.html.content = result.task_content;
-            this.startTask.type = "start";
-            this.startTask.fixed = true;
-            this.startTask.drawMarker().then(function() {
-                console.log(this);
-                deffered.resolve(this);
-            }.bind(this));
+                //this.startTask.quest = this;
+                this.startTask.name = result.name;
+                this.startTask.html.content = result.task_content;
+                this.startTask.type = "start";
+                this.startTask.fixed = true;
+                this.startTask.drawMarker().then(function() {
+                    console.log(this);
+                    deffered.resolve(this);
+                }.bind(this));
 
-        }.bind(this));
+            }.bind(this),
+            function(error) {
+                deffered.reject("Canceled");
+            });
 
         return deffered.promise;
     };
@@ -48,15 +52,36 @@ quest.factory('Quest', function($modal, $cookies, $q, Task, HTMLText) {
 
     };
 
+    Quest.prototype.initFromObject = function(questObject) {
+        this.changed = questObject.changed;
+        this.creatorId = questObject.creatorId;
+        this.description = questObject.description;
+        this.name = questObject.name;
+        this.remoteId = questObject.remoteId;
+
+        var html = new HTMLText();
+        html.initFromObject(questObject.html);
+        this.html = html;
+
+        var task = new Task();
+        task.initFromObject(questObject.startTask);
+        this.startTask = task;
+
+        for(var i = 0; i < questObject.tasks.length; i++) {
+            task = new Task();
+            task.initFromObject(questObject.tasks[i]);
+            this.tasks.push(task);
+        }
+    };
+
     Quest.prototype.change = function() {
         this.changed = true;
+        AuthenticationService.getUser().backup();
         console.log("Quest changed");
     };
 
     Quest.prototype.addTask = function(task) {
-        task.quest = this;
-        this.tasks[this.taskId] = task;
-        this.taskId++;
+        this.tasks.push(task);
         this.change();
     };
 

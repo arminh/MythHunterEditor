@@ -2,14 +2,11 @@
  * Created by armin on 13.11.15.
  */
 
-profile.controller("profileController", ["$scope", "$state", '$modal', "MainService", function($scope, $state, $modal, MainService) {
+profile.controller("profileController", function($scope, $state, AuthenticationService) {
 
     $scope.newQuest = function() {
-        $state.go("map");
+        var user = AuthenticationService.getUser();
+        user.currentQuest = null;
+        $state.go("app.map");
     };
-
-
-
-
-
-}]);
+});

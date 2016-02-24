@@ -4,9 +4,13 @@
 
 
 
-app.controller("mainController",['$scope','$state', 'MainService', function ($scope, $state, MainService) {
+app.controller("mainController", function ($scope, $state, AuthenticationService) {
+    $scope.logout = function() {
+        AuthenticationService.logout();
+        $state.go("app.login");
+    };
 
     $scope.login = function() {
-        $state.go("login");
+        $state.go("app.login");
     }
-}]);
+});

@@ -12,7 +12,9 @@ map.controller("mapTaskController", ["$scope", "mapService", function($scope, ma
 
     };
 
-    $scope.$watch("task.name", function() {
-        $scope.task.change();
+    $scope.$watch("task.name", function(newValue, oldValue) {
+        if(newValue != oldValue) {
+            $scope.task.change();
+        }
     });
 }]);

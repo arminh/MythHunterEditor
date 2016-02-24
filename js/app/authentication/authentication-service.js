@@ -2,9 +2,10 @@
  * Created by armin on 18.02.16.
  */
 
-app.factory("AuthenticationService", function($q, $cookies, $rootScope, User) {
+app.factory("AuthenticationService", function($q, $localStorage, $cookies, $rootScope) {
 
     var user = null;
+    var credentials = null;
 
     function login(username, password) {
         var deffered = $q.defer();
@@ -12,12 +13,11 @@ app.factory("AuthenticationService", function($q, $cookies, $rootScope, User) {
         var passwordHash = CryptoJS.SHA256(password);
 
         backend.login(function(result) {
-            var remoteUser = result.getReturn();
-            user = new User();
-            user.initFromRemote(remoteUser);
-            $cookies.putObject("user", user);
-            deffered.resolve(user);
-
+            $cookies.putObject("credentials", {
+                username: username,
+                password: password
+            });
+            deffered.resolve(result.getReturn());
         }, function(error) {
             console.log("error");
         }, username, passwordHash);
@@ -48,21 +48,41 @@ app.factory("AuthenticationService", function($q, $cookies, $rootScope, User) {
         return user;
     }
 
-    function initUser(userData) {
-        user = new User();
-        user.initFromCookie(userData);
+    function setUser(newUser) {
+        user = newUser;
+        $rootScope.user = newUser;
     }
 
-    function clearCredentials() {
-        $rootScope.user = {};
-        delete $cookies.remove("user");
+    function setCredentials(newCredentials) {
+        if(newCredentials) {
+            credentials = newCredentials;
+            $rootScope.credentials = newCredentials;
+        }
     }
+
+    function getCredentials() {
+        return credentials;
+    }
+
+    function clear() {
+        credentials = null;
+        $rootScope.credentials = null;
+        $cookies.remove("credentials");
+
+        user = null;
+        $rootScope.user = null;
+
+        delete $localStorage.currentQuest;
+    }
+
 
     return {
         login: login,
+        logout: clear,
         register: register,
         getUser: getUser,
-        initUser: initUser,
-        clearCredentials: clearCredentials
+        setUser: setUser,
+        setCredentials: setCredentials,
+        getCredentials: getCredentials
     }
 });

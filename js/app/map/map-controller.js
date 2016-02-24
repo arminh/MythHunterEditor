@@ -2,27 +2,12 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", function($scope, $rootScope, $modal, $q, mapService, backendService, MARKERS, MainService, AuthenticationService, Task) {
+map.controller("mapController", function($scope, $state, $modal, $q, $localStorage, mapService, backendService, MARKERS, MainService, AuthenticationService, Task) {
 
     $scope.startTask = null;
-
-    var user = AuthenticationService.getUser();
-    var quest = user.getCurrentQuest();
-
-    if(!quest) {
-        user.newQuest().then(function(result) {
-            quest = result;
-            this.tasks = quest.tasks;
-            this.startTask = quest.startTask;
-        }.bind($scope));
-    }
-
+    $scope.tasks = [];
 
     $scope.drawing = false;
-
-    var activeMarker = "";
-    var currentTask = null;
-
     $scope.continueDrawing = false;
     $scope.showQuestline = false;
 
@@ -32,17 +17,14 @@ map.controller("mapController", function($scope, $rootScope, $modal, $q, mapServ
         cancel: ".fixed, input",
         start: function(e, ui){
             ui.placeholder.height(ui.item.height());
+        },
+        update: function(e, ui) {
+            quest.change();
         }
         //containment: "#map-quests"
     };
 
-    $scope.toggleQuestline = function() {
-        if($scope.showQuestline) {
-            $scope.showQuestline = false;
-        } else {
-            $scope.showQuestline = true;
-        }
-    };
+    var activeMarker = "";
 
     var popupContainer = document.getElementById('popup');
     var popupContent = $("#popupContent");
@@ -50,6 +32,38 @@ map.controller("mapController", function($scope, $rootScope, $modal, $q, mapServ
 
     mapService.init("mapView");
     mapService.addPopupOverlay(popupContainer);
+
+    var user = AuthenticationService.getUser();
+    var quest = user.getCurrentQuest();
+
+    if(!quest) {
+        user.newQuest().then(
+            function(result) {
+                quest = result;
+                this.tasks = quest.tasks;
+                this.startTask = quest.startTask;
+            }.bind($scope),
+            function(error) {
+                $state.go("app.profile");
+            });
+    } else {
+        $scope.tasks = quest.tasks;
+        $scope.startTask = quest.startTask;
+        addMarkers();
+    }
+
+    function addMarkers() {
+        $scope.startTask.markerId = $scope.startTask.addMarker();
+
+        for(var i = 0; i < $scope.tasks.length; i++) {
+            $scope.tasks[i].markerId = $scope.tasks[i].addMarker();
+        }
+    }
+
+
+    $scope.toggleQuestline = function() {
+        return !$scope.showQuestline;
+    };
 
     popupCloser.on("click", function() {
         mapService.hideOverlay();
@@ -130,39 +144,31 @@ map.controller("mapController", function($scope, $rootScope, $modal, $q, mapServ
         return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";
     }
 
-/*    $scope.$on('markerAdded', function(evt, args) {
-
-        var markerId = args.markerId;
-        var marker = mapService.getMarkerById(markerId);
-
-        var coord = marker.getGeometry().getCoordinates();
-        var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
-
-        var task = new Task();
-
-        task.init({
-            lon: coordinates[0],
-            lat: coordinates[1],
-            popupTpl: fightTpl(coordinates[0], coordinates[1]),
-            markerId: markerId
-        });
-        quest.addTask(task);
-        $scope.$apply();
-
-
-        if($scope.continueDrawing) {
-            mapService.drawMarker(getMarkerSrc(activeMarker));
-        } else {
-            $scope.drawing = false;
-            $scope.$apply();
-        }
-
-    });*/
-
     $scope.$on('markerChanged', function(evt, args) {
-
+        console.log("change");
         var changedMarker = args.marker;
         var changedMarkerId = changedMarker.getId();
+
+        console.log($scope.startTask.markerId);
+
+        if($scope.startTask.markerId == changedMarkerId) {
+            $scope.startTask.updateMarker(changedMarker);
+        }
+
+        for(var i = 0; i < $scope.tasks.length; i++) {
+            if($scope.tasks[i].markerId == changedMarkerId) {
+                $scope.tasks[i].updateMarker(changedMarker);
+                $scope.$apply();
+            }
+        }
+    });
+
+    $scope.$on('markerChanged', function(evt, args) {
+        console.log("change");
+        var changedMarker = args.marker;
+        var changedMarkerId = changedMarker.getId();
+
+        console.log($scope.startTask.markerId);
 
         if($scope.startTask.markerId == changedMarkerId) {
             $scope.startTask.updateMarker(changedMarker);
@@ -206,7 +212,11 @@ map.controller("mapController", function($scope, $rootScope, $modal, $q, mapServ
     });*/
 
     $scope.save = function() {
-        user.uploadQuest();
+        console.log($scope.tasks);
+/*        user.uploadQuest().then(function() {
+            user.currentQuest = null;
+            delete $localStorage.currentQuest;
+        });*/
     }
 
 });
