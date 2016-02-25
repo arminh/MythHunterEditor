@@ -66,12 +66,17 @@ app.run(function ($rootScope, $q, $location, $cookies, AuthenticationService, Us
         var user = AuthenticationService.getUser();
         var credentials = AuthenticationService.getCredentials();
 
+        var path = $location.path();
+
         if(!user && credentials) {
-            AuthenticationService.login(credentials.username, credentials.password).then(function(result) {
+            AuthenticationService.login(credentials.username, credentials.password).then(function(remoteUser) {
                 var user = new User();
-                user.initFromRemote(result);
-                AuthenticationService.setUser(user);
-                testAccess(user);
+                user.initFromRemote(remoteUser).then(function(result) {
+                    AuthenticationService.setUser(result);
+                    console.log(result);
+                    testAccess(result);
+                });
+
             });
         } else {
             testAccess(user);
@@ -85,8 +90,12 @@ app.run(function ($rootScope, $q, $location, $cookies, AuthenticationService, Us
 
             if (restricted && !user) {
                 $location.path('/login');
+            } else {
+                $location.path($location.path());
             }
         }
+
+        event.preventDefault();
     });
 });
 

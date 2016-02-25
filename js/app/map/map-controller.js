@@ -2,7 +2,7 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", function($scope, $state, $modal, $q, $localStorage, mapService, backendService, MARKERS, MainService, AuthenticationService, Task) {
+map.controller("mapController", function($scope, $state, $modal, $q, $localStorage, mapService, BackendService, MARKERS, MainService, AuthenticationService, Task) {
 
     $scope.startTask = null;
     $scope.tasks = [];
@@ -145,30 +145,8 @@ map.controller("mapController", function($scope, $state, $modal, $q, $localStora
     }
 
     $scope.$on('markerChanged', function(evt, args) {
-        console.log("change");
         var changedMarker = args.marker;
         var changedMarkerId = changedMarker.getId();
-
-        console.log($scope.startTask.markerId);
-
-        if($scope.startTask.markerId == changedMarkerId) {
-            $scope.startTask.updateMarker(changedMarker);
-        }
-
-        for(var i = 0; i < $scope.tasks.length; i++) {
-            if($scope.tasks[i].markerId == changedMarkerId) {
-                $scope.tasks[i].updateMarker(changedMarker);
-                $scope.$apply();
-            }
-        }
-    });
-
-    $scope.$on('markerChanged', function(evt, args) {
-        console.log("change");
-        var changedMarker = args.marker;
-        var changedMarkerId = changedMarker.getId();
-
-        console.log($scope.startTask.markerId);
 
         if($scope.startTask.markerId == changedMarkerId) {
             $scope.startTask.updateMarker(changedMarker);
@@ -212,11 +190,10 @@ map.controller("mapController", function($scope, $state, $modal, $q, $localStora
     });*/
 
     $scope.save = function() {
-        console.log($scope.tasks);
-/*        user.uploadQuest().then(function() {
-            user.currentQuest = null;
+        user.uploadQuest().then(function() {
             delete $localStorage.currentQuest;
-        });*/
+            $state.go("app.profile");
+        });
     }
 
 });

@@ -2,7 +2,7 @@
  * Created by armin on 04.02.16.
  */
 
-task.factory('Task', function($modal, $q, AuthenticationService, mapService, MARKERS, HTMLText) {
+task.factory('Task', function($modal, $q, AuthenticationService, BackendService, mapService, MARKERS, HTMLText) {
 
     function Task() {
         this.remoteId = -1;
@@ -68,18 +68,6 @@ task.factory('Task', function($modal, $q, AuthenticationService, mapService, MAR
         //this.quest.change();
     };
 
-    Task.prototype.init = function(config) {
-        if(config.id != undefined) this.id = config.id;
-        if(config.name != undefined) this.name = config.name;
-        if(config.description != undefined) this.description = config.description;
-        if(config.content != undefined) this.html.content = config.content;
-        if(config.type != undefined) this.type = config.type;
-        if(config.lon != undefined) this.lon = config.lon;
-        if(config.lat != undefined) this.lat = config.lat;
-        if(config.popupTpl != undefined) this.popupTpl = config.popupTpl;
-        if(config.markerId != undefined) this.markerId = config.markerId;
-    };
-
     Task.prototype.initFromObject = function(taskObject) {
         this.changed = taskObject.changed;
         this.fixed = taskObject.fixed;
@@ -96,11 +84,38 @@ task.factory('Task', function($modal, $q, AuthenticationService, mapService, MAR
         this.html = html;
     };
 
-    Task.prototype.updateMarker = function(marker) {
+    Task.prototype.initFromRemote = function(remoteTask) {
+        console.log(remoteTask);
+        var deffered = $q.defer();
 
-        this.initFromMarker(marker);
-        this.change();
+        this.remoteId = remoteTask.getId();
+        this.name = remoteTask.getName();
+
+        //this.type = remoteTask.getType();
+
+        var position = remoteTask.getPosition();
+        this.lon = position.getLongitude();
+        this.lat = position.getLatitude();
+
+        getHtmlFromRemote(remoteTask.getHtmlId()).then(function(result) {
+            this.html = result;
+            deffered.resolve(this);
+        }.bind(this));
+
+        return deffered.promise;
     };
+
+    function getHtmlFromRemote(htmlId) {
+        var deffered = $q.defer();
+
+        BackendService.getHtml(htmlId).then(function(remoteHtml) {
+            var html = new HTMLText();
+            html.initFromRemote(remoteHtml);
+            deffered.resolve(html);
+        });
+
+        return deffered.promise;
+    }
 
     Task.prototype.initFromMarker = function(marker) {
         var coord = marker.getGeometry().getCoordinates();
@@ -109,6 +124,12 @@ task.factory('Task', function($modal, $q, AuthenticationService, mapService, MAR
         this.lon = coordinates[0];
         this.lat = coordinates[1];
         this.popupTpl = fightTpl(coordinates[0], coordinates[1]);
+    };
+
+    Task.prototype.updateMarker = function(marker) {
+
+        this.initFromMarker(marker);
+        this.change();
     };
 
     Task.prototype.change = function() {
@@ -120,62 +141,21 @@ task.factory('Task', function($modal, $q, AuthenticationService, mapService, MAR
     Task.prototype.upload = function() {
         var deferred = $q.defer();
 
-        this.remoteTask = null;
+        if(this.remoteId != -1 && this.changed == false) {
+            deferred.resolve(this);
+        } else {
+            this.remoteTask = BackendService.createRemoteTask(this);
 
-        switch(this.type) {
-            case "fight":
-                this.remoteTask = new backend_com_wsdl_fightMarker();
-                break;
-            case "quiz":
-                this.remoteTask = new backend_com_wsdl_quizMarker();
-                break;
-            case "info":
-            case "start":
-                this.remoteTask = new backend_com_wsdl_infoMarker();
-                break;
-        }
-
-        this.remoteTask.setName(this.name);
-        this.remoteTask.setPosition(mapPosition(this.lon, this.lat));
-
-        if(this.html.id == -1 || this.html.changed == true) {
             this.html.upload().then(function(id) {
                 this.remoteTask.setHtmlId(id);
-                this.finishUpload(deferred);
+                BackendService.addTask(this.remoteTask).then(function(result) {
+                    this.remoteId = result.getId();
+                    deferred.resolve(result);
+                }.bind(this));
             }.bind(this));
-        } else {
-            this.finishUpload(deferred);
         }
 
         return deferred.promise;
-    };
-
-    Task.prototype.finishUpload = function(promise) {
-        console.log(this.remoteTask);
-        switch(this.type) {
-            case "fight":
-                backend.addFightMarker(function(result) {
-                        this.remoteId = result.getReturn().getId();
-                        promise.resolve(result.getReturn());
-                }.bind(this),
-                    function(error) { promise.reject(error) }, this.remoteTask);
-                break;
-            case "quiz":
-                backend.addQuizMarker(function(result) {
-                        this.remoteId = result.getReturn().getId();
-                        promise.resolve(result.getReturn());
-                    }.bind(this),
-                    function(error) { promise.reject(error) }, this.remoteTask);
-                break;
-            case "start":
-            case "info":
-                backend.addInfoMarker(function(result) {
-                        this.remoteId = result.getReturn().getId();
-                        promise.resolve(result.getReturn());
-                    }.bind(this),
-                    function(error) { promise.reject(error) }, this.remoteTask);
-                break;
-        }
     };
 
     var openTaskDialog = function(task) {
@@ -209,13 +189,6 @@ task.factory('Task', function($modal, $q, AuthenticationService, mapService, MAR
             default:
                 return "";
         }
-    };
-
-    var mapPosition = function(lon, lat) {
-        var pos = new backend_com_wsdl_mapPosition();
-        pos.setLongitude(lon);
-        pos.setLatitude(lat);
-        return pos;
     };
 
     function fightTpl(lon, lat) {

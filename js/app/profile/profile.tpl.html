@@ -1,4 +1,4 @@
-<div id="profile-container" class="col-md-10 col-md-offset-1">
-    <div ng-repeat="quest in user.createdQuests">{{quest.name}}</div>
+<div id="profile-container" class="col-md-10 col-md-offset-1"  ng-show="user">
+    <div  ng-repeat="quest in user.createdQuests">{{quest.name}}</div>
     <button ng-click="newQuest()">New Quest</button>
 </div>

@@ -2,7 +2,7 @@
  * Created by armin on 18.02.16.
  */
 
-app.factory("AuthenticationService", function($q, $localStorage, $cookies, $rootScope) {
+app.factory("AuthenticationService", function($q, $localStorage, $cookies, $rootScope, BackendService) {
 
     var user = null;
     var credentials = null;
@@ -10,36 +10,25 @@ app.factory("AuthenticationService", function($q, $localStorage, $cookies, $root
     function login(username, password) {
         var deffered = $q.defer();
 
-        var passwordHash = CryptoJS.SHA256(password);
-
-        backend.login(function(result) {
+        BackendService.login(username, password).then(function(result) {
+            console.log(result);
             $cookies.putObject("credentials", {
-                username: username,
-                password: password
+                username: result.getName(),
+                password: result.getPassword()
             });
-            deffered.resolve(result.getReturn());
-        }, function(error) {
-            console.log("error");
-        }, username, passwordHash);
+            deffered.resolve(result);
+        });
 
         return deffered.promise;
     }
 
     function register(username, password) {
 
-        var user = new User();
-        user.name = username;
-        user.password = CryptoJS.SHA256(password);
-
-        var remoteUser = user.createRemoteUser();
-
         var deffered = $q.defer();
 
-        backend.addUser(function(result) {
+        BackendService.register(username, CryptoJS.SHA256(password)).then(function(result) {
             deffered.resolve(result);
-        }, function(error) {
-            deffered.reject(error);
-        }, remoteUser);
+        });
 
         return deffered.promise;
     }

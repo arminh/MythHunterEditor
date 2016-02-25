@@ -2,7 +2,7 @@
  * Created by armin on 07.02.16.
  */
 
-profile.factory("User", function($q, $modal, $localStorage, mapService, MARKERS, Quest) {
+profile.factory("User", function($q, $modal, $localStorage, BackendService, mapService, MARKERS, Quest) {
     function User() {
         this.id = -1;
         this.name = "";
@@ -12,10 +12,41 @@ profile.factory("User", function($q, $modal, $localStorage, mapService, MARKERS,
     }
 
     User.prototype.initFromRemote = function(remoteUser) {
+
+        var deffered = $q.defer();
+
         this.id = remoteUser.getId();
         this.name = remoteUser.getName();
         this.password = remoteUser.getPassword();
-        this.createdQuests = remoteUser.getCreatedQuestIds();
+
+        //deffered.resolve(this);
+
+        var promises = [];
+
+        var remoteQuests = remoteUser.getCreatedQuestIds();
+        for(var i = 0; i < remoteQuests.length; i++) {
+            promises.push(getQuestFromRemote(remoteQuests[i]));
+        }
+
+        $q.all(promises).then(function(results) {
+            this.createdQuests = results;
+            deffered.resolve(this);
+        }.bind(this));
+
+        return deffered.promise;
+    };
+
+    var getQuestFromRemote = function(questId) {
+        var deffered = $q.defer();
+
+        BackendService.getQuest(questId).then(function(remoteQuest) {
+            var quest = new Quest();
+            quest.initFromRemote(remoteQuest).then(function(result) {
+                deffered.resolve(result);
+            });
+        });
+
+        return deffered.promise;
     };
 
     User.prototype.newQuest = function() {
@@ -26,7 +57,6 @@ profile.factory("User", function($q, $modal, $localStorage, mapService, MARKERS,
             this.currentQuest = result;
             this.currentQuest.creatorId = this.id;
             this.backup();
-            this.addQuest(result);
             return result;
         }.bind(this));
     };
@@ -61,9 +91,11 @@ profile.factory("User", function($q, $modal, $localStorage, mapService, MARKERS,
 
         if(this.currentQuest.remoteId == -1 || this.currentQuest.changed == true) {
             this.currentQuest.upload().then(function() {
-                console.log("upload finished");
+                this.addQuest(this.currentQuest);
+                this.upload();
+                //this.currentQuest = null;
                 deffered.resolve();
-            });
+            }.bind(this));
         } else {
             deffered.resolve();
         }
@@ -71,12 +103,8 @@ profile.factory("User", function($q, $modal, $localStorage, mapService, MARKERS,
         return deffered.promise;
     };
 
-    User.prototype.createRemoteUser = function() {
-        var remoteUser = new backend_com_wsdl_user();
-        remoteUser.setName(this.name);
-        remoteUser.setPassword(this.password);
-
-        return remoteUser;
+    User.prototype.upload = function() {
+        BackendService.updateUser(BackendService.createRemoteUser(this));
     };
 
     return (User);

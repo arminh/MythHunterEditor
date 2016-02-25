@@ -1,7 +1,7 @@
 /**
  * Created by armin on 04.02.16.
  */
-quest.factory('Quest', function($modal, $q, AuthenticationService, Task, HTMLText) {
+quest.factory('Quest', function($modal, $q, AuthenticationService, BackendService, Task, HTMLText) {
 
     function Quest() {
         this.remoteId = -1;
@@ -74,6 +74,61 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, Task, HTMLTex
         }
     };
 
+    Quest.prototype.initFromRemote = function(remoteQuest) {
+
+        var deffered = $q.defer();
+
+        this.creatorId = remoteQuest.getCreaterId();
+        this.description = remoteQuest.getShortDescription();
+        this.name = remoteQuest.getName();
+        this.remoteId = remoteQuest.getId();
+
+        var promises = [];
+
+        promises.push(getHtmlFromRemote(remoteQuest.getHtmlId()));
+        promises.push(getTaskFromRemote(remoteQuest.getStartMarker().getId()));
+
+        var remoteTasks = remoteQuest.getMarkers();
+        for(var i = 0; i < remoteTasks.length; i++) {
+            promises.push(getTaskFromRemote(remoteTasks[i]));
+        }
+
+        $q.all(promises).then(function(results) {
+            this.html = results[0];
+            this.startTask = results[1];
+            this.tasks = results.slice(2, results.length-1);
+
+            deffered.resolve(this);
+        }.bind(this));
+
+        return deffered.promise;
+    };
+
+    function getHtmlFromRemote(htmlId) {
+        var deffered = $q.defer();
+
+        BackendService.getHtml(htmlId).then(function(remoteHtml) {
+            var html = new HTMLText();
+            html.initFromRemote(remoteHtml);
+            deffered.resolve(html);
+        });
+
+        return deffered.promise;
+    }
+
+    function getTaskFromRemote(taskId) {
+        var deffered = $q.defer();
+
+        BackendService.getTask(taskId).then(function(remoteTask) {
+            var task = new Task();
+            task.initFromRemote(remoteTask).then(function(result) {
+                deffered.resolve(result);
+            });
+        });
+
+        return deffered.promise;
+    }
+
     Quest.prototype.change = function() {
         this.changed = true;
         AuthenticationService.getUser().backup();
@@ -87,23 +142,15 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, Task, HTMLTex
 
     Quest.prototype.upload = function() {
 
-        this.remoteQuest = new backend_com_wsdl_quest();
-        this.remoteQuest.setCreaterId(this.creatorId);
+        this.remoteQuest = BackendService.createRemoteQuest(this);
 
         var promises = [];
 
-        if(this.html.id == -1 || this.html.changed == true) {
-            promises.push(this.html.upload());
-        }
-
-        if(this.startTask.remoteId == -1 || this.startTask.changed == true) {
-            promises.push(this.startTask.upload());
-        }
+        promises.push(this.html.upload());
+        promises.push(this.startTask.upload());
 
         for(var i=0; i < this.tasks.length; i++) {
-            if(this.tasks[i].remoteId == -1 || this.tasks[i].changed == true) {
-                promises.push(this.tasks[i].upload());
-            }
+            promises.push(this.tasks[i].upload());
         }
 
         var deferred = $q.defer();
@@ -118,16 +165,11 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, Task, HTMLTex
             }
             this.remoteQuest.setMarkers(taskIds);
 
-            backend.addQuest(
-                function(result) {
-                    console.log(result.getReturn());
-                    this.remoteId = result.getReturn().getId();
+            BackendService.addQuest(this.remoteQuest).then(function(result) {
+                    console.log(result);
+                    this.remoteId = result.getId();
                     deferred.resolve(this.remoteId);
-                }.bind(this),
-                function(error) {
-                    deferred.reject(error)
-                },
-                this.remoteQuest);
+                }.bind(this));
         }.bind(this));
 
         return deferred.promise;

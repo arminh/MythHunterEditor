@@ -8,11 +8,14 @@ app.controller("loginController", function($scope, $state, AuthenticationService
     $scope.password = "";
 
     $scope.login = function() {
-        AuthenticationService.login($scope.username, $scope.password).then(function(result) {
+        var passwordHash = CryptoJS.SHA256($scope.password);
+        AuthenticationService.login($scope.username, passwordHash).then(function(result) {
             var user = new User();
-            user.initFromRemote(result);
-            AuthenticationService.setUser(user);
-            $state.go("app.profile");
+            user.initFromRemote(result).then(function() {
+                AuthenticationService.setUser(user);
+                console.log(user);
+                $state.go("app.profile");
+            });
         });
     };
 
