@@ -2,18 +2,26 @@
  * Created by armin on 02.02.16.
  */
 
-var backend = new backend_com_wsdl_IBackend();
-backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
+
+
 
 app.factory('BackendService', function($q) {
+
+    var backend = new backend_com_wsdl_IBackend();
+    backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
 
     function login(username, password) {
         var deffered = $q.defer();
 
         backend.login(function(result) {
-            deffered.resolve(result.getReturn());
-        }, function(error) {
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("error");
+            }
 
+        }, function(error) {
+            alert("Error Logging in user " + username);
         }, username, password);
 
         return deffered.promise;
@@ -25,7 +33,7 @@ app.factory('BackendService', function($q) {
         backend.register(function(result) {
             deffered.resolve(result);
         }, function(error) {
-
+            deffered.reject(error);
         }, username, password);
 
         return deffered.promise;
@@ -56,6 +64,7 @@ app.factory('BackendService', function($q) {
     function createRemoteQuest(quest) {
         var remoteQuest = new backend_com_wsdl_quest();
 
+        remoteQuest.setId(quest.remoteId);
         remoteQuest.setCreaterId(quest.creatorId);
         remoteQuest.setName(quest.name);
         remoteQuest.setShortDescription(quest.description);
@@ -67,6 +76,8 @@ app.factory('BackendService', function($q) {
         for(var i = 0; i < quest.tasks.length; i++) {
             tasks.push(quest.tasks[i].remoteId);
         }
+
+        remoteQuest.setMarkers(tasks);
 
         return remoteQuest;
     }
@@ -118,9 +129,14 @@ app.factory('BackendService', function($q) {
         var deffered = $q.defer();
 
         backend.getQuest(function(result) {
-            deffered.resolve(result.getReturn());
-        }, function(error) {
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error loading quest with id: " + questId);
+            }
 
+        }, function(error) {
+            alert("Error getting Quest with id " + questId);
         }, questId);
 
         return deffered.promise;
@@ -130,7 +146,12 @@ app.factory('BackendService', function($q) {
         var deffered = $q.defer();
 
         backend.getQuests(function(result) {
-            deffered.resolve(result.getReturn());
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error loading quests");
+            }
+
         }, function(error) {
 
         }, questIds);
@@ -141,10 +162,15 @@ app.factory('BackendService', function($q) {
     function getTask(taskId) {
         var deffered = $q.defer();
 
-        backend.getMarker(function(result) {
-            deffered.resolve(result.getReturn());
-        }, function(error) {
+        backend.getCompleteMarker(function(result) {
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error loading Task with id: " + taskId);
+            }
 
+        }, function(error) {
+            alert("Error getting HTML with id " + taskId);
         }, taskId);
 
         return deffered.promise;
@@ -154,9 +180,14 @@ app.factory('BackendService', function($q) {
         var deffered = $q.defer();
 
         backend.getHtml(function(result) {
-            deffered.resolve(result.getReturn());
-        }, function(error) {
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error loading html with id: " + htmlId);
+            }
 
+        }, function(error) {
+            alert("Error getting HTML with id " + htmlId);
         }, htmlId);
 
         return deffered.promise;
@@ -166,7 +197,12 @@ app.factory('BackendService', function($q) {
         var deffered = $q.defer();
 
         backend.addQuest(function(result) {
-            deffered.resolve(result.getReturn());
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error adding quest");
+            }
+
         }, function(error) {
 
         }, quest);
@@ -178,20 +214,35 @@ app.factory('BackendService', function($q) {
         var deffered = $q.defer();
 
         if(remoteTask instanceof backend_com_wsdl_fightMarker) {
-            backend.addFightMarker(function (result) {
-                deffered.resolve(result.getReturn());
+            backend.addFightMarker(function(result) {
+                if(result.getReturn()) {
+                    deffered.resolve(result.getReturn());
+                } else {
+                    deffered.reject("Error adding task");
+                }
+
             },  function (error) {
 
             }, remoteTask);
         } else if(remoteTask instanceof backend_com_wsdl_quizMarker) {
-            backend.addQuizMarker(function (result) {
-                deffered.resolve(result.getReturn());
+            backend.addQuizMarker(function(result) {
+                if(result.getReturn()) {
+                    deffered.resolve(result.getReturn());
+                } else {
+                    deffered.reject("Error adding task");
+                }
+
             },  function (error) {
 
             }, remoteTask);
         } else if(remoteTask instanceof backend_com_wsdl_infoMarker) {
-            backend.addInfoMarker(function (result) {
-                deffered.resolve(result.getReturn());
+            backend.addInfoMarker(function(result) {
+                if(result.getReturn()) {
+                    deffered.resolve(result.getReturn());
+                } else {
+                    deffered.reject("Error adding task");
+                }
+
             },  function (error) {
 
             }, remoteTask);
@@ -204,7 +255,12 @@ app.factory('BackendService', function($q) {
         var deffered = $q.defer();
 
         backend.addHtml(function(result) {
-            deffered.resolve(result.getReturn());
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error adding html");
+            }
+
         }, function(error) {
 
         }, html);
@@ -213,7 +269,58 @@ app.factory('BackendService', function($q) {
     }
 
     function updateUser(user) {
-        backend.updateUser(function() {}, function() {}, user);
+        backend.updateUser(function(result) {
+
+        }, function() {
+            alert("Error updating user");
+        }, user);
+    }
+
+    function updateQuest(quest) {
+        backend.updateQuest(function() {
+
+        }, function() {
+            alert("Error updating quest");
+        }, quest);
+    }
+
+    function updateTask(task) {
+
+        if(task instanceof backend_com_wsdl_fightMarker) {
+            backend.updateFightMarker(function() {
+
+            }, function() {
+                alert("Error updating task");
+            }, task);
+        } else if(task instanceof backend_com_wsdl_quizMarker) {
+            backend.updateQuizMarker(function() {
+
+            }, function() {
+                alert("Error updating task");
+            }, task);
+        } else if(task instanceof backend_com_wsdl_infoMarker) {
+            backend.updateInfoMarker(function() {
+
+            }, function() {
+                alert("Error updating task");
+            }, task);
+        }
+    }
+
+    function updateHtml(html) {
+        backend.updateHtml({
+
+        }, function() {
+            alert("Error updating quest");
+        }, html);
+    }
+
+    function deleteQuest(questId) {
+        backend.deleteQuest(function(result) {
+
+        }, function(error) {
+            alert("Error deleting quest width id :" +questId);
+        }, questId);
     }
 
     return {
@@ -231,6 +338,10 @@ app.factory('BackendService', function($q) {
         addTask: addTask,
         addHtml: addHtml,
         updateUser: updateUser,
+        updateQuest: updateQuest,
+        updateTask: updateTask,
+        updateHtml: updateHtml,
+        deleteQuest: deleteQuest,
         mapPosition: mapPosition
     };
 });

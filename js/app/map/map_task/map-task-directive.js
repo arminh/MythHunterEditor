@@ -9,7 +9,7 @@ map.directive("mapTask", function() {
             task: '=',
             edit: "&"
         },
-        templateUrl: "js/app/map/map-task.tpl.html",
+        templateUrl: "js/app/map/map_task/map-task.tpl.html",
         controller: "mapTaskController"
     }
 });

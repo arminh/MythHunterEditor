@@ -90,8 +90,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
 
         this.remoteId = remoteTask.getId();
         this.name = remoteTask.getName();
-
-        //this.type = remoteTask.getType();
+        this.type = remoteTask.getType();
 
         var position = remoteTask.getPosition();
         this.lon = position.getLongitude();
@@ -140,19 +139,26 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
 
     Task.prototype.upload = function() {
         var deferred = $q.defer();
+        this.remoteTask = BackendService.createRemoteTask(this);
 
-        if(this.remoteId != -1 && this.changed == false) {
-            deferred.resolve(this);
-        } else {
-            this.remoteTask = BackendService.createRemoteTask(this);
-
+        if(this.remoteId == -1 || this.changed) {
             this.html.upload().then(function(id) {
                 this.remoteTask.setHtmlId(id);
-                BackendService.addTask(this.remoteTask).then(function(result) {
-                    this.remoteId = result.getId();
-                    deferred.resolve(result);
-                }.bind(this));
+                if(this.remoteId != -1 && this.changed) {
+                    BackendService.updateTask(this.remoteTask);
+                    deferred.resolve(this.remoteTask);
+                } else {
+                    BackendService.addTask(this.remoteTask).then(function(result) {
+                        this.remoteId = result.getId();
+                        deferred.resolve(result);
+                    }.bind(this));
+                }
+
             }.bind(this));
+        } else {
+            this.html.upload().then(function() {
+                deferred.resolve(this.remoteTask);
+            }.bind(this))
         }
 
         return deferred.promise;

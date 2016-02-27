@@ -96,6 +96,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         $q.all(promises).then(function(results) {
             this.html = results[0];
             this.startTask = results[1];
+            this.startTask.type = "start";
             this.tasks = results.slice(2, results.length-1);
 
             deffered.resolve(this);
@@ -142,10 +143,9 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
 
     Quest.prototype.upload = function() {
 
-        this.remoteQuest = BackendService.createRemoteQuest(this);
+        var deferred = $q.defer();
 
         var promises = [];
-
         promises.push(this.html.upload());
         promises.push(this.startTask.upload());
 
@@ -153,24 +153,36 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
             promises.push(this.tasks[i].upload());
         }
 
-        var deferred = $q.defer();
+        if(this.remoteId == -1 || this.changed) {
+            this.remoteQuest = BackendService.createRemoteQuest(this);
 
-        $q.all(promises).then(function(responses) {
-            this.remoteQuest.setHtmlId(responses[0]);
-            this.remoteQuest.setStartMarker(responses[1]);
+            $q.all(promises).then(function(responses) {
+                this.remoteQuest.setHtmlId(responses[0]);
+                this.remoteQuest.setStartMarker(responses[1]);
 
-            var taskIds = [];
-            for(var i=2; i < responses.length; i++) {
-                taskIds.push(responses[i].getId());
-            }
-            this.remoteQuest.setMarkers(taskIds);
+                var taskIds = [];
+                for(var i=2; i < responses.length; i++) {
+                    taskIds.push(responses[i].getId());
+                }
+                this.remoteQuest.setMarkers(taskIds);
 
-            BackendService.addQuest(this.remoteQuest).then(function(result) {
-                    console.log(result);
-                    this.remoteId = result.getId();
-                    deferred.resolve(this.remoteId);
-                }.bind(this));
-        }.bind(this));
+                if(this.remoteId != -1 && this.changed) {
+                    console.log(this.remoteQuest);
+                    BackendService.updateQuest(this.remoteQuest);
+                    deferred.resolve(this);
+                } else {
+                    BackendService.addQuest(this.remoteQuest).then(function(result) {
+                        console.log(result);
+                        this.remoteId = result.getId();
+                        deferred.resolve(this);
+                    }.bind(this));
+                }
+            }.bind(this));
+        } else {
+            $q.all(promises).then(function(responses) {
+                deferred.resolve(this);
+            }.bind(this));
+        }
 
         return deferred.promise;
     };

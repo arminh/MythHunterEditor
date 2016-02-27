@@ -2,7 +2,7 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", function($scope, $state, $modal, $q, $localStorage, mapService, BackendService, MARKERS, MainService, AuthenticationService, Task) {
+map.controller("mapController", function($scope, $state, $localStorage, mapService, AuthenticationService, Task, user) {
 
     $scope.startTask = null;
     $scope.tasks = [];
@@ -33,7 +33,6 @@ map.controller("mapController", function($scope, $state, $modal, $q, $localStora
     mapService.init("mapView");
     mapService.addPopupOverlay(popupContainer);
 
-    var user = AuthenticationService.getUser();
     var quest = user.getCurrentQuest();
 
     if(!quest) {
@@ -127,19 +126,6 @@ map.controller("mapController", function($scope, $state, $modal, $q, $localStora
         task.edit();
     };
 
-    var getMarkerSrc = function(type) {
-        switch(type) {
-            case "fight":
-                return MARKERS.fight.path;
-            case "quiz":
-                return MARKERS.quiz.path;
-            case "info":
-                return MARKERS.info.path;
-            default:
-                return "";
-        }
-    };
-
     function fightTpl(lon, lat) {
         return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";
     }
@@ -191,8 +177,9 @@ map.controller("mapController", function($scope, $state, $modal, $q, $localStora
 
     $scope.save = function() {
         user.uploadQuest().then(function() {
-            delete $localStorage.currentQuest;
+            console.log(user);
             $state.go("app.profile");
+
         });
     }
 

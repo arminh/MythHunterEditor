@@ -30,13 +30,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             url: '',
             controller: 'mainController',
             templateUrl: 'js/app/main.tpl.html',
-            abstract: true
+            abstract: true,
+            resolve: {
+
+            }
         });
     $stateProvider
         .state('app.profile', {
             url: '/profile',
             controller: 'profileController',
-            templateUrl: 'js/app/profile/profile.tpl.html'
+            templateUrl: 'js/app/profile/profile.tpl.html',
+            resolve: {
+                user: ['AuthenticationService', function(AuthenticationService) {
+                    return AuthenticationService.userPromise;
+                }]
+            }
         });
     $stateProvider
         .state('app.login', {
@@ -54,7 +62,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('app.map', {
             url: '/quest',
             controller: 'mapController',
-            templateUrl: 'js/app/map/map.tpl.html'
+            templateUrl: 'js/app/map/map.tpl.html',
+            resolve: {
+                user: ['AuthenticationService', function(AuthenticationService) {
+                    return AuthenticationService.userPromise;
+                }]
+            }
         });
 });
 
@@ -62,7 +75,7 @@ app.run(function ($rootScope, $q, $location, $cookies, AuthenticationService, Us
     var credentials = $cookies.getObject("credentials");
     AuthenticationService.setCredentials(credentials);
 
-    $rootScope.$on('$locationChangeStart', function () {
+    $rootScope.$on('$locationChangeStart', function (event) {
         var user = AuthenticationService.getUser();
         var credentials = AuthenticationService.getCredentials();
 
@@ -74,28 +87,30 @@ app.run(function ($rootScope, $q, $location, $cookies, AuthenticationService, Us
                 user.initFromRemote(remoteUser).then(function(result) {
                     AuthenticationService.setUser(result);
                     console.log(result);
-                    testAccess(result);
+                    testAccess(result, path);
                 });
 
+            }, function(error) {
+                alert("Error loging in " + credentials.username);
+                $location.path('/login');
             });
         } else {
-            testAccess(user);
+            testAccess(user, path);
         }
 
-        function testAccess(user) {
-            var restricted = false;
-            if ($location.path() != "/login" && $location.path() != "/register") {
-                restricted = true;
-            }
-
-            if (restricted && !user) {
-                $location.path('/login');
+        function testAccess(user, path) {
+            if (path == "/login" || path == "/register") {
+                if(user) {
+                    $location.path('/profile');
+                }
             } else {
-                $location.path($location.path());
+                if (!user) {
+                    $location.path('/login');
+                } else {
+                    $location.path(path);
+                }
             }
         }
-
-        event.preventDefault();
     });
 });
 

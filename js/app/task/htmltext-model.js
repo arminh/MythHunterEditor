@@ -46,7 +46,8 @@ task.factory('HTMLText', function($q, AuthenticationService, BackendService) {
                     deferred.resolve(this.id)
                 }.bind(this));
             } else {
-                //backend.updateHtml(function(result) { deferred.resolve(result) }, function(error) { deferred.reject(error) }, remoteHtml);
+                BackendService.updateHtml(this.remoteHtml);
+                deferred.resolve(this.id);
             }
         }
 

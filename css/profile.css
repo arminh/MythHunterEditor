@@ -1,3 +1,41 @@
 #profile-container {
     margin-top: 20px;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+#profile-quest-container {
+
+}
+
+#profile-data-container {
+    font-size: 16px;
+}
+
+#created-quests-container {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.profile-quest {
+
+}
+.odd-profile-quest {
+    background-color: #eeeeee;
+}
+
+.even-profile-quest {
+    background-color: #f9f9f9;
+}
+
+.profile-quest-table {
+    border: #f9f9f9 solid;
+    font-size: 16px;
+    width: 100%;
+}
+
+.profile-quest-col {
+    border: #f9f9f9 solid;
+    padding: 10px;
 }

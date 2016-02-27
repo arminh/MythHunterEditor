@@ -10,15 +10,10 @@ app.controller("registerController", function($scope, $state,  AuthenticationSer
     $scope.password = "";
 
     $scope.register = function() {
-        AuthenticationService.register($scope.username, $scope.password).then(function(result) {
-            if(result != null) {
-                $state.go("app.login");
-            } else {
-                alert("error");
-            }
-
+        AuthenticationService.register($scope.username, $scope.password).then(function() {
+            $state.go("app.login");
         }, function(error) {
-            alert("error");
+
         });
     }
 });

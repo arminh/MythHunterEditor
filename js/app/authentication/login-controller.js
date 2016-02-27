@@ -15,6 +15,8 @@ app.controller("loginController", function($scope, $state, AuthenticationService
                 AuthenticationService.setUser(user);
                 console.log(user);
                 $state.go("app.profile");
+            }, function() {
+                alert("Error loging in " + $scope.username);
             });
         });
     };
