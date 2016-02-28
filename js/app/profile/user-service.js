@@ -2,7 +2,7 @@
  * Created by armin on 07.02.16.
  */
 
-profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendService, mapService, MARKERS, Quest) {
+profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendService, mapService, Quest) {
     function User() {
         this.id = -1;
         this.name = "";

@@ -18,14 +18,16 @@
     </div>
 
     <div class="task-type" ng-hide="type == 'start'">
-        <p>Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !type">(Please choose the task type)</span></p>
+        <p>Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !activeType">(Please choose the task type)</span></p>
         <div class = "task-type-selection">
-            <md-button ng-repeat="(marker, attrs) in tasks" ng-click="markerSelected(attrs.type, $index)"
-                       aria-label="{{attrs.name}}" class="choose-marker-btn" ng-style="markerBtnStyle"
-                       ng-class="{ 'active-marker': type == attrs.type }">
-                <img class="tasl-type-icon" ng-src="{{attrs.path}}"/>
-                <p class="task-type-label">{{attrs.name}}</p>
+            <md-button ng-repeat="type in types" ng-click="markerSelected(type, $index)"
+                       aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle"
+                       ng-class="{ 'active-marker': activeType == type }">
+                <img class="tasl-type-icon" ng-src="{{getMarkerIconSrc(type)}}"/>
+                <p class="task-type-label">{{type}}</p>
+<!--
                 <md-tooltip style="z-index:10000">{{attrs.description}}</md-tooltip>
+-->
             </md-button>
         </div>
     </div>

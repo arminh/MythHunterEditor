@@ -2,7 +2,7 @@
  * Created by armin on 04.02.16.
  */
 
-task.factory('Task', function($modal, $q, AuthenticationService, BackendService, mapService, MARKERS, HTMLText) {
+task.factory('Task', function($modal, $q, AuthenticationService, BackendService, mapService, MarkerType, HTMLText) {
 
     function Task() {
         this.remoteId = -1;
@@ -27,6 +27,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         initFromObject: initFromObject,
         initFromRemote: initFromRemote,
         initFromMarker: initFromMarker,
+        getMarkerSrc: getMarkerSrc,
         change: change,
         upload: upload
     };
@@ -95,7 +96,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         this.remoteId = remoteTask.getId();
         this.version = remoteTask.getVersion();
         this.name = remoteTask.getName();
-        this.type = remoteTask.getType();
+        this.type = MarkerType[remoteTask.getType()];
 
         var position = remoteTask.getPosition();
         this.lon = position.getLongitude();
@@ -155,7 +156,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
                     console.log(this.remoteTask);
                     BackendService.updateTask(this.remoteTask).then(function(result) {
                         this.version = result.getVersion();
-                        deferred.resolve(result);
+                        deferred.resolve(this.remoteId);
                     }.bind(this), function(error) {
                         alert(error);
                         deferred.reject(error);
@@ -167,14 +168,14 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
                     BackendService.addTask(this.remoteTask).then(function(result) {
                         this.remoteId = result.getId();
                         this.version = result.getVersion();
-                        deferred.resolve(result);
+                        deferred.resolve(result.getId());
                     }.bind(this));
                 }
 
             }.bind(this));
         } else {
             this.html.upload().then(function() {
-                deferred.resolve(this.remoteTask);
+                deferred.resolve(this.remoteId);
             }.bind(this))
         }
 
@@ -199,14 +200,14 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         return modalInstance.result;
     };
 
-    var getMarkerSrc = function(type) {
+    function getMarkerSrc(type) {
         switch(type) {
-            case "fight":
-                return MARKERS.fight.path;
-            case "quiz":
-                return MARKERS.quiz.path;
-            case "info":
-                return MARKERS.info.path;
+            case MarkerType.FIGHT:
+                return "media/fight_marker.png";
+            case MarkerType.QUIZ:
+                return "media/quiz_marker.png";
+            case MarkerType.INFO:
+                return "media/info_marker.png";
             case "start":
                 return "media/start_marker.png";
             default:

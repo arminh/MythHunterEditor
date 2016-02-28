@@ -1,7 +1,7 @@
 /**
  * Created by armin on 04.02.16.
  */
-quest.factory('Quest', function($modal, $q, AuthenticationService, BackendService, Task, HTMLText) {
+quest.factory('Quest', function($modal, $q, AuthenticationService, BackendService, MarkerType, Task, HTMLText) {
 
     function Quest() {
         this.remoteId = -1;
@@ -94,7 +94,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         var promises = [];
 
         promises.push(getHtmlFromRemote(remoteQuest.getHtmlId()));
-        promises.push(getTaskFromRemote(remoteQuest.getStartMarker().getId()));
+        promises.push(getTaskFromRemote(remoteQuest.getStartMarkerId()));
 
         var remoteTasks = remoteQuest.getMarkers();
         for(var i = 0; i < remoteTasks.length; i++) {
@@ -139,8 +139,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
     }
 
     function deleteTask(taskIndex) {
-        var deleteId = -1;
-
         var remoteId = this.tasks[taskIndex].remoteId;
         if(remoteId != -1) {
             this.tasksToDelete.push(remoteId);
@@ -181,11 +179,11 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
 
             $q.all(promises).then(function(responses) {
                 this.remoteQuest.setHtmlId(responses[0]);
-                this.remoteQuest.setStartMarker(responses[1]);
+                this.remoteQuest.setStartMarkerId(responses[1]);
 
                 var taskIds = [];
                 for(var i=2; i < responses.length; i++) {
-                    taskIds.push(responses[i].getId());
+                    taskIds.push(responses[i]);
                 }
                 this.remoteQuest.setMarkers(taskIds);
 

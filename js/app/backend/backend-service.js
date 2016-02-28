@@ -62,7 +62,7 @@ app.factory('BackendService', function($q) {
     }
 
     function createRemoteQuest(quest) {
-        var remoteQuest = new backend_com_wsdl_quest();
+        var remoteQuest = new backend_com_wsdl_editorQuest();
 
         remoteQuest.setId(quest.remoteId);
         remoteQuest.setVersion(quest.version);
@@ -71,7 +71,7 @@ app.factory('BackendService', function($q) {
         remoteQuest.setShortDescription(quest.description);
 
         remoteQuest.setHtmlId(quest.html.id);
-        remoteQuest.setStartMarker(createRemoteTask(quest.startTask));
+        remoteQuest.setStartMarkerId(quest.startTask.remoteId);
 
         var tasks = [];
         for(var i = 0; i < quest.tasks.length; i++) {
@@ -85,23 +85,9 @@ app.factory('BackendService', function($q) {
 
     function createRemoteTask(task) {
 
-        var remoteTask = null;
+        var remoteTask = new backend_com_wsdl_markerComplete();
 
-        switch(task.type) {
-            case "fight":
-                remoteTask = new backend_com_wsdl_fightMarker();
-                break;
-            case "quiz":
-                remoteTask = new backend_com_wsdl_quizMarker();
-                break;
-            case "info":
-                remoteTask = new backend_com_wsdl_infoMarker();
-                break;
-            case "start":
-                remoteTask = new backend_com_wsdl_infoMarker();
-                break;
-        }
-
+        remoteTask.setType(task.type);
         remoteTask.setVersion(task.version);
         remoteTask.setId(task.remoteId);
         remoteTask.setName(task.name);
@@ -130,7 +116,7 @@ app.factory('BackendService', function($q) {
     function getQuest(questId) {
         var deffered = $q.defer();
 
-        backend.getQuest(function(result) {
+        backend.getEditorQuest(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -147,7 +133,7 @@ app.factory('BackendService', function($q) {
     function getQuests(questIds) {
         var deffered = $q.defer();
 
-        backend.getQuests(function(result) {
+        backend.getEditorQuests(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -164,7 +150,7 @@ app.factory('BackendService', function($q) {
     function getTask(taskId) {
         var deffered = $q.defer();
 
-        backend.getCompleteMarker(function(result) {
+        backend.getMarkerComplete(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -198,7 +184,7 @@ app.factory('BackendService', function($q) {
     function addQuest(quest) {
         var deffered = $q.defer();
 
-        backend.addQuest(function(result) {
+        backend.addEditorQuest(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -215,40 +201,16 @@ app.factory('BackendService', function($q) {
     function addTask(remoteTask) {
         var deffered = $q.defer();
 
-        if(remoteTask instanceof backend_com_wsdl_fightMarker) {
-            backend.addFightMarker(function(result) {
-                if(result.getReturn()) {
-                    deffered.resolve(result.getReturn());
-                } else {
-                    deffered.reject("Error adding task");
-                }
+        backend.addOrUpdateMarkerComplete(function(result) {
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error adding task");
+            }
 
-            },  function (error) {
+        },  function (error) {
 
-            }, remoteTask);
-        } else if(remoteTask instanceof backend_com_wsdl_quizMarker) {
-            backend.addQuizMarker(function(result) {
-                if(result.getReturn()) {
-                    deffered.resolve(result.getReturn());
-                } else {
-                    deffered.reject("Error adding task");
-                }
-
-            },  function (error) {
-
-            }, remoteTask);
-        } else if(remoteTask instanceof backend_com_wsdl_infoMarker) {
-            backend.addInfoMarker(function(result) {
-                if(result.getReturn()) {
-                    deffered.resolve(result.getReturn());
-                } else {
-                    deffered.reject("Error adding task");
-                }
-
-            },  function (error) {
-
-            }, remoteTask);
-        }
+        }, remoteTask);
 
         return deffered.promise;
     }
@@ -281,7 +243,7 @@ app.factory('BackendService', function($q) {
     function updateQuest(quest) {
         var deffered = $q.defer();
 
-        backend.updateQuest(function(result) {
+        backend.updateEditorQuest(function(result) {
             deffered.resolve(result.getReturn());
         }, function(error) {
             deffered.reject("Error updating quest");
@@ -293,25 +255,16 @@ app.factory('BackendService', function($q) {
     function updateTask(task) {
         var deffered = $q.defer();
 
-        if(task instanceof backend_com_wsdl_fightMarker) {
-            backend.updateFightMarker(function(result) {
+        backend.addOrUpdateMarkerComplete(function(result) {
+            if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
-            }, function() {
-                deffered.reject("Error updating task");
-            }, task);
-        } else if(task instanceof backend_com_wsdl_quizMarker) {
-            backend.updateQuizMarker(function(result) {
-                deffered.resolve(result.getReturn());
-            }, function() {
-                deffered.reject("Error updating task");
-            }, task);
-        } else if(task instanceof backend_com_wsdl_infoMarker) {
-            backend.updateInfoMarker(function(result) {
-                deffered.resolve(result.getReturn());
-            }, function() {
-                deffered.reject("Error updating task");
-            }, task);
-        }
+            } else {
+                deffered.reject("Error adding task");
+            }
+
+        },  function (error) {
+
+        }, task);
 
         return deffered.promise;
     }
