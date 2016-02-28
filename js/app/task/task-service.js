@@ -145,9 +145,13 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
             this.html.upload().then(function(id) {
                 this.remoteTask.setHtmlId(id);
                 if(this.remoteId != -1 && this.changed) {
+                    console.log("Update Task: ");
+                    console.log(this.remoteTask);
                     BackendService.updateTask(this.remoteTask);
                     deferred.resolve(this.remoteTask);
                 } else {
+                    console.log("Add Task: ");
+                    console.log(this.remoteTask);
                     BackendService.addTask(this.remoteTask).then(function(result) {
                         this.remoteId = result.getId();
                         deferred.resolve(result);

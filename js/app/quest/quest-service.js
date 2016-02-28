@@ -167,6 +167,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
                 this.remoteQuest.setMarkers(taskIds);
 
                 if(this.remoteId != -1 && this.changed) {
+                    console.log("Update Quest:");
                     console.log(this.remoteQuest);
                     BackendService.updateQuest(this.remoteQuest);
                     deferred.resolve(this);
