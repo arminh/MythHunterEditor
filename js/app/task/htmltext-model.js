@@ -14,24 +14,33 @@ task.factory('HTMLText', function($q, AuthenticationService, BackendService) {
         this.changed = false;
     }
 
-    HTMLText.prototype.initFromObject = function(htmlTextObject) {
+    HTMLText.prototype = {
+        constructor: HTMLText,
+        initFromObject: initFromObject,
+        initFromRemote: initFromRemote,
+        change: change,
+        upload: upload
+    };
+
+
+    function initFromObject(htmlTextObject) {
         this.changed = htmlTextObject.changed;
         this.content = htmlTextObject.content;
         this.id = htmlTextObject.id;
-    };
+    }
 
-    HTMLText.prototype.initFromRemote = function(remoteHtml) {
+        function initFromRemote(remoteHtml) {
         this.content = remoteHtml.getHtml();
         this.id = remoteHtml.getId();
-    };
+    }
 
-    HTMLText.prototype.change = function() {
+    function change() {
         console.log("Html changed");
         this.changed = true;
         AuthenticationService.getUser().backup();
-    };
+    }
 
-    HTMLText.prototype.upload = function() {
+    function upload() {
         var deferred = $q.defer();
 
         if(this.id != -1 && this.changed == false) {
@@ -52,7 +61,7 @@ task.factory('HTMLText', function($q, AuthenticationService, BackendService) {
         }
 
         return deferred.promise;
-    };
+    }
 
     return (HTMLText);
 });

@@ -33,7 +33,7 @@ a#content {
     position: absolute;
     top: 90px;
     left: 10px;
-    width: 410px;
+    width: 450px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 5px 5px 5px #888888;
@@ -72,7 +72,7 @@ a#content {
     position: absolute;
     top: 160px;
     left: 10px;
-    width: 410px;
+    width: 450px;
     border-radius: 10px;
     list-style: none outside none;
 

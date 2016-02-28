@@ -15,21 +15,31 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         this.markerId = -1;
         this.changed = false;
         this.fixed = false;
+        this.version = null;
     }
 
     Task.prototype = {
-        constructor: Task
+        constructor: Task,
+        create: create,
+        edit: edit,
+        drawMarker: drawMarker,
+        addMarker: addMarker,
+        initFromObject: initFromObject,
+        initFromRemote: initFromRemote,
+        initFromMarker: initFromMarker,
+        change: change,
+        upload: upload
     };
 
-    Task.prototype.create = function() {
+    function create() {
         return openTaskDialog(this).then(function (result) {
             this.name = result.name;
             this.type = result.type;
             this.html.content = result.content;
         }.bind(this));
-    };
+    }
 
-    Task.prototype.edit = function() {
+    function edit() {
         return openTaskDialog(this).then(function (result) {
             if(this.name != result.name) {
                 this.name = result.name;
@@ -47,28 +57,21 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
             }
 
         }.bind(this));
-    };
+    }
 
-    Task.prototype.drawMarker = function() {
+    function drawMarker() {
         return mapService.drawMarker(getMarkerSrc(this.type)).then(function(markerId) {
             var marker = mapService.getMarkerById(markerId);
             this.markerId = markerId;
             this.initFromMarker(marker);
         }.bind(this));
-    };
+    }
 
-    Task.prototype.addMarker = function() {
+    function addMarker() {
         return mapService.addMarker(this.lon, this.lat, getMarkerSrc(this.type));
-    };
+    }
 
-    Task.prototype.change = function() {
-        console.log("Task changed");
-        AuthenticationService.getUser().backup();
-        this.changed = true;
-        //this.quest.change();
-    };
-
-    Task.prototype.initFromObject = function(taskObject) {
+    function initFromObject(taskObject) {
         this.changed = taskObject.changed;
         this.fixed = taskObject.fixed;
         this.name = taskObject.name;
@@ -78,17 +81,19 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         this.remoteId = taskObject.remoteId;
         this.type = taskObject.type;
         this.markerId = taskObject.markerId;
+        this.version = taskObject.version;
 
         var html = new HTMLText();
         html.initFromObject(taskObject.html);
         this.html = html;
-    };
+    }
 
-    Task.prototype.initFromRemote = function(remoteTask) {
+    function initFromRemote(remoteTask) {
         console.log(remoteTask);
         var deffered = $q.defer();
 
         this.remoteId = remoteTask.getId();
+        this.version = remoteTask.getVersion();
         this.name = remoteTask.getName();
         this.type = remoteTask.getType();
 
@@ -102,7 +107,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         }.bind(this));
 
         return deffered.promise;
-    };
+    }
 
     function getHtmlFromRemote(htmlId) {
         var deffered = $q.defer();
@@ -116,14 +121,14 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         return deffered.promise;
     }
 
-    Task.prototype.initFromMarker = function(marker) {
+    function initFromMarker(marker) {
         var coord = marker.getGeometry().getCoordinates();
         var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
 
         this.lon = coordinates[0];
         this.lat = coordinates[1];
         this.popupTpl = fightTpl(coordinates[0], coordinates[1]);
-    };
+    }
 
     Task.prototype.updateMarker = function(marker) {
 
@@ -131,13 +136,14 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         this.change();
     };
 
-    Task.prototype.change = function() {
+    function change() {
         console.log("Task changed");
         AuthenticationService.getUser().backup();
         this.changed = true;
-    };
+        //this.quest.change();
+    }
 
-    Task.prototype.upload = function() {
+    function upload() {
         var deferred = $q.defer();
         this.remoteTask = BackendService.createRemoteTask(this);
 
@@ -147,13 +153,20 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
                 if(this.remoteId != -1 && this.changed) {
                     console.log("Update Task: ");
                     console.log(this.remoteTask);
-                    BackendService.updateTask(this.remoteTask);
-                    deferred.resolve(this.remoteTask);
+                    BackendService.updateTask(this.remoteTask).then(function(result) {
+                        this.version = result.getVersion();
+                        deferred.resolve(result);
+                    }.bind(this), function(error) {
+                        alert(error);
+                        deferred.reject(error);
+                    });
+
                 } else {
                     console.log("Add Task: ");
                     console.log(this.remoteTask);
                     BackendService.addTask(this.remoteTask).then(function(result) {
                         this.remoteId = result.getId();
+                        this.version = result.getVersion();
                         deferred.resolve(result);
                     }.bind(this));
                 }
@@ -166,7 +179,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         }
 
         return deferred.promise;
-    };
+    }
 
     var openTaskDialog = function(task) {
         var modalInstance = $modal.open({

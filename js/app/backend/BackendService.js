@@ -900,7 +900,7 @@ backend_com_wsdl_quest.prototype.setShortDescription = backend_com_wsdl_quest_se
 //
 // accessor is backend_com_wsdl_quest.prototype.getStartMarker
 // element get for startMarker
-// - element type is {http://backend.com/wsdl}marker
+// - element type is {http://backend.com/wsdl}infoMarker
 // - optional element
 //
 // element set for startMarker
@@ -1168,7 +1168,7 @@ function backend_com_wsdl_quest_deserialize (cxfjsutils, element) {
     if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'startMarker')) {
      var value = null;
      if (!cxfjsutils.isElementNil(curElement)) {
-      item = backend_com_wsdl_marker_deserialize(cxfjsutils, curElement);
+      item = backend_com_wsdl_infoMarker_deserialize(cxfjsutils, curElement);
      }
      newobject.setStartMarker(item);
      var item = null;

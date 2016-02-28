@@ -126,6 +126,10 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         task.edit();
     };
 
+    $scope.deleteTask = function(taskIndex) {
+        quest.deleteTask(taskIndex);
+    };
+
     function fightTpl(lon, lat) {
         return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";
     }
@@ -179,8 +183,11 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         user.uploadQuest().then(function() {
             console.log(user);
             $state.go("app.profile");
-
         });
+    };
+
+    $scope.cancel = function() {
+        $state.go("app.profile");
     }
 
 });

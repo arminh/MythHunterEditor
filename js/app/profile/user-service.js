@@ -11,6 +11,20 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
         this.createdQuests = [];
     }
 
+    User.prototype = {
+        constructor: User,
+        initFromRemote: initFromRemote,
+        newQuest: newQuest,
+        addQuest: addQuest,
+        deleteQuest: deleteQuest,
+        uploadQuest: uploadQuest,
+        getCurrentQuest: getCurrentQuest,
+        setCurrentQuest: setCurrentQuest,
+        clearCurrentQuest: clearCurrentQuest,
+        backup: backup,
+        upload: upload
+};
+
     function initFromRemote(remoteUser) {
 
         var deffered = $q.defer();
@@ -89,11 +103,16 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
         var deffered = $q.defer();
 
         this.currentQuest.upload().then(function(result) {
-            if(!containsQuest(this, result.remoteId))  {
+            var id = containsQuest(this, result.remoteId);
+            if(id == -1)  {
                 this.addQuest(result);
                 this.upload();
+            } else {
+                this.createdQuests[id] = result;
             }
+
             this.clearCurrentQuest();
+
             deffered.resolve();
         }.bind(this));
 
@@ -101,20 +120,21 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
     }
 
     function containsQuest(user, questId) {
-        var contains = false;
+        var id = -1;
 
         for(var i = 0; i < user.createdQuests.length; i++) {
             if(user.createdQuests[i].remoteId = questId) {
-                contains = true;
+                id = i;
             }
         }
 
-        return contains;
+        return id;
     }
 
     function setCurrentQuest(quest) {
-        $localStorage.currentQuest = quest;
-        this.currentQuest = quest;
+        var editQuest = angular.copy(quest);
+        $localStorage.currentQuest = editQuest;
+        this.currentQuest = editQuest;
     }
 
     function getCurrentQuest() {
@@ -147,17 +167,5 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
     function upload() {
         BackendService.updateUser(BackendService.createRemoteUser(this));
     }
-
-    User.prototype.initFromRemote = initFromRemote;
-    User.prototype.newQuest = newQuest;
-    User.prototype.addQuest = addQuest;
-    User.prototype.deleteQuest = deleteQuest;
-    User.prototype.uploadQuest = uploadQuest;
-    User.prototype.getCurrentQuest = getCurrentQuest;
-    User.prototype.setCurrentQuest = setCurrentQuest;
-    User.prototype.clearCurrentQuest = clearCurrentQuest;
-    User.prototype.backup = backup;
-    User.prototype.upload = upload;
-
     return (User);
 });

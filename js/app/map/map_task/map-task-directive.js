@@ -7,7 +7,8 @@ map.directive("mapTask", function() {
         restrict: 'E',
         scope: {
             task: '=',
-            edit: "&"
+            edit: "&",
+            delete: "&"
         },
         templateUrl: "js/app/map/map_task/map-task.tpl.html",
         controller: "mapTaskController"

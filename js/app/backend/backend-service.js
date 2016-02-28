@@ -65,6 +65,7 @@ app.factory('BackendService', function($q) {
         var remoteQuest = new backend_com_wsdl_quest();
 
         remoteQuest.setId(quest.remoteId);
+        remoteQuest.setVersion(quest.version);
         remoteQuest.setCreaterId(quest.creatorId);
         remoteQuest.setName(quest.name);
         remoteQuest.setShortDescription(quest.description);
@@ -101,6 +102,7 @@ app.factory('BackendService', function($q) {
                 break;
         }
 
+        remoteTask.setVersion(task.version);
         remoteTask.setId(task.remoteId);
         remoteTask.setName(task.name);
         remoteTask.setHtmlId(task.html.id);
@@ -277,34 +279,41 @@ app.factory('BackendService', function($q) {
     }
 
     function updateQuest(quest) {
-        backend.updateQuest(function() {
+        var deffered = $q.defer();
 
-        }, function() {
-            alert("Error updating quest");
+        backend.updateQuest(function(result) {
+            deffered.resolve(result.getReturn());
+        }, function(error) {
+            deffered.reject("Error updating quest");
         }, quest);
+
+        return deffered.promise;
     }
 
     function updateTask(task) {
+        var deffered = $q.defer();
 
         if(task instanceof backend_com_wsdl_fightMarker) {
-            backend.updateFightMarker(function() {
-
+            backend.updateFightMarker(function(result) {
+                deffered.resolve(result.getReturn());
             }, function() {
-                alert("Error updating task");
+                deffered.reject("Error updating task");
             }, task);
         } else if(task instanceof backend_com_wsdl_quizMarker) {
-            backend.updateQuizMarker(function() {
-
+            backend.updateQuizMarker(function(result) {
+                deffered.resolve(result.getReturn());
             }, function() {
-                alert("Error updating task");
+                deffered.reject("Error updating task");
             }, task);
         } else if(task instanceof backend_com_wsdl_infoMarker) {
-            backend.updateInfoMarker(function() {
-
+            backend.updateInfoMarker(function(result) {
+                deffered.resolve(result.getReturn());
             }, function() {
-                alert("Error updating task");
+                deffered.reject("Error updating task");
             }, task);
         }
+
+        return deffered.promise;
     }
 
     function updateHtml(html) {
@@ -321,6 +330,15 @@ app.factory('BackendService', function($q) {
         }, function(error) {
             alert("Error deleting quest width id :" +questId);
         }, questId);
+    }
+
+
+    function deleteTask(taskId) {
+        backend.deleteMarker(function(result) {
+
+        }, function(error) {
+            alert("Error deleting task width id :" + taskId);
+        }, taskId);
     }
 
     return {
@@ -342,6 +360,7 @@ app.factory('BackendService', function($q) {
         updateTask: updateTask,
         updateHtml: updateHtml,
         deleteQuest: deleteQuest,
+        deleteTask: deleteTask,
         mapPosition: mapPosition
     };
 });

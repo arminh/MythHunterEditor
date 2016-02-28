@@ -28,6 +28,9 @@
         </md-button>
 
         <span flex=""></span>
+        <md-button aria-label="delete" class="md-icon-button" ng-click="cancel()">
+            <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
+        </md-button>
         <md-button class="md-icon-button" aria-label="Save" ng-click="save()">
             <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
         </md-button>
@@ -39,7 +42,7 @@
     <map-task ng-if="startTask" task="startTask" edit="editTask(startTask)"></map-task>
 
     <ol id="map-task-list" ui-sortable="sortableOptions" ng-model="tasks">
-        <li ng-repeat = "task in tasks"><map-task task="task" edit="editTask(task)"></map-task></li>
+        <li ng-repeat = "task in tasks"><map-task task="task" edit="editTask(task)" delete="deleteTask($index)"></map-task></li>
     </ol>
     <div class="map-task-add">
         <md-button class="md-icon-button map-task-icon" ng-click="newTask()">
