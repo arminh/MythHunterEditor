@@ -17,7 +17,7 @@
         <div text-angular ng-model="content" id="task-text"></div><br>
     </div>
 
-    <div class="task-type" ng-hide="type == 'start'">
+    <div class="task-type" ng-hide="activeType == 'start'">
         <p>Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !activeType">(Please choose the task type)</span></p>
         <div class = "task-type-selection">
             <md-button ng-repeat="type in types" ng-click="markerSelected(type, $index)"

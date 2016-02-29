@@ -119,25 +119,12 @@ app.constant("MarkerType", {
     FIGHT: "FIGHT",
     QUIZ: "QUIZ",
     INFO: "INFO"
+});
 
- /*   Fight: {
-        type: ",
-        name: "Fight",
-        path: "media/fight_marker.png",
-        description: "Fight against a monster"
-    },
-    Quiz: {
-        type: "QUIZ",
-        name: "Quiz",
-        path: "media/quiz_marker.png",
-        description: "Solving a quiz"
-    },
-    info: {
-        type: "INFO",
-        name: "Info",
-        path: "media/info_marker.png",
-        description: "Displaying information"
-    }*/
+app.constant("TreePartType", {
+    Marker: "Marker",
+    And: "And",
+    Or: "Or"
 });
 
 app.constant('DefaultConfig', {

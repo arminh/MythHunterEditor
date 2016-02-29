@@ -5,6 +5,7 @@
 task.factory('Task', function($modal, $q, AuthenticationService, BackendService, mapService, MarkerType, HTMLText) {
 
     function Task() {
+        this.id = -1;
         this.remoteId = -1;
         this.name = "";
         this.html = new HTMLText(this);
@@ -73,6 +74,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
     }
 
     function initFromObject(taskObject) {
+        this.id = taskObject.id;
         this.changed = taskObject.changed;
         this.fixed = taskObject.fixed;
         this.name = taskObject.name;

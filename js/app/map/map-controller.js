@@ -6,6 +6,7 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
 
     $scope.startTask = null;
     $scope.tasks = [];
+    $scope.treeParts = [];
 
     $scope.drawing = false;
     $scope.continueDrawing = false;
@@ -17,6 +18,7 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         cancel: ".fixed, input",
         start: function(e, ui){
             ui.placeholder.height(ui.item.height());
+
         },
         update: function(e, ui) {
             quest.change();
@@ -40,14 +42,18 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
             function(result) {
                 quest = result;
                 this.tasks = quest.tasks;
+                this.treeParts = quest.treeParts;
                 this.startTask = quest.startTask;
+                this.treePartRoot = quest.treePartRoot;
             }.bind($scope),
             function(error) {
                 $state.go("app.profile");
             });
     } else {
         $scope.tasks = quest.tasks;
+        $scope.treeParts = quest.treeParts;
         $scope.startTask = quest.startTask;
+        $scope.treePartRoot = quest.treePartRoot;
         addMarkers();
     }
 

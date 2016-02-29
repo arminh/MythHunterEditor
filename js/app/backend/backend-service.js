@@ -87,7 +87,11 @@ app.factory('BackendService', function($q) {
 
         var remoteTask = new backend_com_wsdl_markerComplete();
 
-        remoteTask.setType(task.type);
+        if(task.type == "start") {
+            remoteTask.setType("INFO");
+        } else {
+            remoteTask.setType(task.type);
+        }
         remoteTask.setVersion(task.version);
         remoteTask.setId(task.remoteId);
         remoteTask.setName(task.name);
@@ -104,6 +108,17 @@ app.factory('BackendService', function($q) {
         remoteHtml.setId(html.id);
 
         return remoteHtml;
+    }
+
+    function createRemoteTreePart(treePart) {
+        var remoteTreePart = new backend_com_wsdl_treePartComplete();
+
+        remoteTreePart.setId(treePart.remoteId);
+        remoteTreePart.setVersion(treePart.version);
+        remoteTreePart.setType(treePart.type);
+        remoteTreePart.setMarker(createRemoteTask(treePart.task));
+
+        return remoteTreePart;
     }
 
     function mapPosition(lon, lat) {
@@ -181,6 +196,23 @@ app.factory('BackendService', function($q) {
         return deffered.promise;
     }
 
+    function getTreePart(treePartId) {
+        var deffered = $q.defer();
+
+        backend.getTreePartComplete(function(result) {
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error loading TreePart with id: " + treePartId);
+            }
+
+        }, function(error) {
+            alert("Error getting TreePart with id " + treePartId);
+        }, treePartId);
+
+        return deffered.promise;
+    }
+
     function addQuest(quest) {
         var deffered = $q.defer();
 
@@ -228,6 +260,23 @@ app.factory('BackendService', function($q) {
         }, function(error) {
 
         }, html);
+
+        return deffered.promise;
+    }
+
+    function addTreePart(treePart) {
+        var deffered = $q.defer();
+
+        backend.addOrUpdateTreePartComplete(function(result) {
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error adding treePart");
+            }
+
+        }, function(error) {
+
+        }, treePart);
 
         return deffered.promise;
     }
@@ -301,13 +350,16 @@ app.factory('BackendService', function($q) {
         createRemoteQuest: createRemoteQuest,
         createRemoteTask: createRemoteTask,
         createRemoteHtml: createRemoteHtml,
+        createRemoteTreePart: createRemoteTreePart,
         getQuest: getQuest,
         getQuests: getQuests,
         getTask: getTask,
         getHtml: getHtml,
+        getTreePart: getTreePart,
         addQuest: addQuest,
         addTask: addTask,
         addHtml: addHtml,
+        addTreePart: addTreePart,
         updateUser: updateUser,
         updateQuest: updateQuest,
         updateTask: updateTask,

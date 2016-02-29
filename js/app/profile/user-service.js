@@ -123,7 +123,7 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
         var id = -1;
 
         for(var i = 0; i < user.createdQuests.length; i++) {
-            if(user.createdQuests[i].remoteId = questId) {
+            if(user.createdQuests[i].remoteId == questId) {
                 id = i;
             }
         }
