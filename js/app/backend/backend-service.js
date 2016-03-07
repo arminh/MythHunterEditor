@@ -85,7 +85,7 @@ app.factory('BackendService', function($q) {
 
     function createRemoteTask(task) {
 
-        var remoteTask = new backend_com_wsdl_markerComplete();
+        var remoteTask = new backend_com_wsdl_marker();
 
         if(task.type == "start") {
             remoteTask.setType("INFO");
@@ -106,12 +106,13 @@ app.factory('BackendService', function($q) {
 
         remoteHtml.setHtml(html.content);
         remoteHtml.setId(html.id);
+        console.log(remoteHtml);
 
         return remoteHtml;
     }
 
     function createRemoteTreePart(treePart) {
-        var remoteTreePart = new backend_com_wsdl_treePartComplete();
+        var remoteTreePart = new backend_com_wsdl_treePart();
 
         remoteTreePart.setId(treePart.remoteId);
         remoteTreePart.setVersion(treePart.version);
@@ -165,7 +166,7 @@ app.factory('BackendService', function($q) {
     function getTask(taskId) {
         var deffered = $q.defer();
 
-        backend.getMarkerComplete(function(result) {
+        backend.getMarker(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -199,7 +200,7 @@ app.factory('BackendService', function($q) {
     function getTreePart(treePartId) {
         var deffered = $q.defer();
 
-        backend.getTreePartComplete(function(result) {
+        backend.getTreePart(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -233,7 +234,7 @@ app.factory('BackendService', function($q) {
     function addTask(remoteTask) {
         var deffered = $q.defer();
 
-        backend.addOrUpdateMarkerComplete(function(result) {
+        backend.addOrUpdateMarker(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -267,7 +268,7 @@ app.factory('BackendService', function($q) {
     function addTreePart(treePart) {
         var deffered = $q.defer();
 
-        backend.addOrUpdateTreePartComplete(function(result) {
+        backend.addOrUpdateTreePart(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -304,7 +305,7 @@ app.factory('BackendService', function($q) {
     function updateTask(task) {
         var deffered = $q.defer();
 
-        backend.addOrUpdateMarkerComplete(function(result) {
+        backend.addOrUpdateMarker(function(result) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
@@ -322,7 +323,7 @@ app.factory('BackendService', function($q) {
         backend.updateHtml({
 
         }, function() {
-            alert("Error updating quest");
+            alert("Error updating Html");
         }, html);
     }
 

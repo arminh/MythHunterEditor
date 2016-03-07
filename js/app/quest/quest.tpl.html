@@ -11,9 +11,11 @@
     </div>
 
     <div class="task-content">
-        <div text-angular ng-model="quest_content" id="quest-text"></div>
+        <text-angular ta-toolbar="[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
+                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+                ['insertImage','insertLink', 'insertVideo']]" ng-model="quest_content" id="quest-text"></text-angular>
         <input type="checkbox" ng-model="separateDescription"/> Use separate description for Start marker
-        <div ng-show="separateDescription" text-angular ng-model="task_content" id="task-text"></div>
+        <text-angular ng-show="separateDescription" ng-model="task_content" id="task-text"></text-angular>
 
     </div>
 </div>

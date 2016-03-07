@@ -6,7 +6,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
     var taskId = 0;
 
     function Quest() {
-        this.remoteId = -1;
+        this.remoteId = 0;
         this.creatorId = -1;
         this.name = "";
         this.description = "";
@@ -265,7 +265,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
 
         promises.push(treePartPromise.promise);
 
-        if(this.remoteId == -1 || this.changed) {
+        if(this.remoteId < 1 || this.changed) {
             this.remoteQuest = BackendService.createRemoteQuest(this);
 
             $q.all(promises).then(function(responses) {
@@ -309,6 +309,10 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
 
     //TODO: Rewire every change instead of this
     function rewireTree(treePartRoot, treeParts) {
+        if(treeParts.length == 0) {
+            return;
+        }
+
         treePartRoot.successors = [];
         treePartRoot.successors.push(treeParts[0]);
         treePartRoot.change();
@@ -319,8 +323,10 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
             treeParts[i].change();
         }
 
-        treeParts[treeParts.length-1].successors = [];
-        treeParts[treeParts.length-1].change();
+        if(treeParts[treeParts.length-1]) {
+            treeParts[treeParts.length-1].successors = [];
+            treeParts[treeParts.length-1].change();
+        }
     }
 
     var openQuestDialog = function(quest) {

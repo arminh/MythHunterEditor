@@ -14,7 +14,10 @@
    --> </div>
 
     <div class="task-content">
-        <div text-angular ng-model="content" id="task-text"></div><br>
+        <text-angular ta-toolbar="[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
+                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+                ['insertImage','insertLink', 'insertVideo'],
+                ['input','radio','checkbox']]" ng-model="content" id="task-text"></text-angular><br>
     </div>
 
     <div class="task-type" ng-hide="activeType == 'start'">

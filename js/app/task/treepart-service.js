@@ -5,8 +5,8 @@
 task.factory("TreePart", function($q, BackendService, TreePartType) {
 
     function TreePart(task) {
-        this.remoteId = -1;
-        this.version = -1;
+        this.remoteId = 0;
+        this.version = 0;
         this.type = null;
         this.changed = false;
 

@@ -5,7 +5,7 @@
 task.factory('Task', function($modal, $q, AuthenticationService, BackendService, mapService, MarkerType, HTMLText) {
 
     function Task() {
-        this.id = -1;
+        this.id = 0;
         this.remoteId = -1;
         this.name = "";
         this.html = new HTMLText(this);
@@ -150,7 +150,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         var deferred = $q.defer();
         this.remoteTask = BackendService.createRemoteTask(this);
 
-        if(this.remoteId == -1 || this.changed) {
+        if(this.remoteId < 1 || this.changed) {
             this.html.upload().then(function(id) {
                 this.remoteTask.setHtmlId(id);
                 if(this.remoteId != -1 && this.changed) {

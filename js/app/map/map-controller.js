@@ -156,6 +156,8 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         }
     });
 
+
+
 /*    $scope.$on('markerRemoved', function(evt, args) {
         var delMarker = args.marker;
         var delMarkerId = delMarker.getId();

@@ -9,7 +9,7 @@ task.factory('HTMLText', function($q, AuthenticationService, BackendService) {
     backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
 
     function HTMLText() {
-        this.id = -1;
+        this.id = 0;
         this.content = "";
         this.changed = false;
     }
@@ -43,12 +43,12 @@ task.factory('HTMLText', function($q, AuthenticationService, BackendService) {
     function upload() {
         var deferred = $q.defer();
 
-        if(this.id != -1 && this.changed == false) {
+        if(this.id >= 1 && this.changed == false) {
             deferred.resolve(this.id);
         } else {
             this.remoteHtml = BackendService.createRemoteHtml(this);
 
-            if(this.id == -1) {
+            if(this.id < 1) {
                 console.log(this.remoteHtml);
                 BackendService.addHtml(this.remoteHtml).then(function(result) {
                     this.id = result.getId();

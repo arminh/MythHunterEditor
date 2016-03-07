@@ -2,12 +2,13 @@
  * Created by armin on 19.01.16.
  */
 
-map.controller("TaskController", function($scope, $modalInstance, MarkerType, task) {
+map.controller("TaskController", function($scope, $modalInstance, MarkerType, HtmlTools, task) {
     $scope.types = MarkerType;
 
     $scope.name = task.name;
     $scope.description = task.description;
-    $scope.content = task.html.content;
+    $scope.content = HtmlTools.retrieveContent(task.html.content);
+    console.log($scope.content);
     $scope.activeType = task.type;
 
     $scope.error = false;
@@ -31,15 +32,17 @@ map.controller("TaskController", function($scope, $modalInstance, MarkerType, ta
     $scope.ok = function() {
         if(!$scope.activeType) {
             $scope.error = true;
-            return;
+        } else {
+            HtmlTools.encloseContent($scope.content).then(function(result) {
+                console.log(result);
+                $modalInstance.close({
+                    type: $scope.activeType,
+                    name: $scope.name,
+                    description: $scope.description,
+                    content: result
+                });
+            });
         }
-
-        $modalInstance.close({
-            type: $scope.activeType,
-            name: $scope.name,
-            description: $scope.description,
-            content: $scope.content
-        });
     };
 
     $scope.close = function() {

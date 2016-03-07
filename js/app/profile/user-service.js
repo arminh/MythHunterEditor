@@ -100,9 +100,8 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
     }
 
     function uploadQuest() {
-        var deffered = $q.defer();
 
-        this.currentQuest.upload().then(function(result) {
+        return this.currentQuest.upload().then(function(result) {
             var id = containsQuest(this, result.remoteId);
             if(id == -1)  {
                 this.addQuest(result);
@@ -112,11 +111,7 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
             }
 
             this.clearCurrentQuest();
-
-            deffered.resolve();
         }.bind(this));
-
-        return deffered.promise;
     }
 
     function containsQuest(user, questId) {
