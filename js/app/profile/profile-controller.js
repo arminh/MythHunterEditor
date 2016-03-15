@@ -4,6 +4,7 @@
 
 profile.controller("profileController", function($scope, $state, ngDialog, BackendService, AuthenticationService, user) {
 
+    console.log(user);
     $scope.currentQuest = user.getCurrentQuest();
 
     $scope.newQuest = function() {

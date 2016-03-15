@@ -57,6 +57,10 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
                 this.html.content = result.content;
                 this.html.change();
             }
+            if(this.html.answers != result.answers) {
+                this.html.answers = result.answers;
+                this.html.change();
+            }
 
         }.bind(this));
     }

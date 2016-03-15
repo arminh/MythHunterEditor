@@ -243,7 +243,7 @@ map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', functio
         search: search,
         addPopupOverlay: addPopupOverlay,
         showOverlay: showOverlay,
-        hideOverlay: hideOverlay
+        hideOverlay: hideOverlay,
 
     }
 }]);

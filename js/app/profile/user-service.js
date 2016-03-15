@@ -7,7 +7,7 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
         this.id = -1;
         this.name = "";
         this.password = "";
-        this.currentQuest = retrieveCurrentQuest();
+        this.currentQuest = null;
         this.createdQuests = [];
     }
 
@@ -72,9 +72,10 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
         this.currentQuest.creatorId = this.id;*/
         var quest = new Quest(this.id);
         return quest.create().then(function(result) {
+            console.log("User create");
             this.currentQuest = result;
             this.currentQuest.creatorId = this.id;
-            backup();
+            this.backup();
             return result;
         }.bind(this));
     }
@@ -128,24 +129,30 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
 
     function setCurrentQuest(quest) {
         var editQuest = angular.copy(quest);
+
         $localStorage.currentQuest = editQuest;
         this.currentQuest = editQuest;
     }
 
     function getCurrentQuest() {
-
+        if(!this.currentQuest) {
+            this.currentQuest = retrieveCurrentQuest();
+        }
         return this.currentQuest;
     }
 
     function clearCurrentQuest() {
-
+        console.log("Clear Current Quest");
         this.currentQuest = null;
         $rootScope.currentQuest = null;
         delete $localStorage.currentQuest;
     }
 
     function backup() {
+        console.log("Backup");
+        console.log(this.currentQuest);
         $localStorage.currentQuest = this.currentQuest;
+
     }
 
     function retrieveCurrentQuest() {

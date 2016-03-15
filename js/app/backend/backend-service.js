@@ -106,7 +106,15 @@ app.factory('BackendService', function($q) {
 
         remoteHtml.setHtml(html.content);
         remoteHtml.setId(html.id);
-        console.log(remoteHtml);
+
+        var answers = [];
+        angular.forEach(html.answers, function(val, key) {
+            var answer = new backend_com_wsdl_stringToBoolEntry();
+            answer.setValue(val);
+            answer.setKey(key);
+            answers.push(answer);
+        });
+        remoteHtml.setAnswers(answers);
 
         return remoteHtml;
     }
@@ -309,7 +317,7 @@ app.factory('BackendService', function($q) {
             if(result.getReturn()) {
                 deffered.resolve(result.getReturn());
             } else {
-                deffered.reject("Error adding task");
+                deffered.reject("Error updating task");
             }
 
         },  function (error) {
@@ -320,11 +328,21 @@ app.factory('BackendService', function($q) {
     }
 
     function updateHtml(html) {
-        backend.updateHtml({
 
-        }, function() {
-            alert("Error updating Html");
+        var deffered = $q.defer();
+
+        backend.updateHtml(function(result) {
+            if(result.getReturn()) {
+                deffered.resolve(result.getReturn());
+            } else {
+                deffered.reject("Error updating Html");
+            }
+
+        },  function (error) {
+
         }, html);
+
+        return deffered.promise;
     }
 
     function deleteQuest(questId) {

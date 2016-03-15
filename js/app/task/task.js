@@ -61,7 +61,6 @@ task.config(function($provide) {
                             content += "type='radio' ";
                             content += "name='" + name + "' ";
                             content += "value='" + options[i] + "' ";
-                            content += "checked='false'";
                             console.log(content);
                             content = content + "/>" + options[i] + "</label><br>";
                         }
@@ -99,7 +98,6 @@ task.config(function($provide) {
                             content += "type='checkbox' ";
                             content += "name='" + name + "' ";
                             content += "value='" + options[i] + "' ";
-                            content += "checked='false'";
                             console.log(content);
                             content = content + "/>" + options[i] + "</label><br>";
                         }

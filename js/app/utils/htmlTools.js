@@ -35,6 +35,7 @@
 
         this.encloseContent = encloseContent;
         this.retrieveContent = retrieveContent;
+        this.clear = clear;
 
         ////////////////
 

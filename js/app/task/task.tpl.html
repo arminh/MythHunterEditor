@@ -13,8 +13,8 @@
         <textarea class="task-info-input task-info-description" ng-model="description" placeholder="Enter description"></textarea>
    --> </div>
 
-    <div class="task-content">
-        <text-angular ta-toolbar="[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
+    <div class="task-content" ng-click="contentChanged()">
+        <text-angular name="task-editor" ta-toolbar="[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
                 ['insertImage','insertLink', 'insertVideo'],
                 ['input','radio','checkbox']]" ng-model="content" id="task-text"></text-angular><br>

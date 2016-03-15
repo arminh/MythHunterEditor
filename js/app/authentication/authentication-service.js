@@ -69,16 +69,20 @@ app.factory("AuthenticationService", function($q, $localStorage, $cookies, $root
         $rootScope.credentials = null;
         $cookies.remove("credentials");
 
+        user.clearCurrentQuest();
         user = null;
         $rootScope.user = null;
+        userPromise = $q.defer();
+    }
 
-        delete $localStorage.currentQuest;
+    function getUserPromise() {
+        return userPromise.promise;
     }
 
 
     return {
         login: login,
-        userPromise: userPromise.promise,
+        userPromise: getUserPromise,
         logout: clear,
         register: register,
         getUser: getUser,

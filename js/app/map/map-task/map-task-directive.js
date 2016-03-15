@@ -8,9 +8,10 @@ map.directive("mapTask", function() {
         scope: {
             task: '=',
             edit: "&",
-            delete: "&"
+            delete: "&",
+            preview: "&"
         },
-        templateUrl: "js/app/map/map_task/map-task.tpl.html",
+        templateUrl: "js/app/map/map-task/map-task.tpl.html",
         controller: "mapTaskController"
     }
 });

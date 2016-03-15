@@ -22,6 +22,11 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         },
         update: function(e, ui) {
             quest.change();
+        },
+        stop: function(e, ui) {
+            quest.rewireTree($scope.treePartRoot, $scope.treeParts);
+            console.log($scope.treePartRoot);
+            console.log($scope.treeParts);
         }
         //containment: "#map-quests"
     };
@@ -40,6 +45,7 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
     if(!quest) {
         user.newQuest().then(
             function(result) {
+                console.log("Map create");
                 quest = result;
                 this.tasks = quest.tasks;
                 this.treeParts = quest.treeParts;
@@ -156,36 +162,10 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         }
     });
 
-
-
-/*    $scope.$on('markerRemoved', function(evt, args) {
-        var delMarker = args.marker;
-        var delMarkerId = delMarker.getId();
-
-        for(var i = 0; i < $scope.tasks.length; i++) {
-            if($scope.tasks[i].id == delMarkerId) {
-                $scope.tasks.splice(i, 1);
-                $scope.$apply();
-            }
-        }
-    });*/
-
-/*    $scope.$on('markerClicked', function(evt, args) {
-        console.log("Marker clicked");
-        var clickedMarker = args.marker;
-        var clickedMarkerId = clickedMarker.getId();
-
-
-        for(var i = 0; i < $scope.tasks.length; i++) {
-            if ($scope.tasks[i].id == clickedMarkerId) {
-                popupContent.html($scope.tasks[i].popupTpl);
-                mapService.showOverlay(clickedMarker.getGeometry().getCoordinates());
-                //mapService.hideOverlay();
-            }
-        }
-
-
-    });*/
+    $scope.previewHtml = function(html) {
+        console.log(html);
+        html.preview();
+    };
 
     $scope.save = function() {
         user.uploadQuest().then(function() {
@@ -196,6 +176,35 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
 
     $scope.cancel = function() {
         $state.go("app.profile");
-    }
+    };
+
+    /*    $scope.$on('markerRemoved', function(evt, args) {
+     var delMarker = args.marker;
+     var delMarkerId = delMarker.getId();
+
+     for(var i = 0; i < $scope.tasks.length; i++) {
+     if($scope.tasks[i].id == delMarkerId) {
+     $scope.tasks.splice(i, 1);
+     $scope.$apply();
+     }
+     }
+     });*/
+
+    /*    $scope.$on('markerClicked', function(evt, args) {
+     console.log("Marker clicked");
+     var clickedMarker = args.marker;
+     var clickedMarkerId = clickedMarker.getId();
+
+
+     for(var i = 0; i < $scope.tasks.length; i++) {
+     if ($scope.tasks[i].id == clickedMarkerId) {
+     popupContent.html($scope.tasks[i].popupTpl);
+     mapService.showOverlay(clickedMarker.getGeometry().getCoordinates());
+     //mapService.hideOverlay();
+     }
+     }
+
+
+     });*/
 
 });

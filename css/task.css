@@ -21,3 +21,96 @@
 .error {
     color: red;
 }
+
+.task-info {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.task-info-input {
+    box-sizing: border-box;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+    background: 0 0;
+    padding: 0 15px;
+    line-height: 40px;
+    height: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.task-info-title {
+    font-size: 18px;
+}
+
+.task-info-description {
+    font-size: 14px;
+}
+
+.task-type {
+    text-align: center;
+}
+
+
+.choose-marker-container {
+    text-align: center;
+}
+
+.task-type-selection {
+    text-align: center;
+}
+
+.choose-marker-close {
+    position: absolute;
+    top:0px;
+    right: 0px;
+}
+
+.choose-marker-btn {
+    margin-left: 25px;
+    margin-right: 25px;
+    vertical-align: top;
+    display: inline-block;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.tasl-type-icon {
+    height: 30px;
+}
+
+.task-type-label {
+
+    font-size: 16px;
+}
+
+.active-marker {
+    background-color: #bbbbbb;
+}
+
+/*****************MARKER*****************/
+#markerSelectorBox {
+    position: absolute;
+    right: 20px;
+    top: 90px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.marker {
+
+}
+
+.markerSelector{
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    width: 20px;
+    height: 30px;
+}
+
+.markerLabel {
+    line-height: 30px;
+}

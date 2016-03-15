@@ -26,8 +26,6 @@ map.controller("QuestController", function($scope, $state, $modalInstance, HtmlT
     };
 
     function closeModal(quest_content, task_content) {
-        console.log(quest_content);
-        console.log(task_content);
         $modalInstance.close({
             name: $scope.name,
             quest_content: quest_content,

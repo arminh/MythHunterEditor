@@ -37,7 +37,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
     };
 
     function create(creatorId) {
-        console.log(this);
         var deffered = $q.defer();
         this.creatorId = creatorId;
         openQuestDialog(this).then(
@@ -52,7 +51,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
                 this.startTask.type = "start";
                 this.startTask.fixed = true;
                 this.startTask.drawMarker().then(function() {
-                    console.log(this);
                     this.treePartRoot = new TreePart(this.startTask);
                     this.treePartRoot.type = TreePartType.Marker;
                     deffered.resolve(this);
@@ -125,7 +123,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
             BackendService.getTreePart(remoteQuest.getTreeRootId()).then(function(result) {
                 var treePartRoot = new TreePart(null);
 
-                console.log(result);
                 this.treePartRoot = treePartRoot.initFromRemote(result, this, true);
                 this.treePartRoot.task = results[0];
             }.bind(this));
@@ -256,7 +253,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
 
         var treePartPromise = $q.defer();
 
-        rewireTree(this.treePartRoot, this.treeParts);
         $q.all(treePromises).then(function(responses) {
             this.treePartRoot.upload().then(function(result) {
                 treePartPromise.resolve(result.getId());
@@ -281,7 +277,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
                 this.remoteQuest.setTreeRootId(responses[responses.length-1]);
 
 
-                if(this.remoteId != -1 && this.changed) {
+                if(this.remoteId > 0 && this.changed) {
 
                     BackendService.updateQuest(this.remoteQuest).then(function(result) {
                         this.version = result.getVersion();
@@ -292,7 +288,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
                     });
                 } else {
                     BackendService.addQuest(this.remoteQuest).then(function(result) {
-                        console.log(result);
                         this.remoteId = result.getId();
                         deferred.resolve(this);
                     }.bind(this));
@@ -307,8 +302,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         return deferred.promise;
     }
 
-    //TODO: Rewire every change instead of this
-    function rewireTree(treePartRoot, treeParts) {
+    Quest.prototype.rewireTree = function(treePartRoot, treeParts) {
         if(treeParts.length == 0) {
             return;
         }

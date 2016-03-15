@@ -1270,6 +1270,122 @@ function backend_com_wsdl_deleteCardResponse_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}stringToStringEntry
+//
+function backend_com_wsdl_stringToStringEntry () {
+    this.typeMarker = 'backend_com_wsdl_stringToStringEntry';
+    this._key = null;
+    this._value = null;
+}
+
+//
+// accessor is backend_com_wsdl_stringToStringEntry.prototype.getKey
+// element get for key
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for key
+// setter function is is backend_com_wsdl_stringToStringEntry.prototype.setKey
+//
+function backend_com_wsdl_stringToStringEntry_getKey() { return this._key;}
+
+backend_com_wsdl_stringToStringEntry.prototype.getKey = backend_com_wsdl_stringToStringEntry_getKey;
+
+function backend_com_wsdl_stringToStringEntry_setKey(value) { this._key = value;}
+
+backend_com_wsdl_stringToStringEntry.prototype.setKey = backend_com_wsdl_stringToStringEntry_setKey;
+//
+// accessor is backend_com_wsdl_stringToStringEntry.prototype.getValue
+// element get for value
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for value
+// setter function is is backend_com_wsdl_stringToStringEntry.prototype.setValue
+//
+function backend_com_wsdl_stringToStringEntry_getValue() { return this._value;}
+
+backend_com_wsdl_stringToStringEntry.prototype.getValue = backend_com_wsdl_stringToStringEntry_getValue;
+
+function backend_com_wsdl_stringToStringEntry_setValue(value) { this._value = value;}
+
+backend_com_wsdl_stringToStringEntry.prototype.setValue = backend_com_wsdl_stringToStringEntry_setValue;
+//
+// Serialize {http://backend.com/wsdl}stringToStringEntry
+//
+function backend_com_wsdl_stringToStringEntry_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._key != null) {
+      xml = xml + '<key>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._key);
+      xml = xml + '</key>';
+     }
+    }
+    // block for local variables
+    {
+     if (this._value != null) {
+      xml = xml + '<value>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._value);
+      xml = xml + '</value>';
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_stringToStringEntry.prototype.serialize = backend_com_wsdl_stringToStringEntry_serialize;
+
+function backend_com_wsdl_stringToStringEntry_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_stringToStringEntry();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing key');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'key')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setKey(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing value');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'value')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setValue(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}updateEditorQuest
 //
 function backend_com_wsdl_updateEditorQuest () {
@@ -4273,14 +4389,14 @@ function backend_com_wsdl_updateCard_deserialize (cxfjsutils, element) {
 //
 function backend_com_wsdl_updateHtml () {
     this.typeMarker = 'backend_com_wsdl_updateHtml';
-    this._arg0 = 0;
+    this._arg0 = null;
 }
 
 //
 // accessor is backend_com_wsdl_updateHtml.prototype.getArg0
 // element get for arg0
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
+// - element type is {http://backend.com/wsdl}htmlObject
+// - optional element
 //
 // element set for arg0
 // setter function is is backend_com_wsdl_updateHtml.prototype.setArg0
@@ -4307,9 +4423,9 @@ function backend_com_wsdl_updateHtml_serialize(cxfjsutils, elementName, extraNam
     }
     // block for local variables
     {
-     xml = xml + '<arg0>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
-     xml = xml + '</arg0>';
+     if (this._arg0 != null) {
+      xml = xml + this._arg0.serialize(cxfjsutils, 'arg0', null);
+     }
     }
     if (elementName != null) {
      xml = xml + '</';
@@ -4328,15 +4444,16 @@ function backend_com_wsdl_updateHtml_deserialize (cxfjsutils, element) {
     var item;
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing arg0');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg0(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'arg0')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_htmlObject_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setArg0(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
     }
     return newobject;
 }
@@ -4795,10 +4912,29 @@ function backend_com_wsdl_mapPosition_deserialize (cxfjsutils, element) {
 //
 function backend_com_wsdl_htmlObject () {
     this.typeMarker = 'backend_com_wsdl_htmlObject';
+    this._answers = [];
     this._html = null;
     this._id = 0;
 }
 
+//
+// accessor is backend_com_wsdl_htmlObject.prototype.getAnswers
+// element get for answers
+// - element type is {http://backend.com/wsdl}stringToBoolEntry
+// - required element
+// - array
+// - nillable
+//
+// element set for answers
+// setter function is is backend_com_wsdl_htmlObject.prototype.setAnswers
+//
+function backend_com_wsdl_htmlObject_getAnswers() { return this._answers;}
+
+backend_com_wsdl_htmlObject.prototype.getAnswers = backend_com_wsdl_htmlObject_getAnswers;
+
+function backend_com_wsdl_htmlObject_setAnswers(value) { this._answers = value;}
+
+backend_com_wsdl_htmlObject.prototype.setAnswers = backend_com_wsdl_htmlObject_setAnswers;
 //
 // accessor is backend_com_wsdl_htmlObject.prototype.getHtml
 // element get for html
@@ -4846,6 +4982,18 @@ function backend_com_wsdl_htmlObject_serialize(cxfjsutils, elementName, extraNam
     }
     // block for local variables
     {
+     if (this._answers != null) {
+      for (var ax = 0;ax < this._answers.length;ax ++) {
+       if (this._answers[ax] == null) {
+        xml = xml + '<answers xsi:nil=\'true\'/>';
+       } else {
+        xml = xml + this._answers[ax].serialize(cxfjsutils, 'answers', null);
+       }
+      }
+     }
+    }
+    // block for local variables
+    {
      if (this._html != null) {
       xml = xml + '<html>';
       xml = xml + cxfjsutils.escapeXmlEntities(this._html);
@@ -4873,6 +5021,23 @@ function backend_com_wsdl_htmlObject_deserialize (cxfjsutils, element) {
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing answers');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'answers')) {
+     item = [];
+     do  {
+      var arrayItem = null;
+      var value = null;
+      if (!cxfjsutils.isElementNil(curElement)) {
+       arrayItem = backend_com_wsdl_stringToBoolEntry_deserialize(cxfjsutils, curElement);
+      }
+      item.push(arrayItem);
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'answers'));
+     newobject.setAnswers(item);
+     var item = null;
+    }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing html');
     if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'html')) {
@@ -9770,6 +9935,118 @@ function backend_com_wsdl_updateUser_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}stringToBoolEntry
+//
+function backend_com_wsdl_stringToBoolEntry () {
+    this.typeMarker = 'backend_com_wsdl_stringToBoolEntry';
+    this._key = null;
+    this._value = '';
+}
+
+//
+// accessor is backend_com_wsdl_stringToBoolEntry.prototype.getKey
+// element get for key
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for key
+// setter function is is backend_com_wsdl_stringToBoolEntry.prototype.setKey
+//
+function backend_com_wsdl_stringToBoolEntry_getKey() { return this._key;}
+
+backend_com_wsdl_stringToBoolEntry.prototype.getKey = backend_com_wsdl_stringToBoolEntry_getKey;
+
+function backend_com_wsdl_stringToBoolEntry_setKey(value) { this._key = value;}
+
+backend_com_wsdl_stringToBoolEntry.prototype.setKey = backend_com_wsdl_stringToBoolEntry_setKey;
+//
+// accessor is backend_com_wsdl_stringToBoolEntry.prototype.getValue
+// element get for value
+// - element type is {http://www.w3.org/2001/XMLSchema}boolean
+// - required element
+//
+// element set for value
+// setter function is is backend_com_wsdl_stringToBoolEntry.prototype.setValue
+//
+function backend_com_wsdl_stringToBoolEntry_getValue() { return this._value;}
+
+backend_com_wsdl_stringToBoolEntry.prototype.getValue = backend_com_wsdl_stringToBoolEntry_getValue;
+
+function backend_com_wsdl_stringToBoolEntry_setValue(value) { this._value = value;}
+
+backend_com_wsdl_stringToBoolEntry.prototype.setValue = backend_com_wsdl_stringToBoolEntry_setValue;
+//
+// Serialize {http://backend.com/wsdl}stringToBoolEntry
+//
+function backend_com_wsdl_stringToBoolEntry_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._key != null) {
+      xml = xml + '<key>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._key);
+      xml = xml + '</key>';
+     }
+    }
+    // block for local variables
+    {
+     xml = xml + '<value>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._value);
+     xml = xml + '</value>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_stringToBoolEntry.prototype.serialize = backend_com_wsdl_stringToBoolEntry_serialize;
+
+function backend_com_wsdl_stringToBoolEntry_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_stringToBoolEntry();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing key');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'key')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setKey(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing value');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = (value == 'true');
+    }
+    newobject.setValue(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}addTreePartLazyResponse
 //
 function backend_com_wsdl_addTreePartLazyResponse () {
@@ -11337,7 +11614,7 @@ function backend_com_wsdl_deleteQuestResponse_deserialize (cxfjsutils, element) 
 //
 function backend_com_wsdl_card () {
     this.typeMarker = 'backend_com_wsdl_card';
-    this._actions = [];
+    this._actionIds = [];
     this._attack = null;
     this._description = null;
     this._id = 0;
@@ -11350,23 +11627,23 @@ function backend_com_wsdl_card () {
 }
 
 //
-// accessor is backend_com_wsdl_card.prototype.getActions
-// element get for actions
-// - element type is {http://backend.com/wsdl}action
+// accessor is backend_com_wsdl_card.prototype.getActionIds
+// element get for actionIds
+// - element type is {http://www.w3.org/2001/XMLSchema}long
 // - required element
 // - array
 // - nillable
 //
-// element set for actions
-// setter function is is backend_com_wsdl_card.prototype.setActions
+// element set for actionIds
+// setter function is is backend_com_wsdl_card.prototype.setActionIds
 //
-function backend_com_wsdl_card_getActions() { return this._actions;}
+function backend_com_wsdl_card_getActionIds() { return this._actionIds;}
 
-backend_com_wsdl_card.prototype.getActions = backend_com_wsdl_card_getActions;
+backend_com_wsdl_card.prototype.getActionIds = backend_com_wsdl_card_getActionIds;
 
-function backend_com_wsdl_card_setActions(value) { this._actions = value;}
+function backend_com_wsdl_card_setActionIds(value) { this._actionIds = value;}
 
-backend_com_wsdl_card.prototype.setActions = backend_com_wsdl_card_setActions;
+backend_com_wsdl_card.prototype.setActionIds = backend_com_wsdl_card_setActionIds;
 //
 // accessor is backend_com_wsdl_card.prototype.getAttack
 // element get for attack
@@ -11526,12 +11803,14 @@ function backend_com_wsdl_card_serialize(cxfjsutils, elementName, extraNamespace
     }
     // block for local variables
     {
-     if (this._actions != null) {
-      for (var ax = 0;ax < this._actions.length;ax ++) {
-       if (this._actions[ax] == null) {
-        xml = xml + '<actions xsi:nil=\'true\'/>';
+     if (this._actionIds != null) {
+      for (var ax = 0;ax < this._actionIds.length;ax ++) {
+       if (this._actionIds[ax] == null) {
+        xml = xml + '<actionIds xsi:nil=\'true\'/>';
        } else {
-        xml = xml + this._actions[ax].serialize(cxfjsutils, 'actions', null);
+        xml = xml + '<actionIds>';
+        xml = xml + cxfjsutils.escapeXmlEntities(this._actionIds[ax]);
+        xml = xml + '</actionIds>';
        }
       }
      }
@@ -11622,20 +11901,21 @@ function backend_com_wsdl_card_deserialize (cxfjsutils, element) {
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing actions');
-    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'actions')) {
+    cxfjsutils.trace('processing actionIds');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'actionIds')) {
      item = [];
      do  {
       var arrayItem = null;
       var value = null;
       if (!cxfjsutils.isElementNil(curElement)) {
-       arrayItem = backend_com_wsdl_action_deserialize(cxfjsutils, curElement);
+       value = cxfjsutils.getNodeText(curElement);
+       arrayItem = parseInt(value);
       }
       item.push(arrayItem);
       curElement = cxfjsutils.getNextElementSibling(curElement);
      }
-       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'actions'));
-     newobject.setActions(item);
+       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'actionIds'));
+     newobject.setActionIds(item);
      var item = null;
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
@@ -11771,15 +12051,15 @@ function backend_com_wsdl_card_deserialize (cxfjsutils, element) {
 function backend_com_wsdl_action () {
     this.typeMarker = 'backend_com_wsdl_action';
     this._amount = 0.0;
-    this._descriptions = null;
+    this._descriptions = [];
     this._duration = null;
     this._forCardType = null;
     this._hasMaxUsage = '';
     this._id = 0;
-    this._isMultipier = '';
     this._lifeCosts = null;
     this._maxUsage = null;
-    this._names = null;
+    this._multipier = '';
+    this._names = [];
     this._starCosts = 0.0;
     this._type = null;
 }
@@ -11803,8 +12083,10 @@ backend_com_wsdl_action.prototype.setAmount = backend_com_wsdl_action_setAmount;
 //
 // accessor is backend_com_wsdl_action.prototype.getDescriptions
 // element get for descriptions
-// - element type is null
+// - element type is {http://backend.com/wsdl}stringToStringEntry
 // - required element
+// - array
+// - nillable
 //
 // element set for descriptions
 // setter function is is backend_com_wsdl_action.prototype.setDescriptions
@@ -11881,22 +12163,6 @@ function backend_com_wsdl_action_setId(value) { this._id = value;}
 
 backend_com_wsdl_action.prototype.setId = backend_com_wsdl_action_setId;
 //
-// accessor is backend_com_wsdl_action.prototype.getIsMultipier
-// element get for isMultipier
-// - element type is {http://www.w3.org/2001/XMLSchema}boolean
-// - required element
-//
-// element set for isMultipier
-// setter function is is backend_com_wsdl_action.prototype.setIsMultipier
-//
-function backend_com_wsdl_action_getIsMultipier() { return this._isMultipier;}
-
-backend_com_wsdl_action.prototype.getIsMultipier = backend_com_wsdl_action_getIsMultipier;
-
-function backend_com_wsdl_action_setIsMultipier(value) { this._isMultipier = value;}
-
-backend_com_wsdl_action.prototype.setIsMultipier = backend_com_wsdl_action_setIsMultipier;
-//
 // accessor is backend_com_wsdl_action.prototype.getLifeCosts
 // element get for lifeCosts
 // - element type is {http://www.w3.org/2001/XMLSchema}int
@@ -11929,10 +12195,28 @@ function backend_com_wsdl_action_setMaxUsage(value) { this._maxUsage = value;}
 
 backend_com_wsdl_action.prototype.setMaxUsage = backend_com_wsdl_action_setMaxUsage;
 //
+// accessor is backend_com_wsdl_action.prototype.getMultipier
+// element get for multipier
+// - element type is {http://www.w3.org/2001/XMLSchema}boolean
+// - required element
+//
+// element set for multipier
+// setter function is is backend_com_wsdl_action.prototype.setMultipier
+//
+function backend_com_wsdl_action_getMultipier() { return this._multipier;}
+
+backend_com_wsdl_action.prototype.getMultipier = backend_com_wsdl_action_getMultipier;
+
+function backend_com_wsdl_action_setMultipier(value) { this._multipier = value;}
+
+backend_com_wsdl_action.prototype.setMultipier = backend_com_wsdl_action_setMultipier;
+//
 // accessor is backend_com_wsdl_action.prototype.getNames
 // element get for names
-// - element type is null
+// - element type is {http://backend.com/wsdl}stringToStringEntry
 // - required element
+// - array
+// - nillable
 //
 // element set for names
 // setter function is is backend_com_wsdl_action.prototype.setNames
@@ -11997,7 +12281,15 @@ function backend_com_wsdl_action_serialize(cxfjsutils, elementName, extraNamespa
     }
     // block for local variables
     {
-     xml = xml + this._descriptions.serialize(cxfjsutils, 'descriptions', null);
+     if (this._descriptions != null) {
+      for (var ax = 0;ax < this._descriptions.length;ax ++) {
+       if (this._descriptions[ax] == null) {
+        xml = xml + '<descriptions xsi:nil=\'true\'/>';
+       } else {
+        xml = xml + this._descriptions[ax].serialize(cxfjsutils, 'descriptions', null);
+       }
+      }
+     }
     }
     // block for local variables
     {
@@ -12029,12 +12321,6 @@ function backend_com_wsdl_action_serialize(cxfjsutils, elementName, extraNamespa
     }
     // block for local variables
     {
-     xml = xml + '<isMultipier>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._isMultipier);
-     xml = xml + '</isMultipier>';
-    }
-    // block for local variables
-    {
      if (this._lifeCosts != null) {
       xml = xml + '<lifeCosts>';
       xml = xml + cxfjsutils.escapeXmlEntities(this._lifeCosts);
@@ -12051,7 +12337,21 @@ function backend_com_wsdl_action_serialize(cxfjsutils, elementName, extraNamespa
     }
     // block for local variables
     {
-     xml = xml + this._names.serialize(cxfjsutils, 'names', null);
+     xml = xml + '<multipier>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._multipier);
+     xml = xml + '</multipier>';
+    }
+    // block for local variables
+    {
+     if (this._names != null) {
+      for (var ax = 0;ax < this._names.length;ax ++) {
+       if (this._names[ax] == null) {
+        xml = xml + '<names xsi:nil=\'true\'/>';
+       } else {
+        xml = xml + this._names[ax].serialize(cxfjsutils, 'names', null);
+       }
+      }
+     }
     }
     // block for local variables
     {
@@ -12096,14 +12396,20 @@ function backend_com_wsdl_action_deserialize (cxfjsutils, element) {
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing descriptions');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     item = backend_com_wsdl_descriptions_deserialize(cxfjsutils, curElement);
-    }
-    newobject.setDescriptions(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'descriptions')) {
+     item = [];
+     do  {
+      var arrayItem = null;
+      var value = null;
+      if (!cxfjsutils.isElementNil(curElement)) {
+       arrayItem = backend_com_wsdl_stringToStringEntry_deserialize(cxfjsutils, curElement);
+      }
+      item.push(arrayItem);
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'descriptions'));
+     newobject.setDescriptions(item);
+     var item = null;
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing duration');
@@ -12158,18 +12464,6 @@ function backend_com_wsdl_action_deserialize (cxfjsutils, element) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing isMultipier');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = (value == 'true');
-    }
-    newobject.setIsMultipier(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing lifeCosts');
     if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'lifeCosts')) {
      var value = null;
@@ -12198,15 +12492,33 @@ function backend_com_wsdl_action_deserialize (cxfjsutils, element) {
      }
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing names');
+    cxfjsutils.trace('processing multipier');
     var value = null;
     if (!cxfjsutils.isElementNil(curElement)) {
-     item = backend_com_wsdl_names_deserialize(cxfjsutils, curElement);
+     value = cxfjsutils.getNodeText(curElement);
+     item = (value == 'true');
     }
-    newobject.setNames(item);
+    newobject.setMultipier(item);
     var item = null;
     if (curElement != null) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing names');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'names')) {
+     item = [];
+     do  {
+      var arrayItem = null;
+      var value = null;
+      if (!cxfjsutils.isElementNil(curElement)) {
+       arrayItem = backend_com_wsdl_stringToStringEntry_deserialize(cxfjsutils, curElement);
+      }
+      item.push(arrayItem);
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'names'));
+     newobject.setNames(item);
+     var item = null;
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing starCosts');
@@ -12702,6 +13014,8 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartFinishedResponse'] = backend_com_wsdl_setTreePartFinishedResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteCardResponse'] = backend_com_wsdl_deleteCardResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteCardResponse'] = backend_com_wsdl_deleteCardResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}stringToStringEntry'] = backend_com_wsdl_stringToStringEntry_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}stringToStringEntry'] = backend_com_wsdl_stringToStringEntry_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateEditorQuest'] = backend_com_wsdl_updateEditorQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateEditorQuest'] = backend_com_wsdl_updateEditorQuest_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePartsLazyResponse'] = backend_com_wsdl_getTreePartsLazyResponse_serialize;
@@ -12900,6 +13214,8 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getPlayer'] = backend_com_wsdl_getPlayer_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateUser'] = backend_com_wsdl_updateUser_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateUser'] = backend_com_wsdl_updateUser_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}stringToBoolEntry'] = backend_com_wsdl_stringToBoolEntry_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}stringToBoolEntry'] = backend_com_wsdl_stringToBoolEntry_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addTreePartLazyResponse'] = backend_com_wsdl_addTreePartLazyResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addTreePartLazyResponse'] = backend_com_wsdl_addTreePartLazyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuestInstance'] = backend_com_wsdl_addQuestInstance_serialize;
@@ -15265,7 +15581,8 @@ backend_com_wsdl_IBackend.prototype.updateHtml_onerror = backend_com_wsdl_update
 // Operation {http://backend.com/wsdl}updateHtml
 // Wrapped operation.
 // parameter arg0
-// - simple type {http://www.w3.org/2001/XMLSchema}long//
+// - Object constructor is backend_com_wsdl_htmlObject
+//
 function backend_com_wsdl_updateHtml_op(successCallback, errorCallback, arg0) {
     this.client = new CxfApacheOrgClient(this.jsutils);
     var xml = null;

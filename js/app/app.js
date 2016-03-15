@@ -19,6 +19,7 @@ var app = angular.module('app', [
     'profile',
     'quest',
     'task',
+    'html',
     'map'
 
 ]);
@@ -42,7 +43,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'js/app/profile/profile.tpl.html',
             resolve: {
                 user: ['AuthenticationService', function(AuthenticationService) {
-                    return AuthenticationService.userPromise;
+                    return AuthenticationService.userPromise();
                 }]
             }
         });
@@ -65,7 +66,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'js/app/map/map.tpl.html',
             resolve: {
                 user: ['AuthenticationService', function(AuthenticationService) {
-                    return AuthenticationService.userPromise;
+                    return AuthenticationService.userPromise();
                 }]
             }
         });
