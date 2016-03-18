@@ -4,11 +4,10 @@
 
 
 
-
 app.factory('BackendService', function($q) {
 
     var backend = new backend_com_wsdl_IBackend();
-    backend.url = "http://localhost:8080/Backend/webservices/Backend?wsdl";
+    backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
 
     function login(username, password) {
         var deffered = $q.defer();
