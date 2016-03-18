@@ -18361,6 +18361,6 @@ function backend_com_wsdl_addEditorQuestResponse_deserializeResponse(cxfjsutils,
     return returnObject;
 }
 function backend_com_wsdl_IBackend_backend_com_wsdl_BackendPort () {
-  this.url = 'http://192.168.178.67:8080/Backend/webservices/Backend';
+  this.url = 'http://localhost:8080/Backend/webservices/Backend';
 }
 backend_com_wsdl_IBackend_backend_com_wsdl_BackendPort.prototype = new backend_com_wsdl_IBackend;

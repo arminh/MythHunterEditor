@@ -195,6 +195,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
     }
 
     function deleteTask(taskIndex) {
+        console.log("Delete");
         var remoteId = this.tasks[taskIndex].remoteId;
         if(remoteId != -1) {
             this.tasksToDelete.push(remoteId);

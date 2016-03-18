@@ -12,6 +12,7 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
     $scope.continueDrawing = false;
     $scope.showQuestline = false;
 
+    var treePartsToDelete = [];
 
     $scope.sortableOptions = {
         axis: 'y',
@@ -27,6 +28,10 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
             quest.rewireTree($scope.treePartRoot, $scope.treeParts);
             console.log($scope.treePartRoot);
             console.log($scope.treeParts);
+        },
+        sort: function(e, ui) {
+            var draggedMarkerId = ui.item.sortable.model.task.markerId;
+            mapService.animateMarker(draggedMarkerId);
         }
         //containment: "#map-quests"
     };
@@ -138,8 +143,12 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         task.edit();
     };
 
-    $scope.deleteTask = function(taskIndex) {
-        quest.deleteTask(taskIndex);
+    $scope.deleteTask = function(treePart, index) {
+        if(treePart.remoteId > 0) {
+            treePartsToDelete.push(treePart);
+        }
+        this.tasks.splice(index, 1);
+        //quest.deleteTask(taskIndex);
     };
 
     function fightTpl(lon, lat) {

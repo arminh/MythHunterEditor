@@ -233,6 +233,35 @@ map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', functio
         popupOverlay.setPosition(undefined);
     }
 
+    var ratio = 5;
+
+    function animateMarker(markerId) {
+        var marker = this.getMarkerById(markerId);
+        //console.log(marker);
+
+        var flashGeom = marker.getGeometry().clone();
+        // radius will be 5 at start and 30 at end.
+        var radius = ol.easing.easeOut(ratio) * 25 + 5;
+        var opacity = ol.easing.easeOut(1 - ratio);
+
+        var flashStyle = new ol.style.Circle({
+            radius: radius,
+            snapToPixel: false,
+            stroke: new ol.style.Stroke({
+                color: 'rgba(255, 0, 0, ' + opacity + ')',
+                width: 1,
+                opacity: opacity
+            })
+        });
+
+       /* vectorContext.setImageStyle(flashStyle);
+        vectorContext.drawPointGeometry(flashGeom, null);
+        if (elapsed > duration) {
+            ol.Observable.unByKey(listenerKey);
+            return;
+        }*/
+    }
+
     return {
         init: init,
         setCenter: setCenter,
@@ -244,6 +273,7 @@ map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', functio
         addPopupOverlay: addPopupOverlay,
         showOverlay: showOverlay,
         hideOverlay: hideOverlay,
+        animateMarker: animateMarker
 
     }
 }]);
