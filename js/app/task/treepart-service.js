@@ -79,7 +79,7 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
             this.remoteTreePart.setSuccessors(results);
             console.log(this.remoteTreePart);
             BackendService.addTreePart(this.remoteTreePart).then(function(result) {
-                console.log(result);
+                this.remoteId = result.getId();
                 deferred.resolve(result);
             }.bind(this));
 

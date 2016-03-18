@@ -69,6 +69,7 @@ app.factory("AuthenticationService", function($q, $localStorage, $cookies, $root
         $rootScope.credentials = null;
         $cookies.remove("credentials");
 
+        //TODO
         user.clearCurrentQuest();
         user = null;
         $rootScope.user = null;
