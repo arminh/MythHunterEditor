@@ -8,7 +8,7 @@ profile.controller("profileController", function($scope, $state, ngDialog, Backe
     $scope.currentQuest = user.getCurrentQuest();
 
     $scope.newQuest = function() {
-        user.currentQuest = null;
+        user.clearCurrentQuest();
         $state.go("app.map");
     };
 

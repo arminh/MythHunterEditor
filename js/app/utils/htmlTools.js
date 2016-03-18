@@ -65,12 +65,15 @@
             });
         }
 
-        function encloseContent(content) {
+        function encloseContent(questTitle, taskTitle, content) {
             return $templateRequest("js/app/task/remoteTask.tpl.html").then(function(template) {
+                template = template.replace("[Quest Title]", questTitle);
+                template = template.replace("[Task Title]", taskTitle);
+                template = template.replace("[Quest Content]", content);
 
-                var templateParts = template.split("[Quest Content]");
-                var result = templateParts[0] + content + templateParts[1];
-                return escape(result);
+/*                var templateParts = template.split("[Quest Content]");
+                var result = templateParts[0] + content + templateParts[1];*/
+                return escape(template);
             });
         }
 

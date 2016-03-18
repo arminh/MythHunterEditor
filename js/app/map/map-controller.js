@@ -105,12 +105,15 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
     };
 
     function drawMarker() {
-        var task = new Task();
+        var task = new Task(quest.name);
         task.type = activeMarker;
+        $scope.drawing = true;
         task.drawMarker().then(function() {
             quest.addTask(task);
             if(this.continueDrawing) {
                 drawMarker();
+            } else {
+                $scope.drawing = false;
             }
         }.bind($scope));
     }
@@ -130,11 +133,13 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
     };
 
     $scope.newTask = function() {
-        var task = new Task();
+        var task = new Task(quest.name);
         task.create().then(function() {
+            $scope.drawing = true;
             task.drawMarker().then(function()
             {
                 quest.addTask(task);
+                $scope.drawing = false;
             });
         });
     };

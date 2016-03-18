@@ -4,7 +4,7 @@
 
 task.factory('Task', function($modal, $q, AuthenticationService, BackendService, mapService, MarkerType, HTMLText) {
 
-    function Task() {
+    function Task(questName) {
         this.id = 0;
         this.remoteId = -1;
         this.name = "";
@@ -17,6 +17,8 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         this.changed = false;
         this.fixed = false;
         this.version = null;
+
+        this.questName = questName;
     }
 
     Task.prototype = {
@@ -38,6 +40,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
             this.name = result.name;
             this.type = result.type;
             this.html.content = result.content;
+            this.html.answers = result.answers;
         }.bind(this));
     }
 

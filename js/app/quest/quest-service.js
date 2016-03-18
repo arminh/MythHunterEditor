@@ -41,6 +41,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
     function create(creatorId) {
         var deffered = $q.defer();
         this.creatorId = creatorId;
+
         openQuestDialog(this).then(
             function(result) {
                 this.name = result.name;
@@ -324,7 +325,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
             treeParts[treeParts.length-1].successors = [];
             treeParts[treeParts.length-1].change();
         }
-    }
+    };
 
     var openQuestDialog = function(quest) {
         var modalInstance = $modal.open({

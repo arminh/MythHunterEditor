@@ -10,6 +10,8 @@ map.controller("TaskController", function($scope, $modalInstance, textAngularMan
     $scope.content = HtmlTools.retrieveContent(task.html.content);
     $scope.activeType = task.type;
 
+    var questName = task.questName;
+
     $scope.answers = task.html.answers;
     angular.forEach(task.html.answers, function(val, key) {
         if(val == true) {
@@ -41,11 +43,12 @@ map.controller("TaskController", function($scope, $modalInstance, textAngularMan
     };
 
     $scope.ok = function() {
+        console.log($scope.answers);
         $scope.content = $scope.content.replace(" checked","");
         if(!$scope.activeType) {
             $scope.error = true;
         } else {
-            HtmlTools.encloseContent($scope.content).then(function(result) {
+            HtmlTools.encloseContent(questName, $scope.name, $scope.content).then(function(result) {
                 $modalInstance.close({
                     type: $scope.activeType,
                     name: $scope.name,
