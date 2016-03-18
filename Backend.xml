@@ -1,0 +1,3470 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://backend.com/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="BackendService" targetNamespace="http://backend.com/wsdl">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://backend.com/wsdl" elementFormDefault="unqualified" targetNamespace="http://backend.com/wsdl" version="1.0">
+
+  <xs:element name="addAndTreePart" type="tns:addAndTreePart"/>
+
+  <xs:element name="addAndTreePartResponse" type="tns:addAndTreePartResponse"/>
+
+  <xs:element name="addDeck" type="tns:addDeck"/>
+
+  <xs:element name="addDeckResponse" type="tns:addDeckResponse"/>
+
+  <xs:element name="addFightMarker" type="tns:addFightMarker"/>
+
+  <xs:element name="addFightMarkerResponse" type="tns:addFightMarkerResponse"/>
+
+  <xs:element name="addHtml" type="tns:addHtml"/>
+
+  <xs:element name="addHtmlResponse" type="tns:addHtmlResponse"/>
+
+  <xs:element name="addInfoMarker" type="tns:addInfoMarker"/>
+
+  <xs:element name="addInfoMarkerResponse" type="tns:addInfoMarkerResponse"/>
+
+  <xs:element name="addInvisibleMarker" type="tns:addInvisibleMarker"/>
+
+  <xs:element name="addInvisibleMarkerResponse" type="tns:addInvisibleMarkerResponse"/>
+
+  <xs:element name="addMarkerTreePart" type="tns:addMarkerTreePart"/>
+
+  <xs:element name="addMarkerTreePartResponse" type="tns:addMarkerTreePartResponse"/>
+
+  <xs:element name="addMonsterAction" type="tns:addMonsterAction"/>
+
+  <xs:element name="addMonsterActionResponse" type="tns:addMonsterActionResponse"/>
+
+  <xs:element name="addMonsterCard" type="tns:addMonsterCard"/>
+
+  <xs:element name="addMonsterCardResponse" type="tns:addMonsterCardResponse"/>
+
+  <xs:element name="addOrTreePart" type="tns:addOrTreePart"/>
+
+  <xs:element name="addOrTreePartResponse" type="tns:addOrTreePartResponse"/>
+
+  <xs:element name="addPlayer" type="tns:addPlayer"/>
+
+  <xs:element name="addPlayerResponse" type="tns:addPlayerResponse"/>
+
+  <xs:element name="addQuest" type="tns:addQuest"/>
+
+  <xs:element name="addQuestInstance" type="tns:addQuestInstance"/>
+
+  <xs:element name="addQuestInstanceResponse" type="tns:addQuestInstanceResponse"/>
+
+  <xs:element name="addQuestResponse" type="tns:addQuestResponse"/>
+
+  <xs:element name="addQuizMarker" type="tns:addQuizMarker"/>
+
+  <xs:element name="addQuizMarkerResponse" type="tns:addQuizMarkerResponse"/>
+
+  <xs:element name="addSpellAction" type="tns:addSpellAction"/>
+
+  <xs:element name="addSpellActionResponse" type="tns:addSpellActionResponse"/>
+
+  <xs:element name="addSpellCard" type="tns:addSpellCard"/>
+
+  <xs:element name="addSpellCardResponse" type="tns:addSpellCardResponse"/>
+
+  <xs:element name="addTreePartLazy" type="tns:addTreePartLazy"/>
+
+  <xs:element name="addTreePartLazyResponse" type="tns:addTreePartLazyResponse"/>
+
+  <xs:element name="addUser" type="tns:addUser"/>
+
+  <xs:element name="addUserResponse" type="tns:addUserResponse"/>
+
+  <xs:element name="clearDB" type="tns:clearDB"/>
+
+  <xs:element name="clearDBResponse" type="tns:clearDBResponse"/>
+
+  <xs:element name="deleteDeck" type="tns:deleteDeck"/>
+
+  <xs:element name="deleteDeckResponse" type="tns:deleteDeckResponse"/>
+
+  <xs:element name="deleteMarker" type="tns:deleteMarker"/>
+
+  <xs:element name="deleteMarkerResponse" type="tns:deleteMarkerResponse"/>
+
+  <xs:element name="deleteMonsterAction" type="tns:deleteMonsterAction"/>
+
+  <xs:element name="deleteMonsterActionResponse" type="tns:deleteMonsterActionResponse"/>
+
+  <xs:element name="deleteMonsterCard" type="tns:deleteMonsterCard"/>
+
+  <xs:element name="deleteMonsterCardResponse" type="tns:deleteMonsterCardResponse"/>
+
+  <xs:element name="deletePlayer" type="tns:deletePlayer"/>
+
+  <xs:element name="deletePlayerResponse" type="tns:deletePlayerResponse"/>
+
+  <xs:element name="deleteQuest" type="tns:deleteQuest"/>
+
+  <xs:element name="deleteQuestInstance" type="tns:deleteQuestInstance"/>
+
+  <xs:element name="deleteQuestInstanceResponse" type="tns:deleteQuestInstanceResponse"/>
+
+  <xs:element name="deleteQuestResponse" type="tns:deleteQuestResponse"/>
+
+  <xs:element name="deleteSpellAction" type="tns:deleteSpellAction"/>
+
+  <xs:element name="deleteSpellActionResponse" type="tns:deleteSpellActionResponse"/>
+
+  <xs:element name="deleteSpellCard" type="tns:deleteSpellCard"/>
+
+  <xs:element name="deleteSpellCardResponse" type="tns:deleteSpellCardResponse"/>
+
+  <xs:element name="deleteTreePart" type="tns:deleteTreePart"/>
+
+  <xs:element name="deleteTreePartResponse" type="tns:deleteTreePartResponse"/>
+
+  <xs:element name="deleteUser" type="tns:deleteUser"/>
+
+  <xs:element name="deleteUserResponse" type="tns:deleteUserResponse"/>
+
+  <xs:element name="getAction" type="tns:getAction"/>
+
+  <xs:element name="getActionResponse" type="tns:getActionResponse"/>
+
+  <xs:element name="getActions" type="tns:getActions"/>
+
+  <xs:element name="getActionsResponse" type="tns:getActionsResponse"/>
+
+  <xs:element name="getAllActions" type="tns:getAllActions"/>
+
+  <xs:element name="getAllActionsResponse" type="tns:getAllActionsResponse"/>
+
+  <xs:element name="getAllMonsterActions" type="tns:getAllMonsterActions"/>
+
+  <xs:element name="getAllMonsterActionsResponse" type="tns:getAllMonsterActionsResponse"/>
+
+  <xs:element name="getAllSpellActions" type="tns:getAllSpellActions"/>
+
+  <xs:element name="getAllSpellActionsResponse" type="tns:getAllSpellActionsResponse"/>
+
+  <xs:element name="getCard" type="tns:getCard"/>
+
+  <xs:element name="getCardResponse" type="tns:getCardResponse"/>
+
+  <xs:element name="getCards" type="tns:getCards"/>
+
+  <xs:element name="getCardsResponse" type="tns:getCardsResponse"/>
+
+  <xs:element name="getCompleteMarker" type="tns:getCompleteMarker"/>
+
+  <xs:element name="getCompleteMarkerResponse" type="tns:getCompleteMarkerResponse"/>
+
+  <xs:element name="getDeck" type="tns:getDeck"/>
+
+  <xs:element name="getDeckResponse" type="tns:getDeckResponse"/>
+
+  <xs:element name="getDecks" type="tns:getDecks"/>
+
+  <xs:element name="getDecksResponse" type="tns:getDecksResponse"/>
+
+  <xs:element name="getHtml" type="tns:getHtml"/>
+
+  <xs:element name="getHtmlResponse" type="tns:getHtmlResponse"/>
+
+  <xs:element name="getMarker" type="tns:getMarker"/>
+
+  <xs:element name="getMarkerResponse" type="tns:getMarkerResponse"/>
+
+  <xs:element name="getMarkers" type="tns:getMarkers"/>
+
+  <xs:element name="getMarkersResponse" type="tns:getMarkersResponse"/>
+
+  <xs:element name="getMonsterAction" type="tns:getMonsterAction"/>
+
+  <xs:element name="getMonsterActionResponse" type="tns:getMonsterActionResponse"/>
+
+  <xs:element name="getMonsterActions" type="tns:getMonsterActions"/>
+
+  <xs:element name="getMonsterActionsResponse" type="tns:getMonsterActionsResponse"/>
+
+  <xs:element name="getMonsterCard" type="tns:getMonsterCard"/>
+
+  <xs:element name="getMonsterCardResponse" type="tns:getMonsterCardResponse"/>
+
+  <xs:element name="getMonsterCards" type="tns:getMonsterCards"/>
+
+  <xs:element name="getMonsterCardsResponse" type="tns:getMonsterCardsResponse"/>
+
+  <xs:element name="getPlayer" type="tns:getPlayer"/>
+
+  <xs:element name="getPlayerResponse" type="tns:getPlayerResponse"/>
+
+  <xs:element name="getQuest" type="tns:getQuest"/>
+
+  <xs:element name="getQuestInstance" type="tns:getQuestInstance"/>
+
+  <xs:element name="getQuestInstanceResponse" type="tns:getQuestInstanceResponse"/>
+
+  <xs:element name="getQuestInstances" type="tns:getQuestInstances"/>
+
+  <xs:element name="getQuestInstancesResponse" type="tns:getQuestInstancesResponse"/>
+
+  <xs:element name="getQuestResponse" type="tns:getQuestResponse"/>
+
+  <xs:element name="getQuests" type="tns:getQuests"/>
+
+  <xs:element name="getQuestsInRange" type="tns:getQuestsInRange"/>
+
+  <xs:element name="getQuestsInRangeResponse" type="tns:getQuestsInRangeResponse"/>
+
+  <xs:element name="getQuestsResponse" type="tns:getQuestsResponse"/>
+
+  <xs:element name="getSpellAction" type="tns:getSpellAction"/>
+
+  <xs:element name="getSpellActionResponse" type="tns:getSpellActionResponse"/>
+
+  <xs:element name="getSpellCard" type="tns:getSpellCard"/>
+
+  <xs:element name="getSpellCardResponse" type="tns:getSpellCardResponse"/>
+
+  <xs:element name="getSpellCards" type="tns:getSpellCards"/>
+
+  <xs:element name="getSpellCardsResponse" type="tns:getSpellCardsResponse"/>
+
+  <xs:element name="getTreePart" type="tns:getTreePart"/>
+
+  <xs:element name="getTreePartLazy" type="tns:getTreePartLazy"/>
+
+  <xs:element name="getTreePartLazyResponse" type="tns:getTreePartLazyResponse"/>
+
+  <xs:element name="getTreePartResponse" type="tns:getTreePartResponse"/>
+
+  <xs:element name="getTreePartsLazy" type="tns:getTreePartsLazy"/>
+
+  <xs:element name="getTreePartsLazyResponse" type="tns:getTreePartsLazyResponse"/>
+
+  <xs:element name="login" type="tns:login"/>
+
+  <xs:element name="loginResponse" type="tns:loginResponse"/>
+
+  <xs:element name="register" type="tns:register"/>
+
+  <xs:element name="registerResponse" type="tns:registerResponse"/>
+
+  <xs:element name="setQuestInstanceOfMarkerTreePart" type="tns:setQuestInstanceOfMarkerTreePart"/>
+
+  <xs:element name="setQuestInstanceOfMarkerTreePartResponse" type="tns:setQuestInstanceOfMarkerTreePartResponse"/>
+
+  <xs:element name="setTreePartActive" type="tns:setTreePartActive"/>
+
+  <xs:element name="setTreePartActiveResponse" type="tns:setTreePartActiveResponse"/>
+
+  <xs:element name="setTreePartFinished" type="tns:setTreePartFinished"/>
+
+  <xs:element name="setTreePartFinishedResponse" type="tns:setTreePartFinishedResponse"/>
+
+  <xs:element name="updateAndTreePart" type="tns:updateAndTreePart"/>
+
+  <xs:element name="updateAndTreePartResponse" type="tns:updateAndTreePartResponse"/>
+
+  <xs:element name="updateDeck" type="tns:updateDeck"/>
+
+  <xs:element name="updateDeckResponse" type="tns:updateDeckResponse"/>
+
+  <xs:element name="updateFightMarker" type="tns:updateFightMarker"/>
+
+  <xs:element name="updateFightMarkerResponse" type="tns:updateFightMarkerResponse"/>
+
+  <xs:element name="updateHtml" type="tns:updateHtml"/>
+
+  <xs:element name="updateHtmlResponse" type="tns:updateHtmlResponse"/>
+
+  <xs:element name="updateInfoMarker" type="tns:updateInfoMarker"/>
+
+  <xs:element name="updateInfoMarkerResponse" type="tns:updateInfoMarkerResponse"/>
+
+  <xs:element name="updateInvisibleMarker" type="tns:updateInvisibleMarker"/>
+
+  <xs:element name="updateInvisibleMarkerResponse" type="tns:updateInvisibleMarkerResponse"/>
+
+  <xs:element name="updateMarkerTreePart" type="tns:updateMarkerTreePart"/>
+
+  <xs:element name="updateMarkerTreePartResponse" type="tns:updateMarkerTreePartResponse"/>
+
+  <xs:element name="updateMonsterAction" type="tns:updateMonsterAction"/>
+
+  <xs:element name="updateMonsterActionResponse" type="tns:updateMonsterActionResponse"/>
+
+  <xs:element name="updateMonsterCard" type="tns:updateMonsterCard"/>
+
+  <xs:element name="updateMonsterCardResponse" type="tns:updateMonsterCardResponse"/>
+
+  <xs:element name="updateOrTreePart" type="tns:updateOrTreePart"/>
+
+  <xs:element name="updateOrTreePartResponse" type="tns:updateOrTreePartResponse"/>
+
+  <xs:element name="updatePlayer" type="tns:updatePlayer"/>
+
+  <xs:element name="updatePlayerResponse" type="tns:updatePlayerResponse"/>
+
+  <xs:element name="updateQuest" type="tns:updateQuest"/>
+
+  <xs:element name="updateQuestInstance" type="tns:updateQuestInstance"/>
+
+  <xs:element name="updateQuestInstanceResponse" type="tns:updateQuestInstanceResponse"/>
+
+  <xs:element name="updateQuestResponse" type="tns:updateQuestResponse"/>
+
+  <xs:element name="updateQuizMarker" type="tns:updateQuizMarker"/>
+
+  <xs:element name="updateQuizMarkerResponse" type="tns:updateQuizMarkerResponse"/>
+
+  <xs:element name="updateSpellAction" type="tns:updateSpellAction"/>
+
+  <xs:element name="updateSpellActionResponse" type="tns:updateSpellActionResponse"/>
+
+  <xs:element name="updateSpellCard" type="tns:updateSpellCard"/>
+
+  <xs:element name="updateSpellCardResponse" type="tns:updateSpellCardResponse"/>
+
+  <xs:element name="updateUser" type="tns:updateUser"/>
+
+  <xs:element name="updateUserResponse" type="tns:updateUserResponse"/>
+
+  <xs:complexType name="updateUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:user"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="user">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="createdQuestIds" nillable="true" type="xs:long"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+      <xs:element name="playerId" type="xs:long"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateUserResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:user"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCard">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCardResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:card"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="card">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="imageUrl" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="stars" type="xs:int"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDecks">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDecksResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:deck"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deck">
+    <xs:sequence>
+      <xs:element name="cardIds">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:long"/>
+                  <xs:element minOccurs="0" name="value" type="xs:int"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateSpellAction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:spellAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="spellAction">
+    <xs:complexContent>
+      <xs:extension base="tns:action">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="type" type="tns:spellActionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="action">
+    <xs:sequence>
+      <xs:element name="amount" type="xs:float"/>
+      <xs:element name="descriptions">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="duration" type="xs:int"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="isMultipier" type="xs:boolean"/>
+      <xs:element name="names">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="starCosts" type="xs:float"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateSpellActionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:spellAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getAllActions">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getAllActionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:action"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addPlayer">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:player"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="player">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="activeQuestIds" nillable="true" type="xs:long"/>
+      <xs:element name="cardIds">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:long"/>
+                  <xs:element minOccurs="0" name="value" type="xs:int"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="deckIds" nillable="true" type="xs:long"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="solvedQuestIds" nillable="true" type="xs:long"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addPlayerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:player"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateMonsterCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:monsterCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="monsterCard">
+    <xs:complexContent>
+      <xs:extension base="tns:card">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="actions" nillable="true" type="tns:monsterAction"/>
+          <xs:element minOccurs="0" name="attack" type="xs:int"/>
+          <xs:element minOccurs="0" name="life" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="monsterAction">
+    <xs:complexContent>
+      <xs:extension base="tns:action">
+        <xs:sequence>
+          <xs:element name="hasMaxUsage" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="lifeCosts" type="xs:int"/>
+          <xs:element minOccurs="0" name="maxUsage" type="xs:int"/>
+          <xs:element minOccurs="0" name="type" type="tns:monsterActionType"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="updateMonsterCardResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:monsterCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateMarkerTreePart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:markerTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="markerTreePart">
+    <xs:complexContent>
+      <xs:extension base="tns:treePart">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="marker" type="tns:marker"/>
+          <xs:element name="questInstanceId" type="xs:long"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="treePart">
+    <xs:sequence>
+      <xs:element name="active" type="xs:boolean"/>
+      <xs:element name="finished" type="xs:boolean"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="successors" nillable="true" type="tns:treePart"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="marker">
+    <xs:sequence>
+      <xs:element name="htmlId" type="xs:long"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="position" type="tns:mapPosition"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mapPosition">
+    <xs:sequence>
+      <xs:element name="latitude" type="xs:float"/>
+      <xs:element name="longitude" type="xs:float"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateMarkerTreePartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:markerTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSpellCards">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSpellCardsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:spellCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="spellCard">
+    <xs:complexContent>
+      <xs:extension base="tns:card">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="action" type="tns:spellAction"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="getMonsterActions">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMonsterActionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:monsterAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuestInstances">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuestInstancesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:questInstance"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="questInstance">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="questId" type="xs:long"/>
+      <xs:element name="treeInstanceRootId" type="xs:long"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteUser">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteUserResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getQuestsInRange">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:mapPosition"/>
+      <xs:element name="arg1" type="xs:float"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuestsInRangeResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:quest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="quest">
+    <xs:sequence>
+      <xs:element name="approved" type="xs:boolean"/>
+      <xs:element name="createrId" type="xs:long"/>
+      <xs:element name="htmlId" type="xs:long"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="markers" nillable="true" type="xs:long"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="shortDescription" type="xs:string"/>
+      <xs:element minOccurs="0" name="startMarker" type="tns:marker"/>
+      <xs:element name="submitted" type="xs:boolean"/>
+      <xs:element name="treeRootId" type="xs:long"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateDeck">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:deck"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateDeckResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:deck"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getActions">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getActionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:action"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="clearDB">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="clearDBResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="deleteMarker">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteMarkerResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getSpellCard">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSpellCardResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:spellCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateQuest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:quest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateQuestResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:quest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setTreePartActive">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+      <xs:element name="arg1" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setTreePartActiveResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="register">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="registerResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="deleteSpellAction">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteSpellActionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="addMonsterCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:monsterCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addMonsterCardResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:monsterCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addMarkerTreePart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:markerTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addMarkerTreePartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:markerTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getAllSpellActions">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getAllSpellActionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:spellAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteQuest">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteQuestResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="addSpellCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:spellCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addSpellCardResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:spellCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deletePlayer">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deletePlayerResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="addDeck">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:deck"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addDeckResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:deck"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updatePlayer">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:player"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updatePlayerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:player"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateOrTreePart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:orTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="orTreePart">
+    <xs:complexContent>
+      <xs:extension base="tns:treePart">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="updateOrTreePartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:orTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTreePartLazy">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTreePartLazyResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:treePartLazy"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="treePartLazy">
+    <xs:sequence>
+      <xs:element name="active" type="xs:boolean"/>
+      <xs:element name="finished" type="xs:boolean"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="markerId" type="xs:long"/>
+      <xs:element name="questInstanceId" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" name="successorIds" type="xs:long"/>
+      <xs:element name="type" type="tns:treePartType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addTreePartLazy">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:treePartLazy"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addTreePartLazyResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:treePartLazy"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateFightMarker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:fightMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="fightMarker">
+    <xs:complexContent>
+      <xs:extension base="tns:marker">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="updateFightMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fightMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addOrTreePart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:orTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addOrTreePartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:orTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateHtml">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateHtmlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:htmlObject"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="htmlObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="html" type="xs:string"/>
+      <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTreePartsLazy">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTreePartsLazyResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:treePartLazy"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateInfoMarker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:infoMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="infoMarker">
+    <xs:complexContent>
+      <xs:extension base="tns:marker">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="updateInfoMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:infoMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMarker">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:marker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuestInstance">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuestInstanceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:questInstance"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteDeck">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteDeckResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getTreePart">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTreePartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:treePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCards">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCardsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:card"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addMonsterAction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:monsterAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addMonsterActionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:monsterAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateMonsterAction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:monsterAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateMonsterActionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:monsterAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateAndTreePart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:andTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="andTreePart">
+    <xs:complexContent>
+      <xs:extension base="tns:treePart">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="updateAndTreePartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:andTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuest">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuestResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:quest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteQuestInstance">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteQuestInstanceResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="setQuestInstanceOfMarkerTreePart">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+      <xs:element name="arg1" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setQuestInstanceOfMarkerTreePartResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="deleteTreePart">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteTreePartResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="deleteMonsterCard">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteMonsterCardResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="deleteSpellCard">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteSpellCardResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="addQuest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:quest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addQuestResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:quest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDeck">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDeckResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:deck"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addAndTreePart">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:andTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addAndTreePartResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:andTreePart"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addInfoMarker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:infoMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addInfoMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:infoMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addSpellAction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:spellAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addSpellActionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:spellAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateQuestInstance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:questInstance"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateQuestInstanceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:questInstance"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMonsterCard">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMonsterCardResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:monsterCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getAction">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getActionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:action"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMarkers">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMarkersResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:marker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuests">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getQuestsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:quest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addHtml">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:htmlObject"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addHtmlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:htmlObject"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteMonsterAction">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deleteMonsterActionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="updateQuizMarker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:quizMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="quizMarker">
+    <xs:complexContent>
+      <xs:extension base="tns:marker">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="updateQuizMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:quizMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="login">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="loginResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:user"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getHtml">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getHtmlResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:htmlObject"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addQuizMarker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:quizMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addQuizMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:quizMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addQuestInstance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:questInstance"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addQuestInstanceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:questInstance"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setTreePartFinished">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+      <xs:element name="arg1" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="setTreePartFinishedResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getMonsterCards">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMonsterCardsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:monsterCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateInvisibleMarker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:invisibleMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="invisibleMarker">
+    <xs:complexContent>
+      <xs:extension base="tns:marker">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="targetPosition" type="tns:mapPosition"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="updateInvisibleMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:invisibleMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPlayer">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPlayerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:player"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addInvisibleMarker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:invisibleMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addInvisibleMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:invisibleMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSpellAction">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSpellActionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:spellAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCompleteMarker">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCompleteMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:completeMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="completeMarker">
+    <xs:sequence>
+      <xs:element name="htmlId" type="xs:long"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="position" type="tns:mapPosition"/>
+      <xs:element minOccurs="0" name="targetPosition" type="tns:mapPosition"/>
+      <xs:element minOccurs="0" name="type" type="xs:string"/>
+      <xs:element minOccurs="0" name="version" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addFightMarker">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:fightMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addFightMarkerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fightMarker"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getAllMonsterActions">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getAllMonsterActionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:monsterAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateSpellCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:spellCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="updateSpellCardResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:spellCard"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:user"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addUserResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:user"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMonsterAction">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMonsterActionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:monsterAction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="spellActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DAMAGE"/>
+      <xs:enumeration value="DECREASE_ATTACK"/>
+      <xs:enumeration value="DOT"/>
+      <xs:enumeration value="DRAW_CARDS"/>
+      <xs:enumeration value="BANN_MAGIC"/>
+      <xs:enumeration value="INCREASE_ATTACK"/>
+      <xs:enumeration value="HEAL"/>
+      <xs:enumeration value="INCREASE_LIFE"/>
+      <xs:enumeration value="SLEEP"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="monsterActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DECREASE_ATTACK"/>
+      <xs:enumeration value="DOT"/>
+      <xs:enumeration value="CONFUSE"/>
+      <xs:enumeration value="TAUNT"/>
+      <xs:enumeration value="SLEEP"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="treePartType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Marker"/>
+      <xs:enumeration value="And"/>
+      <xs:enumeration value="Or"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getTreePart">
+    <wsdl:part element="tns:getTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateMonsterAction">
+    <wsdl:part element="tns:updateMonsterAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllActionsResponse">
+    <wsdl:part element="tns:getAllActionsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part element="tns:loginResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAndTreePart">
+    <wsdl:part element="tns:updateAndTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHtml">
+    <wsdl:part element="tns:getHtml" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMarkers">
+    <wsdl:part element="tns:getMarkers" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addFightMarkerResponse">
+    <wsdl:part element="tns:addFightMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateQuizMarker">
+    <wsdl:part element="tns:updateQuizMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateInvisibleMarkerResponse">
+    <wsdl:part element="tns:updateInvisibleMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addMonsterCard">
+    <wsdl:part element="tns:addMonsterCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setTreePartActiveResponse">
+    <wsdl:part element="tns:setTreePartActiveResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteQuestInstanceResponse">
+    <wsdl:part element="tns:deleteQuestInstanceResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="register">
+    <wsdl:part element="tns:register" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserResponse">
+    <wsdl:part element="tns:updateUserResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateSpellCardResponse">
+    <wsdl:part element="tns:updateSpellCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addQuizMarker">
+    <wsdl:part element="tns:addQuizMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateMarkerTreePart">
+    <wsdl:part element="tns:updateMarkerTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addMarkerTreePart">
+    <wsdl:part element="tns:addMarkerTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setTreePartFinishedResponse">
+    <wsdl:part element="tns:setTreePartFinishedResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateSpellAction">
+    <wsdl:part element="tns:updateSpellAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTreePartsLazyResponse">
+    <wsdl:part element="tns:getTreePartsLazyResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteSpellAction">
+    <wsdl:part element="tns:deleteSpellAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPlayerResponse">
+    <wsdl:part element="tns:getPlayerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteMarkerResponse">
+    <wsdl:part element="tns:deleteMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMonsterCardsResponse">
+    <wsdl:part element="tns:getMonsterCardsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateQuestInstance">
+    <wsdl:part element="tns:updateQuestInstance" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addInvisibleMarker">
+    <wsdl:part element="tns:addInvisibleMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMonsterCards">
+    <wsdl:part element="tns:getMonsterCards" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMonsterActionsResponse">
+    <wsdl:part element="tns:getMonsterActionsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateOrTreePart">
+    <wsdl:part element="tns:updateOrTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDeck">
+    <wsdl:part element="tns:addDeck" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMarker">
+    <wsdl:part element="tns:getMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAction">
+    <wsdl:part element="tns:getAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUserResponse">
+    <wsdl:part element="tns:deleteUserResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setTreePartActive">
+    <wsdl:part element="tns:setTreePartActive" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addPlayer">
+    <wsdl:part element="tns:addPlayer" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateMonsterCard">
+    <wsdl:part element="tns:updateMonsterCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMonsterActions">
+    <wsdl:part element="tns:getMonsterActions" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteMarker">
+    <wsdl:part element="tns:deleteMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addHtmlResponse">
+    <wsdl:part element="tns:addHtmlResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHtmlResponse">
+    <wsdl:part element="tns:getHtmlResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addInvisibleMarkerResponse">
+    <wsdl:part element="tns:addInvisibleMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateQuestResponse">
+    <wsdl:part element="tns:updateQuestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateSpellCard">
+    <wsdl:part element="tns:updateSpellCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addMonsterCardResponse">
+    <wsdl:part element="tns:addMonsterCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDeck">
+    <wsdl:part element="tns:updateDeck" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeck">
+    <wsdl:part element="tns:getDeck" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDeckResponse">
+    <wsdl:part element="tns:addDeckResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateSpellActionResponse">
+    <wsdl:part element="tns:updateSpellActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addQuestInstanceResponse">
+    <wsdl:part element="tns:addQuestInstanceResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteQuest">
+    <wsdl:part element="tns:deleteQuest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuestInstanceResponse">
+    <wsdl:part element="tns:getQuestInstanceResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addFightMarker">
+    <wsdl:part element="tns:addFightMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTreePartLazyResponse">
+    <wsdl:part element="tns:getTreePartLazyResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompleteMarker">
+    <wsdl:part element="tns:getCompleteMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addSpellAction">
+    <wsdl:part element="tns:addSpellAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePlayerResponse">
+    <wsdl:part element="tns:updatePlayerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeckResponse">
+    <wsdl:part element="tns:getDeckResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addSpellCardResponse">
+    <wsdl:part element="tns:addSpellCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteMonsterAction">
+    <wsdl:part element="tns:deleteMonsterAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteSpellCardResponse">
+    <wsdl:part element="tns:deleteSpellCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addMonsterActionResponse">
+    <wsdl:part element="tns:addMonsterActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateHtml">
+    <wsdl:part element="tns:updateHtml" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addInfoMarker">
+    <wsdl:part element="tns:addInfoMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMarkersResponse">
+    <wsdl:part element="tns:getMarkersResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserResponse">
+    <wsdl:part element="tns:addUserResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuestInstances">
+    <wsdl:part element="tns:getQuestInstances" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCards">
+    <wsdl:part element="tns:getCards" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCardsResponse">
+    <wsdl:part element="tns:getCardsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUser">
+    <wsdl:part element="tns:addUser" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDeckResponse">
+    <wsdl:part element="tns:updateDeckResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addQuest">
+    <wsdl:part element="tns:addQuest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCardResponse">
+    <wsdl:part element="tns:getCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllMonsterActions">
+    <wsdl:part element="tns:getAllMonsterActions" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteSpellCard">
+    <wsdl:part element="tns:deleteSpellCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMarkerResponse">
+    <wsdl:part element="tns:getMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionResponse">
+    <wsdl:part element="tns:getActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteMonsterCardResponse">
+    <wsdl:part element="tns:deleteMonsterCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateMonsterActionResponse">
+    <wsdl:part element="tns:updateMonsterActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpellActionResponse">
+    <wsdl:part element="tns:getSpellActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuestsResponse">
+    <wsdl:part element="tns:getQuestsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addAndTreePartResponse">
+    <wsdl:part element="tns:addAndTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTreePartResponse">
+    <wsdl:part element="tns:deleteTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addOrTreePart">
+    <wsdl:part element="tns:addOrTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTreePartResponse">
+    <wsdl:part element="tns:getTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addAndTreePart">
+    <wsdl:part element="tns:addAndTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpellAction">
+    <wsdl:part element="tns:getSpellAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCard">
+    <wsdl:part element="tns:getCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteQuestInstance">
+    <wsdl:part element="tns:deleteQuestInstance" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuest">
+    <wsdl:part element="tns:getQuest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteMonsterCard">
+    <wsdl:part element="tns:deleteMonsterCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAndTreePartResponse">
+    <wsdl:part element="tns:updateAndTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionsResponse">
+    <wsdl:part element="tns:getActionsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTreePart">
+    <wsdl:part element="tns:deleteTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllSpellActions">
+    <wsdl:part element="tns:getAllSpellActions" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateFightMarkerResponse">
+    <wsdl:part element="tns:updateFightMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addOrTreePartResponse">
+    <wsdl:part element="tns:addOrTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllSpellActionsResponse">
+    <wsdl:part element="tns:getAllSpellActionsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateOrTreePartResponse">
+    <wsdl:part element="tns:updateOrTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateInfoMarker">
+    <wsdl:part element="tns:updateInfoMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePlayerResponse">
+    <wsdl:part element="tns:deletePlayerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateInfoMarkerResponse">
+    <wsdl:part element="tns:updateInfoMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuestResponse">
+    <wsdl:part element="tns:getQuestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addMarkerTreePartResponse">
+    <wsdl:part element="tns:addMarkerTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteSpellActionResponse">
+    <wsdl:part element="tns:deleteSpellActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="clearDBResponse">
+    <wsdl:part element="tns:clearDBResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateMonsterCardResponse">
+    <wsdl:part element="tns:updateMonsterCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setTreePartFinished">
+    <wsdl:part element="tns:setTreePartFinished" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMonsterCardResponse">
+    <wsdl:part element="tns:getMonsterCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addTreePartLazy">
+    <wsdl:part element="tns:addTreePartLazy" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuestsInRangeResponse">
+    <wsdl:part element="tns:getQuestsInRangeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setQuestInstanceOfMarkerTreePartResponse">
+    <wsdl:part element="tns:setQuestInstanceOfMarkerTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateQuizMarkerResponse">
+    <wsdl:part element="tns:updateQuizMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllMonsterActionsResponse">
+    <wsdl:part element="tns:getAllMonsterActionsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePlayer">
+    <wsdl:part element="tns:updatePlayer" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateQuest">
+    <wsdl:part element="tns:updateQuest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMonsterAction">
+    <wsdl:part element="tns:getMonsterAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDecks">
+    <wsdl:part element="tns:getDecks" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addSpellActionResponse">
+    <wsdl:part element="tns:addSpellActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuestInstancesResponse">
+    <wsdl:part element="tns:getQuestInstancesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActions">
+    <wsdl:part element="tns:getActions" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePlayer">
+    <wsdl:part element="tns:deletePlayer" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompleteMarkerResponse">
+    <wsdl:part element="tns:getCompleteMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateInvisibleMarker">
+    <wsdl:part element="tns:updateInvisibleMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addInfoMarkerResponse">
+    <wsdl:part element="tns:addInfoMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuestsInRange">
+    <wsdl:part element="tns:getQuestsInRange" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTreePartsLazy">
+    <wsdl:part element="tns:getTreePartsLazy" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuests">
+    <wsdl:part element="tns:getQuests" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setQuestInstanceOfMarkerTreePart">
+    <wsdl:part element="tns:setQuestInstanceOfMarkerTreePart" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="clearDB">
+    <wsdl:part element="tns:clearDB" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addPlayerResponse">
+    <wsdl:part element="tns:addPlayerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDecksResponse">
+    <wsdl:part element="tns:getDecksResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addMonsterAction">
+    <wsdl:part element="tns:addMonsterAction" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteDeckResponse">
+    <wsdl:part element="tns:deleteDeckResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMonsterCard">
+    <wsdl:part element="tns:getMonsterCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addQuestResponse">
+    <wsdl:part element="tns:addQuestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUser">
+    <wsdl:part element="tns:deleteUser" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateQuestInstanceResponse">
+    <wsdl:part element="tns:updateQuestInstanceResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addSpellCard">
+    <wsdl:part element="tns:addSpellCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteDeck">
+    <wsdl:part element="tns:deleteDeck" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPlayer">
+    <wsdl:part element="tns:getPlayer" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUser">
+    <wsdl:part element="tns:updateUser" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addTreePartLazyResponse">
+    <wsdl:part element="tns:addTreePartLazyResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addQuestInstance">
+    <wsdl:part element="tns:addQuestInstance" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addQuizMarkerResponse">
+    <wsdl:part element="tns:addQuizMarkerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpellCardResponse">
+    <wsdl:part element="tns:getSpellCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateMarkerTreePartResponse">
+    <wsdl:part element="tns:updateMarkerTreePartResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpellCardsResponse">
+    <wsdl:part element="tns:getSpellCardsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpellCard">
+    <wsdl:part element="tns:getSpellCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTreePartLazy">
+    <wsdl:part element="tns:getTreePartLazy" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateHtmlResponse">
+    <wsdl:part element="tns:updateHtmlResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQuestInstance">
+    <wsdl:part element="tns:getQuestInstance" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMonsterActionResponse">
+    <wsdl:part element="tns:getMonsterActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addHtml">
+    <wsdl:part element="tns:addHtml" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpellCards">
+    <wsdl:part element="tns:getSpellCards" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteQuestResponse">
+    <wsdl:part element="tns:deleteQuestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateFightMarker">
+    <wsdl:part element="tns:updateFightMarker" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteMonsterActionResponse">
+    <wsdl:part element="tns:deleteMonsterActionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="login">
+    <wsdl:part element="tns:login" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerResponse">
+    <wsdl:part element="tns:registerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllActions">
+    <wsdl:part element="tns:getAllActions" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IBackend">
+    <wsdl:operation name="updateUser">
+      <wsdl:input message="tns:updateUser" name="updateUser">
+    </wsdl:input>
+      <wsdl:output message="tns:updateUserResponse" name="updateUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCard">
+      <wsdl:input message="tns:getCard" name="getCard">
+    </wsdl:input>
+      <wsdl:output message="tns:getCardResponse" name="getCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDecks">
+      <wsdl:input message="tns:getDecks" name="getDecks">
+    </wsdl:input>
+      <wsdl:output message="tns:getDecksResponse" name="getDecksResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateSpellAction">
+      <wsdl:input message="tns:updateSpellAction" name="updateSpellAction">
+    </wsdl:input>
+      <wsdl:output message="tns:updateSpellActionResponse" name="updateSpellActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllActions">
+      <wsdl:input message="tns:getAllActions" name="getAllActions">
+    </wsdl:input>
+      <wsdl:output message="tns:getAllActionsResponse" name="getAllActionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addPlayer">
+      <wsdl:input message="tns:addPlayer" name="addPlayer">
+    </wsdl:input>
+      <wsdl:output message="tns:addPlayerResponse" name="addPlayerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateMonsterCard">
+      <wsdl:input message="tns:updateMonsterCard" name="updateMonsterCard">
+    </wsdl:input>
+      <wsdl:output message="tns:updateMonsterCardResponse" name="updateMonsterCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateMarkerTreePart">
+      <wsdl:input message="tns:updateMarkerTreePart" name="updateMarkerTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:updateMarkerTreePartResponse" name="updateMarkerTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpellCards">
+      <wsdl:input message="tns:getSpellCards" name="getSpellCards">
+    </wsdl:input>
+      <wsdl:output message="tns:getSpellCardsResponse" name="getSpellCardsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonsterActions">
+      <wsdl:input message="tns:getMonsterActions" name="getMonsterActions">
+    </wsdl:input>
+      <wsdl:output message="tns:getMonsterActionsResponse" name="getMonsterActionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuestInstances">
+      <wsdl:input message="tns:getQuestInstances" name="getQuestInstances">
+    </wsdl:input>
+      <wsdl:output message="tns:getQuestInstancesResponse" name="getQuestInstancesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUser">
+      <wsdl:input message="tns:deleteUser" name="deleteUser">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteUserResponse" name="deleteUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuestsInRange">
+      <wsdl:input message="tns:getQuestsInRange" name="getQuestsInRange">
+    </wsdl:input>
+      <wsdl:output message="tns:getQuestsInRangeResponse" name="getQuestsInRangeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDeck">
+      <wsdl:input message="tns:updateDeck" name="updateDeck">
+    </wsdl:input>
+      <wsdl:output message="tns:updateDeckResponse" name="updateDeckResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActions">
+      <wsdl:input message="tns:getActions" name="getActions">
+    </wsdl:input>
+      <wsdl:output message="tns:getActionsResponse" name="getActionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="clearDB">
+      <wsdl:input message="tns:clearDB" name="clearDB">
+    </wsdl:input>
+      <wsdl:output message="tns:clearDBResponse" name="clearDBResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMarker">
+      <wsdl:input message="tns:deleteMarker" name="deleteMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteMarkerResponse" name="deleteMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpellCard">
+      <wsdl:input message="tns:getSpellCard" name="getSpellCard">
+    </wsdl:input>
+      <wsdl:output message="tns:getSpellCardResponse" name="getSpellCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateQuest">
+      <wsdl:input message="tns:updateQuest" name="updateQuest">
+    </wsdl:input>
+      <wsdl:output message="tns:updateQuestResponse" name="updateQuestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setTreePartActive">
+      <wsdl:input message="tns:setTreePartActive" name="setTreePartActive">
+    </wsdl:input>
+      <wsdl:output message="tns:setTreePartActiveResponse" name="setTreePartActiveResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="register">
+      <wsdl:input message="tns:register" name="register">
+    </wsdl:input>
+      <wsdl:output message="tns:registerResponse" name="registerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSpellAction">
+      <wsdl:input message="tns:deleteSpellAction" name="deleteSpellAction">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteSpellActionResponse" name="deleteSpellActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMonsterCard">
+      <wsdl:input message="tns:addMonsterCard" name="addMonsterCard">
+    </wsdl:input>
+      <wsdl:output message="tns:addMonsterCardResponse" name="addMonsterCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMarkerTreePart">
+      <wsdl:input message="tns:addMarkerTreePart" name="addMarkerTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:addMarkerTreePartResponse" name="addMarkerTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllSpellActions">
+      <wsdl:input message="tns:getAllSpellActions" name="getAllSpellActions">
+    </wsdl:input>
+      <wsdl:output message="tns:getAllSpellActionsResponse" name="getAllSpellActionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteQuest">
+      <wsdl:input message="tns:deleteQuest" name="deleteQuest">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteQuestResponse" name="deleteQuestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSpellCard">
+      <wsdl:input message="tns:addSpellCard" name="addSpellCard">
+    </wsdl:input>
+      <wsdl:output message="tns:addSpellCardResponse" name="addSpellCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletePlayer">
+      <wsdl:input message="tns:deletePlayer" name="deletePlayer">
+    </wsdl:input>
+      <wsdl:output message="tns:deletePlayerResponse" name="deletePlayerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addDeck">
+      <wsdl:input message="tns:addDeck" name="addDeck">
+    </wsdl:input>
+      <wsdl:output message="tns:addDeckResponse" name="addDeckResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatePlayer">
+      <wsdl:input message="tns:updatePlayer" name="updatePlayer">
+    </wsdl:input>
+      <wsdl:output message="tns:updatePlayerResponse" name="updatePlayerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateOrTreePart">
+      <wsdl:input message="tns:updateOrTreePart" name="updateOrTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:updateOrTreePartResponse" name="updateOrTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTreePartLazy">
+      <wsdl:input message="tns:getTreePartLazy" name="getTreePartLazy">
+    </wsdl:input>
+      <wsdl:output message="tns:getTreePartLazyResponse" name="getTreePartLazyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTreePartLazy">
+      <wsdl:input message="tns:addTreePartLazy" name="addTreePartLazy">
+    </wsdl:input>
+      <wsdl:output message="tns:addTreePartLazyResponse" name="addTreePartLazyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateFightMarker">
+      <wsdl:input message="tns:updateFightMarker" name="updateFightMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:updateFightMarkerResponse" name="updateFightMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addOrTreePart">
+      <wsdl:input message="tns:addOrTreePart" name="addOrTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:addOrTreePartResponse" name="addOrTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateHtml">
+      <wsdl:input message="tns:updateHtml" name="updateHtml">
+    </wsdl:input>
+      <wsdl:output message="tns:updateHtmlResponse" name="updateHtmlResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTreePartsLazy">
+      <wsdl:input message="tns:getTreePartsLazy" name="getTreePartsLazy">
+    </wsdl:input>
+      <wsdl:output message="tns:getTreePartsLazyResponse" name="getTreePartsLazyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateInfoMarker">
+      <wsdl:input message="tns:updateInfoMarker" name="updateInfoMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:updateInfoMarkerResponse" name="updateInfoMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMarker">
+      <wsdl:input message="tns:getMarker" name="getMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:getMarkerResponse" name="getMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuestInstance">
+      <wsdl:input message="tns:getQuestInstance" name="getQuestInstance">
+    </wsdl:input>
+      <wsdl:output message="tns:getQuestInstanceResponse" name="getQuestInstanceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDeck">
+      <wsdl:input message="tns:deleteDeck" name="deleteDeck">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteDeckResponse" name="deleteDeckResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTreePart">
+      <wsdl:input message="tns:getTreePart" name="getTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:getTreePartResponse" name="getTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCards">
+      <wsdl:input message="tns:getCards" name="getCards">
+    </wsdl:input>
+      <wsdl:output message="tns:getCardsResponse" name="getCardsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMonsterAction">
+      <wsdl:input message="tns:addMonsterAction" name="addMonsterAction">
+    </wsdl:input>
+      <wsdl:output message="tns:addMonsterActionResponse" name="addMonsterActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateMonsterAction">
+      <wsdl:input message="tns:updateMonsterAction" name="updateMonsterAction">
+    </wsdl:input>
+      <wsdl:output message="tns:updateMonsterActionResponse" name="updateMonsterActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAndTreePart">
+      <wsdl:input message="tns:updateAndTreePart" name="updateAndTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:updateAndTreePartResponse" name="updateAndTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuest">
+      <wsdl:input message="tns:getQuest" name="getQuest">
+    </wsdl:input>
+      <wsdl:output message="tns:getQuestResponse" name="getQuestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteQuestInstance">
+      <wsdl:input message="tns:deleteQuestInstance" name="deleteQuestInstance">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteQuestInstanceResponse" name="deleteQuestInstanceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setQuestInstanceOfMarkerTreePart">
+      <wsdl:input message="tns:setQuestInstanceOfMarkerTreePart" name="setQuestInstanceOfMarkerTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:setQuestInstanceOfMarkerTreePartResponse" name="setQuestInstanceOfMarkerTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTreePart">
+      <wsdl:input message="tns:deleteTreePart" name="deleteTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteTreePartResponse" name="deleteTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMonsterCard">
+      <wsdl:input message="tns:deleteMonsterCard" name="deleteMonsterCard">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteMonsterCardResponse" name="deleteMonsterCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSpellCard">
+      <wsdl:input message="tns:deleteSpellCard" name="deleteSpellCard">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteSpellCardResponse" name="deleteSpellCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addQuest">
+      <wsdl:input message="tns:addQuest" name="addQuest">
+    </wsdl:input>
+      <wsdl:output message="tns:addQuestResponse" name="addQuestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeck">
+      <wsdl:input message="tns:getDeck" name="getDeck">
+    </wsdl:input>
+      <wsdl:output message="tns:getDeckResponse" name="getDeckResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addAndTreePart">
+      <wsdl:input message="tns:addAndTreePart" name="addAndTreePart">
+    </wsdl:input>
+      <wsdl:output message="tns:addAndTreePartResponse" name="addAndTreePartResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addInfoMarker">
+      <wsdl:input message="tns:addInfoMarker" name="addInfoMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:addInfoMarkerResponse" name="addInfoMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSpellAction">
+      <wsdl:input message="tns:addSpellAction" name="addSpellAction">
+    </wsdl:input>
+      <wsdl:output message="tns:addSpellActionResponse" name="addSpellActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateQuestInstance">
+      <wsdl:input message="tns:updateQuestInstance" name="updateQuestInstance">
+    </wsdl:input>
+      <wsdl:output message="tns:updateQuestInstanceResponse" name="updateQuestInstanceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonsterCard">
+      <wsdl:input message="tns:getMonsterCard" name="getMonsterCard">
+    </wsdl:input>
+      <wsdl:output message="tns:getMonsterCardResponse" name="getMonsterCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAction">
+      <wsdl:input message="tns:getAction" name="getAction">
+    </wsdl:input>
+      <wsdl:output message="tns:getActionResponse" name="getActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMarkers">
+      <wsdl:input message="tns:getMarkers" name="getMarkers">
+    </wsdl:input>
+      <wsdl:output message="tns:getMarkersResponse" name="getMarkersResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuests">
+      <wsdl:input message="tns:getQuests" name="getQuests">
+    </wsdl:input>
+      <wsdl:output message="tns:getQuestsResponse" name="getQuestsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addHtml">
+      <wsdl:input message="tns:addHtml" name="addHtml">
+    </wsdl:input>
+      <wsdl:output message="tns:addHtmlResponse" name="addHtmlResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMonsterAction">
+      <wsdl:input message="tns:deleteMonsterAction" name="deleteMonsterAction">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteMonsterActionResponse" name="deleteMonsterActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateQuizMarker">
+      <wsdl:input message="tns:updateQuizMarker" name="updateQuizMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:updateQuizMarkerResponse" name="updateQuizMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <wsdl:input message="tns:login" name="login">
+    </wsdl:input>
+      <wsdl:output message="tns:loginResponse" name="loginResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHtml">
+      <wsdl:input message="tns:getHtml" name="getHtml">
+    </wsdl:input>
+      <wsdl:output message="tns:getHtmlResponse" name="getHtmlResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addQuizMarker">
+      <wsdl:input message="tns:addQuizMarker" name="addQuizMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:addQuizMarkerResponse" name="addQuizMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addQuestInstance">
+      <wsdl:input message="tns:addQuestInstance" name="addQuestInstance">
+    </wsdl:input>
+      <wsdl:output message="tns:addQuestInstanceResponse" name="addQuestInstanceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setTreePartFinished">
+      <wsdl:input message="tns:setTreePartFinished" name="setTreePartFinished">
+    </wsdl:input>
+      <wsdl:output message="tns:setTreePartFinishedResponse" name="setTreePartFinishedResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonsterCards">
+      <wsdl:input message="tns:getMonsterCards" name="getMonsterCards">
+    </wsdl:input>
+      <wsdl:output message="tns:getMonsterCardsResponse" name="getMonsterCardsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateInvisibleMarker">
+      <wsdl:input message="tns:updateInvisibleMarker" name="updateInvisibleMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:updateInvisibleMarkerResponse" name="updateInvisibleMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlayer">
+      <wsdl:input message="tns:getPlayer" name="getPlayer">
+    </wsdl:input>
+      <wsdl:output message="tns:getPlayerResponse" name="getPlayerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addInvisibleMarker">
+      <wsdl:input message="tns:addInvisibleMarker" name="addInvisibleMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:addInvisibleMarkerResponse" name="addInvisibleMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpellAction">
+      <wsdl:input message="tns:getSpellAction" name="getSpellAction">
+    </wsdl:input>
+      <wsdl:output message="tns:getSpellActionResponse" name="getSpellActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCompleteMarker">
+      <wsdl:input message="tns:getCompleteMarker" name="getCompleteMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:getCompleteMarkerResponse" name="getCompleteMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addFightMarker">
+      <wsdl:input message="tns:addFightMarker" name="addFightMarker">
+    </wsdl:input>
+      <wsdl:output message="tns:addFightMarkerResponse" name="addFightMarkerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllMonsterActions">
+      <wsdl:input message="tns:getAllMonsterActions" name="getAllMonsterActions">
+    </wsdl:input>
+      <wsdl:output message="tns:getAllMonsterActionsResponse" name="getAllMonsterActionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateSpellCard">
+      <wsdl:input message="tns:updateSpellCard" name="updateSpellCard">
+    </wsdl:input>
+      <wsdl:output message="tns:updateSpellCardResponse" name="updateSpellCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addUser">
+      <wsdl:input message="tns:addUser" name="addUser">
+    </wsdl:input>
+      <wsdl:output message="tns:addUserResponse" name="addUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonsterAction">
+      <wsdl:input message="tns:getMonsterAction" name="getMonsterAction">
+    </wsdl:input>
+      <wsdl:output message="tns:getMonsterActionResponse" name="getMonsterActionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BackendServiceSoapBinding" type="tns:IBackend">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="updateUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDecks">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDecks">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDecksResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllActions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllActions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllActionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateSpellAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateSpellAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateSpellActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addPlayer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addPlayer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addPlayerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonsterActions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMonsterActions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMonsterActionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpellCards">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSpellCards">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSpellCardsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateMarkerTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateMarkerTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateMarkerTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateMonsterCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateMonsterCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateMonsterCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuestInstances">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getQuestInstances">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getQuestInstancesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuestsInRange">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getQuestsInRange">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getQuestsInRangeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="clearDB">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="clearDB">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="clearDBResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getActions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getActionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDeck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateDeck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateDeckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpellCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSpellCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSpellCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSpellAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteSpellAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteSpellActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="register">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="register">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="registerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setTreePartActive">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="setTreePartActive">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setTreePartActiveResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateQuest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateQuest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateQuestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMonsterCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addMonsterCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addMonsterCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMarkerTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addMarkerTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addMarkerTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllSpellActions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllSpellActions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllSpellActionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteQuest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteQuest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteQuestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSpellCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addSpellCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addSpellCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addDeck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addDeck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addDeckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletePlayer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletePlayer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletePlayerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatePlayer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatePlayer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatePlayerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTreePartLazy">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addTreePartLazy">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addTreePartLazyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTreePartLazy">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTreePartLazy">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTreePartLazyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateOrTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateOrTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateOrTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateFightMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateFightMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateFightMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addOrTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addOrTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addOrTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateHtml">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateHtml">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateHtmlResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTreePartsLazy">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTreePartsLazy">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTreePartsLazyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateInfoMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateInfoMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateInfoMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuestInstance">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getQuestInstance">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getQuestInstanceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDeck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteDeck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteDeckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addMonsterAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addMonsterAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addMonsterActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCards">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCards">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCardsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getQuest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getQuestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAndTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateAndTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateAndTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateMonsterAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateMonsterAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateMonsterActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteQuestInstance">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteQuestInstance">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteQuestInstanceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setQuestInstanceOfMarkerTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="setQuestInstanceOfMarkerTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setQuestInstanceOfMarkerTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMonsterCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteMonsterCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteMonsterCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addQuest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addQuest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addQuestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSpellCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteSpellCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteSpellCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addAndTreePart">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addAndTreePart">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addAndTreePartResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeck">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDeck">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDeckResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addInfoMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addInfoMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addInfoMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSpellAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addSpellAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addSpellActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateQuestInstance">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateQuestInstance">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateQuestInstanceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonsterCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMonsterCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMonsterCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMarkers">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMarkers">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMarkersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQuests">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getQuests">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getQuestsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addHtml">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addHtml">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addHtmlResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMonsterAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteMonsterAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteMonsterActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateQuizMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateQuizMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateQuizMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="login">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="loginResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHtml">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getHtml">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getHtmlResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addQuizMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addQuizMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addQuizMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addQuestInstance">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addQuestInstance">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addQuestInstanceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonsterCards">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMonsterCards">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMonsterCardsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setTreePartFinished">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="setTreePartFinished">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setTreePartFinishedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateInvisibleMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateInvisibleMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateInvisibleMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addInvisibleMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addInvisibleMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addInvisibleMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlayer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPlayer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPlayerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpellAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSpellAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSpellActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCompleteMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCompleteMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCompleteMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addFightMarker">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addFightMarker">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addFightMarkerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllMonsterActions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllMonsterActions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllMonsterActionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateSpellCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateSpellCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateSpellCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMonsterAction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMonsterAction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMonsterActionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BackendService">
+    <wsdl:port binding="tns:BackendServiceSoapBinding" name="BackendPort">
+      <soap:address location="http://192.168.178.67:8080/Backend/webservices/Backend"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

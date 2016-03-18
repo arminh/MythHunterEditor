@@ -72,6 +72,9 @@ app.factory('BackendService', function($q) {
         remoteQuest.setHtmlId(quest.html.id);
         remoteQuest.setStartMarkerId(quest.startTask.remoteId);
 
+        remoteQuest.setSubmitted(quest.submitted);
+        remoteQuest.setApproved(quest.approved);
+
         var tasks = [];
         for(var i = 0; i < quest.tasks.length; i++) {
             tasks.push(quest.tasks[i].remoteId);

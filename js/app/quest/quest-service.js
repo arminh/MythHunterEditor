@@ -13,6 +13,8 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         this.html = new HTMLText(this);
         this.changed = false;
         this.version = null;
+        this.submitted = true;
+        this.approved = true;
 
         this.tasks = [];
         this.startTask = null;
