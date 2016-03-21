@@ -12,11 +12,11 @@ map.controller("QuestController", function($scope, $state, $modalInstance, HtmlT
 
     $scope.ok = function() {
 
-        HtmlTools.encloseContent($scope.quest_content).then(function(quest_content) {
+        HtmlTools.encloseContent($scope.name, $scope.name, $scope.quest_content).then(function(quest_content) {
             if(!$scope.separateDescription) {
                 closeModal(quest_content, quest_content);
             } else {
-                HtmlTools.encloseContent($scope.task_content).then(function(task_content) {
+                HtmlTools.encloseContent($scope.name, $scope.name, $scope.task_content).then(function(task_content) {
                     closeModal(quest_content, task_content);
                 });
             }
