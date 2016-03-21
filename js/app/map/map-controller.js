@@ -145,7 +145,7 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
     };
 
     $scope.editTask = function(task) {
-        task.edit();
+        task.edit(quest);
     };
 
     $scope.deleteTask = function(treePart, index) {
