@@ -64,6 +64,7 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
 
     function change() {
         this.changed = true;
+        console.log("TreePart changed");
     }
 
     function upload() {
@@ -71,20 +72,24 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
 
         this.remoteTreePart = BackendService.createRemoteTreePart(this);
 
-        var promises = [];
-        for(var i = 0; i < this.successors.length; i++) {
-            promises.push(this.successors[i].upload());
-        }
+        if(this.remoteId < 1 || this.changed) {
+            var promises = [];
+            for(var i = 0; i < this.successors.length; i++) {
+                promises.push(this.successors[i].upload());
+            }
 
-        $q.all(promises).then(function(results) {
-            this.remoteTreePart.setSuccessors(results);
-            console.log(this.remoteTreePart);
-            BackendService.addTreePart(this.remoteTreePart).then(function(result) {
-                this.remoteId = result.getId();
-                deferred.resolve(result);
+            $q.all(promises).then(function(results) {
+                this.remoteTreePart.setSuccessors(results);
+                console.log(this.remoteTreePart);
+                BackendService.addTreePart(this.remoteTreePart).then(function(result) {
+                    this.remoteId = result.getId();
+                    deferred.resolve(result);
+                }.bind(this));
+
             }.bind(this));
-
-        }.bind(this));
+        } else {
+            deferred.resolve(this.remoteTreePart);
+        }
 
         return deferred.promise;
     }
