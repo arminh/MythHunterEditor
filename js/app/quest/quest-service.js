@@ -236,8 +236,10 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
 
         if(this.treeParts.length == 0) {
             this.treePartRoot.successors.push(treePart);
+            this.treePartRoot.change();
         } else {
             this.treeParts[this.treeParts.length-1].successors.push(treePart);
+            this.treeParts[this.treeParts.length-1].change();
         }
 
         this.treeParts.push(treePart);
@@ -300,6 +302,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
                         for(i=0; i < this.treePartsToDelete.length; i++) {
                             this.treePartsToDelete[i].remove();
                         }
+                        this.treePartsToDelete = [];
 
                         deferred.resolve(this);
                     }.bind(this), function(error) {

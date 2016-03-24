@@ -4,8 +4,10 @@
 
 var BLOCKELEMENTS = /^(address|article|aside|audio|blockquote|canvas|dd|div|dl|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|noscript|ol|output|p|pre|section|table|tfoot|ul|video)$/i;
 
-var radioCounter = 1;
-var checkboxCounter = 1;
+var radioGroupCounter = 0;
+var radioCounter = 0;
+var checkboxGroupCounter = 0;
+var checkboxCounter = 0;
 var textBoxCounter = 1;
 
 var task = angular.module("task", []);
@@ -25,6 +27,10 @@ task.config(function($provide) {
                 iconclass: "fa fa-file-text-o inputBox",
                 tooltiptext: "Input box",
                 action: function(){
+                    checkboxCounter = getElementCount("checkbox", this.$editor().html) + 1;
+
+                    var name = "radio" + radioCounter;
+
                     var selection = window.getSelection().toString();
 
                     var content = "<input ";
@@ -42,9 +48,11 @@ task.config(function($provide) {
                 iconclass: "fa fa-dot-circle-o radioBtn",
                 tooltiptext: "Radio button",
                 action: function(){
-                    var name = "radio" + radioCounter;
-                    radioCounter++;
-                    var pointCounter = 1;
+
+                    radioGroupCounter = getElementCount('name="radio', this.$editor().html) + 1;
+                    radioCounter = getElementCount('id="radioBtn', this.$editor().html) + 1;
+
+                    var name = "radio" + radioGroupCounter;
 
                     var selection = window.getSelection().toString();
 
@@ -54,7 +62,7 @@ task.config(function($provide) {
 
                     for(var i = 0; i < options.length; i++) {
                         if(options[i] != "") {
-                            var id = "radio" + pointCounter++;
+                            var id = "radioBtn" + radioCounter++;
 
                             content += "<label><input ";
                             content += "id='" + id + "' ";
@@ -78,10 +86,10 @@ task.config(function($provide) {
                 tooltiptext: "Checkbox",
                 action: function(){
 
-                    var name = "checkbox" + checkboxCounter;
-                    checkboxCounter++;
+                    checkboxGroupCounter = getElementCount('name="checkbox', this.$editor().html) + 1;
+                    checkboxCounter = getElementCount('id="checkboxBtn', this.$editor().html) + 1;
 
-                    var pointCounter = 1;
+                    var name = "checkbox" + checkboxGroupCounter;
 
                     var selection = window.getSelection().toString();
 
@@ -91,7 +99,7 @@ task.config(function($provide) {
 
                     for(var i = 0; i < options.length; i++) {
                         if(options[i] != "") {
-                            var id = "checkbox" + pointCounter++;
+                            var id = "checkboxBtn" + checkboxCounter++;
 
                             content += "<label><input ";
                             content += "id='" + id + "' ";
@@ -103,7 +111,6 @@ task.config(function($provide) {
                         }
                     }
 
-                    checkboxCounter++;
                     this.$editor().wrapSelection("insertHTML", content);
                 },
             });
@@ -112,6 +119,24 @@ task.config(function($provide) {
             return taOptions;
         }]);
     });
+
+function getElementCount(element, string) {
+    var regexString = element + '(.)\" ';
+    var regex = new RegExp(regexString,"g");
+
+    var res = null;
+    var max = 0;
+    do {
+        res = regex.exec(string);
+        if(res) {
+            var val = parseInt(res[1]);
+            max = val > max ? val : max;
+        }
+
+    } while(res);
+
+    return max;
+}
 
 var handleExercise = function(selectedElement, exerciseType, taSelection) {
     var $selected = angular.element(selectedElement);

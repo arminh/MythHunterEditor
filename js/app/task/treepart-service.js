@@ -2,7 +2,7 @@
  * Created by armin on 28.02.16.
  */
 
-task.factory("TreePart", function($q, BackendService, TreePartType) {
+task.factory("TreePart", function ($q, BackendService, TreePartType) {
 
     function TreePart(task) {
         this.remoteId = 0;
@@ -24,7 +24,7 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
     };
 
     function initFromObject(treePartObject, quest, isRoot) {
-        if(!isRoot) {
+        if (!isRoot) {
             quest.addTreePart(this);
         }
 
@@ -33,7 +33,7 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
         this.type = treePartObject.type;
         this.changed = treePartObject.changed;
 
-        for(var i = 0; i < treePartObject.successors.length; i++) {
+        for (var i = 0; i < treePartObject.successors.length; i++) {
             var task = quest.getTaskById(treePartObject.successors[i].task.id);
             var treePart = new TreePart(task);
             treePart.initFromObject(treePartObject.successors[i], quest, false);
@@ -42,7 +42,7 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
     }
 
     function initFromRemote(remoteTreePart, quest, isRoot) {
-        if(!isRoot) {
+        if (!isRoot) {
             quest.addTreePart(this);
         }
 
@@ -52,7 +52,7 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
         this.task = quest.getTaskByRemoteId(remoteTreePart.getMarker().getId());
 
         var successors = remoteTreePart.getSuccessors();
-        for(var i = 0; i < successors.length; i++) {
+        for (var i = 0; i < successors.length; i++) {
             var treePart = new TreePart(null);
             this.successors.push(treePart.initFromRemote(successors[i], quest, false));
         }
@@ -72,30 +72,30 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
 
         this.remoteTreePart = BackendService.createRemoteTreePart(this);
 
-        if(this.remoteId < 1 || this.changed) {
-            var promises = [];
-            for(var i = 0; i < this.successors.length; i++) {
-                promises.push(this.successors[i].upload());
-            }
+        var promises = [];
+        for (var i = 0; i < this.successors.length; i++) {
+            promises.push(this.successors[i].upload());
+        }
 
-            $q.all(promises).then(function(results) {
-                this.remoteTreePart.setSuccessors(results);
-                console.log(this.remoteTreePart);
-                BackendService.addTreePart(this.remoteTreePart).then(function(result) {
+        $q.all(promises).then(function (results) {
+            this.remoteTreePart.setSuccessors(results);
+            console.log(this.remoteTreePart);
+            if (this.remoteId < 1 || this.changed) {
+                BackendService.addTreePart(this.remoteTreePart).then(function (result) {
                     this.remoteId = result.getId();
                     deferred.resolve(result);
                 }.bind(this));
+            } else{
+                deferred.resolve(this.remoteTreePart);
+            }
 
-            }.bind(this));
-        } else {
-            deferred.resolve(this.remoteTreePart);
-        }
+        }.bind(this));
 
         return deferred.promise;
     }
 
     function remove() {
-        BackendService.deleteTreePart(this.remoteId).then(function() {
+        BackendService.deleteTreePart(this.remoteId).then(function () {
             this.task.remove();
         }.bind(this));
     }
