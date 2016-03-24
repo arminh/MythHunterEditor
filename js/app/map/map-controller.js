@@ -148,12 +148,9 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         task.edit(quest);
     };
 
-    $scope.deleteTask = function(treePart, index) {
-        if(treePart.remoteId > 0) {
-            treePartsToDelete.push(treePart);
-        }
-        this.tasks.splice(index, 1);
-        //quest.deleteTask(taskIndex);
+    $scope.deleteTask = function(index) {
+        //$scope.treeParts.splice(index, 1);
+        quest.deleteTreePart(index);
     };
 
     function fightTpl(lon, lat) {

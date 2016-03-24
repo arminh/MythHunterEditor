@@ -32,7 +32,8 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         initFromMarker: initFromMarker,
         getMarkerSrc: getMarkerSrc,
         change: change,
-        upload: upload
+        upload: upload,
+        remove: remove
     };
 
     function create() {
@@ -189,6 +190,10 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         }
 
         return deferred.promise;
+    }
+
+    function remove() {
+        return BackendService.deleteTask(this.remoteId);
     }
 
     var openTaskDialog = function(task) {

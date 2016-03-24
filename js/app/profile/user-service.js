@@ -151,8 +151,17 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
     function backup() {
         console.log("Backup");
         console.log(this.currentQuest);
-        $localStorage.currentQuest = this.currentQuest;
 
+        var taskId = 0;
+
+        this.currentQuest.startTask.id = taskId++;
+        for(var i = 0; i < this.currentQuest.tasks.length; i++) {
+            this.currentQuest.tasks[i].id = taskId++;
+        }
+
+        console.log(this.currentQuest.treePartRoot);
+
+        $localStorage.currentQuest = this.currentQuest;
     }
 
     function retrieveCurrentQuest() {

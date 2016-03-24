@@ -3,8 +3,6 @@
  */
 quest.factory('Quest', function($modal, $q, AuthenticationService, BackendService, MarkerType, TreePartType, Task, HTMLText, TreePart) {
 
-    var taskId = 0;
-
     function Quest() {
         this.remoteId = 0;
         this.creatorId = -1;
@@ -21,6 +19,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         this.treeParts = [];
         this.treePartRoot = null;
 
+        this.treePartsToDelete = [];
         this.tasksToDelete = [];
     }
 
@@ -34,6 +33,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         addTreePart: addTreePart,
         getTaskById: getTaskById,
         getTaskByRemoteId: getTaskByRemoteId,
+        deleteTreePart: deleteTreePart,
         deleteTask: deleteTask,
         upload: upload
     };
@@ -139,7 +139,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
             this.startTask.type = "start";
 
             for(var i = 2; i < results.length-1; i++) {
-                results[i].id = taskId++;
                 this.tasks.push(results[i]);
             }
 
@@ -197,14 +196,31 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         return null;
     }
 
-    function deleteTask(taskIndex) {
-        console.log("Delete");
-        var remoteId = this.tasks[taskIndex].remoteId;
+    function deleteTreePart(index) {
+        console.log("Delete " + index);
+        this.deleteTask(this.treeParts[index].task.id);
+        var remoteId = this.treeParts[index].remoteId;
         if(remoteId != -1) {
-            this.tasksToDelete.push(remoteId);
+            this.treePartsToDelete.push(this.treeParts[index]);
         }
-        this.tasks.splice(taskIndex, 1);
+        this.treeParts.splice(index, 1);
+        this.rewireTree(this.treePartRoot, this.treeParts);
+        console.log(this.treeParts);
         this.change();
+    }
+
+    function deleteTask(id) {
+        console.log("Delete Task " + id);
+        for(var i = 0; i < this.tasks.length; i++) {
+            if(this.tasks[i].id == id) {
+                var remoteId = this.tasks[i].remoteId;
+                if(remoteId != -1) {
+                    this.tasksToDelete.push(remoteId);
+                }
+                this.tasks.splice(i, 1);
+            }
+        }
+        console.log(this.tasks);
     }
 
     function change() {
@@ -214,7 +230,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
     }
 
     function addTask(task) {
-        task.id = taskId++;
         this.tasks.push(task);
         var treePart = new TreePart(task);
         treePart.type = TreePartType.Marker;
@@ -251,10 +266,6 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
             treePromises.push(promise);
         }
 
-        for(i=0; i < this.tasksToDelete.length; i++) {
-            BackendService.deleteTask(this.tasksToDelete[i]);
-        }
-
         var treePartPromise = $q.defer();
 
         $q.all(treePromises).then(function(responses) {
@@ -285,6 +296,11 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
 
                     BackendService.updateQuest(this.remoteQuest).then(function(result) {
                         this.version = result.getVersion();
+
+                        for(i=0; i < this.treePartsToDelete.length; i++) {
+                            this.treePartsToDelete[i].remove();
+                        }
+
                         deferred.resolve(this);
                     }.bind(this), function(error) {
                         alert(error);
@@ -307,11 +323,11 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
     }
 
     Quest.prototype.rewireTree = function(treePartRoot, treeParts) {
+        treePartRoot.successors = [];
         if(treeParts.length == 0) {
             return;
         }
 
-        treePartRoot.successors = [];
         treePartRoot.successors.push(treeParts[0]);
         treePartRoot.change();
 

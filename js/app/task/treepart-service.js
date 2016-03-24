@@ -19,7 +19,8 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
         initFromObject: initFromObject,
         initFromRemote: initFromRemote,
         change: change,
-        upload: upload
+        upload: upload,
+        remove: remove
     };
 
     function initFromObject(treePartObject, quest, isRoot) {
@@ -86,6 +87,12 @@ task.factory("TreePart", function($q, BackendService, TreePartType) {
         }.bind(this));
 
         return deferred.promise;
+    }
+
+    function remove() {
+        BackendService.deleteTreePart(this.remoteId).then(function() {
+            this.task.remove();
+        }.bind(this));
     }
 
     return (TreePart);

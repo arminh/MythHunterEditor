@@ -7,8 +7,8 @@
 app.factory('BackendService', function($q) {
 
     var backend = new backend_com_wsdl_IBackend();
-    backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
-    //backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
+    //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
+    backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
 
     function login(username, password) {
         var deffered = $q.defer();
@@ -358,11 +358,29 @@ app.factory('BackendService', function($q) {
 
 
     function deleteTask(taskId) {
-        backend.deleteMarker(function(result) {
 
+        var deffered = $q.defer();
+
+        backend.deleteMarker(function(result) {
+            deffered.resolve();
         }, function(error) {
             alert("Error deleting task width id :" + taskId);
         }, taskId);
+
+        return deffered.promise;
+    }
+
+    function deleteTreePart(treePartId) {
+
+        var deffered = $q.defer();
+
+        backend.deleteTreePart(function(result) {
+            deffered.resolve();
+        }, function(error) {
+            alert("Error deleting treePart width id :" + treePartId);
+        }, treePartId);
+
+        return deffered.promise;
     }
 
     return {
@@ -388,6 +406,7 @@ app.factory('BackendService', function($q) {
         updateHtml: updateHtml,
         deleteQuest: deleteQuest,
         deleteTask: deleteTask,
+        deleteTreePart: deleteTreePart,
         mapPosition: mapPosition
     };
 });
