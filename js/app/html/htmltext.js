@@ -7,9 +7,6 @@ angular
     .module("html")
     .factory('HTMLText', function ($q, $modal, $compile, AuthenticationService, BackendService, HtmlTools) {
 
-        var backend = new backend_com_wsdl_IBackend();
-        backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
-
         function HTMLText() {
             this.id = 0;
             this.content = "";

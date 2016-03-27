@@ -2,96 +2,127 @@
  * Created by armin on 18.02.16.
  */
 
-app.factory("AuthenticationService", function($q, $localStorage, $cookies, $rootScope, BackendService) {
+(function () {
+    'use strict';
 
-    var user = null;
-    var credentials = null;
-    var userPromise = $q.defer();
+    angular
+        .module('authentication')
+        .factory('AuthenticationService', AuthenticationService);
 
-    function login(username, password) {
-        var deffered = $q.defer();
+    AuthenticationService.$inject = ["$log", "$q", "$localStorage", "$cookies", "$rootScope", "BackendService"];
 
-        BackendService.login(username, password).then(function(result) {
-            console.log(result);
-            $cookies.putObject("credentials", {
-                username: result.getName(),
-                password: result.getPassword()
-            });
-            console.log($cookies.getObject("credentials"));
-            deffered.resolve(result);
-        }, function(error) {
-            alert("Wrong username or password");
-            clear();
-            deffered.reject(error);
-        });
+    /* @ngInject */
+    function AuthenticationService($log, $q, $localStorage, $cookies, $rootScope, BackendService) {
 
-        return deffered.promise;
-    }
+        var user = null;
+        var credentials = null;
+        var userPromise = $q.defer();
 
-    function register(username, password) {
+        var service = {
+            login: login,
+            register: register,
+            logout: clear,
+            getUser: getUser,
+            setUser: setUser,
+            userPromise: getUserPromise,
+            setCredentials: setCredentials,
+            getCredentials: getCredentials
+        };
+        return service;
 
-        var deffered = $q.defer();
+        ////////////////
 
-        BackendService.register(username, CryptoJS.SHA256(password)).then(function(result) {
-            deffered.resolve(result);
-        }, function(error) {
-            alert("Register failed!");
-            deffered.reject(error);
-        });
+        function login(username, password) {
 
-        return deffered.promise;
-    }
+            $log.log('Try logging in user "' + username + '" width password "' + password + '"');
+            return BackendService.login(username, password).then(loginSuccess, loginFail);
 
-    function getUser() {
-        return user;
-    }
+            function loginSuccess(result) {
+                credentials = {
+                    username: result.getName(),
+                    password: result.getPassword()
+                };
 
-    function setUser(newUser) {
-        user = newUser;
-        $rootScope.user = newUser;
-        console.log("USer Promise resolve");
-        userPromise.resolve(user);
-    }
+                $cookies.putObject("credentials", credentials);
 
-    function setCredentials(newCredentials) {
-        if(newCredentials) {
-            credentials = newCredentials;
-            $rootScope.credentials = newCredentials;
+                $log.log('Successfully logged in user "' + username + '"');
+                return result;
+            }
+
+            function loginFail(error) {
+                alert("Wrong username or password");
+                $log.error("Login of user " + username + " failed due to: " + error);
+                clear();
+                return $q.reject(error);
+            }
+        }
+
+        function register(username, password) {
+
+            $log.log('Try registering user "' + username + '" width password "' + password + '"');
+            return BackendService.register(username, password).then(registerSuccess, registerFail);
+
+            function registerSuccess(result) {
+                $log.log('Successfully registered user "' + username + '"');
+            }
+
+            function registerFail(error) {
+                alert("Register failed!");
+                $log.error('Register of user "' + username + '" failed due to: ' + error);
+                return $q.reject(error);
+            }
+        }
+
+        function clear() {
+            if (credentials) {
+                clearCredentials();
+            }
+            if(user) {
+                clearUser();
+            }
+        }
+
+        function clearCredentials() {
+            credentials = null;
+            $cookies.remove("credentials");
+            $log.log("Credentials cleared");
+        }
+
+        function clearUser() {
+            if (user) {
+                user.clearCurrentQuest();
+                user = null;
+                $rootScope.user = null;
+            }
+
+            userPromise = $q.defer();
+            $log.log("User cleared");
+        }
+
+        function getUser() {
+            return user;
+        }
+
+        function setUser(newUser) {
+            user = newUser;
+            $rootScope.user = newUser;
+            userPromise.resolve(user);
+        }
+
+        function setCredentials(newCredentials) {
+            if (newCredentials) {
+                credentials = newCredentials;
+                $rootScope.credentials = newCredentials;
+            }
+        }
+
+        function getCredentials() {
+            return credentials;
+        }
+
+        function getUserPromise() {
+            return userPromise.promise;
         }
     }
 
-    function getCredentials() {
-        return credentials;
-    }
-
-    function clear() {
-        credentials = null;
-        $rootScope.credentials = null;
-        $cookies.remove("credentials");
-
-        //TODO
-        if(user) {
-            user.clearCurrentQuest();
-            user = null;
-            $rootScope.user = null;
-        }
-
-        userPromise = $q.defer();
-    }
-
-    function getUserPromise() {
-        return userPromise.promise;
-    }
-
-
-    return {
-        login: login,
-        userPromise: getUserPromise,
-        logout: clear,
-        register: register,
-        getUser: getUser,
-        setUser: setUser,
-        setCredentials: setCredentials,
-        getCredentials: getCredentials
-    }
-});
+})();

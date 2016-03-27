@@ -2,7 +2,7 @@
  * Created by armin on 07.02.16.
  */
 
-profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendService, mapService, Quest) {
+profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, BackendService, mapService, Quest) {
     function User() {
         this.id = -1;
         this.name = "";
@@ -44,6 +44,7 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
 
         $q.all(promises).then(function(results) {
             this.createdQuests = results;
+            $log.log("User: ", this);
             deffered.resolve(this);
         }.bind(this));
 
@@ -142,10 +143,11 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
     }
 
     function clearCurrentQuest() {
-        console.log("Clear Current Quest");
         this.currentQuest = null;
         $rootScope.currentQuest = null;
         delete $localStorage.currentQuest;
+
+        $log.log("Current quest cleared");
     }
 
     function backup() {
@@ -165,7 +167,6 @@ profile.factory("User", function($rootScope, $q, $modal, $localStorage, BackendS
     }
 
     function retrieveCurrentQuest() {
-        console.log($localStorage.currentQuest);
         if($localStorage.currentQuest) {
             var quest = new Quest();
             quest.initFromObject($localStorage.currentQuest);

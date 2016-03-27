@@ -16,6 +16,7 @@ var app = angular.module('app', [
     'ngDialog',
     'ngDragDrop',
     'textAngular',
+    'authentication',
     'profile',
     'quest',
     'task',
@@ -47,18 +48,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 }]
             }
         });
-    $stateProvider
-        .state('app.login', {
-            url: '/login',
-            controller: 'loginController',
-            templateUrl: 'js/app/authentication/login.tpl.html'
-        });
-    $stateProvider
-        .state('app.register', {
-            url: '/register',
-            controller: 'registerController',
-            templateUrl: 'js/app/authentication/register.tpl.html'
-        });
+
+
     $stateProvider
         .state('app.map', {
             url: '/quest',
@@ -87,7 +78,6 @@ app.run(function ($rootScope, $q, $location, $cookies, AuthenticationService, Us
                 var user = new User();
                 user.initFromRemote(remoteUser).then(function(result) {
                     AuthenticationService.setUser(result);
-                    console.log(result);
                     testAccess(result, path);
                 });
 

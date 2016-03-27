@@ -2,23 +2,37 @@
  * Created by armin on 18.02.16.
  */
 
-app.controller("loginController", function($scope, $state, AuthenticationService, User) {
+(function () {
+    'use strict';
 
-    $scope.username = "";
-    $scope.password = "";
+    angular
+        .module('authentication')
+        .controller('LoginController', LoginController);
 
-    $scope.login = function() {
-        var passwordHash = CryptoJS.SHA256($scope.password);
-        AuthenticationService.login($scope.username, passwordHash).then(function(result) {
-            var user = new User();
-            user.initFromRemote(result).then(function() {
-                AuthenticationService.setUser(user);
-                console.log(user);
-                $state.go("app.profile");
-            }, function() {
-                alert("Error loging in " + $scope.username);
-            });
-        });
-    };
+    LoginController.$inject = ["$state", "AuthenticationService", "User"];
 
-});
+    /* @ngInject */
+    function LoginController($state, AuthenticationService, User) {
+        var vm = this;
+        vm.username = "";
+        vm.password = "";
+
+        vm.login = login;
+
+        ////////////////
+
+        function login() {
+            var passwordHash = CryptoJS.SHA256(vm.password);
+            AuthenticationService.login(vm.username, passwordHash).then(loginSuccess);
+
+            function loginSuccess(result) {
+                var user = new User();
+                user.initFromRemote(result).then(function() {
+                    AuthenticationService.setUser(user);
+                    $state.go("app.profile");
+                });
+            }
+        }
+    }
+
+})();
