@@ -26,8 +26,6 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
         },
         stop: function(e, ui) {
             quest.rewireTree($scope.treePartRoot, $scope.treeParts);
-            console.log($scope.treePartRoot);
-            console.log($scope.treeParts);
         },
         sort: function(e, ui) {
             var draggedMarkerId = ui.item.sortable.model.task.markerId;
@@ -50,7 +48,6 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
     if(!quest) {
         user.newQuest().then(
             function(result) {
-                console.log("Map create");
                 quest = result;
                 this.tasks = quest.tasks;
                 this.treeParts = quest.treeParts;
@@ -174,13 +171,11 @@ map.controller("mapController", function($scope, $state, $localStorage, mapServi
     });
 
     $scope.previewHtml = function(html) {
-        console.log(html);
         html.preview();
     };
 
     $scope.save = function() {
         user.uploadQuest().then(function() {
-            console.log(user);
             $state.go("app.profile");
         });
     };

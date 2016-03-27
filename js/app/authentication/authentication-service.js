@@ -34,7 +34,7 @@
 
         function login(username, password) {
 
-            $log.log('Try logging in user "' + username + '" width password "' + password + '"');
+            $log.log('Logging in user "' + username + '" width password "' + password + '"');
             return BackendService.login(username, password).then(loginSuccess, loginFail);
 
             function loginSuccess(result) {
@@ -45,7 +45,7 @@
 
                 $cookies.putObject("credentials", credentials);
 
-                $log.log('Successfully logged in user "' + username + '"');
+                $log.log('Login success: "' + username + '"');
                 return result;
             }
 
@@ -59,11 +59,11 @@
 
         function register(username, password) {
 
-            $log.log('Try registering user "' + username + '" width password "' + password + '"');
+            $log.log('Registering user "' + username + '" width password "' + password + '"');
             return BackendService.register(username, password).then(registerSuccess, registerFail);
 
             function registerSuccess(result) {
-                $log.log('Successfully registered user "' + username + '"');
+                $log.log('Register success: "' + username + '"');
             }
 
             function registerFail(error) {

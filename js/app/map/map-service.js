@@ -174,7 +174,6 @@ map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', functio
         });
 
         drawEvent = drawInteraction.on('drawend', function (evt) {
-            console.log("Drawend");
             removeDraw();
             var markerId = initMarker(evt.feature, iconSrc);
             deferred.resolve(markerId);

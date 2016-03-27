@@ -2,13 +2,13 @@
  * Created by armin on 04.02.16.
  */
 
-task.factory('Task', function($modal, $q, AuthenticationService, BackendService, mapService, MarkerType, HTMLText) {
+task.factory('Task', function($modal, $q, AuthenticationService, BackendService, mapService, MarkerType, HtmlText) {
 
     function Task(questName) {
         this.id = 0;
         this.remoteId = -1;
         this.name = "";
-        this.html = new HTMLText(this);
+        this.html = new HtmlText(this);
         this.type = null;
         this.lon = null;
         this.lat = null;
@@ -94,13 +94,12 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         this.markerId = taskObject.markerId;
         this.version = taskObject.version;
 
-        var html = new HTMLText();
+        var html = new HtmlText();
         html.initFromObject(taskObject.html);
         this.html = html;
     }
 
     function initFromRemote(remoteTask) {
-        console.log(remoteTask);
         var deffered = $q.defer();
 
         this.remoteId = remoteTask.getId();
@@ -124,7 +123,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         var deffered = $q.defer();
 
         BackendService.getHtml(htmlId).then(function(remoteHtml) {
-            var html = new HTMLText();
+            var html = new HtmlText();
             html.initFromRemote(remoteHtml);
             deffered.resolve(html);
         });
@@ -148,7 +147,6 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
     };
 
     function change() {
-        console.log("Task changed");
         AuthenticationService.getUser().backup();
         this.changed = true;
         //this.quest.change();
@@ -162,8 +160,6 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
             this.html.upload().then(function(id) {
                 this.remoteTask.setHtmlId(id);
                 if(this.remoteId != -1 && this.changed) {
-                    console.log("Update Task: ");
-                    console.log(this.remoteTask);
                     BackendService.updateTask(this.remoteTask).then(function(result) {
                         this.version = result.getVersion();
                         deferred.resolve(this.remoteId);
@@ -173,8 +169,6 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
                     });
 
                 } else {
-                    console.log("Add Task: ");
-                    console.log(this.remoteTask);
                     BackendService.addTask(this.remoteTask).then(function(result) {
                         this.remoteId = result.getId();
                         this.version = result.getVersion();
@@ -205,7 +199,6 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
             controller: 'TaskController',
             resolve: {
                 task: function () {
-                    console.log(task);
                     return task;
                 }
             }

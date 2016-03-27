@@ -73,7 +73,6 @@ profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, Ba
         this.currentQuest.creatorId = this.id;*/
         var quest = new Quest(this.id);
         return quest.create().then(function(result) {
-            console.log("User create");
             this.currentQuest = result;
             this.currentQuest.creatorId = this.id;
             this.backup();
@@ -151,8 +150,6 @@ profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, Ba
     }
 
     function backup() {
-        console.log("Backup");
-        console.log(this.currentQuest);
 
         var taskId = 0;
 
@@ -160,8 +157,6 @@ profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, Ba
         for(var i = 0; i < this.currentQuest.tasks.length; i++) {
             this.currentQuest.tasks[i].id = taskId++;
         }
-
-        console.log(this.currentQuest.treePartRoot);
 
         $localStorage.currentQuest = this.currentQuest;
     }

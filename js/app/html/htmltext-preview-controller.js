@@ -21,7 +21,6 @@
         ////////////////
 
         function close() {
-            console.log("Close");
             $modalInstance.close();
         }
     }

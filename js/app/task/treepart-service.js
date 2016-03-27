@@ -57,14 +57,11 @@ task.factory("TreePart", function ($q, BackendService, TreePartType) {
             this.successors.push(treePart.initFromRemote(successors[i], quest, false));
         }
 
-        console.log(this);
-
         return this;
     }
 
     function change() {
         this.changed = true;
-        console.log("TreePart changed");
     }
 
     function upload() {
@@ -79,7 +76,6 @@ task.factory("TreePart", function ($q, BackendService, TreePartType) {
 
         $q.all(promises).then(function (results) {
             this.remoteTreePart.setSuccessors(results);
-            console.log(this.remoteTreePart);
             if (this.remoteId < 1 || this.changed) {
                 BackendService.addTreePart(this.remoteTreePart).then(function (result) {
                     this.remoteId = result.getId();

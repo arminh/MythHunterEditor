@@ -38,12 +38,10 @@ map.controller("TaskController", function($scope, $modalInstance, textAngularMan
     };
 
     $scope.contentChanged = function() {
-        console.log("Changed");
         setStates();
     };
 
     $scope.ok = function() {
-        console.log($scope.answers);
         $scope.content = $scope.content.replace(" checked","");
         if(!$scope.activeType) {
             $scope.error = true;

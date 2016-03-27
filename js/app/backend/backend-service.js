@@ -304,7 +304,7 @@
                 }
 
             }, function(error) {
-
+                deffered.reject("Html add error");
             }, html);
 
             return deffered.promise;

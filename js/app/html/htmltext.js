@@ -2,26 +2,36 @@
  * Created by armin on 04.02.16.
  */
 
+(function () {
+    'use strict';
 
-angular
-    .module("html")
-    .factory('HTMLText', function ($q, $modal, $compile, AuthenticationService, BackendService, HtmlTools) {
+    angular
+        .module('html')
+        .factory('HtmlText', HtmlTextFactory);
 
-        function HTMLText() {
+    HtmlTextFactory.$inject = ["$log", "$modal", "AuthenticationService", "BackendService", "HtmlTools"];
+
+    /* @ngInject */
+    function HtmlTextFactory($log, $modal, AuthenticationService, BackendService, HtmlTools) {
+        function HtmlText() {
             this.id = 0;
             this.content = "";
             this.changed = false;
             this.answers = {};
         }
 
-        HTMLText.prototype = {
-            constructor: HTMLText,
+        HtmlText.prototype = {
+            constructor: HtmlText,
             initFromObject: initFromObject,
             initFromRemote: initFromRemote,
             preview: preview,
             change: change,
             upload: upload
         };
+
+        return (HtmlText);
+
+        ////////////////
 
         function initFromObject(htmlTextObject) {
             this.changed = htmlTextObject.changed;
@@ -59,34 +69,37 @@ angular
         }
 
         function change() {
-            console.log("Html changed");
             this.changed = true;
             AuthenticationService.getUser().backup();
         }
 
         function upload() {
-            var deferred = $q.defer();
-
             if (this.id >= 1 && this.changed == false) {
-                deferred.resolve(this.id);
+                return this.id;
             } else {
                 this.remoteHtml = BackendService.createRemoteHtml(this);
 
                 if (this.id < 1) {
-                    console.log(this.remoteHtml);
-                    BackendService.addHtml(this.remoteHtml).then(function (result) {
-                        this.id = result.getId();
-                        deferred.resolve(this.id)
-                    }.bind(this));
+                    $log.log("Adding html: ", this.remoteHtml);
+                    return BackendService.addHtml(this.remoteHtml).then(
+                        function (result) {
+                            this.id = result.getId();
+                            $log.log("Add html success: ", this);
+                            return this.id;
+                        }.bind(this),
+                        function (error) {
+                            $log.error(error);
+                        }
+                    );
                 } else {
-                    BackendService.updateHtml(this.remoteHtml).then(function(result) {
-                        deferred.resolve(this.id);
+                    $log.log("Updating html: ", this.remoteHtml);
+                    return BackendService.updateHtml(this.remoteHtml).then(function(result) {
+                        $log.log("Update html success: ", this);
+                        return this.id;
                     }.bind(this));
                 }
             }
-
-            return deferred.promise;
         }
+    }
 
-        return (HTMLText);
-    });
+})();

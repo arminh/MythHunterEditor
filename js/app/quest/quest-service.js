@@ -1,14 +1,14 @@
 /**
  * Created by armin on 04.02.16.
  */
-quest.factory('Quest', function($modal, $q, AuthenticationService, BackendService, MarkerType, TreePartType, Task, HTMLText, TreePart) {
+quest.factory('Quest', function($modal, $q, AuthenticationService, BackendService, MarkerType, TreePartType, Task, HtmlText, TreePart) {
 
     function Quest() {
         this.remoteId = 0;
         this.creatorId = -1;
         this.name = "";
         this.description = "";
-        this.html = new HTMLText(this);
+        this.html = new HtmlText(this);
         this.changed = false;
         this.version = null;
         this.submitted = true;
@@ -76,7 +76,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         this.remoteId = questObject.remoteId;
         this.version = questObject.version;
 
-        var html = new HTMLText();
+        var html = new HtmlText();
         html.initFromObject(questObject.html);
         this.html = html;
 
@@ -155,7 +155,7 @@ quest.factory('Quest', function($modal, $q, AuthenticationService, BackendServic
         var deffered = $q.defer();
 
         BackendService.getHtml(htmlId).then(function(remoteHtml) {
-            var html = new HTMLText();
+            var html = new HtmlText();
             html.initFromRemote(remoteHtml);
             deffered.resolve(html);
         });
