@@ -1,5 +1,29 @@
 /**
  * Created by armin on 13.11.15.
  */
+(function () {
+    'use strict';
 
-var map = angular.module("map", []);
+    angular
+        .module("map", [])
+        .config(config);
+
+    config.$inject = ["$stateProvider"];
+
+    /* @ngInject */
+    function config($stateProvider) {
+        $stateProvider
+            .state('app.map', {
+                url: '/quest',
+                templateUrl: 'js/app/map/map.tpl.html',
+                resolve: {
+                    user: ['AuthenticationService', function (AuthenticationService) {
+                        return AuthenticationService.userPromise();
+                    }]
+                },
+                controller: 'MapController',
+                controllerAs: 'map'
+            });
+    }
+
+})();

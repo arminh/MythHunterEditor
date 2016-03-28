@@ -3,6 +3,8 @@
  */
 
 (function () {
+    'use strict';
+
     angular
         .module('authentication', [])
         .config(config);
@@ -27,6 +29,6 @@
                 controllerAs: 'register'
             });
     }
-}());
+})();
 
 

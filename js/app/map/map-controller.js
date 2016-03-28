@@ -2,215 +2,219 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", function($scope, $state, $localStorage, mapService, AuthenticationService, Task, user) {
+(function () {
+    'use strict';
 
-    $scope.startTask = null;
-    $scope.tasks = [];
-    $scope.treeParts = [];
+    angular
+        .module('map')
+        .controller('MapController', MapController);
 
-    $scope.drawing = false;
-    $scope.continueDrawing = false;
-    $scope.showQuestline = false;
+    MapController.$inject = ["$scope", "$state", "mapService", "Task", "user"];
 
-    var treePartsToDelete = [];
+    /* @ngInject */
+    function MapController($scope, $state, mapService, Task, user) {
+        var vm = this;
 
-    $scope.sortableOptions = {
-        axis: 'y',
-        cancel: ".fixed, input",
-        start: function(e, ui){
-            ui.placeholder.height(ui.item.height());
+        vm.quest = null;
 
-        },
-        update: function(e, ui) {
-            quest.change();
-        },
-        stop: function(e, ui) {
-            quest.rewireTree($scope.treePartRoot, $scope.treeParts);
-        },
-        sort: function(e, ui) {
-            var draggedMarkerId = ui.item.sortable.model.task.markerId;
-            mapService.animateMarker(draggedMarkerId);
+        vm.drawing = false;
+        vm.continueDrawing = false;
+        vm.showQuestline = false;
+
+        var activeMarker = "";
+
+        vm.toggleQuestline = toggleQuestline;
+        vm.toggleMarker = toggleMarker;
+        vm.newTask = newTask;
+        vm.searchLocation = searchLocation;
+        vm.gotoLocation = gotoLocation;
+        vm.searchAndGotoLocation = searchAndGotoLocation;
+        vm.editTask = editTask;
+        vm.deleteTask = deleteTask;
+        vm.previewHtml = previewHtml;
+        vm.saveQuest = saveQuest;
+        vm.cancelQuest = cancelQuest;
+
+        $scope.$on('markerChanged', markerChanged);
+
+        vm.sortableOptions = {
+            axis: 'y',
+            cancel: ".fixed, input",
+            start: function(e, ui){
+                ui.placeholder.height(ui.item.height());
+
+            },
+            update: function(e, ui) {
+                vm.quest.change();
+            },
+            stop: function(e, ui) {
+                vm.quest.rewireTree(vm.quest.treePartRoot, vm.quest.treeParts);
+            },
+            sort: function(e, ui) {
+                var draggedMarkerId = ui.item.sortable.model.task.markerId;
+                mapService.animateMarker(draggedMarkerId);
+            }
+            //containment: "#map-quests"
+        };
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            mapService.init("mapView");
+            vm.quest = user.getCurrentQuest();
+            console.log(vm.quest);
+
+            if(!vm.quest) {
+                user.newQuest().then(
+                    function(result) {
+                        this.quest = result;
+                    }.bind(vm),
+                    function(error) {
+                        $state.go("app.profile");
+                    });
+            } else {
+                addMarkers(vm.quest);
+            }
         }
-        //containment: "#map-quests"
-    };
 
-    var activeMarker = "";
+        function addMarkers(quest) {
+            quest.startTask.markerId = quest.startTask.addMarker();
 
-    var popupContainer = document.getElementById('popup');
-    var popupContent = $("#popupContent");
-    var popupCloser = $("#popupCloser");
+            for(var i = 0; i < quest.tasks.length; i++) {
+                quest.tasks[i].markerId = quest.tasks[i].addMarker();
+            }
+        }
 
-    mapService.init("mapView");
-    mapService.addPopupOverlay(popupContainer);
+        function toggleQuestline() {
+            return !vm.showQuestline;
+        }
 
-    var quest = user.getCurrentQuest();
+        function toggleMarker(type) {
+            if(activeMarker == type) {
+                activeMarker = "";
+                vm.continueDrawing = false;
+                vm.drawing = false;
 
-    if(!quest) {
-        user.newQuest().then(
-            function(result) {
-                quest = result;
-                this.tasks = quest.tasks;
-                this.treeParts = quest.treeParts;
-                this.startTask = quest.startTask;
-                this.treePartRoot = quest.treePartRoot;
-            }.bind($scope),
-            function(error) {
+                mapService.stopDrawing();
+            } else {
+                mapService.stopDrawing();
+                activeMarker = type;
+                vm.continueDrawing = true;
+                vm.drawing = true;
+                drawMarker();
+            }
+        }
+
+        function drawMarker() {
+            var task = new Task(vm.quest.name);
+            task.type = activeMarker;
+            vm.drawing = true;
+            task.drawMarker().then(function() {
+                vm.quest.addTask(task);
+                if(this.continueDrawing) {
+                    drawMarker();
+                } else {
+                    this.drawing = false;
+                }
+            }.bind(vm));
+        }
+
+        function newTask() {
+            var task = new Task(quest.name);
+            task.create().then(function() {
+                $scope.drawing = true;
+                task.drawMarker().then(function()
+                {
+                    vm.quest.addTask(task);
+                    vm.drawing = false;
+                });
+            });
+        }
+
+        function searchLocation(query) {
+            return mapService.search(query);
+        }
+
+        function gotoLocation(location) {
+            if(location) {
+                mapService.setCenter(parseFloat(location.lon), parseFloat(location.lat), 17);
+            }
+        }
+
+        function searchAndGotoLocation(query) {
+            //gotoLocation(mapService.search(query)[0]);
+
+        }
+
+        function markerChanged(evt, args) {
+            var changedMarker = args.marker;
+            var changedMarkerId = changedMarker.getId();
+
+            if(vm.quest.startTask.markerId == changedMarkerId) {
+                vm.quest.startTask.updateMarker(changedMarker);
+            }
+
+            for(var i = 0; i < vm.quest.tasks.length; i++) {
+                if(vm.quest.tasks[i].markerId == changedMarkerId) {
+                    vm.quest.tasks[i].updateMarker(changedMarker);
+                    $scope.$apply();
+                }
+            }
+        }
+
+        function editTask(task) {
+            console.log(task);
+            task.edit(vm.quest);
+        }
+
+        function deleteTask(index) {
+            vm.quest.deleteTreePart(index);
+        }
+
+        function previewHtml(html) {
+            html.preview();
+        }
+
+        function saveQuest() {
+            user.uploadQuest().then(function() {
                 $state.go("app.profile");
             });
-    } else {
-        $scope.tasks = quest.tasks;
-        $scope.treeParts = quest.treeParts;
-        $scope.startTask = quest.startTask;
-        $scope.treePartRoot = quest.treePartRoot;
-        addMarkers();
-    }
-
-    function addMarkers() {
-        $scope.startTask.markerId = $scope.startTask.addMarker();
-
-        for(var i = 0; i < $scope.tasks.length; i++) {
-            $scope.tasks[i].markerId = $scope.tasks[i].addMarker();
-        }
-    }
-
-
-    $scope.toggleQuestline = function() {
-        return !$scope.showQuestline;
-    };
-
-    popupCloser.on("click", function() {
-        mapService.hideOverlay();
-        popupCloser.blur();
-        return false;
-    });
-
-    $scope.toggleMarker = function(type) {
-        if(activeMarker == type) {
-            activeMarker = "";
-            $scope.continueDrawing = false;
-            $scope.drawing = false;
-
-            mapService.stopDrawing();
-        } else {
-            mapService.stopDrawing();
-            activeMarker = type;
-            $scope.continueDrawing = true;
-            $scope.drawing = true;
-            drawMarker();
-
-        }
-    };
-
-    function drawMarker() {
-        var task = new Task(quest.name);
-        task.type = activeMarker;
-        $scope.drawing = true;
-        task.drawMarker().then(function() {
-            quest.addTask(task);
-            if(this.continueDrawing) {
-                drawMarker();
-            } else {
-                $scope.drawing = false;
-            }
-        }.bind($scope));
-    }
-
-    $scope.toggleRemove = function() {
-        mapService.toggleRemove();
-    };
-
-    $scope.search = function(query) {
-        return mapService.search(query);
-    };
-
-    $scope.goto = function (location) {
-        if(location) {
-            mapService.setCenter(parseFloat(location.lon), parseFloat(location.lat), 17);
-        }
-    };
-
-    $scope.newTask = function() {
-        var task = new Task(quest.name);
-        task.create().then(function() {
-            $scope.drawing = true;
-            task.drawMarker().then(function()
-            {
-                quest.addTask(task);
-                $scope.drawing = false;
-            });
-        });
-    };
-
-    $scope.editTask = function(task) {
-        task.edit(quest);
-    };
-
-    $scope.deleteTask = function(index) {
-        //$scope.treeParts.splice(index, 1);
-        quest.deleteTreePart(index);
-    };
-
-    function fightTpl(lon, lat) {
-        return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";
-    }
-
-    $scope.$on('markerChanged', function(evt, args) {
-        var changedMarker = args.marker;
-        var changedMarkerId = changedMarker.getId();
-
-        if($scope.startTask.markerId == changedMarkerId) {
-            $scope.startTask.updateMarker(changedMarker);
         }
 
-        for(var i = 0; i < $scope.tasks.length; i++) {
-            if($scope.tasks[i].markerId == changedMarkerId) {
-                $scope.tasks[i].updateMarker(changedMarker);
-                $scope.$apply();
-            }
-        }
-    });
-
-    $scope.previewHtml = function(html) {
-        html.preview();
-    };
-
-    $scope.save = function() {
-        user.uploadQuest().then(function() {
+        function cancelQuest() {
             $state.go("app.profile");
-        });
-    };
+        }
+    }
 
-    $scope.cancel = function() {
-        $state.go("app.profile");
-    };
+})();
 
-    /*    $scope.$on('markerRemoved', function(evt, args) {
-     var delMarker = args.marker;
-     var delMarkerId = delMarker.getId();
+/*
+var popupContainer = document.getElementById('popup');
+var popupContent = $("#popupContent");
+var popupCloser = $("#popupCloser");
+mapService.addPopupOverlay(popupContainer);
 
-     for(var i = 0; i < $scope.tasks.length; i++) {
-     if($scope.tasks[i].id == delMarkerId) {
-     $scope.tasks.splice(i, 1);
-     $scope.$apply();
-     }
-     }
-     });*/
+ popupCloser.on("click", function() {
+ mapService.hideOverlay();
+ popupCloser.blur();
+ return false;
+ });
 
-    /*    $scope.$on('markerClicked', function(evt, args) {
-     console.log("Marker clicked");
-     var clickedMarker = args.marker;
-     var clickedMarkerId = clickedMarker.getId();
+$scope.$on('markerClicked', function (evt, args) {
+    console.log("Marker clicked");
+    var clickedMarker = args.marker;
+    var clickedMarkerId = clickedMarker.getId();
 
 
-     for(var i = 0; i < $scope.tasks.length; i++) {
-     if ($scope.tasks[i].id == clickedMarkerId) {
-     popupContent.html($scope.tasks[i].popupTpl);
-     mapService.showOverlay(clickedMarker.getGeometry().getCoordinates());
-     //mapService.hideOverlay();
-     }
-     }
+    for (var i = 0; i < $scope.tasks.length; i++) {
+        if ($scope.tasks[i].id == clickedMarkerId) {
+            popupContent.html($scope.tasks[i].popupTpl);
+            mapService.showOverlay(clickedMarker.getGeometry().getCoordinates());
+            //mapService.hideOverlay();
+        }
+    }
 
 
-     });*/
-
-});
+});*/

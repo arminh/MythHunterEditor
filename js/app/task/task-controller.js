@@ -2,7 +2,7 @@
  * Created by armin on 19.01.16.
  */
 
-map.controller("TaskController", function($scope, $modalInstance, textAngularManager, MarkerType, HtmlTools, task) {
+angular.module("task").controller("TaskController", function($scope, $modalInstance, textAngularManager, MarkerType, HtmlTools, task) {
     $scope.types = MarkerType;
 
     $scope.name = task.name;

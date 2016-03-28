@@ -50,17 +50,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         });
 
 
-    $stateProvider
-        .state('app.map', {
-            url: '/quest',
-            controller: 'mapController',
-            templateUrl: 'js/app/map/map.tpl.html',
-            resolve: {
-                user: ['AuthenticationService', function(AuthenticationService) {
-                    return AuthenticationService.userPromise();
-                }]
-            }
-        });
+
 });
 
 app.run(function ($rootScope, $q, $location, $cookies, AuthenticationService, User) {

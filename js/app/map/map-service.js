@@ -2,7 +2,9 @@
  * Created by armin on 13.11.15.
  */
 
-map.factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', function($rootScope, $http, $q, DefaultConfig) {
+angular
+    .module("map")
+    .factory('mapService', ["$rootScope", "$http", "$q", 'DefaultConfig', function($rootScope, $http, $q, DefaultConfig) {
     var map = null;
     var source;
 

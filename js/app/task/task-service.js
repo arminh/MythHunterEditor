@@ -157,7 +157,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
         this.remoteTask = BackendService.createRemoteTask(this);
 
         if(this.remoteId < 1 || this.changed) {
-            this.html.upload().then(function(id) {
+            $q.when(this.html.upload(), function(id) {
                 this.remoteTask.setHtmlId(id);
                 if(this.remoteId != -1 && this.changed) {
                     BackendService.updateTask(this.remoteTask).then(function(result) {
@@ -178,7 +178,7 @@ task.factory('Task', function($modal, $q, AuthenticationService, BackendService,
 
             }.bind(this));
         } else {
-            this.html.upload().then(function() {
+            $q.when(this.html.upload(), function() {
                 deferred.resolve(this.remoteId);
             }.bind(this))
         }

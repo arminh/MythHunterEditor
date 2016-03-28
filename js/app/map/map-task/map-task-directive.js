@@ -2,7 +2,7 @@
  * Created by armin on 14.01.16.
  */
 
-map.directive("mapTask", function() {
+angular.module("map").directive("mapTask", function() {
     return {
         restrict: 'E',
         scope: {
