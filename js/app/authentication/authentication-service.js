@@ -17,6 +17,7 @@
         var user = null;
         var credentials = null;
         var userPromise = $q.defer();
+        $log = $log.getInstance("Authentication", debugging);
 
         var service = {
             login: login,
@@ -34,7 +35,7 @@
 
         function login(username, password) {
 
-            $log.log('Logging in user "' + username + '" width password "' + password + '"');
+            $log.info('login "' + username + '"');
             return BackendService.login(username, password).then(loginSuccess, loginFail);
 
             function loginSuccess(result) {
@@ -45,13 +46,13 @@
 
                 $cookies.putObject("credentials", credentials);
 
-                $log.log('Login success: "' + username + '"');
+                $log.info('login_success: "' + username + '"');
                 return result;
             }
 
             function loginFail(error) {
                 alert("Wrong username or password");
-                $log.error("Login of user " + username + " failed due to: " + error);
+                $log.info('login_fail: "' + username + '" (' + error + ')');
                 clear();
                 return $q.reject(error);
             }
@@ -59,16 +60,16 @@
 
         function register(username, password) {
 
-            $log.log('Registering user "' + username + '" width password "' + password + '"');
+            $log.info('register: "' + username + '"');
             return BackendService.register(username, password).then(registerSuccess, registerFail);
 
             function registerSuccess(result) {
-                $log.log('Register success: "' + username + '"');
+                $log.info('register_success: "' + username + '"');
             }
 
             function registerFail(error) {
                 alert("Register failed!");
-                $log.error('Register of user "' + username + '" failed due to: ' + error);
+                $log.info('register_fail: "' + username + '" (' + error + ')');
                 return $q.reject(error);
             }
         }
@@ -85,7 +86,7 @@
         function clearCredentials() {
             credentials = null;
             $cookies.remove("credentials");
-            $log.log("Credentials cleared");
+            $log.info("clearCredentials: Credentials cleared");
         }
 
         function clearUser() {
@@ -96,7 +97,7 @@
             }
 
             userPromise = $q.defer();
-            $log.log("User cleared");
+            $log.info("clearUser: User cleared");
         }
 
         function getUser() {

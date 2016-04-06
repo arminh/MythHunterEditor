@@ -2,7 +2,9 @@
  * Created by armin on 28.02.16.
  */
 
-task.factory("TreePart", function ($q, BackendService, TreePartType) {
+task.factory("TreePart", function ($log, $q, BackendService, TreePartType) {
+
+    $log = $log.getInstance("TreePart", debugging);
 
     function TreePart(task) {
         this.remoteId = 0;
@@ -42,6 +44,7 @@ task.factory("TreePart", function ($q, BackendService, TreePartType) {
     }
 
     function initFromRemote(remoteTreePart, quest, isRoot) {
+
         if (!isRoot) {
             quest.addTreePart(this);
         }
@@ -57,6 +60,7 @@ task.factory("TreePart", function ($q, BackendService, TreePartType) {
             this.successors.push(treePart.initFromRemote(successors[i], quest, false));
         }
 
+        $log.log("Restored remote treePart: ", this);
         return this;
     }
 

@@ -2,7 +2,10 @@
  * Created by armin on 07.02.16.
  */
 
-profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, BackendService, mapService, Quest) {
+profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, BackendService, Quest) {
+
+    $log = $log.getInstance("User", debugging);
+
     function User() {
         this.id = -1;
         this.name = "";
@@ -44,7 +47,7 @@ profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, Ba
 
         $q.all(promises).then(function(results) {
             this.createdQuests = results;
-            $log.log("User: ", this);
+            $log.info("initFromRemote: ", this);
             deffered.resolve(this);
         }.bind(this));
 
@@ -146,7 +149,7 @@ profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, Ba
         $rootScope.currentQuest = null;
         delete $localStorage.currentQuest;
 
-        $log.log("Current quest cleared");
+        $log.info("clearCurrentQuest");
     }
 
     function backup() {

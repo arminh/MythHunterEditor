@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "mapService", "Task", "user"];
+    MapController.$inject = ["$scope", "$state", "MapInteractionService", "Task", "user"];
 
     /* @ngInject */
-    function MapController($scope, $state, mapService, Task, user) {
+    function MapController($scope, $state, MapInteraction, Task, user) {
         var vm = this;
 
         vm.quest = null;
@@ -52,7 +52,7 @@
             },
             sort: function(e, ui) {
                 var draggedMarkerId = ui.item.sortable.model.task.markerId;
-                mapService.animateMarker(draggedMarkerId);
+                MapInteraction.animateMarker(draggedMarkerId);
             }
             //containment: "#map-quests"
         };
@@ -62,9 +62,8 @@
         ////////////////
 
         function activate() {
-            mapService.init("mapView");
+            MapInteraction.init("mapView");
             vm.quest = user.getCurrentQuest();
-            console.log(vm.quest);
 
             if(!vm.quest) {
                 user.newQuest().then(
@@ -97,9 +96,9 @@
                 vm.continueDrawing = false;
                 vm.drawing = false;
 
-                mapService.stopDrawing();
+                MapInteraction.stopDrawing();
             } else {
-                mapService.stopDrawing();
+                MapInteraction.stopDrawing();
                 activeMarker = type;
                 vm.continueDrawing = true;
                 vm.drawing = true;
@@ -134,17 +133,17 @@
         }
 
         function searchLocation(query) {
-            return mapService.search(query);
+            return MapInteraction.search(query);
         }
 
         function gotoLocation(location) {
             if(location) {
-                mapService.setCenter(parseFloat(location.lon), parseFloat(location.lat), 17);
+                MapInteraction.setCenter(parseFloat(location.lon), parseFloat(location.lat), 17);
             }
         }
 
         function searchAndGotoLocation(query) {
-            //gotoLocation(mapService.search(query)[0]);
+            //gotoLocation(MapInteraction.search(query)[0]);
 
         }
 
@@ -194,10 +193,10 @@
 var popupContainer = document.getElementById('popup');
 var popupContent = $("#popupContent");
 var popupCloser = $("#popupCloser");
-mapService.addPopupOverlay(popupContainer);
+ MapInteraction.addPopupOverlay(popupContainer);
 
  popupCloser.on("click", function() {
- mapService.hideOverlay();
+ MapInteraction.hideOverlay();
  popupCloser.blur();
  return false;
  });
@@ -211,8 +210,8 @@ $scope.$on('markerClicked', function (evt, args) {
     for (var i = 0; i < $scope.tasks.length; i++) {
         if ($scope.tasks[i].id == clickedMarkerId) {
             popupContent.html($scope.tasks[i].popupTpl);
-            mapService.showOverlay(clickedMarker.getGeometry().getCoordinates());
-            //mapService.hideOverlay();
+            MapInteraction.showOverlay(clickedMarker.getGeometry().getCoordinates());
+            //MapInteraction.hideOverlay();
         }
     }
 

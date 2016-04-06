@@ -13,6 +13,9 @@
 
     /* @ngInject */
     function HtmlTextFactory($log, $modal, AuthenticationService, BackendService, HtmlTools) {
+
+        $log = $log.getInstance("HtmlText", debugging);
+
         function HtmlText() {
             this.id = 0;
             this.content = "";
@@ -34,13 +37,16 @@
         ////////////////
 
         function initFromObject(htmlTextObject) {
+            $log.info("initFromObject: ", htmlTextObject);
             this.changed = htmlTextObject.changed;
             this.content = htmlTextObject.content;
             this.id = htmlTextObject.id;
             this.answers = htmlTextObject.answers;
+            $log.info("initFromObject_success: ", this);
         }
 
         function initFromRemote(remoteHtml) {
+            $log.info("initFromRemote: ", remoteHtml);
             this.content = remoteHtml.getHtml();
             this.id = remoteHtml.getId();
 
@@ -48,6 +54,7 @@
             for(var i = 0; i < answers.length; i++) {
                 this.answers[answers[i].getKey()] = answers[i].getValue();
             }
+            $log.info("initFromRemote_success: ", this);
         }
 
         function preview() {
@@ -74,27 +81,26 @@
         }
 
         function upload() {
+            $log.info("upload: ", this);
             if (this.id >= 1 && this.changed == false) {
                 return this.id;
             } else {
                 this.remoteHtml = BackendService.createRemoteHtml(this);
 
                 if (this.id < 1) {
-                    $log.log("Adding html: ", this.remoteHtml);
                     return BackendService.addHtml(this.remoteHtml).then(
                         function (result) {
                             this.id = result.getId();
-                            $log.log("Add html success: ", this);
+                            $log.info("upload_success (add): ", this);
                             return this.id;
                         }.bind(this),
                         function (error) {
-                            $log.error(error);
+                            $log.error("upload_error: ", error);
                         }
                     );
                 } else {
-                    $log.log("Updating html: ", this.remoteHtml);
                     return BackendService.updateHtml(this.remoteHtml).then(function(result) {
-                        $log.log("Update html success: ", this);
+                        $log.info("upload_success (update): ", this);
                         return this.id;
                     }.bind(this));
                 }
