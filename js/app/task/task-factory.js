@@ -17,7 +17,7 @@
 
         function Task(questName) {
             this.id = 0;
-            this.remoteId = -1;
+            this.remoteId = 0;
             this.name = "";
             this.html = new HtmlText(this);
             this.type = null;
@@ -65,7 +65,9 @@
 
         function edit() {
             $log.info("edit", this);
-            return TaskService.openTaskDialog(this).then(function (result) {
+            return TaskService.openTaskDialog(this).then(updateTask.bind(this));
+
+            function updateTask(result) {
                 if(this.name != result.name) {
                     this.name = result.name;
                     this.change();
@@ -85,8 +87,7 @@
                     this.html.change();
                 }
                 $log.info("edit_success", this);
-
-            }.bind(this));
+            }
         }
 
         function initFromObject(taskObject) {
@@ -183,7 +184,8 @@
 
         function upload() {
             $log.info("upload", this);
-            var deferred = $q.defer();
+
+            var deffered = $q.defer();
             this.remoteTask = BackendService.createRemoteTask(this);
 
             if(this.remoteId < 1 || this.changed) {
@@ -196,31 +198,32 @@
                 this.remoteTask.setHtmlId(id);
                 if(this.remoteId != -1 && this.changed) {
                     $log.info("upload - Updating: ", this.remoteTask);
-                    BackendService.updateTask(this.remoteTask).then(function(result) {
+                    return BackendService.updateTask(this.remoteTask).then(function(result) {
                         this.version = result.getVersion();
                         $log.info("upload_success: ", this);
-                        deferred.resolve(this.remoteId);
+                        deffered.resolve(this.remoteId);
                     }.bind(this), function(error) {
                         alert(error);
-                        deferred.reject(error);
+                        deffered.reject(error);
                     });
 
                 } else {
                     $log.info("upload - Adding: ", this.remoteTask);
-                    BackendService.addTask(this.remoteTask).then(function(result) {
+                    return BackendService.addTask(this.remoteTask).then(function(result) {
                         this.remoteId = result.getId();
                         this.version = result.getVersion();
                         $log.info("upload_success: ", this);
-                        deferred.resolve(result.getId());
+                        deffered.resolve(result.getId());
                     }.bind(this));
                 }
             }
 
             function returnTask() {
-                deferred.resolve(this.remoteId);
+                $log.info("upload_success: ", this);
+                deffered.resolve(this.remoteId);
             }
 
-            return deferred.promise;
+            return deffered.promise;
         }
 
         function remove() {

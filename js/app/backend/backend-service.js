@@ -52,15 +52,19 @@
         function login(username, password) {
             var deffered = $q.defer();
 
+            $log.info("login", username);
             backend.login(function(result) {
                 if(result.getReturn()) {
+                    $log.info("login_success", username);
                     deffered.resolve(result.getReturn());
                 } else {
+                    $log.warn("login_fail", username);
                     deffered.reject("Wrong username or password");
                 }
 
             }, function(error) {
                 alert("Login error: " + error);
+                $log.error("login_fail", error);
                 deffered.reject(error);
             }, username, password);
 

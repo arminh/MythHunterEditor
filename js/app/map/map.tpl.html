@@ -51,10 +51,10 @@
 
 
 <div id="map-tasks" ng-show="map.showQuestline"  ng-hide="map.drawing">
-    <map-task ng-if="map.quest.treePartRoot" task="map.quest.treePartRoot.task" edit="map.editTask(map.quest.treePartRoot.task)" preview="map.previewHtml(map.quest.treePartRoot.task.html)"></map-task>
+    <map-task ng-if="map.quest.treePartRoot" treepart="map.quest.treePartRoot"  quest="map.quest"></map-task>
 
     <ol id="map-task-list" ui-sortable="map.sortableOptions" ng-model="map.quest.treeParts">
-        <li ng-repeat = "treePart in map.quest.treeParts"><map-task task="treePart.task" edit="map.editTask(treePart.task)" delete="map.deleteTask($index)" preview="map.previewHtml(treePart.task.html)"></map-task></li>
+        <li ng-repeat = "treePart in map.quest.treeParts"><map-task treepart="treePart" quest="map.quest"></map-task></li>
     </ol>
     <div class="map-task-add">
         <md-button class="md-icon-button map-task-icon" ng-click="map.newTask()">

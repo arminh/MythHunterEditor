@@ -2,15 +2,31 @@
  * Created by Armin on 18.04.2014.
  */
 
+(function () {
+    'use strict';
 
+    angular
+        .module('app')
+        .controller('MainController', MainController);
 
-app.controller("mainController", function ($scope, $state, AuthenticationService) {
-    $scope.logout = function() {
-        AuthenticationService.logout();
-        $state.go("app.login");
-    };
+    MainController.$inject = ["$state", "AuthenticationService"];
 
-    $scope.login = function() {
-        $state.go("app.login");
+    /* @ngInject */
+    function MainController($state, AuthenticationService) {
+        var vm = this;
+
+        vm.logout = login;
+        vm.logout = logout;
+
+        ////////////////
+
+        function login() {
+            AuthenticationService.logout();
+            $state.go("app.login");
+        }
+
+        function logout() {
+            $state.go("app.login");
+        }
     }
-});
+})();

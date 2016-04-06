@@ -16,6 +16,7 @@
         $log = $log.getInstance("TreePart", debugging);
 
         function TreePart(task) {
+            this.id = 0;
             this.remoteId = 0;
             this.version = 0;
             this.type = null;
@@ -56,7 +57,7 @@
                 treePart.initFromObject(treePartObject.successors[i], quest, false);
                 this.successors.push(treePart);
             }
-            $log.log("initFromObject_success: ", this);
+            $log.info("initFromObject_success: ", this);
         }
 
         function initFromRemote(remoteTreePart, tasks, quest, isRoot) {

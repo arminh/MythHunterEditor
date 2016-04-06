@@ -29,9 +29,6 @@
         vm.searchLocation = searchLocation;
         vm.gotoLocation = gotoLocation;
         vm.searchAndGotoLocation = searchAndGotoLocation;
-        vm.editTask = editTask;
-        vm.deleteTask = deleteTask;
-        vm.previewHtml = previewHtml;
         vm.saveQuest = saveQuest;
         vm.cancelQuest = cancelQuest;
 
@@ -64,6 +61,7 @@
         function activate() {
             MapInteraction.init("mapView");
             vm.quest = user.getCurrentQuest();
+            user.backup();
 
             if(!vm.quest) {
                 user.newQuest().then(
@@ -161,19 +159,6 @@
                     $scope.$apply();
                 }
             }
-        }
-
-        function editTask(task) {
-            console.log(task);
-            task.edit(vm.quest);
-        }
-
-        function deleteTask(index) {
-            vm.quest.deleteTreePart(index);
-        }
-
-        function previewHtml(html) {
-            html.preview();
         }
 
         function saveQuest() {

@@ -56,11 +56,10 @@
         ////////////////
 
         function create(creatorId) {
-            var deffered = $q.defer();
             this.creatorId = creatorId;
 
             $log.info("create");
-            QuestService.openQuestDialog(this).then(questCreated.bind(this), createQuestCanceled);
+            return QuestService.openQuestDialog(this).then(questCreated.bind(this), createQuestCanceled);
 
             function questCreated(result) {
                 this.name = result.name;
@@ -73,20 +72,18 @@
                 this.startTask.type = "start";
                 this.startTask.fixed = true;
                 this.startTask.questName = result.name;
-                this.startTask.drawMarker().then(function() {
+                return this.startTask.drawMarker().then(function() {
                     this.treePartRoot = new TreePart(this.startTask);
                     this.treePartRoot.type = TreePartType.Marker;
                     $log.info("create_success: ", this);
-                    deffered.resolve(this);
+                    return this;
                 }.bind(this));
             }
 
             function createQuestCanceled(error) {
                 $log.info("create_fail: Canceled");
-                deffered.reject("Canceled");
+                return $q.reject("Canceled");
             }
-
-            return deffered.promise;
         }
 
         function initFromObject(questObject) {
@@ -119,7 +116,6 @@
 
         function initFromRemote(remoteQuest) {
 
-            var deffered = $q.defer();
             $log.info("initFromRemote: ", remoteQuest);
 
             this.creatorId = remoteQuest.getCreaterId();
@@ -146,7 +142,7 @@
 
             promises.push($q.all(treePromises).then(initTreeParts.bind(this)));
 
-            $q.all(promises).then(initQuest.bind(this));
+            return $q.all(promises).then(initQuest.bind(this));
 
             function initTreeParts(tasks) {
 
@@ -170,25 +166,19 @@
 
                 this.treePartRoot = results[results.length-1];
 
-                deffered.resolve(this);
                 $log.info("initFromRemote_success: ", this);
+                return this;
             }
-
-            return deffered.promise;
         }
 
         function getHtmlFromRemote(htmlId) {
-            var deffered = $q.defer();
-
             $log.info("getHtmlFromRemote: ", htmlId);
-            BackendService.getHtml(htmlId).then(function(remoteHtml) {
+            return BackendService.getHtml(htmlId).then(function(remoteHtml) {
                 var html = new HtmlText();
                 html.initFromRemote(remoteHtml);
                 $log.info("getHtmlFromRemote_success (id = " + html.id +  "): ", html);
-                deffered.resolve(html);
+                return html;
             });
-
-            return deffered.promise;
         }
 
         function getTaskFromRemote(taskId) {
@@ -236,19 +226,25 @@
             return null;
         }
 
-        function deleteTreePart(index) {
+        function deleteTreePart(treePart) {
 
-            var remoteId = this.treeParts[index].remoteId;
-            $log.info("deleteTreePart: ", remoteId);
+            var remoteId = treePart.remoteId;
+            $log.info("deleteTreePart: ", treePart);
 
             if(remoteId != -1) {
-                this.treePartsToDelete.push(this.treeParts[index]);
+                this.treePartsToDelete.push(treePart);
             }
-            this.treeParts.splice(index, 1);
+
+            for(var i = 0; i < this.treeParts.length; i++) {
+                if(this.treeParts[i].id == treePart.id) {
+                    this.treeParts.splice(i, 1);
+                }
+            }
+
             this.rewireTree(this.treePartRoot, this.treeParts);
             $log.info("deleteTreePart_success: ", this.treeParts);
 
-            this.deleteTask(this.treeParts[index].task.id);
+            this.deleteTask(treePart.task.id);
             this.change();
         }
 
@@ -265,7 +261,6 @@
                     $log.info("deleteTask_success: ", this.tasks);
                 }
             }
-            console.log(this.tasks);
         }
 
         function change() {
@@ -275,8 +270,6 @@
 
         function upload() {
             $log.info("upload: ", this);
-
-            var deferred = $q.defer();
 
             var promises = [];
             var treePromises = [];
@@ -305,7 +298,7 @@
             if(this.remoteId < 1 || this.changed) {
                 this.remoteQuest = BackendService.createRemoteQuest(this);
 
-                $q.all(promises).then(function(responses) {
+                return $q.all(promises).then(function(responses) {
                     this.remoteQuest.setHtmlId(responses[0]);
                     this.remoteQuest.setStartMarkerId(responses[1]);
 
@@ -320,7 +313,7 @@
 
                     if(this.remoteId > 0 && this.changed) {
                         $log.info("upload - Updating: ", this.remoteQuest);
-                        BackendService.updateQuest(this.remoteQuest).then(function(result) {
+                        return BackendService.updateQuest(this.remoteQuest).then(function(result) {
                             this.version = result.getVersion();
 
                             for(i=0; i < this.treePartsToDelete.length; i++) {
@@ -328,27 +321,25 @@
                             }
                             this.treePartsToDelete = [];
                             $log.info("upload_success: ", this);
-                            deferred.resolve(this);
+                            return this;
                         }.bind(this), function(error) {
                             alert(error);
-                            deferred.reject(error);
+                            return $q.reject(error);
                         });
                     } else {
                         $log.info("upload - Adding: ", this.remoteQuest);
-                        BackendService.addQuest(this.remoteQuest).then(function(result) {
+                        return BackendService.addQuest(this.remoteQuest).then(function(result) {
                             this.remoteId = result.getId();
                             $log.info("upload_success: ", this);
-                            deferred.resolve(this);
+                            return this;
                         }.bind(this));
                     }
                 }.bind(this));
             } else {
-                $q.all(promises).then(function(responses) {
-                    deferred.resolve(this);
+                return $q.all(promises).then(function(responses) {
+                    return this;
                 }.bind(this));
             }
-
-            return deferred.promise;
         }
 
         function rewireTree(treePartRoot, treeParts) {
