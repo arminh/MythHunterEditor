@@ -121,7 +121,7 @@
         }
 
         function newTask() {
-            var task = new Task(quest.name);
+            var task = new Task(vm.quest.name);
             task.create().then(function() {
                 $scope.drawing = true;
                 task.drawMarker().then(function()

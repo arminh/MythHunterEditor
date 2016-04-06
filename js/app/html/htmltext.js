@@ -95,8 +95,8 @@
                             return this.id;
                         }.bind(this),
                         function (error) {
-                            $log.error("upload_error: ", error);
-                        }
+                            $log.error("upload_error: ", this);
+                        }.bind(this)
                     );
                 } else {
                     return BackendService.updateHtml(this.remoteHtml).then(function(result) {

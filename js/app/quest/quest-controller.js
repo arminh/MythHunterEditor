@@ -9,10 +9,11 @@
         .module('quest')
         .controller('QuestController', QuestController);
 
-    QuestController.$inject = ["$scope", "$state", "$modalInstance", "HtmlTools"];
+    QuestController.$inject = ["$modalInstance", "QuestService"];
 
     /* @ngInject */
-    function QuestController($scope, $state, $modalInstance, HtmlTools) {
+    function QuestController($modalInstance, QuestService) {
+
         var vm = this;
 
         vm.name = "";
@@ -23,33 +24,20 @@
         vm.okClicked = okClicked;
         vm.close = close;
 
+        activate();
+
         ////////////////
 
-        function okClicked() {
-
-            HtmlTools.encloseContent($scope.name, $scope.name, $scope.questContent).then(encloseSuccess);
-
-            function encloseSuccess(questContent) {
-                if (!$scope.separateDescription) {
-                    closeModal(questContent, questContent);
-                } else {
-                    HtmlTools.encloseContent($scope.name, $scope.name, $scope.taskContent).then(function (taskContent) {
-                        closeModal(questContent, taskContent);
-                    });
-                }
-            }
+        function activate() {
+            QuestService.setModalInstance($modalInstance);
         }
 
-        function closeModal(questContent, taskContent) {
-            $modalInstance.close({
-                name: $scope.name,
-                questContent: questContent,
-                taskContent: taskContent
-            });
+        function okClicked() {
+            QuestService.createQuest(vm.name, vm.questContent, vm.taskContent, vm.separateDescription);
         }
 
         function close() {
-            $modalInstance.dismiss('cancel');
+            QuestService.cancelQuest();
         }
     }
 

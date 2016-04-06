@@ -35,7 +35,7 @@
                 <table class="profile-quest-table">
                     <tr ng-repeat="quest in profile.user.createdQuests" ng-class-odd="'odd-profile-quest'" ng-class-even="'even-profile-quest'">
                         <td width="55%" class="profile-quest-col">
-                            <a href="" ng-click="editQuest(quest)">{{quest.name}}</a>
+                            <a href="" ng-click="profile.editQuest(quest)">{{quest.name}}</a>
                         </td>
                         <td width="25%" class="profile-quest-col">
                             {{quest.startTask.lon | number:4}}, {{quest.startTask.lat | number:4}}

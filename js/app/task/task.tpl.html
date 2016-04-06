@@ -1,4 +1,4 @@
-<md-button class="md-icon-button choose-marker-close" ng-click="close()">
+<md-button class="md-icon-button choose-marker-close" ng-click="task.close()">
     <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
 </md-button>
 <div class="modal-header">
@@ -7,26 +7,26 @@
 <div class="modal-body">
     <div class="task-info">
         <p>Enter a title for the task: </p>
-        <input class="task-info-input task-info-title" ng-model="name" placeholder="Enter title"/><br>
+        <input class="task-info-input task-info-title" ng-model="task.name" placeholder="Enter title"/><br>
 
       <!--  <p>Enter a description for the task:</p>
         <textarea class="task-info-input task-info-description" ng-model="description" placeholder="Enter description"></textarea>
    --> </div>
 
-    <div class="task-content" ng-click="contentChanged()">
+    <div class="task-content" ng-click="task.contentChanged()">
         <text-angular name="task-editor" ta-toolbar="[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
                 ['insertImage','insertLink', 'insertVideo'],
-                ['input','radio','checkbox']]" ng-model="content" id="task-text"></text-angular><br>
+                ['input','radio','checkbox']]" ng-model="task.content" id="task-text"></text-angular><br>
     </div>
 
-    <div class="task-type" ng-hide="activeType == 'start'">
-        <p>Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !activeType">(Please choose the task type)</span></p>
+    <div class="task-type" ng-hide="task.activeType == 'start'">
+        <p>Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !task.activeType">(Please choose the task type)</span></p>
         <div class = "task-type-selection">
-            <md-button ng-repeat="type in types" ng-click="markerSelected(type, $index)"
+            <md-button ng-repeat="type in task.types" ng-click="task.markerSelected(type, $index)"
                        aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle"
-                       ng-class="{ 'active-marker': activeType == type }">
-                <img class="tasl-type-icon" ng-src="{{getMarkerIconSrc(type)}}"/>
+                       ng-class="{ 'active-marker': task.activeType == type }">
+                <img class="tasl-type-icon" ng-src="{{task.getMarkerIconSrc(type)}}"/>
                 <p class="task-type-label">{{type}}</p>
 <!--
                 <md-tooltip style="z-index:10000">{{attrs.description}}</md-tooltip>
@@ -38,6 +38,6 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="close()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="task.okClicked()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="task.close()">Cancel</button>
 </div>

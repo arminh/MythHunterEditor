@@ -2,75 +2,79 @@
  * Created by armin on 19.01.16.
  */
 
-angular.module("task").controller("TaskController", function($scope, $modalInstance, textAngularManager, MarkerType, HtmlTools, task) {
-    $scope.types = MarkerType;
+(function () {
+    'use strict';
 
-    $scope.name = task.name;
-    $scope.description = task.description;
-    $scope.content = HtmlTools.retrieveContent(task.html.content);
-    $scope.activeType = task.type;
+    angular
+        .module('task')
+        .controller('TaskController', TaskController);
 
-    var questName = task.questName;
+    TaskController.$inject = ["$modalInstance", "TaskService", "MarkerType", "HtmlTools", "task"];
 
-    $scope.answers = task.html.answers;
-    angular.forEach(task.html.answers, function(val, key) {
-        if(val == true) {
-            $scope.content = $scope.content.replace('id="' + key + '"', 'id="' + key + '"  checked');
+    /* @ngInject */
+    function TaskController($modalInstance, TaskService, MarkerType, HtmlTools, task) {
+        var vm = this;
+
+        vm.types = MarkerType;
+        vm.name = task.name;
+        vm.description = task.description;
+        vm.content = HtmlTools.retrieveContent(task.html.content);
+        vm.activeType = task.type;
+        vm.questName = task.questName;
+        vm.answers = task.html.answers;
+        vm.error = false;
+
+        vm.markerBtnStyle = {
+            "width": (100 / Object.keys(vm.types).length / 2) + '%',
+            "display": "inline-block",
+            "vertical-align": "top"
+        };
+
+        vm.markerSelected = markerSelected;
+        vm.getMarkerIconSrc = getMarkerIconSrc;
+        vm.contentChanged = contentChanged;
+        vm.okClicked = okClicked;
+        vm.close = close;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            TaskService.setModalInstance($modalInstance);
+            vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
         }
-    });
 
-    $scope.error = false;
-
-
-    $scope.markerBtnStyle = {
-        "width": (100 / Object.keys($scope.types).length / 2) + '%',
-        "display": "inline-block",
-        "vertical-align": "top"
-    };
-
-    $scope.markerSelected = function(type, index) {
-        $scope.activeType = type;
-        $scope.selectedIndex = index;
-    };
-
-    $scope.getMarkerIconSrc = function(type) {
-        return task.getMarkerSrc(type)
-    };
-
-    $scope.contentChanged = function() {
-        setStates();
-    };
-
-    $scope.ok = function() {
-        $scope.content = $scope.content.replace(" checked","");
-        if(!$scope.activeType) {
-            $scope.error = true;
-        } else {
-            HtmlTools.encloseContent(questName, $scope.name, $scope.content).then(function(result) {
-                $modalInstance.close({
-                    type: $scope.activeType,
-                    name: $scope.name,
-                    description: $scope.description,
-                    content: result,
-                    answers: $scope.answers
-                });
-            });
+        function markerSelected(type, index) {
+            vm.activeType = type;
+            vm.selectedIndex = index;
         }
-    };
 
-    function setStates() {
-        $scope.answers = {};
-        var textAngular = $("text-angular");
-        var inputElements = textAngular.find("input");
-        for(var i = 0; i < inputElements.length; i++) {
-            if(inputElements[i].id != "") {
-                $scope.answers[inputElements[i].id] = inputElements[i].checked;
+        function getMarkerIconSrc(type) {
+            return TaskService.getMarkerSrc(type);
+        }
+
+        function contentChanged() {
+            vm.answers = {};
+            var textAngular = $("text-angular");
+            var inputElements = textAngular.find("input");
+
+            vm.answers = TaskService.retrieveCheckedAttributes(inputElements, vm.answers);
+        }
+
+        function okClicked() {
+            vm.content = TaskService.clearCheckedAttributes(vm.content);
+
+            if(!vm.activeType) {
+                vm.error = true;
+            } else {
+                TaskService.createTask(vm.questName, vm.name, vm.content, vm.answers, vm.activeType)
             }
         }
 
+        function close() {
+            TaskService.cancelTask();
+        }
     }
 
-    $scope.close = function() {
-        $modalInstance.dismiss('cancel')
-    };
-});
+})();

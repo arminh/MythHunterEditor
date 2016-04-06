@@ -8,6 +8,8 @@
         .module("quest", [])
         .config(config);
 
+    config.$inject = ["$provide"];
+
     function config($provide) {
         /*    $provide.decorator('taOptions', ['taRegisterTool', 'taSelection', '$delegate', function(taRegisterTool, taSelection, taOptions) { // $delegate is the taOptions we are decorating
          taOptions.toolbar = [

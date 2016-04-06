@@ -22,6 +22,7 @@ var app = angular.module('app', [
     'profile',
     'quest',
     'task',
+    'treePart',
     'html',
     'map'
 

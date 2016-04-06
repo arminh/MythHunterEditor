@@ -419,7 +419,7 @@
 
             var deffered = $q.defer();
 
-            $log.info("updateHtml: ", htmls);
+            $log.info("updateHtml: ", html);
             backend.updateHtml(function(result) {
                 if(result.getReturn()) {
                     $log.info("updateHtml: ", result);
