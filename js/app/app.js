@@ -39,17 +39,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
             }
         });
-    $stateProvider
-        .state('app.profile', {
-            url: '/profile',
-            controller: 'profileController',
-            templateUrl: 'js/app/profile/profile.tpl.html',
-            resolve: {
-                user: ['AuthenticationService', function(AuthenticationService) {
-                    return AuthenticationService.userPromise();
-                }]
-            }
-        });
+
 
 
 

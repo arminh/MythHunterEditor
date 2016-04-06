@@ -2,35 +2,62 @@
  * Created by armin on 13.11.15.
  */
 
-profile.controller("profileController", function($scope, $state, ngDialog, BackendService, AuthenticationService, user) {
+(function () {
+    'use strict';
 
-    $scope.currentQuest = user.getCurrentQuest();
+    angular
+        .module('profile')
+        .controller('ProfileController', ProfileController);
 
-    $scope.newQuest = function() {
-        user.clearCurrentQuest();
-        $state.go("app.map");
-    };
+    ProfileController.$inject = ["$log", "$scope", "$state", "ngDialog", "user"];
 
-    $scope.editQuest = function(quest) {
-        user.setCurrentQuest(quest);
-        $state.go("app.map");
-    };
+    /* @ngInject */
+    function ProfileController($log, $scope, $state, ngDialog, user) {
+        var vm = this;
+        vm.user = user;
+        vm.currentQuest = null;
 
-    $scope.clearCurrentQuest =  function() {
-        user.clearCurrentQuest();
-        $scope.currentQuest = null;
-    };
+        vm.newQuest = newQuest;
+        vm.editQuest = editQuest;
+        vm.clearCurrentQuest = clearCurrentQuest;
+        vm.deleteQuest = deleteQuest;
 
-    $scope.deleteQuest = function(quest) {
-        $scope.deleteQuestId = quest;
-        ngDialog.openConfirm({
-            scope: $scope,
-            template: "js/app/dialogues/delete-quest-dialogue.tpl.html"
+        activate();
 
-        }).then(function (confirm) {
-            user.deleteQuest(quest.remoteId);
-        }, function(reject) {
+        ////////////////
 
-        });
+        function activate() {
+            vm.currentQuest = user.getCurrentQuest();
+        }
+
+        function newQuest() {
+            user.clearCurrentQuest();
+            $state.go("app.map");
+        }
+
+        function editQuest(quest) {
+            user.setCurrentQuest(quest);
+            $state.go("app.map");
+        }
+
+        function clearCurrentQuest() {
+            user.clearCurrentQuest();
+            $scope.currentQuest = null;
+        }
+
+        function deleteQuest(quest) {
+            $scope.deleteQuestId = quest;
+            ngDialog.openConfirm({
+                scope: $scope,
+                template: "js/app/dialogues/delete-quest-dialogue.tpl.html"
+            }).then(
+                function (confirm) {
+                    user.deleteQuest(quest.remoteId);
+                }, function (reject) {
+
+                }
+            );
+        }
     }
-});
+
+})();

@@ -1,4 +1,4 @@
-<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="close()">
+<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="quest.close()">
     <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
 </md-button>
 <div class="modal-header">
@@ -13,13 +13,13 @@
     <div class="task-content">
         <text-angular ta-toolbar="[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
-                ['insertImage','insertLink', 'insertVideo']]" ng-model="quest_content" id="quest-text"></text-angular>
+                ['insertImage','insertLink', 'insertVideo']]" ng-model="quest.questContent" id="quest-text"></text-angular>
         <input type="checkbox" ng-model="separateDescription"/> Use separate description for Start marker
-        <text-angular ng-show="separateDescription" ng-model="task_content" id="task-text"></text-angular>
+        <text-angular ng-show="quest.separateDescription" ng-model="quest.taskContent" id="task-text"></text-angular>
 
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" aria-label="ok" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" type="button" aria-label="cancel" ng-click="close()">Cancel</button>
+    <button class="btn btn-primary" type="button" aria-label="ok" ng-click="quest.okClicked()">OK</button>
+    <button class="btn btn-warning" type="button" aria-label="cancel" ng-click="quest.close()">Cancel</button>
 </div>

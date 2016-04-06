@@ -96,6 +96,7 @@
                 size: "lg",
                 templateUrl: 'js/app/quest/quest.tpl.html',
                 controller: 'QuestController',
+                controllerAs: "quest",
                 resolve: {
                     quest: function () {
                         return quest;

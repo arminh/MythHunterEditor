@@ -2,7 +2,7 @@
  * Created by armin on 07.02.16.
  */
 
-profile.factory("User", function($log, $rootScope, $q, $modal, $localStorage, BackendService, Quest) {
+angular.module("profile").factory("User", function($log, $rootScope, $q, $modal, $localStorage, BackendService, Quest) {
 
     $log = $log.getInstance("User", debugging);
 

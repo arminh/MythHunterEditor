@@ -2,38 +2,55 @@
  * Created by armin on 19.01.16.
  */
 
-angular.module("quest").controller("QuestController", function($scope, $state, $modalInstance, HtmlTools) {
+(function () {
+    'use strict';
 
-    $scope.name = "";
-    $scope.quest_content = "";
-    $scope.task_content = "";
+    angular
+        .module('quest')
+        .controller('QuestController', QuestController);
 
-    $scope.separateDescription = false;
+    QuestController.$inject = ["$scope", "$state", "$modalInstance", "HtmlTools"];
 
-    $scope.ok = function() {
+    /* @ngInject */
+    function QuestController($scope, $state, $modalInstance, HtmlTools) {
+        var vm = this;
 
-        HtmlTools.encloseContent($scope.name, $scope.name, $scope.quest_content).then(function(quest_content) {
-            if(!$scope.separateDescription) {
-                closeModal(quest_content, quest_content);
-            } else {
-                HtmlTools.encloseContent($scope.name, $scope.name, $scope.task_content).then(function(task_content) {
-                    closeModal(quest_content, task_content);
-                });
+        vm.name = "";
+        vm.questContent = "";
+        vm.taskContent = "";
+        vm.separateDescription = false;
+
+        vm.okClicked = okClicked;
+        vm.close = close;
+
+        ////////////////
+
+        function okClicked() {
+
+            HtmlTools.encloseContent($scope.name, $scope.name, $scope.questContent).then(encloseSuccess);
+
+            function encloseSuccess(questContent) {
+                if (!$scope.separateDescription) {
+                    closeModal(questContent, questContent);
+                } else {
+                    HtmlTools.encloseContent($scope.name, $scope.name, $scope.taskContent).then(function (taskContent) {
+                        closeModal(questContent, taskContent);
+                    });
+                }
             }
-        });
+        }
 
+        function closeModal(questContent, taskContent) {
+            $modalInstance.close({
+                name: $scope.name,
+                questContent: questContent,
+                taskContent: taskContent
+            });
+        }
 
-    };
-
-    function closeModal(quest_content, task_content) {
-        $modalInstance.close({
-            name: $scope.name,
-            quest_content: quest_content,
-            task_content: task_content
-        });
+        function close() {
+            $modalInstance.dismiss('cancel');
+        }
     }
 
-    $scope.close = function() {
-        $modalInstance.dismiss('cancel');
-    };
-});
+})();
