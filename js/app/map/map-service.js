@@ -48,6 +48,7 @@
                 return user.newQuest().then(
                     function (result) {
                         $log.info("getQuest_success: ", result);
+                        quest = result;
                         return result;
                     },
                     function (error) {

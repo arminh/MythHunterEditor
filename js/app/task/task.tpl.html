@@ -14,10 +14,9 @@
    --> </div>
 
     <div class="task-content" ng-click="task.contentChanged()">
-        <text-angular name="task-editor" ta-toolbar="[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
-                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
-                ['insertImage','insertLink', 'insertVideo'],
-                ['input','radio','checkbox']]" ng-model="task.content" id="task-text"></text-angular><br>
+        <text-angular ng-if="task.activeType == task.types.QUIZ" name="task-editor-quiz" ta-toolbar="{{task.quizToolbar}}" ng-model="task.content" class="task-text"></text-angular>
+        <text-angular ng-if="task.activeType != task.types.QUIZ" name="task-editor" ta-toolbar="{{task.toolbar}}" ng-model="task.content" class="task-text"></text-angular>
+        <br>
     </div>
 
     <div class="task-type" ng-hide="task.activeType == 'start'">
