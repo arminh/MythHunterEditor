@@ -42,14 +42,15 @@
 
         function clearCurrentQuest() {
             user.clearCurrentQuest();
-            $scope.currentQuest = null;
+            vm.currentQuest = null;
         }
 
         function deleteQuest(quest) {
+
             $scope.deleteQuestId = quest;
             ngDialog.openConfirm({
                 scope: $scope,
-                template: "js/app/dialogues/delete-quest-dialogue.tpl.html"
+                template: "js/app/quest/delete-quest-dialogue.tpl.html"
             }).then(
                 function (confirm) {
                     user.deleteQuest(quest.remoteId);

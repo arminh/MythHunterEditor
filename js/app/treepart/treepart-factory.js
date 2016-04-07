@@ -104,7 +104,7 @@
                 if (this.remoteId < 1 || this.changed) {
                     BackendService.addTreePart(this.remoteTreePart).then(function (result) {
                         this.remoteId = result.getId();
-                        $log.log("upload_success: ", this.remoteTreePart);
+                        $log.info("upload_success: ", this.remoteTreePart);
                         deferred.resolve(result);
                     }.bind(this));
                 } else{

@@ -64,7 +64,7 @@
             function questCreated(result) {
                 this.name = result.name;
                 this.html.content = result.questContent;
-                this.startTask = new Task();
+                this.startTask = new Task(this.name);
                 this.name = result.name;
 
                 this.startTask.name = result.name;
@@ -99,11 +99,11 @@
             this.html = new HtmlText();
             this.html.initFromObject(questObject.html);
 
-            this.startTask = new Task();
+            this.startTask = new Task(this.name);
             this.startTask.initFromObject(questObject.startTask);
 
             for(var i = 0; i < questObject.tasks.length; i++) {
-                var task = new Task();
+                var task = new Task(this.name);
                 task.initFromObject(questObject.tasks[i]);
                 this.tasks.push(task);
             }
@@ -159,8 +159,10 @@
                 this.html = results[0];
                 this.startTask = results[1];
                 this.startTask.type = "start";
+                this.startTask.questName = this.name;
 
                 for(var i = 2; i < results.length-1; i++) {
+                    this.tasks.questName = this.name;
                     this.tasks.push(results[i]);
                 }
 

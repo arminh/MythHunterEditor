@@ -43,6 +43,7 @@
 
         function deleteTask() {
             vm.quest.deleteTreePart(vm.treepart);
+            MapInteraction.removeMarker(vm.task.marker);
         }
 
         function previewHtml() {

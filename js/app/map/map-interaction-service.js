@@ -36,6 +36,7 @@
             init: init,
             setCenter: setCenter,
             addMarker: addMarker,
+            removeMarker: removeMarker,
             getMarkerById: getMarkerById,
             drawMarker: drawMarker,
             stopDrawing: stopDrawing,
@@ -160,6 +161,13 @@
             features[features.length] = marker;
             activateDrag(marker);
             return features.length - 1;
+        }
+
+        function removeMarker(markerId) {
+            $log.info("removeMarker", markerId);
+            var marker = features[markerId];
+            map.removeInteraction(marker.drag);
+            source.removeFeature(marker);
         }
 
         function getMarkerById(id) {
