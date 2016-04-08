@@ -20,7 +20,7 @@
         var quest = null;
         var activeMarker = null;
         var continueDrawing = false;
-        var drawing = true;
+        var drawing = false;
 
         var currentPosition = null;
 
@@ -32,7 +32,8 @@
             markerChanged: markerChanged,
             getCurrentPosition: getCurrentPosition,
             searchLocation: searchLocation,
-            getDrawing: getDrawing
+            getDrawing: getDrawing,
+            getContinueDrawing: getContinueDrawing
         };
         return service;
 
@@ -125,6 +126,10 @@
 
         function getDrawing() {
             return drawing;
+        }
+
+        function getContinueDrawing() {
+            return continueDrawing;
         }
 
         function createTask() {

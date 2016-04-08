@@ -75,7 +75,7 @@
                 if(this.type != result.type) {
                     this.type = result.type;
                     var marker = MapInteraction.getMarkerById(this.markerId);
-                    marker.iconSrc = this.getMarkerSrc();
+                    MapInteraction.setMarkerStyle(marker, this.getMarkerSrc());
                     this.change();
                 }
                 if(this.html.content != result.content) {

@@ -16,12 +16,13 @@
         var vm = this;
 
         vm.quest = null;
-        vm.drawing = false;
         vm.showQuestline = false;
 
         vm.toggleMarker = MapService.toggleMarker;
         vm.createTask = MapService.createTask;
         vm.saveQuest = MapService.saveQuest;
+        vm.drawing = MapService.getDrawing;
+        vm.continueDrawing = MapService.getContinueDrawing;
 
         vm.toggleQuestline = toggleQuestline;
         vm.searchLocation = searchLocation;
@@ -30,13 +31,14 @@
         vm.cancelQuest = cancelQuest;
 
         $scope.$on('markerChanged', MapService.markerChanged);
-        $scope.$watch("Mapservice.getDrawing()", drawingChanged);
 
         vm.sortableOptions = {
             axis: 'y',
             cancel: ".fixed, input",
             start: function(e, ui){
                 ui.placeholder.height(ui.item.height());
+                var draggedMarkerId = ui.item.sortable.model.task.markerId;
+                MapInteraction.flashMarker(draggedMarkerId);
 
             },
             update: function(e, ui) {
@@ -46,8 +48,8 @@
                 vm.quest.rewireTree(vm.quest.treePartRoot, vm.quest.treeParts);
             },
             sort: function(e, ui) {
-                var draggedMarkerId = ui.item.sortable.model.task.markerId;
-                MapInteraction.animateMarker(draggedMarkerId);
+
+
             }
             //containment: "#map-quests"
         };
@@ -79,10 +81,6 @@
 
         function searchAndGotoLocation(query) {
             //gotoLocation(MapInteraction.search(query)[0]);
-        }
-
-        function drawingChanged(value) {
-            vm.drawing = value;
         }
 
         function cancelQuest() {

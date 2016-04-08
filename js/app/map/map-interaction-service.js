@@ -30,20 +30,23 @@
         var activeMarker = "";
         var markerId = 0;
 
-        var animationRatio = 5;
+        var animationDuration = 2000;
+        var animationStartRadius = 5;
+        var animationEndRadius = 40;
 
         var service = {
             init: init,
             setCenter: setCenter,
             addMarker: addMarker,
+            setMarkerStyle: setMarkerStyle,
             removeMarker: removeMarker,
             getMarkerById: getMarkerById,
             drawMarker: drawMarker,
+            flashMarker: flashMarker,
             stopDrawing: stopDrawing,
             addPopupOverlay: addPopupOverlay,
             showOverlay: showOverlay,
-            hideOverlay: hideOverlay,
-            animateMarker: animateMarker
+            hideOverlay: hideOverlay
         };
         return service;
 
@@ -144,7 +147,15 @@
         function initMarker(marker, iconSrc) {
 
             marker.iconSrc = iconSrc;
+            marker.setId(features.length);
+            setMarkerStyle(marker, iconSrc);
 
+            features[features.length] = marker;
+            activateDrag(marker);
+            return features.length - 1;
+        }
+
+        function setMarkerStyle(marker, iconSrc) {
             var styleFunction = function () {
                 return [new ol.style.Style({
                     image: new ol.style.Icon({
@@ -156,11 +167,6 @@
             };
 
             marker.setStyle(styleFunction);
-            marker.setId(features.length);
-
-            features[features.length] = marker;
-            activateDrag(marker);
-            return features.length - 1;
         }
 
         function removeMarker(markerId) {
@@ -258,35 +264,46 @@
         }
 
         function hideOverlay() {
-            popupOverlay.setPosition(undefined);
+            //popupOverlay.setPosition(undefined);
         }
 
-        function animateMarker(markerId) {
-            var marker = this.getMarkerById(markerId);
-            //console.log(marker);
+        /* Based on http://openlayers.org/en/v3.9.0/examples/feature-animation.html */
+        function flashMarker(markerId) {
+            var feature = features[markerId];
 
-            var flashGeom = marker.getGeometry().clone();
-            // radius will be 5 at start and 30 at end.
-            var radius = ol.easing.easeOut(animationRatio) * 25 + 5;
-            var opacity = ol.easing.easeOut(1 - animationRatio);
+            var start = new Date().getTime();
+            var listenerKey;
 
-            var flashStyle = new ol.style.Circle({
-                radius: radius,
-                snapToPixel: false,
-                stroke: new ol.style.Stroke({
-                    color: 'rgba(255, 0, 0, ' + opacity + ')',
-                    width: 1,
-                    opacity: opacity
-                })
-            });
+            function animate(event) {
+                var vectorContext = event.vectorContext;
+                var frameState = event.frameState;
+                var flashGeom = feature.getGeometry().clone();
+                var elapsed = frameState.time - start;
+                var elapsedRatio = elapsed / animationDuration;
+                // radius will be 5 at start and 30 at end.
+                var radius = ol.easing.easeOut(elapsedRatio) * animationEndRadius + animationStartRadius;
+                var opacity = ol.easing.easeOut(1 - elapsedRatio);
 
-            /* vectorContext.setImageStyle(flashStyle);
-             vectorContext.drawPointGeometry(flashGeom, null);
-             if (elapsed > duration) {
-             ol.Observable.unByKey(listenerKey);
-             return;
-             }*/
+                var flashStyle = new ol.style.Circle({
+                    radius: radius,
+                    snapToPixel: false,
+                    stroke: new ol.style.Stroke({
+                        color: 'rgba(255, 0, 0, ' + opacity + ')',
+                        width: 2,
+                        opacity: opacity
+                    })
+                });
+
+                vectorContext.setImageStyle(flashStyle);
+                vectorContext.drawPointGeometry(flashGeom, null);
+                if (elapsed > animationDuration) {
+                    ol.Observable.unByKey(listenerKey);
+                    return;
+                }
+                // tell OL3 to continue postcompose animation
+                frameState.animate = true;
+            }
+            listenerKey = map.on('postcompose', animate);
         }
-
     }
 })();
