@@ -58,6 +58,7 @@
                         switch(vm.activeType) {
                             case MarkerType.QUIZ:
                                 vm.content = TaskService.removeQuizFeatures(vm.content);
+                                vm.answers = [];
                                 break;
                             case MarkerType.INVISIBLE:
                                 vm.content = TaskService.removeInvisibleFeatures(vm.content);
