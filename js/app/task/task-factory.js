@@ -103,6 +103,8 @@
             this.name = taskObject.name;
             this.lon = taskObject.lon;
             this.lat = taskObject.lat;
+            this.targetLon = taskObject.lon;
+            this.targetLat = taskObject.lat;
             this.popupTpl = taskObject.popupTpl;
             this.remoteId = taskObject.remoteId;
             this.type = taskObject.type;
@@ -127,6 +129,10 @@
             var position = remoteTask.getPosition();
             this.lon = position.getLongitude();
             this.lat = position.getLatitude();
+
+            var targetPos = remoteTask.getTargetPosition();
+            this.targetLon = targetPos.getLongitude();
+            this.targetLat = targetPos.getLatitude();
 
             getHtmlFromRemote(remoteTask.getHtmlId()).then(finishInit.bind(this));
 
