@@ -9,10 +9,10 @@
         .module('html')
         .factory('HtmlText', HtmlTextFactory);
 
-    HtmlTextFactory.$inject = ["$log", "$modal", "AuthenticationService", "BackendService", "HtmlTools"];
+    HtmlTextFactory.$inject = ["$log", "$q", "$modal", "AuthenticationService", "BackendService", "HtmlTools"];
 
     /* @ngInject */
-    function HtmlTextFactory($log, $modal, AuthenticationService, BackendService, HtmlTools) {
+    function HtmlTextFactory($log, $q, $modal, AuthenticationService, BackendService, HtmlTools) {
 
         $log = $log.getInstance("HtmlText", debugging);
 
@@ -82,29 +82,38 @@
 
         function upload() {
             $log.info("upload: ", this);
+            var deffered = $q.defer();
+
             if (this.id >= 1 && this.changed == false) {
-                return this.id;
+                console.log("Id: " + this.id);
+                deffered.resolve(this.id);
             } else {
                 this.remoteHtml = BackendService.createRemoteHtml(this);
 
                 if (this.id < 1) {
-                    return BackendService.addHtml(this.remoteHtml).then(
+                    BackendService.addHtml(this.remoteHtml).then(
                         function (result) {
                             this.id = result.getId();
                             $log.info("upload_success (add): ", this);
-                            return this.id;
+                            console.log("Id: " + this.id);
+                            deffered.resolve(this.id);
                         }.bind(this),
                         function (error) {
                             $log.error("upload_error: ", this);
+
+                            deffered.reject(error);
                         }.bind(this)
                     );
                 } else {
-                    return BackendService.updateHtml(this.remoteHtml).then(function(result) {
+                    BackendService.updateHtml(this.remoteHtml).then(function(result) {
                         $log.info("upload_success (update): ", this);
-                        return this.id;
+                        console.log("Id: " + this.id);
+                        deffered.resolve(this.id);
                     }.bind(this));
                 }
             }
+
+            return deffered.promise;
         }
     }
 

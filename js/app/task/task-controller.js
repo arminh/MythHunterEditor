@@ -19,6 +19,7 @@
         vm.name = task.name;
         vm.description = task.description;
         vm.content = "";
+        vm.targetContent = "";
         vm.activeType = task.type;
         vm.questName = task.questName;
         vm.answers = task.html.answers;
@@ -44,6 +45,9 @@
 
         function activate() {
             TaskService.setModalInstance($modalInstance);
+            if(task.html.targetContent != "") {
+                vm.targetContent = HtmlTools.retrieveContent(task.html.targetContent);
+            }
             vm.content = HtmlTools.retrieveContent(task.html.content);
             vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
         }
@@ -94,7 +98,7 @@
             if(!vm.activeType) {
                 vm.error = true;
             } else {
-                TaskService.createTask(vm.questName, vm.name, vm.content, vm.answers, vm.activeType)
+                TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)
             }
         }
 

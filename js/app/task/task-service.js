@@ -9,10 +9,10 @@
         .module('task')
         .factory('TaskService', TaskService);
 
-    TaskService.$inject = ["$log", "HtmlTools", "$modal", "MarkerType"];
+    TaskService.$inject = ["$log", "$q", "HtmlTools", "$modal", "MarkerType"];
 
     /* @ngInject */
-    function TaskService($log, HtmlTools, $modal, MarkerType) {
+    function TaskService($log, $q, HtmlTools, $modal, MarkerType) {
 
         $log = $log.getInstance("TaskService", debugging);
         var $modalInstance = null;
@@ -95,14 +95,22 @@
             return modalInstance.result;
         }
 
-        function createTask(questName, name, content, answers, type) {
-            HtmlTools.encloseContent(questName, name, content).then(encloseSuccess);
+        function createTask(questName, name, content, targetContent, answers, type) {
+            var promises = [];
 
-            function encloseSuccess(result) {
+            promises.push(HtmlTools.encloseContent(questName, name, content));
+            if(targetContent != "") {
+                promises.push(HtmlTools.encloseContent(questName, name, targetContent));
+            }
+
+            $q.all(promises).then(encloseSuccess);
+
+            function encloseSuccess(results) {
                 $modalInstance.close({
                     type: type,
                     name: name,
-                    content: result,
+                    content: results,
+                    targetContent: targetContent,
                     answers: answers
                 });
             }

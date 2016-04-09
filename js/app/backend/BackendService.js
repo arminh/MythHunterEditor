@@ -1,6 +1,6 @@
 //
 // Definitions for schema: http://backend.com/wsdl
-//  http://localhost:8080/Backend/webservices/Backend?wsdl#types1
+//  http://192.168.178.67:8080/Backend/webservices/Backend?wsdl#types1
 //
 //
 // Constructor for XML Schema item {http://backend.com/wsdl}getTreePart
@@ -9005,6 +9005,7 @@ function backend_com_wsdl_marker () {
     this._id = 0;
     this._name = null;
     this._position = null;
+    this._targetHtmlId = 0;
     this._targetPosition = null;
     this._type = null;
     this._version = null;
@@ -9074,6 +9075,22 @@ backend_com_wsdl_marker.prototype.getPosition = backend_com_wsdl_marker_getPosit
 function backend_com_wsdl_marker_setPosition(value) { this._position = value;}
 
 backend_com_wsdl_marker.prototype.setPosition = backend_com_wsdl_marker_setPosition;
+//
+// accessor is backend_com_wsdl_marker.prototype.getTargetHtmlId
+// element get for targetHtmlId
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for targetHtmlId
+// setter function is is backend_com_wsdl_marker.prototype.setTargetHtmlId
+//
+function backend_com_wsdl_marker_getTargetHtmlId() { return this._targetHtmlId;}
+
+backend_com_wsdl_marker.prototype.getTargetHtmlId = backend_com_wsdl_marker_getTargetHtmlId;
+
+function backend_com_wsdl_marker_setTargetHtmlId(value) { this._targetHtmlId = value;}
+
+backend_com_wsdl_marker.prototype.setTargetHtmlId = backend_com_wsdl_marker_setTargetHtmlId;
 //
 // accessor is backend_com_wsdl_marker.prototype.getTargetPosition
 // element get for targetPosition
@@ -9163,6 +9180,12 @@ function backend_com_wsdl_marker_serialize(cxfjsutils, elementName, extraNamespa
     }
     // block for local variables
     {
+     xml = xml + '<targetHtmlId>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._targetHtmlId);
+     xml = xml + '</targetHtmlId>';
+    }
+    // block for local variables
+    {
      if (this._targetPosition != null) {
       xml = xml + this._targetPosition.serialize(cxfjsutils, 'targetPosition', null);
      }
@@ -9248,6 +9271,18 @@ function backend_com_wsdl_marker_deserialize (cxfjsutils, element) {
      if (curElement != null) {
       curElement = cxfjsutils.getNextElementSibling(curElement);
      }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing targetHtmlId');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setTargetHtmlId(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing targetPosition');
@@ -18361,6 +18396,6 @@ function backend_com_wsdl_addEditorQuestResponse_deserializeResponse(cxfjsutils,
     return returnObject;
 }
 function backend_com_wsdl_IBackend_backend_com_wsdl_BackendPort () {
-  this.url = 'http://46.101.176.138:8080/Backend/webservices/Backend';
+  this.url = 'http://192.168.178.67:8080/Backend/webservices/Backend';
 }
 backend_com_wsdl_IBackend_backend_com_wsdl_BackendPort.prototype = new backend_com_wsdl_IBackend;

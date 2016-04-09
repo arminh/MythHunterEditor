@@ -19,7 +19,8 @@
             this.id = 0;
             this.remoteId = 0;
             this.name = "";
-            this.html = new HtmlText(this);
+            this.html = new HtmlText();
+            this.targetHtml = new HtmlText();
             this.type = null;
             this.markerId = -1;
             this.targetMarkerId = -1;
@@ -64,6 +65,7 @@
                 this.type = result.type;
                 this.html.content = result.content;
                 this.html.answers = result.answers;
+                this.targetHtml.content = result.targetContent;
                 $log.info("create_success", this);
             }.bind(this));
         }
@@ -114,6 +116,10 @@
             var html = new HtmlText();
             html.initFromObject(taskObject.html);
             this.html = html;
+
+            var targetHtml = new HtmlText();
+            targetHtml.initFromObject(taskObject.targetHtml);
+            this.targetHtml = targetHtml;
             $log.info("initFromObject_success", this);
         }
 
@@ -134,10 +140,15 @@
             this.targetLon = targetPos.getLongitude();
             this.targetLat = targetPos.getLatitude();
 
-            getHtmlFromRemote(remoteTask.getHtmlId()).then(finishInit.bind(this));
+            var promises = [];
+            promises.push(getHtmlFromRemote(remoteTask.getHtmlId()));
+            promises.push(getHtmlFromRemote(remoteTask.getTargetHtmlId()));
 
-            function finishInit(result) {
-                this.html = result;
+            $q.all(promises).then(finishInit.bind(this));
+
+            function finishInit(results) {
+                this.html = results[0];
+                this.targetHtml = results[1];
                 $log.info("initFromRemote_success", this);
                 deffered.resolve(this);
             }
@@ -226,14 +237,19 @@
             var deffered = $q.defer();
             this.remoteTask = BackendService.createRemoteTask(this);
 
+            var promises = [];
+            promises.push(this.html.upload());
+            promises.push(this.targetHtml.upload());
+
             if(this.remoteId < 1 || this.changed) {
-                $q.when(this.html.upload(), uploadTask.bind(this));
+                $q.all(promises).then(uploadTask.bind(this));
             } else {
-                $q.when(this.html.upload(), returnTask.bind(this))
+                $q.all(promises).then(returnTask.bind(this))
             }
 
-            function uploadTask(id) {
-                this.remoteTask.setHtmlId(id);
+            function uploadTask(results) {
+                this.remoteTask.setHtmlId(results[0]);
+                this.remoteTask.setTargetHtmlId(results[1]);
                 if(this.remoteId > 0 && this.changed) {
                     $log.info("upload - Updating: ", this.remoteTask);
                     return BackendService.updateTask(this.remoteTask).then(function(result) {
