@@ -16,11 +16,11 @@
         var vm = this;
 
         vm.quest = null;
-        vm.showQuestline = false;
+        vm.showQuestline = true;
+        vm.saveQuestPromise = null;
 
         vm.toggleMarker = MapService.toggleMarker;
         vm.createTask = MapService.createTask;
-        vm.saveQuest = MapService.saveQuest;
         vm.drawing = MapService.getDrawing;
         vm.continueDrawing = MapService.getContinueDrawing;
 
@@ -29,6 +29,7 @@
         vm.gotoLocation = gotoLocation;
         vm.searchAndGotoLocation = searchAndGotoLocation;
         vm.editQuest = editQuest;
+        vm.saveQuest = saveQuest;
         vm.cancelQuest = cancelQuest;
 
         $scope.$on('markerChanged', MapService.markerChanged);
@@ -86,6 +87,11 @@
 
         function editQuest() {
             vm.quest.edit();
+        }
+
+        function saveQuest() {
+            vm.showQuestline = false;
+            vm.saveQuestPromise = MapService.saveQuest();
         }
 
         function cancelQuest() {

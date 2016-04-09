@@ -64,9 +64,12 @@
         }
 
         function saveQuest() {
+            var deffered = $q.defer();
             user.uploadQuest().then(function() {
+                deffered.resolve();
                 $state.go("app.profile");
             });
+            return deffered.promise;
         }
 
         function addMarkers(quest) {

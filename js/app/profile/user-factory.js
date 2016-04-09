@@ -114,8 +114,8 @@
                 } else {
                     this.createdQuests[id] = result;
                 }
-
                 this.clearCurrentQuest();
+                return result;
             }.bind(this));
         }
 

@@ -85,7 +85,6 @@
             var deffered = $q.defer();
 
             if (this.id >= 1 && this.changed == false) {
-                console.log("Id: " + this.id);
                 deffered.resolve(this.id);
             } else {
                 this.remoteHtml = BackendService.createRemoteHtml(this);
@@ -95,19 +94,16 @@
                         function (result) {
                             this.id = result.getId();
                             $log.info("upload_success (add): ", this);
-                            console.log("Id: " + this.id);
                             deffered.resolve(this.id);
                         }.bind(this),
                         function (error) {
                             $log.error("upload_error: ", this);
-
                             deffered.reject(error);
                         }.bind(this)
                     );
                 } else {
                     BackendService.updateHtml(this.remoteHtml).then(function(result) {
                         $log.info("upload_success (update): ", this);
-                        console.log("Id: " + this.id);
                         deffered.resolve(this.id);
                     }.bind(this));
                 }
