@@ -15,17 +15,17 @@
     function MainController($state, AuthenticationService) {
         var vm = this;
 
-        vm.logout = login;
+        vm.login = login;
         vm.logout = logout;
 
         ////////////////
 
         function login() {
-            AuthenticationService.logout();
             $state.go("app.login");
         }
 
         function logout() {
+            AuthenticationService.logout();
             $state.go("app.login");
         }
     }
