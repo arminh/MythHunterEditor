@@ -234,7 +234,7 @@
 
             function uploadTask(id) {
                 this.remoteTask.setHtmlId(id);
-                if(this.remoteId != -1 && this.changed) {
+                if(this.remoteId < 1 && this.changed) {
                     $log.info("upload - Updating: ", this.remoteTask);
                     return BackendService.updateTask(this.remoteTask).then(function(result) {
                         this.version = result.getVersion();
