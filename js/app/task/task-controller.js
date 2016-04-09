@@ -9,16 +9,16 @@
         .module('task')
         .controller('TaskController', TaskController);
 
-    TaskController.$inject = ["$modalInstance", "TaskService", "MarkerType", "HtmlTools", "task"];
+    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "MarkerType", "HtmlTools", "task", "ngDialog"];
 
     /* @ngInject */
-    function TaskController($modalInstance, TaskService, MarkerType, HtmlTools, task) {
+    function TaskController($scope, $modalInstance, TaskService, MarkerType, HtmlTools, task, ngDialog) {
         var vm = this;
 
         vm.types = MarkerType;
         vm.name = task.name;
         vm.description = task.description;
-        vm.content = HtmlTools.retrieveContent(task.html.content);
+        vm.content = "";
         vm.activeType = task.type;
         vm.questName = task.questName;
         vm.answers = task.html.answers;
@@ -44,12 +44,35 @@
 
         function activate() {
             TaskService.setModalInstance($modalInstance);
+            vm.content = HtmlTools.retrieveContent(task.html.content);
             vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
         }
 
         function markerSelected(type, index) {
-            vm.activeType = type;
-            vm.selectedIndex = index;
+            if(vm.activeType == MarkerType.QUIZ || vm.activeType == MarkerType.INVISIBLE) {
+                ngDialog.openConfirm({
+                    scope: $scope,
+                    template: "js/app/task/change-type-dialogue.tpl.html"
+                }).then(
+                    function (confirm) {
+                        switch(vm.activeType) {
+                            case MarkerType.QUIZ:
+                                vm.content = TaskService.removeQuizFeatures(vm.content);
+                                break;
+                            case MarkerType.INVISIBLE:
+                                vm.content = TaskService.removeInvisibleFeatures(vm.content);
+                                break;
+
+                        }
+
+                        console.log(vm.content);
+                        vm.activeType = type;
+                    }, function (reject) {
+                    }
+                );
+            } else {
+                vm.activeType = type;
+            }
         }
 
         function getMarkerIconSrc(type) {

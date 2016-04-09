@@ -9,14 +9,15 @@
         .module('quest')
         .controller('QuestController', QuestController);
 
-    QuestController.$inject = ["$modalInstance", "QuestService"];
+    QuestController.$inject = ["$modalInstance", "QuestService", "HtmlTools", "quest", "edit"];
 
     /* @ngInject */
-    function QuestController($modalInstance, QuestService) {
+    function QuestController($modalInstance, QuestService, HtmlTools, quest, edit) {
 
         var vm = this;
 
-        vm.name = "";
+        vm.edit = edit;
+        vm.name = quest.name;
         vm.questContent = "";
         vm.taskContent = "";
         vm.separateDescription = false;
@@ -30,6 +31,7 @@
         ////////////////
 
         function activate() {
+            vm.questContent = HtmlTools.retrieveContent(quest.html.content);
             QuestService.setModalInstance($modalInstance);
         }
 

@@ -38,6 +38,7 @@
         Quest.prototype = {
             constructor: Quest,
             create: create,
+            edit: edit,
             initFromObject: initFromObject,
             initFromRemote: initFromRemote,
             change: change,
@@ -59,7 +60,7 @@
             this.creatorId = creatorId;
 
             $log.info("create");
-            return QuestService.openQuestDialog(this).then(questCreated.bind(this), createQuestCanceled);
+            return QuestService.openQuestDialog(this, false).then(questCreated.bind(this), createQuestCanceled);
 
             function questCreated(result) {
                 this.name = result.name;
@@ -82,6 +83,31 @@
 
             function createQuestCanceled(error) {
                 $log.info("create_fail: Canceled");
+                return $q.reject("Canceled");
+            }
+        }
+
+        function edit() {
+
+            $log.info("edit");
+            return QuestService.openQuestDialog(this, true).then(editComplete.bind(this), editQuestCanceled);
+
+            function editComplete(result) {
+                if(this.name != result.name) {
+                    this.name = result.name;
+                    this.change();
+                }
+
+                if(this.html.content != result.questContent) {
+                    this.html.content = result.questContent;
+                    this.change();
+                }
+                $log.info("edit_success: ", this);
+                return this;
+            }
+
+            function editQuestCanceled(error) {
+                $log.info("edit_fail: Canceled");
                 return $q.reject("Canceled");
             }
         }

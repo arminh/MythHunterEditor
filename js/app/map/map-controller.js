@@ -28,6 +28,7 @@
         vm.searchLocation = searchLocation;
         vm.gotoLocation = gotoLocation;
         vm.searchAndGotoLocation = searchAndGotoLocation;
+        vm.editQuest = editQuest;
         vm.cancelQuest = cancelQuest;
 
         $scope.$on('markerChanged', MapService.markerChanged);
@@ -80,7 +81,11 @@
         }
 
         function searchAndGotoLocation(query) {
-            //gotoLocation(MapInteraction.search(query)[0]);
+            gotoLocation(searchLocation(query)[0]);
+        }
+
+        function editQuest() {
+            vm.quest.edit();
         }
 
         function cancelQuest() {

@@ -21,15 +21,19 @@
             this.name = "";
             this.html = new HtmlText(this);
             this.type = null;
-            this.lon = null;
-            this.lat = null;
-            this.popupTpl = "";
             this.markerId = -1;
+            this.targetMarkerId = -1;
+            this.lon = 0;
+            this.lat = 0;
+            this.targetLon = 0;
+            this.targetLat = 0;
+            this.popupTpl = "";
             this.changed = false;
             this.fixed = false;
-            this.version = null;
-
+            this.version = -1;
             this.questName = questName;
+
+
         }
 
         Task.prototype = {
@@ -41,6 +45,7 @@
             initFromObject: initFromObject,
             initFromRemote: initFromRemote,
             initFromMarker: initFromMarker,
+            initTargetMarker: initTargetMarker,
             updateMarker: updateMarker,
             getMarkerSrc: getMarkerSrc,
             change: change,
@@ -148,8 +153,7 @@
 
         function initFromMarker(marker) {
             $log.info("initFromMarker", marker);
-            var coord = marker.getGeometry().getCoordinates();
-            var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
+            var coordinates = getMarkerCoords(marker);
 
             this.lon = coordinates[0];
             this.lat = coordinates[1];
@@ -157,13 +161,41 @@
             $log.info("initFromMarker_success", this);
         }
 
+        function initTargetMarker(marker) {
+            var coordinates = getMarkerCoords(marker);
+            this.targetLon = coordinates[0];
+            this.targetLat = coordinates[1];
+        }
+
+        function getMarkerCoords(marker) {
+            var coord = marker.getGeometry().getCoordinates();
+            return ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
+        }
+
         function drawMarker() {
-            return MapInteraction.drawMarker(this.getMarkerSrc()).then(initMarker.bind(this));
+            if(this.type != MarkerType.INVISIBLE) {
+                return MapInteraction.drawMarker(this.getMarkerSrc()).then(initMarker.bind(this));
+            } else {
+                return MapInteraction.drawMarker(this.getMarkerSrc()).then(initAndDraw.bind(this));
+            }
 
             function initMarker(markerId) {
                 var marker = MapInteraction.getMarkerById(markerId);
                 this.markerId = markerId;
                 this.initFromMarker(marker);
+            }
+
+            function initAndDraw(markerId) {
+                var marker = MapInteraction.getMarkerById(markerId);
+                this.markerId = markerId;
+                this.initFromMarker(marker);
+                return MapInteraction.drawMarker(this.getMarkerSrc()).then(initTargetMarker.bind(this));
+            }
+
+            function initTargetMarker(markerId) {
+                var marker = MapInteraction.getMarkerById(markerId);
+                this.targetMarkerId = markerId;
+                this.initTargetMarker(marker);
             }
         }
 

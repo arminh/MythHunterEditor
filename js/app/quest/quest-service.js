@@ -46,7 +46,6 @@
         }
 
         function closeModal(name, questContent, taskContent) {
-            $log.info("Create quest: " + name);
             $modalInstance.close({
                 name: name,
                 questContent: questContent,
@@ -58,7 +57,7 @@
             $modalInstance.dismiss('cancel');
         }
 
-        function openQuestDialog(quest) {
+        function openQuestDialog(quest, edit) {
             var modalInstance = $modal.open({
                 animation: true,
                 backdrop: 'static',
@@ -69,6 +68,9 @@
                 resolve: {
                     quest: function () {
                         return quest;
+                    },
+                    edit: function () {
+                        return edit;
                     }
                 }
             });

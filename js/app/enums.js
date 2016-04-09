@@ -9,7 +9,8 @@
         .constant("MarkerType", {
             FIGHT: "FIGHT",
             QUIZ: "QUIZ",
-            INFO: "INFO"
+            INFO: "INFO",
+            INVISIBLE: "INVISIBLE"
         })
         .constant("TreePartType", {
             Marker: "Marker",

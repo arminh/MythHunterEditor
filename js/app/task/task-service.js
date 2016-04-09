@@ -22,6 +22,8 @@
             setCheckedAttributes: setCheckedAttributes,
             retrieveCheckedAttributes: retrieveCheckedAttributes,
             clearCheckedAttributes: clearCheckedAttributes,
+            removeQuizFeatures: removeQuizFeatures,
+            removeInvisibleFeatures: removeInvisibleFeatures,
             openTaskDialog: openTaskDialog,
             createTask: createTask,
             cancelTask: cancelTask,
@@ -58,6 +60,21 @@
 
         function clearCheckedAttributes(content) {
             return content.replace(" checked","");
+        }
+
+
+        function removeQuizFeatures(content) {
+            var regex = new RegExp("<label><input.*?>(.*?)<\/label>", "g");
+            var regexInputBox = new RegExp("<input.*? value\=\"(.*?)\"\/>", "g");
+
+            content = content.replace(regex, "$1");
+            content = content.replace(regexInputBox, "$1");
+            content = content.replace("<label>", "");
+            return content.replace("</label>", "");
+        }
+
+        function removeInvisibleFeatures() {
+
         }
 
         function openTaskDialog(task) {
@@ -103,6 +120,8 @@
                     return "media/quiz_marker.png";
                 case MarkerType.INFO:
                     return "media/info_marker.png";
+                case MarkerType.INVISIBLE:
+                    return "media/invisible_marker.png";
                 case "start":
                     return "media/start_marker.png";
                 default:

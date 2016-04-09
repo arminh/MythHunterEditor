@@ -53,7 +53,7 @@
                         return result;
                     },
                     function (error) {
-                        $log.info("getQuest_fail: ", error);
+                        $log.error("getQuest_fail: ", error);
                         $state.go("app.profile");
                     });
             } else {
@@ -129,7 +129,7 @@
         }
 
         function getContinueDrawing() {
-            return continueDrawing;
+
         }
 
         function createTask() {

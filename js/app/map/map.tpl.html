@@ -73,28 +73,19 @@
     </ul>-->
 
     <div id="markerSelectorBox" ng-hide="map.drawing() && !map.continueDrawing()">
-        <div class="marker">
+        <!--<div class="marker">
             <img src="media/fight_marker.png" class="markerSelector" ng-click="map.toggleMarker('FIGHT')"/>
-            <!--
-                    <p class="markerLabel">Fight</p>
-            -->
-        </div>
-
+        </div>-->
         <div class="marker">
             <img src="media/quiz_marker.png" class="markerSelector" ng-click="map.toggleMarker('QUIZ')"/>
-            <!--
-                    <p class="markerLabel">Quiz</p>
-            -->
         </div>
-
         <div class="marker">
             <img src="media/info_marker.png" class="markerSelector" ng-click="map.toggleMarker('INFO')"/>
             <!--        <p class="markerLabel">Info</p>-->
         </div>
-
-        <!--
-            <img src="media/delete_icon.png" class="markerSelector" width="20" height="32"  ng-click="map.toggleRemove()"/>
-        -->
+<!--        <div class="marker">
+            <img src="media/invisible_marker.png" class="markerSelector" ng-click="map.toggleMarker('INVISIBLE')"/>
+        </div>-->
     </div>
     <div id="popup">
         <div id="popupCloser"></div>
