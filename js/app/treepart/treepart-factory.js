@@ -44,6 +44,7 @@
 
             if (!isRoot) {
                 quest.addTreePart(this);
+                console.log(this);
             }
 
             this.remoteId = treePartObject.remoteId;

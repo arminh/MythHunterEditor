@@ -218,6 +218,11 @@
             $log.info("removeMarker", markerId);
             var marker = features[markerId];
             map.removeInteraction(marker.drag);
+
+            if(marker.getGeometry().lineEnd) {
+                source.removeFeature(marker.getGeometry().lineEnd);
+            }
+
             source.removeFeature(marker);
         }
 

@@ -141,6 +141,7 @@
             if(!this.currentQuest) {
                 this.currentQuest = retrieveCurrentQuest();
             }
+            this.backup();
             return this.currentQuest;
         }
 

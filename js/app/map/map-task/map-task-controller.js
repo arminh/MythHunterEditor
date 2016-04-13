@@ -50,6 +50,9 @@
         function deleteTask() {
             vm.quest.deleteTreePart(vm.treepart);
             MapInteraction.removeMarker(vm.task.markerId);
+            if(vm.task.targetMarkerId > -1) {
+                MapInteraction.removeMarker(vm.task.targetMarkerId);
+            }
         }
 
         function previewHtml() {

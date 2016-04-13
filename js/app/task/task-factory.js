@@ -94,6 +94,10 @@
                     this.html.answers = result.answers;
                     this.html.change();
                 }
+                if(this.targetHtml.content != result.targetContent) {
+                    this.targetHtml.content = result.targetContent;
+                    this.targetHtml.change();
+                }
                 $log.info("edit_success", this);
             }
         }
