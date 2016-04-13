@@ -38,12 +38,14 @@
             init: init,
             setCenter: setCenter,
             addMarker: addMarker,
+            addLine: addLine,
             setMarkerStyle: setMarkerStyle,
             removeMarker: removeMarker,
             getMarkerById: getMarkerById,
             drawMarker: drawMarker,
             flashMarker: flashMarker,
             stopDrawing: stopDrawing,
+            drawLine: drawLine,
             addPopupOverlay: addPopupOverlay,
             showOverlay: showOverlay,
             hideOverlay: hideOverlay
@@ -132,8 +134,24 @@
                 $rootScope.$broadcast("markerChanged", {marker: evt.features.getArray()[0]});
             });
 
+            feature.getGeometry().on("change", markerChanged);
+
             feature.drag = dragInteraction;
             map.addInteraction(dragInteraction);
+        }
+
+        function markerChanged(evt) {
+            var markerGeometry = evt.target;
+
+            if(markerGeometry.lineStart) {
+                var lineGeometry = markerGeometry.lineStart.getGeometry();
+                lineGeometry.setCoordinates([markerGeometry.getCoordinates(), lineGeometry.getLastCoordinate()]);
+            }
+
+            if(markerGeometry.lineEnd) {
+                lineGeometry = markerGeometry.lineEnd.getGeometry();
+                lineGeometry.setCoordinates([lineGeometry.getFirstCoordinate(), markerGeometry.getCoordinates()]);
+            }
         }
 
         function addMarker(lon, lat, iconSrc) {
@@ -142,6 +160,33 @@
             });
             source.addFeature(marker);
             return initMarker(marker, iconSrc);
+        }
+
+        function addLine(startMarkerId, endMarkerId) {
+            var startGeomtery = getMarkerById(startMarkerId).getGeometry();
+            var endGeometry = getMarkerById(endMarkerId).getGeometry();
+
+            var startCoords = startGeomtery.getCoordinates();
+            var endCoords = endGeometry.getCoordinates();
+
+            var line = new ol.Feature({
+                geometry: new ol.geom.LineString([startCoords, endCoords])
+            });
+
+            var style = new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    width: 5, color: 'rgba(255, 0, 0, 1)',
+                    lineDash: [.1, 5] //or other combinations
+                }),
+                zIndex: 2
+            });
+
+            line.setStyle(style);
+
+            startGeomtery.lineStart = line;
+            endGeometry.lineEnd = line;
+
+            source.addFeature(line);
         }
 
         function initMarker(marker, iconSrc) {
@@ -213,6 +258,7 @@
                 geometryName: "Marker"
             });
 
+
             drawEvent = drawInteraction.on('drawend', drawEnd);
 
             function drawEnd(evt) {
@@ -231,6 +277,38 @@
                 activeMarker = "";
                 //activateClick();
             }
+        }
+
+        function drawLine() {
+
+            var deffered = $q.defer();
+
+            var style = new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    width: 5, color: 'rgba(255, 0, 0, 1)',
+                    lineDash: [.1, 5] //or other combinations
+                }),
+                zIndex: 2
+            });
+
+            var draw = new ol.interaction.Draw({
+                source: source,
+                type: /** @type {ol.geom.GeometryType} */ "LineString",
+                maxPoints: 2,
+                style: style,
+                geometryName: "Line"
+            });
+            map.addInteraction(draw);
+
+            draw.on('drawend', drawEnd);
+
+            function drawEnd(evt) {
+                evt.feature.setStyle(style);
+                map.removeInteraction(draw);
+                deffered.resolve(evt.feature);
+            }
+
+            return deffered.promise;
         }
 
         function toggleRemove() {

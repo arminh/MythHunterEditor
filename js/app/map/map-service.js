@@ -79,6 +79,11 @@
             for (var i = 0; i < quest.tasks.length; i++) {
                 var task = quest.tasks[i];
                 task.markerId = MapInteraction.addMarker(task.lon, task.lat, task.getMarkerSrc());
+
+                if(task.targetLon != 0 && task.targetLat != 0) {
+                    task.targetMarkerId = MapInteraction.addMarker(task.targetLon, task.targetLat, "media/target_marker.png");
+                    MapInteraction.addLine(task.markerId, task.targetMarkerId);
+                }
             }
         }
 
@@ -121,8 +126,12 @@
             }
 
             for(var i = 0; i < quest.tasks.length; i++) {
-                if(quest.tasks[i].markerId == changedMarkerId) {
+                if (quest.tasks[i].markerId == changedMarkerId) {
                     quest.tasks[i].updateMarker(changedMarker);
+                }
+
+                if (quest.tasks[i].targetMarkerId == changedMarkerId) {
+                    quest.tasks[i].updateTargetMarker(changedMarker);
                 }
             }
         }

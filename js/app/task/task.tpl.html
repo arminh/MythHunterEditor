@@ -16,7 +16,7 @@
     <div class="task-type" ng-hide="task.activeType == 'start'">
         <p class="task-modal-label">Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !task.activeType">(Please choose the task type)</span></p>
         <div class = "task-type-selection">
-            <md-button ng-disabled="type == task.types.FIGHT || type == task.types.INVISIBLE" ng-repeat="type in task.types" ng-click="task.markerSelected(type, $index)"
+            <md-button ng-disabled="type == task.types.FIGHT" ng-repeat="type in task.types" ng-click="task.markerSelected(type, $index)"
                        aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle"
                        ng-class="{ 'active-marker': task.activeType == type }">
                 <img class="tasl-type-icon" ng-src="{{task.getMarkerIconSrc(type)}}"/>
@@ -34,7 +34,7 @@
         <text-angular ng-if="task.activeType != task.types.QUIZ" name="task-editor" ta-toolbar="{{task.toolbar}}" ng-model="task.content" class="task-text"></text-angular>
         <div ng-if="task.activeType == task.types.INVISIBLE">
             <p class="task-modal-label">Task target content</p>
-            <text-angular name="task-editor" ta-toolbar="{{task.toolbar}}" ng-model="task.targetContent" class="task-text"></text-angular>
+            <text-angular name="task-editor-target" ta-toolbar="{{task.toolbar}}" ng-model="task.targetContent" class="task-text"></text-angular>
         </div>
     </div>
 

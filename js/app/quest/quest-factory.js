@@ -203,7 +203,9 @@
             $log.info("getHtmlFromRemote: ", htmlId);
             return BackendService.getHtml(htmlId).then(function(remoteHtml) {
                 var html = new HtmlText();
-                html.initFromRemote(remoteHtml);
+                if(remoteHtml) {
+                    html.initFromRemote(remoteHtml);
+                }
                 $log.info("getHtmlFromRemote_success (id = " + html.id +  "): ", html);
                 return html;
             });

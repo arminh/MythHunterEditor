@@ -46,8 +46,9 @@
             initFromObject: initFromObject,
             initFromRemote: initFromRemote,
             initFromMarker: initFromMarker,
-            initTargetMarker: initTargetMarker,
+            initFromTargetMarker: initFromTargetMarker,
             updateMarker: updateMarker,
+            updateTargetMarker: updateTargetMarker,
             getMarkerSrc: getMarkerSrc,
             change: change,
             upload: upload,
@@ -105,12 +106,13 @@
             this.name = taskObject.name;
             this.lon = taskObject.lon;
             this.lat = taskObject.lat;
-            this.targetLon = taskObject.lon;
-            this.targetLat = taskObject.lat;
+            this.targetLon = taskObject.targetLon;
+            this.targetLat = taskObject.targetLat;
             this.popupTpl = taskObject.popupTpl;
             this.remoteId = taskObject.remoteId;
             this.type = taskObject.type;
             this.markerId = taskObject.markerId;
+            this.targetMarkerId = taskObject.targetMarkerId;
             this.version = taskObject.version;
 
             var html = new HtmlText();
@@ -148,7 +150,9 @@
 
             function finishInit(results) {
                 this.html = results[0];
-                this.targetHtml = results[1];
+                if(results[1]) {
+                    this.targetHtml = results[1];
+                }
                 $log.info("initFromRemote_success", this);
                 deffered.resolve(this);
             }
@@ -163,7 +167,9 @@
 
             function initHtml(remoteHtml) {
                 var html = new HtmlText();
-                html.initFromRemote(remoteHtml);
+                if(remoteHtml) {
+                    html.initFromRemote(remoteHtml);
+                }
                 return html;
             }
         }
@@ -178,11 +184,15 @@
             $log.info("initFromMarker_success", this);
         }
 
-        function initTargetMarker(marker) {
+        function initFromTargetMarker(marker) {
+            $log.info("initFromTargetMarker", marker);
             var coordinates = getMarkerCoords(marker);
+
             this.targetLon = coordinates[0];
             this.targetLat = coordinates[1];
+            $log.info("initFromTargetMarker_success", this);
         }
+
 
         function getMarkerCoords(marker) {
             var coord = marker.getGeometry().getCoordinates();
@@ -190,10 +200,16 @@
         }
 
         function drawMarker() {
+            var linePromise = null;
+            var deffered = $q.defer();
+            var promises = [];
+
             if(this.type != MarkerType.INVISIBLE) {
                 return MapInteraction.drawMarker(this.getMarkerSrc()).then(initMarker.bind(this));
+
             } else {
-                return MapInteraction.drawMarker(this.getMarkerSrc()).then(initAndDraw.bind(this));
+                promises.push(MapInteraction.drawMarker(this.getMarkerSrc()).then(initAndDraw.bind(this)));
+                promises.push(MapInteraction.drawLine());
             }
 
             function initMarker(markerId) {
@@ -206,14 +222,33 @@
                 var marker = MapInteraction.getMarkerById(markerId);
                 this.markerId = markerId;
                 this.initFromMarker(marker);
-                return MapInteraction.drawMarker(this.getMarkerSrc()).then(initTargetMarker.bind(this));
+
+                promises.push(MapInteraction.drawMarker("media/target_marker.png").then(initTarget.bind(this)));
+                $q.all(promises).then(drawFinished.bind(this));
+                return marker;
             }
 
-            function initTargetMarker(markerId) {
+            function initTarget(markerId) {
                 var marker = MapInteraction.getMarkerById(markerId);
                 this.targetMarkerId = markerId;
-                this.initTargetMarker(marker);
+                this.initFromTargetMarker(marker);
+                return marker;
             }
+
+            function drawFinished(results) {
+                var marker = results[0];
+                var targetMarker = results[2];
+                var line = results[1];
+                marker.getGeometry().lineStart = line;
+                targetMarker.getGeometry().lineEnd = line;
+                deffered.resolve();
+            }
+
+            function addLineToMarker() {
+                console.log("Line ready");
+            }
+
+            return deffered.promise;
         }
 
         function addMarker() {
@@ -223,6 +258,11 @@
         function updateMarker(marker) {
 
             this.initFromMarker(marker);
+            this.change();
+        }
+
+        function updateTargetMarker(marker) {
+            this.initFromTargetMarker(marker);
             this.change();
         }
 
@@ -239,7 +279,9 @@
 
             var promises = [];
             promises.push(this.html.upload());
-            promises.push(this.targetHtml.upload());
+            if(this.targetHtml.content != "") {
+                promises.push(this.targetHtml.upload());
+            }
 
             if(this.remoteId < 1 || this.changed) {
                 $q.all(promises).then(uploadTask.bind(this));
@@ -249,7 +291,10 @@
 
             function uploadTask(results) {
                 this.remoteTask.setHtmlId(results[0]);
-                this.remoteTask.setTargetHtmlId(results[1]);
+                if(results[1]) {
+                    this.remoteTask.setTargetHtmlId(results[1]);
+                }
+
                 if(this.remoteId > 0 && this.changed) {
                     $log.info("upload - Updating: ", this.remoteTask);
                     return BackendService.updateTask(this.remoteTask).then(function(result) {

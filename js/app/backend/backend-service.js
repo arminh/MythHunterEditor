@@ -247,6 +247,11 @@
         function getHtml(htmlId) {
             var deffered = $q.defer();
 
+            if(htmlId < 1) {
+                deffered.resolve(null);
+                return deffered.promise;
+            }
+
             $log.info("getHtml: id =", htmlId);
             backend.getHtml(function(result) {
                 if(result.getReturn()) {

@@ -109,8 +109,8 @@
                 $modalInstance.close({
                     type: type,
                     name: name,
-                    content: results,
-                    targetContent: targetContent,
+                    content: results[0],
+                    targetContent: results[1] ? results[1] : "",
                     answers: answers
                 });
             }

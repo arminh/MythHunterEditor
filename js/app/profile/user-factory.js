@@ -90,17 +90,16 @@
         }
 
 
-        function deleteQuest(questId) {
+        function deleteQuest(quest) {
             var deleteId = -1;
 
             for(var i = 0; i < this.createdQuests.length; i++) {
-                if(this.createdQuests[i].remoteId = questId) {
+                if(this.createdQuests[i].remoteId = quest.remoteId) {
                     deleteId = i;
                 }
             }
-
+            BackendService.deleteQuest(quest.remoteId);
             this.createdQuests.splice(deleteId, 1);
-            BackendService.deleteQuest(questId);
             this.upload();
         }
 

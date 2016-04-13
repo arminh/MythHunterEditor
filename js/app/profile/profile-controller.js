@@ -47,13 +47,13 @@
 
         function deleteQuest(quest) {
 
-            $scope.deleteQuestId = quest;
+            $scope.deleteQuest = quest;
             ngDialog.openConfirm({
                 scope: $scope,
                 template: "js/app/quest/delete-quest-dialogue.tpl.html"
             }).then(
                 function (confirm) {
-                    user.deleteQuest(quest.remoteId);
+                    user.deleteQuest(quest);
                 }, function (reject) {
 
                 }
