@@ -93,11 +93,12 @@
         }
 
         function okClicked() {
-            vm.content = TaskService.clearCheckedAttributes(vm.content);
-
             if(!vm.activeType) {
                 vm.error = true;
             } else {
+                if(vm.activeType == MarkerType.QUIZ) {
+                    vm.content = TaskService.clearCheckedAttributes(vm.content);
+                }
                 TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)
             }
         }

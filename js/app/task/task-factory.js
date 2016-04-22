@@ -73,6 +73,8 @@
 
         function edit() {
             $log.info("edit", this);
+            var marker = null;
+
             return TaskService.openTaskDialog(this).then(updateTask.bind(this));
 
             function updateTask(result) {
@@ -81,9 +83,20 @@
                     this.change();
                 }
                 if(this.type != result.type) {
+                    if(this.type == MarkerType.INVISIBLE) {
+                        MapInteraction.removeMarker(this.targetMarkerId);
+                        this.targetLon = 0;
+                        this.targetLat = 0;
+                        this.targetMarkerId = -1;
+                    }
+
                     this.type = result.type;
-                    var marker = MapInteraction.getMarkerById(this.markerId);
+
+                    marker = MapInteraction.getMarkerById(this.markerId);
                     MapInteraction.setMarkerStyle(marker, this.getMarkerSrc());
+                    if(this.type == MarkerType.INVISIBLE) {
+                        MapInteraction.drawMarker("media/target_marker.png").then(initTarget.bind(this));
+                    }
                     this.change();
                 }
                 if(this.html.content != result.content) {
@@ -99,6 +112,18 @@
                     this.targetHtml.change();
                 }
                 $log.info("edit_success", this);
+            }
+
+            function initTarget(markerId) {
+                var targetMarker = MapInteraction.getMarkerById(markerId);
+                this.targetMarkerId = markerId;
+                this.initFromTargetMarker(targetMarker);
+
+                var line = MapInteraction.addLine(this.markerId, this.targetMarkerId);
+
+                marker.getGeometry().lineStart = line;
+                targetMarker.getGeometry().lineEnd = line;
+                return marker;
             }
         }
 

@@ -187,6 +187,7 @@
             endGeometry.lineEnd = line;
 
             source.addFeature(line);
+            return line;
         }
 
         function initMarker(marker, iconSrc) {

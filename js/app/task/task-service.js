@@ -73,8 +73,8 @@
             return content.replace("</label>", "");
         }
 
-        function removeInvisibleFeatures() {
-
+        function removeInvisibleFeatures(content) {
+            return content;
         }
 
         function openTaskDialog(task) {
