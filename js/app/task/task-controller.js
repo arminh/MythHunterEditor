@@ -53,7 +53,7 @@
         }
 
         function markerSelected(type, index) {
-            if(vm.activeType == MarkerType.QUIZ || vm.activeType == MarkerType.INVISIBLE) {
+            if(showConfirm(vm.activeType)) {
                 ngDialog.openConfirm({
                     scope: $scope,
                     template: "js/app/task/change-type-dialogue.tpl.html"
@@ -77,6 +77,16 @@
                 );
             } else {
                 vm.activeType = type;
+            }
+        }
+
+        function showConfirm(type) {
+            if(type == MarkerType.QUIZ) {
+                return !(vm.content == "" || vm.content.indexOf("input") < 0);
+            } else if(type == MarkerType.INVISIBLE) {
+                return !(vm.targetContent == "");
+            } else {
+                return false;
             }
         }
 
