@@ -143,6 +143,7 @@
             this.markerId = taskObject.markerId;
             this.targetMarkerId = taskObject.targetMarkerId;
             this.version = taskObject.version;
+            this.questName = taskObject.questName;
 
             var html = new HtmlText();
             html.initFromObject(taskObject.html);
