@@ -138,7 +138,7 @@
             remoteTask.setId(task.remoteId);
             remoteTask.setName(task.name);
             remoteTask.setHtmlId(task.html.id);
-            remoteTask.setTargetHtmlId(task.targetHtml.id);
+            remoteTask.setFinishedHtmlId(task.targetHtml.id);
             remoteTask.setPosition(mapPosition(task.lon, task.lat));
             remoteTask.setTargetPosition(mapPosition(task.targetLon, task.targetLat));
 
