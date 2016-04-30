@@ -174,7 +174,7 @@
 
             var promises = [];
             promises.push(getHtmlFromRemote(remoteTask.getHtmlId()));
-            promises.push(getHtmlFromRemote(remoteTask.getTargetHtmlId()));
+            promises.push(getHtmlFromRemote(remoteTask.getFinishedHtmlId()));
 
             $q.all(promises).then(finishInit.bind(this));
 
@@ -322,7 +322,7 @@
             function uploadTask(results) {
                 this.remoteTask.setHtmlId(results[0]);
                 if(results[1]) {
-                    this.remoteTask.setTargetHtmlId(results[1]);
+                    this.remoteTask.setFinishedHtmlId(results[1]);
                 }
 
                 if(this.remoteId > 0 && this.changed) {
