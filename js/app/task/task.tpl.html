@@ -14,7 +14,7 @@
    --> </div>
 
     <div class="task-type" ng-hide="task.activeType == 'start'">
-        <p class="task-modal-label">Choose the type of task you want to create for your quest: <span class="error" ng-show="error && !task.activeType">(Please choose the task type)</span></p>
+        <p class="task-modal-label">Choose the type of task you want to create for your quest: <span class="error" ng-show="task.error && !task.activeType">(Please choose the task type)</span></p>
         <div class = "task-type-selection">
             <md-button ng-disabled="type == task.types.FIGHT" ng-repeat="type in task.types" ng-click="task.markerSelected(type, $index)"
                        aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle"

@@ -18,6 +18,7 @@
         vm.quest = null;
         vm.showQuestline = true;
         vm.saveQuestPromise = null;
+        vm.interactionDisabled = false;
 
         vm.toggleMarker = MapService.toggleMarker;
         vm.createTask = MapService.createTask;
@@ -92,6 +93,7 @@
         function saveQuest() {
             vm.showQuestline = false;
             vm.saveQuestPromise = MapService.saveQuest();
+            vm.interactionDisabled = true;
         }
 
         function cancelQuest() {

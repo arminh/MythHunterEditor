@@ -1,4 +1,4 @@
-<div>
+<div ng-class="{'not-clickable': map.interactionDisabled}">
     <div id="mapView"></div>
 
     <md-toolbar id="toolbar" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}">

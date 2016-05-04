@@ -12,8 +12,8 @@
 
     <div class="task-content">
         <text-angular ta-toolbar="{{quest.toolbar}}" ng-model="quest.questContent" id="quest-text"></text-angular>
-        <span ng-if="!quest.edit">"<input type="checkbox" ng-model="quest.separateDescription"/> Use separate description for Start marker</span>
-        <text-angular ta-toolbar="{{quest.toolbar}}" ng-show="quest.separateDescription" ng-model="quest.taskContent" id="task-text"></text-angular>
+        <span ng-if="!quest.edit"><input type="checkbox" ng-model="quest.separateDescription"/> Use separate description for Start marker</span>
+        <text-angular ng-if="!quest.edit" ta-toolbar="{{quest.toolbar}}" ng-show="quest.separateDescription" ng-model="quest.taskContent" id="task-text"></text-angular>
 
     </div>
 </div>

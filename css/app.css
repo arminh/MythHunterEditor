@@ -70,6 +70,10 @@
     opacity: 0.4;
 }
 
+.not-clickable {
+    pointer-events: none;
+}
+
 .button-tooltip {
     color:#fff;
     background-color: #000;

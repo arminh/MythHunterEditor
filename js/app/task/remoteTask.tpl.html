@@ -12,7 +12,7 @@
 
         #task-title {
             font-size: 1.3em;
-            text-align:center;
+            text-align: center;
             color: #993300;
         }
 
@@ -31,11 +31,12 @@
 <body>
 <form action="">
     <div id="container" style='height:100%;width:100%;'>
-        <div id="quest-title">[Quest Title]</div>
-        <div id="task-title">[Task Title]</div>
+        <div id="quest-content" style='height:100%;width:100%;overflow:hidden;'>
+            <div id="quest-title">[Quest Title]</div>
+            <div id="task-title">[Task Title]</div>
 
-        <div id="quest-content"  style='height:85%;width:100%;overflow:hidden;'><div id="quest-content-text">[Quest Content]</div><div id="quest-footer">
-                <p id="start-info" style="display:none"> </p>
+            <div id="quest-content-text">[Quest Content]</div><div id="quest-footer">
+                <p id="start-info" style="display:none"></p>
                 <button class="footer-btn" id="start-btn" value='Start'/>
                 <button class="footer-btn" id="cancel-btn" value='Cancel'/>
             </div>
