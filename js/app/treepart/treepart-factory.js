@@ -71,12 +71,17 @@
             this.remoteId = remoteTreePart.getId();
             this.version = remoteTreePart.getVersion();
             this.type = TreePartType[remoteTreePart.getType()];
-            this.task = angular.isArray(tasks) ? tasks[0] : tasks;
+
+            var taskId = remoteTreePart.getMarker().getId();
+            for(var i = 0; i < tasks.length; i++) {
+                if(taskId == tasks[i].remoteId) {
+                    this.task = tasks[i];
+                }
+            }
 
             var successors = remoteTreePart.getSuccessors();
             for (var i = 0; i < successors.length; i++) {
                 var treePart = new TreePart(null);
-                tasks.shift();
                 this.successors.push(treePart.initFromRemote(successors[i], tasks, quest, false));
             }
 
