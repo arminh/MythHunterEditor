@@ -9,10 +9,10 @@
         .module('profile')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ["$log", "$scope", "$state", "ngDialog", "user"];
+    ProfileController.$inject = ["$log", "$q", "$scope", "$state", "ngDialog", "user"];
 
     /* @ngInject */
-    function ProfileController($log, $scope, $state, ngDialog, user) {
+    function ProfileController($log, $q, $scope, $state, ngDialog, user) {
         var vm = this;
         vm.user = user;
         vm.currentQuest = null;
@@ -36,8 +36,18 @@
         }
 
         function editQuest(quest) {
-            user.setCurrentQuest(quest);
-            $state.go("app.map");
+            $q.when(loadQuest(quest)).then(function() {
+                user.setCurrentQuest(quest);
+                $state.go("app.map");
+            });
+        }
+
+        function loadQuest(quest) {
+            if(quest.getLoaded()) {
+                return quest;
+            } else {
+                return quest.load();
+            }
         }
 
         function clearCurrentQuest() {

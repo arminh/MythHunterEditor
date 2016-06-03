@@ -15,8 +15,7 @@
     function MapTaskController($scope, MapInteraction) {
 
         var vm = this;
-
-        vm.task = vm.treepart.task;
+        vm.task = null;
 
         vm.flashMarker = flashMarker;
         vm.focusMarker = focusMarker;
@@ -24,9 +23,15 @@
         vm.deleteTask = deleteTask;
         vm.previewHtml = previewHtml;
 
-        $scope.$watch("mapTask.task.name", taskNameChanged);
+        $scope.$watch("mapTask.taskName", taskNameChanged);
+
+        activate();
 
         ////////////////
+
+        function activate() {
+            vm.task = vm.treepart.getTask();
+        }
 
         function flashMarker() {
             MapInteraction.flashMarker(vm.task.markerId);
@@ -39,6 +44,7 @@
 
         function taskNameChanged(newValue, oldValue) {
             if(newValue != oldValue) {
+                vm.task.getHtml().changeTaskTitleInContent(newValue);
                 vm.task.change();
             }
         }
@@ -49,14 +55,14 @@
 
         function deleteTask() {
             vm.quest.deleteTreePart(vm.treepart);
-            MapInteraction.removeMarker(vm.task.markerId);
-            if(vm.task.targetMarkerId > -1) {
-                MapInteraction.removeMarker(vm.task.targetMarkerId);
+            MapInteraction.removeMarker(vm.task.getMarkerId());
+            if(vm.task.getMarkerId() > -1) {
+                MapInteraction.removeMarker(vm.task.getTargetMarkerId());
             }
         }
 
         function previewHtml() {
-            vm.task.html.preview();
+            vm.task.preview();
         }
     }
 

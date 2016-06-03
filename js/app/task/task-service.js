@@ -99,18 +99,20 @@
             var promises = [];
 
             promises.push(HtmlTools.encloseContent(questName, name, content));
-            if(targetContent != "") {
+
+            if(type != MarkerType.INFO && type != "start") {
                 promises.push(HtmlTools.encloseContent(questName, name, targetContent));
             }
 
             $q.all(promises).then(encloseSuccess);
 
             function encloseSuccess(results) {
+
                 $modalInstance.close({
                     type: type,
                     name: name,
                     content: results[0],
-                    targetContent: results[1] ? results[1] : "",
+                    targetContent: results.length > 1 ? results[1] : null,
                     answers: answers
                 });
             }

@@ -9,10 +9,10 @@
         .module('authentication')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ["$log", "$q", "$localStorage", "$cookies", "$rootScope", "BackendService"];
+    AuthenticationService.$inject = ["$log", "$q", "$cookies", "$rootScope", "BackendService"];
 
     /* @ngInject */
-    function AuthenticationService($log, $q, $localStorage, $cookies, $rootScope, BackendService) {
+    function AuthenticationService($log, $q, $cookies, $rootScope, BackendService) {
 
         var user = null;
         var credentials = null;

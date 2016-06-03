@@ -49,6 +49,8 @@
 
         this.encloseContent = encloseContent;
         this.retrieveContent = retrieveContent;
+        this.retrieveQuestTitle = retrieveQuestTitle;
+        this.retrieveTaskTitle = retrieveTaskTitle;
         this.clear = clear;
 
         ////////////////
@@ -87,6 +89,36 @@
 
             if(content) {
                 return String(content[1]);
+            } else {
+                return "";
+            }
+        }
+
+        function retrieveQuestTitle(html) {
+            if(!html) {
+                return "";
+            }
+
+            var completeTemplate = clear(html);
+            var questTitle = String(completeTemplate).match('<div id="quest-title">(.*)</div>');
+
+            if(questTitle) {
+                return String(questTitle[1]);
+            } else {
+                return "";
+            }
+        }
+
+        function retrieveTaskTitle(html) {
+            if(!html) {
+                return "";
+            }
+
+            var completeTemplate = clear(html);
+            var taskTitle = String(completeTemplate).match('<div id="task-title">(.*)</div>');
+
+            if(taskTitle) {
+                return String(taskTitle[1]);
             } else {
                 return "";
             }

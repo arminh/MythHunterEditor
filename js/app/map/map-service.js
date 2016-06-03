@@ -50,6 +50,7 @@
                     function (result) {
                         $log.info("getQuest_success: ", result);
                         quest = result;
+                        quest.setLoaded(true);
                         return result;
                     },
                     function (error) {
@@ -73,16 +74,18 @@
         }
 
         function addMarkers(quest) {
-            var startTask = quest.startTask;
-            startTask.markerId = MapInteraction.addMarker(startTask.lon, startTask.lat, startTask.getMarkerSrc());
+            var startTask = quest.getTreePartRoot().getTask();
+            startTask.setMarkerId(MapInteraction.addMarker(startTask.getLon(), startTask.getLat(), startTask.getMarkerSrc()));
 
-            for (var i = 0; i < quest.tasks.length; i++) {
-                var task = quest.tasks[i];
-                task.markerId = MapInteraction.addMarker(task.lon, task.lat, task.getMarkerSrc());
+            var treeParts = quest.getTreeParts();
 
-                if(task.targetLon != 0 && task.targetLat != 0) {
-                    task.targetMarkerId = MapInteraction.addMarker(task.targetLon, task.targetLat, "media/target_marker.png");
-                    MapInteraction.addLine(task.markerId, task.targetMarkerId);
+            for (var i = 0; i < treeParts.length; i++) {
+                var task = treeParts[i].getTask();
+                task.setMarkerId(MapInteraction.addMarker(task.getLon(), task.getLat(), task.getMarkerSrc()));
+
+                if(task.getTargetLon() != 0 && task.getTargetLat() != 0) {
+                    task.setTargetMarkerId(MapInteraction.addMarker(task.getTargetLon(), task.getTargetLat(), "media/target_marker.png"));
+                    MapInteraction.addLine(task.getMarkerId(), task.getTargetMarkerId());
                 }
             }
         }
@@ -104,8 +107,8 @@
         }
 
         function drawMarker() {
-            var task = new Task(quest.name);
-            task.type = activeMarker;
+            var task = new Task(quest.getName());
+            task.setType(activeMarker);
             drawing = true;
             task.drawMarker().then(function() {
                 quest.addTask(task);
@@ -121,17 +124,19 @@
             var changedMarker = args.marker;
             var changedMarkerId = changedMarker.getId();
 
-            if(quest.startTask.markerId == changedMarkerId) {
-                quest.startTask.updateMarker(changedMarker);
+            var treePartRoot = quest.getTreePartRoot();
+            if(treePartRoot.getTask().getMarkerId() == changedMarkerId) {
+                treePartRoot.getTask().updateMarker(changedMarker);
             }
 
-            for(var i = 0; i < quest.tasks.length; i++) {
-                if (quest.tasks[i].markerId == changedMarkerId) {
-                    quest.tasks[i].updateMarker(changedMarker);
+            var treeParts = quest.getTreeParts();
+            for(var i = 0; i < treeParts.length; i++) {
+                if (treeParts[i].getTask().getMarkerId() == changedMarkerId) {
+                    treeParts[i].getTask().updateMarker(changedMarker);
                 }
 
-                if (quest.tasks[i].targetMarkerId == changedMarkerId) {
-                    quest.tasks[i].updateTargetMarker(changedMarker);
+                if (treeParts[i].getTask().getTargetMarkerId() == changedMarkerId) {
+                    treeParts[i].getTask().updateTargetMarker(changedMarker);
                 }
             }
         }
@@ -146,11 +151,12 @@
 
         function createTask() {
             var task = new Task(quest.name);
+
             task.create().then(function() {
                 drawing = true;
                 task.drawMarker().then(function()
                 {
-                    quest.addTask(task);
+                    quest.newTreePart(task);
                     drawing = false;
                 });
             });

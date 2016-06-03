@@ -9,32 +9,33 @@
         .module('task')
         .factory('Task', TaskFactory);
 
-    TaskFactory.$inject = ["$log", "$q", "TaskService", "AuthenticationService", "BackendService", "MapInteractionService", "MarkerType", "HtmlText"];
+    TaskFactory.$inject = ["$log", "$q", "$modal", "TaskService", "AuthenticationService", "BackendService", "MapInteractionService", "MarkerType", "HtmlText"];
 
     /* @ngInject */
-    function TaskFactory($log, $q, TaskService, AuthenticationService, BackendService, MapInteraction, MarkerType, HtmlText) {
+    function TaskFactory($log, $q, $modal, TaskService, AuthenticationService, BackendService, MapInteraction, MarkerType, HtmlText) {
         $log = $log.getInstance("Task", debugging);
 
         function Task(questName) {
-            this.id = 0;
+            this.loaded = false;
             this.remoteId = 0;
             this.name = "";
-            this.html = new HtmlText();
-            this.targetHtml = new HtmlText();
             this.type = null;
+            this.version = -1;
+
+            this.html = null;
             this.markerId = -1;
-            this.targetMarkerId = -1;
             this.lon = 0;
             this.lat = 0;
+
+            this.targetHtml = null;
+            this.targetMarkerId = -1;
             this.targetLon = 0;
             this.targetLat = 0;
+
+            this.questName = questName;
             this.popupTpl = "";
             this.changed = false;
             this.fixed = false;
-            this.version = -1;
-            this.questName = questName;
-
-
         }
 
         Task.prototype = {
@@ -42,8 +43,8 @@
             create: create,
             edit: edit,
             drawMarker: drawMarker,
-            addMarker: addMarker,
             initFromObject: initFromObject,
+            getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
             initFromMarker: initFromMarker,
             initFromTargetMarker: initFromTargetMarker,
@@ -51,8 +52,35 @@
             updateTargetMarker: updateTargetMarker,
             getMarkerSrc: getMarkerSrc,
             change: change,
+            preview: preview,
             upload: upload,
-            remove: remove
+            remove: remove,
+
+            getRemoteId: getRemoteId,
+            setRemoteId: setRemoteId,
+            getVersion: getVersion,
+            getName: getName,
+            setName: setName,
+            getType: getType,
+            setType: setType,
+            getHtml: getHtml,
+            setHtml: setHtml,
+            getTargetHtml: getTargetHtml,
+            setTargetHtml: setTargetHtml,
+            getDescription: getDescription,
+            getMarkerId: getMarkerId,
+            setMarkerId: setMarkerId,
+            getLat: getLat,
+            getLon: getLon,
+            getTargetMarkerId: getTargetMarkerId,
+            setTargetMarkerId: setTargetMarkerId,
+            getTargetLat: getTargetLat,
+            setTargetLat: setTargetLat,
+            getTargetLon: getTargetLon,
+            setTargetLon: setTargetLon,
+            getQuestName: getQuestName,
+            setQuestName: setQuestName,
+            setFixed: setFixed
         };
 
         return (Task);
@@ -61,12 +89,20 @@
 
         function create() {
             $log.info("create");
+
+            this.html = new HtmlText();
+
             return TaskService.openTaskDialog(this).then(function (result) {
                 this.name = result.name;
                 this.type = result.type;
-                this.html.content = result.content;
-                this.html.answers = result.answers;
-                this.targetHtml.content = result.targetContent;
+                this.html.setContent(result.content);
+                this.html.setAnswers(result.answers);
+
+                if(result.targetContent) {
+                    this.targetHtml = new HtmlText();
+                    this.targetHtml.setContent(result.targetContent);
+                }
+
                 $log.info("create_success", this);
             }.bind(this));
         }
@@ -78,39 +114,56 @@
             return TaskService.openTaskDialog(this).then(updateTask.bind(this));
 
             function updateTask(result) {
-                if(this.name != result.name) {
+                if (this.name != result.name) {
                     this.name = result.name;
                     this.change();
                 }
-                if(this.type != result.type) {
-                    if(this.type == MarkerType.INVISIBLE) {
+                if (this.type != result.type) {
+                    if (this.type == MarkerType.INVISIBLE) {
                         MapInteraction.removeMarker(this.targetMarkerId);
                         this.targetLon = 0;
                         this.targetLat = 0;
                         this.targetMarkerId = -1;
                     }
 
+                    if(result.type == MarkerType.INFO) {
+                        this.targetHtml = null;
+                    }
+
                     this.type = result.type;
 
                     marker = MapInteraction.getMarkerById(this.markerId);
                     MapInteraction.setMarkerStyle(marker, this.getMarkerSrc());
-                    if(this.type == MarkerType.INVISIBLE) {
+                    if (this.type == MarkerType.INVISIBLE) {
                         MapInteraction.drawMarker("media/target_marker.png").then(initTarget.bind(this));
                     }
                     this.change();
                 }
-                if(this.html.content != result.content) {
-                    this.html.content = result.content;
+                if (this.html.getContent() != result.content) {
+                    this.html.setContent(result.content);
                     this.html.change();
                 }
-                if(this.html.answers != result.answers) {
-                    this.html.answers = result.answers;
+                if (this.html.getAnswers() != result.answers) {
+                    this.html.setAnswers(result.answers);
                     this.html.change();
                 }
-                if(this.targetHtml.content != result.targetContent) {
-                    this.targetHtml.content = result.targetContent;
-                    this.targetHtml.change();
+                if(result.targetContent) {
+                    if(this.targetHtml) {
+                        if (this.targetHtml.content != result.targetContent) {
+                            this.targetHtml.setContent(result.targetContent);
+                            this.targetHtml.change();
+                        }
+                    } else {
+                        this.targetHtml = new HtmlText();
+                        this.targetHtml.setContent(result.targetContent);
+                        this.change();
+                    }
+                } else {
+                    if(this.targetHtml) {
+                        this.targetHtml = null;
+                    }
                 }
+
                 $log.info("edit_success", this);
             }
 
@@ -129,35 +182,55 @@
 
         function initFromObject(taskObject) {
             $log.info("initFromObject", taskObject);
-            this.id = taskObject.id;
-            this.changed = taskObject.changed;
-            this.fixed = taskObject.fixed;
+            this.remoteId = taskObject.remoteId;
             this.name = taskObject.name;
+            this.type = taskObject.type;
+            this.version = taskObject.version;
+
+            this.markerId = taskObject.markerId;
             this.lon = taskObject.lon;
             this.lat = taskObject.lat;
-            this.targetLon = taskObject.targetLon;
-            this.targetLat = taskObject.targetLat;
-            this.popupTpl = taskObject.popupTpl;
-            this.remoteId = taskObject.remoteId;
-            this.type = taskObject.type;
-            this.markerId = taskObject.markerId;
-            this.targetMarkerId = taskObject.targetMarkerId;
-            this.version = taskObject.version;
+            this.html = new HtmlText();
+            this.html.initFromObject(taskObject.html);
+
+
+            if(taskObject.targetHtml) {
+                this.targetMarkerId = taskObject.targetMarkerId;
+                this.targetLon = taskObject.targetLon;
+                this.targetLat = taskObject.targetLat;
+                this.targetHtml = new HtmlText();
+                this.targetHtml.initFromObject(taskObject.targetHtml);
+            }
+
             this.questName = taskObject.questName;
+            this.popupTpl = taskObject.popupTpl;
+            this.changed = taskObject.changed;
+            this.fixed = taskObject.fixed;
 
-            var html = new HtmlText();
-            html.initFromObject(taskObject.html);
-            this.html = html;
 
-            var targetHtml = new HtmlText();
-            targetHtml.initFromObject(taskObject.targetHtml);
-            this.targetHtml = targetHtml;
             $log.info("initFromObject_success", this);
+        }
+
+        function getFromRemote() {
+            $log.info("getFromRemote: ", this.remoteId);
+            return BackendService.getTask(this.remoteId).then(initTask.bind(this));
+
+            function initTask(remoteTask) {
+                if (remoteTask) {
+                    return this.initFromRemote(remoteTask).then(function (result) {
+                        this.loaded = true;
+                        $log.info("getFromRemote_success: ", this.remoteId);
+                        return result;
+                    }.bind(this));
+                } else {
+                    $log.info("getFromRemote_fail: ", this.remoteId);
+                    return $q.reject();
+                }
+            }
         }
 
         function initFromRemote(remoteTask) {
             $log.info("initFromRemote", remoteTask);
-            var deffered = $q.defer();
 
             this.remoteId = remoteTask.getId();
             this.version = remoteTask.getVersion();
@@ -173,35 +246,21 @@
             this.targetLat = targetPos.getLatitude();
 
             var promises = [];
-            promises.push(getHtmlFromRemote(remoteTask.getHtmlId()));
-            promises.push(getHtmlFromRemote(remoteTask.getFinishedHtmlId()));
 
-            $q.all(promises).then(finishInit.bind(this));
+            this.html = new HtmlText();
+            this.html.setRemoteId(remoteTask.getHtmlId());
+            promises.push(this.html.getFromRemote());
 
-            function finishInit(results) {
-                this.html = results[0];
-                if(results[1]) {
-                    this.targetHtml = results[1];
-                }
+            if(remoteTask.getFinishedHtmlId() > 0) {
+                this.targetHtml = new HtmlText();
+                this.targetHtml.setRemoteId(remoteTask.getFinishedHtmlId());
+                promises.push(this.targetHtml.getFromRemote());
+            }
+
+            return $q.all(promises).then(function(result) {
                 $log.info("initFromRemote_success", this);
-                deffered.resolve(this);
-            }
-
-            return deffered.promise;
-        }
-
-        function getHtmlFromRemote(htmlId) {
-
-            $log.info("getHtmlFromRemote", htmlId);
-            return BackendService.getHtml(htmlId).then(initHtml);
-
-            function initHtml(remoteHtml) {
-                var html = new HtmlText();
-                if(remoteHtml) {
-                    html.initFromRemote(remoteHtml);
-                }
-                return html;
-            }
+                return result;
+            }.bind(this));
         }
 
         function initFromMarker(marker) {
@@ -230,11 +289,10 @@
         }
 
         function drawMarker() {
-            var linePromise = null;
             var deffered = $q.defer();
             var promises = [];
 
-            if(this.type != MarkerType.INVISIBLE) {
+            if (this.type != MarkerType.INVISIBLE) {
                 return MapInteraction.drawMarker(this.getMarkerSrc()).then(initMarker.bind(this));
 
             } else {
@@ -281,9 +339,6 @@
             return deffered.promise;
         }
 
-        function addMarker() {
-            return MapInteraction.addMarker(this.lon, this.lat, this.getMarkerSrc());
-        }
 
         function updateMarker(marker) {
 
@@ -301,6 +356,32 @@
             this.changed = true;
         }
 
+        function preview() {
+            var modalInstance = $modal.open({
+                animation: true,
+                backdrop: 'static',
+                size: "md",
+                templateUrl: "js/app/task/task-preview/task-preview.tpl.html",
+                controller: 'TaskPreviewController',
+                controllerAs: "taskPreview",
+                resolve: {
+                    htmlContent: function () {
+                        return this.html.getClearedContent();
+                    }.bind(this),
+                    targetContent: function() {
+                        if(this.targetHtml) {
+                            return this.targetHtml.getClearedContent();
+                        } else {
+                            return null
+                        }
+
+                    }.bind(this)
+                }
+            });
+
+            return modalInstance.result;
+        }
+
         function upload() {
             $log.info("upload", this);
 
@@ -309,11 +390,11 @@
 
             var promises = [];
             promises.push(this.html.upload());
-            if(this.targetHtml.content != "") {
+            if (this.targetHtml) {
                 promises.push(this.targetHtml.upload());
             }
 
-            if(this.remoteId < 1 || this.changed) {
+            if (this.remoteId < 1 || this.changed) {
                 $q.all(promises).then(uploadTask.bind(this));
             } else {
                 $q.all(promises).then(returnTask.bind(this))
@@ -321,35 +402,35 @@
 
             function uploadTask(results) {
                 this.remoteTask.setHtmlId(results[0]);
-                if(results[1]) {
+                if (results[1]) {
                     this.remoteTask.setFinishedHtmlId(results[1]);
                 }
 
-                if(this.remoteId > 0 && this.changed) {
+                if (this.remoteId > 0 && this.changed) {
                     $log.info("upload - Updating: ", this.remoteTask);
-                    return BackendService.updateTask(this.remoteTask).then(function(result) {
+                    return BackendService.updateTask(this.remoteTask).then(function (result) {
                         this.version = result.getVersion();
                         $log.info("upload_success: ", this);
-                        deffered.resolve(this.remoteId);
-                    }.bind(this), function(error) {
+                        deffered.resolve(result);
+                    }.bind(this), function (error) {
                         alert(error);
                         deffered.reject(error);
                     });
 
                 } else {
                     $log.info("upload - Adding: ", this.remoteTask);
-                    return BackendService.addTask(this.remoteTask).then(function(result) {
+                    return BackendService.addTask(this.remoteTask).then(function (result) {
                         this.remoteId = result.getId();
                         this.version = result.getVersion();
                         $log.info("upload_success: ", this);
-                        deffered.resolve(result.getId());
+                        deffered.resolve(result);
                     }.bind(this));
                 }
             }
 
             function returnTask() {
                 $log.info("upload_success: ", this);
-                deffered.resolve(this.remoteId);
+                deffered.resolve(this.remoteTask);
             }
 
             return deffered.promise;
@@ -364,7 +445,105 @@
             return TaskService.getMarkerSrc(this.type);
         }
 
+        function getRemoteId() {
+            return this.remoteId;
+        }
 
+        function setRemoteId(value) {
+            this.remoteId = value;
+        }
+
+        function getVersion() {
+            return this.version;
+        }
+
+        function getName() {
+            return this.name;
+        }
+
+        function setName(value) {
+            this.name = value;
+        }
+
+        function getType() {
+            return this.type;
+        }
+
+        function setType(value) {
+            this.type = value;
+        }
+
+        function getHtml() {
+            return this.html;
+        }
+
+        function setHtml(value) {
+            this.html = value;
+        }
+
+        function getTargetHtml() {
+            return this.targetHtml;
+        }
+
+        function setTargetHtml(value) {
+            this.targetHtml = value;
+        }
+
+        function getDescription() {
+            return this.description;
+        }
+
+        function getMarkerId() {
+            return this.markerId;
+        }
+
+        function setMarkerId(value) {
+            this.markerId = value;
+        }
+
+        function getLat() {
+            return this.lat;
+        }
+
+        function getLon() {
+           return this.lon;
+        }
+
+        function getTargetMarkerId() {
+            return this.targetMarkerId;
+        }
+
+        function setTargetMarkerId(value) {
+            this.targetMarkerId = value;
+        }
+
+        function getTargetLat() {
+            return this.targetLat;
+        }
+
+        function setTargetLat(value) {
+            this.targetLat = value;
+        }
+
+        function getTargetLon() {
+            return this.targetLon;
+        }
+
+        function setTargetLon(value) {
+            this.targetLon = value;
+        }
+
+        function getQuestName() {
+            return this.questName;
+        }
+
+        function setQuestName(value) {
+            this.questName = value;
+        }
+
+        function setFixed(value) {
+            this.fixed = value;
+        }
     }
 
 })();

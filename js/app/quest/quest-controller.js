@@ -31,7 +31,10 @@
         ////////////////
 
         function activate() {
-            vm.questContent = HtmlTools.retrieveContent(quest.html.content);
+            if(quest.getHtml()) {
+                vm.questContent = HtmlTools.retrieveContent(quest.getHtml().getContent());
+            }
+
             QuestService.setModalInstance($modalInstance);
         }
 

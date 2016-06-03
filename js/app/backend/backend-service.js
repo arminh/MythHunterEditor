@@ -15,8 +15,8 @@
     function BackendService($log, $q) {
 
         var backend = new backend_com_wsdl_IBackend();
-        backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
-        //backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
+        //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -86,13 +86,15 @@
 
         function createRemoteUser(user) {
             var remoteUser = new backend_com_wsdl_user();
-            remoteUser.setName(user.name);
-            remoteUser.setPassword(user.password);
-            remoteUser.setId(user.id);
+            remoteUser.setName(user.getName());
+            remoteUser.setPassword(user.getPassword());
+            remoteUser.setId(user.getId());
 
             var createdQuestIds = [];
-            for(var i = 0; i < user.createdQuests.length; i++) {
-                createdQuestIds.push(user.createdQuests[i].remoteId);
+            var createdQuests = user.getCreatedQuests();
+
+            for(var i = 0; i < createdQuests.length; i++) {
+                createdQuestIds.push(createdQuests[i].getRemoteId());
             }
 
             remoteUser.setCreatedQuestIds(createdQuestIds);
@@ -103,24 +105,17 @@
         function createRemoteQuest(quest) {
             var remoteQuest = new backend_com_wsdl_editorQuest();
 
-            remoteQuest.setId(quest.remoteId);
-            remoteQuest.setVersion(quest.version);
-            remoteQuest.setCreaterId(quest.creatorId);
-            remoteQuest.setName(quest.name);
-            remoteQuest.setShortDescription(quest.description);
+            remoteQuest.setId(quest.getRemoteId());
+            remoteQuest.setVersion(quest.getVersion());
+            remoteQuest.setCreaterId(quest.getCreatorId());
+            remoteQuest.setName(quest.getName());
+            remoteQuest.setShortDescription(quest.getDescription());
 
-            remoteQuest.setHtmlId(quest.html.id);
-            remoteQuest.setStartMarkerId(quest.startTask.remoteId);
+            remoteQuest.setHtmlId(quest.getHtml().getRemoteId());
+            remoteQuest.setTreeRootId(quest.getTreePartRoot().getRemoteId());
 
-            remoteQuest.setSubmitted(quest.submitted);
-            remoteQuest.setApproved(quest.approved);
-
-            var tasks = [];
-            for(var i = 0; i < quest.tasks.length; i++) {
-                tasks.push(quest.tasks[i].remoteId);
-            }
-
-            remoteQuest.setMarkers(tasks);
+            remoteQuest.setSubmitted(quest.getSubmitted());
+            remoteQuest.setApproved(quest.getApproved());
 
             return remoteQuest;
         }
@@ -132,15 +127,19 @@
             if(task.type == "start") {
                 remoteTask.setType("INFO");
             } else {
-                remoteTask.setType(task.type);
+                remoteTask.setType(task.getType());
             }
-            remoteTask.setVersion(task.version);
-            remoteTask.setId(task.remoteId);
-            remoteTask.setName(task.name);
-            remoteTask.setHtmlId(task.html.id);
-            remoteTask.setFinishedHtmlId(task.targetHtml.id);
-            remoteTask.setPosition(mapPosition(task.lon, task.lat));
-            remoteTask.setTargetPosition(mapPosition(task.targetLon, task.targetLat));
+            remoteTask.setVersion(task.getVersion());
+            remoteTask.setId(task.getRemoteId());
+            remoteTask.setName(task.getName());
+            remoteTask.setHtmlId(task.getHtml().getRemoteId());
+            if(task.getTargetHtml()) {
+                remoteTask.setFinishedHtmlId(task.getTargetHtml().getRemoteId());
+            } else {
+                remoteTask.setFinishedHtmlId(0);
+            }
+            remoteTask.setPosition(mapPosition(task.getLon(), task.getLat()));
+            remoteTask.setTargetPosition(mapPosition(task.getTargetLon(), task.getTargetLat()));
 
             return remoteTask;
         }
@@ -148,11 +147,11 @@
         function createRemoteHtml(html) {
             var remoteHtml = new backend_com_wsdl_htmlObject();
 
-            remoteHtml.setHtml(html.content);
-            remoteHtml.setId(html.id);
+            remoteHtml.setHtml(html.getContent());
+            remoteHtml.setId(html.getRemoteId());
 
             var answers = [];
-            angular.forEach(html.answers, function(val, key) {
+            angular.forEach(html.getAnswers(), function(val, key) {
                 var answer = new backend_com_wsdl_stringToBoolEntry();
                 answer.setValue(val);
                 answer.setKey(key);
@@ -166,10 +165,10 @@
         function createRemoteTreePart(treePart) {
             var remoteTreePart = new backend_com_wsdl_treePart();
 
-            remoteTreePart.setId(treePart.remoteId);
-            remoteTreePart.setVersion(treePart.version);
-            remoteTreePart.setType(treePart.type);
-            remoteTreePart.setMarker(createRemoteTask(treePart.task));
+            remoteTreePart.setId(treePart.getRemoteId());
+            remoteTreePart.setVersion(treePart.getVersion());
+            remoteTreePart.setType(treePart.getType());
+            remoteTreePart.setMarker(createRemoteTask(treePart.getTask()));
 
             return remoteTreePart;
         }

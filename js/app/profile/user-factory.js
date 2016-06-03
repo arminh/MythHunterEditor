@@ -26,6 +26,7 @@
         User.prototype = {
             constructor: User,
             initFromRemote: initFromRemote,
+            load: load,
             newQuest: newQuest,
             addQuest: addQuest,
             deleteQuest: deleteQuest,
@@ -34,7 +35,12 @@
             setCurrentQuest: setCurrentQuest,
             clearCurrentQuest: clearCurrentQuest,
             backup: backup,
-            upload: upload
+            upload: upload,
+
+            getId: getId,
+            getName: getName,
+            getPassword: getPassword,
+            getCreatedQuests: getCreatedQuests
         };
 
         return (User);
@@ -47,31 +53,26 @@
             this.name = remoteUser.getName();
             this.password = remoteUser.getPassword();
 
-            var promises = [];
-
             var remoteQuests = remoteUser.getCreatedQuestIds();
             for(var i = 0; i < remoteQuests.length; i++) {
-                promises.push(getQuestFromRemote(remoteQuests[i]));
+                var quest = new Quest();
+                quest.remoteId = remoteQuests[i];
+                this.createdQuests.push(quest);
             }
 
-            return $q.all(promises).then(function(results) {
-                this.createdQuests = results;
+            return this.load().then(function() {
                 $log.info("initFromRemote_success: ", this);
                 return this;
             }.bind(this));
         }
 
-        function getQuestFromRemote(questId) {
-            return BackendService.getQuest(questId).then(function(remoteQuest) {
-                var quest = new Quest();
-                return quest.initFromRemote(remoteQuest).then(function(result) {
-                    return result;
-                }, function(error) {
-                    return $q.reject(error);
-                });
-            }, function(error) {
-                return $q.reject(error);
-            });
+        function load() {
+            var promises = [];
+            for(var i = 0; i < this.createdQuests.length; i++) {
+                promises.push(this.createdQuests[i].getFromRemote());
+            }
+
+            return $q.all(promises);
         }
 
         function newQuest() {
@@ -83,7 +84,6 @@
                 return result;
             }.bind(this));
         }
-
 
         function addQuest(quest) {
             this.createdQuests.push(quest);
@@ -159,18 +159,12 @@
                 return;
             }
 
-            var taskId = 0;
             var treePartId = 0;
 
-            this.currentQuest.startTask.id = taskId++;
-            for(var i = 0; i < this.currentQuest.tasks.length; i++) {
-                this.currentQuest.tasks[i].id = taskId++;
-            }
-
-            this.currentQuest.treePartRoot.id = treePartId++;
-            for(i = 0; i < this.currentQuest.treeParts.length; i++) {
-                this.currentQuest.treeParts[i].id = treePartId++;
-            }
+/*            this.currentQuest.treePartRoot.setId(treePartId++);
+            for(var i = 0; i < this.currentQuest.treeParts.length; i++) {
+                this.currentQuest.treeParts[i].setId(treePartId++);
+            }*/
 
             $localStorage.currentQuest = this.currentQuest;
         }
@@ -190,6 +184,22 @@
             BackendService.updateUser(BackendService.createRemoteUser(this)).then(function(result) {
                 $log.info("upload_success: ", result);
             });
+        }
+
+        function getId() {
+            return this.id;
+        }
+
+        function getName() {
+            return this.name;
+        }
+
+        function getPassword() {
+            return this.password;
+        }
+
+        function getCreatedQuests() {
+            return this.createdQuests;
         }
     }
 

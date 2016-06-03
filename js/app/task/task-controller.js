@@ -16,13 +16,13 @@
         var vm = this;
 
         vm.types = MarkerType;
-        vm.name = task.name;
-        vm.description = task.description;
+        vm.name = task.getName();
+        vm.description = task.getDescription();
         vm.content = "";
         vm.targetContent = "";
-        vm.activeType = task.type;
-        vm.questName = task.questName;
-        vm.answers = task.html.answers;
+        vm.activeType = task.getType();
+        vm.questName = task.getQuestName();
+        vm.answers = task.getHtml().getAnswers();
         vm.error = false;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
         vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo'],['input','radio','checkbox']]"
@@ -45,15 +45,15 @@
 
         function activate() {
             TaskService.setModalInstance($modalInstance);
-            if(task.targetHtml.content != "") {
-                vm.targetContent = HtmlTools.retrieveContent(task.targetHtml.content);
+            if(task.getTargetHtml()) {
+                vm.targetContent = HtmlTools.retrieveContent(task.getTargetHtml().getContent());
             }
-            vm.content = HtmlTools.retrieveContent(task.html.content);
+            vm.content = HtmlTools.retrieveContent(task.getHtml().getContent());
             vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
         }
 
-        function markerSelected(type, index) {
-            if(showConfirm(vm.activeType)) {
+        function markerSelected(newType, index) {
+            if(showConfirm(vm.activeType, newType)) {
                 ngDialog.openConfirm({
                     scope: $scope,
                     template: "js/app/task/change-type-dialogue.tpl.html"
@@ -67,23 +67,30 @@
                             case MarkerType.INVISIBLE:
                                 vm.content = TaskService.removeInvisibleFeatures(vm.content);
                                 break;
-
                         }
 
-                        console.log(vm.content);
-                        vm.activeType = type;
+                        if(newType == MarkerType.INFO) {
+                            vm.targetContent = "";
+                        }
+
+                        vm.activeType = newType;
                     }, function (reject) {
                     }
                 );
             } else {
-                vm.activeType = type;
+                vm.activeType = newType;
             }
         }
 
-        function showConfirm(type) {
-            if(type == MarkerType.QUIZ) {
-                return !(vm.content == "" || vm.content.indexOf("input") < 0);
-            } else if(type == MarkerType.INVISIBLE) {
+        function showConfirm(oldType, newType) {
+            if(oldType == MarkerType.QUIZ) {
+                if(newType == MarkerType.INFO) {
+                    return (vm.content.indexOf("input") >= 0 || vm.targetContent != "");
+                } else {
+                    return (vm.content.indexOf("input") >= 0);
+                }
+
+            } else if(newType == MarkerType.INVISIBLE) {
                 return !(vm.targetContent == "");
             } else {
                 return false;
