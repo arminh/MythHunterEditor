@@ -43,6 +43,7 @@
             deleteQuest: deleteQuest,
             deleteTask: deleteTask,
             deleteTreePart: deleteTreePart,
+            deleteHtml: deleteHtml,
             mapPosition: mapPosition
         };
         return service;
@@ -490,6 +491,22 @@
             }, function(error) {
                 $log.error("deleteTreePart_fail: ", error);
             }, treePartId);
+
+            return deffered.promise;
+        }
+
+        function deleteHtml(htmlId) {
+            var deffered = $q.defer();
+
+            deffered.resolve();
+
+            /*$log.info("deleteHtml: ", htmlId);
+            backend.deleteHtml(function(result) {
+                $log.info("deleteHtml_success: ");
+                deffered.resolve();
+            }, function(error) {
+                $log.error("deleteHtml_fail: ", error);
+            }, htmlId);*/
 
             return deffered.promise;
         }

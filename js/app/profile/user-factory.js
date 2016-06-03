@@ -91,16 +91,15 @@
 
 
         function deleteQuest(quest) {
-            var deleteId = -1;
-
-            for(var i = 0; i < this.createdQuests.length; i++) {
-                if(this.createdQuests[i].remoteId = quest.remoteId) {
-                    deleteId = i;
+            for (var i = 0; i < this.createdQuests.length; i++) {
+                if (this.createdQuests[i].remoteId = quest.remoteId) {
+                    this.createdQuests.splice(i, 1);
                 }
             }
-            BackendService.deleteQuest(quest.remoteId);
-            this.createdQuests.splice(deleteId, 1);
-            this.upload();
+
+            this.upload().then(function () {
+                quest.remove();
+            }.bind(this));
         }
 
         function uploadQuest() {
@@ -161,10 +160,10 @@
 
             var treePartId = 0;
 
-/*            this.currentQuest.treePartRoot.setId(treePartId++);
+            this.currentQuest.treePartRoot.setId(treePartId++);
             for(var i = 0; i < this.currentQuest.treeParts.length; i++) {
                 this.currentQuest.treeParts[i].setId(treePartId++);
-            }*/
+            }
 
             $localStorage.currentQuest = this.currentQuest;
         }
@@ -181,8 +180,9 @@
 
         function upload() {
             $log.info("upload: ", this);
-            BackendService.updateUser(BackendService.createRemoteUser(this)).then(function(result) {
+            return BackendService.updateUser(BackendService.createRemoteUser(this)).then(function(result) {
                 $log.info("upload_success: ", result);
+                return result;
             });
         }
 

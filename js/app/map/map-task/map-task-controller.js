@@ -23,7 +23,7 @@
         vm.deleteTask = deleteTask;
         vm.previewHtml = previewHtml;
 
-        $scope.$watch("mapTask.taskName", taskNameChanged);
+        $scope.$watch("mapTask.task.name", taskNameChanged);
 
         activate();
 
@@ -56,7 +56,7 @@
         function deleteTask() {
             vm.quest.deleteTreePart(vm.treepart);
             MapInteraction.removeMarker(vm.task.getMarkerId());
-            if(vm.task.getMarkerId() > -1) {
+            if(vm.task.getTargetMarkerId() > -1) {
                 MapInteraction.removeMarker(vm.task.getTargetMarkerId());
             }
         }

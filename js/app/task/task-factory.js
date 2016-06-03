@@ -438,7 +438,16 @@
 
         function remove() {
             $log.info("remove: ", this);
-            return BackendService.deleteTask(this.remoteId);
+            return BackendService.deleteTask(this.remoteId).then(function() {
+                $log.info("remove_success: ", this);
+                var promises = [];
+                promises.push(this.html.remove());
+                if(this.targetHtml) {
+                    promises.push(this.targetHtml.remove());
+                }
+
+                return $q.all(promises);
+            }.bind(this));
         }
 
         function getMarkerSrc() {

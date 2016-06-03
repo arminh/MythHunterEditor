@@ -47,6 +47,7 @@
             deleteTreePart: deleteTreePart,
             rewireTree: rewireTree,
             upload: upload,
+            remove: remove,
 
             getRemoteId: getRemoteId,
             getVersion: getVersion,
@@ -291,6 +292,21 @@
                     return this;
                 }.bind(this));
             }
+        }
+
+        function remove() {
+            $log.info("remove: ", this);
+
+            return BackendService.deleteQuest(this.remoteId).then(function() {
+                $log.info("remove_success: ", this);
+                this.treePartRoot.remove();
+
+                for(var i = 0; i < this.treeParts.length; i++) {
+                    this.treeParts[i].remove();
+                }
+
+                return this;
+            }.bind(this));
         }
 
         function rewireTree(treePartRoot, treeParts) {

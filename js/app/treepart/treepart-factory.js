@@ -166,12 +166,10 @@
         function remove() {
             $log.info("remove: ", this);
 
-            this.task.remove().then(function() {
-                BackendService.deleteTreePart(this.remoteId).then(function () {
-                    $log.info("remove_success: ", this);
-                    this.task.remove();
-                }.bind(this));
-            });
+            return BackendService.deleteTreePart(this.remoteId).then(function () {
+                $log.info("remove_success: ", this);
+                return this.task.remove();
+            }.bind(this));
         }
 
         function getRemoteId() {

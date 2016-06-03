@@ -33,6 +33,7 @@
             changeQuestTitleInContent: changeQuestTitleInContent,
             change: change,
             upload: upload,
+            remove: remove,
 
             getRemoteId: getRemoteId,
             setRemoteId: setRemoteId,
@@ -141,6 +142,14 @@
             }
 
             return deffered.promise;
+        }
+
+        function remove() {
+            $log.info("remove: ", this);
+            return BackendService.deleteHtml(this.remoteId).then(function() {
+                $log.info("remove_success: ", this);
+                return this;
+            }.bind(this));
         }
 
         function getRemoteId() {
