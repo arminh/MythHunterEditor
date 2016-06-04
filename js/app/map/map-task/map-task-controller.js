@@ -44,7 +44,7 @@
 
         function taskNameChanged(newValue, oldValue) {
             if(newValue != oldValue) {
-                vm.task.getHtml().changeTaskTitleInContent(newValue);
+                vm.task.getHtml().setTaskTitle(newValue);
                 vm.task.change();
             }
         }

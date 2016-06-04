@@ -32,7 +32,7 @@
 
         function activate() {
             if(quest.getHtml()) {
-                vm.questContent = HtmlTools.retrieveContent(quest.getHtml().getContent());
+                vm.questContent = quest.getHtml().getContent();
             }
 
             QuestService.setModalInstance($modalInstance);

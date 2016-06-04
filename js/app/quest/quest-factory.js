@@ -87,6 +87,8 @@
 
                 var startHtml = new HtmlText();
                 startHtml.setContent(result.taskContent);
+                startHtml.setQuestTitle(this.name);
+                startHtml.setTaskTitle(this.name);
                 startTask.setHtml(startHtml);
 
                 return startTask.drawMarker().then(function () {
@@ -111,10 +113,10 @@
             function editComplete(result) {
                 if (this.name != result.name) {
                     this.name = result.name;
-                    this.html.changeQuestTitleInContent(result.name);
-                    this.treePartRoot.getTask().getHtml().changeQuestTitleInContent(result.name);
+                    this.html.setQuestTitle(result.name);
+                    this.treePartRoot.getTask().getHtml().setQuestTitle(result.name);
                     for(var i = 0; i < this.treeParts.length; i++) {
-                        this.treeParts[i].getTask().getHtml().changeQuestTitleInContent(result.name);
+                        this.treeParts[i].getTask().getHtml().setQuestTitle(result.name);
                     }
                     this.change();
                 }
@@ -155,11 +157,23 @@
         }
 
         function getFromRemote() {
-            return BackendService.getQuest(this.remoteId).then(function (remoteQuest) {
-                return this.initFromRemote(remoteQuest);
-            }.bind(this), function (error) {
+            $log.info("getFromRemote: ", this.remoteId);
+            return BackendService.getQuest(this.remoteId).then(success.bind(this), fail.bind(this));
+
+            function success(remoteQuest) {
+                if(remoteQuest) {
+                    $log.info("getFromRemote_success: ", this.remoteId);
+                    return this.initFromRemote(remoteQuest);
+                } else {
+                    $log.info("getFromRemote_fail: ", this.remoteId);
+                    return $q.reject();
+                }
+            }
+
+            function fail(error) {
+                $log.info("getFromRemote_fail: ", this.remoteId);
                 return $q.reject(error);
-            });
+            }
         }
 
         function initFromRemote(remoteQuest) {

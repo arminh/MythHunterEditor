@@ -93,9 +93,13 @@
             this.html = new HtmlText();
 
             return TaskService.openTaskDialog(this).then(function (result) {
-                this.name = result.name;
+                this.questName = result.questName;
+                this.name = result.taskName;
                 this.type = result.type;
+
                 this.html.setContent(result.content);
+                this.html.setQuestTitle(result.questName);
+                this.html.setTaskTitle(result.taskName);
                 this.html.setAnswers(result.answers);
 
                 if(result.targetContent) {
@@ -114,8 +118,8 @@
             return TaskService.openTaskDialog(this).then(updateTask.bind(this));
 
             function updateTask(result) {
-                if (this.name != result.name) {
-                    this.name = result.name;
+                if (this.name != result.taskName) {
+                    this.name = result.taskName;
                     this.change();
                 }
                 if (this.type != result.type) {
@@ -213,9 +217,9 @@
 
         function getFromRemote() {
             $log.info("getFromRemote: ", this.remoteId);
-            return BackendService.getTask(this.remoteId).then(initTask.bind(this));
+            return BackendService.getTask(this.remoteId).then(success.bind(this), fail.bind(this));
 
-            function initTask(remoteTask) {
+            function success(remoteTask) {
                 if (remoteTask) {
                     return this.initFromRemote(remoteTask).then(function (result) {
                         this.loaded = true;
@@ -226,6 +230,11 @@
                     $log.info("getFromRemote_fail: ", this.remoteId);
                     return $q.reject();
                 }
+            }
+
+            function fail(error) {
+                $log.info("getFromRemote_fail: ", this.remoteId);
+                return $q.reject(error);
             }
         }
 
@@ -258,6 +267,12 @@
             }
 
             return $q.all(promises).then(function(result) {
+                this.html.setQuestTitle(this.questName);
+                this.html.setTaskTitle(this.name);
+                if(this.targetHtml) {
+                    this.targetHtml.setQuestTitle(this.questName);
+                    this.targetHtml.setTaskTitle(this.name);
+                }
                 $log.info("initFromRemote_success", this);
                 return result;
             }.bind(this));
@@ -366,11 +381,11 @@
                 controllerAs: "taskPreview",
                 resolve: {
                     htmlContent: function () {
-                        return this.html.getClearedContent();
+                        return this.html.getContentHtml();
                     }.bind(this),
                     targetContent: function() {
                         if(this.targetHtml) {
-                            return this.targetHtml.getClearedContent();
+                            return this.targetHtml.getContentHtml();
                         } else {
                             return null
                         }

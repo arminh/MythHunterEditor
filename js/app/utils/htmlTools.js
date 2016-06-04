@@ -49,9 +49,7 @@
 
         this.encloseContent = encloseContent;
         this.retrieveContent = retrieveContent;
-        this.retrieveQuestTitle = retrieveQuestTitle;
-        this.retrieveTaskTitle = retrieveTaskTitle;
-        this.clear = clear;
+        this.escapeContentHtml = escapeContentHtml;
 
         ////////////////
 
@@ -75,8 +73,12 @@
 
 /*                var templateParts = template.split("[Quest Content]");
                 var result = templateParts[0] + content + templateParts[1];*/
-                return escape(template);
+                return template;
             });
+        }
+
+        function escapeContentHtml(html) {
+            return escape(html);
         }
 
         function retrieveContent(html) {
@@ -89,36 +91,6 @@
 
             if(content) {
                 return String(content[1]);
-            } else {
-                return "";
-            }
-        }
-
-        function retrieveQuestTitle(html) {
-            if(!html) {
-                return "";
-            }
-
-            var completeTemplate = clear(html);
-            var questTitle = String(completeTemplate).match('<div id="quest-title">(.*)</div>');
-
-            if(questTitle) {
-                return String(questTitle[1]);
-            } else {
-                return "";
-            }
-        }
-
-        function retrieveTaskTitle(html) {
-            if(!html) {
-                return "";
-            }
-
-            var completeTemplate = clear(html);
-            var taskTitle = String(completeTemplate).match('<div id="task-title">(.*)</div>');
-
-            if(taskTitle) {
-                return String(taskTitle[1]);
             } else {
                 return "";
             }

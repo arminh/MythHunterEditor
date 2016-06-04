@@ -9,10 +9,10 @@
         .module('quest')
         .factory('QuestService', QuestService);
 
-    QuestService.$inject = ["$log", "HtmlTools", "$modal"];
+    QuestService.$inject = ["$log", "$modal"];
 
     /* @ngInject */
-    function QuestService($log, HtmlTools, $modal) {
+    function QuestService($log, $modal) {
         $log = $log.getInstance("Quest", debugging);
 
         var $modalInstance = null;
@@ -32,20 +32,10 @@
         }
 
         function createQuest(name, questContent, taskContent, separateDescription) {
-            HtmlTools.encloseContent(name, name, questContent).then(encloseSuccess);
-
-            function encloseSuccess(enclosedQuestContent) {
-                if (!separateDescription) {
-                    closeModal(name, enclosedQuestContent, enclosedQuestContent);
-                } else {
-                    HtmlTools.encloseContent(name, name, taskContent).then(function (enclosedTaskContent) {
-                        closeModal(name, enclosedQuestContent, enclosedTaskContent);
-                    });
-                }
+            if(!separateDescription) {
+                taskContent = questContent;
             }
-        }
 
-        function closeModal(name, questContent, taskContent) {
             $modalInstance.close({
                 name: name,
                 questContent: questContent,

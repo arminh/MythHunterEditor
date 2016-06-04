@@ -76,9 +76,9 @@
         function getFromRemote(quest, isRoot) {
             $log.info("getFromRemote: ", this.remoteId);
 
-            return BackendService.getTreePart(this.remoteId).then(initTreePart.bind(this));
+            return BackendService.getTreePart(this.remoteId).then(success.bind(this), fail.bind(this));
 
-            function initTreePart(remoteTreePart) {
+            function success(remoteTreePart) {
                 if(remoteTreePart) {
 
                     return this.initFromRemote(remoteTreePart, quest, isRoot).then(function() {
@@ -91,6 +91,11 @@
                     $log.info("getFromRemote_fail: ", this.remoteId);
                     return $q.reject();
                 }
+            }
+
+            function fail(error) {
+                $log.info("getFromRemote_fail: ", this.remoteId);
+                return $q.reject(error);
             }
         }
 

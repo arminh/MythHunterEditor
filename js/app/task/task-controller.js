@@ -46,9 +46,9 @@
         function activate() {
             TaskService.setModalInstance($modalInstance);
             if(task.getTargetHtml()) {
-                vm.targetContent = HtmlTools.retrieveContent(task.getTargetHtml().getContent());
+                vm.targetContent = task.getTargetHtml().getContent();
             }
-            vm.content = HtmlTools.retrieveContent(task.getHtml().getContent());
+            vm.content = task.getHtml().getContent();
             vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
         }
 

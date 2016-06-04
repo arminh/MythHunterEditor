@@ -83,8 +83,10 @@
                 timeout: DefaultConfig.defaultTimeout,
                 maximumAge: DefaultConfig.defaultMaximumAge
             };
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successHandler, errorHandler, options);
+            }
 
-            navigator.geolocation.getCurrentPosition(successHandler, errorHandler, options);
 
             function successHandler(position) {
                 setCenter(position.coords.longitude, position.coords.latitude, 17);

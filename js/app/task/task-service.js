@@ -95,27 +95,16 @@
             return modalInstance.result;
         }
 
-        function createTask(questName, name, content, targetContent, answers, type) {
-            var promises = [];
-
-            promises.push(HtmlTools.encloseContent(questName, name, content));
-
-            if(type != MarkerType.INFO && type != "start") {
-                promises.push(HtmlTools.encloseContent(questName, name, targetContent));
-            }
-
-            $q.all(promises).then(encloseSuccess);
-
-            function encloseSuccess(results) {
+        function createTask(questName, taskName, content, targetContent, answers, type) {
 
                 $modalInstance.close({
                     type: type,
-                    name: name,
-                    content: results[0],
-                    targetContent: results.length > 1 ? results[1] : null,
+                    questName: questName,
+                    taskName: taskName,
+                    content: content,
+                    targetContent: targetContent != "" ? targetContent : null,
                     answers: answers
                 });
-            }
         }
 
         function cancelTask() {
