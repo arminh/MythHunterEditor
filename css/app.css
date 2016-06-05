@@ -1,0 +1,82 @@
+#navbar-container {
+    margin-bottom: 1px;
+/*    background: #663333; !*For browsers that do not support gradients *!
+    background: -webkit-linear-gradient(#cc0000, #dd0000); !* For Safari 5.1 to 6.0 *!
+    background: -o-linear-gradient(#a69698, #43322cc); !* For Opera 11.1 to 12.0 *!
+    background: -moz-linear-gradient(#a69698, #43322c); !* For Firefox 3.6 to 15 *!
+    background: linear-gradient(#CC3300, #663333); !* Standard syntax *!*/
+}
+
+.navbar-brand, .navbar-nav>li>a {
+/*    padding: 25px 30px 25px 30px;
+    color: #fff3e6 !important;*/
+}
+
+.navbar-brand:hover, .navbar-nav>li>a:hover {
+/*    color: #ffcc99 !important;*/
+}
+
+.navbar-brand, .navbar-nav>.active>a {
+
+}
+
+.navbar-brand {
+    font-size: 18px;
+}
+.navbar-nav>li>a {
+    font-size: 16px;
+}
+
+
+#login-container, #register-container {
+    background-color: #e7e7e7;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+.button {
+    background-color: #43322c;
+    color: #fff;
+}
+.button:hover {
+
+}
+
+
+.button-link {
+    color: #23527c;
+    text-decoration: underline;
+    background-color: transparent;
+}
+
+.ta-editor {
+    min-height: 300px;
+    height: auto;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 100%;
+    margin:20px 0;
+}
+
+.input-help {
+    color:red;
+}
+
+.ngdialog-buttons {
+    text-align: center;
+}
+
+.disabled {
+    opacity: 0.4;
+}
+
+.not-clickable {
+    pointer-events: none;
+}
+
+.button-tooltip {
+    color:#fff;
+    background-color: #000;
+    opacity: 0.9;
+    font-size: 12px;
+}

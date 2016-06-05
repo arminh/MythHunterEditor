@@ -2,126 +2,104 @@
  * Created by armin on 13.11.15.
  */
 
-map.controller("mapController", ["$scope", "mapService", function($scope, mapService) {
+(function () {
+    'use strict';
 
-    $scope.markers = [];
+    angular
+        .module('map')
+        .controller('MapController', MapController);
 
-    var popupContainer = document.getElementById('popup');
-    var popupContent = $("#popupContent");
-    var popupCloser = $("#popupCloser");
+    MapController.$inject = ["$scope", "$state", "$q", "MapInteractionService", "MapService", "user"];
 
-    mapService.init("mapView");
-    mapService.addPopupOverlay(popupContainer);
+    /* @ngInject */
+    function MapController($scope, $state, $q, MapInteraction, MapService, user) {
+        var vm = this;
 
-    popupCloser.on("click", function() {
-        mapService.hideOverlay();
-        popupCloser.blur();
-        return false;
-    });
+        vm.quest = null;
+        vm.showQuestline = true;
+        vm.saveQuestPromise = null;
+        vm.interactionDisabled = false;
 
-    $scope.toggleMarker = function(type) {
-        mapService.toggleMarker(type, getMarkerSrc(type));
-    };
+        vm.toggleMarker = MapService.toggleMarker;
+        vm.createTask = MapService.createTask;
+        vm.drawing = MapService.getDrawing;
+        vm.continueDrawing = MapService.getContinueDrawing;
 
-    $scope.toggleRemove = function() {
-        mapService.toggleRemove();
-    };
+        vm.toggleQuestline = toggleQuestline;
+        vm.searchLocation = searchLocation;
+        vm.gotoLocation = gotoLocation;
+        vm.searchAndGotoLocation = searchAndGotoLocation;
+        vm.editQuest = editQuest;
+        vm.saveQuest = saveQuest;
+        vm.cancelQuest = cancelQuest;
 
+        $scope.$on('markerChanged', MapService.markerChanged);
 
-    $scope.goto = function(query) {
-        mapService.search(query, searchSuccess, searchFail);
-    };
+        vm.sortableOptions = {
+            axis: 'y',
+            cancel: ".fixed, input",
+            start: function(e, ui){
+                ui.placeholder.height(ui.item.height());
+                var draggedMarkerId = ui.item.sortable.model.task.markerId;
+                MapInteraction.flashMarker(draggedMarkerId);
 
-    var getMarkerSrc = function(type) {
-        switch(type) {
-            case "fight":
-                return "media/fight_marker.png";
-            case "quiz":
-                return "media/quiz_marker.png";
-            case "info":
-                return "media/info_marker.png";
-            default:
-                return "";
-        }
-    };
-
-
-    function searchSuccess(response) {
-        mapService.setCenter(parseFloat(response[0].lon), parseFloat(response[0].lat), 17)
-    }
-
-    function searchFail(response) {
-
-    }
-
-    function fightTpl(lon, lat) {
-        return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";
-    }
-
-    $scope.$on('markerAdded', function(evt, args) {
-
-        var marker = args.marker;
-        console.log(marker.getId());
-
-        var coord = marker.getGeometry().getCoordinates();
-        var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
-
-        $scope.markers.push({
-            id: marker.getId(),
-            type: marker.type,
-            lon: coordinates[0],
-            lat: coordinates[1],
-            popupTpl: fightTpl(coordinates[0], coordinates[1]),
-            marker: marker
-        });
-        $scope.$apply();
-    });
-
-    $scope.$on('markerChanged', function(evt, args) {
+            },
+            update: function(e, ui) {
+                vm.quest.change();
+            },
+            stop: function(e, ui) {
+                vm.quest.rewireTree(vm.quest.treePartRoot, vm.quest.treeParts);
+            },
+            sort: function(e, ui) {
 
 
-        var changedMarker = args.marker;
-        var changedMarkerId = changedMarker.getId();
-
-        var coord = changedMarker.getGeometry().getCoordinates();
-        var coordinates = ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
-        console.log(coordinates);
-
-        for(var i = 0; i < $scope.markers.length; i++) {
-            if($scope.markers[i].id == changedMarkerId) {
-                $scope.markers[i].lon = coordinates[0];
-                $scope.markers[i].lat = coordinates[1];
-                $scope.markers[i].popupTpl = fightTpl(coordinates[0], coordinates[1]);
-                $scope.$apply();
             }
+            //containment: "#map-quests"
+        };
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            MapInteraction.init("mapView");
+            $q.when(MapService.getQuest(user), function(result) {
+                this.quest = result;
+            }.bind(vm));
         }
-    });
 
-    $scope.$on('markerRemoved', function(evt, args) {
-        var delMarker = args.marker;
-        var delMarkerId = delMarker.getId();
-
-        for(var i = 0; i < $scope.markers.length; i++) {
-            if($scope.markers[i].id == delMarkerId) {
-                $scope.markers.splice(i, 1);
-                $scope.$apply();
-            }
+        function toggleQuestline() {
+            return !vm.showQuestline;
         }
-    });
 
-    $scope.$on('markerClicked', function(evt, args) {
-        var clickedMarker = args.marker;
-        var clickedMarkerId = clickedMarker.getId();
+        function searchLocation(query) {
+            return MapService.searchLocation(query);
+        }
 
-        for(var i = 0; i < $scope.markers.length; i++) {
-            if ($scope.markers[i].id == clickedMarkerId) {
-                popupContent.html($scope.markers[i].popupTpl);
-                mapService.showOverlay(clickedMarker.getGeometry().getCoordinates());
-                //mapService.hideOverlay();
+        function gotoLocation(location) {
+            if(location) {
+                MapInteraction.setCenter(parseFloat(location.lon), parseFloat(location.lat), 17);
             }
         }
 
+        function searchAndGotoLocation(query) {
+            gotoLocation(searchLocation(query)[0]);
+        }
 
-    });
+        function editQuest() {
+            vm.quest.edit();
+        }
 
-}]);
+        function saveQuest() {
+            vm.showQuestline = false;
+            vm.saveQuestPromise = MapService.saveQuest();
+            vm.interactionDisabled = true;
+        }
+
+        function cancelQuest() {
+            $state.go("app.profile");
+        }
+    }
+
+})();
+

@@ -1,217 +1,236 @@
 /**
- * Created by armin on 13.11.15.
+ * Created by armin on 03.04.16.
  */
 
-map.factory('mapService', ["$rootScope", "$http", 'DefaultConfig', function($rootScope, $http, DefaultConfig) {
-    var mapService = {};
-    var map = null;
-    var source;
+(function () {
+    'use strict';
 
-    mapService.features = [];
+    angular
+        .module('map')
+        .factory('MapService', mapService);
 
-    var clickEvent = null;
-    var popupOverlay = null;
+    mapService.$inject = ["$log", "$q", "$state", "$http", "DefaultConfig", "MapInteractionService", "Task"];
 
-    var drawInteraction = null;
-    var drawEvent = null;
+    /* @ngInject */
+    function mapService($log, $q, $state, $http, DefaultConfig, MapInteraction, Task) {
 
-    var removeInteraction = false;
+        $log = $log.getInstance("MapService", debugging);
 
-    var featureId = 0;
+        var user = null;
+        var quest = null;
+        var activeMarker = null;
+        var continueDrawing = false;
+        var drawing = false;
 
-    var activeMarker = "";
+        var currentPosition = null;
 
-    mapService.init = function(container) {
+        var service = {
+            getQuest: getQuest,
+            saveQuest: saveQuest,
+            createTask: createTask,
+            toggleMarker: toggleMarker,
+            markerChanged: markerChanged,
+            getCurrentPosition: getCurrentPosition,
+            searchLocation: searchLocation,
+            getDrawing: getDrawing,
+            getContinueDrawing: getContinueDrawing
+        };
+        return service;
 
-        var title = new ol.layer.Tile({source: new ol.source.OSM()});
+        ////////////////
 
-        source = new ol.source.Vector({});
+        function getQuest(loggedInUser) {
+            $log.info("getQuest");
 
-        var vector = new ol.layer.Vector({
-            source: source,
-        });
+            user = loggedInUser;
+            quest = user.getCurrentQuest();
 
-        map = new ol.Map({
-            layers: [
-                title,
-                vector
-            ],
-            view: new ol.View({
-                center: [0, 0],
-                zoom: 2
-            }),
-            target: container
-        });
+            if (!quest) {
+                return user.newQuest().then(
+                    function (result) {
+                        $log.info("getQuest_success: ", result);
+                        quest = result;
+                        quest.setLoaded(true);
+                        return result;
+                    },
+                    function (error) {
+                        $log.error("getQuest_fail: ", error);
+                        $state.go("app.profile");
+                    });
+            } else {
+                $log.info("getQuest_success: ", quest);
+                addMarkers(quest);
+                return quest;
+            }
+        }
 
-        clickEvent = map.on("click", function(evt) {
-            if(drawInteraction)
-                return;
+        function saveQuest() {
+            var deffered = $q.defer();
+            user.uploadQuest().then(function() {
+                deffered.resolve();
+                $state.go("app.profile");
+            });
+            return deffered.promise;
+        }
 
-            mapService.hideOverlay();
-            map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-                if(removeInteraction == true) {
-                    $rootScope.$broadcast("markerRemoved", { marker: feature });
-                    map.removeInteraction(feature.drag);
-                    source.removeFeature(feature);
+        function addMarkers(quest) {
+            var startTask = quest.getTreePartRoot().getTask();
+            startTask.setMarkerId(MapInteraction.addMarker(startTask.getLon(), startTask.getLat(), startTask.getMarkerSrc()));
+
+            var treeParts = quest.getTreeParts();
+
+            for (var i = 0; i < treeParts.length; i++) {
+                var task = treeParts[i].getTask();
+                task.setMarkerId(MapInteraction.addMarker(task.getLon(), task.getLat(), task.getMarkerSrc()));
+
+                if(task.getTargetLon() != 0 && task.getTargetLat() != 0) {
+                    task.setTargetMarkerId(MapInteraction.addMarker(task.getTargetLon(), task.getTargetLat(), "media/target_marker.png"));
+                    MapInteraction.addLine(task.getMarkerId(), task.getTargetMarkerId());
+                }
+            }
+        }
+
+        function toggleMarker(type) {
+            if(activeMarker == type) {
+                activeMarker = "";
+                continueDrawing = false;
+                drawing = false;
+
+                MapInteraction.stopDrawing();
+            } else {
+                MapInteraction.stopDrawing();
+                activeMarker = type;
+                continueDrawing = true;
+                drawing = true;
+                drawMarker();
+            }
+        }
+
+        function drawMarker() {
+            var task = new Task(quest.getName());
+            task.setType(activeMarker);
+            drawing = true;
+            task.drawMarker().then(function() {
+                quest.addTask(task);
+                if(continueDrawing) {
+                    drawMarker();
                 } else {
-                    $rootScope.$broadcast("markerClicked", { marker: feature });
+                    drawing = false;
+                }
+            });
+        }
+
+        function markerChanged(evt, args) {
+            var changedMarker = args.marker;
+            var changedMarkerId = changedMarker.getId();
+
+            var treePartRoot = quest.getTreePartRoot();
+            if(treePartRoot.getTask().getMarkerId() == changedMarkerId) {
+                treePartRoot.getTask().updateMarker(changedMarker);
+            }
+
+            var treeParts = quest.getTreeParts();
+            for(var i = 0; i < treeParts.length; i++) {
+                if (treeParts[i].getTask().getMarkerId() == changedMarkerId) {
+                    treeParts[i].getTask().updateMarker(changedMarker);
                 }
 
+                if (treeParts[i].getTask().getTargetMarkerId() == changedMarkerId) {
+                    treeParts[i].getTask().updateTargetMarker(changedMarker);
+                }
+            }
+        }
+
+        function getDrawing() {
+            return drawing;
+        }
+
+        function getContinueDrawing() {
+
+        }
+
+        function createTask() {
+            var task = new Task(quest.name);
+
+            task.create().then(function() {
+                drawing = true;
+                task.drawMarker().then(function()
+                {
+                    quest.newTreePart(task);
+                    drawing = false;
+                });
             });
-        });
+        }
 
-        initGeolocation();
-    };
+        function getCurrentPosition() {
+            $log.info("getCurrentPosition");
 
-    function initGeolocation() {
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-
-
-                mapService.setCenter(position.coords.longitude, position.coords.latitude, 17);
-                mapService.addMarker(position.coords.longitude, position.coords.latitude, "fight", "media/fight_marker.png");
-            },
-            function (error) {
-                console.log(error.msg);
-            },
-            {
+            var navigatorOptions = {
                 enableHighAccuracy: DefaultConfig.defaultEnableHighAccuracy,
                 timeout: DefaultConfig.defaultTimeout,
                 maximumAge: DefaultConfig.defaultMaximumAge
+            };
+
+            var deffered = $q.defer();
+
+            if(!currentPosition) {
+                navigator.geolocation.getCurrentPosition(getCurrentPositionSuccess, getCurrentPositionFail, navigatorOptions);
+            } else {
+                deffered.resolve(currentPosition);
             }
-        );
-    };
 
-    var activateDrag = function(feature) {
-
-        var dragInteraction = new ol.interaction.Modify({
-            features: new ol.Collection([feature]),
-            style: null
-        });
-
-        dragInteraction.on('modifyend',function(evt){
-            $rootScope.$broadcast("markerChanged", { marker: evt.features.getArray()[0] });
-        });
-
-        feature.drag = dragInteraction;
-
-        map.addInteraction(dragInteraction);
-    };
-
-    mapService.addMarker = function(lon, lat, type, iconSrc) {
-        var iconStyle = new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                anchor: [0.5, 1],
-                src: iconSrc,
-                scale: 0.05,
-
-            }))
-        });
-
-        var marker = new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'))
-        });
-        source.addFeature(marker);
-        initMarker(marker, iconStyle, type);
-    };
-
-    var initMarker = function(marker, style, type) {
-        marker.setStyle(style);
-        marker.setId(featureId++);
-        marker.type = type;
-
-        mapService.features.push(marker);
-        activateDrag(marker);
-        $rootScope.$broadcast("markerAdded", { marker: marker });
-    };
-
-    var activateDraw = function(activeMarker, iconSrc) {
-
-        removeInteraction = false;
-        removeDraw();
-
-        var iconStyle = new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                anchor: [0.5, 1],
-                src: iconSrc,
-                scale: 0.05,
-
-            }))
-        });
-
-
-        drawInteraction = new ol.interaction.Draw({
-            source: source,
-            type: "Point",
-            style: iconStyle,
-            geometryName: activeMarker
-        });
-
-        drawEvent = drawInteraction.on('drawend', function (evt) {
-            initMarker(evt.feature, iconStyle, activeMarker);
-
-        });
-        map.addInteraction(drawInteraction);
-    };
-
-    var removeDraw = function() {
-        if(drawInteraction) {
-            map.removeInteraction(drawInteraction);
-            drawInteraction = null;
-            activeMarker = "";
-        }
-    };
-
-    mapService.toggleMarker = function(type, iconSrc) {
-        if(activeMarker == type) {
-            removeDraw();
-            activeMarker = "";
-        } else {
-            activateDraw(type,iconSrc);
-            activeMarker = type;
-
-        }
-    };
-
-    mapService.toggleRemove = function() {
-        if(removeInteraction) {
-            removeInteraction = false;
-        } else {
-            removeInteraction = true;
-            removeDraw();
-        }
-    };
-
-    mapService.setCenter = function(lon, lat, zoom) {
-        map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'));
-        map.getView().setZoom(zoom);
-    };
-
-    mapService.search = function(query, successCallback, failCallback) {
-        var url = "http://nominatim.openstreetmap.org/?q=" + query + "&format=json&callback=JSON_CALLBACK";
-
-        $http.get(url).success(successCallback).error(failCallback);
-    };
-
-    mapService.addPopupOverlay = function(element) {
-        popupOverlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
-            element: element,
-            autoPan: true,
-            autoPanAnimation: {
-                duration: 250
+            function getCurrentPositionSuccess(result) {
+                currentPosition = result;
+                $log.info("getCurrentPosition_success: ", result);
+                deffered.resolve(result);
             }
-        }));
 
-        map.addOverlay(popupOverlay);
-    };
+            function getCurrentPositionFail(error) {
+                $log.error("getCurrentPosition_fail: ", error);
+                deffered.reject(error);
+            }
 
-    mapService.showOverlay = function(coordinates) {
-        popupOverlay.setPosition(coordinates);
-    };
+            return deffered.promise;
+        }
 
-    mapService.hideOverlay = function() {
-        popupOverlay.setPosition(undefined);
-    };
+        function searchLocation(query) {
+            var url = "http://nominatim.openstreetmap.org/?q=" + query + "&format=json&callback=JSON_CALLBACK";
 
-    return mapService;
-}]);
+            return $http.get(url).then(function (result) {
+                return result.data;
+            });
+        }
+    }
+
+})();
+
+
+/*
+ var popupContainer = document.getElementById('popup');
+ var popupContent = $("#popupContent");
+ var popupCloser = $("#popupCloser");
+ MapInteraction.addPopupOverlay(popupContainer);
+
+ popupCloser.on("click", function() {
+ MapInteraction.hideOverlay();
+ popupCloser.blur();
+ return false;
+ });
+
+ $scope.$on('markerClicked', function (evt, args) {
+ console.log("Marker clicked");
+ var clickedMarker = args.marker;
+ var clickedMarkerId = clickedMarker.getId();
+
+
+ for (var i = 0; i < $scope.tasks.length; i++) {
+ if ($scope.tasks[i].id == clickedMarkerId) {
+ popupContent.html($scope.tasks[i].popupTpl);
+ MapInteraction.showOverlay(clickedMarker.getGeometry().getCoordinates());
+ //MapInteraction.hideOverlay();
+ }
+ }
+
+
+ });*/
+

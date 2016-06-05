@@ -1,0 +1,17 @@
+<div ng-if="!taskPreview.showTarget">
+    <div class="html-preview" ng-bind-html="taskPreview.html"></div>
+    <md-button ng-if="taskPreview.targetHtml" style="margin: auto"  class="md-icon-button" ng-click="taskPreview.showTargetHtml()">
+        <md-icon md-svg-icon="media/next_icon.svg"></md-icon>
+    </md-button>
+</div>
+<div ng-if="taskPreview.targetHtml && taskPreview.showTarget">
+    <div class="html-preview" ng-bind-html="taskPreview.targetHtml"></div>
+    <md-button class="md-icon-button" style="margin: auto" ng-click="taskPreview.hideTargetHtml()">
+        <md-icon md-svg-icon="media/prev_icon.svg"></md-icon>
+    </md-button>
+</div>
+
+
+<md-button class="md-icon-button html-preview-close" ng-click="taskPreview.close()">
+    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+</md-button>

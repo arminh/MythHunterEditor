@@ -1,0 +1,23 @@
+<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="quest.close()">
+    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+</md-button>
+<div class="modal-header">
+    <h3 class="modal-title">Create Quest</h3>
+</div>
+<div class="modal-body">
+    <div class="task-info">
+        <p>Enter a title for the quest: </p>
+        <input class="task-info-input task-info-title" ng-model="quest.name" placeholder="Enter title"/><br>
+    </div>
+
+    <div class="task-content">
+        <text-angular ta-toolbar="{{quest.toolbar}}" ng-model="quest.questContent" id="quest-text"></text-angular>
+        <span ng-if="!quest.edit"><input type="checkbox" ng-model="quest.separateDescription"/> Use separate description for Start marker</span>
+        <text-angular ng-if="!quest.edit" ta-toolbar="{{quest.toolbar}}" ng-show="quest.separateDescription" ng-model="quest.taskContent" id="task-text"></text-angular>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" aria-label="ok" ng-click="quest.okClicked()">OK</button>
+    <button class="btn btn-warning" type="button" aria-label="cancel" ng-click="quest.close()">Cancel</button>
+</div>

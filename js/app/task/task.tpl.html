@@ -1,0 +1,46 @@
+<md-button class="md-icon-button choose-marker-close" ng-click="task.close()">
+    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+</md-button>
+<div class="modal-header">
+    <h3 class="modal-title">Create Task</h3>
+</div>
+<div class="modal-body">
+    <div class="task-info">
+        <p class="task-modal-label">Enter a title for the task: </p>
+        <input class="task-info-input task-info-title" ng-model="task.name" placeholder="Enter title"/><br>
+
+      <!--  <p>Enter a description for the task:</p>
+        <textarea class="task-info-input task-info-description" ng-model="description" placeholder="Enter description"></textarea>
+   --> </div>
+
+    <div class="task-type" ng-hide="task.activeType == 'start'">
+        <p class="task-modal-label">Choose the type of task you want to create for your quest: <span class="error" ng-show="task.error && !task.activeType">(Please choose the task type)</span></p>
+        <div class = "task-type-selection">
+            <md-button ng-disabled="type == task.types.FIGHT" ng-repeat="type in task.types" ng-click="task.markerSelected(type, $index)"
+                       aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle"
+                       ng-class="{ 'active-marker': task.activeType == type }">
+                <img class="tasl-type-icon" ng-src="{{task.getMarkerIconSrc(type)}}"/>
+                <p class="task-type-label">{{type}}</p>
+                <!--
+                                <md-tooltip style="z-index:10000">{{attrs.description}}</md-tooltip>
+                -->
+            </md-button>
+        </div>
+    </div>
+
+    <div class="task-content" ng-click="task.contentChanged()">
+        <p class="task-modal-label">Task content</p>
+        <text-angular ng-if="task.activeType == task.types.QUIZ" name="task-editor-quiz" ta-toolbar="{{task.quizToolbar}}" ng-model="task.content" class="task-text"></text-angular>
+        <text-angular ng-if="task.activeType != task.types.QUIZ" name="task-editor" ta-toolbar="{{task.toolbar}}" ng-model="task.content" class="task-text"></text-angular>
+        <div ng-if="task.activeType != task.types.INFO && task.activeType != 'start'">
+            <p ng-if="task.activeType == task.types.INVISIBLE" class="task-modal-label">Invisible task target content</p>
+            <p ng-if="task.activeType == task.types.QUIZ" class="task-modal-label">Quiz task completed content</p>
+            <text-angular name="task-target" ta-toolbar="{{task.toolbar}}" ng-model="task.targetContent" class="task-text"></text-angular>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="task.okClicked()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="task.close()">Cancel</button>
+</div>

@@ -1,49 +1,30 @@
 /**
  * Created by Armin on 18.04.2014.
  */
+(function() {
+    'use strict';
 
-'use strict';
+    angular.module('app', [
+        'ngMaterial',
+        'ngCookies',
+        'ngStorage',
+        'ngCookies',
+        'ngAnimate',
+        'ui.router',
+        'ui.bootstrap',
+        'ui.sortable',
+        'ngDialog',
+        'ngDragDrop',
+        'cgBusy',
+        'textAngular',
+        'authentication',
+        'profile',
+        'quest',
+        'task',
+        'treePart',
+        'html',
+        'map',
+        'questTree'
 
-// Declare app level module which depends on filters, and services
-var app = angular.module('myApp', [
-    'ui.router',
-    'ngDragDrop',
-    'ui.bootstrap',
-    'angularSoap',
-    'map',
-    'questTree'
-])
-    .config(function ($stateProvider, $urlRouterProvider) {
-        
-        $urlRouterProvider.otherwise('/');
-        $stateProvider
-            .state('home', {
-                url: '/',
-                views: {
-                    'map': {
-                        controller: 'mapController',
-                        templateUrl: 'js/app/map/map.tpl.html'
-                    },
-                    'quest_tree': {
-                        controller: 'questTreeController',
-                        templateUrl: 'js/app/quest_tree/quest_tree.tpl.html'
-                    }
-                }
-            });
-});
-
-
-app.constant('DefaultConfig', {
-    // Default for Maps
-    defaultZoom: 15,
-    defaultPosition: {
-        coords: {
-            longitude: 12.4830619,
-            latitude: 41.8932575
-        }
-    },
-    // Default for Geolocation
-    defaultEnableHighAccuracy: true,
-    defaultTimeout: 8000, // 8 seconds
-    defaultMaximumAge: 0 // 0 seconds, no-cache
-});
+    ]);
+})();

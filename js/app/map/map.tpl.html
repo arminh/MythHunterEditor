@@ -1,45 +1,98 @@
-<div style="width:500px; height:500px" id="mapView">
+<div ng-class="{'not-clickable': map.interactionDisabled}">
+    <div id="mapView"></div>
+
+    <md-toolbar id="toolbar" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}">
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings" ng-click="map.toggleQuestline()">
+                <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
+            </md-button>
+
+            <md-autocomplete id="toolbar-search"
+                             placeholder="Find location ..."
+                             md-selected-item="selectedItem"
+                             md-search-text="searchText"
+                             md-items="item in map.searchLocation(searchText)"
+                             md-item-text="item.display_name"
+                             md-autoselect="true" md-selected-item-change="map.gotoLocation(selectedItem)">
+                <span md-highlight-text="searchText">{{item.display_name}}</span>
+                <md-not-found>
+                    No matches found.
+                </md-not-found>
+            </md-autocomplete>
 
 
-</div>
-<div id="markerSelectorBox">
-    <div class="marker">
-        <img src="media/fight_marker.png" class="markerSelector" ng-click="toggleMarker('fight')"/>
-        <p class="markerLabel">Fight</p>
+            <md-button id="toolbar-search-icon" class="md-icon-button" aria-label="Settings"
+                       ng-click="map.searchAndGotoLocation(searchText)">
+                <md-icon md-svg-icon="media/search_icon.svg"></md-icon>
+            </md-button>
+
+            <span flex=""></span>
+                <md-button ng-disabled="map.drawing()" aria-label="delete" class="md-icon-button" ng-click="map.cancelQuest()">
+                    <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                        Cancel editing
+                    </md-tooltip>
+                    <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
+                </md-button>
+                <md-button ng-disabled="map.drawing()" aria-label="edit" class="md-icon-button" ng-click="map.editQuest()">
+                    <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                        Edit quest text
+                    </md-tooltip>
+                    <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                </md-button>
+                <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Save" ng-click="map.saveQuest()">
+                    <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                        Save Quest
+                    </md-tooltip>
+                    <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
+                </md-button>
+        </div>
+    </md-toolbar>
+
+
+    <div id="map-tasks" ng-hide="map.drawing() || !map.showQuestline">
+        <map-task ng-if="map.quest.treePartRoot" treepart="map.quest.treePartRoot" quest="map.quest"></map-task>
+
+        <ol id="map-task-list" ui-sortable="map.sortableOptions" ng-model="map.quest.treeParts">
+            <li ng-repeat="treePart in map.quest.treeParts">
+                <map-task treepart="treePart" quest="map.quest"></map-task>
+            </li>
+        </ol>
+        <div class="map-task-add">
+            <md-button class="md-icon-button map-task-icon" ng-click="map.createTask()">
+                <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                    Add task
+                </md-tooltip>
+                <md-icon md-svg-icon="media/add_icon.svg"></md-icon>
+            </md-button>
+        </div>
     </div>
 
-    <div class="marker">
-        <img src="media/quiz_marker.png" class="markerSelector" ng-click="toggleMarker('quiz')"/>
-        <p class="markerLabel">Quiz</p>
+
+    <!--<ul ui-sortable ng-model="items">
+        <li ng-repeat="item in items">{{ item }}</li>
+    </ul>-->
+
+    <!--<div id="markerSelectorBox" ng-hide="map.drawing() && !map.continueDrawing()">
+        &lt;!&ndash;<div class="marker">
+            <img src="media/fight_marker.png" class="markerSelector" ng-click="map.toggleMarker('FIGHT')"/>
+        </div>&ndash;&gt;
+        <div class="marker">
+            <img src="media/quiz_marker.png" class="markerSelector" ng-click="map.toggleMarker('QUIZ')"/>
+        </div>
+        <div class="marker">
+            <img src="media/info_marker.png" class="markerSelector" ng-click="map.toggleMarker('INFO')"/>
+            &lt;!&ndash;        <p class="markerLabel">Info</p>&ndash;&gt;
+        </div>
+&lt;!&ndash;        <div class="marker">
+            <img src="media/invisible_marker.png" class="markerSelector" ng-click="map.toggleMarker('INVISIBLE')"/>
+        </div>&ndash;&gt;
+    </div>-->
+    <div id="popup">
+        <div id="popupCloser"></div>
+        <div id="popupContent"></div>
     </div>
 
-    <div class="marker">
-        <img src="media/info_marker.png" class="markerSelector" ng-click="toggleMarker('info')"/>
-        <p class="markerLabel">Info</p>
-    </div>
-
-    <img src="media/delete_icon.png" class="markerSelector" width="20" height="32"  ng-click="toggleRemove()"/>
 </div>
-<div id="popup">
-    <div id="popupCloser"></div>
-    <div id="popupContent"></div>
-</div>
-
-
-<div ng-repeat="marker in markers" style="float:left">
-    <p>id: {{marker.id}}</p>
-    <p>type: {{marker.type}}</p>
-    <p>lon: {{marker.lon}}</p>
-    <p>lat: {{marker.lat}}</p>
-</div>
-
-<div id="toolBar">
-    <input id="mapSearchInput" ng-model="mapSearchQuery">
-    <button id="mapSearchBtn" ng-click="goto(mapSearchQuery)">Search</button>
-    <button id="mapDragBtn" ng-click="activateDrag()">Drag</button>
-</div>
-
-
 
 
 

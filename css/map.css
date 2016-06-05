@@ -1,41 +1,148 @@
-#content {
-    margin:50px;
+a#content {
 }
 
 #mapView {
     width: 100%;
     height: 100%;
     float: left;
-    margin-bottom: 20px;
-    margin-right: 20px;
 }
 
-
-#toolBar {
-    clear: left;
-    margin-top: 20px;
+.ol-zoom {
+    top: initial;
+    left: initial;
+    right: .5em;
+    bottom: 2.5em;
 }
 
-/*****************MARKER*****************/
-.markerSelectorBox {
-    float: left;
-}
-
-.marker {
-
-}
-
-.markerSelector{
-    float: left;
-    margin-bottom: 10px;
-    margin-right: 5px;
-    width: 20px;
-    height: 30px;
-}
-
-.markerLabel {
+.md-button.md-icon-button {
     line-height: 30px;
+    height: 30px;
+    width: 30px;
 }
+
+.md-container, .md-lable {
+    display: block;
+}
+
+.error {
+    color: red;
+}
+
+/*****************TOOLBAR*****************/
+#toolbar {
+    position: absolute;
+    top: 90px;
+    left: 10px;
+    width: 480px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px #888888;
+    min-height: 50px;
+}
+
+.md-toolbar-tools {
+    height: 50px;
+}
+
+#toolbar-search {
+    min-width: 300px;
+    border: none;
+    color: #000;
+    box-shadow: none;
+    font-size: 12px;
+}
+
+#toolbar-search:focus {
+    outline-width: 0;
+}
+
+#toolbar-search md-autocomplete-wrap {
+    box-shadow: none;
+}
+
+#toolbar-search-icon {
+    border-right: 1px;
+}
+
+.md-toolbar {
+
+}
+
+#map-tasks {
+    position: absolute;
+    top: 160px;
+    left: 10px;
+    width: 480px;
+    border-radius: 10px;
+    list-style: none outside none;
+
+    /*
+    background-color: #fff;
+    */
+    box-shadow: 5px 5px 5px #888888;
+}
+
+#map-task-list {
+    padding-left: 0px;
+    margin-bottom: 0px;
+}
+
+.map-task {
+    cursor: move;
+    padding: 10px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    vertical-align: middle;
+    line-height: 35px;
+/*    -moz-box-shadow:    inset 0 0 10px #000000;
+    -webkit-box-shadow: inset 0 0 10px #000000;*/
+    box-shadow: inset 0px -5px 5px #888888;
+}
+
+.map-task-add {
+    padding: 10px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    vertical-align: middle;
+    line-height: 35px;
+    /*    -moz-box-shadow:    inset 0 0 10px #000000;
+        -webkit-box-shadow: inset 0 0 10px #000000;*/
+    box-shadow: inset 0px -5px 5px #888888;
+}
+
+.map-task-icon {
+    height: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+
+.map-task-label {
+    vertical-align: middle;
+}
+
+.map-task-edit {
+    float: right;
+}
+
+.map-task-input {
+    font-size: 14px;
+    box-sizing: border-box;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+    background: 0 0;
+    padding: 0 15px;
+    line-height: 40px;
+    height: 40px;
+}
+
+
+
+
+
 
 /*****************POPUP*****************/
 

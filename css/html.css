@@ -1,0 +1,10 @@
+.html-preview {
+    pointer-events: none;
+    border-radius: 15px;
+}
+.html-preview-close {
+    position: absolute;
+    top:0px;
+    right: 0px;
+}
+
