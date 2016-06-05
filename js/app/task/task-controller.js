@@ -9,10 +9,10 @@
         .module('task')
         .controller('TaskController', TaskController);
 
-    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "MarkerType", "HtmlTools", "task", "ngDialog"];
+    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "MarkerType", "task", "ngDialog"];
 
     /* @ngInject */
-    function TaskController($scope, $modalInstance, TaskService, MarkerType, HtmlTools, task, ngDialog) {
+    function TaskController($scope, $modalInstance, TaskService, MarkerType, task, ngDialog) {
         var vm = this;
 
         vm.types = MarkerType;

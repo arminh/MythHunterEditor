@@ -9,10 +9,10 @@
         .module('quest')
         .controller('QuestController', QuestController);
 
-    QuestController.$inject = ["$modalInstance", "QuestService", "HtmlTools", "quest", "edit"];
+    QuestController.$inject = ["$modalInstance", "QuestService", "quest", "edit"];
 
     /* @ngInject */
-    function QuestController($modalInstance, QuestService, HtmlTools, quest, edit) {
+    function QuestController($modalInstance, QuestService, quest, edit) {
 
         var vm = this;
 

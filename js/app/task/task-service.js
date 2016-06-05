@@ -9,10 +9,10 @@
         .module('task')
         .factory('TaskService', TaskService);
 
-    TaskService.$inject = ["$log", "$q", "HtmlTools", "$modal", "MarkerType"];
+    TaskService.$inject = ["$log", "$modal", "MarkerType"];
 
     /* @ngInject */
-    function TaskService($log, $q, HtmlTools, $modal, MarkerType) {
+    function TaskService($log, $modal, MarkerType) {
 
         $log = $log.getInstance("TaskService", debugging);
         var $modalInstance = null;
