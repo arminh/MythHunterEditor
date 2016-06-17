@@ -219,10 +219,10 @@
             treePart.setType(TreePartType.Marker);
 
             if (this.treeParts.length == 0) {
-                this.treePartRoot.getSuccessors().push(treePart);
+                this.treePartRoot.addSuccessor(treePart);
                 this.treePartRoot.change();
             } else {
-                this.treeParts[this.treeParts.length - 1].getSuccessors().push(treePart);
+                this.treeParts[this.treeParts.length - 1].addSuccessor(treePart);
                 this.treeParts[this.treeParts.length - 1].change();
             }
 

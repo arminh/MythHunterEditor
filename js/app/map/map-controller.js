@@ -32,12 +32,14 @@
         vm.editQuest = editQuest;
         vm.saveQuest = saveQuest;
         vm.cancelQuest = cancelQuest;
+        vm.editQuestTree = editQuestTree;
 
         $scope.$on('markerChanged', MapService.markerChanged);
 
         vm.sortableOptions = {
             axis: 'y',
             cancel: ".fixed, input",
+            disabled: false,
             start: function(e, ui){
                 ui.placeholder.height(ui.item.height());
                 var draggedMarkerId = ui.item.sortable.model.task.markerId;
@@ -98,6 +100,10 @@
 
         function cancelQuest() {
             $state.go("app.profile");
+        }
+
+        function editQuestTree() {
+            MapService.editQuestTree();
         }
     }
 

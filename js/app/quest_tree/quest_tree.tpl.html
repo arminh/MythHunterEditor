@@ -1,5 +1,12 @@
-<div id="questTreeContainer">
-    <canvas id="canvas" width="500px" height="500px"></canvas>
-    <input type="checkbox" id="checkbox" ng-model="checked">
-    {{checked}}
+<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="questTree.close()">
+    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+</md-button>
+<div class="modal-header">
+    <h3 class="modal-title">Create Quest</h3>
+</div>
+<div class="modal-body">
+    <input type="checkbox" ng-model="questTree.drawing" id="drawCheckbox" ng-change="questTree.toggleDrawing()"/><label for="drawCheckbox">Drawing</label>
+    <div id="questTreeContainer" ng-init="questTree.init()">
+        <canvas id="myCanvas" width="1067px" height="600px"></canvas>
+    </div>
 </div>

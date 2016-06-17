@@ -27,24 +27,31 @@
             </md-button>
 
             <span flex=""></span>
-                <md-button ng-disabled="map.drawing()" aria-label="delete" class="md-icon-button" ng-click="map.cancelQuest()">
-                    <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
-                        Cancel editing
-                    </md-tooltip>
-                    <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
-                </md-button>
-                <md-button ng-disabled="map.drawing()" aria-label="edit" class="md-icon-button" ng-click="map.editQuest()">
-                    <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
-                        Edit quest text
-                    </md-tooltip>
-                    <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
-                </md-button>
-                <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Save" ng-click="map.saveQuest()">
-                    <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
-                        Save Quest
-                    </md-tooltip>
-                    <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
-                </md-button>
+            <md-button ng-disabled="map.drawing()" aria-label="delete" class="md-icon-button"
+                       ng-click="map.cancelQuest()">
+                <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                    Cancel editing
+                </md-tooltip>
+                <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" aria-label="edit" class="md-icon-button" ng-click="map.editQuest()">
+                <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                    Edit quest text
+                </md-tooltip>
+                <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Save" ng-click="map.saveQuest()">
+                <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                    Save Quest
+                </md-tooltip>
+                <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex" ng-click="map.editQuestTree()">
+                <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                    Edit Quest Tree
+                </md-tooltip>
+                <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
+            </md-button>
         </div>
     </md-toolbar>
 

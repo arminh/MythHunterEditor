@@ -31,6 +31,7 @@
             initFromObject: initFromObject,
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
+            addSuccessor: addSuccessor,
             change: change,
             upload: upload,
             remove: remove,
@@ -129,6 +130,10 @@
                 $log.info("initFromRemote_success: ", this);
                 return this;
             }.bind(this))
+        }
+
+        function addSuccessor(treePart) {
+            this.successors.push(treePart);
         }
 
         function change() {

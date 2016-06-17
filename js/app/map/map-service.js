@@ -9,10 +9,10 @@
         .module('map')
         .factory('MapService', mapService);
 
-    mapService.$inject = ["$log", "$q", "$state", "$http", "DefaultConfig", "MapInteractionService", "Task"];
+    mapService.$inject = ["$log", "$q", "$state", "$http", "$modal", "DefaultConfig", "MapInteractionService", "Task"];
 
     /* @ngInject */
-    function mapService($log, $q, $state, $http, DefaultConfig, MapInteraction, Task) {
+    function mapService($log, $q, $state, $http, $modal, DefaultConfig, MapInteraction, Task) {
 
         $log = $log.getInstance("MapService", debugging);
 
@@ -33,7 +33,8 @@
             getCurrentPosition: getCurrentPosition,
             searchLocation: searchLocation,
             getDrawing: getDrawing,
-            getContinueDrawing: getContinueDrawing
+            getContinueDrawing: getContinueDrawing,
+            editQuestTree: editQuestTree
         };
         return service;
 
@@ -199,6 +200,24 @@
             return $http.get(url).then(function (result) {
                 return result.data;
             });
+        }
+
+        function editQuestTree() {
+            var modalInstance = $modal.open({
+                animation: true,
+                backdrop: 'static',
+                size: "lg",
+                templateUrl: 'js/app/quest_tree/quest_tree.tpl.html',
+                controller: 'QuestTreeController',
+                controllerAs: "questTree",
+                resolve: {
+                    treeRoot: function () {
+                        return quest.getTreePartRoot();
+                    }
+                }
+            });
+
+            return modalInstance.result;
         }
     }
 
