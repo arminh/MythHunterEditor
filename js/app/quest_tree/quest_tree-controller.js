@@ -17,7 +17,6 @@
         vm.drawing = false;
 
         vm.init = init;
-        vm.toggleDrawing = toggleDrawing;
         vm.close = close;
 
         ////////////////
@@ -25,16 +24,6 @@
         function init() {
             QuestTreeService.init(treeRoot);
 
-        }
-
-        function toggleDrawing() {
-            console.log(vm.drawing);
-            if(vm.drawing) {
-                QuestTreeService.activateDraw();
-
-            } else {
-                QuestTreeService.deactivateDraw();
-            }
         }
 
         function close() {

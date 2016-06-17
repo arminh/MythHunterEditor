@@ -9,14 +9,21 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$q","TaskService"];
+    QuestTreeService.$inject = ["$q", "TaskService"];
 
     /* @ngInject */
     function QuestTreeService($q, TaskService) {
         var canvas = null;
-        var drawing = false;
         var markers = [];
         var lines = [];
+
+        var drawing = false;
+        var line = null;
+
+        var xPos = 0;
+        var markerId = 0;
+        var curMarkerId = -1;
+        var lineId = 0;
 
         var service = {
             init: init,
@@ -32,17 +39,16 @@
             lines = [];
             canvas = new fabric.Canvas('myCanvas');
             initDrag();
-            return createTreePartMarker(treeRoot);
-
+            return createTreePartMarker(treeRoot).then(activateDraw);
         }
 
         function createTreePartMarker(treePart) {
             var promises = [];
 
-            promises.push(createMarker(treePart.getTask().getType(), 10, 10));
+            promises.push(createMarker(treePart.getTask().getType(), xPos += 100, 50));
 
             var successors = treePart.getSuccessors();
-            for(var i = 0; i < successors.length; i++) {
+            for (var i = 0; i < successors.length; i++) {
                 promises.push(createTreePartMarker(successors[i]));
             }
 
@@ -57,6 +63,7 @@
                 canvas.add(marker).renderAll();
                 marker.hasControls = false;
                 marker.hasBorders = false;
+                marker.id = markerId++;
                 marker.lineStarts = [];
                 marker.lineEnds = [];
                 markers.push(marker);
@@ -78,6 +85,7 @@
 
             line.hasControls = false;
             line.hasBorders = false;
+            line.id = lineId++;
             line.set({selectable: false});
             canvas.add(line);
 
@@ -177,27 +185,36 @@
 
 
         function activateDraw() {
-            console.log(markers);
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].set("lockMovementX", true);
-                markers[i].set("lockMovementY", true);
+            canvas.on('mouse:down', onMouseDown);
+        }
+
+        function onMouseDown(evt) {
+
+            var obj = canvas.getActiveObject();
+
+            if (!obj) {
+                return;
             }
 
-            canvas.on('mouse:down', function (evt) {
+            var pointer = canvas.getPointer(evt.e);
 
-                var obj = canvas.getActiveObject();
-                if (!obj) {
-                    return;
-                }
-                var pointer = canvas.getPointer(evt.e);
+            var objLeft = obj.left;
+            var objTop = obj.top;
+            var anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
+            var anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
+            var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
+            canvas.on("mouse:up", onMouseUp);
 
-                var anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
-                var anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
-                var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
+            function onMouseUp() {
+                canvas.off('mouse:up');
 
                 if (!drawing) {
+                    if(obj.left != objLeft || obj.top != objTop) {  //item was dragged
+                        return;
+                    }
 
-                    var line = createLine(points);
+                    curMarkerId = obj.id;
+                    line = createLine(points);
                     line.start = {x: anchorLeft, y: anchorTop};
                     line.end = {x: pointer.x, y: pointer.y};
                     positionLine(line);
@@ -206,20 +223,10 @@
                         obj.lineStarts.push(line);
                     }
 
-
-                    canvas.on('mouse:move', function (evt) {
-                        //if (!isDown) return;
-                        var pointer = canvas.getPointer(evt.e);
-
-                        line.end = {x: pointer.x, y: pointer.y};
-                        positionLine(line);
-                        line.set({x2: pointer.x, y2: pointer.y});
-                        canvas.renderAll();
-                    });
-
+                    canvas.on('mouse:move', onMouseMove);
                     drawing = true;
                 } else {
-                    if (obj == line.start) {
+                    if (obj.id == curMarkerId) {
                         return;
                     }
 
@@ -240,21 +247,36 @@
                     canvas.renderAll();
                     drawing = false;
                 }
-            });
+
+            }
+        }
+
+        function onMouseMove(evt) {
+            //if (!isDown) return;
+            var pointer = canvas.getPointer(evt.e);
+
+            line.end = {x: pointer.x, y: pointer.y};
+            positionLine(line);
+            line.set({x2: pointer.x, y2: pointer.y});
+            canvas.renderAll();
         }
 
         function deactivateDraw() {
             canvas.off('mouse:down');
             canvas.off('mouse:move');
 
-            for (var i = 0; i < markers.length; i++) {
+/*            for (var i = 0; i < markers.length; i++) {
                 markers[i].set("lockMovementX", false);
                 markers[i].set("lockMovementY", false);
-            }
+            }*/
         }
 
         function initDrag() {
             canvas.on('object:moving', function (evt) {
+                if(drawing) {
+                    return;
+                }
+
                 var obj = evt.target;
 
                 var anchorLeft;
