@@ -34,47 +34,61 @@
 
         ////////////////
 
+        function Marker(id, img) {
+            this.id = id;
+            this.img = img;
+            this.lineStarts = [];
+            this.lineEnds = [];
+        }
+
+        function Line(img, start, end) {
+            this.img = img;
+            this.start = start;
+            this.end = end;
+            this.head = null;
+        }
+
         function init(treeRoot) {
             markers = [];
             lines = [];
             canvas = new fabric.Canvas('myCanvas');
             initDrag();
-            return createTreePartMarker(treeRoot).then(activateDraw);
+            return addTreePartMarker(treeRoot, null).then(activateDraw);
         }
 
-        function createTreePartMarker(treePart) {
+        function addTreePartMarker(treePart, parentTreePart) {
             var promises = [];
 
-            promises.push(createMarker(treePart.getTask().getType(), xPos += 100, 50));
+            promises.push(addMarker(treePart.getTask().getType(), xPos += 100, 50));
 
             var successors = treePart.getSuccessors();
             for (var i = 0; i < successors.length; i++) {
-                promises.push(createTreePartMarker(successors[i]));
+                promises.push(addTreePartMarker(successors[i]));
             }
 
             return $q.all(promises);
         }
 
-        function createMarker(type, x, y) {
+        function addMarker(type, x, y) {
             var deffered = $q.defer();
 
             fabric.Image.fromURL(TaskService.getMarkerSrc(type), function (img) {
-                var marker = img.set({left: x, top: y}).scale(0.05);
-                canvas.add(marker).renderAll();
-                marker.hasControls = false;
-                marker.hasBorders = false;
-                marker.id = markerId++;
-                marker.lineStarts = [];
-                marker.lineEnds = [];
+                var markerImage = img.set({left: x, top: y}).scale(0.05);
+                canvas.add(markerImage).renderAll();
+                markerImage.hasControls = false;
+                markerImage.hasBorders = false;
+
+                var marker = new Marker(markerId++, markerImage);
                 markers.push(marker);
+                markerImage.marker = marker;
                 deffered.resolve(marker);
             });
 
             return deffered.promise;
         }
 
-        function createLine(points) {
-            var line = new fabric.Line(points, {
+        function addLine(points) {
+            var lineImage = new fabric.Line(points, {
                 strokeWidth: 2,
                 fill: 'red',
                 stroke: 'red',
@@ -83,11 +97,14 @@
                 perPixelTargetFind: true
             });
 
-            line.hasControls = false;
-            line.hasBorders = false;
-            line.id = lineId++;
-            line.set({selectable: false});
-            canvas.add(line);
+            lineImage.hasControls = false;
+            lineImage.hasBorders = false;
+            lineImage.set({selectable: false});
+            canvas.add(lineImage);
+
+            var lineStart = {x: points[0], y: points[1]};
+            var lineEnd = {x: points[2], y: points[3]};
+            var line = new Line(lineImage, lineStart, lineEnd);
 
             return line;
         }
@@ -108,16 +125,16 @@
             var x2 = line.end.x - vx * 20;
             var y2 = line.end.y - vy * 20;
 
-            line.set({x1: x1, y1: y1, x2: x2, y2: y2});
+            line.img.set({x1: x1, y1: y1, x2: x2, y2: y2});
         }
 
-        function createArrowHead(line) {
+        function addArrowHead(line) {
 
             var width = 15;
             var height = 20;
 
-            var anchorLeft = line.x2;
-            var anchorTop = line.y2;
+            var anchorLeft = line.img.x2;
+            var anchorTop = line.img.y2;
 
             var triangle = new fabric.Triangle({
                 fill: 'red',
@@ -146,8 +163,8 @@
         }
 
         function getLineAngle(line) {
-            var dy = (line.y1 - line.y2);
-            var dx = (line.x2 - line.x1);
+            var dy = (line.img.y1 - line.img.y2);
+            var dx = (line.img.x2 - line.img.x1);
 
             var angle;
 
@@ -160,23 +177,23 @@
 
 
             //first quadrant
-            if (line.x1 <= line.x2 && line.y1 > line.y2) {
+            if (line.img.x1 <= line.img.x2 && line.img.y1 > line.img.y2) {
                 angle = angle + 0;
 
             }
 
             //second quadrant
-            if (line.x1 > line.x2 && line.y1 >= line.y2) {
+            if (line.img.x1 > line.img.x2 && line.img.y1 >= line.img.y2) {
                 angle = angle + 180;
             }
 
             //third quadrant
-            if (line.x1 >= line.x2 && line.y1 < line.y2) {
+            if (line.img.x1 >= line.img.x2 && line.img.y1 < line.img.y2) {
                 angle = angle + 180;
             }
 
             //fourth quadrant
-            if (line.x1 < line.x2 && line.y1 <= line.y2) {
+            if (line.img.x1 < line.img.x2 && line.img.y1 <= line.img.y2) {
                 angle = angle + 360;
             }
 
@@ -213,20 +230,20 @@
                         return;
                     }
 
-                    curMarkerId = obj.id;
-                    line = createLine(points);
+                    curMarkerId = obj.marker.id;
+                    line = addLine(points);
                     line.start = {x: anchorLeft, y: anchorTop};
                     line.end = {x: pointer.x, y: pointer.y};
                     positionLine(line);
 
-                    if (obj.lineStarts) {
-                        obj.lineStarts.push(line);
+                    if (obj.marker.lineStarts) {
+                        obj.marker.lineStarts.push(line);
                     }
 
                     canvas.on('mouse:move', onMouseMove);
                     drawing = true;
                 } else {
-                    if (obj.id == curMarkerId) {
+                    if (obj.marker.id == curMarkerId) {
                         return;
                     }
 
@@ -237,10 +254,10 @@
                     line.end = {x: anchorLeft, y: anchorTop};
 
                     positionLine(line);
-                    createArrowHead(line);
+                    addArrowHead(line);
 
-                    if (obj.lineEnds) {
-                        obj.lineEnds.push(line);
+                    if (obj.marker.lineEnds) {
+                        obj.marker.lineEnds.push(line);
                     }
 
                     lines.push(line);
@@ -257,7 +274,7 @@
 
             line.end = {x: pointer.x, y: pointer.y};
             positionLine(line);
-            line.set({x2: pointer.x, y2: pointer.y});
+            line.img.set({x2: pointer.x, y2: pointer.y});
             canvas.renderAll();
         }
 
@@ -282,27 +299,27 @@
                 var anchorLeft;
                 var anchorTop;
 
-                if (obj.lineStarts && obj.lineEnds) {
-                    for (var i = 0; i < obj.lineStarts.length; i++) {
+                if (obj.marker.lineStarts && obj.marker.lineEnds) {
+                    for (var i = 0; i < obj.marker.lineStarts.length; i++) {
 
                         anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
                         anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
-                        obj.lineStarts[i].start = {x: anchorLeft, y: anchorTop};
-                        positionLine(obj.lineStarts[i]);
+                        obj.marker.lineStarts[i].start = {x: anchorLeft, y: anchorTop};
+                        positionLine(obj.marker.lineStarts[i]);
 
-                        canvas.remove(obj.lineStarts[i].head);
-                        createArrowHead(obj.lineStarts[i]);
+                        canvas.remove(obj.marker.lineStarts[i].head);
+                        addArrowHead(obj.marker.lineStarts[i]);
                     }
 
-                    for (var i = 0; i < obj.lineEnds.length; i++) {
+                    for (var i = 0; i < obj.marker.lineEnds.length; i++) {
 
                         anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
                         anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
-                        obj.lineEnds[i].end = {x: anchorLeft, y: anchorTop};
-                        positionLine(obj.lineEnds[i]);
+                        obj.marker.lineEnds[i].end = {x: anchorLeft, y: anchorTop};
+                        positionLine(obj.marker.lineEnds[i]);
 
-                        canvas.remove(obj.lineEnds[i].head);
-                        createArrowHead(obj.lineEnds[i]);
+                        canvas.remove(obj.marker.lineEnds[i].head);
+                        addArrowHead(obj.marker.lineEnds[i]);
                     }
                 }
 
