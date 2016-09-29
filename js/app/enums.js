@@ -17,6 +17,11 @@
             And: "And",
             Or: "Or"
         })
+        .constant("DifficultyLevel", {
+            LOW: "LOW",
+            MEDIUM: "MEDIUM",
+            HIGH: "HIGH"
+        })
         .constant("CardType", {
             MONSTER: "MONSTER",
             SPELL: "SPELL"
