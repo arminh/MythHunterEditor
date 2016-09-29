@@ -1,7 +1,81 @@
 //
 // Definitions for schema: http://backend.com/wsdl
-//  http://192.168.178.67:8080/Backend/webservices/Backend?wsdl#types1
+//  http://192.168.1.225:8080/Backend/webservices/Backend?wsdl#types1
 //
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}setTreePartExecutedAt
+//
+function backend_com_wsdl_setTreePartExecutedAt () {
+    this.typeMarker = 'backend_com_wsdl_setTreePartExecutedAt';
+    this._arg0 = null;
+}
+
+//
+// accessor is backend_com_wsdl_setTreePartExecutedAt.prototype.getArg0
+// element get for arg0
+// - element type is {http://backend.com/wsdl}treePartLazy
+// - optional element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_setTreePartExecutedAt.prototype.setArg0
+//
+function backend_com_wsdl_setTreePartExecutedAt_getArg0() { return this._arg0;}
+
+backend_com_wsdl_setTreePartExecutedAt.prototype.getArg0 = backend_com_wsdl_setTreePartExecutedAt_getArg0;
+
+function backend_com_wsdl_setTreePartExecutedAt_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_setTreePartExecutedAt.prototype.setArg0 = backend_com_wsdl_setTreePartExecutedAt_setArg0;
+//
+// Serialize {http://backend.com/wsdl}setTreePartExecutedAt
+//
+function backend_com_wsdl_setTreePartExecutedAt_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._arg0 != null) {
+      xml = xml + this._arg0.serialize(cxfjsutils, 'arg0', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setTreePartExecutedAt.prototype.serialize = backend_com_wsdl_setTreePartExecutedAt_serialize;
+
+function backend_com_wsdl_setTreePartExecutedAt_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setTreePartExecutedAt();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'arg0')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_treePartLazy_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setArg0(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
 //
 // Constructor for XML Schema item {http://backend.com/wsdl}getTreePart
 //
@@ -161,6 +235,80 @@ function backend_com_wsdl_getAllActionsResponse_deserialize (cxfjsutils, element
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}updateEnemy
+//
+function backend_com_wsdl_updateEnemy () {
+    this.typeMarker = 'backend_com_wsdl_updateEnemy';
+    this._arg0 = null;
+}
+
+//
+// accessor is backend_com_wsdl_updateEnemy.prototype.getArg0
+// element get for arg0
+// - element type is {http://backend.com/wsdl}enemy
+// - optional element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_updateEnemy.prototype.setArg0
+//
+function backend_com_wsdl_updateEnemy_getArg0() { return this._arg0;}
+
+backend_com_wsdl_updateEnemy.prototype.getArg0 = backend_com_wsdl_updateEnemy_getArg0;
+
+function backend_com_wsdl_updateEnemy_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_updateEnemy.prototype.setArg0 = backend_com_wsdl_updateEnemy_setArg0;
+//
+// Serialize {http://backend.com/wsdl}updateEnemy
+//
+function backend_com_wsdl_updateEnemy_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._arg0 != null) {
+      xml = xml + this._arg0.serialize(cxfjsutils, 'arg0', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_updateEnemy.prototype.serialize = backend_com_wsdl_updateEnemy_serialize;
+
+function backend_com_wsdl_updateEnemy_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_updateEnemy();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'arg0')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_enemy_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setArg0(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}loginResponse
 //
 function backend_com_wsdl_loginResponse () {
@@ -230,6 +378,114 @@ function backend_com_wsdl_loginResponse_deserialize (cxfjsutils, element) {
      if (curElement != null) {
       curElement = cxfjsutils.getNextElementSibling(curElement);
      }
+    }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}setQuestInstanceFailCount
+//
+function backend_com_wsdl_setQuestInstanceFailCount () {
+    this.typeMarker = 'backend_com_wsdl_setQuestInstanceFailCount';
+    this._arg0 = 0;
+    this._arg1 = 0;
+}
+
+//
+// accessor is backend_com_wsdl_setQuestInstanceFailCount.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_setQuestInstanceFailCount.prototype.setArg0
+//
+function backend_com_wsdl_setQuestInstanceFailCount_getArg0() { return this._arg0;}
+
+backend_com_wsdl_setQuestInstanceFailCount.prototype.getArg0 = backend_com_wsdl_setQuestInstanceFailCount_getArg0;
+
+function backend_com_wsdl_setQuestInstanceFailCount_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_setQuestInstanceFailCount.prototype.setArg0 = backend_com_wsdl_setQuestInstanceFailCount_setArg0;
+//
+// accessor is backend_com_wsdl_setQuestInstanceFailCount.prototype.getArg1
+// element get for arg1
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg1
+// setter function is is backend_com_wsdl_setQuestInstanceFailCount.prototype.setArg1
+//
+function backend_com_wsdl_setQuestInstanceFailCount_getArg1() { return this._arg1;}
+
+backend_com_wsdl_setQuestInstanceFailCount.prototype.getArg1 = backend_com_wsdl_setQuestInstanceFailCount_getArg1;
+
+function backend_com_wsdl_setQuestInstanceFailCount_setArg1(value) { this._arg1 = value;}
+
+backend_com_wsdl_setQuestInstanceFailCount.prototype.setArg1 = backend_com_wsdl_setQuestInstanceFailCount_setArg1;
+//
+// Serialize {http://backend.com/wsdl}setQuestInstanceFailCount
+//
+function backend_com_wsdl_setQuestInstanceFailCount_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg1>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
+     xml = xml + '</arg1>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setQuestInstanceFailCount.prototype.serialize = backend_com_wsdl_setQuestInstanceFailCount_serialize;
+
+function backend_com_wsdl_setQuestInstanceFailCount_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setQuestInstanceFailCount();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg1');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg1(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     return newobject;
 }
@@ -396,6 +652,114 @@ function backend_com_wsdl_getMarkers_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserTaskCount
+//
+function backend_com_wsdl_setUserTaskCount () {
+    this.typeMarker = 'backend_com_wsdl_setUserTaskCount';
+    this._arg0 = 0;
+    this._arg1 = 0;
+}
+
+//
+// accessor is backend_com_wsdl_setUserTaskCount.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_setUserTaskCount.prototype.setArg0
+//
+function backend_com_wsdl_setUserTaskCount_getArg0() { return this._arg0;}
+
+backend_com_wsdl_setUserTaskCount.prototype.getArg0 = backend_com_wsdl_setUserTaskCount_getArg0;
+
+function backend_com_wsdl_setUserTaskCount_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_setUserTaskCount.prototype.setArg0 = backend_com_wsdl_setUserTaskCount_setArg0;
+//
+// accessor is backend_com_wsdl_setUserTaskCount.prototype.getArg1
+// element get for arg1
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg1
+// setter function is is backend_com_wsdl_setUserTaskCount.prototype.setArg1
+//
+function backend_com_wsdl_setUserTaskCount_getArg1() { return this._arg1;}
+
+backend_com_wsdl_setUserTaskCount.prototype.getArg1 = backend_com_wsdl_setUserTaskCount_getArg1;
+
+function backend_com_wsdl_setUserTaskCount_setArg1(value) { this._arg1 = value;}
+
+backend_com_wsdl_setUserTaskCount.prototype.setArg1 = backend_com_wsdl_setUserTaskCount_setArg1;
+//
+// Serialize {http://backend.com/wsdl}setUserTaskCount
+//
+function backend_com_wsdl_setUserTaskCount_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg1>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
+     xml = xml + '</arg1>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserTaskCount.prototype.serialize = backend_com_wsdl_setUserTaskCount_serialize;
+
+function backend_com_wsdl_setUserTaskCount_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserTaskCount();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg1');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg1(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}getEditorQuestResponse
 //
 function backend_com_wsdl_getEditorQuestResponse () {
@@ -476,11 +840,14 @@ function backend_com_wsdl_quest () {
     this.typeMarker = 'backend_com_wsdl_quest';
     this._approved = '';
     this._createrId = 0;
+    this._difficulty = null;
+    this._difficultyRating = null;
     this._htmlId = 0;
     this._id = 0;
-    this._markers = [];
     this._name = null;
+    this._qualityRating = null;
     this._shortDescription = null;
+    this._specialCards = [];
     this._startMarker = null;
     this._submitted = '';
     this._treeRootId = 0;
@@ -520,6 +887,38 @@ function backend_com_wsdl_quest_setCreaterId(value) { this._createrId = value;}
 
 backend_com_wsdl_quest.prototype.setCreaterId = backend_com_wsdl_quest_setCreaterId;
 //
+// accessor is backend_com_wsdl_quest.prototype.getDifficulty
+// element get for difficulty
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for difficulty
+// setter function is is backend_com_wsdl_quest.prototype.setDifficulty
+//
+function backend_com_wsdl_quest_getDifficulty() { return this._difficulty;}
+
+backend_com_wsdl_quest.prototype.getDifficulty = backend_com_wsdl_quest_getDifficulty;
+
+function backend_com_wsdl_quest_setDifficulty(value) { this._difficulty = value;}
+
+backend_com_wsdl_quest.prototype.setDifficulty = backend_com_wsdl_quest_setDifficulty;
+//
+// accessor is backend_com_wsdl_quest.prototype.getDifficultyRating
+// element get for difficultyRating
+// - element type is {http://www.w3.org/2001/XMLSchema}float
+// - optional element
+//
+// element set for difficultyRating
+// setter function is is backend_com_wsdl_quest.prototype.setDifficultyRating
+//
+function backend_com_wsdl_quest_getDifficultyRating() { return this._difficultyRating;}
+
+backend_com_wsdl_quest.prototype.getDifficultyRating = backend_com_wsdl_quest_getDifficultyRating;
+
+function backend_com_wsdl_quest_setDifficultyRating(value) { this._difficultyRating = value;}
+
+backend_com_wsdl_quest.prototype.setDifficultyRating = backend_com_wsdl_quest_setDifficultyRating;
+//
 // accessor is backend_com_wsdl_quest.prototype.getHtmlId
 // element get for htmlId
 // - element type is {http://www.w3.org/2001/XMLSchema}long
@@ -552,24 +951,6 @@ function backend_com_wsdl_quest_setId(value) { this._id = value;}
 
 backend_com_wsdl_quest.prototype.setId = backend_com_wsdl_quest_setId;
 //
-// accessor is backend_com_wsdl_quest.prototype.getMarkers
-// element get for markers
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-// - array
-// - nillable
-//
-// element set for markers
-// setter function is is backend_com_wsdl_quest.prototype.setMarkers
-//
-function backend_com_wsdl_quest_getMarkers() { return this._markers;}
-
-backend_com_wsdl_quest.prototype.getMarkers = backend_com_wsdl_quest_getMarkers;
-
-function backend_com_wsdl_quest_setMarkers(value) { this._markers = value;}
-
-backend_com_wsdl_quest.prototype.setMarkers = backend_com_wsdl_quest_setMarkers;
-//
 // accessor is backend_com_wsdl_quest.prototype.getName
 // element get for name
 // - element type is {http://www.w3.org/2001/XMLSchema}string
@@ -586,6 +967,22 @@ function backend_com_wsdl_quest_setName(value) { this._name = value;}
 
 backend_com_wsdl_quest.prototype.setName = backend_com_wsdl_quest_setName;
 //
+// accessor is backend_com_wsdl_quest.prototype.getQualityRating
+// element get for qualityRating
+// - element type is {http://www.w3.org/2001/XMLSchema}float
+// - optional element
+//
+// element set for qualityRating
+// setter function is is backend_com_wsdl_quest.prototype.setQualityRating
+//
+function backend_com_wsdl_quest_getQualityRating() { return this._qualityRating;}
+
+backend_com_wsdl_quest.prototype.getQualityRating = backend_com_wsdl_quest_getQualityRating;
+
+function backend_com_wsdl_quest_setQualityRating(value) { this._qualityRating = value;}
+
+backend_com_wsdl_quest.prototype.setQualityRating = backend_com_wsdl_quest_setQualityRating;
+//
 // accessor is backend_com_wsdl_quest.prototype.getShortDescription
 // element get for shortDescription
 // - element type is {http://www.w3.org/2001/XMLSchema}string
@@ -601,6 +998,24 @@ backend_com_wsdl_quest.prototype.getShortDescription = backend_com_wsdl_quest_ge
 function backend_com_wsdl_quest_setShortDescription(value) { this._shortDescription = value;}
 
 backend_com_wsdl_quest.prototype.setShortDescription = backend_com_wsdl_quest_setShortDescription;
+//
+// accessor is backend_com_wsdl_quest.prototype.getSpecialCards
+// element get for specialCards
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+// - array
+// - nillable
+//
+// element set for specialCards
+// setter function is is backend_com_wsdl_quest.prototype.setSpecialCards
+//
+function backend_com_wsdl_quest_getSpecialCards() { return this._specialCards;}
+
+backend_com_wsdl_quest.prototype.getSpecialCards = backend_com_wsdl_quest_getSpecialCards;
+
+function backend_com_wsdl_quest_setSpecialCards(value) { this._specialCards = value;}
+
+backend_com_wsdl_quest.prototype.setSpecialCards = backend_com_wsdl_quest_setSpecialCards;
 //
 // accessor is backend_com_wsdl_quest.prototype.getStartMarker
 // element get for startMarker
@@ -692,6 +1107,22 @@ function backend_com_wsdl_quest_serialize(cxfjsutils, elementName, extraNamespac
     }
     // block for local variables
     {
+     if (this._difficulty != null) {
+      xml = xml + '<difficulty>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._difficulty);
+      xml = xml + '</difficulty>';
+     }
+    }
+    // block for local variables
+    {
+     if (this._difficultyRating != null) {
+      xml = xml + '<difficultyRating>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._difficultyRating);
+      xml = xml + '</difficultyRating>';
+     }
+    }
+    // block for local variables
+    {
      xml = xml + '<htmlId>';
      xml = xml + cxfjsutils.escapeXmlEntities(this._htmlId);
      xml = xml + '</htmlId>';
@@ -704,20 +1135,6 @@ function backend_com_wsdl_quest_serialize(cxfjsutils, elementName, extraNamespac
     }
     // block for local variables
     {
-     if (this._markers != null) {
-      for (var ax = 0;ax < this._markers.length;ax ++) {
-       if (this._markers[ax] == null) {
-        xml = xml + '<markers xsi:nil=\'true\'/>';
-       } else {
-        xml = xml + '<markers>';
-        xml = xml + cxfjsutils.escapeXmlEntities(this._markers[ax]);
-        xml = xml + '</markers>';
-       }
-      }
-     }
-    }
-    // block for local variables
-    {
      if (this._name != null) {
       xml = xml + '<name>';
       xml = xml + cxfjsutils.escapeXmlEntities(this._name);
@@ -726,10 +1143,32 @@ function backend_com_wsdl_quest_serialize(cxfjsutils, elementName, extraNamespac
     }
     // block for local variables
     {
+     if (this._qualityRating != null) {
+      xml = xml + '<qualityRating>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._qualityRating);
+      xml = xml + '</qualityRating>';
+     }
+    }
+    // block for local variables
+    {
      if (this._shortDescription != null) {
       xml = xml + '<shortDescription>';
       xml = xml + cxfjsutils.escapeXmlEntities(this._shortDescription);
       xml = xml + '</shortDescription>';
+     }
+    }
+    // block for local variables
+    {
+     if (this._specialCards != null) {
+      for (var ax = 0;ax < this._specialCards.length;ax ++) {
+       if (this._specialCards[ax] == null) {
+        xml = xml + '<specialCards xsi:nil=\'true\'/>';
+       } else {
+        xml = xml + '<specialCards>';
+        xml = xml + cxfjsutils.escapeXmlEntities(this._specialCards[ax]);
+        xml = xml + '</specialCards>';
+       }
+      }
      }
     }
     // block for local variables
@@ -798,6 +1237,34 @@ function backend_com_wsdl_quest_deserialize (cxfjsutils, element) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing difficulty');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'difficulty')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setDifficulty(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing difficultyRating');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'difficultyRating')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = parseFloat(value);
+     }
+     newobject.setDifficultyRating(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing htmlId');
     var value = null;
     if (!cxfjsutils.isElementNil(curElement)) {
@@ -822,24 +1289,6 @@ function backend_com_wsdl_quest_deserialize (cxfjsutils, element) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing markers');
-    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'markers')) {
-     item = [];
-     do  {
-      var arrayItem = null;
-      var value = null;
-      if (!cxfjsutils.isElementNil(curElement)) {
-       value = cxfjsutils.getNodeText(curElement);
-       arrayItem = parseInt(value);
-      }
-      item.push(arrayItem);
-      curElement = cxfjsutils.getNextElementSibling(curElement);
-     }
-       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'markers'));
-     newobject.setMarkers(item);
-     var item = null;
-    }
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing name');
     if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'name')) {
      var value = null;
@@ -848,6 +1297,20 @@ function backend_com_wsdl_quest_deserialize (cxfjsutils, element) {
       item = value;
      }
      newobject.setName(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing qualityRating');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'qualityRating')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = parseFloat(value);
+     }
+     newobject.setQualityRating(item);
      var item = null;
      if (curElement != null) {
       curElement = cxfjsutils.getNextElementSibling(curElement);
@@ -866,6 +1329,24 @@ function backend_com_wsdl_quest_deserialize (cxfjsutils, element) {
      if (curElement != null) {
       curElement = cxfjsutils.getNextElementSibling(curElement);
      }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing specialCards');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'specialCards')) {
+     item = [];
+     do  {
+      var arrayItem = null;
+      var value = null;
+      if (!cxfjsutils.isElementNil(curElement)) {
+       value = cxfjsutils.getNodeText(curElement);
+       arrayItem = parseInt(value);
+      }
+      item.push(arrayItem);
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'specialCards'));
+     newobject.setSpecialCards(item);
+     var item = null;
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing startMarker');
@@ -922,44 +1403,6 @@ function backend_com_wsdl_quest_deserialize (cxfjsutils, element) {
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}setTreePartActiveResponse
-//
-function backend_com_wsdl_setTreePartActiveResponse () {
-    this.typeMarker = 'backend_com_wsdl_setTreePartActiveResponse';
-}
-
-//
-// Serialize {http://backend.com/wsdl}setTreePartActiveResponse
-//
-function backend_com_wsdl_setTreePartActiveResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_setTreePartActiveResponse.prototype.serialize = backend_com_wsdl_setTreePartActiveResponse_serialize;
-
-function backend_com_wsdl_setTreePartActiveResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_setTreePartActiveResponse();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    return newobject;
-}
-
-//
 // Constructor for XML Schema item {http://backend.com/wsdl}deleteQuestInstanceResponse
 //
 function backend_com_wsdl_deleteQuestInstanceResponse () {
@@ -991,6 +1434,44 @@ backend_com_wsdl_deleteQuestInstanceResponse.prototype.serialize = backend_com_w
 
 function backend_com_wsdl_deleteQuestInstanceResponse_deserialize (cxfjsutils, element) {
     var newobject = new backend_com_wsdl_deleteQuestInstanceResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}setTreePartActiveResponse
+//
+function backend_com_wsdl_setTreePartActiveResponse () {
+    this.typeMarker = 'backend_com_wsdl_setTreePartActiveResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setTreePartActiveResponse
+//
+function backend_com_wsdl_setTreePartActiveResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setTreePartActiveResponse.prototype.serialize = backend_com_wsdl_setTreePartActiveResponse_serialize;
+
+function backend_com_wsdl_setTreePartActiveResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setTreePartActiveResponse();
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
@@ -1619,6 +2100,44 @@ function backend_com_wsdl_addActionResponse_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setTreePartExecutedAtResponse
+//
+function backend_com_wsdl_setTreePartExecutedAtResponse () {
+    this.typeMarker = 'backend_com_wsdl_setTreePartExecutedAtResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setTreePartExecutedAtResponse
+//
+function backend_com_wsdl_setTreePartExecutedAtResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setTreePartExecutedAtResponse.prototype.serialize = backend_com_wsdl_setTreePartExecutedAtResponse_serialize;
+
+function backend_com_wsdl_setTreePartExecutedAtResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setTreePartExecutedAtResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}deleteMarkerResponse
 //
 function backend_com_wsdl_deleteMarkerResponse () {
@@ -1653,6 +2172,80 @@ function backend_com_wsdl_deleteMarkerResponse_deserialize (cxfjsutils, element)
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}getRandomEnemyResponse
+//
+function backend_com_wsdl_getRandomEnemyResponse () {
+    this.typeMarker = 'backend_com_wsdl_getRandomEnemyResponse';
+    this._return = null;
+}
+
+//
+// accessor is backend_com_wsdl_getRandomEnemyResponse.prototype.getReturn
+// element get for return
+// - element type is {http://backend.com/wsdl}enemy
+// - optional element
+//
+// element set for return
+// setter function is is backend_com_wsdl_getRandomEnemyResponse.prototype.setReturn
+//
+function backend_com_wsdl_getRandomEnemyResponse_getReturn() { return this._return;}
+
+backend_com_wsdl_getRandomEnemyResponse.prototype.getReturn = backend_com_wsdl_getRandomEnemyResponse_getReturn;
+
+function backend_com_wsdl_getRandomEnemyResponse_setReturn(value) { this._return = value;}
+
+backend_com_wsdl_getRandomEnemyResponse.prototype.setReturn = backend_com_wsdl_getRandomEnemyResponse_setReturn;
+//
+// Serialize {http://backend.com/wsdl}getRandomEnemyResponse
+//
+function backend_com_wsdl_getRandomEnemyResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._return != null) {
+      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_getRandomEnemyResponse.prototype.serialize = backend_com_wsdl_getRandomEnemyResponse_serialize;
+
+function backend_com_wsdl_getRandomEnemyResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_getRandomEnemyResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_enemy_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
     return newobject;
 }
 
@@ -1878,6 +2471,44 @@ function backend_com_wsdl_getMarker_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setQuestInstanceFailCountResponse
+//
+function backend_com_wsdl_setQuestInstanceFailCountResponse () {
+    this.typeMarker = 'backend_com_wsdl_setQuestInstanceFailCountResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setQuestInstanceFailCountResponse
+//
+function backend_com_wsdl_setQuestInstanceFailCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setQuestInstanceFailCountResponse.prototype.serialize = backend_com_wsdl_setQuestInstanceFailCountResponse_serialize;
+
+function backend_com_wsdl_setQuestInstanceFailCountResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setQuestInstanceFailCountResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}getEditorQuests
 //
 function backend_com_wsdl_getEditorQuests () {
@@ -1962,6 +2593,44 @@ function backend_com_wsdl_getEditorQuests_deserialize (cxfjsutils, element) {
      newobject.setArg0(item);
      var item = null;
     }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserTaskCountResponse
+//
+function backend_com_wsdl_setUserTaskCountResponse () {
+    this.typeMarker = 'backend_com_wsdl_setUserTaskCountResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setUserTaskCountResponse
+//
+function backend_com_wsdl_setUserTaskCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserTaskCountResponse.prototype.serialize = backend_com_wsdl_setUserTaskCountResponse_serialize;
+
+function backend_com_wsdl_setUserTaskCountResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserTaskCountResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
     return newobject;
 }
 
@@ -2258,17 +2927,166 @@ function backend_com_wsdl_setTreePartActive_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserKmWalkedResponse
+//
+function backend_com_wsdl_setUserKmWalkedResponse () {
+    this.typeMarker = 'backend_com_wsdl_setUserKmWalkedResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setUserKmWalkedResponse
+//
+function backend_com_wsdl_setUserKmWalkedResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserKmWalkedResponse.prototype.serialize = backend_com_wsdl_setUserKmWalkedResponse_serialize;
+
+function backend_com_wsdl_setUserKmWalkedResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserKmWalkedResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserAnsweredQuestionsCount
+//
+function backend_com_wsdl_setUserAnsweredQuestionsCount () {
+    this.typeMarker = 'backend_com_wsdl_setUserAnsweredQuestionsCount';
+    this._arg0 = 0;
+    this._arg1 = 0;
+}
+
+//
+// accessor is backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.setArg0
+//
+function backend_com_wsdl_setUserAnsweredQuestionsCount_getArg0() { return this._arg0;}
+
+backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.getArg0 = backend_com_wsdl_setUserAnsweredQuestionsCount_getArg0;
+
+function backend_com_wsdl_setUserAnsweredQuestionsCount_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.setArg0 = backend_com_wsdl_setUserAnsweredQuestionsCount_setArg0;
+//
+// accessor is backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.getArg1
+// element get for arg1
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg1
+// setter function is is backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.setArg1
+//
+function backend_com_wsdl_setUserAnsweredQuestionsCount_getArg1() { return this._arg1;}
+
+backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.getArg1 = backend_com_wsdl_setUserAnsweredQuestionsCount_getArg1;
+
+function backend_com_wsdl_setUserAnsweredQuestionsCount_setArg1(value) { this._arg1 = value;}
+
+backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.setArg1 = backend_com_wsdl_setUserAnsweredQuestionsCount_setArg1;
+//
+// Serialize {http://backend.com/wsdl}setUserAnsweredQuestionsCount
+//
+function backend_com_wsdl_setUserAnsweredQuestionsCount_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg1>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
+     xml = xml + '</arg1>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserAnsweredQuestionsCount.prototype.serialize = backend_com_wsdl_setUserAnsweredQuestionsCount_serialize;
+
+function backend_com_wsdl_setUserAnsweredQuestionsCount_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserAnsweredQuestionsCount();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg1');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg1(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}editorQuest
 //
 function backend_com_wsdl_editorQuest () {
     this.typeMarker = 'backend_com_wsdl_editorQuest';
     this._approved = '';
     this._createrId = 0;
+    this._difficulty = null;
+    this._difficultyRating = 0.0;
     this._htmlId = 0;
     this._id = 0;
-    this._markers = [];
     this._name = null;
+    this._qualityRating = 0.0;
     this._shortDescription = null;
+    this._specialCards = [];
     this._startMarkerId = 0;
     this._submitted = '';
     this._treeRootId = 0;
@@ -2308,6 +3126,38 @@ function backend_com_wsdl_editorQuest_setCreaterId(value) { this._createrId = va
 
 backend_com_wsdl_editorQuest.prototype.setCreaterId = backend_com_wsdl_editorQuest_setCreaterId;
 //
+// accessor is backend_com_wsdl_editorQuest.prototype.getDifficulty
+// element get for difficulty
+// - element type is {http://backend.com/wsdl}difficultyLevel
+// - optional element
+//
+// element set for difficulty
+// setter function is is backend_com_wsdl_editorQuest.prototype.setDifficulty
+//
+function backend_com_wsdl_editorQuest_getDifficulty() { return this._difficulty;}
+
+backend_com_wsdl_editorQuest.prototype.getDifficulty = backend_com_wsdl_editorQuest_getDifficulty;
+
+function backend_com_wsdl_editorQuest_setDifficulty(value) { this._difficulty = value;}
+
+backend_com_wsdl_editorQuest.prototype.setDifficulty = backend_com_wsdl_editorQuest_setDifficulty;
+//
+// accessor is backend_com_wsdl_editorQuest.prototype.getDifficultyRating
+// element get for difficultyRating
+// - element type is {http://www.w3.org/2001/XMLSchema}float
+// - required element
+//
+// element set for difficultyRating
+// setter function is is backend_com_wsdl_editorQuest.prototype.setDifficultyRating
+//
+function backend_com_wsdl_editorQuest_getDifficultyRating() { return this._difficultyRating;}
+
+backend_com_wsdl_editorQuest.prototype.getDifficultyRating = backend_com_wsdl_editorQuest_getDifficultyRating;
+
+function backend_com_wsdl_editorQuest_setDifficultyRating(value) { this._difficultyRating = value;}
+
+backend_com_wsdl_editorQuest.prototype.setDifficultyRating = backend_com_wsdl_editorQuest_setDifficultyRating;
+//
 // accessor is backend_com_wsdl_editorQuest.prototype.getHtmlId
 // element get for htmlId
 // - element type is {http://www.w3.org/2001/XMLSchema}long
@@ -2340,24 +3190,6 @@ function backend_com_wsdl_editorQuest_setId(value) { this._id = value;}
 
 backend_com_wsdl_editorQuest.prototype.setId = backend_com_wsdl_editorQuest_setId;
 //
-// accessor is backend_com_wsdl_editorQuest.prototype.getMarkers
-// element get for markers
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-// - array
-// - nillable
-//
-// element set for markers
-// setter function is is backend_com_wsdl_editorQuest.prototype.setMarkers
-//
-function backend_com_wsdl_editorQuest_getMarkers() { return this._markers;}
-
-backend_com_wsdl_editorQuest.prototype.getMarkers = backend_com_wsdl_editorQuest_getMarkers;
-
-function backend_com_wsdl_editorQuest_setMarkers(value) { this._markers = value;}
-
-backend_com_wsdl_editorQuest.prototype.setMarkers = backend_com_wsdl_editorQuest_setMarkers;
-//
 // accessor is backend_com_wsdl_editorQuest.prototype.getName
 // element get for name
 // - element type is {http://www.w3.org/2001/XMLSchema}string
@@ -2374,6 +3206,22 @@ function backend_com_wsdl_editorQuest_setName(value) { this._name = value;}
 
 backend_com_wsdl_editorQuest.prototype.setName = backend_com_wsdl_editorQuest_setName;
 //
+// accessor is backend_com_wsdl_editorQuest.prototype.getQualityRating
+// element get for qualityRating
+// - element type is {http://www.w3.org/2001/XMLSchema}float
+// - required element
+//
+// element set for qualityRating
+// setter function is is backend_com_wsdl_editorQuest.prototype.setQualityRating
+//
+function backend_com_wsdl_editorQuest_getQualityRating() { return this._qualityRating;}
+
+backend_com_wsdl_editorQuest.prototype.getQualityRating = backend_com_wsdl_editorQuest_getQualityRating;
+
+function backend_com_wsdl_editorQuest_setQualityRating(value) { this._qualityRating = value;}
+
+backend_com_wsdl_editorQuest.prototype.setQualityRating = backend_com_wsdl_editorQuest_setQualityRating;
+//
 // accessor is backend_com_wsdl_editorQuest.prototype.getShortDescription
 // element get for shortDescription
 // - element type is {http://www.w3.org/2001/XMLSchema}string
@@ -2389,6 +3237,24 @@ backend_com_wsdl_editorQuest.prototype.getShortDescription = backend_com_wsdl_ed
 function backend_com_wsdl_editorQuest_setShortDescription(value) { this._shortDescription = value;}
 
 backend_com_wsdl_editorQuest.prototype.setShortDescription = backend_com_wsdl_editorQuest_setShortDescription;
+//
+// accessor is backend_com_wsdl_editorQuest.prototype.getSpecialCards
+// element get for specialCards
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+// - array
+// - nillable
+//
+// element set for specialCards
+// setter function is is backend_com_wsdl_editorQuest.prototype.setSpecialCards
+//
+function backend_com_wsdl_editorQuest_getSpecialCards() { return this._specialCards;}
+
+backend_com_wsdl_editorQuest.prototype.getSpecialCards = backend_com_wsdl_editorQuest_getSpecialCards;
+
+function backend_com_wsdl_editorQuest_setSpecialCards(value) { this._specialCards = value;}
+
+backend_com_wsdl_editorQuest.prototype.setSpecialCards = backend_com_wsdl_editorQuest_setSpecialCards;
 //
 // accessor is backend_com_wsdl_editorQuest.prototype.getStartMarkerId
 // element get for startMarkerId
@@ -2480,6 +3346,20 @@ function backend_com_wsdl_editorQuest_serialize(cxfjsutils, elementName, extraNa
     }
     // block for local variables
     {
+     if (this._difficulty != null) {
+      xml = xml + '<difficulty>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._difficulty);
+      xml = xml + '</difficulty>';
+     }
+    }
+    // block for local variables
+    {
+     xml = xml + '<difficultyRating>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._difficultyRating);
+     xml = xml + '</difficultyRating>';
+    }
+    // block for local variables
+    {
      xml = xml + '<htmlId>';
      xml = xml + cxfjsutils.escapeXmlEntities(this._htmlId);
      xml = xml + '</htmlId>';
@@ -2492,20 +3372,6 @@ function backend_com_wsdl_editorQuest_serialize(cxfjsutils, elementName, extraNa
     }
     // block for local variables
     {
-     if (this._markers != null) {
-      for (var ax = 0;ax < this._markers.length;ax ++) {
-       if (this._markers[ax] == null) {
-        xml = xml + '<markers xsi:nil=\'true\'/>';
-       } else {
-        xml = xml + '<markers>';
-        xml = xml + cxfjsutils.escapeXmlEntities(this._markers[ax]);
-        xml = xml + '</markers>';
-       }
-      }
-     }
-    }
-    // block for local variables
-    {
      if (this._name != null) {
       xml = xml + '<name>';
       xml = xml + cxfjsutils.escapeXmlEntities(this._name);
@@ -2514,10 +3380,30 @@ function backend_com_wsdl_editorQuest_serialize(cxfjsutils, elementName, extraNa
     }
     // block for local variables
     {
+     xml = xml + '<qualityRating>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._qualityRating);
+     xml = xml + '</qualityRating>';
+    }
+    // block for local variables
+    {
      if (this._shortDescription != null) {
       xml = xml + '<shortDescription>';
       xml = xml + cxfjsutils.escapeXmlEntities(this._shortDescription);
       xml = xml + '</shortDescription>';
+     }
+    }
+    // block for local variables
+    {
+     if (this._specialCards != null) {
+      for (var ax = 0;ax < this._specialCards.length;ax ++) {
+       if (this._specialCards[ax] == null) {
+        xml = xml + '<specialCards xsi:nil=\'true\'/>';
+       } else {
+        xml = xml + '<specialCards>';
+        xml = xml + cxfjsutils.escapeXmlEntities(this._specialCards[ax]);
+        xml = xml + '</specialCards>';
+       }
+      }
      }
     }
     // block for local variables
@@ -2586,6 +3472,32 @@ function backend_com_wsdl_editorQuest_deserialize (cxfjsutils, element) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing difficulty');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'difficulty')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setDifficulty(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing difficultyRating');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseFloat(value);
+    }
+    newobject.setDifficultyRating(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing htmlId');
     var value = null;
     if (!cxfjsutils.isElementNil(curElement)) {
@@ -2610,24 +3522,6 @@ function backend_com_wsdl_editorQuest_deserialize (cxfjsutils, element) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing markers');
-    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'markers')) {
-     item = [];
-     do  {
-      var arrayItem = null;
-      var value = null;
-      if (!cxfjsutils.isElementNil(curElement)) {
-       value = cxfjsutils.getNodeText(curElement);
-       arrayItem = parseInt(value);
-      }
-      item.push(arrayItem);
-      curElement = cxfjsutils.getNextElementSibling(curElement);
-     }
-       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'markers'));
-     newobject.setMarkers(item);
-     var item = null;
-    }
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing name');
     if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'name')) {
      var value = null;
@@ -2642,6 +3536,18 @@ function backend_com_wsdl_editorQuest_deserialize (cxfjsutils, element) {
      }
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing qualityRating');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseFloat(value);
+    }
+    newobject.setQualityRating(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing shortDescription');
     if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'shortDescription')) {
      var value = null;
@@ -2654,6 +3560,24 @@ function backend_com_wsdl_editorQuest_deserialize (cxfjsutils, element) {
      if (curElement != null) {
       curElement = cxfjsutils.getNextElementSibling(curElement);
      }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing specialCards');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'specialCards')) {
+     item = [];
+     do  {
+      var arrayItem = null;
+      var value = null;
+      if (!cxfjsutils.isElementNil(curElement)) {
+       value = cxfjsutils.getNodeText(curElement);
+       arrayItem = parseInt(value);
+      }
+      item.push(arrayItem);
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'specialCards'));
+     newobject.setSpecialCards(item);
+     var item = null;
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing startMarkerId');
@@ -3346,6 +4270,79 @@ function backend_com_wsdl_updateDeck_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}getDeck
+//
+function backend_com_wsdl_getDeck () {
+    this.typeMarker = 'backend_com_wsdl_getDeck';
+    this._arg0 = 0;
+}
+
+//
+// accessor is backend_com_wsdl_getDeck.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_getDeck.prototype.setArg0
+//
+function backend_com_wsdl_getDeck_getArg0() { return this._arg0;}
+
+backend_com_wsdl_getDeck.prototype.getArg0 = backend_com_wsdl_getDeck_getArg0;
+
+function backend_com_wsdl_getDeck_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_getDeck.prototype.setArg0 = backend_com_wsdl_getDeck_setArg0;
+//
+// Serialize {http://backend.com/wsdl}getDeck
+//
+function backend_com_wsdl_getDeck_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_getDeck.prototype.serialize = backend_com_wsdl_getDeck_serialize;
+
+function backend_com_wsdl_getDeck_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_getDeck();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}addDeckResponse
 //
 function backend_com_wsdl_addDeckResponse () {
@@ -3420,33 +4417,33 @@ function backend_com_wsdl_addDeckResponse_deserialize (cxfjsutils, element) {
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}getDeck
+// Constructor for XML Schema item {http://backend.com/wsdl}downloadFileResponse
 //
-function backend_com_wsdl_getDeck () {
-    this.typeMarker = 'backend_com_wsdl_getDeck';
-    this._arg0 = 0;
+function backend_com_wsdl_downloadFileResponse () {
+    this.typeMarker = 'backend_com_wsdl_downloadFileResponse';
+    this._return = null;
 }
 
 //
-// accessor is backend_com_wsdl_getDeck.prototype.getArg0
-// element get for arg0
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
+// accessor is backend_com_wsdl_downloadFileResponse.prototype.getReturn
+// element get for return
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
 //
-// element set for arg0
-// setter function is is backend_com_wsdl_getDeck.prototype.setArg0
+// element set for return
+// setter function is is backend_com_wsdl_downloadFileResponse.prototype.setReturn
 //
-function backend_com_wsdl_getDeck_getArg0() { return this._arg0;}
+function backend_com_wsdl_downloadFileResponse_getReturn() { return this._return;}
 
-backend_com_wsdl_getDeck.prototype.getArg0 = backend_com_wsdl_getDeck_getArg0;
+backend_com_wsdl_downloadFileResponse.prototype.getReturn = backend_com_wsdl_downloadFileResponse_getReturn;
 
-function backend_com_wsdl_getDeck_setArg0(value) { this._arg0 = value;}
+function backend_com_wsdl_downloadFileResponse_setReturn(value) { this._return = value;}
 
-backend_com_wsdl_getDeck.prototype.setArg0 = backend_com_wsdl_getDeck_setArg0;
+backend_com_wsdl_downloadFileResponse.prototype.setReturn = backend_com_wsdl_downloadFileResponse_setReturn;
 //
-// Serialize {http://backend.com/wsdl}getDeck
+// Serialize {http://backend.com/wsdl}downloadFileResponse
 //
-function backend_com_wsdl_getDeck_serialize(cxfjsutils, elementName, extraNamespaces) {
+function backend_com_wsdl_downloadFileResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
     var xml = '';
     if (elementName != null) {
      xml = xml + '<';
@@ -3458,9 +4455,11 @@ function backend_com_wsdl_getDeck_serialize(cxfjsutils, elementName, extraNamesp
     }
     // block for local variables
     {
-     xml = xml + '<arg0>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
-     xml = xml + '</arg0>';
+     if (this._return != null) {
+      xml = xml + '<return>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._return);
+      xml = xml + '</return>';
+     }
     }
     if (elementName != null) {
      xml = xml + '</';
@@ -3470,63 +4469,27 @@ function backend_com_wsdl_getDeck_serialize(cxfjsutils, elementName, extraNamesp
     return xml;
 }
 
-backend_com_wsdl_getDeck.prototype.serialize = backend_com_wsdl_getDeck_serialize;
+backend_com_wsdl_downloadFileResponse.prototype.serialize = backend_com_wsdl_downloadFileResponse_serialize;
 
-function backend_com_wsdl_getDeck_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_getDeck();
+function backend_com_wsdl_downloadFileResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_downloadFileResponse();
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg0');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg0(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    return newobject;
-}
-
-//
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserWonFightsCountResponse
-//
-function backend_com_wsdl_updateUserWonFightsCountResponse () {
-    this.typeMarker = 'backend_com_wsdl_updateUserWonFightsCountResponse';
-}
-
-//
-// Serialize {http://backend.com/wsdl}updateUserWonFightsCountResponse
-//
-function backend_com_wsdl_updateUserWonFightsCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
      }
-     xml = xml + '>';
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
     }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_updateUserWonFightsCountResponse.prototype.serialize = backend_com_wsdl_updateUserWonFightsCountResponse_serialize;
-
-function backend_com_wsdl_updateUserWonFightsCountResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserWonFightsCountResponse();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
     return newobject;
 }
 
@@ -3565,114 +4528,6 @@ function backend_com_wsdl_setQuestInstanceOfTreePartResponse_deserialize (cxfjsu
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
-    return newobject;
-}
-
-//
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserTaskCount
-//
-function backend_com_wsdl_updateUserTaskCount () {
-    this.typeMarker = 'backend_com_wsdl_updateUserTaskCount';
-    this._arg0 = 0;
-    this._arg1 = 0;
-}
-
-//
-// accessor is backend_com_wsdl_updateUserTaskCount.prototype.getArg0
-// element get for arg0
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-//
-// element set for arg0
-// setter function is is backend_com_wsdl_updateUserTaskCount.prototype.setArg0
-//
-function backend_com_wsdl_updateUserTaskCount_getArg0() { return this._arg0;}
-
-backend_com_wsdl_updateUserTaskCount.prototype.getArg0 = backend_com_wsdl_updateUserTaskCount_getArg0;
-
-function backend_com_wsdl_updateUserTaskCount_setArg0(value) { this._arg0 = value;}
-
-backend_com_wsdl_updateUserTaskCount.prototype.setArg0 = backend_com_wsdl_updateUserTaskCount_setArg0;
-//
-// accessor is backend_com_wsdl_updateUserTaskCount.prototype.getArg1
-// element get for arg1
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-//
-// element set for arg1
-// setter function is is backend_com_wsdl_updateUserTaskCount.prototype.setArg1
-//
-function backend_com_wsdl_updateUserTaskCount_getArg1() { return this._arg1;}
-
-backend_com_wsdl_updateUserTaskCount.prototype.getArg1 = backend_com_wsdl_updateUserTaskCount_getArg1;
-
-function backend_com_wsdl_updateUserTaskCount_setArg1(value) { this._arg1 = value;}
-
-backend_com_wsdl_updateUserTaskCount.prototype.setArg1 = backend_com_wsdl_updateUserTaskCount_setArg1;
-//
-// Serialize {http://backend.com/wsdl}updateUserTaskCount
-//
-function backend_com_wsdl_updateUserTaskCount_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    // block for local variables
-    {
-     xml = xml + '<arg0>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
-     xml = xml + '</arg0>';
-    }
-    // block for local variables
-    {
-     xml = xml + '<arg1>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
-     xml = xml + '</arg1>';
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_updateUserTaskCount.prototype.serialize = backend_com_wsdl_updateUserTaskCount_serialize;
-
-function backend_com_wsdl_updateUserTaskCount_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserTaskCount();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg0');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg0(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg1');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg1(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
     return newobject;
 }
 
@@ -3838,6 +4693,12 @@ function backend_com_wsdl_addQuestInstanceResponse_deserialize (cxfjsutils, elem
     return newobject;
 }
 
+//
+// Simple type (enumeration) {http://backend.com/wsdl}difficultyLevel
+//
+// - LOW
+// - MEDIUM
+// - HIGH
 //
 // Constructor for XML Schema item {http://backend.com/wsdl}deleteQuest
 //
@@ -4060,6 +4921,80 @@ function backend_com_wsdl_getTreePartLazyResponse_deserialize (cxfjsutils, eleme
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}getDeckResponse
+//
+function backend_com_wsdl_getDeckResponse () {
+    this.typeMarker = 'backend_com_wsdl_getDeckResponse';
+    this._return = null;
+}
+
+//
+// accessor is backend_com_wsdl_getDeckResponse.prototype.getReturn
+// element get for return
+// - element type is {http://backend.com/wsdl}deck
+// - optional element
+//
+// element set for return
+// setter function is is backend_com_wsdl_getDeckResponse.prototype.setReturn
+//
+function backend_com_wsdl_getDeckResponse_getReturn() { return this._return;}
+
+backend_com_wsdl_getDeckResponse.prototype.getReturn = backend_com_wsdl_getDeckResponse_getReturn;
+
+function backend_com_wsdl_getDeckResponse_setReturn(value) { this._return = value;}
+
+backend_com_wsdl_getDeckResponse.prototype.setReturn = backend_com_wsdl_getDeckResponse_setReturn;
+//
+// Serialize {http://backend.com/wsdl}getDeckResponse
+//
+function backend_com_wsdl_getDeckResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._return != null) {
+      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_getDeckResponse.prototype.serialize = backend_com_wsdl_getDeckResponse_serialize;
+
+function backend_com_wsdl_getDeckResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_getDeckResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_deck_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}updateEditorQuestResponse
 //
 function backend_com_wsdl_updateEditorQuestResponse () {
@@ -4208,80 +5143,6 @@ function backend_com_wsdl_addCardResponse_deserialize (cxfjsutils, element) {
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}getDeckResponse
-//
-function backend_com_wsdl_getDeckResponse () {
-    this.typeMarker = 'backend_com_wsdl_getDeckResponse';
-    this._return = null;
-}
-
-//
-// accessor is backend_com_wsdl_getDeckResponse.prototype.getReturn
-// element get for return
-// - element type is {http://backend.com/wsdl}deck
-// - optional element
-//
-// element set for return
-// setter function is is backend_com_wsdl_getDeckResponse.prototype.setReturn
-//
-function backend_com_wsdl_getDeckResponse_getReturn() { return this._return;}
-
-backend_com_wsdl_getDeckResponse.prototype.getReturn = backend_com_wsdl_getDeckResponse_getReturn;
-
-function backend_com_wsdl_getDeckResponse_setReturn(value) { this._return = value;}
-
-backend_com_wsdl_getDeckResponse.prototype.setReturn = backend_com_wsdl_getDeckResponse_setReturn;
-//
-// Serialize {http://backend.com/wsdl}getDeckResponse
-//
-function backend_com_wsdl_getDeckResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    // block for local variables
-    {
-     if (this._return != null) {
-      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
-     }
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_getDeckResponse.prototype.serialize = backend_com_wsdl_getDeckResponse_serialize;
-
-function backend_com_wsdl_getDeckResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_getDeckResponse();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing return');
-    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
-     var value = null;
-     if (!cxfjsutils.isElementNil(curElement)) {
-      item = backend_com_wsdl_deck_deserialize(cxfjsutils, curElement);
-     }
-     newobject.setReturn(item);
-     var item = null;
-     if (curElement != null) {
-      curElement = cxfjsutils.getNextElementSibling(curElement);
-     }
-    }
-    return newobject;
-}
-
-//
 // Constructor for XML Schema item {http://backend.com/wsdl}deleteActionResponse
 //
 function backend_com_wsdl_deleteActionResponse () {
@@ -4394,126 +5255,33 @@ function backend_com_wsdl_updateCard_deserialize (cxfjsutils, element) {
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserAnsweredQuestionsCountResponse
+// Constructor for XML Schema item {http://backend.com/wsdl}getEnemyResponse
 //
-function backend_com_wsdl_updateUserAnsweredQuestionsCountResponse () {
-    this.typeMarker = 'backend_com_wsdl_updateUserAnsweredQuestionsCountResponse';
+function backend_com_wsdl_getEnemyResponse () {
+    this.typeMarker = 'backend_com_wsdl_getEnemyResponse';
+    this._return = null;
 }
 
 //
-// Serialize {http://backend.com/wsdl}updateUserAnsweredQuestionsCountResponse
+// accessor is backend_com_wsdl_getEnemyResponse.prototype.getReturn
+// element get for return
+// - element type is {http://backend.com/wsdl}enemy
+// - optional element
 //
-function backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
+// element set for return
+// setter function is is backend_com_wsdl_getEnemyResponse.prototype.setReturn
+//
+function backend_com_wsdl_getEnemyResponse_getReturn() { return this._return;}
 
-backend_com_wsdl_updateUserAnsweredQuestionsCountResponse.prototype.serialize = backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_serialize;
+backend_com_wsdl_getEnemyResponse.prototype.getReturn = backend_com_wsdl_getEnemyResponse_getReturn;
 
-function backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserAnsweredQuestionsCountResponse();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    return newobject;
-}
+function backend_com_wsdl_getEnemyResponse_setReturn(value) { this._return = value;}
 
+backend_com_wsdl_getEnemyResponse.prototype.setReturn = backend_com_wsdl_getEnemyResponse_setReturn;
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserTaskCountResponse
+// Serialize {http://backend.com/wsdl}getEnemyResponse
 //
-function backend_com_wsdl_updateUserTaskCountResponse () {
-    this.typeMarker = 'backend_com_wsdl_updateUserTaskCountResponse';
-}
-
-//
-// Serialize {http://backend.com/wsdl}updateUserTaskCountResponse
-//
-function backend_com_wsdl_updateUserTaskCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_updateUserTaskCountResponse.prototype.serialize = backend_com_wsdl_updateUserTaskCountResponse_serialize;
-
-function backend_com_wsdl_updateUserTaskCountResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserTaskCountResponse();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    return newobject;
-}
-
-//
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserKmWalked
-//
-function backend_com_wsdl_updateUserKmWalked () {
-    this.typeMarker = 'backend_com_wsdl_updateUserKmWalked';
-    this._arg0 = 0;
-    this._arg1 = 0.0;
-}
-
-//
-// accessor is backend_com_wsdl_updateUserKmWalked.prototype.getArg0
-// element get for arg0
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-//
-// element set for arg0
-// setter function is is backend_com_wsdl_updateUserKmWalked.prototype.setArg0
-//
-function backend_com_wsdl_updateUserKmWalked_getArg0() { return this._arg0;}
-
-backend_com_wsdl_updateUserKmWalked.prototype.getArg0 = backend_com_wsdl_updateUserKmWalked_getArg0;
-
-function backend_com_wsdl_updateUserKmWalked_setArg0(value) { this._arg0 = value;}
-
-backend_com_wsdl_updateUserKmWalked.prototype.setArg0 = backend_com_wsdl_updateUserKmWalked_setArg0;
-//
-// accessor is backend_com_wsdl_updateUserKmWalked.prototype.getArg1
-// element get for arg1
-// - element type is {http://www.w3.org/2001/XMLSchema}double
-// - required element
-//
-// element set for arg1
-// setter function is is backend_com_wsdl_updateUserKmWalked.prototype.setArg1
-//
-function backend_com_wsdl_updateUserKmWalked_getArg1() { return this._arg1;}
-
-backend_com_wsdl_updateUserKmWalked.prototype.getArg1 = backend_com_wsdl_updateUserKmWalked_getArg1;
-
-function backend_com_wsdl_updateUserKmWalked_setArg1(value) { this._arg1 = value;}
-
-backend_com_wsdl_updateUserKmWalked.prototype.setArg1 = backend_com_wsdl_updateUserKmWalked_setArg1;
-//
-// Serialize {http://backend.com/wsdl}updateUserKmWalked
-//
-function backend_com_wsdl_updateUserKmWalked_serialize(cxfjsutils, elementName, extraNamespaces) {
+function backend_com_wsdl_getEnemyResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
     var xml = '';
     if (elementName != null) {
      xml = xml + '<';
@@ -4525,15 +5293,9 @@ function backend_com_wsdl_updateUserKmWalked_serialize(cxfjsutils, elementName, 
     }
     // block for local variables
     {
-     xml = xml + '<arg0>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
-     xml = xml + '</arg0>';
-    }
-    // block for local variables
-    {
-     xml = xml + '<arg1>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
-     xml = xml + '</arg1>';
+     if (this._return != null) {
+      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
+     }
     }
     if (elementName != null) {
      xml = xml + '</';
@@ -4543,36 +5305,25 @@ function backend_com_wsdl_updateUserKmWalked_serialize(cxfjsutils, elementName, 
     return xml;
 }
 
-backend_com_wsdl_updateUserKmWalked.prototype.serialize = backend_com_wsdl_updateUserKmWalked_serialize;
+backend_com_wsdl_getEnemyResponse.prototype.serialize = backend_com_wsdl_getEnemyResponse_serialize;
 
-function backend_com_wsdl_updateUserKmWalked_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserKmWalked();
+function backend_com_wsdl_getEnemyResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_getEnemyResponse();
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg0');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg0(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg1');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseFloat(value);
-    }
-    newobject.setArg1(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_enemy_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
     }
     return newobject;
 }
@@ -4652,16 +5403,107 @@ function backend_com_wsdl_updateHtml_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}addQuestRatingResponse
+//
+function backend_com_wsdl_addQuestRatingResponse () {
+    this.typeMarker = 'backend_com_wsdl_addQuestRatingResponse';
+    this._return = null;
+}
+
+//
+// accessor is backend_com_wsdl_addQuestRatingResponse.prototype.getReturn
+// element get for return
+// - element type is {http://backend.com/wsdl}questRating
+// - optional element
+//
+// element set for return
+// setter function is is backend_com_wsdl_addQuestRatingResponse.prototype.setReturn
+//
+function backend_com_wsdl_addQuestRatingResponse_getReturn() { return this._return;}
+
+backend_com_wsdl_addQuestRatingResponse.prototype.getReturn = backend_com_wsdl_addQuestRatingResponse_getReturn;
+
+function backend_com_wsdl_addQuestRatingResponse_setReturn(value) { this._return = value;}
+
+backend_com_wsdl_addQuestRatingResponse.prototype.setReturn = backend_com_wsdl_addQuestRatingResponse_setReturn;
+//
+// Serialize {http://backend.com/wsdl}addQuestRatingResponse
+//
+function backend_com_wsdl_addQuestRatingResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._return != null) {
+      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_addQuestRatingResponse.prototype.serialize = backend_com_wsdl_addQuestRatingResponse_serialize;
+
+function backend_com_wsdl_addQuestRatingResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_addQuestRatingResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_questRating_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}questInstance
 //
 function backend_com_wsdl_questInstance () {
     this.typeMarker = 'backend_com_wsdl_questInstance';
+    this._failCount = 0;
     this._id = 0;
     this._questId = 0;
     this._treeInstanceRootId = 0;
     this._version = null;
 }
 
+//
+// accessor is backend_com_wsdl_questInstance.prototype.getFailCount
+// element get for failCount
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for failCount
+// setter function is is backend_com_wsdl_questInstance.prototype.setFailCount
+//
+function backend_com_wsdl_questInstance_getFailCount() { return this._failCount;}
+
+backend_com_wsdl_questInstance.prototype.getFailCount = backend_com_wsdl_questInstance_getFailCount;
+
+function backend_com_wsdl_questInstance_setFailCount(value) { this._failCount = value;}
+
+backend_com_wsdl_questInstance.prototype.setFailCount = backend_com_wsdl_questInstance_setFailCount;
 //
 // accessor is backend_com_wsdl_questInstance.prototype.getId
 // element get for id
@@ -4741,6 +5583,12 @@ function backend_com_wsdl_questInstance_serialize(cxfjsutils, elementName, extra
     }
     // block for local variables
     {
+     xml = xml + '<failCount>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._failCount);
+     xml = xml + '</failCount>';
+    }
+    // block for local variables
+    {
      xml = xml + '<id>';
      xml = xml + cxfjsutils.escapeXmlEntities(this._id);
      xml = xml + '</id>';
@@ -4780,6 +5628,18 @@ function backend_com_wsdl_questInstance_deserialize (cxfjsutils, element) {
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing failCount');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setFailCount(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing id');
     var value = null;
@@ -4988,6 +5848,114 @@ function backend_com_wsdl_getMarkersResponse_deserialize (cxfjsutils, element) {
        while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return'));
      newobject.setReturn(item);
      var item = null;
+    }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserKmWalked
+//
+function backend_com_wsdl_setUserKmWalked () {
+    this.typeMarker = 'backend_com_wsdl_setUserKmWalked';
+    this._arg0 = 0;
+    this._arg1 = 0.0;
+}
+
+//
+// accessor is backend_com_wsdl_setUserKmWalked.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_setUserKmWalked.prototype.setArg0
+//
+function backend_com_wsdl_setUserKmWalked_getArg0() { return this._arg0;}
+
+backend_com_wsdl_setUserKmWalked.prototype.getArg0 = backend_com_wsdl_setUserKmWalked_getArg0;
+
+function backend_com_wsdl_setUserKmWalked_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_setUserKmWalked.prototype.setArg0 = backend_com_wsdl_setUserKmWalked_setArg0;
+//
+// accessor is backend_com_wsdl_setUserKmWalked.prototype.getArg1
+// element get for arg1
+// - element type is {http://www.w3.org/2001/XMLSchema}double
+// - required element
+//
+// element set for arg1
+// setter function is is backend_com_wsdl_setUserKmWalked.prototype.setArg1
+//
+function backend_com_wsdl_setUserKmWalked_getArg1() { return this._arg1;}
+
+backend_com_wsdl_setUserKmWalked.prototype.getArg1 = backend_com_wsdl_setUserKmWalked_getArg1;
+
+function backend_com_wsdl_setUserKmWalked_setArg1(value) { this._arg1 = value;}
+
+backend_com_wsdl_setUserKmWalked.prototype.setArg1 = backend_com_wsdl_setUserKmWalked_setArg1;
+//
+// Serialize {http://backend.com/wsdl}setUserKmWalked
+//
+function backend_com_wsdl_setUserKmWalked_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg1>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
+     xml = xml + '</arg1>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserKmWalked.prototype.serialize = backend_com_wsdl_setUserKmWalked_serialize;
+
+function backend_com_wsdl_setUserKmWalked_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserKmWalked();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg1');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseFloat(value);
+    }
+    newobject.setArg1(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     return newobject;
 }
@@ -5744,114 +6712,6 @@ function backend_com_wsdl_addUser_deserialize (cxfjsutils, element) {
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserWonFightsCount
-//
-function backend_com_wsdl_updateUserWonFightsCount () {
-    this.typeMarker = 'backend_com_wsdl_updateUserWonFightsCount';
-    this._arg0 = 0;
-    this._arg1 = 0;
-}
-
-//
-// accessor is backend_com_wsdl_updateUserWonFightsCount.prototype.getArg0
-// element get for arg0
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-//
-// element set for arg0
-// setter function is is backend_com_wsdl_updateUserWonFightsCount.prototype.setArg0
-//
-function backend_com_wsdl_updateUserWonFightsCount_getArg0() { return this._arg0;}
-
-backend_com_wsdl_updateUserWonFightsCount.prototype.getArg0 = backend_com_wsdl_updateUserWonFightsCount_getArg0;
-
-function backend_com_wsdl_updateUserWonFightsCount_setArg0(value) { this._arg0 = value;}
-
-backend_com_wsdl_updateUserWonFightsCount.prototype.setArg0 = backend_com_wsdl_updateUserWonFightsCount_setArg0;
-//
-// accessor is backend_com_wsdl_updateUserWonFightsCount.prototype.getArg1
-// element get for arg1
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-//
-// element set for arg1
-// setter function is is backend_com_wsdl_updateUserWonFightsCount.prototype.setArg1
-//
-function backend_com_wsdl_updateUserWonFightsCount_getArg1() { return this._arg1;}
-
-backend_com_wsdl_updateUserWonFightsCount.prototype.getArg1 = backend_com_wsdl_updateUserWonFightsCount_getArg1;
-
-function backend_com_wsdl_updateUserWonFightsCount_setArg1(value) { this._arg1 = value;}
-
-backend_com_wsdl_updateUserWonFightsCount.prototype.setArg1 = backend_com_wsdl_updateUserWonFightsCount_setArg1;
-//
-// Serialize {http://backend.com/wsdl}updateUserWonFightsCount
-//
-function backend_com_wsdl_updateUserWonFightsCount_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    // block for local variables
-    {
-     xml = xml + '<arg0>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
-     xml = xml + '</arg0>';
-    }
-    // block for local variables
-    {
-     xml = xml + '<arg1>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
-     xml = xml + '</arg1>';
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_updateUserWonFightsCount.prototype.serialize = backend_com_wsdl_updateUserWonFightsCount_serialize;
-
-function backend_com_wsdl_updateUserWonFightsCount_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserWonFightsCount();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg0');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg0(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg1');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg1(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    return newobject;
-}
-
-//
 // Constructor for XML Schema item {http://backend.com/wsdl}updateDeckResponse
 //
 function backend_com_wsdl_updateDeckResponse () {
@@ -5933,80 +6793,6 @@ function backend_com_wsdl_updateDeckResponse_deserialize (cxfjsutils, element) {
 // - QUIZ
 // - FIGHT
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}getCardResponse
-//
-function backend_com_wsdl_getCardResponse () {
-    this.typeMarker = 'backend_com_wsdl_getCardResponse';
-    this._return = null;
-}
-
-//
-// accessor is backend_com_wsdl_getCardResponse.prototype.getReturn
-// element get for return
-// - element type is {http://backend.com/wsdl}card
-// - optional element
-//
-// element set for return
-// setter function is is backend_com_wsdl_getCardResponse.prototype.setReturn
-//
-function backend_com_wsdl_getCardResponse_getReturn() { return this._return;}
-
-backend_com_wsdl_getCardResponse.prototype.getReturn = backend_com_wsdl_getCardResponse_getReturn;
-
-function backend_com_wsdl_getCardResponse_setReturn(value) { this._return = value;}
-
-backend_com_wsdl_getCardResponse.prototype.setReturn = backend_com_wsdl_getCardResponse_setReturn;
-//
-// Serialize {http://backend.com/wsdl}getCardResponse
-//
-function backend_com_wsdl_getCardResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    // block for local variables
-    {
-     if (this._return != null) {
-      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
-     }
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_getCardResponse.prototype.serialize = backend_com_wsdl_getCardResponse_serialize;
-
-function backend_com_wsdl_getCardResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_getCardResponse();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing return');
-    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
-     var value = null;
-     if (!cxfjsutils.isElementNil(curElement)) {
-      item = backend_com_wsdl_card_deserialize(cxfjsutils, curElement);
-     }
-     newobject.setReturn(item);
-     var item = null;
-     if (curElement != null) {
-      curElement = cxfjsutils.getNextElementSibling(curElement);
-     }
-    }
-    return newobject;
-}
-
-//
 // Constructor for XML Schema item {http://backend.com/wsdl}addQuest
 //
 function backend_com_wsdl_addQuest () {
@@ -6081,16 +6867,33 @@ function backend_com_wsdl_addQuest_deserialize (cxfjsutils, element) {
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserFoundLocationsCountResponse
+// Constructor for XML Schema item {http://backend.com/wsdl}getCardResponse
 //
-function backend_com_wsdl_updateUserFoundLocationsCountResponse () {
-    this.typeMarker = 'backend_com_wsdl_updateUserFoundLocationsCountResponse';
+function backend_com_wsdl_getCardResponse () {
+    this.typeMarker = 'backend_com_wsdl_getCardResponse';
+    this._return = null;
 }
 
 //
-// Serialize {http://backend.com/wsdl}updateUserFoundLocationsCountResponse
+// accessor is backend_com_wsdl_getCardResponse.prototype.getReturn
+// element get for return
+// - element type is {http://backend.com/wsdl}card
+// - optional element
 //
-function backend_com_wsdl_updateUserFoundLocationsCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+// element set for return
+// setter function is is backend_com_wsdl_getCardResponse.prototype.setReturn
+//
+function backend_com_wsdl_getCardResponse_getReturn() { return this._return;}
+
+backend_com_wsdl_getCardResponse.prototype.getReturn = backend_com_wsdl_getCardResponse_getReturn;
+
+function backend_com_wsdl_getCardResponse_setReturn(value) { this._return = value;}
+
+backend_com_wsdl_getCardResponse.prototype.setReturn = backend_com_wsdl_getCardResponse_setReturn;
+//
+// Serialize {http://backend.com/wsdl}getCardResponse
+//
+function backend_com_wsdl_getCardResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
     var xml = '';
     if (elementName != null) {
      xml = xml + '<';
@@ -6100,6 +6903,12 @@ function backend_com_wsdl_updateUserFoundLocationsCountResponse_serialize(cxfjsu
      }
      xml = xml + '>';
     }
+    // block for local variables
+    {
+     if (this._return != null) {
+      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
+     }
+    }
     if (elementName != null) {
      xml = xml + '</';
      xml = xml + elementName;
@@ -6108,13 +6917,26 @@ function backend_com_wsdl_updateUserFoundLocationsCountResponse_serialize(cxfjsu
     return xml;
 }
 
-backend_com_wsdl_updateUserFoundLocationsCountResponse.prototype.serialize = backend_com_wsdl_updateUserFoundLocationsCountResponse_serialize;
+backend_com_wsdl_getCardResponse.prototype.serialize = backend_com_wsdl_getCardResponse_serialize;
 
-function backend_com_wsdl_updateUserFoundLocationsCountResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserFoundLocationsCountResponse();
+function backend_com_wsdl_getCardResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_getCardResponse();
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_card_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
     return newobject;
 }
 
@@ -6464,6 +7286,244 @@ function backend_com_wsdl_deleteTreePartResponse_deserialize (cxfjsutils, elemen
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}enemy
+//
+function backend_com_wsdl_enemy () {
+    this.typeMarker = 'backend_com_wsdl_enemy';
+    this._cardIds = [];
+    this._description = null;
+    this._id = 0;
+    this._imageUrl = null;
+    this._name = null;
+}
+
+//
+// accessor is backend_com_wsdl_enemy.prototype.getCardIds
+// element get for cardIds
+// - element type is {http://backend.com/wsdl}longToIntEntry
+// - required element
+// - array
+// - nillable
+//
+// element set for cardIds
+// setter function is is backend_com_wsdl_enemy.prototype.setCardIds
+//
+function backend_com_wsdl_enemy_getCardIds() { return this._cardIds;}
+
+backend_com_wsdl_enemy.prototype.getCardIds = backend_com_wsdl_enemy_getCardIds;
+
+function backend_com_wsdl_enemy_setCardIds(value) { this._cardIds = value;}
+
+backend_com_wsdl_enemy.prototype.setCardIds = backend_com_wsdl_enemy_setCardIds;
+//
+// accessor is backend_com_wsdl_enemy.prototype.getDescription
+// element get for description
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for description
+// setter function is is backend_com_wsdl_enemy.prototype.setDescription
+//
+function backend_com_wsdl_enemy_getDescription() { return this._description;}
+
+backend_com_wsdl_enemy.prototype.getDescription = backend_com_wsdl_enemy_getDescription;
+
+function backend_com_wsdl_enemy_setDescription(value) { this._description = value;}
+
+backend_com_wsdl_enemy.prototype.setDescription = backend_com_wsdl_enemy_setDescription;
+//
+// accessor is backend_com_wsdl_enemy.prototype.getId
+// element get for id
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for id
+// setter function is is backend_com_wsdl_enemy.prototype.setId
+//
+function backend_com_wsdl_enemy_getId() { return this._id;}
+
+backend_com_wsdl_enemy.prototype.getId = backend_com_wsdl_enemy_getId;
+
+function backend_com_wsdl_enemy_setId(value) { this._id = value;}
+
+backend_com_wsdl_enemy.prototype.setId = backend_com_wsdl_enemy_setId;
+//
+// accessor is backend_com_wsdl_enemy.prototype.getImageUrl
+// element get for imageUrl
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for imageUrl
+// setter function is is backend_com_wsdl_enemy.prototype.setImageUrl
+//
+function backend_com_wsdl_enemy_getImageUrl() { return this._imageUrl;}
+
+backend_com_wsdl_enemy.prototype.getImageUrl = backend_com_wsdl_enemy_getImageUrl;
+
+function backend_com_wsdl_enemy_setImageUrl(value) { this._imageUrl = value;}
+
+backend_com_wsdl_enemy.prototype.setImageUrl = backend_com_wsdl_enemy_setImageUrl;
+//
+// accessor is backend_com_wsdl_enemy.prototype.getName
+// element get for name
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for name
+// setter function is is backend_com_wsdl_enemy.prototype.setName
+//
+function backend_com_wsdl_enemy_getName() { return this._name;}
+
+backend_com_wsdl_enemy.prototype.getName = backend_com_wsdl_enemy_getName;
+
+function backend_com_wsdl_enemy_setName(value) { this._name = value;}
+
+backend_com_wsdl_enemy.prototype.setName = backend_com_wsdl_enemy_setName;
+//
+// Serialize {http://backend.com/wsdl}enemy
+//
+function backend_com_wsdl_enemy_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._cardIds != null) {
+      for (var ax = 0;ax < this._cardIds.length;ax ++) {
+       if (this._cardIds[ax] == null) {
+        xml = xml + '<cardIds xsi:nil=\'true\'/>';
+       } else {
+        xml = xml + this._cardIds[ax].serialize(cxfjsutils, 'cardIds', null);
+       }
+      }
+     }
+    }
+    // block for local variables
+    {
+     if (this._description != null) {
+      xml = xml + '<description>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._description);
+      xml = xml + '</description>';
+     }
+    }
+    // block for local variables
+    {
+     xml = xml + '<id>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._id);
+     xml = xml + '</id>';
+    }
+    // block for local variables
+    {
+     if (this._imageUrl != null) {
+      xml = xml + '<imageUrl>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._imageUrl);
+      xml = xml + '</imageUrl>';
+     }
+    }
+    // block for local variables
+    {
+     if (this._name != null) {
+      xml = xml + '<name>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._name);
+      xml = xml + '</name>';
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_enemy.prototype.serialize = backend_com_wsdl_enemy_serialize;
+
+function backend_com_wsdl_enemy_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_enemy();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing cardIds');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'cardIds')) {
+     item = [];
+     do  {
+      var arrayItem = null;
+      var value = null;
+      if (!cxfjsutils.isElementNil(curElement)) {
+       arrayItem = backend_com_wsdl_longToIntEntry_deserialize(cxfjsutils, curElement);
+      }
+      item.push(arrayItem);
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'cardIds'));
+     newobject.setCardIds(item);
+     var item = null;
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing description');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'description')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setDescription(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing id');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setId(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing imageUrl');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'imageUrl')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setImageUrl(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing name');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'name')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setName(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}setTreePartOpened
 //
 function backend_com_wsdl_setTreePartOpened () {
@@ -6568,6 +7628,44 @@ function backend_com_wsdl_setTreePartOpened_deserialize (cxfjsutils, element) {
     if (curElement != null) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
     }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}getRandomEnemy
+//
+function backend_com_wsdl_getRandomEnemy () {
+    this.typeMarker = 'backend_com_wsdl_getRandomEnemy';
+}
+
+//
+// Serialize {http://backend.com/wsdl}getRandomEnemy
+//
+function backend_com_wsdl_getRandomEnemy_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_getRandomEnemy.prototype.serialize = backend_com_wsdl_getRandomEnemy_serialize;
+
+function backend_com_wsdl_getRandomEnemy_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_getRandomEnemy();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
     return newobject;
 }
 
@@ -6830,6 +7928,83 @@ function backend_com_wsdl_deleteQuestInstance_deserialize (cxfjsutils, element) 
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}downloadFile
+//
+function backend_com_wsdl_downloadFile () {
+    this.typeMarker = 'backend_com_wsdl_downloadFile';
+    this._arg0 = null;
+}
+
+//
+// accessor is backend_com_wsdl_downloadFile.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_downloadFile.prototype.setArg0
+//
+function backend_com_wsdl_downloadFile_getArg0() { return this._arg0;}
+
+backend_com_wsdl_downloadFile.prototype.getArg0 = backend_com_wsdl_downloadFile_getArg0;
+
+function backend_com_wsdl_downloadFile_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_downloadFile.prototype.setArg0 = backend_com_wsdl_downloadFile_setArg0;
+//
+// Serialize {http://backend.com/wsdl}downloadFile
+//
+function backend_com_wsdl_downloadFile_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._arg0 != null) {
+      xml = xml + '<arg0>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+      xml = xml + '</arg0>';
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_downloadFile.prototype.serialize = backend_com_wsdl_downloadFile_serialize;
+
+function backend_com_wsdl_downloadFile_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_downloadFile();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'arg0')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setArg0(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}getQuest
 //
 function backend_com_wsdl_getQuest () {
@@ -7006,6 +8181,80 @@ function backend_com_wsdl_setQuestInstanceOfTreePart_deserialize (cxfjsutils, el
     var item = null;
     if (curElement != null) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}addEnemyResponse
+//
+function backend_com_wsdl_addEnemyResponse () {
+    this.typeMarker = 'backend_com_wsdl_addEnemyResponse';
+    this._return = null;
+}
+
+//
+// accessor is backend_com_wsdl_addEnemyResponse.prototype.getReturn
+// element get for return
+// - element type is {http://backend.com/wsdl}deck
+// - optional element
+//
+// element set for return
+// setter function is is backend_com_wsdl_addEnemyResponse.prototype.setReturn
+//
+function backend_com_wsdl_addEnemyResponse_getReturn() { return this._return;}
+
+backend_com_wsdl_addEnemyResponse.prototype.getReturn = backend_com_wsdl_addEnemyResponse_getReturn;
+
+function backend_com_wsdl_addEnemyResponse_setReturn(value) { this._return = value;}
+
+backend_com_wsdl_addEnemyResponse.prototype.setReturn = backend_com_wsdl_addEnemyResponse_setReturn;
+//
+// Serialize {http://backend.com/wsdl}addEnemyResponse
+//
+function backend_com_wsdl_addEnemyResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._return != null) {
+      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_addEnemyResponse.prototype.serialize = backend_com_wsdl_addEnemyResponse_serialize;
+
+function backend_com_wsdl_addEnemyResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_addEnemyResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_deck_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
     }
     return newobject;
 }
@@ -7254,6 +8503,114 @@ function backend_com_wsdl_deleteTreePart_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserFoundLocationsCount
+//
+function backend_com_wsdl_setUserFoundLocationsCount () {
+    this.typeMarker = 'backend_com_wsdl_setUserFoundLocationsCount';
+    this._arg0 = 0;
+    this._arg1 = 0;
+}
+
+//
+// accessor is backend_com_wsdl_setUserFoundLocationsCount.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_setUserFoundLocationsCount.prototype.setArg0
+//
+function backend_com_wsdl_setUserFoundLocationsCount_getArg0() { return this._arg0;}
+
+backend_com_wsdl_setUserFoundLocationsCount.prototype.getArg0 = backend_com_wsdl_setUserFoundLocationsCount_getArg0;
+
+function backend_com_wsdl_setUserFoundLocationsCount_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_setUserFoundLocationsCount.prototype.setArg0 = backend_com_wsdl_setUserFoundLocationsCount_setArg0;
+//
+// accessor is backend_com_wsdl_setUserFoundLocationsCount.prototype.getArg1
+// element get for arg1
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg1
+// setter function is is backend_com_wsdl_setUserFoundLocationsCount.prototype.setArg1
+//
+function backend_com_wsdl_setUserFoundLocationsCount_getArg1() { return this._arg1;}
+
+backend_com_wsdl_setUserFoundLocationsCount.prototype.getArg1 = backend_com_wsdl_setUserFoundLocationsCount_getArg1;
+
+function backend_com_wsdl_setUserFoundLocationsCount_setArg1(value) { this._arg1 = value;}
+
+backend_com_wsdl_setUserFoundLocationsCount.prototype.setArg1 = backend_com_wsdl_setUserFoundLocationsCount_setArg1;
+//
+// Serialize {http://backend.com/wsdl}setUserFoundLocationsCount
+//
+function backend_com_wsdl_setUserFoundLocationsCount_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg1>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
+     xml = xml + '</arg1>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserFoundLocationsCount.prototype.serialize = backend_com_wsdl_setUserFoundLocationsCount_serialize;
+
+function backend_com_wsdl_setUserFoundLocationsCount_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserFoundLocationsCount();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg1');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg1(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}getEditorQuest
 //
 function backend_com_wsdl_getEditorQuest () {
@@ -7475,6 +8832,44 @@ function backend_com_wsdl_addOrUpdateMarker_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserMoneyResponse
+//
+function backend_com_wsdl_setUserMoneyResponse () {
+    this.typeMarker = 'backend_com_wsdl_setUserMoneyResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setUserMoneyResponse
+//
+function backend_com_wsdl_setUserMoneyResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserMoneyResponse.prototype.serialize = backend_com_wsdl_setUserMoneyResponse_serialize;
+
+function backend_com_wsdl_setUserMoneyResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserMoneyResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}addAction
 //
 function backend_com_wsdl_addAction () {
@@ -7549,6 +8944,44 @@ function backend_com_wsdl_addAction_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserWonFightsCountResponse
+//
+function backend_com_wsdl_setUserWonFightsCountResponse () {
+    this.typeMarker = 'backend_com_wsdl_setUserWonFightsCountResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setUserWonFightsCountResponse
+//
+function backend_com_wsdl_setUserWonFightsCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserWonFightsCountResponse.prototype.serialize = backend_com_wsdl_setUserWonFightsCountResponse_serialize;
+
+function backend_com_wsdl_setUserWonFightsCountResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserWonFightsCountResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}user
 //
 function backend_com_wsdl_user () {
@@ -7556,11 +8989,13 @@ function backend_com_wsdl_user () {
     this._activeQuestIds = [];
     this._answeredQuestionsCount = 0;
     this._cardIds = [];
+    this._createdCardIds = [];
     this._createdQuestIds = [];
     this._deckIds = [];
     this._foundLocationsCount = 0;
     this._id = 0;
     this._kmWalked = 0.0;
+    this._money = 0;
     this._name = null;
     this._password = null;
     this._solvedQuestIds = [];
@@ -7620,6 +9055,24 @@ backend_com_wsdl_user.prototype.getCardIds = backend_com_wsdl_user_getCardIds;
 function backend_com_wsdl_user_setCardIds(value) { this._cardIds = value;}
 
 backend_com_wsdl_user.prototype.setCardIds = backend_com_wsdl_user_setCardIds;
+//
+// accessor is backend_com_wsdl_user.prototype.getCreatedCardIds
+// element get for createdCardIds
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+// - array
+// - nillable
+//
+// element set for createdCardIds
+// setter function is is backend_com_wsdl_user.prototype.setCreatedCardIds
+//
+function backend_com_wsdl_user_getCreatedCardIds() { return this._createdCardIds;}
+
+backend_com_wsdl_user.prototype.getCreatedCardIds = backend_com_wsdl_user_getCreatedCardIds;
+
+function backend_com_wsdl_user_setCreatedCardIds(value) { this._createdCardIds = value;}
+
+backend_com_wsdl_user.prototype.setCreatedCardIds = backend_com_wsdl_user_setCreatedCardIds;
 //
 // accessor is backend_com_wsdl_user.prototype.getCreatedQuestIds
 // element get for createdQuestIds
@@ -7704,6 +9157,22 @@ backend_com_wsdl_user.prototype.getKmWalked = backend_com_wsdl_user_getKmWalked;
 function backend_com_wsdl_user_setKmWalked(value) { this._kmWalked = value;}
 
 backend_com_wsdl_user.prototype.setKmWalked = backend_com_wsdl_user_setKmWalked;
+//
+// accessor is backend_com_wsdl_user.prototype.getMoney
+// element get for money
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for money
+// setter function is is backend_com_wsdl_user.prototype.setMoney
+//
+function backend_com_wsdl_user_getMoney() { return this._money;}
+
+backend_com_wsdl_user.prototype.getMoney = backend_com_wsdl_user_getMoney;
+
+function backend_com_wsdl_user_setMoney(value) { this._money = value;}
+
+backend_com_wsdl_user.prototype.setMoney = backend_com_wsdl_user_setMoney;
 //
 // accessor is backend_com_wsdl_user.prototype.getName
 // element get for name
@@ -7833,6 +9302,20 @@ function backend_com_wsdl_user_serialize(cxfjsutils, elementName, extraNamespace
     }
     // block for local variables
     {
+     if (this._createdCardIds != null) {
+      for (var ax = 0;ax < this._createdCardIds.length;ax ++) {
+       if (this._createdCardIds[ax] == null) {
+        xml = xml + '<createdCardIds xsi:nil=\'true\'/>';
+       } else {
+        xml = xml + '<createdCardIds>';
+        xml = xml + cxfjsutils.escapeXmlEntities(this._createdCardIds[ax]);
+        xml = xml + '</createdCardIds>';
+       }
+      }
+     }
+    }
+    // block for local variables
+    {
      if (this._createdQuestIds != null) {
       for (var ax = 0;ax < this._createdQuestIds.length;ax ++) {
        if (this._createdQuestIds[ax] == null) {
@@ -7876,6 +9359,12 @@ function backend_com_wsdl_user_serialize(cxfjsutils, elementName, extraNamespace
      xml = xml + '<kmWalked>';
      xml = xml + cxfjsutils.escapeXmlEntities(this._kmWalked);
      xml = xml + '</kmWalked>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<money>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._money);
+     xml = xml + '</money>';
     }
     // block for local variables
     {
@@ -7982,6 +9471,24 @@ function backend_com_wsdl_user_deserialize (cxfjsutils, element) {
      var item = null;
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing createdCardIds');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'createdCardIds')) {
+     item = [];
+     do  {
+      var arrayItem = null;
+      var value = null;
+      if (!cxfjsutils.isElementNil(curElement)) {
+       value = cxfjsutils.getNodeText(curElement);
+       arrayItem = parseInt(value);
+      }
+      item.push(arrayItem);
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'createdCardIds'));
+     newobject.setCreatedCardIds(item);
+     var item = null;
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing createdQuestIds');
     if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'createdQuestIds')) {
      item = [];
@@ -8049,6 +9556,18 @@ function backend_com_wsdl_user_deserialize (cxfjsutils, element) {
      item = parseFloat(value);
     }
     newobject.setKmWalked(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing money');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setMoney(item);
     var item = null;
     if (curElement != null) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
@@ -8382,50 +9901,50 @@ function backend_com_wsdl_setTreePartFinished_deserialize (cxfjsutils, element) 
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserAnsweredQuestionsCount
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserMoney
 //
-function backend_com_wsdl_updateUserAnsweredQuestionsCount () {
-    this.typeMarker = 'backend_com_wsdl_updateUserAnsweredQuestionsCount';
+function backend_com_wsdl_setUserMoney () {
+    this.typeMarker = 'backend_com_wsdl_setUserMoney';
     this._arg0 = 0;
     this._arg1 = 0;
 }
 
 //
-// accessor is backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.getArg0
+// accessor is backend_com_wsdl_setUserMoney.prototype.getArg0
 // element get for arg0
 // - element type is {http://www.w3.org/2001/XMLSchema}long
 // - required element
 //
 // element set for arg0
-// setter function is is backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.setArg0
+// setter function is is backend_com_wsdl_setUserMoney.prototype.setArg0
 //
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_getArg0() { return this._arg0;}
+function backend_com_wsdl_setUserMoney_getArg0() { return this._arg0;}
 
-backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.getArg0 = backend_com_wsdl_updateUserAnsweredQuestionsCount_getArg0;
+backend_com_wsdl_setUserMoney.prototype.getArg0 = backend_com_wsdl_setUserMoney_getArg0;
 
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_setArg0(value) { this._arg0 = value;}
+function backend_com_wsdl_setUserMoney_setArg0(value) { this._arg0 = value;}
 
-backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.setArg0 = backend_com_wsdl_updateUserAnsweredQuestionsCount_setArg0;
+backend_com_wsdl_setUserMoney.prototype.setArg0 = backend_com_wsdl_setUserMoney_setArg0;
 //
-// accessor is backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.getArg1
+// accessor is backend_com_wsdl_setUserMoney.prototype.getArg1
 // element get for arg1
 // - element type is {http://www.w3.org/2001/XMLSchema}long
 // - required element
 //
 // element set for arg1
-// setter function is is backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.setArg1
+// setter function is is backend_com_wsdl_setUserMoney.prototype.setArg1
 //
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_getArg1() { return this._arg1;}
+function backend_com_wsdl_setUserMoney_getArg1() { return this._arg1;}
 
-backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.getArg1 = backend_com_wsdl_updateUserAnsweredQuestionsCount_getArg1;
+backend_com_wsdl_setUserMoney.prototype.getArg1 = backend_com_wsdl_setUserMoney_getArg1;
 
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_setArg1(value) { this._arg1 = value;}
+function backend_com_wsdl_setUserMoney_setArg1(value) { this._arg1 = value;}
 
-backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.setArg1 = backend_com_wsdl_updateUserAnsweredQuestionsCount_setArg1;
+backend_com_wsdl_setUserMoney.prototype.setArg1 = backend_com_wsdl_setUserMoney_setArg1;
 //
-// Serialize {http://backend.com/wsdl}updateUserAnsweredQuestionsCount
+// Serialize {http://backend.com/wsdl}setUserMoney
 //
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_serialize(cxfjsutils, elementName, extraNamespaces) {
+function backend_com_wsdl_setUserMoney_serialize(cxfjsutils, elementName, extraNamespaces) {
     var xml = '';
     if (elementName != null) {
      xml = xml + '<';
@@ -8455,10 +9974,10 @@ function backend_com_wsdl_updateUserAnsweredQuestionsCount_serialize(cxfjsutils,
     return xml;
 }
 
-backend_com_wsdl_updateUserAnsweredQuestionsCount.prototype.serialize = backend_com_wsdl_updateUserAnsweredQuestionsCount_serialize;
+backend_com_wsdl_setUserMoney.prototype.serialize = backend_com_wsdl_setUserMoney_serialize;
 
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserAnsweredQuestionsCount();
+function backend_com_wsdl_setUserMoney_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserMoney();
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
@@ -8644,6 +10163,80 @@ function backend_com_wsdl_getQuestsInRangeResponse_deserialize (cxfjsutils, elem
        while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return'));
      newobject.setReturn(item);
      var item = null;
+    }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}addEnemy
+//
+function backend_com_wsdl_addEnemy () {
+    this.typeMarker = 'backend_com_wsdl_addEnemy';
+    this._arg0 = null;
+}
+
+//
+// accessor is backend_com_wsdl_addEnemy.prototype.getArg0
+// element get for arg0
+// - element type is {http://backend.com/wsdl}enemy
+// - optional element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_addEnemy.prototype.setArg0
+//
+function backend_com_wsdl_addEnemy_getArg0() { return this._arg0;}
+
+backend_com_wsdl_addEnemy.prototype.getArg0 = backend_com_wsdl_addEnemy_getArg0;
+
+function backend_com_wsdl_addEnemy_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_addEnemy.prototype.setArg0 = backend_com_wsdl_addEnemy_setArg0;
+//
+// Serialize {http://backend.com/wsdl}addEnemy
+//
+function backend_com_wsdl_addEnemy_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._arg0 != null) {
+      xml = xml + this._arg0.serialize(cxfjsutils, 'arg0', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_addEnemy.prototype.serialize = backend_com_wsdl_addEnemy_serialize;
+
+function backend_com_wsdl_addEnemy_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_addEnemy();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'arg0')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_enemy_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setArg0(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
     }
     return newobject;
 }
@@ -8981,6 +10574,80 @@ function backend_com_wsdl_getQuestInstancesResponse_deserialize (cxfjsutils, ele
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}updateEnemyResponse
+//
+function backend_com_wsdl_updateEnemyResponse () {
+    this.typeMarker = 'backend_com_wsdl_updateEnemyResponse';
+    this._return = null;
+}
+
+//
+// accessor is backend_com_wsdl_updateEnemyResponse.prototype.getReturn
+// element get for return
+// - element type is {http://backend.com/wsdl}deck
+// - optional element
+//
+// element set for return
+// setter function is is backend_com_wsdl_updateEnemyResponse.prototype.setReturn
+//
+function backend_com_wsdl_updateEnemyResponse_getReturn() { return this._return;}
+
+backend_com_wsdl_updateEnemyResponse.prototype.getReturn = backend_com_wsdl_updateEnemyResponse_getReturn;
+
+function backend_com_wsdl_updateEnemyResponse_setReturn(value) { this._return = value;}
+
+backend_com_wsdl_updateEnemyResponse.prototype.setReturn = backend_com_wsdl_updateEnemyResponse_setReturn;
+//
+// Serialize {http://backend.com/wsdl}updateEnemyResponse
+//
+function backend_com_wsdl_updateEnemyResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._return != null) {
+      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_updateEnemyResponse.prototype.serialize = backend_com_wsdl_updateEnemyResponse_serialize;
+
+function backend_com_wsdl_updateEnemyResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_updateEnemyResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_deck_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}getActions
 //
 function backend_com_wsdl_getActions () {
@@ -9139,44 +10806,6 @@ function backend_com_wsdl_updateActionResponse_deserialize (cxfjsutils, element)
       curElement = cxfjsutils.getNextElementSibling(curElement);
      }
     }
-    return newobject;
-}
-
-//
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserKmWalkedResponse
-//
-function backend_com_wsdl_updateUserKmWalkedResponse () {
-    this.typeMarker = 'backend_com_wsdl_updateUserKmWalkedResponse';
-}
-
-//
-// Serialize {http://backend.com/wsdl}updateUserKmWalkedResponse
-//
-function backend_com_wsdl_updateUserKmWalkedResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_updateUserKmWalkedResponse.prototype.serialize = backend_com_wsdl_updateUserKmWalkedResponse_serialize;
-
-function backend_com_wsdl_updateUserKmWalkedResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserKmWalkedResponse();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
     return newobject;
 }
 
@@ -9595,10 +11224,84 @@ function backend_com_wsdl_addOrUpdateTreePart_deserialize (cxfjsutils, element) 
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}getEnemy
+//
+function backend_com_wsdl_getEnemy () {
+    this.typeMarker = 'backend_com_wsdl_getEnemy';
+    this._arg0 = 0;
+}
+
+//
+// accessor is backend_com_wsdl_getEnemy.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_getEnemy.prototype.setArg0
+//
+function backend_com_wsdl_getEnemy_getArg0() { return this._arg0;}
+
+backend_com_wsdl_getEnemy.prototype.getArg0 = backend_com_wsdl_getEnemy_getArg0;
+
+function backend_com_wsdl_getEnemy_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_getEnemy.prototype.setArg0 = backend_com_wsdl_getEnemy_setArg0;
+//
+// Serialize {http://backend.com/wsdl}getEnemy
+//
+function backend_com_wsdl_getEnemy_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_getEnemy.prototype.serialize = backend_com_wsdl_getEnemy_serialize;
+
+function backend_com_wsdl_getEnemy_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_getEnemy();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}marker
 //
 function backend_com_wsdl_marker () {
     this.typeMarker = 'backend_com_wsdl_marker';
+    this._enemyId = 0;
     this._finishedHtmlId = 0;
     this._htmlId = 0;
     this._id = 0;
@@ -9609,6 +11312,22 @@ function backend_com_wsdl_marker () {
     this._version = null;
 }
 
+//
+// accessor is backend_com_wsdl_marker.prototype.getEnemyId
+// element get for enemyId
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for enemyId
+// setter function is is backend_com_wsdl_marker.prototype.setEnemyId
+//
+function backend_com_wsdl_marker_getEnemyId() { return this._enemyId;}
+
+backend_com_wsdl_marker.prototype.getEnemyId = backend_com_wsdl_marker_getEnemyId;
+
+function backend_com_wsdl_marker_setEnemyId(value) { this._enemyId = value;}
+
+backend_com_wsdl_marker.prototype.setEnemyId = backend_com_wsdl_marker_setEnemyId;
 //
 // accessor is backend_com_wsdl_marker.prototype.getFinishedHtmlId
 // element get for finishedHtmlId
@@ -9752,6 +11471,12 @@ function backend_com_wsdl_marker_serialize(cxfjsutils, elementName, extraNamespa
     }
     // block for local variables
     {
+     xml = xml + '<enemyId>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._enemyId);
+     xml = xml + '</enemyId>';
+    }
+    // block for local variables
+    {
      xml = xml + '<finishedHtmlId>';
      xml = xml + cxfjsutils.escapeXmlEntities(this._finishedHtmlId);
      xml = xml + '</finishedHtmlId>';
@@ -9819,6 +11544,18 @@ function backend_com_wsdl_marker_deserialize (cxfjsutils, element) {
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing enemyId');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setEnemyId(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing finishedHtmlId');
     var value = null;
@@ -10012,114 +11749,6 @@ function backend_com_wsdl_getDecksResponse_deserialize (cxfjsutils, element) {
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}updateUserFoundLocationsCount
-//
-function backend_com_wsdl_updateUserFoundLocationsCount () {
-    this.typeMarker = 'backend_com_wsdl_updateUserFoundLocationsCount';
-    this._arg0 = 0;
-    this._arg1 = 0;
-}
-
-//
-// accessor is backend_com_wsdl_updateUserFoundLocationsCount.prototype.getArg0
-// element get for arg0
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-//
-// element set for arg0
-// setter function is is backend_com_wsdl_updateUserFoundLocationsCount.prototype.setArg0
-//
-function backend_com_wsdl_updateUserFoundLocationsCount_getArg0() { return this._arg0;}
-
-backend_com_wsdl_updateUserFoundLocationsCount.prototype.getArg0 = backend_com_wsdl_updateUserFoundLocationsCount_getArg0;
-
-function backend_com_wsdl_updateUserFoundLocationsCount_setArg0(value) { this._arg0 = value;}
-
-backend_com_wsdl_updateUserFoundLocationsCount.prototype.setArg0 = backend_com_wsdl_updateUserFoundLocationsCount_setArg0;
-//
-// accessor is backend_com_wsdl_updateUserFoundLocationsCount.prototype.getArg1
-// element get for arg1
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-//
-// element set for arg1
-// setter function is is backend_com_wsdl_updateUserFoundLocationsCount.prototype.setArg1
-//
-function backend_com_wsdl_updateUserFoundLocationsCount_getArg1() { return this._arg1;}
-
-backend_com_wsdl_updateUserFoundLocationsCount.prototype.getArg1 = backend_com_wsdl_updateUserFoundLocationsCount_getArg1;
-
-function backend_com_wsdl_updateUserFoundLocationsCount_setArg1(value) { this._arg1 = value;}
-
-backend_com_wsdl_updateUserFoundLocationsCount.prototype.setArg1 = backend_com_wsdl_updateUserFoundLocationsCount_setArg1;
-//
-// Serialize {http://backend.com/wsdl}updateUserFoundLocationsCount
-//
-function backend_com_wsdl_updateUserFoundLocationsCount_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    // block for local variables
-    {
-     xml = xml + '<arg0>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
-     xml = xml + '</arg0>';
-    }
-    // block for local variables
-    {
-     xml = xml + '<arg1>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
-     xml = xml + '</arg1>';
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_updateUserFoundLocationsCount.prototype.serialize = backend_com_wsdl_updateUserFoundLocationsCount_serialize;
-
-function backend_com_wsdl_updateUserFoundLocationsCount_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_updateUserFoundLocationsCount();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg0');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg0(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg1');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg1(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    return newobject;
-}
-
-//
 // Constructor for XML Schema item {http://backend.com/wsdl}deleteDeckResponse
 //
 function backend_com_wsdl_deleteDeckResponse () {
@@ -10154,6 +11783,80 @@ function backend_com_wsdl_deleteDeckResponse_deserialize (cxfjsutils, element) {
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}addQuestResponse
+//
+function backend_com_wsdl_addQuestResponse () {
+    this.typeMarker = 'backend_com_wsdl_addQuestResponse';
+    this._return = null;
+}
+
+//
+// accessor is backend_com_wsdl_addQuestResponse.prototype.getReturn
+// element get for return
+// - element type is {http://backend.com/wsdl}quest
+// - optional element
+//
+// element set for return
+// setter function is is backend_com_wsdl_addQuestResponse.prototype.setReturn
+//
+function backend_com_wsdl_addQuestResponse_getReturn() { return this._return;}
+
+backend_com_wsdl_addQuestResponse.prototype.getReturn = backend_com_wsdl_addQuestResponse_getReturn;
+
+function backend_com_wsdl_addQuestResponse_setReturn(value) { this._return = value;}
+
+backend_com_wsdl_addQuestResponse.prototype.setReturn = backend_com_wsdl_addQuestResponse_setReturn;
+//
+// Serialize {http://backend.com/wsdl}addQuestResponse
+//
+function backend_com_wsdl_addQuestResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._return != null) {
+      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_addQuestResponse.prototype.serialize = backend_com_wsdl_addQuestResponse_serialize;
+
+function backend_com_wsdl_addQuestResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_addQuestResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_quest_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
     return newobject;
 }
 
@@ -10226,80 +11929,6 @@ function backend_com_wsdl_getAllActionsOfCardType_deserialize (cxfjsutils, eleme
       item = value;
      }
      newobject.setArg0(item);
-     var item = null;
-     if (curElement != null) {
-      curElement = cxfjsutils.getNextElementSibling(curElement);
-     }
-    }
-    return newobject;
-}
-
-//
-// Constructor for XML Schema item {http://backend.com/wsdl}addQuestResponse
-//
-function backend_com_wsdl_addQuestResponse () {
-    this.typeMarker = 'backend_com_wsdl_addQuestResponse';
-    this._return = null;
-}
-
-//
-// accessor is backend_com_wsdl_addQuestResponse.prototype.getReturn
-// element get for return
-// - element type is {http://backend.com/wsdl}quest
-// - optional element
-//
-// element set for return
-// setter function is is backend_com_wsdl_addQuestResponse.prototype.setReturn
-//
-function backend_com_wsdl_addQuestResponse_getReturn() { return this._return;}
-
-backend_com_wsdl_addQuestResponse.prototype.getReturn = backend_com_wsdl_addQuestResponse_getReturn;
-
-function backend_com_wsdl_addQuestResponse_setReturn(value) { this._return = value;}
-
-backend_com_wsdl_addQuestResponse.prototype.setReturn = backend_com_wsdl_addQuestResponse_setReturn;
-//
-// Serialize {http://backend.com/wsdl}addQuestResponse
-//
-function backend_com_wsdl_addQuestResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    // block for local variables
-    {
-     if (this._return != null) {
-      xml = xml + this._return.serialize(cxfjsutils, 'return', null);
-     }
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_addQuestResponse.prototype.serialize = backend_com_wsdl_addQuestResponse_serialize;
-
-function backend_com_wsdl_addQuestResponse_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_addQuestResponse();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing return');
-    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
-     var value = null;
-     if (!cxfjsutils.isElementNil(curElement)) {
-      item = backend_com_wsdl_quest_deserialize(cxfjsutils, curElement);
-     }
-     newobject.setReturn(item);
      var item = null;
      if (curElement != null) {
       curElement = cxfjsutils.getNextElementSibling(curElement);
@@ -10863,6 +12492,44 @@ function backend_com_wsdl_addQuestInstance_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserFoundLocationsCountResponse
+//
+function backend_com_wsdl_setUserFoundLocationsCountResponse () {
+    this.typeMarker = 'backend_com_wsdl_setUserFoundLocationsCountResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setUserFoundLocationsCountResponse
+//
+function backend_com_wsdl_setUserFoundLocationsCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserFoundLocationsCountResponse.prototype.serialize = backend_com_wsdl_setUserFoundLocationsCountResponse_serialize;
+
+function backend_com_wsdl_setUserFoundLocationsCountResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserFoundLocationsCountResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}updateCardResponse
 //
 function backend_com_wsdl_updateCardResponse () {
@@ -10942,6 +12609,7 @@ function backend_com_wsdl_updateCardResponse_deserialize (cxfjsutils, element) {
 function backend_com_wsdl_treePartLazy () {
     this.typeMarker = 'backend_com_wsdl_treePartLazy';
     this._active = '';
+    this._executedAt = null;
     this._finished = '';
     this._id = 0;
     this._markerId = 0;
@@ -10967,6 +12635,22 @@ backend_com_wsdl_treePartLazy.prototype.getActive = backend_com_wsdl_treePartLaz
 function backend_com_wsdl_treePartLazy_setActive(value) { this._active = value;}
 
 backend_com_wsdl_treePartLazy.prototype.setActive = backend_com_wsdl_treePartLazy_setActive;
+//
+// accessor is backend_com_wsdl_treePartLazy.prototype.getExecutedAt
+// element get for executedAt
+// - element type is {http://www.w3.org/2001/XMLSchema}dateTime
+// - optional element
+//
+// element set for executedAt
+// setter function is is backend_com_wsdl_treePartLazy.prototype.setExecutedAt
+//
+function backend_com_wsdl_treePartLazy_getExecutedAt() { return this._executedAt;}
+
+backend_com_wsdl_treePartLazy.prototype.getExecutedAt = backend_com_wsdl_treePartLazy_getExecutedAt;
+
+function backend_com_wsdl_treePartLazy_setExecutedAt(value) { this._executedAt = value;}
+
+backend_com_wsdl_treePartLazy.prototype.setExecutedAt = backend_com_wsdl_treePartLazy_setExecutedAt;
 //
 // accessor is backend_com_wsdl_treePartLazy.prototype.getFinished
 // element get for finished
@@ -11101,6 +12785,14 @@ function backend_com_wsdl_treePartLazy_serialize(cxfjsutils, elementName, extraN
     }
     // block for local variables
     {
+     if (this._executedAt != null) {
+      xml = xml + '<executedAt>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._executedAt);
+      xml = xml + '</executedAt>';
+     }
+    }
+    // block for local variables
+    {
      xml = xml + '<finished>';
      xml = xml + cxfjsutils.escapeXmlEntities(this._finished);
      xml = xml + '</finished>';
@@ -11175,6 +12867,20 @@ function backend_com_wsdl_treePartLazy_deserialize (cxfjsutils, element) {
     var item = null;
     if (curElement != null) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing executedAt');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'executedAt')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setExecutedAt(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing finished');
@@ -11270,79 +12976,6 @@ function backend_com_wsdl_treePartLazy_deserialize (cxfjsutils, element) {
 }
 
 //
-// Constructor for XML Schema item {http://backend.com/wsdl}getTreePartLazy
-//
-function backend_com_wsdl_getTreePartLazy () {
-    this.typeMarker = 'backend_com_wsdl_getTreePartLazy';
-    this._arg0 = 0;
-}
-
-//
-// accessor is backend_com_wsdl_getTreePartLazy.prototype.getArg0
-// element get for arg0
-// - element type is {http://www.w3.org/2001/XMLSchema}long
-// - required element
-//
-// element set for arg0
-// setter function is is backend_com_wsdl_getTreePartLazy.prototype.setArg0
-//
-function backend_com_wsdl_getTreePartLazy_getArg0() { return this._arg0;}
-
-backend_com_wsdl_getTreePartLazy.prototype.getArg0 = backend_com_wsdl_getTreePartLazy_getArg0;
-
-function backend_com_wsdl_getTreePartLazy_setArg0(value) { this._arg0 = value;}
-
-backend_com_wsdl_getTreePartLazy.prototype.setArg0 = backend_com_wsdl_getTreePartLazy_setArg0;
-//
-// Serialize {http://backend.com/wsdl}getTreePartLazy
-//
-function backend_com_wsdl_getTreePartLazy_serialize(cxfjsutils, elementName, extraNamespaces) {
-    var xml = '';
-    if (elementName != null) {
-     xml = xml + '<';
-     xml = xml + elementName;
-     if (extraNamespaces) {
-      xml = xml + ' ' + extraNamespaces;
-     }
-     xml = xml + '>';
-    }
-    // block for local variables
-    {
-     xml = xml + '<arg0>';
-     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
-     xml = xml + '</arg0>';
-    }
-    if (elementName != null) {
-     xml = xml + '</';
-     xml = xml + elementName;
-     xml = xml + '>';
-    }
-    return xml;
-}
-
-backend_com_wsdl_getTreePartLazy.prototype.serialize = backend_com_wsdl_getTreePartLazy_serialize;
-
-function backend_com_wsdl_getTreePartLazy_deserialize (cxfjsutils, element) {
-    var newobject = new backend_com_wsdl_getTreePartLazy();
-    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
-    var curElement = cxfjsutils.getFirstElementChild(element);
-    var item;
-    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing arg0');
-    var value = null;
-    if (!cxfjsutils.isElementNil(curElement)) {
-     value = cxfjsutils.getNodeText(curElement);
-     item = parseInt(value);
-    }
-    newobject.setArg0(item);
-    var item = null;
-    if (curElement != null) {
-     curElement = cxfjsutils.getNextElementSibling(curElement);
-    }
-    return newobject;
-}
-
-//
 // Constructor for XML Schema item {http://backend.com/wsdl}addOrUpdateMarkerResponse
 //
 function backend_com_wsdl_addOrUpdateMarkerResponse () {
@@ -11417,11 +13050,231 @@ function backend_com_wsdl_addOrUpdateMarkerResponse_deserialize (cxfjsutils, ele
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserAnsweredQuestionsCountResponse
+//
+function backend_com_wsdl_setUserAnsweredQuestionsCountResponse () {
+    this.typeMarker = 'backend_com_wsdl_setUserAnsweredQuestionsCountResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setUserAnsweredQuestionsCountResponse
+//
+function backend_com_wsdl_setUserAnsweredQuestionsCountResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserAnsweredQuestionsCountResponse.prototype.serialize = backend_com_wsdl_setUserAnsweredQuestionsCountResponse_serialize;
+
+function backend_com_wsdl_setUserAnsweredQuestionsCountResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserAnsweredQuestionsCountResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}getTreePartLazy
+//
+function backend_com_wsdl_getTreePartLazy () {
+    this.typeMarker = 'backend_com_wsdl_getTreePartLazy';
+    this._arg0 = 0;
+}
+
+//
+// accessor is backend_com_wsdl_getTreePartLazy.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_getTreePartLazy.prototype.setArg0
+//
+function backend_com_wsdl_getTreePartLazy_getArg0() { return this._arg0;}
+
+backend_com_wsdl_getTreePartLazy.prototype.getArg0 = backend_com_wsdl_getTreePartLazy_getArg0;
+
+function backend_com_wsdl_getTreePartLazy_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_getTreePartLazy.prototype.setArg0 = backend_com_wsdl_getTreePartLazy_setArg0;
+//
+// Serialize {http://backend.com/wsdl}getTreePartLazy
+//
+function backend_com_wsdl_getTreePartLazy_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_getTreePartLazy.prototype.serialize = backend_com_wsdl_getTreePartLazy_serialize;
+
+function backend_com_wsdl_getTreePartLazy_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_getTreePartLazy();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserWonFightsCount
+//
+function backend_com_wsdl_setUserWonFightsCount () {
+    this.typeMarker = 'backend_com_wsdl_setUserWonFightsCount';
+    this._arg0 = 0;
+    this._arg1 = 0;
+}
+
+//
+// accessor is backend_com_wsdl_setUserWonFightsCount.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_setUserWonFightsCount.prototype.setArg0
+//
+function backend_com_wsdl_setUserWonFightsCount_getArg0() { return this._arg0;}
+
+backend_com_wsdl_setUserWonFightsCount.prototype.getArg0 = backend_com_wsdl_setUserWonFightsCount_getArg0;
+
+function backend_com_wsdl_setUserWonFightsCount_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_setUserWonFightsCount.prototype.setArg0 = backend_com_wsdl_setUserWonFightsCount_setArg0;
+//
+// accessor is backend_com_wsdl_setUserWonFightsCount.prototype.getArg1
+// element get for arg1
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg1
+// setter function is is backend_com_wsdl_setUserWonFightsCount.prototype.setArg1
+//
+function backend_com_wsdl_setUserWonFightsCount_getArg1() { return this._arg1;}
+
+backend_com_wsdl_setUserWonFightsCount.prototype.getArg1 = backend_com_wsdl_setUserWonFightsCount_getArg1;
+
+function backend_com_wsdl_setUserWonFightsCount_setArg1(value) { this._arg1 = value;}
+
+backend_com_wsdl_setUserWonFightsCount.prototype.setArg1 = backend_com_wsdl_setUserWonFightsCount_setArg1;
+//
+// Serialize {http://backend.com/wsdl}setUserWonFightsCount
+//
+function backend_com_wsdl_setUserWonFightsCount_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg1>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
+     xml = xml + '</arg1>';
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserWonFightsCount.prototype.serialize = backend_com_wsdl_setUserWonFightsCount_serialize;
+
+function backend_com_wsdl_setUserWonFightsCount_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserWonFightsCount();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg1');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg1(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}treePart
 //
 function backend_com_wsdl_treePart () {
     this.typeMarker = 'backend_com_wsdl_treePart';
     this._active = '';
+    this._executedAt = null;
     this._finished = '';
     this._id = 0;
     this._marker = null;
@@ -11448,6 +13301,22 @@ backend_com_wsdl_treePart.prototype.getActive = backend_com_wsdl_treePart_getAct
 function backend_com_wsdl_treePart_setActive(value) { this._active = value;}
 
 backend_com_wsdl_treePart.prototype.setActive = backend_com_wsdl_treePart_setActive;
+//
+// accessor is backend_com_wsdl_treePart.prototype.getExecutedAt
+// element get for executedAt
+// - element type is {http://www.w3.org/2001/XMLSchema}dateTime
+// - optional element
+//
+// element set for executedAt
+// setter function is is backend_com_wsdl_treePart.prototype.setExecutedAt
+//
+function backend_com_wsdl_treePart_getExecutedAt() { return this._executedAt;}
+
+backend_com_wsdl_treePart.prototype.getExecutedAt = backend_com_wsdl_treePart_getExecutedAt;
+
+function backend_com_wsdl_treePart_setExecutedAt(value) { this._executedAt = value;}
+
+backend_com_wsdl_treePart.prototype.setExecutedAt = backend_com_wsdl_treePart_setExecutedAt;
 //
 // accessor is backend_com_wsdl_treePart.prototype.getFinished
 // element get for finished
@@ -11599,6 +13468,14 @@ function backend_com_wsdl_treePart_serialize(cxfjsutils, elementName, extraNames
     }
     // block for local variables
     {
+     if (this._executedAt != null) {
+      xml = xml + '<executedAt>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._executedAt);
+      xml = xml + '</executedAt>';
+     }
+    }
+    // block for local variables
+    {
      xml = xml + '<finished>';
      xml = xml + cxfjsutils.escapeXmlEntities(this._finished);
      xml = xml + '</finished>';
@@ -11681,6 +13558,20 @@ function backend_com_wsdl_treePart_deserialize (cxfjsutils, element) {
     var item = null;
     if (curElement != null) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing executedAt');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'executedAt')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setExecutedAt(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing finished');
@@ -11783,6 +13674,80 @@ function backend_com_wsdl_treePart_deserialize (cxfjsutils, element) {
       item = parseInt(value);
      }
      newobject.setVersion(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}addQuestRating
+//
+function backend_com_wsdl_addQuestRating () {
+    this.typeMarker = 'backend_com_wsdl_addQuestRating';
+    this._arg0 = null;
+}
+
+//
+// accessor is backend_com_wsdl_addQuestRating.prototype.getArg0
+// element get for arg0
+// - element type is {http://backend.com/wsdl}questRating
+// - optional element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_addQuestRating.prototype.setArg0
+//
+function backend_com_wsdl_addQuestRating_getArg0() { return this._arg0;}
+
+backend_com_wsdl_addQuestRating.prototype.getArg0 = backend_com_wsdl_addQuestRating_getArg0;
+
+function backend_com_wsdl_addQuestRating_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_addQuestRating.prototype.setArg0 = backend_com_wsdl_addQuestRating_setArg0;
+//
+// Serialize {http://backend.com/wsdl}addQuestRating
+//
+function backend_com_wsdl_addQuestRating_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._arg0 != null) {
+      xml = xml + this._arg0.serialize(cxfjsutils, 'arg0', null);
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_addQuestRating.prototype.serialize = backend_com_wsdl_addQuestRating_serialize;
+
+function backend_com_wsdl_addQuestRating_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_addQuestRating();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'arg0')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      item = backend_com_wsdl_questRating_deserialize(cxfjsutils, curElement);
+     }
+     newobject.setArg0(item);
      var item = null;
      if (curElement != null) {
       curElement = cxfjsutils.getNextElementSibling(curElement);
@@ -12013,6 +13978,490 @@ function backend_com_wsdl_addHtml_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}uploadFileResponse
+//
+function backend_com_wsdl_uploadFileResponse () {
+    this.typeMarker = 'backend_com_wsdl_uploadFileResponse';
+    this._return = null;
+}
+
+//
+// accessor is backend_com_wsdl_uploadFileResponse.prototype.getReturn
+// element get for return
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for return
+// setter function is is backend_com_wsdl_uploadFileResponse.prototype.setReturn
+//
+function backend_com_wsdl_uploadFileResponse_getReturn() { return this._return;}
+
+backend_com_wsdl_uploadFileResponse.prototype.getReturn = backend_com_wsdl_uploadFileResponse_getReturn;
+
+function backend_com_wsdl_uploadFileResponse_setReturn(value) { this._return = value;}
+
+backend_com_wsdl_uploadFileResponse.prototype.setReturn = backend_com_wsdl_uploadFileResponse_setReturn;
+//
+// Serialize {http://backend.com/wsdl}uploadFileResponse
+//
+function backend_com_wsdl_uploadFileResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._return != null) {
+      xml = xml + '<return>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._return);
+      xml = xml + '</return>';
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_uploadFileResponse.prototype.serialize = backend_com_wsdl_uploadFileResponse_serialize;
+
+function backend_com_wsdl_uploadFileResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_uploadFileResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing return');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'return')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setReturn(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}uploadFile
+//
+function backend_com_wsdl_uploadFile () {
+    this.typeMarker = 'backend_com_wsdl_uploadFile';
+    this._arg0 = null;
+    this._arg1 = null;
+}
+
+//
+// accessor is backend_com_wsdl_uploadFile.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_uploadFile.prototype.setArg0
+//
+function backend_com_wsdl_uploadFile_getArg0() { return this._arg0;}
+
+backend_com_wsdl_uploadFile.prototype.getArg0 = backend_com_wsdl_uploadFile_getArg0;
+
+function backend_com_wsdl_uploadFile_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_uploadFile.prototype.setArg0 = backend_com_wsdl_uploadFile_setArg0;
+//
+// accessor is backend_com_wsdl_uploadFile.prototype.getArg1
+// element get for arg1
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for arg1
+// setter function is is backend_com_wsdl_uploadFile.prototype.setArg1
+//
+function backend_com_wsdl_uploadFile_getArg1() { return this._arg1;}
+
+backend_com_wsdl_uploadFile.prototype.getArg1 = backend_com_wsdl_uploadFile_getArg1;
+
+function backend_com_wsdl_uploadFile_setArg1(value) { this._arg1 = value;}
+
+backend_com_wsdl_uploadFile.prototype.setArg1 = backend_com_wsdl_uploadFile_setArg1;
+//
+// Serialize {http://backend.com/wsdl}uploadFile
+//
+function backend_com_wsdl_uploadFile_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._arg0 != null) {
+      xml = xml + '<arg0>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+      xml = xml + '</arg0>';
+     }
+    }
+    // block for local variables
+    {
+     if (this._arg1 != null) {
+      xml = xml + '<arg1>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
+      xml = xml + '</arg1>';
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_uploadFile.prototype.serialize = backend_com_wsdl_uploadFile_serialize;
+
+function backend_com_wsdl_uploadFile_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_uploadFile();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'arg0')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setArg0(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg1');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'arg1')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setArg1(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
+// Constructor for XML Schema item {http://backend.com/wsdl}questRating
+//
+function backend_com_wsdl_questRating () {
+    this.typeMarker = 'backend_com_wsdl_questRating';
+    this._comment = null;
+    this._difficultyRating = 0;
+    this._id = 0;
+    this._qualityRating = 0;
+    this._questId = 0;
+    this._userId = 0;
+    this._version = null;
+}
+
+//
+// accessor is backend_com_wsdl_questRating.prototype.getComment
+// element get for comment
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for comment
+// setter function is is backend_com_wsdl_questRating.prototype.setComment
+//
+function backend_com_wsdl_questRating_getComment() { return this._comment;}
+
+backend_com_wsdl_questRating.prototype.getComment = backend_com_wsdl_questRating_getComment;
+
+function backend_com_wsdl_questRating_setComment(value) { this._comment = value;}
+
+backend_com_wsdl_questRating.prototype.setComment = backend_com_wsdl_questRating_setComment;
+//
+// accessor is backend_com_wsdl_questRating.prototype.getDifficultyRating
+// element get for difficultyRating
+// - element type is {http://www.w3.org/2001/XMLSchema}int
+// - required element
+//
+// element set for difficultyRating
+// setter function is is backend_com_wsdl_questRating.prototype.setDifficultyRating
+//
+function backend_com_wsdl_questRating_getDifficultyRating() { return this._difficultyRating;}
+
+backend_com_wsdl_questRating.prototype.getDifficultyRating = backend_com_wsdl_questRating_getDifficultyRating;
+
+function backend_com_wsdl_questRating_setDifficultyRating(value) { this._difficultyRating = value;}
+
+backend_com_wsdl_questRating.prototype.setDifficultyRating = backend_com_wsdl_questRating_setDifficultyRating;
+//
+// accessor is backend_com_wsdl_questRating.prototype.getId
+// element get for id
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for id
+// setter function is is backend_com_wsdl_questRating.prototype.setId
+//
+function backend_com_wsdl_questRating_getId() { return this._id;}
+
+backend_com_wsdl_questRating.prototype.getId = backend_com_wsdl_questRating_getId;
+
+function backend_com_wsdl_questRating_setId(value) { this._id = value;}
+
+backend_com_wsdl_questRating.prototype.setId = backend_com_wsdl_questRating_setId;
+//
+// accessor is backend_com_wsdl_questRating.prototype.getQualityRating
+// element get for qualityRating
+// - element type is {http://www.w3.org/2001/XMLSchema}int
+// - required element
+//
+// element set for qualityRating
+// setter function is is backend_com_wsdl_questRating.prototype.setQualityRating
+//
+function backend_com_wsdl_questRating_getQualityRating() { return this._qualityRating;}
+
+backend_com_wsdl_questRating.prototype.getQualityRating = backend_com_wsdl_questRating_getQualityRating;
+
+function backend_com_wsdl_questRating_setQualityRating(value) { this._qualityRating = value;}
+
+backend_com_wsdl_questRating.prototype.setQualityRating = backend_com_wsdl_questRating_setQualityRating;
+//
+// accessor is backend_com_wsdl_questRating.prototype.getQuestId
+// element get for questId
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for questId
+// setter function is is backend_com_wsdl_questRating.prototype.setQuestId
+//
+function backend_com_wsdl_questRating_getQuestId() { return this._questId;}
+
+backend_com_wsdl_questRating.prototype.getQuestId = backend_com_wsdl_questRating_getQuestId;
+
+function backend_com_wsdl_questRating_setQuestId(value) { this._questId = value;}
+
+backend_com_wsdl_questRating.prototype.setQuestId = backend_com_wsdl_questRating_setQuestId;
+//
+// accessor is backend_com_wsdl_questRating.prototype.getUserId
+// element get for userId
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for userId
+// setter function is is backend_com_wsdl_questRating.prototype.setUserId
+//
+function backend_com_wsdl_questRating_getUserId() { return this._userId;}
+
+backend_com_wsdl_questRating.prototype.getUserId = backend_com_wsdl_questRating_getUserId;
+
+function backend_com_wsdl_questRating_setUserId(value) { this._userId = value;}
+
+backend_com_wsdl_questRating.prototype.setUserId = backend_com_wsdl_questRating_setUserId;
+//
+// accessor is backend_com_wsdl_questRating.prototype.getVersion
+// element get for version
+// - element type is {http://www.w3.org/2001/XMLSchema}int
+// - optional element
+//
+// element set for version
+// setter function is is backend_com_wsdl_questRating.prototype.setVersion
+//
+function backend_com_wsdl_questRating_getVersion() { return this._version;}
+
+backend_com_wsdl_questRating.prototype.getVersion = backend_com_wsdl_questRating_getVersion;
+
+function backend_com_wsdl_questRating_setVersion(value) { this._version = value;}
+
+backend_com_wsdl_questRating.prototype.setVersion = backend_com_wsdl_questRating_setVersion;
+//
+// Serialize {http://backend.com/wsdl}questRating
+//
+function backend_com_wsdl_questRating_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName != null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     if (this._comment != null) {
+      xml = xml + '<comment>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._comment);
+      xml = xml + '</comment>';
+     }
+    }
+    // block for local variables
+    {
+     xml = xml + '<difficultyRating>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._difficultyRating);
+     xml = xml + '</difficultyRating>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<id>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._id);
+     xml = xml + '</id>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<qualityRating>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._qualityRating);
+     xml = xml + '</qualityRating>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<questId>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._questId);
+     xml = xml + '</questId>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<userId>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._userId);
+     xml = xml + '</userId>';
+    }
+    // block for local variables
+    {
+     if (this._version != null) {
+      xml = xml + '<version>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._version);
+      xml = xml + '</version>';
+     }
+    }
+    if (elementName != null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_questRating.prototype.serialize = backend_com_wsdl_questRating_serialize;
+
+function backend_com_wsdl_questRating_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_questRating();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing comment');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'comment')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setComment(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing difficultyRating');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setDifficultyRating(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing id');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setId(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing qualityRating');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setQualityRating(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing questId');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setQuestId(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing userId');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setUserId(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing version');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'version')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = parseInt(value);
+     }
+     newobject.setVersion(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}deleteQuestResponse
 //
 function backend_com_wsdl_deleteQuestResponse () {
@@ -12057,6 +14506,7 @@ function backend_com_wsdl_card () {
     this.typeMarker = 'backend_com_wsdl_card';
     this._actionIds = [];
     this._attack = null;
+    this._cardImageUrl = null;
     this._description = null;
     this._id = 0;
     this._imageUrl = null;
@@ -12101,6 +14551,22 @@ backend_com_wsdl_card.prototype.getAttack = backend_com_wsdl_card_getAttack;
 function backend_com_wsdl_card_setAttack(value) { this._attack = value;}
 
 backend_com_wsdl_card.prototype.setAttack = backend_com_wsdl_card_setAttack;
+//
+// accessor is backend_com_wsdl_card.prototype.getCardImageUrl
+// element get for cardImageUrl
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for cardImageUrl
+// setter function is is backend_com_wsdl_card.prototype.setCardImageUrl
+//
+function backend_com_wsdl_card_getCardImageUrl() { return this._cardImageUrl;}
+
+backend_com_wsdl_card.prototype.getCardImageUrl = backend_com_wsdl_card_getCardImageUrl;
+
+function backend_com_wsdl_card_setCardImageUrl(value) { this._cardImageUrl = value;}
+
+backend_com_wsdl_card.prototype.setCardImageUrl = backend_com_wsdl_card_setCardImageUrl;
 //
 // accessor is backend_com_wsdl_card.prototype.getDescription
 // element get for description
@@ -12266,6 +14732,14 @@ function backend_com_wsdl_card_serialize(cxfjsutils, elementName, extraNamespace
     }
     // block for local variables
     {
+     if (this._cardImageUrl != null) {
+      xml = xml + '<cardImageUrl>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._cardImageUrl);
+      xml = xml + '</cardImageUrl>';
+     }
+    }
+    // block for local variables
+    {
      if (this._description != null) {
       xml = xml + '<description>';
       xml = xml + cxfjsutils.escapeXmlEntities(this._description);
@@ -12368,6 +14842,20 @@ function backend_com_wsdl_card_deserialize (cxfjsutils, element) {
       item = parseInt(value);
      }
      newobject.setAttack(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing cardImageUrl');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'cardImageUrl')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setCardImageUrl(item);
      var item = null;
      if (curElement != null) {
       curElement = cxfjsutils.getNextElementSibling(curElement);
@@ -13197,46 +15685,62 @@ function backend_com_wsdl_IBackend () {
     this.response = null;
     this.globalElementSerializers = [];
     this.globalElementDeserializers = [];
+    this.globalElementSerializers['{http://backend.com/wsdl}setTreePartExecutedAt'] = backend_com_wsdl_setTreePartExecutedAt_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartExecutedAt'] = backend_com_wsdl_setTreePartExecutedAt_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePart'] = backend_com_wsdl_getTreePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getTreePart'] = backend_com_wsdl_getTreePart_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getAllActionsResponse'] = backend_com_wsdl_getAllActionsResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsResponse'] = backend_com_wsdl_getAllActionsResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}updateEnemy'] = backend_com_wsdl_updateEnemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}updateEnemy'] = backend_com_wsdl_updateEnemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}loginResponse'] = backend_com_wsdl_loginResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}loginResponse'] = backend_com_wsdl_loginResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setQuestInstanceFailCount'] = backend_com_wsdl_setQuestInstanceFailCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setQuestInstanceFailCount'] = backend_com_wsdl_setQuestInstanceFailCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getHtml'] = backend_com_wsdl_getHtml_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getHtml'] = backend_com_wsdl_getHtml_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarkers'] = backend_com_wsdl_getMarkers_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarkers'] = backend_com_wsdl_getMarkers_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserTaskCount'] = backend_com_wsdl_setUserTaskCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserTaskCount'] = backend_com_wsdl_setUserTaskCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getEditorQuestResponse'] = backend_com_wsdl_getEditorQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getEditorQuestResponse'] = backend_com_wsdl_getEditorQuestResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}deleteQuestInstanceResponse'] = backend_com_wsdl_deleteQuestInstanceResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}deleteQuestInstanceResponse'] = backend_com_wsdl_deleteQuestInstanceResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setTreePartActiveResponse'] = backend_com_wsdl_setTreePartActiveResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartActiveResponse'] = backend_com_wsdl_setTreePartActiveResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}deleteQuestInstanceResponse'] = backend_com_wsdl_deleteQuestInstanceResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}deleteQuestInstanceResponse'] = backend_com_wsdl_deleteQuestInstanceResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateUserResponse'] = backend_com_wsdl_updateUserResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateUserResponse'] = backend_com_wsdl_updateUserResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}register'] = backend_com_wsdl_register_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}register'] = backend_com_wsdl_register_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}deleteCardResponse'] = backend_com_wsdl_deleteCardResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}deleteCardResponse'] = backend_com_wsdl_deleteCardResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setTreePartFinishedResponse'] = backend_com_wsdl_setTreePartFinishedResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartFinishedResponse'] = backend_com_wsdl_setTreePartFinishedResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}deleteCardResponse'] = backend_com_wsdl_deleteCardResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}deleteCardResponse'] = backend_com_wsdl_deleteCardResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateEditorQuest'] = backend_com_wsdl_updateEditorQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateEditorQuest'] = backend_com_wsdl_updateEditorQuest_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePartsLazyResponse'] = backend_com_wsdl_getTreePartsLazyResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getTreePartsLazyResponse'] = backend_com_wsdl_getTreePartsLazyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addActionResponse'] = backend_com_wsdl_addActionResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addActionResponse'] = backend_com_wsdl_addActionResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setTreePartExecutedAtResponse'] = backend_com_wsdl_setTreePartExecutedAtResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartExecutedAtResponse'] = backend_com_wsdl_setTreePartExecutedAtResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteMarkerResponse'] = backend_com_wsdl_deleteMarkerResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteMarkerResponse'] = backend_com_wsdl_deleteMarkerResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getRandomEnemyResponse'] = backend_com_wsdl_getRandomEnemyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getRandomEnemyResponse'] = backend_com_wsdl_getRandomEnemyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateQuestInstance'] = backend_com_wsdl_updateQuestInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateQuestInstance'] = backend_com_wsdl_updateQuestInstance_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addDeck'] = backend_com_wsdl_addDeck_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addDeck'] = backend_com_wsdl_addDeck_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarker'] = backend_com_wsdl_getMarker_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarker'] = backend_com_wsdl_getMarker_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setQuestInstanceFailCountResponse'] = backend_com_wsdl_setQuestInstanceFailCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setQuestInstanceFailCountResponse'] = backend_com_wsdl_setQuestInstanceFailCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getEditorQuests'] = backend_com_wsdl_getEditorQuests_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getEditorQuests'] = backend_com_wsdl_getEditorQuests_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserTaskCountResponse'] = backend_com_wsdl_setUserTaskCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserTaskCountResponse'] = backend_com_wsdl_setUserTaskCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getAction'] = backend_com_wsdl_getAction_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getAction'] = backend_com_wsdl_getAction_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteAction'] = backend_com_wsdl_deleteAction_serialize;
@@ -13245,6 +15749,10 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteUserResponse'] = backend_com_wsdl_deleteUserResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setTreePartActive'] = backend_com_wsdl_setTreePartActive_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartActive'] = backend_com_wsdl_setTreePartActive_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserKmWalkedResponse'] = backend_com_wsdl_setUserKmWalkedResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserKmWalkedResponse'] = backend_com_wsdl_setUserKmWalkedResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserAnsweredQuestionsCount'] = backend_com_wsdl_setUserAnsweredQuestionsCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserAnsweredQuestionsCount'] = backend_com_wsdl_setUserAnsweredQuestionsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteMarker'] = backend_com_wsdl_deleteMarker_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteMarker'] = backend_com_wsdl_deleteMarker_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addHtmlResponse'] = backend_com_wsdl_addHtmlResponse_serialize;
@@ -13259,12 +15767,10 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}addDeckResponse'] = backend_com_wsdl_addDeckResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getDeck'] = backend_com_wsdl_getDeck_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getDeck'] = backend_com_wsdl_getDeck_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserWonFightsCountResponse'] = backend_com_wsdl_updateUserWonFightsCountResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserWonFightsCountResponse'] = backend_com_wsdl_updateUserWonFightsCountResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}downloadFileResponse'] = backend_com_wsdl_downloadFileResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}downloadFileResponse'] = backend_com_wsdl_downloadFileResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setQuestInstanceOfTreePartResponse'] = backend_com_wsdl_setQuestInstanceOfTreePartResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setQuestInstanceOfTreePartResponse'] = backend_com_wsdl_setQuestInstanceOfTreePartResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserTaskCount'] = backend_com_wsdl_updateUserTaskCount_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserTaskCount'] = backend_com_wsdl_updateUserTaskCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addOrUpdateTreePartResponse'] = backend_com_wsdl_addOrUpdateTreePartResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addOrUpdateTreePartResponse'] = backend_com_wsdl_addOrUpdateTreePartResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuestInstanceResponse'] = backend_com_wsdl_addQuestInstanceResponse_serialize;
@@ -13283,18 +15789,18 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getDeckResponse'] = backend_com_wsdl_getDeckResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteActionResponse'] = backend_com_wsdl_deleteActionResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteActionResponse'] = backend_com_wsdl_deleteActionResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserAnsweredQuestionsCountResponse'] = backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserAnsweredQuestionsCountResponse'] = backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateCard'] = backend_com_wsdl_updateCard_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateCard'] = backend_com_wsdl_updateCard_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserTaskCountResponse'] = backend_com_wsdl_updateUserTaskCountResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserTaskCountResponse'] = backend_com_wsdl_updateUserTaskCountResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserKmWalked'] = backend_com_wsdl_updateUserKmWalked_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserKmWalked'] = backend_com_wsdl_updateUserKmWalked_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getEnemyResponse'] = backend_com_wsdl_getEnemyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getEnemyResponse'] = backend_com_wsdl_getEnemyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateHtml'] = backend_com_wsdl_updateHtml_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateHtml'] = backend_com_wsdl_updateHtml_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addQuestRatingResponse'] = backend_com_wsdl_addQuestRatingResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addQuestRatingResponse'] = backend_com_wsdl_addQuestRatingResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addCard'] = backend_com_wsdl_addCard_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addCard'] = backend_com_wsdl_addCard_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserKmWalked'] = backend_com_wsdl_setUserKmWalked_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserKmWalked'] = backend_com_wsdl_setUserKmWalked_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarkersResponse'] = backend_com_wsdl_getMarkersResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarkersResponse'] = backend_com_wsdl_getMarkersResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addUserResponse'] = backend_com_wsdl_addUserResponse_serialize;
@@ -13303,22 +15809,18 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getCards'] = backend_com_wsdl_getCards_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestInstances'] = backend_com_wsdl_getQuestInstances_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestInstances'] = backend_com_wsdl_getQuestInstances_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}getCardsResponse'] = backend_com_wsdl_getCardsResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}getCardsResponse'] = backend_com_wsdl_getCardsResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateAction'] = backend_com_wsdl_updateAction_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateAction'] = backend_com_wsdl_updateAction_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserWonFightsCount'] = backend_com_wsdl_updateUserWonFightsCount_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserWonFightsCount'] = backend_com_wsdl_updateUserWonFightsCount_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getCardsResponse'] = backend_com_wsdl_getCardsResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getCardsResponse'] = backend_com_wsdl_getCardsResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addUser'] = backend_com_wsdl_addUser_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addUser'] = backend_com_wsdl_addUser_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateDeckResponse'] = backend_com_wsdl_updateDeckResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateDeckResponse'] = backend_com_wsdl_updateDeckResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}getCardResponse'] = backend_com_wsdl_getCardResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}getCardResponse'] = backend_com_wsdl_getCardResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuest'] = backend_com_wsdl_addQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addQuest'] = backend_com_wsdl_addQuest_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserFoundLocationsCountResponse'] = backend_com_wsdl_updateUserFoundLocationsCountResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserFoundLocationsCountResponse'] = backend_com_wsdl_updateUserFoundLocationsCountResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getCardResponse'] = backend_com_wsdl_getCardResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getCardResponse'] = backend_com_wsdl_getCardResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarkerResponse'] = backend_com_wsdl_getMarkerResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarkerResponse'] = backend_com_wsdl_getMarkerResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getActionResponse'] = backend_com_wsdl_getActionResponse_serialize;
@@ -13331,6 +15833,8 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteTreePartResponse'] = backend_com_wsdl_deleteTreePartResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setTreePartOpened'] = backend_com_wsdl_setTreePartOpened_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartOpened'] = backend_com_wsdl_setTreePartOpened_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getRandomEnemy'] = backend_com_wsdl_getRandomEnemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getRandomEnemy'] = backend_com_wsdl_getRandomEnemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePartResponse'] = backend_com_wsdl_getTreePartResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getTreePartResponse'] = backend_com_wsdl_getTreePartResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getCard'] = backend_com_wsdl_getCard_serialize;
@@ -13339,36 +15843,48 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartOpenedResponse'] = backend_com_wsdl_setTreePartOpenedResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteQuestInstance'] = backend_com_wsdl_deleteQuestInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteQuestInstance'] = backend_com_wsdl_deleteQuestInstance_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}downloadFile'] = backend_com_wsdl_downloadFile_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}downloadFile'] = backend_com_wsdl_downloadFile_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuest'] = backend_com_wsdl_getQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuest'] = backend_com_wsdl_getQuest_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setQuestInstanceOfTreePart'] = backend_com_wsdl_setQuestInstanceOfTreePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setQuestInstanceOfTreePart'] = backend_com_wsdl_setQuestInstanceOfTreePart_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addEnemyResponse'] = backend_com_wsdl_addEnemyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addEnemyResponse'] = backend_com_wsdl_addEnemyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getActionsResponse'] = backend_com_wsdl_getActionsResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getActionsResponse'] = backend_com_wsdl_getActionsResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getEditorQuestsResponse'] = backend_com_wsdl_getEditorQuestsResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getEditorQuestsResponse'] = backend_com_wsdl_getEditorQuestsResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteTreePart'] = backend_com_wsdl_deleteTreePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteTreePart'] = backend_com_wsdl_deleteTreePart_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserFoundLocationsCount'] = backend_com_wsdl_setUserFoundLocationsCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserFoundLocationsCount'] = backend_com_wsdl_setUserFoundLocationsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getEditorQuest'] = backend_com_wsdl_getEditorQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getEditorQuest'] = backend_com_wsdl_getEditorQuest_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addEditorQuestResponse'] = backend_com_wsdl_addEditorQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addEditorQuestResponse'] = backend_com_wsdl_addEditorQuestResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserMoneyResponse'] = backend_com_wsdl_setUserMoneyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserMoneyResponse'] = backend_com_wsdl_setUserMoneyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addOrUpdateMarker'] = backend_com_wsdl_addOrUpdateMarker_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addOrUpdateMarker'] = backend_com_wsdl_addOrUpdateMarker_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addAction'] = backend_com_wsdl_addAction_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addAction'] = backend_com_wsdl_addAction_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserWonFightsCountResponse'] = backend_com_wsdl_setUserWonFightsCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserWonFightsCountResponse'] = backend_com_wsdl_setUserWonFightsCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestResponse'] = backend_com_wsdl_getQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestResponse'] = backend_com_wsdl_getQuestResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteCard'] = backend_com_wsdl_deleteCard_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteCard'] = backend_com_wsdl_deleteCard_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setTreePartFinished'] = backend_com_wsdl_setTreePartFinished_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartFinished'] = backend_com_wsdl_setTreePartFinished_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserAnsweredQuestionsCount'] = backend_com_wsdl_updateUserAnsweredQuestionsCount_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserAnsweredQuestionsCount'] = backend_com_wsdl_updateUserAnsweredQuestionsCount_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserMoney'] = backend_com_wsdl_setUserMoney_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserMoney'] = backend_com_wsdl_setUserMoney_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addTreePartLazy'] = backend_com_wsdl_addTreePartLazy_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addTreePartLazy'] = backend_com_wsdl_addTreePartLazy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestsInRangeResponse'] = backend_com_wsdl_getQuestsInRangeResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestsInRangeResponse'] = backend_com_wsdl_getQuestsInRangeResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addEnemy'] = backend_com_wsdl_addEnemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addEnemy'] = backend_com_wsdl_addEnemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getAllActionsOfCardTypeResponse'] = backend_com_wsdl_getAllActionsOfCardTypeResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsOfCardTypeResponse'] = backend_com_wsdl_getAllActionsOfCardTypeResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateQuest'] = backend_com_wsdl_updateQuest_serialize;
@@ -13377,10 +15893,10 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getDecks'] = backend_com_wsdl_getDecks_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestInstancesResponse'] = backend_com_wsdl_getQuestInstancesResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestInstancesResponse'] = backend_com_wsdl_getQuestInstancesResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}updateEnemyResponse'] = backend_com_wsdl_updateEnemyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}updateEnemyResponse'] = backend_com_wsdl_updateEnemyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getActions'] = backend_com_wsdl_getActions_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getActions'] = backend_com_wsdl_getActions_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserKmWalkedResponse'] = backend_com_wsdl_updateUserKmWalkedResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserKmWalkedResponse'] = backend_com_wsdl_updateUserKmWalkedResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateActionResponse'] = backend_com_wsdl_updateActionResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateActionResponse'] = backend_com_wsdl_updateActionResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestsInRange'] = backend_com_wsdl_getQuestsInRange_serialize;
@@ -13391,16 +15907,16 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuests'] = backend_com_wsdl_getQuests_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addOrUpdateTreePart'] = backend_com_wsdl_addOrUpdateTreePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addOrUpdateTreePart'] = backend_com_wsdl_addOrUpdateTreePart_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getEnemy'] = backend_com_wsdl_getEnemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getEnemy'] = backend_com_wsdl_getEnemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getDecksResponse'] = backend_com_wsdl_getDecksResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getDecksResponse'] = backend_com_wsdl_getDecksResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserFoundLocationsCount'] = backend_com_wsdl_updateUserFoundLocationsCount_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserFoundLocationsCount'] = backend_com_wsdl_updateUserFoundLocationsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteDeckResponse'] = backend_com_wsdl_deleteDeckResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteDeckResponse'] = backend_com_wsdl_deleteDeckResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuestResponse'] = backend_com_wsdl_addQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addQuestResponse'] = backend_com_wsdl_addQuestResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteUser'] = backend_com_wsdl_deleteUser_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteUser'] = backend_com_wsdl_deleteUser_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateQuestInstanceResponse'] = backend_com_wsdl_updateQuestInstanceResponse_serialize;
@@ -13413,18 +15929,30 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}addTreePartLazyResponse'] = backend_com_wsdl_addTreePartLazyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuestInstance'] = backend_com_wsdl_addQuestInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addQuestInstance'] = backend_com_wsdl_addQuestInstance_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserFoundLocationsCountResponse'] = backend_com_wsdl_setUserFoundLocationsCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserFoundLocationsCountResponse'] = backend_com_wsdl_setUserFoundLocationsCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateCardResponse'] = backend_com_wsdl_updateCardResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateCardResponse'] = backend_com_wsdl_updateCardResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserAnsweredQuestionsCountResponse'] = backend_com_wsdl_setUserAnsweredQuestionsCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserAnsweredQuestionsCountResponse'] = backend_com_wsdl_setUserAnsweredQuestionsCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addOrUpdateMarkerResponse'] = backend_com_wsdl_addOrUpdateMarkerResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addOrUpdateMarkerResponse'] = backend_com_wsdl_addOrUpdateMarkerResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePartLazy'] = backend_com_wsdl_getTreePartLazy_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getTreePartLazy'] = backend_com_wsdl_getTreePartLazy_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserWonFightsCount'] = backend_com_wsdl_setUserWonFightsCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserWonFightsCount'] = backend_com_wsdl_setUserWonFightsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateHtmlResponse'] = backend_com_wsdl_updateHtmlResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateHtmlResponse'] = backend_com_wsdl_updateHtmlResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addQuestRating'] = backend_com_wsdl_addQuestRating_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addQuestRating'] = backend_com_wsdl_addQuestRating_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestInstance'] = backend_com_wsdl_getQuestInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestInstance'] = backend_com_wsdl_getQuestInstance_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addHtml'] = backend_com_wsdl_addHtml_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addHtml'] = backend_com_wsdl_addHtml_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}uploadFileResponse'] = backend_com_wsdl_uploadFileResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}uploadFileResponse'] = backend_com_wsdl_uploadFileResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}uploadFile'] = backend_com_wsdl_uploadFile_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}uploadFile'] = backend_com_wsdl_uploadFile_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteQuestResponse'] = backend_com_wsdl_deleteQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteQuestResponse'] = backend_com_wsdl_deleteQuestResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}login'] = backend_com_wsdl_login_serialize;
@@ -13433,24 +15961,32 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getAllActions'] = backend_com_wsdl_getAllActions_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}registerResponse'] = backend_com_wsdl_registerResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}registerResponse'] = backend_com_wsdl_registerResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setTreePartExecutedAt'] = backend_com_wsdl_setTreePartExecutedAt_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartExecutedAt'] = backend_com_wsdl_setTreePartExecutedAt_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePart'] = backend_com_wsdl_getTreePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getTreePart'] = backend_com_wsdl_getTreePart_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getAllActionsResponse'] = backend_com_wsdl_getAllActionsResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsResponse'] = backend_com_wsdl_getAllActionsResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}updateEnemy'] = backend_com_wsdl_updateEnemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}updateEnemy'] = backend_com_wsdl_updateEnemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}loginResponse'] = backend_com_wsdl_loginResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}loginResponse'] = backend_com_wsdl_loginResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setQuestInstanceFailCount'] = backend_com_wsdl_setQuestInstanceFailCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setQuestInstanceFailCount'] = backend_com_wsdl_setQuestInstanceFailCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getHtml'] = backend_com_wsdl_getHtml_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getHtml'] = backend_com_wsdl_getHtml_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarkers'] = backend_com_wsdl_getMarkers_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarkers'] = backend_com_wsdl_getMarkers_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserTaskCount'] = backend_com_wsdl_setUserTaskCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserTaskCount'] = backend_com_wsdl_setUserTaskCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getEditorQuestResponse'] = backend_com_wsdl_getEditorQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getEditorQuestResponse'] = backend_com_wsdl_getEditorQuestResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}quest'] = backend_com_wsdl_quest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}quest'] = backend_com_wsdl_quest_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}setTreePartActiveResponse'] = backend_com_wsdl_setTreePartActiveResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartActiveResponse'] = backend_com_wsdl_setTreePartActiveResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteQuestInstanceResponse'] = backend_com_wsdl_deleteQuestInstanceResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteQuestInstanceResponse'] = backend_com_wsdl_deleteQuestInstanceResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setTreePartActiveResponse'] = backend_com_wsdl_setTreePartActiveResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartActiveResponse'] = backend_com_wsdl_setTreePartActiveResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}register'] = backend_com_wsdl_register_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}register'] = backend_com_wsdl_register_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateUserResponse'] = backend_com_wsdl_updateUserResponse_serialize;
@@ -13467,16 +16003,24 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getTreePartsLazyResponse'] = backend_com_wsdl_getTreePartsLazyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addActionResponse'] = backend_com_wsdl_addActionResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addActionResponse'] = backend_com_wsdl_addActionResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setTreePartExecutedAtResponse'] = backend_com_wsdl_setTreePartExecutedAtResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartExecutedAtResponse'] = backend_com_wsdl_setTreePartExecutedAtResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteMarkerResponse'] = backend_com_wsdl_deleteMarkerResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteMarkerResponse'] = backend_com_wsdl_deleteMarkerResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getRandomEnemyResponse'] = backend_com_wsdl_getRandomEnemyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getRandomEnemyResponse'] = backend_com_wsdl_getRandomEnemyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateQuestInstance'] = backend_com_wsdl_updateQuestInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateQuestInstance'] = backend_com_wsdl_updateQuestInstance_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addDeck'] = backend_com_wsdl_addDeck_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addDeck'] = backend_com_wsdl_addDeck_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarker'] = backend_com_wsdl_getMarker_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarker'] = backend_com_wsdl_getMarker_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setQuestInstanceFailCountResponse'] = backend_com_wsdl_setQuestInstanceFailCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setQuestInstanceFailCountResponse'] = backend_com_wsdl_setQuestInstanceFailCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getEditorQuests'] = backend_com_wsdl_getEditorQuests_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getEditorQuests'] = backend_com_wsdl_getEditorQuests_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserTaskCountResponse'] = backend_com_wsdl_setUserTaskCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserTaskCountResponse'] = backend_com_wsdl_setUserTaskCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getAction'] = backend_com_wsdl_getAction_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getAction'] = backend_com_wsdl_getAction_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteAction'] = backend_com_wsdl_deleteAction_serialize;
@@ -13485,6 +16029,10 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteUserResponse'] = backend_com_wsdl_deleteUserResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setTreePartActive'] = backend_com_wsdl_setTreePartActive_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartActive'] = backend_com_wsdl_setTreePartActive_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserKmWalkedResponse'] = backend_com_wsdl_setUserKmWalkedResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserKmWalkedResponse'] = backend_com_wsdl_setUserKmWalkedResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserAnsweredQuestionsCount'] = backend_com_wsdl_setUserAnsweredQuestionsCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserAnsweredQuestionsCount'] = backend_com_wsdl_setUserAnsweredQuestionsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}editorQuest'] = backend_com_wsdl_editorQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}editorQuest'] = backend_com_wsdl_editorQuest_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteMarker'] = backend_com_wsdl_deleteMarker_serialize;
@@ -13501,16 +16049,14 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}updateQuestResponse'] = backend_com_wsdl_updateQuestResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateDeck'] = backend_com_wsdl_updateDeck_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateDeck'] = backend_com_wsdl_updateDeck_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}addDeckResponse'] = backend_com_wsdl_addDeckResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}addDeckResponse'] = backend_com_wsdl_addDeckResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getDeck'] = backend_com_wsdl_getDeck_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getDeck'] = backend_com_wsdl_getDeck_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserWonFightsCountResponse'] = backend_com_wsdl_updateUserWonFightsCountResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserWonFightsCountResponse'] = backend_com_wsdl_updateUserWonFightsCountResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addDeckResponse'] = backend_com_wsdl_addDeckResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addDeckResponse'] = backend_com_wsdl_addDeckResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}downloadFileResponse'] = backend_com_wsdl_downloadFileResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}downloadFileResponse'] = backend_com_wsdl_downloadFileResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setQuestInstanceOfTreePartResponse'] = backend_com_wsdl_setQuestInstanceOfTreePartResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setQuestInstanceOfTreePartResponse'] = backend_com_wsdl_setQuestInstanceOfTreePartResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserTaskCount'] = backend_com_wsdl_updateUserTaskCount_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserTaskCount'] = backend_com_wsdl_updateUserTaskCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addOrUpdateTreePartResponse'] = backend_com_wsdl_addOrUpdateTreePartResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addOrUpdateTreePartResponse'] = backend_com_wsdl_addOrUpdateTreePartResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuestInstanceResponse'] = backend_com_wsdl_addQuestInstanceResponse_serialize;
@@ -13521,30 +16067,30 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestInstanceResponse'] = backend_com_wsdl_getQuestInstanceResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePartLazyResponse'] = backend_com_wsdl_getTreePartLazyResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getTreePartLazyResponse'] = backend_com_wsdl_getTreePartLazyResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getDeckResponse'] = backend_com_wsdl_getDeckResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getDeckResponse'] = backend_com_wsdl_getDeckResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateEditorQuestResponse'] = backend_com_wsdl_updateEditorQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateEditorQuestResponse'] = backend_com_wsdl_updateEditorQuestResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addCardResponse'] = backend_com_wsdl_addCardResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addCardResponse'] = backend_com_wsdl_addCardResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}getDeckResponse'] = backend_com_wsdl_getDeckResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}getDeckResponse'] = backend_com_wsdl_getDeckResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteActionResponse'] = backend_com_wsdl_deleteActionResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteActionResponse'] = backend_com_wsdl_deleteActionResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateCard'] = backend_com_wsdl_updateCard_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateCard'] = backend_com_wsdl_updateCard_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserAnsweredQuestionsCountResponse'] = backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserAnsweredQuestionsCountResponse'] = backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserTaskCountResponse'] = backend_com_wsdl_updateUserTaskCountResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserTaskCountResponse'] = backend_com_wsdl_updateUserTaskCountResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserKmWalked'] = backend_com_wsdl_updateUserKmWalked_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserKmWalked'] = backend_com_wsdl_updateUserKmWalked_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getEnemyResponse'] = backend_com_wsdl_getEnemyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getEnemyResponse'] = backend_com_wsdl_getEnemyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateHtml'] = backend_com_wsdl_updateHtml_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateHtml'] = backend_com_wsdl_updateHtml_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addQuestRatingResponse'] = backend_com_wsdl_addQuestRatingResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addQuestRatingResponse'] = backend_com_wsdl_addQuestRatingResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}questInstance'] = backend_com_wsdl_questInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}questInstance'] = backend_com_wsdl_questInstance_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addCard'] = backend_com_wsdl_addCard_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addCard'] = backend_com_wsdl_addCard_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarkersResponse'] = backend_com_wsdl_getMarkersResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarkersResponse'] = backend_com_wsdl_getMarkersResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserKmWalked'] = backend_com_wsdl_setUserKmWalked_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserKmWalked'] = backend_com_wsdl_setUserKmWalked_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}mapPosition'] = backend_com_wsdl_mapPosition_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}mapPosition'] = backend_com_wsdl_mapPosition_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}htmlObject'] = backend_com_wsdl_htmlObject_serialize;
@@ -13561,16 +16107,12 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getCardsResponse'] = backend_com_wsdl_getCardsResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addUser'] = backend_com_wsdl_addUser_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addUser'] = backend_com_wsdl_addUser_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserWonFightsCount'] = backend_com_wsdl_updateUserWonFightsCount_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserWonFightsCount'] = backend_com_wsdl_updateUserWonFightsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateDeckResponse'] = backend_com_wsdl_updateDeckResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateDeckResponse'] = backend_com_wsdl_updateDeckResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}getCardResponse'] = backend_com_wsdl_getCardResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}getCardResponse'] = backend_com_wsdl_getCardResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuest'] = backend_com_wsdl_addQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addQuest'] = backend_com_wsdl_addQuest_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserFoundLocationsCountResponse'] = backend_com_wsdl_updateUserFoundLocationsCountResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserFoundLocationsCountResponse'] = backend_com_wsdl_updateUserFoundLocationsCountResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getCardResponse'] = backend_com_wsdl_getCardResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getCardResponse'] = backend_com_wsdl_getCardResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarkerResponse'] = backend_com_wsdl_getMarkerResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarkerResponse'] = backend_com_wsdl_getMarkerResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getActionResponse'] = backend_com_wsdl_getActionResponse_serialize;
@@ -13581,8 +16123,12 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestsResponse'] = backend_com_wsdl_getQuestsResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteTreePartResponse'] = backend_com_wsdl_deleteTreePartResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteTreePartResponse'] = backend_com_wsdl_deleteTreePartResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}enemy'] = backend_com_wsdl_enemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}enemy'] = backend_com_wsdl_enemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setTreePartOpened'] = backend_com_wsdl_setTreePartOpened_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartOpened'] = backend_com_wsdl_setTreePartOpened_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getRandomEnemy'] = backend_com_wsdl_getRandomEnemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getRandomEnemy'] = backend_com_wsdl_getRandomEnemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePartResponse'] = backend_com_wsdl_getTreePartResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getTreePartResponse'] = backend_com_wsdl_getTreePartResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getCard'] = backend_com_wsdl_getCard_serialize;
@@ -13591,24 +16137,34 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartOpenedResponse'] = backend_com_wsdl_setTreePartOpenedResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteQuestInstance'] = backend_com_wsdl_deleteQuestInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteQuestInstance'] = backend_com_wsdl_deleteQuestInstance_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}downloadFile'] = backend_com_wsdl_downloadFile_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}downloadFile'] = backend_com_wsdl_downloadFile_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuest'] = backend_com_wsdl_getQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuest'] = backend_com_wsdl_getQuest_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setQuestInstanceOfTreePart'] = backend_com_wsdl_setQuestInstanceOfTreePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setQuestInstanceOfTreePart'] = backend_com_wsdl_setQuestInstanceOfTreePart_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addEnemyResponse'] = backend_com_wsdl_addEnemyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addEnemyResponse'] = backend_com_wsdl_addEnemyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getEditorQuestsResponse'] = backend_com_wsdl_getEditorQuestsResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getEditorQuestsResponse'] = backend_com_wsdl_getEditorQuestsResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getActionsResponse'] = backend_com_wsdl_getActionsResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getActionsResponse'] = backend_com_wsdl_getActionsResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteTreePart'] = backend_com_wsdl_deleteTreePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteTreePart'] = backend_com_wsdl_deleteTreePart_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserFoundLocationsCount'] = backend_com_wsdl_setUserFoundLocationsCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserFoundLocationsCount'] = backend_com_wsdl_setUserFoundLocationsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getEditorQuest'] = backend_com_wsdl_getEditorQuest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getEditorQuest'] = backend_com_wsdl_getEditorQuest_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addEditorQuestResponse'] = backend_com_wsdl_addEditorQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addEditorQuestResponse'] = backend_com_wsdl_addEditorQuestResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addOrUpdateMarker'] = backend_com_wsdl_addOrUpdateMarker_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addOrUpdateMarker'] = backend_com_wsdl_addOrUpdateMarker_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserMoneyResponse'] = backend_com_wsdl_setUserMoneyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserMoneyResponse'] = backend_com_wsdl_setUserMoneyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addAction'] = backend_com_wsdl_addAction_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addAction'] = backend_com_wsdl_addAction_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserWonFightsCountResponse'] = backend_com_wsdl_setUserWonFightsCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserWonFightsCountResponse'] = backend_com_wsdl_setUserWonFightsCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}user'] = backend_com_wsdl_user_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}user'] = backend_com_wsdl_user_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestResponse'] = backend_com_wsdl_getQuestResponse_serialize;
@@ -13617,12 +16173,14 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteCard'] = backend_com_wsdl_deleteCard_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setTreePartFinished'] = backend_com_wsdl_setTreePartFinished_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartFinished'] = backend_com_wsdl_setTreePartFinished_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserAnsweredQuestionsCount'] = backend_com_wsdl_updateUserAnsweredQuestionsCount_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserAnsweredQuestionsCount'] = backend_com_wsdl_updateUserAnsweredQuestionsCount_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserMoney'] = backend_com_wsdl_setUserMoney_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserMoney'] = backend_com_wsdl_setUserMoney_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addTreePartLazy'] = backend_com_wsdl_addTreePartLazy_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addTreePartLazy'] = backend_com_wsdl_addTreePartLazy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestsInRangeResponse'] = backend_com_wsdl_getQuestsInRangeResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestsInRangeResponse'] = backend_com_wsdl_getQuestsInRangeResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addEnemy'] = backend_com_wsdl_addEnemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addEnemy'] = backend_com_wsdl_addEnemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getAllActionsOfCardTypeResponse'] = backend_com_wsdl_getAllActionsOfCardTypeResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsOfCardTypeResponse'] = backend_com_wsdl_getAllActionsOfCardTypeResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateQuest'] = backend_com_wsdl_updateQuest_serialize;
@@ -13631,12 +16189,12 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getDecks'] = backend_com_wsdl_getDecks_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestInstancesResponse'] = backend_com_wsdl_getQuestInstancesResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestInstancesResponse'] = backend_com_wsdl_getQuestInstancesResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}updateEnemyResponse'] = backend_com_wsdl_updateEnemyResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}updateEnemyResponse'] = backend_com_wsdl_updateEnemyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getActions'] = backend_com_wsdl_getActions_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getActions'] = backend_com_wsdl_getActions_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateActionResponse'] = backend_com_wsdl_updateActionResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateActionResponse'] = backend_com_wsdl_updateActionResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserKmWalkedResponse'] = backend_com_wsdl_updateUserKmWalkedResponse_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserKmWalkedResponse'] = backend_com_wsdl_updateUserKmWalkedResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestsInRange'] = backend_com_wsdl_getQuestsInRange_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestsInRange'] = backend_com_wsdl_getQuestsInRange_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getTreePartsLazy'] = backend_com_wsdl_getTreePartsLazy_serialize;
@@ -13645,18 +16203,18 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuests'] = backend_com_wsdl_getQuests_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addOrUpdateTreePart'] = backend_com_wsdl_addOrUpdateTreePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addOrUpdateTreePart'] = backend_com_wsdl_addOrUpdateTreePart_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getEnemy'] = backend_com_wsdl_getEnemy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getEnemy'] = backend_com_wsdl_getEnemy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}marker'] = backend_com_wsdl_marker_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}marker'] = backend_com_wsdl_marker_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getDecksResponse'] = backend_com_wsdl_getDecksResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getDecksResponse'] = backend_com_wsdl_getDecksResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}updateUserFoundLocationsCount'] = backend_com_wsdl_updateUserFoundLocationsCount_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}updateUserFoundLocationsCount'] = backend_com_wsdl_updateUserFoundLocationsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteDeckResponse'] = backend_com_wsdl_deleteDeckResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteDeckResponse'] = backend_com_wsdl_deleteDeckResponse_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuestResponse'] = backend_com_wsdl_addQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addQuestResponse'] = backend_com_wsdl_addQuestResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteUser'] = backend_com_wsdl_deleteUser_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteUser'] = backend_com_wsdl_deleteUser_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateQuestInstanceResponse'] = backend_com_wsdl_updateQuestInstanceResponse_serialize;
@@ -13671,22 +16229,36 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}addTreePartLazyResponse'] = backend_com_wsdl_addTreePartLazyResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addQuestInstance'] = backend_com_wsdl_addQuestInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addQuestInstance'] = backend_com_wsdl_addQuestInstance_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserFoundLocationsCountResponse'] = backend_com_wsdl_setUserFoundLocationsCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserFoundLocationsCountResponse'] = backend_com_wsdl_setUserFoundLocationsCountResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateCardResponse'] = backend_com_wsdl_updateCardResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateCardResponse'] = backend_com_wsdl_updateCardResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}treePartLazy'] = backend_com_wsdl_treePartLazy_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}treePartLazy'] = backend_com_wsdl_treePartLazy_deserialize;
-    this.globalElementSerializers['{http://backend.com/wsdl}getTreePartLazy'] = backend_com_wsdl_getTreePartLazy_serialize;
-    this.globalElementDeserializers['{http://backend.com/wsdl}getTreePartLazy'] = backend_com_wsdl_getTreePartLazy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addOrUpdateMarkerResponse'] = backend_com_wsdl_addOrUpdateMarkerResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addOrUpdateMarkerResponse'] = backend_com_wsdl_addOrUpdateMarkerResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserAnsweredQuestionsCountResponse'] = backend_com_wsdl_setUserAnsweredQuestionsCountResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserAnsweredQuestionsCountResponse'] = backend_com_wsdl_setUserAnsweredQuestionsCountResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}getTreePartLazy'] = backend_com_wsdl_getTreePartLazy_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}getTreePartLazy'] = backend_com_wsdl_getTreePartLazy_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserWonFightsCount'] = backend_com_wsdl_setUserWonFightsCount_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserWonFightsCount'] = backend_com_wsdl_setUserWonFightsCount_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}treePart'] = backend_com_wsdl_treePart_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}treePart'] = backend_com_wsdl_treePart_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}addQuestRating'] = backend_com_wsdl_addQuestRating_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}addQuestRating'] = backend_com_wsdl_addQuestRating_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateHtmlResponse'] = backend_com_wsdl_updateHtmlResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}updateHtmlResponse'] = backend_com_wsdl_updateHtmlResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestInstance'] = backend_com_wsdl_getQuestInstance_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getQuestInstance'] = backend_com_wsdl_getQuestInstance_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addHtml'] = backend_com_wsdl_addHtml_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addHtml'] = backend_com_wsdl_addHtml_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}uploadFileResponse'] = backend_com_wsdl_uploadFileResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}uploadFileResponse'] = backend_com_wsdl_uploadFileResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}uploadFile'] = backend_com_wsdl_uploadFile_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}uploadFile'] = backend_com_wsdl_uploadFile_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}questRating'] = backend_com_wsdl_questRating_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}questRating'] = backend_com_wsdl_questRating_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}deleteQuestResponse'] = backend_com_wsdl_deleteQuestResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteQuestResponse'] = backend_com_wsdl_deleteQuestResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}card'] = backend_com_wsdl_card_serialize;
@@ -13701,6 +16273,94 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getAllActions'] = backend_com_wsdl_getAllActions_deserialize;
 }
 
+function backend_com_wsdl_getEnemy_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_getEnemyResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_getEnemyResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.getEnemy_onsuccess = backend_com_wsdl_getEnemy_op_onsuccess;
+
+function backend_com_wsdl_getEnemy_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.getEnemy_onerror = backend_com_wsdl_getEnemy_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}getEnemy
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}long//
+function backend_com_wsdl_getEnemy_op(successCallback, errorCallback, arg0) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(1);
+    args[0] = arg0;
+    xml = this.getEnemy_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.getEnemy_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.getEnemy_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.getEnemy = backend_com_wsdl_getEnemy_op;
+
+function backend_com_wsdl_getEnemy_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_getEnemy();
+    wrapperObj.setArg0(args[0]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:getEnemy', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.getEnemy_serializeInput = backend_com_wsdl_getEnemy_serializeInput;
+
+function backend_com_wsdl_getEnemyResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_getEnemyResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
+}
 function backend_com_wsdl_updateUser_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
@@ -14140,6 +16800,94 @@ function backend_com_wsdl_getQuestInstancesResponse_deserializeResponse(cxfjsuti
     var returnObject = backend_com_wsdl_getQuestInstancesResponse_deserialize (cxfjsutils, partElement);
 
     return returnObject;
+}
+function backend_com_wsdl_setUserMoney_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_setUserMoneyResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setUserMoneyResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserMoney_onsuccess = backend_com_wsdl_setUserMoney_op_onsuccess;
+
+function backend_com_wsdl_setUserMoney_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserMoney_onerror = backend_com_wsdl_setUserMoney_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}setUserMoney
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
+// - simple type {http://www.w3.org/2001/XMLSchema}long//
+function backend_com_wsdl_setUserMoney_op(successCallback, errorCallback, arg0, arg1) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(2);
+    args[0] = arg0;
+    args[1] = arg1;
+    xml = this.setUserMoney_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.setUserMoney_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setUserMoney_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.setUserMoney = backend_com_wsdl_setUserMoney_op;
+
+function backend_com_wsdl_setUserMoney_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setUserMoney();
+    wrapperObj.setArg0(args[0]);
+    wrapperObj.setArg1(args[1]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setUserMoney', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.setUserMoney_serializeInput = backend_com_wsdl_setUserMoney_serializeInput;
+
+function backend_com_wsdl_setUserMoneyResponse_deserializeResponse(cxfjsutils, partElement) {
 }
 function backend_com_wsdl_deleteUser_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
@@ -15023,6 +17771,94 @@ function backend_com_wsdl_updateQuestResponse_deserializeResponse(cxfjsutils, pa
 
     return returnObject;
 }
+function backend_com_wsdl_setUserAnsweredQuestionsCount_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_setUserAnsweredQuestionsCountResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setUserAnsweredQuestionsCountResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserAnsweredQuestionsCount_onsuccess = backend_com_wsdl_setUserAnsweredQuestionsCount_op_onsuccess;
+
+function backend_com_wsdl_setUserAnsweredQuestionsCount_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserAnsweredQuestionsCount_onerror = backend_com_wsdl_setUserAnsweredQuestionsCount_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}setUserAnsweredQuestionsCount
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
+// - simple type {http://www.w3.org/2001/XMLSchema}long//
+function backend_com_wsdl_setUserAnsweredQuestionsCount_op(successCallback, errorCallback, arg0, arg1) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(2);
+    args[0] = arg0;
+    args[1] = arg1;
+    xml = this.setUserAnsweredQuestionsCount_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.setUserAnsweredQuestionsCount_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setUserAnsweredQuestionsCount_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.setUserAnsweredQuestionsCount = backend_com_wsdl_setUserAnsweredQuestionsCount_op;
+
+function backend_com_wsdl_setUserAnsweredQuestionsCount_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setUserAnsweredQuestionsCount();
+    wrapperObj.setArg0(args[0]);
+    wrapperObj.setArg1(args[1]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setUserAnsweredQuestionsCount', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.setUserAnsweredQuestionsCount_serializeInput = backend_com_wsdl_setUserAnsweredQuestionsCount_serializeInput;
+
+function backend_com_wsdl_setUserAnsweredQuestionsCountResponse_deserializeResponse(cxfjsutils, partElement) {
+}
 function backend_com_wsdl_deleteAction_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
@@ -15196,6 +18032,94 @@ function backend_com_wsdl_updateCardResponse_deserializeResponse(cxfjsutils, par
     var returnObject = backend_com_wsdl_updateCardResponse_deserialize (cxfjsutils, partElement);
 
     return returnObject;
+}
+function backend_com_wsdl_setQuestInstanceFailCount_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_setQuestInstanceFailCountResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setQuestInstanceFailCountResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setQuestInstanceFailCount_onsuccess = backend_com_wsdl_setQuestInstanceFailCount_op_onsuccess;
+
+function backend_com_wsdl_setQuestInstanceFailCount_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setQuestInstanceFailCount_onerror = backend_com_wsdl_setQuestInstanceFailCount_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}setQuestInstanceFailCount
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
+// - simple type {http://www.w3.org/2001/XMLSchema}long//
+function backend_com_wsdl_setQuestInstanceFailCount_op(successCallback, errorCallback, arg0, arg1) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(2);
+    args[0] = arg0;
+    args[1] = arg1;
+    xml = this.setQuestInstanceFailCount_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.setQuestInstanceFailCount_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setQuestInstanceFailCount_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.setQuestInstanceFailCount = backend_com_wsdl_setQuestInstanceFailCount_op;
+
+function backend_com_wsdl_setQuestInstanceFailCount_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setQuestInstanceFailCount();
+    wrapperObj.setArg0(args[0]);
+    wrapperObj.setArg1(args[1]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setQuestInstanceFailCount', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.setQuestInstanceFailCount_serializeInput = backend_com_wsdl_setQuestInstanceFailCount_serializeInput;
+
+function backend_com_wsdl_setQuestInstanceFailCountResponse_deserializeResponse(cxfjsutils, partElement) {
 }
 function backend_com_wsdl_deleteQuest_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
@@ -15459,94 +18383,6 @@ function backend_com_wsdl_addDeckResponse_deserializeResponse(cxfjsutils, partEl
 
     return returnObject;
 }
-function backend_com_wsdl_getTreePartLazy_op_onsuccess(client, responseXml) {
-    if (client.user_onsuccess) {
-     var responseObject = null;
-     var element = responseXml.documentElement;
-     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
-     element = this.jsutils.getFirstElementChild(element);
-     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
-     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
-      element = this.jsutils.getNextElementSibling(element);
-      if (element == null) {
-       throw 'No env:Body in message.'
-      }
-     }
-     element = this.jsutils.getFirstElementChild(element);
-     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
-     this.jsutils.trace('calling backend_com_wsdl_getTreePartLazyResponse_deserializeResponse');
-     responseObject = backend_com_wsdl_getTreePartLazyResponse_deserializeResponse(this.jsutils, element);
-     client.user_onsuccess(responseObject);
-    }
-}
-
-backend_com_wsdl_IBackend.prototype.getTreePartLazy_onsuccess = backend_com_wsdl_getTreePartLazy_op_onsuccess;
-
-function backend_com_wsdl_getTreePartLazy_op_onerror(client) {
-    if (client.user_onerror) {
-     var httpStatus;
-     var httpStatusText;
-     try {
-      httpStatus = client.req.status;
-      httpStatusText = client.req.statusText;
-     } catch(e) {
-      httpStatus = -1;
-      httpStatusText = 'Error opening connection to server';
-     }
-     if (client.parseErrorDetails) {
-      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
-     } else {
-      client.user_onerror(httpStatus, httpStatusText);
-     }
-    }
-}
-
-backend_com_wsdl_IBackend.prototype.getTreePartLazy_onerror = backend_com_wsdl_getTreePartLazy_op_onerror;
-
-//
-// Operation {http://backend.com/wsdl}getTreePartLazy
-// Wrapped operation.
-// parameter arg0
-// - simple type {http://www.w3.org/2001/XMLSchema}long//
-function backend_com_wsdl_getTreePartLazy_op(successCallback, errorCallback, arg0) {
-    this.client = new CxfApacheOrgClient(this.jsutils);
-    var xml = null;
-    var args = new Array(1);
-    args[0] = arg0;
-    xml = this.getTreePartLazy_serializeInput(this.jsutils, args);
-    this.client.user_onsuccess = successCallback;
-    this.client.user_onerror = errorCallback;
-    var closureThis = this;
-    this.client.onsuccess = function(client, responseXml) { closureThis.getTreePartLazy_onsuccess(client, responseXml); };
-    this.client.onerror = function(client) { closureThis.getTreePartLazy_onerror(client); };
-    var requestHeaders = [];
-    requestHeaders['SOAPAction'] = '';
-    this.jsutils.trace('synchronous = ' + this.synchronous);
-    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
-}
-
-backend_com_wsdl_IBackend.prototype.getTreePartLazy = backend_com_wsdl_getTreePartLazy_op;
-
-function backend_com_wsdl_getTreePartLazy_serializeInput(cxfjsutils, args) {
-    var wrapperObj = new backend_com_wsdl_getTreePartLazy();
-    wrapperObj.setArg0(args[0]);
-    var xml;
-    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
-    // block for local variables
-    {
-     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:getTreePartLazy', null);
-    }
-    xml = xml + cxfjsutils.endSoap11Message();
-    return xml;
-}
-
-backend_com_wsdl_IBackend.prototype.getTreePartLazy_serializeInput = backend_com_wsdl_getTreePartLazy_serializeInput;
-
-function backend_com_wsdl_getTreePartLazyResponse_deserializeResponse(cxfjsutils, partElement) {
-    var returnObject = backend_com_wsdl_getTreePartLazyResponse_deserialize (cxfjsutils, partElement);
-
-    return returnObject;
-}
 function backend_com_wsdl_addTreePartLazy_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
@@ -15633,6 +18469,94 @@ backend_com_wsdl_IBackend.prototype.addTreePartLazy_serializeInput = backend_com
 
 function backend_com_wsdl_addTreePartLazyResponse_deserializeResponse(cxfjsutils, partElement) {
     var returnObject = backend_com_wsdl_addTreePartLazyResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
+}
+function backend_com_wsdl_getTreePartLazy_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_getTreePartLazyResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_getTreePartLazyResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.getTreePartLazy_onsuccess = backend_com_wsdl_getTreePartLazy_op_onsuccess;
+
+function backend_com_wsdl_getTreePartLazy_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.getTreePartLazy_onerror = backend_com_wsdl_getTreePartLazy_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}getTreePartLazy
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}long//
+function backend_com_wsdl_getTreePartLazy_op(successCallback, errorCallback, arg0) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(1);
+    args[0] = arg0;
+    xml = this.getTreePartLazy_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.getTreePartLazy_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.getTreePartLazy_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.getTreePartLazy = backend_com_wsdl_getTreePartLazy_op;
+
+function backend_com_wsdl_getTreePartLazy_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_getTreePartLazy();
+    wrapperObj.setArg0(args[0]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:getTreePartLazy', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.getTreePartLazy_serializeInput = backend_com_wsdl_getTreePartLazy_serializeInput;
+
+function backend_com_wsdl_getTreePartLazyResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_getTreePartLazyResponse_deserialize (cxfjsutils, partElement);
 
     return returnObject;
 }
@@ -15724,94 +18648,6 @@ function backend_com_wsdl_updateEditorQuestResponse_deserializeResponse(cxfjsuti
     var returnObject = backend_com_wsdl_updateEditorQuestResponse_deserialize (cxfjsutils, partElement);
 
     return returnObject;
-}
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_op_onsuccess(client, responseXml) {
-    if (client.user_onsuccess) {
-     var responseObject = null;
-     var element = responseXml.documentElement;
-     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
-     element = this.jsutils.getFirstElementChild(element);
-     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
-     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
-      element = this.jsutils.getNextElementSibling(element);
-      if (element == null) {
-       throw 'No env:Body in message.'
-      }
-     }
-     element = this.jsutils.getFirstElementChild(element);
-     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
-     this.jsutils.trace('calling backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_deserializeResponse');
-     responseObject = backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_deserializeResponse(this.jsutils, element);
-     client.user_onsuccess(responseObject);
-    }
-}
-
-backend_com_wsdl_IBackend.prototype.updateUserAnsweredQuestionsCount_onsuccess = backend_com_wsdl_updateUserAnsweredQuestionsCount_op_onsuccess;
-
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_op_onerror(client) {
-    if (client.user_onerror) {
-     var httpStatus;
-     var httpStatusText;
-     try {
-      httpStatus = client.req.status;
-      httpStatusText = client.req.statusText;
-     } catch(e) {
-      httpStatus = -1;
-      httpStatusText = 'Error opening connection to server';
-     }
-     if (client.parseErrorDetails) {
-      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
-     } else {
-      client.user_onerror(httpStatus, httpStatusText);
-     }
-    }
-}
-
-backend_com_wsdl_IBackend.prototype.updateUserAnsweredQuestionsCount_onerror = backend_com_wsdl_updateUserAnsweredQuestionsCount_op_onerror;
-
-//
-// Operation {http://backend.com/wsdl}updateUserAnsweredQuestionsCount
-// Wrapped operation.
-// parameter arg0
-// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
-// - simple type {http://www.w3.org/2001/XMLSchema}long//
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_op(successCallback, errorCallback, arg0, arg1) {
-    this.client = new CxfApacheOrgClient(this.jsutils);
-    var xml = null;
-    var args = new Array(2);
-    args[0] = arg0;
-    args[1] = arg1;
-    xml = this.updateUserAnsweredQuestionsCount_serializeInput(this.jsutils, args);
-    this.client.user_onsuccess = successCallback;
-    this.client.user_onerror = errorCallback;
-    var closureThis = this;
-    this.client.onsuccess = function(client, responseXml) { closureThis.updateUserAnsweredQuestionsCount_onsuccess(client, responseXml); };
-    this.client.onerror = function(client) { closureThis.updateUserAnsweredQuestionsCount_onerror(client); };
-    var requestHeaders = [];
-    requestHeaders['SOAPAction'] = '';
-    this.jsutils.trace('synchronous = ' + this.synchronous);
-    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
-}
-
-backend_com_wsdl_IBackend.prototype.updateUserAnsweredQuestionsCount = backend_com_wsdl_updateUserAnsweredQuestionsCount_op;
-
-function backend_com_wsdl_updateUserAnsweredQuestionsCount_serializeInput(cxfjsutils, args) {
-    var wrapperObj = new backend_com_wsdl_updateUserAnsweredQuestionsCount();
-    wrapperObj.setArg0(args[0]);
-    wrapperObj.setArg1(args[1]);
-    var xml;
-    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
-    // block for local variables
-    {
-     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:updateUserAnsweredQuestionsCount', null);
-    }
-    xml = xml + cxfjsutils.endSoap11Message();
-    return xml;
-}
-
-backend_com_wsdl_IBackend.prototype.updateUserAnsweredQuestionsCount_serializeInput = backend_com_wsdl_updateUserAnsweredQuestionsCount_serializeInput;
-
-function backend_com_wsdl_updateUserAnsweredQuestionsCountResponse_deserializeResponse(cxfjsutils, partElement) {
 }
 function backend_com_wsdl_updateHtml_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
@@ -16340,7 +19176,7 @@ function backend_com_wsdl_getTreePartResponse_deserializeResponse(cxfjsutils, pa
 
     return returnObject;
 }
-function backend_com_wsdl_updateUserTaskCount_op_onsuccess(client, responseXml) {
+function backend_com_wsdl_setUserKmWalked_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
      var element = responseXml.documentElement;
@@ -16355,15 +19191,15 @@ function backend_com_wsdl_updateUserTaskCount_op_onsuccess(client, responseXml) 
      }
      element = this.jsutils.getFirstElementChild(element);
      this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
-     this.jsutils.trace('calling backend_com_wsdl_updateUserTaskCountResponse_deserializeResponse');
-     responseObject = backend_com_wsdl_updateUserTaskCountResponse_deserializeResponse(this.jsutils, element);
+     this.jsutils.trace('calling backend_com_wsdl_setUserKmWalkedResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setUserKmWalkedResponse_deserializeResponse(this.jsutils, element);
      client.user_onsuccess(responseObject);
     }
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserTaskCount_onsuccess = backend_com_wsdl_updateUserTaskCount_op_onsuccess;
+backend_com_wsdl_IBackend.prototype.setUserKmWalked_onsuccess = backend_com_wsdl_setUserKmWalked_op_onsuccess;
 
-function backend_com_wsdl_updateUserTaskCount_op_onerror(client) {
+function backend_com_wsdl_setUserKmWalked_op_onerror(client) {
     if (client.user_onerror) {
      var httpStatus;
      var httpStatusText;
@@ -16382,51 +19218,51 @@ function backend_com_wsdl_updateUserTaskCount_op_onerror(client) {
     }
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserTaskCount_onerror = backend_com_wsdl_updateUserTaskCount_op_onerror;
+backend_com_wsdl_IBackend.prototype.setUserKmWalked_onerror = backend_com_wsdl_setUserKmWalked_op_onerror;
 
 //
-// Operation {http://backend.com/wsdl}updateUserTaskCount
+// Operation {http://backend.com/wsdl}setUserKmWalked
 // Wrapped operation.
 // parameter arg0
 // - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
-// - simple type {http://www.w3.org/2001/XMLSchema}long//
-function backend_com_wsdl_updateUserTaskCount_op(successCallback, errorCallback, arg0, arg1) {
+// - simple type {http://www.w3.org/2001/XMLSchema}double//
+function backend_com_wsdl_setUserKmWalked_op(successCallback, errorCallback, arg0, arg1) {
     this.client = new CxfApacheOrgClient(this.jsutils);
     var xml = null;
     var args = new Array(2);
     args[0] = arg0;
     args[1] = arg1;
-    xml = this.updateUserTaskCount_serializeInput(this.jsutils, args);
+    xml = this.setUserKmWalked_serializeInput(this.jsutils, args);
     this.client.user_onsuccess = successCallback;
     this.client.user_onerror = errorCallback;
     var closureThis = this;
-    this.client.onsuccess = function(client, responseXml) { closureThis.updateUserTaskCount_onsuccess(client, responseXml); };
-    this.client.onerror = function(client) { closureThis.updateUserTaskCount_onerror(client); };
+    this.client.onsuccess = function(client, responseXml) { closureThis.setUserKmWalked_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setUserKmWalked_onerror(client); };
     var requestHeaders = [];
     requestHeaders['SOAPAction'] = '';
     this.jsutils.trace('synchronous = ' + this.synchronous);
     this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserTaskCount = backend_com_wsdl_updateUserTaskCount_op;
+backend_com_wsdl_IBackend.prototype.setUserKmWalked = backend_com_wsdl_setUserKmWalked_op;
 
-function backend_com_wsdl_updateUserTaskCount_serializeInput(cxfjsutils, args) {
-    var wrapperObj = new backend_com_wsdl_updateUserTaskCount();
+function backend_com_wsdl_setUserKmWalked_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setUserKmWalked();
     wrapperObj.setArg0(args[0]);
     wrapperObj.setArg1(args[1]);
     var xml;
     xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
     // block for local variables
     {
-     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:updateUserTaskCount', null);
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setUserKmWalked', null);
     }
     xml = xml + cxfjsutils.endSoap11Message();
     return xml;
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserTaskCount_serializeInput = backend_com_wsdl_updateUserTaskCount_serializeInput;
+backend_com_wsdl_IBackend.prototype.setUserKmWalked_serializeInput = backend_com_wsdl_setUserKmWalked_serializeInput;
 
-function backend_com_wsdl_updateUserTaskCountResponse_deserializeResponse(cxfjsutils, partElement) {
+function backend_com_wsdl_setUserKmWalkedResponse_deserializeResponse(cxfjsutils, partElement) {
 }
 function backend_com_wsdl_getCards_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
@@ -16693,6 +19529,179 @@ function backend_com_wsdl_setQuestInstanceOfTreePart_serializeInput(cxfjsutils, 
 backend_com_wsdl_IBackend.prototype.setQuestInstanceOfTreePart_serializeInput = backend_com_wsdl_setQuestInstanceOfTreePart_serializeInput;
 
 function backend_com_wsdl_setQuestInstanceOfTreePartResponse_deserializeResponse(cxfjsutils, partElement) {
+}
+function backend_com_wsdl_setUserFoundLocationsCount_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_setUserFoundLocationsCountResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setUserFoundLocationsCountResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserFoundLocationsCount_onsuccess = backend_com_wsdl_setUserFoundLocationsCount_op_onsuccess;
+
+function backend_com_wsdl_setUserFoundLocationsCount_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserFoundLocationsCount_onerror = backend_com_wsdl_setUserFoundLocationsCount_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}setUserFoundLocationsCount
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
+// - simple type {http://www.w3.org/2001/XMLSchema}long//
+function backend_com_wsdl_setUserFoundLocationsCount_op(successCallback, errorCallback, arg0, arg1) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(2);
+    args[0] = arg0;
+    args[1] = arg1;
+    xml = this.setUserFoundLocationsCount_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.setUserFoundLocationsCount_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setUserFoundLocationsCount_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.setUserFoundLocationsCount = backend_com_wsdl_setUserFoundLocationsCount_op;
+
+function backend_com_wsdl_setUserFoundLocationsCount_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setUserFoundLocationsCount();
+    wrapperObj.setArg0(args[0]);
+    wrapperObj.setArg1(args[1]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setUserFoundLocationsCount', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.setUserFoundLocationsCount_serializeInput = backend_com_wsdl_setUserFoundLocationsCount_serializeInput;
+
+function backend_com_wsdl_setUserFoundLocationsCountResponse_deserializeResponse(cxfjsutils, partElement) {
+}
+function backend_com_wsdl_getRandomEnemy_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_getRandomEnemyResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_getRandomEnemyResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.getRandomEnemy_onsuccess = backend_com_wsdl_getRandomEnemy_op_onsuccess;
+
+function backend_com_wsdl_getRandomEnemy_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.getRandomEnemy_onerror = backend_com_wsdl_getRandomEnemy_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}getRandomEnemy
+// Wrapped operation.
+//
+function backend_com_wsdl_getRandomEnemy_op(successCallback, errorCallback) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(0);
+    xml = this.getRandomEnemy_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.getRandomEnemy_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.getRandomEnemy_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.getRandomEnemy = backend_com_wsdl_getRandomEnemy_op;
+
+function backend_com_wsdl_getRandomEnemy_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_getRandomEnemy();
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:getRandomEnemy', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.getRandomEnemy_serializeInput = backend_com_wsdl_getRandomEnemy_serializeInput;
+
+function backend_com_wsdl_getRandomEnemyResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_getRandomEnemyResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
 }
 function backend_com_wsdl_getQuest_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
@@ -17129,6 +20138,95 @@ function backend_com_wsdl_getDeckResponse_deserializeResponse(cxfjsutils, partEl
 
     return returnObject;
 }
+function backend_com_wsdl_addQuestRating_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_addQuestRatingResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_addQuestRatingResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.addQuestRating_onsuccess = backend_com_wsdl_addQuestRating_op_onsuccess;
+
+function backend_com_wsdl_addQuestRating_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.addQuestRating_onerror = backend_com_wsdl_addQuestRating_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}addQuestRating
+// Wrapped operation.
+// parameter arg0
+// - Object constructor is backend_com_wsdl_questRating
+//
+function backend_com_wsdl_addQuestRating_op(successCallback, errorCallback, arg0) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(1);
+    args[0] = arg0;
+    xml = this.addQuestRating_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.addQuestRating_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.addQuestRating_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.addQuestRating = backend_com_wsdl_addQuestRating_op;
+
+function backend_com_wsdl_addQuestRating_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_addQuestRating();
+    wrapperObj.setArg0(args[0]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:addQuestRating', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.addQuestRating_serializeInput = backend_com_wsdl_addQuestRating_serializeInput;
+
+function backend_com_wsdl_addQuestRatingResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_addQuestRatingResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
+}
 function backend_com_wsdl_addOrUpdateMarker_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
@@ -17218,7 +20316,7 @@ function backend_com_wsdl_addOrUpdateMarkerResponse_deserializeResponse(cxfjsuti
 
     return returnObject;
 }
-function backend_com_wsdl_updateUserKmWalked_op_onsuccess(client, responseXml) {
+function backend_com_wsdl_setUserWonFightsCount_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
      var element = responseXml.documentElement;
@@ -17233,15 +20331,15 @@ function backend_com_wsdl_updateUserKmWalked_op_onsuccess(client, responseXml) {
      }
      element = this.jsutils.getFirstElementChild(element);
      this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
-     this.jsutils.trace('calling backend_com_wsdl_updateUserKmWalkedResponse_deserializeResponse');
-     responseObject = backend_com_wsdl_updateUserKmWalkedResponse_deserializeResponse(this.jsutils, element);
+     this.jsutils.trace('calling backend_com_wsdl_setUserWonFightsCountResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setUserWonFightsCountResponse_deserializeResponse(this.jsutils, element);
      client.user_onsuccess(responseObject);
     }
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserKmWalked_onsuccess = backend_com_wsdl_updateUserKmWalked_op_onsuccess;
+backend_com_wsdl_IBackend.prototype.setUserWonFightsCount_onsuccess = backend_com_wsdl_setUserWonFightsCount_op_onsuccess;
 
-function backend_com_wsdl_updateUserKmWalked_op_onerror(client) {
+function backend_com_wsdl_setUserWonFightsCount_op_onerror(client) {
     if (client.user_onerror) {
      var httpStatus;
      var httpStatusText;
@@ -17260,51 +20358,51 @@ function backend_com_wsdl_updateUserKmWalked_op_onerror(client) {
     }
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserKmWalked_onerror = backend_com_wsdl_updateUserKmWalked_op_onerror;
+backend_com_wsdl_IBackend.prototype.setUserWonFightsCount_onerror = backend_com_wsdl_setUserWonFightsCount_op_onerror;
 
 //
-// Operation {http://backend.com/wsdl}updateUserKmWalked
+// Operation {http://backend.com/wsdl}setUserWonFightsCount
 // Wrapped operation.
 // parameter arg0
 // - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
-// - simple type {http://www.w3.org/2001/XMLSchema}double//
-function backend_com_wsdl_updateUserKmWalked_op(successCallback, errorCallback, arg0, arg1) {
+// - simple type {http://www.w3.org/2001/XMLSchema}long//
+function backend_com_wsdl_setUserWonFightsCount_op(successCallback, errorCallback, arg0, arg1) {
     this.client = new CxfApacheOrgClient(this.jsutils);
     var xml = null;
     var args = new Array(2);
     args[0] = arg0;
     args[1] = arg1;
-    xml = this.updateUserKmWalked_serializeInput(this.jsutils, args);
+    xml = this.setUserWonFightsCount_serializeInput(this.jsutils, args);
     this.client.user_onsuccess = successCallback;
     this.client.user_onerror = errorCallback;
     var closureThis = this;
-    this.client.onsuccess = function(client, responseXml) { closureThis.updateUserKmWalked_onsuccess(client, responseXml); };
-    this.client.onerror = function(client) { closureThis.updateUserKmWalked_onerror(client); };
+    this.client.onsuccess = function(client, responseXml) { closureThis.setUserWonFightsCount_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setUserWonFightsCount_onerror(client); };
     var requestHeaders = [];
     requestHeaders['SOAPAction'] = '';
     this.jsutils.trace('synchronous = ' + this.synchronous);
     this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserKmWalked = backend_com_wsdl_updateUserKmWalked_op;
+backend_com_wsdl_IBackend.prototype.setUserWonFightsCount = backend_com_wsdl_setUserWonFightsCount_op;
 
-function backend_com_wsdl_updateUserKmWalked_serializeInput(cxfjsutils, args) {
-    var wrapperObj = new backend_com_wsdl_updateUserKmWalked();
+function backend_com_wsdl_setUserWonFightsCount_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setUserWonFightsCount();
     wrapperObj.setArg0(args[0]);
     wrapperObj.setArg1(args[1]);
     var xml;
     xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
     // block for local variables
     {
-     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:updateUserKmWalked', null);
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setUserWonFightsCount', null);
     }
     xml = xml + cxfjsutils.endSoap11Message();
     return xml;
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserKmWalked_serializeInput = backend_com_wsdl_updateUserKmWalked_serializeInput;
+backend_com_wsdl_IBackend.prototype.setUserWonFightsCount_serializeInput = backend_com_wsdl_setUserWonFightsCount_serializeInput;
 
-function backend_com_wsdl_updateUserKmWalkedResponse_deserializeResponse(cxfjsutils, partElement) {
+function backend_com_wsdl_setUserWonFightsCountResponse_deserializeResponse(cxfjsutils, partElement) {
 }
 function backend_com_wsdl_updateQuestInstance_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
@@ -17483,95 +20581,6 @@ function backend_com_wsdl_getActionResponse_deserializeResponse(cxfjsutils, part
 
     return returnObject;
 }
-function backend_com_wsdl_addAction_op_onsuccess(client, responseXml) {
-    if (client.user_onsuccess) {
-     var responseObject = null;
-     var element = responseXml.documentElement;
-     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
-     element = this.jsutils.getFirstElementChild(element);
-     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
-     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
-      element = this.jsutils.getNextElementSibling(element);
-      if (element == null) {
-       throw 'No env:Body in message.'
-      }
-     }
-     element = this.jsutils.getFirstElementChild(element);
-     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
-     this.jsutils.trace('calling backend_com_wsdl_addActionResponse_deserializeResponse');
-     responseObject = backend_com_wsdl_addActionResponse_deserializeResponse(this.jsutils, element);
-     client.user_onsuccess(responseObject);
-    }
-}
-
-backend_com_wsdl_IBackend.prototype.addAction_onsuccess = backend_com_wsdl_addAction_op_onsuccess;
-
-function backend_com_wsdl_addAction_op_onerror(client) {
-    if (client.user_onerror) {
-     var httpStatus;
-     var httpStatusText;
-     try {
-      httpStatus = client.req.status;
-      httpStatusText = client.req.statusText;
-     } catch(e) {
-      httpStatus = -1;
-      httpStatusText = 'Error opening connection to server';
-     }
-     if (client.parseErrorDetails) {
-      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
-     } else {
-      client.user_onerror(httpStatus, httpStatusText);
-     }
-    }
-}
-
-backend_com_wsdl_IBackend.prototype.addAction_onerror = backend_com_wsdl_addAction_op_onerror;
-
-//
-// Operation {http://backend.com/wsdl}addAction
-// Wrapped operation.
-// parameter arg0
-// - Object constructor is backend_com_wsdl_action
-//
-function backend_com_wsdl_addAction_op(successCallback, errorCallback, arg0) {
-    this.client = new CxfApacheOrgClient(this.jsutils);
-    var xml = null;
-    var args = new Array(1);
-    args[0] = arg0;
-    xml = this.addAction_serializeInput(this.jsutils, args);
-    this.client.user_onsuccess = successCallback;
-    this.client.user_onerror = errorCallback;
-    var closureThis = this;
-    this.client.onsuccess = function(client, responseXml) { closureThis.addAction_onsuccess(client, responseXml); };
-    this.client.onerror = function(client) { closureThis.addAction_onerror(client); };
-    var requestHeaders = [];
-    requestHeaders['SOAPAction'] = '';
-    this.jsutils.trace('synchronous = ' + this.synchronous);
-    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
-}
-
-backend_com_wsdl_IBackend.prototype.addAction = backend_com_wsdl_addAction_op;
-
-function backend_com_wsdl_addAction_serializeInput(cxfjsutils, args) {
-    var wrapperObj = new backend_com_wsdl_addAction();
-    wrapperObj.setArg0(args[0]);
-    var xml;
-    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
-    // block for local variables
-    {
-     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:addAction', null);
-    }
-    xml = xml + cxfjsutils.endSoap11Message();
-    return xml;
-}
-
-backend_com_wsdl_IBackend.prototype.addAction_serializeInput = backend_com_wsdl_addAction_serializeInput;
-
-function backend_com_wsdl_addActionResponse_deserializeResponse(cxfjsutils, partElement) {
-    var returnObject = backend_com_wsdl_addActionResponse_deserialize (cxfjsutils, partElement);
-
-    return returnObject;
-}
 function backend_com_wsdl_getMarkers_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
@@ -17658,6 +20667,95 @@ backend_com_wsdl_IBackend.prototype.getMarkers_serializeInput = backend_com_wsdl
 
 function backend_com_wsdl_getMarkersResponse_deserializeResponse(cxfjsutils, partElement) {
     var returnObject = backend_com_wsdl_getMarkersResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
+}
+function backend_com_wsdl_addAction_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_addActionResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_addActionResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.addAction_onsuccess = backend_com_wsdl_addAction_op_onsuccess;
+
+function backend_com_wsdl_addAction_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.addAction_onerror = backend_com_wsdl_addAction_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}addAction
+// Wrapped operation.
+// parameter arg0
+// - Object constructor is backend_com_wsdl_action
+//
+function backend_com_wsdl_addAction_op(successCallback, errorCallback, arg0) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(1);
+    args[0] = arg0;
+    xml = this.addAction_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.addAction_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.addAction_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.addAction = backend_com_wsdl_addAction_op;
+
+function backend_com_wsdl_addAction_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_addAction();
+    wrapperObj.setArg0(args[0]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:addAction', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.addAction_serializeInput = backend_com_wsdl_addAction_serializeInput;
+
+function backend_com_wsdl_addActionResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_addActionResponse_deserialize (cxfjsutils, partElement);
 
     return returnObject;
 }
@@ -17839,94 +20937,6 @@ function backend_com_wsdl_addHtmlResponse_deserializeResponse(cxfjsutils, partEl
 
     return returnObject;
 }
-function backend_com_wsdl_updateUserWonFightsCount_op_onsuccess(client, responseXml) {
-    if (client.user_onsuccess) {
-     var responseObject = null;
-     var element = responseXml.documentElement;
-     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
-     element = this.jsutils.getFirstElementChild(element);
-     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
-     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
-      element = this.jsutils.getNextElementSibling(element);
-      if (element == null) {
-       throw 'No env:Body in message.'
-      }
-     }
-     element = this.jsutils.getFirstElementChild(element);
-     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
-     this.jsutils.trace('calling backend_com_wsdl_updateUserWonFightsCountResponse_deserializeResponse');
-     responseObject = backend_com_wsdl_updateUserWonFightsCountResponse_deserializeResponse(this.jsutils, element);
-     client.user_onsuccess(responseObject);
-    }
-}
-
-backend_com_wsdl_IBackend.prototype.updateUserWonFightsCount_onsuccess = backend_com_wsdl_updateUserWonFightsCount_op_onsuccess;
-
-function backend_com_wsdl_updateUserWonFightsCount_op_onerror(client) {
-    if (client.user_onerror) {
-     var httpStatus;
-     var httpStatusText;
-     try {
-      httpStatus = client.req.status;
-      httpStatusText = client.req.statusText;
-     } catch(e) {
-      httpStatus = -1;
-      httpStatusText = 'Error opening connection to server';
-     }
-     if (client.parseErrorDetails) {
-      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
-     } else {
-      client.user_onerror(httpStatus, httpStatusText);
-     }
-    }
-}
-
-backend_com_wsdl_IBackend.prototype.updateUserWonFightsCount_onerror = backend_com_wsdl_updateUserWonFightsCount_op_onerror;
-
-//
-// Operation {http://backend.com/wsdl}updateUserWonFightsCount
-// Wrapped operation.
-// parameter arg0
-// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
-// - simple type {http://www.w3.org/2001/XMLSchema}long//
-function backend_com_wsdl_updateUserWonFightsCount_op(successCallback, errorCallback, arg0, arg1) {
-    this.client = new CxfApacheOrgClient(this.jsutils);
-    var xml = null;
-    var args = new Array(2);
-    args[0] = arg0;
-    args[1] = arg1;
-    xml = this.updateUserWonFightsCount_serializeInput(this.jsutils, args);
-    this.client.user_onsuccess = successCallback;
-    this.client.user_onerror = errorCallback;
-    var closureThis = this;
-    this.client.onsuccess = function(client, responseXml) { closureThis.updateUserWonFightsCount_onsuccess(client, responseXml); };
-    this.client.onerror = function(client) { closureThis.updateUserWonFightsCount_onerror(client); };
-    var requestHeaders = [];
-    requestHeaders['SOAPAction'] = '';
-    this.jsutils.trace('synchronous = ' + this.synchronous);
-    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
-}
-
-backend_com_wsdl_IBackend.prototype.updateUserWonFightsCount = backend_com_wsdl_updateUserWonFightsCount_op;
-
-function backend_com_wsdl_updateUserWonFightsCount_serializeInput(cxfjsutils, args) {
-    var wrapperObj = new backend_com_wsdl_updateUserWonFightsCount();
-    wrapperObj.setArg0(args[0]);
-    wrapperObj.setArg1(args[1]);
-    var xml;
-    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
-    // block for local variables
-    {
-     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:updateUserWonFightsCount', null);
-    }
-    xml = xml + cxfjsutils.endSoap11Message();
-    return xml;
-}
-
-backend_com_wsdl_IBackend.prototype.updateUserWonFightsCount_serializeInput = backend_com_wsdl_updateUserWonFightsCount_serializeInput;
-
-function backend_com_wsdl_updateUserWonFightsCountResponse_deserializeResponse(cxfjsutils, partElement) {
-}
 function backend_com_wsdl_addEditorQuest_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
@@ -18016,7 +21026,7 @@ function backend_com_wsdl_addEditorQuestResponse_deserializeResponse(cxfjsutils,
 
     return returnObject;
 }
-function backend_com_wsdl_updateUserFoundLocationsCount_op_onsuccess(client, responseXml) {
+function backend_com_wsdl_addEnemy_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
      var element = responseXml.documentElement;
@@ -18031,15 +21041,15 @@ function backend_com_wsdl_updateUserFoundLocationsCount_op_onsuccess(client, res
      }
      element = this.jsutils.getFirstElementChild(element);
      this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
-     this.jsutils.trace('calling backend_com_wsdl_updateUserFoundLocationsCountResponse_deserializeResponse');
-     responseObject = backend_com_wsdl_updateUserFoundLocationsCountResponse_deserializeResponse(this.jsutils, element);
+     this.jsutils.trace('calling backend_com_wsdl_addEnemyResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_addEnemyResponse_deserializeResponse(this.jsutils, element);
      client.user_onsuccess(responseObject);
     }
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserFoundLocationsCount_onsuccess = backend_com_wsdl_updateUserFoundLocationsCount_op_onsuccess;
+backend_com_wsdl_IBackend.prototype.addEnemy_onsuccess = backend_com_wsdl_addEnemy_op_onsuccess;
 
-function backend_com_wsdl_updateUserFoundLocationsCount_op_onerror(client) {
+function backend_com_wsdl_addEnemy_op_onerror(client) {
     if (client.user_onerror) {
      var httpStatus;
      var httpStatusText;
@@ -18058,51 +21068,52 @@ function backend_com_wsdl_updateUserFoundLocationsCount_op_onerror(client) {
     }
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserFoundLocationsCount_onerror = backend_com_wsdl_updateUserFoundLocationsCount_op_onerror;
+backend_com_wsdl_IBackend.prototype.addEnemy_onerror = backend_com_wsdl_addEnemy_op_onerror;
 
 //
-// Operation {http://backend.com/wsdl}updateUserFoundLocationsCount
+// Operation {http://backend.com/wsdl}addEnemy
 // Wrapped operation.
 // parameter arg0
-// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
-// - simple type {http://www.w3.org/2001/XMLSchema}long//
-function backend_com_wsdl_updateUserFoundLocationsCount_op(successCallback, errorCallback, arg0, arg1) {
+// - Object constructor is backend_com_wsdl_enemy
+//
+function backend_com_wsdl_addEnemy_op(successCallback, errorCallback, arg0) {
     this.client = new CxfApacheOrgClient(this.jsutils);
     var xml = null;
-    var args = new Array(2);
+    var args = new Array(1);
     args[0] = arg0;
-    args[1] = arg1;
-    xml = this.updateUserFoundLocationsCount_serializeInput(this.jsutils, args);
+    xml = this.addEnemy_serializeInput(this.jsutils, args);
     this.client.user_onsuccess = successCallback;
     this.client.user_onerror = errorCallback;
     var closureThis = this;
-    this.client.onsuccess = function(client, responseXml) { closureThis.updateUserFoundLocationsCount_onsuccess(client, responseXml); };
-    this.client.onerror = function(client) { closureThis.updateUserFoundLocationsCount_onerror(client); };
+    this.client.onsuccess = function(client, responseXml) { closureThis.addEnemy_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.addEnemy_onerror(client); };
     var requestHeaders = [];
     requestHeaders['SOAPAction'] = '';
     this.jsutils.trace('synchronous = ' + this.synchronous);
     this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserFoundLocationsCount = backend_com_wsdl_updateUserFoundLocationsCount_op;
+backend_com_wsdl_IBackend.prototype.addEnemy = backend_com_wsdl_addEnemy_op;
 
-function backend_com_wsdl_updateUserFoundLocationsCount_serializeInput(cxfjsutils, args) {
-    var wrapperObj = new backend_com_wsdl_updateUserFoundLocationsCount();
+function backend_com_wsdl_addEnemy_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_addEnemy();
     wrapperObj.setArg0(args[0]);
-    wrapperObj.setArg1(args[1]);
     var xml;
     xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
     // block for local variables
     {
-     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:updateUserFoundLocationsCount', null);
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:addEnemy', null);
     }
     xml = xml + cxfjsutils.endSoap11Message();
     return xml;
 }
 
-backend_com_wsdl_IBackend.prototype.updateUserFoundLocationsCount_serializeInput = backend_com_wsdl_updateUserFoundLocationsCount_serializeInput;
+backend_com_wsdl_IBackend.prototype.addEnemy_serializeInput = backend_com_wsdl_addEnemy_serializeInput;
 
-function backend_com_wsdl_updateUserFoundLocationsCountResponse_deserializeResponse(cxfjsutils, partElement) {
+function backend_com_wsdl_addEnemyResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_addEnemyResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
 }
 function backend_com_wsdl_getEditorQuests_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
@@ -18549,6 +21560,271 @@ backend_com_wsdl_IBackend.prototype.setTreePartFinished_serializeInput = backend
 
 function backend_com_wsdl_setTreePartFinishedResponse_deserializeResponse(cxfjsutils, partElement) {
 }
+function backend_com_wsdl_setTreePartExecutedAt_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_setTreePartExecutedAtResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setTreePartExecutedAtResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setTreePartExecutedAt_onsuccess = backend_com_wsdl_setTreePartExecutedAt_op_onsuccess;
+
+function backend_com_wsdl_setTreePartExecutedAt_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setTreePartExecutedAt_onerror = backend_com_wsdl_setTreePartExecutedAt_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}setTreePartExecutedAt
+// Wrapped operation.
+// parameter arg0
+// - Object constructor is backend_com_wsdl_treePartLazy
+//
+function backend_com_wsdl_setTreePartExecutedAt_op(successCallback, errorCallback, arg0) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(1);
+    args[0] = arg0;
+    xml = this.setTreePartExecutedAt_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.setTreePartExecutedAt_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setTreePartExecutedAt_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.setTreePartExecutedAt = backend_com_wsdl_setTreePartExecutedAt_op;
+
+function backend_com_wsdl_setTreePartExecutedAt_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setTreePartExecutedAt();
+    wrapperObj.setArg0(args[0]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setTreePartExecutedAt', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.setTreePartExecutedAt_serializeInput = backend_com_wsdl_setTreePartExecutedAt_serializeInput;
+
+function backend_com_wsdl_setTreePartExecutedAtResponse_deserializeResponse(cxfjsutils, partElement) {
+}
+function backend_com_wsdl_downloadFile_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_downloadFileResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_downloadFileResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.downloadFile_onsuccess = backend_com_wsdl_downloadFile_op_onsuccess;
+
+function backend_com_wsdl_downloadFile_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.downloadFile_onerror = backend_com_wsdl_downloadFile_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}downloadFile
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}string//
+function backend_com_wsdl_downloadFile_op(successCallback, errorCallback, arg0) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(1);
+    args[0] = arg0;
+    xml = this.downloadFile_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.downloadFile_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.downloadFile_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.downloadFile = backend_com_wsdl_downloadFile_op;
+
+function backend_com_wsdl_downloadFile_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_downloadFile();
+    wrapperObj.setArg0(args[0]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:downloadFile', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.downloadFile_serializeInput = backend_com_wsdl_downloadFile_serializeInput;
+
+function backend_com_wsdl_downloadFileResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_downloadFileResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
+}
+function backend_com_wsdl_uploadFile_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_uploadFileResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_uploadFileResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.uploadFile_onsuccess = backend_com_wsdl_uploadFile_op_onsuccess;
+
+function backend_com_wsdl_uploadFile_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.uploadFile_onerror = backend_com_wsdl_uploadFile_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}uploadFile
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}string// parameter arg1
+// - simple type {http://www.w3.org/2001/XMLSchema}string//
+function backend_com_wsdl_uploadFile_op(successCallback, errorCallback, arg0, arg1) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(2);
+    args[0] = arg0;
+    args[1] = arg1;
+    xml = this.uploadFile_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.uploadFile_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.uploadFile_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.uploadFile = backend_com_wsdl_uploadFile_op;
+
+function backend_com_wsdl_uploadFile_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_uploadFile();
+    wrapperObj.setArg0(args[0]);
+    wrapperObj.setArg1(args[1]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:uploadFile', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.uploadFile_serializeInput = backend_com_wsdl_uploadFile_serializeInput;
+
+function backend_com_wsdl_uploadFileResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_uploadFileResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
+}
 function backend_com_wsdl_addOrUpdateTreePart_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
      var responseObject = null;
@@ -18725,6 +22001,94 @@ function backend_com_wsdl_getEditorQuestResponse_deserializeResponse(cxfjsutils,
     var returnObject = backend_com_wsdl_getEditorQuestResponse_deserialize (cxfjsutils, partElement);
 
     return returnObject;
+}
+function backend_com_wsdl_setUserTaskCount_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_setUserTaskCountResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setUserTaskCountResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserTaskCount_onsuccess = backend_com_wsdl_setUserTaskCount_op_onsuccess;
+
+function backend_com_wsdl_setUserTaskCount_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserTaskCount_onerror = backend_com_wsdl_setUserTaskCount_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}setUserTaskCount
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
+// - simple type {http://www.w3.org/2001/XMLSchema}long//
+function backend_com_wsdl_setUserTaskCount_op(successCallback, errorCallback, arg0, arg1) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(2);
+    args[0] = arg0;
+    args[1] = arg1;
+    xml = this.setUserTaskCount_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.setUserTaskCount_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setUserTaskCount_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.setUserTaskCount = backend_com_wsdl_setUserTaskCount_op;
+
+function backend_com_wsdl_setUserTaskCount_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setUserTaskCount();
+    wrapperObj.setArg0(args[0]);
+    wrapperObj.setArg1(args[1]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setUserTaskCount', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.setUserTaskCount_serializeInput = backend_com_wsdl_setUserTaskCount_serializeInput;
+
+function backend_com_wsdl_setUserTaskCountResponse_deserializeResponse(cxfjsutils, partElement) {
 }
 function backend_com_wsdl_updateAction_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {
@@ -18904,7 +22268,96 @@ function backend_com_wsdl_addUserResponse_deserializeResponse(cxfjsutils, partEl
 
     return returnObject;
 }
+function backend_com_wsdl_updateEnemy_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_updateEnemyResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_updateEnemyResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.updateEnemy_onsuccess = backend_com_wsdl_updateEnemy_op_onsuccess;
+
+function backend_com_wsdl_updateEnemy_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.updateEnemy_onerror = backend_com_wsdl_updateEnemy_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}updateEnemy
+// Wrapped operation.
+// parameter arg0
+// - Object constructor is backend_com_wsdl_enemy
+//
+function backend_com_wsdl_updateEnemy_op(successCallback, errorCallback, arg0) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(1);
+    args[0] = arg0;
+    xml = this.updateEnemy_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.updateEnemy_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.updateEnemy_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.updateEnemy = backend_com_wsdl_updateEnemy_op;
+
+function backend_com_wsdl_updateEnemy_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_updateEnemy();
+    wrapperObj.setArg0(args[0]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:updateEnemy', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.updateEnemy_serializeInput = backend_com_wsdl_updateEnemy_serializeInput;
+
+function backend_com_wsdl_updateEnemyResponse_deserializeResponse(cxfjsutils, partElement) {
+    var returnObject = backend_com_wsdl_updateEnemyResponse_deserialize (cxfjsutils, partElement);
+
+    return returnObject;
+}
 function backend_com_wsdl_IBackend_backend_com_wsdl_BackendPort () {
-  this.url = 'http://192.168.178.67:8080/Backend/webservices/Backend';
+  this.url = 'http://192.168.1.225:8080/Backend/webservices/Backend';
 }
 backend_com_wsdl_IBackend_backend_com_wsdl_BackendPort.prototype = new backend_com_wsdl_IBackend;
