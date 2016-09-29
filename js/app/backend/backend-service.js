@@ -44,11 +44,24 @@
             deleteTask: deleteTask,
             deleteTreePart: deleteTreePart,
             deleteHtml: deleteHtml,
+            uploadImage: uploadImage,
             mapPosition: mapPosition
         };
         return service;
 
         ////////////////
+
+        function uploadImage(fileName, imageData) {
+            var deffered = $q.defer();
+
+            backend.uploadFile(function(result) {
+                deffered.resolve(result.getReturn());
+            }, function(error) {
+
+            }, fileName, imageData);
+
+            return deffered.promise;
+        }
 
         function login(username, password) {
             var deffered = $q.defer();

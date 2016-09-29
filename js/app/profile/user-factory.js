@@ -21,6 +21,7 @@
             this.password = "";
             this.currentQuest = null;
             this.createdQuests = [];
+            this.createdCards = [];
         }
 
         User.prototype = {

@@ -21,6 +21,7 @@
         vm.editQuest = editQuest;
         vm.clearCurrentQuest = clearCurrentQuest;
         vm.deleteQuest = deleteQuest;
+        vm.newCard = newCard;
 
         activate();
 
@@ -28,6 +29,10 @@
 
         function activate() {
             vm.currentQuest = user.getCurrentQuest();
+        }
+
+        function newCard() {
+            $state.go("app.card");
         }
 
         function newQuest() {

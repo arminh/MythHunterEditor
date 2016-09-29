@@ -1,7 +1,7 @@
 /**
  * Created by armin on 06.04.16.
  */
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -16,5 +16,9 @@
             Marker: "Marker",
             And: "And",
             Or: "Or"
+        })
+        .constant("CardType", {
+            MONSTER: "MONSTER",
+            SPELL: "SPELL"
         });
 })();

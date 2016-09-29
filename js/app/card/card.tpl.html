@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div id="card-editor-container" class="col-md-6 col-md-offset-3">
+        <div id="card-container">
 
-</body>
-</html>
+            <div class="card-image-container" data-drag="true" jqyoui-draggable="{containment: 'position', onDrag: 'card.imageDragging()'}" data-jqyoui-options="{axis: 'x', containment: 'parent'}">
+                <img src="media/armin.jpg" scale-card-image/>
+<!--
+                            <img ng-show="card.image.base64"  scale-card-image data-ng-src="data:{{card.image.filetype}};base64, {{card.image.base64}}"/>
+-->
+            </div>
+            <div class="card-mask"></div>
+            <input class="card-input attack-val" ng-model="card.attackVal"/>
+            <input class="card-input defence-val" ng-model="card.defenceVal"/>
+            <textarea class="card-input card-text" placeholder="Enter card text ..." ng-model="card.cardText"></textarea>
+        </div>
+        <input type='file' ng-model='card.image' base-sixty-four-input>
+
+
+
+        {{card.image}}
+
+        <button ng-click="card.upload()">Upload</button>
+</div>
+

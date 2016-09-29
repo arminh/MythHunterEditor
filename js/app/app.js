@@ -16,6 +16,7 @@
         'ngDialog',
         'ngDragDrop',
         'cgBusy',
+        'naif.base64',
         'textAngular',
         'authentication',
         'profile',
@@ -23,7 +24,8 @@
         'task',
         'treePart',
         'html',
-        'map'
+        'map',
+        'card'
 
     ]);
 })();
