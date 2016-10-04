@@ -7,10 +7,17 @@
     right: 0;
 }
 
+.card-image-bounds {
+    position: absolute;
+    /*top: 55px;*/
+    /*left: 114px;*/
+    /*width: 286px;*/
+    /*height: 183px;*/
+}
+
 .card-image-container {
     position: absolute;
-    top: 55px;
-    left: 150px;
+    cursor: move;
     z-index: auto !important;
 }
 
@@ -28,6 +35,10 @@
 
 .landscape {
     height: 183px;
+}
+
+.portrait {
+    width: 214px;
 }
 
 .card-input {

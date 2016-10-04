@@ -13,18 +13,25 @@
 
     /* @ngInject */
     function CardController(CardService) {
+
         var vm = this;
         vm.image = null;
         vm.attackVal = 5;
         vm.defenceVal = 5;
         vm.cardText = "demo demo demo demo demo demo ";
+        vm.dimensions = {
+            width: 0,
+            height: 0
+        };
+
+        vm.imageDragBounds = null;
 
         vm.imageDragOptions = {
-
+            containment: 'parent'
         };
 
         vm.upload = upload;
-        vm.imageDragging = imageDragging;
+        vm.imageLoaded = imageLoaded;
 
         activate();
 
@@ -38,17 +45,20 @@
             CardService.upload(vm.image.base64);
         }
 
-        function imageDragging(evt) {
-            var cardImage = $(evt.target);
-            if(cardImage.position().left > 150) {
-                cardImage.css('left', 150);
-                evt.preventDefault();
-            } else if(cardImage.position().left < (150 - cardImage.width() + 214)) {
-                cardImage.css('left', (150 - cardImage.width() + 214));
-                evt.preventDefault();
-            }
+        function imageLoaded() {
+            vm.imageContainerStyle = {
+                top: 0,
+                left: 0,
+                width: vm.dimensions.width,
+                height: vm.dimensions.height
+
+            };
+
+            vm.imageDragBounds = CardService.initDragBounds(vm.dimensions);
+
         }
     }
 
-})();
+})
+();
 

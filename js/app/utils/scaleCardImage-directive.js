@@ -16,17 +16,29 @@
         var directive = {
             link: link,
             restrict: 'A',
+            scope: {
+                dimensions: "=",
+                callback: "&"
+            }
         };
         return directive;
 
         function link(scope, element, attrs) {
             element.on("load", function(evt) {
                 var el = $(evt.currentTarget);
+                el.height("auto");
+                el.width("auto");
+                console.log(el.width() + " / " + el.height());
                 if(el.width() > el.height()) {
-                    el.addClass("landscape");
+                    el.height("183px");
                 } else {
-                    el.addClass("portrait");
+                    el.width("214px");
                 }
+                scope.dimensions.width = el.width();
+                scope.dimensions.height = el.height();
+                scope.$apply(function() {
+                    scope.callback();
+                });
             });
 
         }
