@@ -9,7 +9,7 @@
         .module('card')
         .factory('CardService', CardService);
 
-    CardService.$inject = ["BackendService"];
+    CardService.$inject = ["BackendService", "$q"];
 
     /* @ngInject */
     function CardService(BackendService) {
@@ -19,12 +19,17 @@
         var maskLeft = 150;
 
         var service = {
+            loadActions: loadActions,
             initDragBounds: initDragBounds,
             upload: upload
         };
         return service;
 
         ////////////////
+
+        function loadActions() {
+            BackendService.getAllActions();
+        }
 
         function initDragBounds(imageDimensions) {
             var imageDragBounds = {

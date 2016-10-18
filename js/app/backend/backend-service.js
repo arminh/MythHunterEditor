@@ -9,7 +9,7 @@
         .module('app')
         .factory('BackendService', BackendService);
 
-    BackendService.$inject = ["$log",'$q'];
+    BackendService.$inject = ["$log", '$q'];
 
     /* @ngInject */
     function BackendService($log, $q) {
@@ -33,6 +33,7 @@
             getTask: getTask,
             getHtml: getHtml,
             getTreePart: getTreePart,
+            getAllActions: getAllActions,
             addQuest: addQuest,
             addTask: addTask,
             addHtml: addHtml,
@@ -55,9 +56,9 @@
         function uploadImage(fileName, imageData) {
             var deffered = $q.defer();
 
-            backend.uploadFile(function(result) {
+            backend.uploadFile(function (result) {
                 deffered.resolve(result.getReturn());
-            }, function(error) {
+            }, function (error) {
 
             }, fileName, imageData);
 
@@ -68,8 +69,8 @@
             var deffered = $q.defer();
 
             $log.info("login", username);
-            backend.login(function(result) {
-                if(result.getReturn()) {
+            backend.login(function (result) {
+                if (result.getReturn()) {
                     $log.info("login_success", username);
                     deffered.resolve(result.getReturn());
                 } else {
@@ -77,7 +78,7 @@
                     deffered.reject("Wrong username or password");
                 }
 
-            }, function(error) {
+            }, function (error) {
                 alert("Login error: " + error);
                 $log.error("login_fail", error);
                 deffered.reject(error);
@@ -89,9 +90,9 @@
         function register(username, password) {
             var deffered = $q.defer();
 
-            backend.register(function(result) {
+            backend.register(function (result) {
                 deffered.resolve(result);
-            }, function(error) {
+            }, function (error) {
                 alert("Register error: " + error);
                 deffered.reject(error);
             }, username, password);
@@ -108,7 +109,7 @@
             var createdQuestIds = [];
             var createdQuests = user.getCreatedQuests();
 
-            for(var i = 0; i < createdQuests.length; i++) {
+            for (var i = 0; i < createdQuests.length; i++) {
                 createdQuestIds.push(createdQuests[i].getRemoteId());
             }
 
@@ -144,7 +145,7 @@
 
             var remoteTask = new backend_com_wsdl_marker();
 
-            if(task.type == "start") {
+            if (task.type == "start") {
                 remoteTask.setType("INFO");
             } else {
                 remoteTask.setType(task.getType());
@@ -153,7 +154,7 @@
             remoteTask.setId(task.getRemoteId());
             remoteTask.setName(task.getName());
             remoteTask.setHtmlId(task.getHtml().getRemoteId());
-            if(task.getTargetHtml()) {
+            if (task.getTargetHtml()) {
                 remoteTask.setFinishedHtmlId(task.getTargetHtml().getRemoteId());
             } else {
                 remoteTask.setFinishedHtmlId(0);
@@ -171,7 +172,7 @@
             remoteHtml.setId(html.getRemoteId());
 
             var answers = [];
-            angular.forEach(html.getAnswers(), function(val, key) {
+            angular.forEach(html.getAnswers(), function (val, key) {
                 var answer = new backend_com_wsdl_stringToBoolEntry();
                 answer.setValue(val);
                 answer.setKey(key);
@@ -204,8 +205,8 @@
             var deffered = $q.defer();
 
             $log.info("getQuest: id =", questId);
-            backend.getEditorQuest(function(result) {
-                if(result.getReturn()) {
+            backend.getEditorQuest(function (result) {
+                if (result.getReturn()) {
                     $log.info("getQuest_success (id = " + questId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -213,7 +214,7 @@
                     deffered.reject("Error loading quest with id: " + questId);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getQuest_fail (id = " + questId + ")", error);
                 deffered.reject(error);
             }, questId);
@@ -225,8 +226,8 @@
             var deffered = $q.defer();
 
             $log.info("getQuests: ids = ", questIds);
-            backend.getEditorQuests(function(result) {
-                if(result.getReturn()) {
+            backend.getEditorQuests(function (result) {
+                if (result.getReturn()) {
                     $log.info("getQuests_success (ids = " + questIds + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -234,7 +235,7 @@
                     deffered.reject("Error loading quests width ids: " + questIds);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getQuests_success (ids = " + questIds + ")", error);
                 deffered.reject(error);
             }, questIds);
@@ -246,8 +247,8 @@
             var deffered = $q.defer();
 
             $log.info("getTask: id =", taskId);
-            backend.getMarker(function(result) {
-                if(result.getReturn()) {
+            backend.getMarker(function (result) {
+                if (result.getReturn()) {
                     $log.info("getTask_success (id = " + taskId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -255,7 +256,7 @@
                     deffered.reject("Error loading task with id: " + taskId);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getTask_fail (id = " + taskId + ")", error);
                 deffered.reject(error);
             }, taskId);
@@ -266,14 +267,14 @@
         function getHtml(htmlId) {
             var deffered = $q.defer();
 
-            if(htmlId < 1) {
+            if (htmlId < 1) {
                 deffered.resolve(null);
                 return deffered.promise;
             }
 
             $log.info("getHtml: id =", htmlId);
-            backend.getHtml(function(result) {
-                if(result.getReturn()) {
+            backend.getHtml(function (result) {
+                if (result.getReturn()) {
                     $log.info("getHtml_success (id = " + htmlId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -281,7 +282,7 @@
                     deffered.reject("Error loading html with id: " + htmlId);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getHtml_fail (id = " + htmlId + ")", error);
                 deffered.reject(error);
             }, htmlId);
@@ -293,8 +294,8 @@
             var deffered = $q.defer();
 
             $log.info("getTreePart: id =", treePartId);
-            backend.getTreePart(function(result) {
-                if(result.getReturn()) {
+            backend.getTreePart(function (result) {
+                if (result.getReturn()) {
                     $log.info("getTreePart_success (id = " + treePartId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -302,10 +303,30 @@
                     deffered.reject("Error loading TreePart with id: " + treePartId);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getTreePart_fail (id = " + treePartId + ")", error);
                 deffered.reject(error);
             }, treePartId);
+
+            return deffered.promise;
+        }
+
+        function getAllActions() {
+            var deffered = $q.defer();
+
+            $log.info("getActions");
+            backend.getAllActions(function (result) {
+                if (result.getReturn()) {
+                    $log.info("getActions_success", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("getActions_fail", result.getReturn());
+                    deffered.reject("Error loading Actions");
+                }
+            }, function (error) {
+                $log.error("getActions_fail", error);
+                deffered.reject(error);
+            });
 
             return deffered.promise;
         }
@@ -314,8 +335,8 @@
             var deffered = $q.defer();
 
             $log.info("addQuest: ", quest);
-            backend.addEditorQuest(function(result) {
-                if(result.getReturn()) {
+            backend.addEditorQuest(function (result) {
+                if (result.getReturn()) {
                     $log.info("addQuest_success: ", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -323,7 +344,7 @@
                     deffered.reject("Error adding quest");
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("addQuest_fail: ", error);
                 deffered.reject(error);
             }, quest);
@@ -335,8 +356,8 @@
             var deffered = $q.defer();
 
             $log.info("addTask: ", task);
-            backend.addOrUpdateMarker(function(result) {
-                if(result.getReturn()) {
+            backend.addOrUpdateMarker(function (result) {
+                if (result.getReturn()) {
                     $log.info("addTask_success: ", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -344,7 +365,7 @@
                     deffered.reject("Error adding task");
                 }
 
-            },  function (error) {
+            }, function (error) {
                 $log.error("addTask_fail: ", error);
                 deffered.reject(error);
             }, task);
@@ -356,8 +377,8 @@
             var deffered = $q.defer();
 
             $log.info("addHtml: ", html);
-            backend.addHtml(function(result) {
-                if(result.getReturn()) {
+            backend.addHtml(function (result) {
+                if (result.getReturn()) {
                     $log.info("addHtml_success: ", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -365,7 +386,7 @@
                     deffered.reject("Error adding html");
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("addHtml_fail: ", error);
                 deffered.reject(error);
             }, html);
@@ -377,8 +398,8 @@
             var deffered = $q.defer();
 
             $log.info("addTreePart: ", treePart);
-            backend.addOrUpdateTreePart(function(result) {
-                if(result.getReturn()) {
+            backend.addOrUpdateTreePart(function (result) {
+                if (result.getReturn()) {
                     $log.info("addTreePart_success: ", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -386,7 +407,7 @@
                     deffered.reject("Error adding treePart");
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("addTreePart_fail: ", error);
                 deffered.reject(error);
             }, treePart);
@@ -398,10 +419,10 @@
             var deffered = $q.defer();
 
             $log.info("updateUser: ", user);
-            backend.updateUser(function(result) {
+            backend.updateUser(function (result) {
                 $log.info("updateUser_success: ", result);
                 deffered.resolve(result.getReturn());
-            }, function(error) {
+            }, function (error) {
                 $log.error("updateUser_fail: ", error);
                 deffered.reject(error);
             }, user);
@@ -413,10 +434,10 @@
             var deffered = $q.defer();
 
             $log.info("updateQuest: ", quest);
-            backend.updateEditorQuest(function(result) {
+            backend.updateEditorQuest(function (result) {
                 $log.info("updateQuest_success: ", quest);
                 deffered.resolve(result.getReturn());
-            }, function(error) {
+            }, function (error) {
                 $log.error("updateQuest_fail: ", error);
                 deffered.reject(error);
             }, quest);
@@ -428,8 +449,8 @@
             var deffered = $q.defer();
 
             $log.info("updateTask: ", task);
-            backend.addOrUpdateMarker(function(result) {
-                if(result.getReturn()) {
+            backend.addOrUpdateMarker(function (result) {
+                if (result.getReturn()) {
                     $log.info("updateTask_success: ", result);
                     deffered.resolve(result.getReturn());
                 } else {
@@ -437,7 +458,7 @@
                     deffered.reject("Error updating task");
                 }
 
-            },  function (error) {
+            }, function (error) {
                 $log.error("updateTask_fail: ", error);
                 deffered.reject(error);
             }, task);
@@ -450,8 +471,8 @@
             var deffered = $q.defer();
 
             $log.info("updateHtml: ", html);
-            backend.updateHtml(function(result) {
-                if(result.getReturn()) {
+            backend.updateHtml(function (result) {
+                if (result.getReturn()) {
                     $log.info("updateHtml: ", result);
                     deffered.resolve(result.getReturn());
                 } else {
@@ -459,7 +480,7 @@
                     deffered.reject("Error updating Html");
                 }
 
-            },  function (error) {
+            }, function (error) {
                 $log.error("updateHtml_fail: ", error);
                 deffered.reject(error);
             }, html);
@@ -471,10 +492,10 @@
             var deffered = $q.defer();
 
             $log.info("deleteQuest: ", questId);
-            backend.deleteQuest(function(result) {
+            backend.deleteQuest(function (result) {
                 $log.info("deleteQuest_success");
                 deffered.resolve(result);
-            }, function(error) {
+            }, function (error) {
                 $log.error("deleteQuest_fail: ", error);
                 deffered.reject(error);
             }, questId);
@@ -488,10 +509,10 @@
             var deffered = $q.defer();
 
             $log.info("deleteTask: ", taskId);
-            backend.deleteMarker(function(result) {
+            backend.deleteMarker(function (result) {
                 $log.info("deleteTask_success: ");
                 deffered.resolve(result);
-            }, function(error) {
+            }, function (error) {
                 $log.error("deleteTask_fail: ", error);
                 deffered.reject(error);
             }, taskId);
@@ -504,10 +525,10 @@
             var deffered = $q.defer();
 
             $log.info("deleteTreePart: ", treePartId);
-            backend.deleteTreePart(function(result) {
+            backend.deleteTreePart(function (result) {
                 $log.info("deleteTreePart_success: ");
                 deffered.resolve();
-            }, function(error) {
+            }, function (error) {
                 $log.error("deleteTreePart_fail: ", error);
             }, treePartId);
 
@@ -520,12 +541,12 @@
             deffered.resolve();
 
             /*$log.info("deleteHtml: ", htmlId);
-            backend.deleteHtml(function(result) {
-                $log.info("deleteHtml_success: ");
-                deffered.resolve();
-            }, function(error) {
-                $log.error("deleteHtml_fail: ", error);
-            }, htmlId);*/
+             backend.deleteHtml(function(result) {
+             $log.info("deleteHtml_success: ");
+             deffered.resolve();
+             }, function(error) {
+             $log.error("deleteHtml_fail: ", error);
+             }, htmlId);*/
 
             return deffered.promise;
         }

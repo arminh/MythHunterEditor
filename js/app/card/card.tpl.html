@@ -1,9 +1,10 @@
-<div id="card-editor-container" class="col-md-6 col-md-offset-3">
+<div id="card-editor-container" class="col-md-8 col-md-offset-2">
     <div id="card-container">
+
         <div class="card-image-bounds" ng-style="card.imageDragBounds">
 
-            <div class="card-image-container" ng-style="card.imageContainerStyle" data-drag="true"
-                 jqyoui-draggable="{containment: 'position'}"
+            <div class="card-image-container" position="{{card.imageContainerStyle}}" data-drag="true"
+                 jqyoui-draggable="{containment: 'position', onStop: 'card.positionChanged()'}"
                  data-jqyoui-options="{{card.imageDragOptions}}">
                 <img ng-show="card.image.base64"
                      data-ng-src="data:{{card.image.filetype}};base64, {{card.image.base64}}" scale-card-image
@@ -11,15 +12,26 @@
             </div>
         </div>
         <div class="card-mask"></div>
-        <input class="card-input attack-val" ng-model="card.attackVal"/>
-        <input class="card-input defence-val" ng-model="card.defenceVal"/>
+        <input type="number" min="0" max="10" class="card-input attack-val" ng-model="card.attackVal"/>
+        <input type="number" min="0" max="10" class="card-input defence-val" ng-model="card.defenceVal"/>
         <textarea class="card-input card-text" placeholder="Enter card text ..." ng-model="card.cardText"></textarea>
     </div>
-    <input type='file' ng-model='card.image' base-sixty-four-input>
+    <div id="card-settings-container" style="width: 40%; float:left;">
+        <form>
+            <p><label>Name: <input type="text" maxlength="10"/></label></p>
+            <p><label>Attack: <input type="number" min="0" max="10"/></label></p>
+            <p><label>Lifeforce: <input type="number" min="0" max="10"/></label></p>
+            <p><label>Description: <textarea class="textarea-noresize" maxlength="100"></textarea></label></p>
+        </form>
 
 
-    {{card.image}}
+    </div>
+    <div style="clear: both">
+        <button ng-click="card.htmlToImageControl.convert()" value="Convert">Convert</button>
+        <input type='file' ng-model='card.image' base-sixty-four-input>
 
-    <button ng-click="card.upload()">Upload</button>
+        <button ng-click="card.upload()">Upload</button>
+    </div>
+
 </div>
 

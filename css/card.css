@@ -1,10 +1,10 @@
 #card-container {
     position:relative;
-    display: inline-block;
-    height:400px;
-    width: 518px;
     left: 0;
     right: 0;
+    width: 60%;
+    height: 400px;
+    float:left;
 }
 
 .card-image-bounds {
@@ -22,8 +22,10 @@
 }
 
 .card-mask {
+    margin-left: auto;
+    margin-right: auto;
     pointer-events: none;
-    width:100%;
+    width: 519px;
     height: 400px;
     position:absolute;
     top:0;
@@ -68,5 +70,9 @@
     overflow: hidden;
     line-height: 27px;
     width: 190px;
+}
+
+.textarea-noresize {
+    resize: none;
 }
 
