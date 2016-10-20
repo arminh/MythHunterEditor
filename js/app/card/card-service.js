@@ -9,10 +9,10 @@
         .module('card')
         .factory('CardService', CardService);
 
-    CardService.$inject = ["BackendService", "$q"];
+    CardService.$inject = ["BackendService", "CardType", "$q"];
 
     /* @ngInject */
-    function CardService(BackendService) {
+    function CardService(BackendService, CardType) {
         var maskWidth = 214;
         var maskHeight = 183;
         var maskTop = 55;
@@ -28,7 +28,11 @@
         ////////////////
 
         function loadActions() {
-            BackendService.getAllActions();
+            BackendService.getAllActionsOfCardType(CardType.MONSTER).then(function(actions) {
+                for(var i = 0; i < actions.length; i++) {
+                    var action = new A
+                }
+            });
         }
 
         function initDragBounds(imageDimensions) {

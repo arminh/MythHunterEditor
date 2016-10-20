@@ -6,14 +6,14 @@
     'use strict';
 
     angular
-        .module('card')
-        .factory('Card', CardFactory);
+        .module('action')
+        .factory('Action', ActionFactory);
 
-    CardFactory.$inject = ["$log", "CardType", "BackendService"];
+    ActionFactory.$inject = ["$log"];
 
     /* @ngInject */
-    function CardFactory($log, CardType, BackendService) {
-        $log = $log.getInstance("Card", debugging);
+    function ActionFactory($log) {
+        $log = $log.getInstance("Action", debugging);
 
         function Card() {
             this.remoteId = 0;

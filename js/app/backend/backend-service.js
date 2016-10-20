@@ -33,7 +33,7 @@
             getTask: getTask,
             getHtml: getHtml,
             getTreePart: getTreePart,
-            getAllActions: getAllActions,
+            getAllActionsOfCardType: getAllActionsOfCardType,
             addQuest: addQuest,
             addTask: addTask,
             addHtml: addHtml,
@@ -311,11 +311,11 @@
             return deffered.promise;
         }
 
-        function getAllActions() {
+        function getAllActionsOfCardType(type) {
             var deffered = $q.defer();
 
             $log.info("getActions");
-            backend.getAllActions(function (result) {
+            backend.getAllActionsOfCardType(function (result) {
                 if (result.getReturn()) {
                     $log.info("getActions_success", result.getReturn());
                     deffered.resolve(result.getReturn());
@@ -326,7 +326,7 @@
             }, function (error) {
                 $log.error("getActions_fail", error);
                 deffered.reject(error);
-            });
+            }, type);
 
             return deffered.promise;
         }
