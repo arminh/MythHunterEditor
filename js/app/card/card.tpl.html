@@ -12,17 +12,42 @@
             </div>
         </div>
         <div class="card-mask"></div>
-        <input type="number" min="0" max="10" class="card-input attack-val" ng-model="card.attackVal"/>
-        <input type="number" min="0" max="10" class="card-input defence-val" ng-model="card.defenceVal"/>
-        <textarea class="card-input card-text" placeholder="Enter card text ..." ng-model="card.cardText"></textarea>
+        <input type="number" min="0" max="10" class="card-input attack-val" readonly="readonly" ng-model="card.attack"/>
+        <input type="number" min="0" max="10" class="card-input defence-val" ng-model="card.defence"/>
+        <textarea class="card-input card-text" placeholder="Enter card text ..." ng-model="card.description"></textarea>
     </div>
     <div id="card-settings-container" style="width: 40%; float:left;">
-        <form>
-            <p><label>Name: <input type="text" maxlength="10"/></label></p>
-            <p><label>Attack: <input type="number" min="0" max="10"/></label></p>
-            <p><label>Lifeforce: <input type="number" min="0" max="10"/></label></p>
-            <p><label>Description: <textarea class="textarea-noresize" maxlength="100"></textarea></label></p>
-        </form>
+        {{card.starCount}}
+        <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
+            <div>
+                <md-input-container>
+                    <label>Name</label>
+                    <input type="text" maxlength="10"/>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Attack</label>
+                    <input type="number" min="0" max="10" ng-model="card.attack" ng-change="card.attackChanged()"/>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Lifeforce</label>
+                    <input type="number" min="0" max="10" ng-model="card.defence" ng-change="card.defenceChanged()"/>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Description</label>
+                    <textarea class="textarea-noresize" maxlength="100" ng-model="card.description"
+                              ng-change="card.descriptionChanged()"></textarea>
+                </md-input-container>
+
+                <md-select placeholder="Action" ng-model="card.action" ng-change="card.actionChanged()">
+                    <md-option ng-value="action" ng-repeat="action in card.actions" ng-disabled="!card.isActionAffordable(action)">
+                        {{action.names[1]._value}}
+                    </md-option>
+                </md-select>
+            </div>
+        </md-content>
 
 
     </div>

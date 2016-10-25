@@ -55,6 +55,29 @@
             <button class="btn btn-default" ng-click="profile.newQuest()">New Quest</button>
             <hr>
 
+            <h3>Created Cards</h3>
+            <hr>
+            <div id="created-cards-container">
+                <table class="profile-quest-table">
+                    <tr ng-repeat="card in profile.user.createdCards" ng-class-odd="'odd-profile-quest'" ng-class-even="'even-profile-quest'">
+                        <td width="55%" class="profile-quest-col">
+                            <a href="" ng-click="profile.editCard(card)">{{quest.name}}</a>
+                        </td>
+                        <td width="25%" class="profile-quest-col">
+                            {{quest.startTask.lon | number:4}}, {{quest.startTask.lat | number:4}}
+                        </td>
+                        <td width="15%" class="profile-quest-col">
+                            {{quest.tasks.length}} Tasks
+                        </td>
+                        <td width="5%" class="profile-quest-col">
+                            <md-button aria-label="delete" class="md-icon-button" ng-click="profile.deleteQuest(quest)">
+                                <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
+                            </md-button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
             <button class="btn btn-default" ng-click="profile.newCard()">New Card</button>
             <hr>
         </div>

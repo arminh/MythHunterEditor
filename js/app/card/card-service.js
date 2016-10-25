@@ -9,29 +9,40 @@
         .module('card')
         .factory('CardService', CardService);
 
-    CardService.$inject = ["BackendService", "CardType", "$q"];
+    CardService.$inject = ["BackendService", "Card", "CardType", "Action", "$q"];
 
     /* @ngInject */
-    function CardService(BackendService, CardType) {
+    function CardService(BackendService, Card, CardType, Action, $q) {
         var maskWidth = 214;
         var maskHeight = 183;
         var maskTop = 55;
         var maskLeft = 150;
 
         var service = {
+            createCard: createCard,
             loadActions: loadActions,
             initDragBounds: initDragBounds,
+            calculateStartCount: calculateStartCount,
             upload: upload
         };
         return service;
 
         ////////////////
 
+        function createCard() {
+            return new Card();
+        }
+
         function loadActions() {
-            BackendService.getAllActionsOfCardType(CardType.MONSTER).then(function(actions) {
-                for(var i = 0; i < actions.length; i++) {
-                    var action = new A
+
+            return BackendService.getAllActionsOfCardType(CardType.MONSTER).then(function(results) {
+                var actions = [];
+                for(var i = 0; i < results.length; i++) {
+                    var action = new Action();
+                    action.initFromRemote(results[i]);
+                    actions.push(action);
                 }
+                return actions;
             });
         }
 
@@ -73,6 +84,10 @@
             }
 
             return imageDragBounds;
+        }
+
+        function calculateStartCount() {
+
         }
 
         function upload(imageBase64) {

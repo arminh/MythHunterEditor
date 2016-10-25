@@ -25,7 +25,8 @@
         'treePart',
         'html',
         'map',
-        'card'
+        'card',
+        'action'
 
     ]);
 })();

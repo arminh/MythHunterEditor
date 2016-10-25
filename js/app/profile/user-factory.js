@@ -9,10 +9,10 @@
         .module('profile')
         .factory('User', UserFactory);
 
-    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest"];
+    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "Card"];
 
     /* @ngInject */
-    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest) {
+    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, Card) {
         $log = $log.getInstance("User", debugging);
 
         function User() {
@@ -59,6 +59,13 @@
                 var quest = new Quest();
                 quest.remoteId = remoteQuests[i];
                 this.createdQuests.push(quest);
+            }
+
+            var remoteCreatedCards = remoteUser.getCreatedCardIds();
+            for(var i = 0; i < remoteCreatedCards.length; i++) {
+                var card = new Card();
+                card.remoteId = remoteCreatedCards[i];
+                this.createdCards.push(card);
             }
 
             return this.load().then(function() {
@@ -151,6 +158,14 @@
             delete $localStorage.currentQuest;
 
             $log.info("clearCurrentQuest");
+        }
+
+        function newCard() {
+            var card = new Card(this.id);
+        }
+
+        function getCurrentCard() {
+            return null;
         }
 
         function backup() {

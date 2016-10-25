@@ -15,41 +15,27 @@
     function ActionFactory($log) {
         $log = $log.getInstance("Action", debugging);
 
-        function Card() {
+        function Action() {
             this.remoteId = 0;
-            this.version = 0;
-            this.name = "";
-            this.stars = 0;
-            this.imageUrl = "";
-            this.description = "";
-            this.actions = [];
-            this.life = -1;
-            this.attack = -1;
-            this.type = null;
-
-            this.changed = false;
+            this.names = [];
+            this.descriptions = [];
+            this.starCosts = 0.0;
         }
 
-        Card.prototype = {
+        Action.prototype = {
             initFromRemote: initFromRemote,
             upload: upload
         };
 
-        return (Card);
+        return (Action);
 
         ////////////////
 
-        function initFromRemote(remoteCard) {
-            this.remoteId = remoteCard.getId();
-            this.version = remoteCard.getVersion();
-            this.name = remoteCard.getName();
-            this.stars = remoteCard.getStars();
-            this.imageUrl = remoteCard.getImageUrl();
-            this.description = remoteCard.getDescriptions();
-            this.actions = remoteCard.getActions();
-            this.life = remoteCard.getLife();
-            this.attack = remoteCard.getAttack();
-            this.type = CardType[remoteCard.getType()];
+        function initFromRemote(remoteAction) {
+            this.remoteId = remoteAction.getId();
+            this.names = remoteAction.getNames();
+            this.descriptions = remoteAction.getDescriptions();
+            this.starCosts = remoteAction.getStarCosts();
         }
 
         function upload() {

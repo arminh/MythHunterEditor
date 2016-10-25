@@ -16,9 +16,10 @@
 
         var vm = this;
         vm.image = null;
-        vm.attackVal = 5;
-        vm.defenceVal = 5;
-        vm.cardText = "demo demo demo demo demo demo ";
+        vm.attack = 0;
+        vm.defence = 0;
+        vm.action = null;
+        vm.description = "demo demo demo demo demo demo ";
         vm.width = -1;
         vm.height = -1;
         vm.top = -1;
@@ -35,6 +36,14 @@
             containment: 'parent'
         };
 
+        vm.maxStars = 10;
+        vm.starCount = 0.0;
+
+        vm.attackChanged = attackChanged;
+        vm.defenceChanged = defenceChanged;
+        vm.descriptionChanged = descriptionChanged;
+        vm.actionChanged = actionChanged;
+        vm.isActionAffordable = isActionAffordable;
         vm.upload = upload;
         vm.imageLoaded = imageLoaded;
         vm.positionChanged = positionChanged;
@@ -44,7 +53,44 @@
         ////////////////
 
         function activate() {
-            CardService.loadActions();
+            vm.starCount = calculateStartCount();
+            CardService.loadActions().then(function(actions) {
+                vm.actions = actions;
+            });
+        }
+
+        function attackChanged(newVal) {
+            vm.starCount = calculateStartCount();
+        }
+        function defenceChanged(newVal) {
+            vm.starCount = calculateStartCount();
+        }
+
+        function descriptionChanged(newVal) {
+            vm.starCount = calculateStartCount();
+        }
+
+        function actionChanged(newVal) {
+            vm.starCount = calculateStartCount();
+        }
+
+        function isActionAffordable(action) {
+            var starCount = vm.starCount;
+            if(vm.action) {
+                starCount -= vm.action.starCosts;
+            }
+            return (starCount + action.starCosts) <= vm.maxStars;
+        }
+
+        function calculateStartCount() {
+            if(!vm.attack || !vm.defence) {
+                vm.starCount = 0;
+            }
+            var starCount =  vm.attack * 0.5 + vm.defence * 0.5;
+            if(vm.action) {
+                starCount += vm.action.starCosts;
+            }
+            return starCount;
         }
 
         function cardRendered(canvas) {
