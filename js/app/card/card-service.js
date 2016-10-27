@@ -23,7 +23,8 @@
             loadActions: loadActions,
             initDragBounds: initDragBounds,
             calculateStartCount: calculateStartCount,
-            upload: upload
+            upload: upload,
+            downloadImage: downloadImage
         };
         return service;
 
@@ -90,12 +91,19 @@
 
         }
 
-        function upload(imageBase64) {
-            BackendService.uploadImage("test.jpg", imageBase64).then(success);
+        function upload(imageBase64, name, description, attack, defence, action, stars) {
+            var card = new Card();
+            BackendService.uploadImage(name + "_" + Date.now(), imageBase64).then(success);
 
             function success(result) {
                 console.log(result);
             }
+        }
+
+        function downloadImage(fileName) {
+            return BackendService.downloadImage(fileName).then(function(result) {
+                return result;
+            })
         }
 
 

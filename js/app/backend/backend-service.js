@@ -17,7 +17,7 @@
         var backend = new backend_com_wsdl_IBackend();
         //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
         //backend.url = "http://192.168.1.225:8080/Backend/webservices/Backend?wsdl";
-        backend.url = "http://192.168.1.240:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -47,6 +47,7 @@
             deleteTreePart: deleteTreePart,
             deleteHtml: deleteHtml,
             uploadImage: uploadImage,
+            downloadImage: downloadImage,
             mapPosition: mapPosition
         };
         return service;
@@ -61,6 +62,18 @@
             }, function (error) {
 
             }, fileName, imageData);
+
+            return deffered.promise;
+        }
+
+        function downloadImage(fileName) {
+            var deffered = $q.defer();
+
+            backend.downloadFile(function (result) {
+                deffered.resolve(result.getReturn());
+            }, function (error) {
+
+            }, fileName);
 
             return deffered.promise;
         }

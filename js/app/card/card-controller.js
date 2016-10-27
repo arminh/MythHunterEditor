@@ -15,9 +15,10 @@
     function CardController(CardService, $scope) {
 
         var vm = this;
+        vm.name = "";
         vm.image = null;
         vm.attack = 0;
-        vm.defence = 0;
+        vm.defence = 1;
         vm.action = null;
         vm.description = "demo demo demo demo demo demo ";
         vm.width = -1;
@@ -46,6 +47,7 @@
         vm.isActionAffordable = isActionAffordable;
         vm.upload = upload;
         vm.imageLoaded = imageLoaded;
+        vm.downloadImage = downloadImage;
         vm.positionChanged = positionChanged;
 
         activate();
@@ -98,7 +100,18 @@
         }
 
         function upload() {
-            CardService.upload(vm.image.base64);
+            console.log(vm.image);
+            if(vm.image) {
+                CardService.upload(vm.image.base64, vm.name, vm.description, vm.attack, vm.defence, vm.action, vm.starCount);
+            }
+        }
+
+        function downloadImage() {
+            CardService.downloadImage("_1477578636787").then(function(image) {
+                vm.image = {};
+                vm.image.base64 = image;
+                vm.image.filetype = "image/jpeg";
+            })
         }
 
         function imageLoaded() {

@@ -53,8 +53,9 @@
         }
 
         function upload() {
-            
+            console.log()
         }
+
     }
 
 })();
