@@ -11,7 +11,10 @@
                      dimensions="card.dimensions" callback="card.imageLoaded()"/>
             </div>
         </div>
-        <div class="card-mask"></div>
+        <div class="card-mask">
+            <img ng-src="{{card.starImage}}" class="card-star-overlay"/>
+        </div>
+
         <input type="number" min="0" max="10" class="card-input attack-val" readonly="readonly" ng-model="card.attack"/>
         <input type="number" min="0" max="10" class="card-input defence-val" readonly="readonly" ng-model="card.defence"/>
         <span ng-if="card.action" class="card-input card-attack" readonly="readonly"><b>{{card.action.names[1]._value}}: </b>{{card.action.descriptions[1]._value}}</span>

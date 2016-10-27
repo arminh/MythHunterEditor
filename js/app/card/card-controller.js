@@ -14,11 +14,24 @@
     /* @ngInject */
     function CardController(CardService, $scope) {
 
+        var starImages = [
+            "media/card/card_plain_stars_1.png",
+            "media/card/card_plain_stars_2.png",
+            "media/card/card_plain_stars_3.png",
+            "media/card/card_plain_stars_4.png",
+            "media/card/card_plain_stars_5.png",
+            "media/card/card_plain_stars_6.png",
+            "media/card/card_plain_stars_7.png",
+            "media/card/card_plain_stars_8.png",
+            "media/card/card_plain_stars_9.png",
+            "media/card/card_plain_stars_10.png"
+        ];
+
         var vm = this;
         vm.name = "";
         vm.image = null;
-        vm.attack = 0;
-        vm.defence = 1;
+        vm.attack = 2;
+        vm.defence = 2;
         vm.action = null;
         vm.description = "demo demo demo demo demo demo ";
         vm.width = -1;
@@ -56,6 +69,7 @@
 
         function activate() {
             vm.starCount = calculateStartCount();
+            vm.starImage = starImages[vm.starCount];
             CardService.loadActions().then(function(actions) {
                 vm.actions = actions;
             });
@@ -63,17 +77,21 @@
 
         function attackChanged(newVal) {
             vm.starCount = calculateStartCount();
+            vm.starImage = starImages[vm.starCount];
         }
         function defenceChanged(newVal) {
             vm.starCount = calculateStartCount();
+            vm.starImage = starImages[vm.starCount];
         }
 
         function descriptionChanged(newVal) {
             vm.starCount = calculateStartCount();
+            vm.starImage = starImages[vm.starCount];
         }
 
         function actionChanged(newVal) {
             vm.starCount = calculateStartCount();
+            vm.starImage = starImages[vm.starCount];
         }
 
         function isActionAffordable(action) {

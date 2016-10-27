@@ -30,9 +30,17 @@
     position:absolute;
     top:0;
     left:0;
-    background:url(../media/card_template_front.png) 0 0 no-repeat;
+    background:url(../media/card/card_template_front.png) 0 0 no-repeat;
     background-size: auto 400px;
     background-position: center;
+}
+
+.card-star-overlay {
+    width: 236px;
+    height: 400px;
+    left: 142px;
+    pointer-events: none;
+    position:absolute;
 }
 
 .landscape {
