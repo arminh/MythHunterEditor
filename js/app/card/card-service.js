@@ -16,7 +16,8 @@
         var maskWidth = 214;
         var maskHeight = 183;
         var maskTop = 55;
-        var maskLeft = 150;
+        /*var maskLeft = 150;*/
+        var maskLeft = 8;
 
         var service = {
             createCard: createCard,
@@ -65,10 +66,10 @@
                 imageDragBounds.width = imageWidth + imageWidth - maskWidth;
 
                 var offsetLeft = imageDragBounds.left;
-                if(offsetLeft < 0) {
+/*                if(offsetLeft < 0) {
                     imageDragBounds.left = 0;
                     imageDragBounds.width += offsetLeft;
-                }
+                }*/
 
 
             } else {
@@ -78,10 +79,10 @@
                 imageDragBounds.height = imageHeight + imageHeight - maskHeight;
 
                 var offsetTop = imageDragBounds.top;
-                if(offsetTop < 0) {
+/*                if(offsetTop < 0) {
                     imageDragBounds.top = 0;
                     imageDragBounds.height += offsetTop;
-                }
+                }*/
             }
 
             return imageDragBounds;

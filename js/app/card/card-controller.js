@@ -125,7 +125,7 @@
         }
 
         function downloadImage() {
-            CardService.downloadImage("_1477578636787").then(function(image) {
+            CardService.downloadImage("_1478110802967").then(function(image) {
                 vm.image = {};
                 vm.image.base64 = image;
                 vm.image.filetype = "image/jpeg";
