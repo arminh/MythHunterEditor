@@ -23,8 +23,8 @@
             this.imageUrl = "";
             this.description = "";
             this.actions = [];
-            this.life = -1;
-            this.attack = -1;
+            this.life = 1;
+            this.attack = 0;
             this.type = null;
 
             this.changed = false;

@@ -16,8 +16,8 @@
 
         var backend = new backend_com_wsdl_IBackend();
         //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
-        //backend.url = "http://192.168.1.225:8080/Backend/webservices/Backend?wsdl";
-        backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.1.240:8080/Backend/webservices/Backend?wsdl";
+        // backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -33,6 +33,7 @@
             getTask: getTask,
             getHtml: getHtml,
             getTreePart: getTreePart,
+            getCard: getCard,
             getAllActionsOfCardType: getAllActionsOfCardType,
             addQuest: addQuest,
             addTask: addTask,
@@ -320,6 +321,27 @@
                 $log.error("getTreePart_fail (id = " + treePartId + ")", error);
                 deffered.reject(error);
             }, treePartId);
+
+            return deffered.promise;
+        }
+
+        function getCard(cardId) {
+            var deffered = $q.defer();
+
+            $log.info("getCard: id =", cardId);
+            backend.getCard(function (result) {
+                if (result.getReturn()) {
+                    $log.info("getCard_success (id = " + cardId + ")", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("getCard_fail (id = " + cardId + ")", result.getReturn());
+                    deffered.reject("Error loading Card with id: " + cardId);
+                }
+
+            }, function (error) {
+                $log.error("getCard_fail (id = " + cardId + ")", error);
+                deffered.reject(error);
+            }, cardId);
 
             return deffered.promise;
         }

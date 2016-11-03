@@ -35,13 +35,15 @@
             getCurrentQuest: getCurrentQuest,
             setCurrentQuest: setCurrentQuest,
             clearCurrentQuest: clearCurrentQuest,
+            addCreatedCard: addCreatedCard,
             backup: backup,
             upload: upload,
 
             getId: getId,
             getName: getName,
             getPassword: getPassword,
-            getCreatedQuests: getCreatedQuests
+            getCreatedQuests: getCreatedQuests,
+            getCreatedCardIds: getCreatedCardIds
         };
 
         return (User);
@@ -160,8 +162,8 @@
             $log.info("clearCurrentQuest");
         }
 
-        function newCard() {
-            var card = new Card(this.id);
+        function addCreatedCard(card) {
+            this.createdCards.push(card);
         }
 
         function getCurrentCard() {
@@ -216,6 +218,10 @@
 
         function getCreatedQuests() {
             return this.createdQuests;
+        }
+
+        function getCreatedCardIds() {
+            return this.createdCards;
         }
     }
 

@@ -1,27 +1,30 @@
-<div id="profile-container" class="col-md-6 col-md-offset-3"  ng-show="profile.user">
+<div id="profile-container" class="col-md-6 col-md-offset-3" ng-show="profile.user">
     <div class="row">
         <div class="col-md-8">
             <h1>Profile</h1>
         </div>
     </div>
 
-    <div id="profile-quest-container"  class="row">
+    <div id="profile-quest-container" class="row">
         <div class="col-md-8">
             <div ng-if="profile.currentQuest">
                 <h3>Quest in Development</h3>
                 <table class="profile-quest-table">
                     <tr class="odd-profile-quest">
                         <td width="50%" class="profile-quest-col">
-                            <a href="" ng-click="profile.editQuest(profile.currentQuest)">{{profile.currentQuest.name}}</a>
+                            <a href=""
+                               ng-click="profile.editQuest(profile.currentQuest)">{{profile.currentQuest.name}}</a>
                         </td>
-                        <td width="20%"class="profile-quest-col">
-                            {{profile.currentQuest.startTask.lon | number:4}}, {{profile.currentQuest.startTask.lat | number:4}}
+                        <td width="20%" class="profile-quest-col">
+                            {{profile.currentQuest.startTask.lon | number:4}}, {{profile.currentQuest.startTask.lat |
+                            number:4}}
                         </td>
-                        <td width="15%"class="profile-quest-col">
+                        <td width="15%" class="profile-quest-col">
                             {{profile.currentQuest.tasks.length}} Tasks
                         </td>
                         <td width="5%" class="profile-quest-col">
-                            <md-button aria-label="delete" class="md-icon-button" ng-click="profile.clearCurrentQuest()">
+                            <md-button aria-label="delete" class="md-icon-button"
+                                       ng-click="profile.clearCurrentQuest()">
                                 <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
                             </md-button>
                         </td>
@@ -33,7 +36,8 @@
             <hr>
             <div id="created-quests-container">
                 <table class="profile-quest-table">
-                    <tr ng-repeat="quest in profile.user.createdQuests" ng-class-odd="'odd-profile-quest'" ng-class-even="'even-profile-quest'">
+                    <tr ng-repeat="quest in profile.user.createdQuests" ng-class-odd="'odd-profile-quest'"
+                        ng-class-even="'even-profile-quest'">
                         <td width="55%" class="profile-quest-col">
                             <a href="" ng-click="profile.editQuest(quest)">{{quest.name}}</a>
                         </td>
@@ -55,35 +59,19 @@
             <button class="btn btn-default" ng-click="profile.newQuest()">New Quest</button>
             <hr>
 
-            <h3>Created Cards</h3>
+            <h3>Card collection</h3>
             <hr>
-            <div id="created-cards-container">
-                <table class="profile-quest-table">
-                    <tr ng-repeat="card in profile.user.createdCards" ng-class-odd="'odd-profile-quest'" ng-class-even="'even-profile-quest'">
-                        <td width="55%" class="profile-quest-col">
-                            <a href="" ng-click="profile.editCard(card)">{{quest.name}}</a>
-                        </td>
-                        <td width="25%" class="profile-quest-col">
-                            {{quest.startTask.lon | number:4}}, {{quest.startTask.lat | number:4}}
-                        </td>
-                        <td width="15%" class="profile-quest-col">
-                            {{quest.tasks.length}} Tasks
-                        </td>
-                        <td width="5%" class="profile-quest-col">
-                            <md-button aria-label="delete" class="md-icon-button" ng-click="profile.deleteQuest(quest)">
-                                <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
-                            </md-button>
-                        </td>
-                    </tr>
-                </table>
+
+            <div class="btn-group">
+                <button id="card-collection-btn" class="btn btn-default" ng-click="profile.showCollection()">Show collection</button>
+                <!--<button class="btn btn-default">Edit deck</button>-->
             </div>
 
-            <button class="btn btn-default" ng-click="profile.newCard()">New Card</button>
             <hr>
         </div>
         <div id="profile-data-container" class="col-md-4">
             <h3>Hello <b>{{profile.user.name}}</b>!</h3>
-            <img src="media/profile_picture.png" width="50%" />
+            <img src="media/profile_picture.png" width="50%"/>
             <hr>
             <h4>Statistics</h4>
             <p>You created <b>{{profile.user.createdQuests.length}}</b> Quests</p>

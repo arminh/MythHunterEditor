@@ -25,6 +25,8 @@
         'treePart',
         'html',
         'map',
+        'collection',
+        'cardeditor',
         'card',
         'action'
 

@@ -1,0 +1,74 @@
+<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="quest.close()">
+    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+</md-button>
+<div id="card-editor-container">
+    <div style="float:left; width: 300px">
+
+    </div>
+    <card-preview card="cardeditor.card" image="cardeditor.image" editable="true"></card-preview>
+    <div id="card-settings-container" style="float:left; z-index: 100">
+        <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
+            <div>
+                <md-input-container>
+                    <label>Name</label>
+                    <input type="text" maxlength="10" ng-model="cardeditor.card.name"/>
+                </md-input-container>
+
+
+                <md-slider-container>
+                    <span>Attack</span>
+                    <md-slider class="md-primary" md-discrete ng-model="cardeditor.card.attack" min="0" max="10"
+                               step="1"
+                               ng-change="cardeditor.calculateStarCount()"></md-slider>
+                    <md-input-container>
+                        <!-- <label>Attack</label>-->
+                        <input type="number" min="0" max="10" ng-model="cardeditor.card.attack"
+                               ng-change="cardeditor.calculateStarCount()"/>
+                    </md-input-container>
+                </md-slider-container>
+
+                <md-slider-container>
+                    <span>Lifeforce</span>
+                    <md-slider class="md-primary" md-discrete ng-model="cardeditor.card.life" min="1" max="10" step="1"
+                               ng-change="cardeditor.calculateStarCount()"></md-slider>
+
+                    <md-input-container>
+
+                        <input type="number" min="1" max="10" ng-model="cardeditor.card.life"
+                               ng-change="cardeditor.calculateStarCount()"/>
+                    </md-input-container>
+                </md-slider-container>
+                <md-input-container>
+                    <label>Description</label>
+                    <textarea class="textarea-noresize" maxlength="100" ng-model="cardeditor.card.description"
+                              ng-change="cardeditor.calculateStarCount()"></textarea>
+                </md-input-container>
+
+                <md-select placeholder="Action" ng-model="cardeditor.card.action"
+                           ng-change="cardeditor.actionChanged()">
+                    <md-option ng-value="action" ng-repeat="action in cardeditor.actions | orderBy:'starCosts'"
+                               ng-disabled="!cardeditor.isActionAffordable(action)">
+                        {{action.names[1]._value}}
+                    </md-option>
+                </md-select>
+            </div>
+        </md-content>
+
+    </div>
+    <div style="clear: both">
+        <input type='file' ng-model='cardeditor.image' base-sixty-four-input>
+        <br>
+
+        <div class="btn-group">
+            <button class="btn btn-default" style="margin-right: 20px;" ng-click="cardeditor.upload()">Upload</button>
+            <button class="btn btn-default" style="margin-right: 20px;" ng-click="cardeditor.downloadImage()">Download
+            </button>
+            <button class="btn btn-default" ng-click="cardeditor.htmlToImageControl.convert()" value="Convert">Convert
+            </button>
+        </div>
+
+
+    </div>
+
+</div>
+

@@ -21,7 +21,7 @@
         vm.editQuest = editQuest;
         vm.clearCurrentQuest = clearCurrentQuest;
         vm.deleteQuest = deleteQuest;
-        vm.newCard = newCard;
+        vm.showCollection = showCollection;
 
         activate();
 
@@ -31,8 +31,8 @@
             vm.currentQuest = user.getCurrentQuest();
         }
 
-        function newCard() {
-            $state.go("app.card");
+        function showCollection() {
+            $state.go("app.collection");
         }
 
         function newQuest() {
