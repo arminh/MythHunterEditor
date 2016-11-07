@@ -23,7 +23,7 @@
     <input type="number" min="0" max="10" class="card-input defence-val" readonly="readonly"
            ng-model="cardPreview.card.life"/>
 
-    <span ng-if="cardPreview.card.action" class="card-input card-attack"
+    <span ng-if="cardPreview.card.action && cardPreview.card.action.descriptions[1]._value != ''" class="card-input card-attack"
           readonly="readonly"><b>{{cardPreview.card.action.names[1]._value}}: </b>{{cardPreview.card.action.descriptions[1]._value}}</span>
 
     <span class="card-input card-text" placeholder="Enter card text ..."

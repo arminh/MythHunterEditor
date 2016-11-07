@@ -78,6 +78,9 @@
                 controller: 'CardEditorController',
                 controllerAs: "cardeditor",
                 resolve: {
+                    user: function () {
+                        return user;
+                    },
                     card: function () {
                         return card;
                     }

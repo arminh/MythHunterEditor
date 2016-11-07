@@ -24,7 +24,10 @@
 
         Action.prototype = {
             initFromRemote: initFromRemote,
-            upload: upload
+
+            addName: addName,
+            addDescription: addDescription,
+            getRemoteId: getRemoteId
         };
 
         return (Action);
@@ -38,8 +41,22 @@
             this.starCosts = remoteAction.getStarCosts();
         }
 
-        function upload() {
-            
+        function addName(langKey, value) {
+            this.names.push({
+                _key: langKey,
+                _value: value
+            })
+        }
+
+        function addDescription(langKey, value) {
+            this.descriptions.push({
+                _key: langKey,
+                _value: value
+            });
+        }
+
+        function getRemoteId() {
+            return this.remoteId;
         }
     }
 

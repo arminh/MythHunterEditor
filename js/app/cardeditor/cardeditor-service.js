@@ -38,16 +38,30 @@
                     action.initFromRemote(results[i]);
                     actions.push(action);
                 }
+                actions.push(createNoAction());
+
                 return actions;
             });
         }
 
-        function upload(imageBase64, name, description, attack, defence, action, stars) {
-            var card = new Card();
+        function createNoAction() {
+            var noAction = new Action();
+
+            noAction.addName('de', "Keine");
+            noAction.addName('en', "None");
+
+            noAction.addDescription('de', "");
+            noAction.addDescription('en', "");
+
+            return noAction;
+        }
+
+        function upload(card, imageBase64) {
             BackendService.uploadImage(name + "_" + Date.now(), imageBase64).then(success);
 
             function success(result) {
-                console.log(result);
+                card.setImageUrl(result);
+                card.upload();
             }
         }
 

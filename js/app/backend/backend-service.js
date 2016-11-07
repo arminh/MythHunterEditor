@@ -16,8 +16,8 @@
 
         var backend = new backend_com_wsdl_IBackend();
         //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
-        backend.url = "http://192.168.1.240:8080/Backend/webservices/Backend?wsdl";
-        // backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
+        //backend.url = "http://192.168.1.240:8080/Backend/webservices/Backend?wsdl";
+         backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -28,6 +28,7 @@
             createRemoteTask: createRemoteTask,
             createRemoteHtml: createRemoteHtml,
             createRemoteTreePart: createRemoteTreePart,
+            createRemoteCard: createRemoteCard,
             getQuest: getQuest,
             getQuests: getQuests,
             getTask: getTask,
@@ -38,6 +39,7 @@
             addQuest: addQuest,
             addTask: addTask,
             addHtml: addHtml,
+            addCard: addCard,
             addTreePart: addTreePart,
             updateUser: updateUser,
             updateQuest: updateQuest,
@@ -206,6 +208,30 @@
             remoteTreePart.setMarker(createRemoteTask(treePart.getTask()));
 
             return remoteTreePart;
+        }
+
+        function createRemoteCard(card) {
+            var remoteCard = new backend_com_wsdl_card();
+
+            remoteCard.setName(card.getName());
+            remoteCard.setDescription(card.getDescription());
+            remoteCard.setAttack(card.getAttack());
+            remoteCard.setLife(card.getLife());
+            remoteCard.setStars(card.getStars());
+            remoteCard.setCardImageUrl(card.getImageUrl());
+            remoteCard.setImageUrl("");
+            remoteCard.setType(card.getType());
+            remoteCard.setVersion(0);
+
+            var actionIds = [];
+            var actions = card.getActions();
+            if(actions.length > 0) {
+                for(var i = 0; i < actions.length; i++) {
+                    actionIds.push(actions[i].getRemoteId())
+                }
+            }
+
+            return remoteCard;
         }
 
         function mapPosition(lon, lat) {
@@ -446,6 +472,27 @@
                 $log.error("addTreePart_fail: ", error);
                 deffered.reject(error);
             }, treePart);
+
+            return deffered.promise;
+        }
+
+        function addCard(card) {
+            var deffered = $q.defer();
+
+            $log.info("addCard: ", card);
+            backend.addCard(function (result) {
+                if (result.getReturn()) {
+                    $log.info("addCard_success: ", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("addCard_fail: ", result.getReturn());
+                    deffered.reject("Error adding quest");
+                }
+
+            }, function (error) {
+                $log.error("addCard_fail: ", error);
+                deffered.reject(error);
+            }, card);
 
             return deffered.promise;
         }
