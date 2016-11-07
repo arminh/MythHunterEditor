@@ -1,6 +1,6 @@
 <div id="collection-container" class="col-md-10 col-md-offset-1">
     <div class="row created-cards-preview">
-        <card ng-repeat="card in collection.cards"></card>
+        <card-preview class="collection-card-preview" ng-repeat="card in collection.cards" card="card" image="card.image" editable="false"></card-preview>
     </div>
     <div class="row">
         <button id="create-card-btn" class="btn btn-default" ng-click="collection.createCard()">Create card</button>

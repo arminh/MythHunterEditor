@@ -9,10 +9,10 @@
         .module('card')
         .controller('CardEditorController', CardEditorController);
 
-    CardEditorController.$inject = ["CardEditorService", "$scope", "user","card"];
+    CardEditorController.$inject = ["$modalInstance", "CardEditorService", "user","card"];
 
     /* @ngInject */
-    function CardEditorController(CardEditorService, $scope, user, card) {
+    function CardEditorController($modalInstance, CardEditorService, user, card) {
 
         var vm = this;
         vm.card = card;
@@ -20,44 +20,34 @@
 
         vm.image = null;
 
-        vm.maxStars = 10;
-
         vm.calculateStarCount = calculateStarCount;
         vm.isActionAffordable = isActionAffordable;
-        vm.upload = upload;
+        vm.confirm = confirm;
         vm.downloadImage = downloadImage;
-        vm.positionChanged = positionChanged;
+        vm.close = close;
 
         activate();
 
         ////////////////
 
         function activate() {
-            calculateStarCount();
+            CardEditorService.setModalInstance($modalInstance);
             CardEditorService.loadActions().then(function(actions) {
                 vm.actions = actions;
             });
         }
 
         function isActionAffordable(action) {
-            var starCount = vm.card.stars;
-            if(vm.card.action) {
-                starCount -= vm.card.action.starCosts;
-            }
-            return (starCount + action.starCosts) <= vm.maxStars;
+            return CardEditorService.isActionAffordable(action, vm.card.stars, vm.card.actions);
         }
 
         function calculateStarCount() {
-            vm.card.stars =  vm.card.attack * 0.5 + vm.card.life * 0.5;
-            if(vm.card.action) {
-                vm.card.stars += vm.card.action.starCosts;
-            }
+            vm.card.stars = CardEditorService.calculateStarCount(vm.card.attack, vm.card.life, vm.card.actions)
         }
 
-        function upload() {
-            console.log(vm.image);
+        function confirm() {
             if(vm.image) {
-                CardEditorService.upload(vm.card, vm.image.base64);
+                CardEditorService.confirmCard(vm.card, vm.image.base64);
             }
         }
 
@@ -69,8 +59,8 @@
             })
         }
 
-        function positionChanged() {
-
+        function close() {
+            CardEditorService.cancelCard();
         }
     }
 

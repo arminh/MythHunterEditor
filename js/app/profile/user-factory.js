@@ -43,7 +43,7 @@
             getName: getName,
             getPassword: getPassword,
             getCreatedQuests: getCreatedQuests,
-            getCreatedCardIds: getCreatedCardIds
+            getCreatedCards: getCreatedCards
         };
 
         return (User);
@@ -220,7 +220,7 @@
             return this.createdQuests;
         }
 
-        function getCreatedCardIds() {
+        function getCreatedCards() {
             return this.createdCards;
         }
     }

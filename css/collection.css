@@ -1,4 +1,4 @@
-.created-cards-preview {
-    position: relative;
-    height: 200px;
+.collection-card-preview {
+    zoom: 0.5;
+    -moz-transform: scale(0.5);
 }

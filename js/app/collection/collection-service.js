@@ -9,17 +9,21 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log","$q","$modal","BackendService","Card"];
+    CollectionService.$inject = ["$log", "$q", "$modal", "BackendService", "CardType", "Card", "Action"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $modal, BackendService, Card) {
+    function CollectionService($log, $q, $modal, BackendService, CardType, Card, Action) {
         $log = $log.getInstance("Collection", debugging);
 
         var user = null;
+        var actions = [];
+        var actionsPromise = null;
 
         var service = {
             setUser: setUser,
             getCreatedCards: getCreatedCards,
+            getActions: getActions,
+            getAction: getAction,
             createCard: createCard
         };
         return service;
@@ -31,43 +35,95 @@
         }
 
         function getCreatedCards() {
-            var createdCardIds = user.getCreatedCardIds();
+            var createdCards = user.getCreatedCards();
 
             var cardPromises = [];
-            var cards = [];
 
-            for(var i=0; i < createdCardIds; i++) {
-                var cardPromise = BackendService.getCard(createdCardIds[i]).then(initCard);
-
+            for (var i = 0; i < createdCards.length; i++) {
+                var cardPromise = getCreatedCard(createdCards[i].getRemoteId());
                 cardPromises.push(cardPromise);
             }
+
+            return $q.all(cardPromises).then(function (results) {
+                console.log("Created cards: ")
+                return results;
+            });
+        }
+
+        function getCreatedCard(id) {
+            var promises = [];
+            var cardPromise = BackendService.getCard(id).then(initCard);
+            promises.push(cardPromise);
+            promises.push(actionsPromise);
 
             function initCard(remoteCard) {
                 var card = new Card();
                 card.initFromRemote(remoteCard);
-                cards.push(card);
+                var actionIds = remoteCard.getActionIds();
+                for (var i = 0; i < actionIds.length; i++) {
+                    card.addAction(getAction(actionIds[i]));
+                }
+
+                card.getImage();
+                return card;
             }
 
-            return $q.all(cardPromises).then(function() {
-                return cards;
-            });
+            return $q.all(promises);
         }
+
+        function getActions() {
+
+            actionsPromise = BackendService.getAllActionsOfCardType(CardType.MONSTER).then(function (results) {
+                var actions = [];
+                for (var i = 0; i < results.length; i++) {
+                    var action = new Action();
+                    action.initFromRemote(results[i]);
+                    actions.push(action);
+                }
+
+                return actions;
+            });
+
+            actionsPromise.then(initActions);
+
+            function initActions(result) {
+                actions = result;
+            }
+        }
+
+        function getAction(id) {
+            for (var i = 0; i < actions.length; i++) {
+                if(actions[i].getId() == id) {
+                    return actions[i];
+                }
+            }
+        }
+
 
         function createCard() {
             $log.info("createCard");
 
             var card = new Card();
-            return openCardCreatorDialog(card).then(cardCreated.bind(this), createCardCanceled);
+            openCardCreatorDialog(card).then(uploadCard);
 
-            function cardCreated(result) {
+            function uploadCard(result) {
+                BackendService.uploadImage(name + "_" + Date.now(), result.imageBase64).then(success, canceled);
 
-            }
+                function success(imageUrl) {
+                    card.setImageUrl(imageUrl);
+                    card.upload().then(function (result) {
+                        user.addCreatedCard(card);
+                        user.upload();
+                    })
+                }
 
-            function createCardCanceled(error) {
-                $log.info("create_fail: Canceled");
-                return $q.reject("Canceled");
+                function canceled(error) {
+                    $log.info("create_fail: Canceled");
+                    return $q.reject("Canceled");
+                }
             }
         }
+
 
         function openCardCreatorDialog(card) {
             var modalInstance = $modal.open({

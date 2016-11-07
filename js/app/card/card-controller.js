@@ -9,10 +9,10 @@
         .module('card')
         .controller('CardController', CardController);
 
-    CardController.$inject = ["CardService"];
+    CardController.$inject = ["$q", "$scope", "CardService"];
 
     /* @ngInject */
-    function CardController(CardService) {
+    function CardController($q, $scope, CardService) {
         var vm = this;
 
         vm.dimensions = {
@@ -36,6 +36,9 @@
 
         function activate() {
             console.log("CardController");
+            $q.when(vm.image).then(function(result) {
+                vm.image = result;
+            })
         }
 
         function getStarImage() {

@@ -14,16 +14,25 @@
     /* @ngInject */
     function CardEditorService(BackendService, Card, CardType, Action, $q) {
 
+        var maxStars = 10;
+        var modalInstance = null;
 
         var service = {
+            setModalInstance: setModalInstance,
             createCard: createCard,
             loadActions: loadActions,
-            upload: upload,
-            downloadImage: downloadImage
+            calculateStarCount: calculateStarCount,
+            isActionAffordable: isActionAffordable,
+            confirmCard: confirmCard,
+            cancelCard: cancelCard
         };
         return service;
 
         ////////////////
+
+        function setModalInstance($modalInstance) {
+            modalInstance = $modalInstance;
+        }
 
         function createCard() {
             return new Card();
@@ -56,22 +65,40 @@
             return noAction;
         }
 
-        function upload(card, imageBase64) {
-            BackendService.uploadImage(name + "_" + Date.now(), imageBase64).then(success);
-
-            function success(result) {
-                card.setImageUrl(result);
-                card.upload();
+        function calculateStarCount(attack, life, actions) {
+            var stars =  attack * 0.5 + life * 0.5;
+            if(actions.length > 0) {
+                for(var i = 0; i < actions.length; i++) {
+                    stars += actions[i].starCosts;
+                }
             }
+            return stars;
         }
 
-        function downloadImage(fileName) {
-            return BackendService.downloadImage(fileName).then(function(result) {
-                return result;
-            })
+        function isActionAffordable(newAction, stars, actions) {
+            var starCount = stars;
+            if(actions.length > 0) {
+                for(var i = 0; i < actions.length; i++) {
+                    starCount -= actions[i].starCosts;
+                }
+            }
+
+            return (starCount + newAction.starCosts) <= maxStars;
         }
 
+        function confirmCard(card, imageBase64) {
+            if(imageBase64) {
+                modalInstance.close({
+                    imageBase64: imageBase64
+                });
+            }
 
+
+        }
+
+        function cancelCard() {
+            modalInstance.dismiss('cancel');
+        }
     }
 
 })();

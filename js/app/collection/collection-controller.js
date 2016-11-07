@@ -25,8 +25,10 @@
         function activate() {
             CollectionService.setUser(user);
             CollectionService.getCreatedCards().then(function(createdCards) {
+                console.log(createdCards);
                 vm.cards = createdCards;
-            })
+            });
+            CollectionService.getActions();
         }
     }
 

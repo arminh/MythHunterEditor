@@ -21,6 +21,7 @@
             this.name = "";
             this.stars = 0;
             this.imageUrl = "";
+            this.image = {};
             this.description = "";
             this.actions = [];
             this.life = 1;
@@ -32,8 +33,11 @@
 
         Card.prototype = {
             initFromRemote: initFromRemote,
+            getImage: getImage,
+            addAction: addAction,
             upload: upload,
 
+            getRemoteId: getRemoteId,
             getName: getName,
             getDescription: getDescription,
             getAttack: getAttack,
@@ -55,42 +59,61 @@
             this.version = remoteCard.getVersion();
             this.name = remoteCard.getName();
             this.stars = remoteCard.getStars();
-            this.imageUrl = remoteCard.getImageUrl();
-            this.description = remoteCard.getDescriptions();
-            this.actions = remoteCard.getActions();
+            this.imageUrl = remoteCard.getCardImageUrl();
+            this.description = remoteCard.getDescription();
             this.life = remoteCard.getLife();
             this.attack = remoteCard.getAttack();
             this.type = CardType[remoteCard.getType()];
+        }
+
+        function getImage() {
+            this.image = BackendService.downloadImage(this.imageUrl).then(success.bind(this));
+
+            function success(result) {
+                return {
+                    filetype: "image/jpeg",
+                    base64: result
+                };
+            }
+        }
+
+        function addAction(action) {
+            actions.push(action);
         }
 
         function upload() {
             $log.info("upload: ", this);
 
             var remoteCard = BackendService.createRemoteCard(this);
-            BackendService.addCard(remoteCard).then(function(result) {
-                console.log(result);
-            });
+            return BackendService.addCard(remoteCard).then(success.bind(this));
 
+            function success(result) {
+                this.remoteId = result.getId();
+                return result;
+            }
+        }
 
+        function getRemoteId() {
+            return this.remoteId;
         }
 
         function getName() {
             return this.name;
         }
 
-        function getDescription(){
+        function getDescription() {
             return this.description;
         }
 
-        function getAttack(){
+        function getAttack() {
             return this.attack;
         }
 
-        function getLife(){
+        function getLife() {
             return this.life;
         }
 
-        function getStars(){
+        function getStars() {
             return this.stars;
         }
 
@@ -98,11 +121,11 @@
             this.imageUrl = url;
         }
 
-        function getImageUrl(){
+        function getImageUrl() {
             return this.imageUrl;
         }
 
-        function getType(){
+        function getType() {
             return this.type;
         }
 

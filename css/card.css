@@ -23,8 +23,11 @@
 
 .card-image-container {
     position: absolute;
-    cursor: move;
     z-index: auto !important;
+}
+
+.card-image-container-movable {
+    cursor: move;
 }
 
 .card-mask {

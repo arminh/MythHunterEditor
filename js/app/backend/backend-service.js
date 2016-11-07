@@ -15,9 +15,8 @@
     function BackendService($log, $q) {
 
         var backend = new backend_com_wsdl_IBackend();
-        //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
-        //backend.url = "http://192.168.1.240:8080/Backend/webservices/Backend?wsdl";
-         backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.1.216:8080/Backend/webservices/Backend?wsdl";
+         // backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -60,10 +59,13 @@
         function uploadImage(fileName, imageData) {
             var deffered = $q.defer();
 
+            $log.info("uploadFile", fileName);
             backend.uploadFile(function (result) {
+                $log.info("uploadFile_success", result.getReturn());
                 deffered.resolve(result.getReturn());
             }, function (error) {
-
+                $log.error("uploadFile_fail", error);
+                deffered.reject(error);
             }, fileName, imageData);
 
             return deffered.promise;
@@ -72,10 +74,13 @@
         function downloadImage(fileName) {
             var deffered = $q.defer();
 
+            $log.info("downloadImage", fileName);
             backend.downloadFile(function (result) {
+                $log.info("downloadImage_success", fileName);
                 deffered.resolve(result.getReturn());
             }, function (error) {
-
+                $log.error("downloadImage_fail", error);
+                deffered.reject(error);
             }, fileName);
 
             return deffered.promise;
@@ -123,13 +128,19 @@
             remoteUser.setId(user.getId());
 
             var createdQuestIds = [];
+            var createdCardIds = [];
             var createdQuests = user.getCreatedQuests();
+            var createdCards = user.getCreatedCards();
 
             for (var i = 0; i < createdQuests.length; i++) {
                 createdQuestIds.push(createdQuests[i].getRemoteId());
             }
+            for (i = 0; i < createdCards.length; i++) {
+                createdCardIds.push(createdCards[i].getRemoteId());
+            }
 
             remoteUser.setCreatedQuestIds(createdQuestIds);
+            remoteUser.setCreatedCardIds(createdCardIds);
 
             return remoteUser;
         }
@@ -217,7 +228,7 @@
             remoteCard.setDescription(card.getDescription());
             remoteCard.setAttack(card.getAttack());
             remoteCard.setLife(card.getLife());
-            remoteCard.setStars(card.getStars());
+            remoteCard.setStars(Math.ceil(card.getStars()));
             remoteCard.setCardImageUrl(card.getImageUrl());
             remoteCard.setImageUrl("");
             remoteCard.setType(card.getType());
@@ -230,6 +241,7 @@
                     actionIds.push(actions[i].getRemoteId())
                 }
             }
+            remoteCard.setActionIds(actionIds);
 
             return remoteCard;
         }

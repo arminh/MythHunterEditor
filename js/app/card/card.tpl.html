@@ -2,8 +2,8 @@
 
     <div class="card-image-bounds">
 
-        <div class="card-image-container" data-drag="true"
-             jqyoui-draggable="{}"
+        <div class="card-image-container" ng-class="{'card-image-container-movable': cardPreview.editable}"
+             jqyoui-draggable="{}" data-drag="cardPreview.editable"
              data-jqyoui-options="{{cardPreview.imageDragOptions}}">
             <img ng-show="cardPreview.image.base64" class="card-image"
                  data-ng-src="data:{{cardPreview.image.filetype}};base64, {{cardPreview.image.base64}}" scale-card-image

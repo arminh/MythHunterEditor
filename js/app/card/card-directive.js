@@ -9,10 +9,10 @@
         .module('card')
         .directive('cardPreview', cardPreview);
 
-    cardPreview.$inject = [];
+    cardPreview.$inject = ["$q"];
 
     /* @ngInject */
-    function cardPreview() {
+    function cardPreview($q) {
         var directive = {
             templateUrl: "js/app/card/card.tpl.html",
             bindToController: {
@@ -30,7 +30,8 @@
         };
         return directive;
 
-        function link(scope, element, attrs) {
+        function link(scope, element, attrs, vm) {
+            console.log(vm.image);
         }
     }
 
