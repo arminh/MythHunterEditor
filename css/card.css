@@ -94,13 +94,17 @@
 .attack-val {
     top: 213px;
     /*left: 159px;*/
-    left: 17px;
+    left: 11px;
+    width: 25px;
+    text-align: center;
 }
 
 .defence-val {
     top: 213px;
     /*left: 347px;*/
-    left: 205px;
+    left: 196px;
+    width: 25px;
+    text-align: center;
 }
 
 .card-text {
