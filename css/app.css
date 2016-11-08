@@ -63,6 +63,10 @@
     color:red;
 }
 
+input[type='file'] {
+    color: transparent;
+}
+
 .ngdialog-buttons {
     text-align: center;
 }

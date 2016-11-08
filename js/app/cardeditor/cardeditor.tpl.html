@@ -5,9 +5,9 @@
     <div style="float:left; width: 300px">
 
     </div>
-    <card-preview card="cardeditor.card" image="cardeditor.image" editable="true"></card-preview>
+    <card-preview card="cardeditor.card" image="cardeditor.card.image" editable="true"></card-preview>
     <div id="card-settings-container" style="float:left; z-index: 100">
-        <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
+        <md-content layout-gt-sm="row" layout-padding="">
             <div>
                 <md-input-container>
                     <label>Name</label>
@@ -56,7 +56,7 @@
 
     </div>
     <div style="clear: both">
-        <input type='file' ng-model='cardeditor.image' base-sixty-four-input>{{cardeditor.image}}
+        <input type='file' ng-model='cardeditor.card.image' base-sixty-four-input>
     </div>
 
 </div>

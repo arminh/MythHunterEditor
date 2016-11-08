@@ -23,15 +23,18 @@
             this.imageUrl = "";
             this.image = {};
             this.description = "";
+            this.actionIds = [];
             this.actions = [];
             this.life = 1;
             this.attack = 0;
             this.type = CardType.MONSTER;
 
+            this.loadPromise = null;
             this.changed = false;
         }
 
         Card.prototype = {
+            getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
             getImage: getImage,
             addAction: addAction,
@@ -47,12 +50,28 @@
             getType: getType,
             getActions: getActions,
 
-            setImageUrl: setImageUrl
+            setImageUrl: setImageUrl,
+            setImage: setImage,
+            setLoadPromise: setLoadPromise
         };
 
         return (Card);
 
         ////////////////
+
+        function getFromRemote() {
+            $log.info("getFromRemote", this.remoteId);
+            return BackendService.getCard(this.remoteId).then(success.bind(this));
+
+            function success(remoteCard) {
+                this.initFromRemote(remoteCard);
+                return this.getImage().then(function() {
+                    $log.info("getFromRemote_success", this);
+                    return this;
+                }.bind(this));
+
+            }
+        }
 
         function initFromRemote(remoteCard) {
             this.remoteId = remoteCard.getId();
@@ -64,16 +83,18 @@
             this.life = remoteCard.getLife();
             this.attack = remoteCard.getAttack();
             this.type = CardType[remoteCard.getType()];
+            this.actionIds = remoteCard.getActionIds();
         }
 
         function getImage() {
-            this.image = BackendService.downloadImage(this.imageUrl).then(success.bind(this));
+            return BackendService.downloadImage(this.imageUrl).then(success.bind(this));
 
             function success(result) {
-                return {
+                this.image = {
                     filetype: "image/jpeg",
                     base64: result
                 };
+                return this.image;
             }
         }
 
@@ -83,6 +104,8 @@
 
         function upload() {
             $log.info("upload: ", this);
+
+            BackendService.uploadImage(this.name + "_" + Date.now(), this.image.base64).then(success);
 
             var remoteCard = BackendService.createRemoteCard(this);
             return BackendService.addCard(remoteCard).then(success.bind(this));
@@ -133,6 +156,13 @@
             return this.actions;
         }
 
+        function setImage(image) {
+            this.image = image;
+        }
+
+        function setLoadPromise(promise) {
+            this.loadPromise = promise;
+        }
     }
 
 })();

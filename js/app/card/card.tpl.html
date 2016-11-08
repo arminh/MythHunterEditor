@@ -1,13 +1,14 @@
 <div id="card-container">
 
     <div class="card-image-bounds">
-
-        <div class="card-image-container" ng-class="{'card-image-container-movable': cardPreview.editable}"
-             jqyoui-draggable="{}" data-drag="cardPreview.editable"
-             data-jqyoui-options="{{cardPreview.imageDragOptions}}">
-            <img ng-show="cardPreview.image.base64" class="card-image"
-                 data-ng-src="data:{{cardPreview.image.filetype}};base64, {{cardPreview.image.base64}}" scale-card-image
-                 dimensions="cardPreview.dimensions" callback="cardPreview.imageLoaded()"/>
+        <div class="card-image-drag-bounds" ng-style="cardPreview.dragBoundsStyle">
+            <div class="card-image-container" ng-class="{'card-image-container-movable': cardPreview.editable}"
+                 jqyoui-draggable="{containment:'position'}" data-drag="cardPreview.editable"
+                 data-jqyoui-options="{{cardPreview.imageDragOptions}}" ng-style="cardPreview.imageContainerStyle">
+                <img ng-show="cardPreview.card.image.base64" class="card-image"
+                     data-ng-src="data:{{cardPreview.card.image.filetype}};base64, {{cardPreview.card.image.base64}}" scale-card-image
+                     dimensions="cardPreview.dimensions" callback="cardPreview.imageLoaded()"/>
+            </div>
         </div>
     </div>
     <div class="card-mask">

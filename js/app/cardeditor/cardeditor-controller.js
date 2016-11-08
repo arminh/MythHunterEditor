@@ -18,12 +18,9 @@
         vm.card = card;
         console.log(card);
 
-        vm.image = null;
-
         vm.calculateStarCount = calculateStarCount;
         vm.isActionAffordable = isActionAffordable;
         vm.confirm = confirm;
-        vm.downloadImage = downloadImage;
         vm.close = close;
 
         activate();
@@ -46,17 +43,9 @@
         }
 
         function confirm() {
-            if(vm.image) {
-                CardEditorService.confirmCard(vm.card, vm.image.base64);
+            if(vm.card.image) {
+                CardEditorService.confirmCard();
             }
-        }
-
-        function downloadImage() {
-            CardEditorService.downloadImage("_1478110802967").then(function(image) {
-                vm.image = {};
-                vm.image.base64 = image;
-                vm.image.filetype = "image/jpeg";
-            })
         }
 
         function close() {

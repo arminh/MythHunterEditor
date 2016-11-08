@@ -86,14 +86,8 @@
             return (starCount + newAction.starCosts) <= maxStars;
         }
 
-        function confirmCard(card, imageBase64) {
-            if(imageBase64) {
-                modalInstance.close({
-                    imageBase64: imageBase64
-                });
-            }
-
-
+        function confirmCard() {
+            modalInstance.close();
         }
 
         function cancelCard() {

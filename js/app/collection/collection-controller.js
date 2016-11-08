@@ -16,7 +16,8 @@
         var vm = this;
         vm.cards = [];
 
-        vm.createCard = CollectionService.createCard;
+        vm.createCard = createCard;
+        vm.showCard = CollectionService.showCard;
 
         activate();
 
@@ -31,6 +32,15 @@
                     console.log(createdCards);
                     vm.cards = createdCards;
                 });
+            }
+        }
+
+        function createCard() {
+            CollectionService.createCard().then(addCard);
+
+            function addCard(card) {
+                console.log(card);
+                vm.cards.push(card);
             }
         }
     }

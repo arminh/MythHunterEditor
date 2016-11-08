@@ -40,7 +40,7 @@
             var cardPromises = [];
 
             for (var i = 0; i < createdCards.length; i++) {
-                var cardPromise = getCreatedCard(createdCards[i].getRemoteId());
+                var cardPromise = createdCards[i].getFromRemote();
                 cardPromises.push(cardPromise);
             }
 
@@ -48,24 +48,6 @@
                 $log.info("getCreatedCards_success", results);
                 return results;
             });
-        }
-
-        function getCreatedCard(id) {
-            $log.info("getCreatedCard", id);
-            return BackendService.getCard(id).then(initCard);
-
-            function initCard(remoteCard) {
-                var card = new Card();
-                card.initFromRemote(remoteCard);
-                var actionIds = remoteCard.getActionIds();
-                for (var i = 0; i < actionIds.length; i++) {
-                    card.addAction(getAction(actionIds[i]));
-                }
-
-                card.getImage();
-                $log.info("getCreatedCard_success", card);
-                return card;
-            }
         }
 
         function getActions() {
@@ -94,18 +76,15 @@
             $log.info("createCard");
 
             var card = new Card();
-            openCardCreatorDialog(card).then(uploadCard);
+            return openCardCreatorDialog(card).then(uploadCard);
 
-            function uploadCard(result) {
-                BackendService.uploadImage(name + "_" + Date.now(), result.imageBase64).then(success, canceled);
+            function uploadCard() {
 
-                function success(imageUrl) {
-                    card.setImageUrl(imageUrl);
-                    card.upload().then(function (result) {
-                        user.addCreatedCard(card);
-                        user.upload();
-                    })
-                }
+                return card.upload().then(function (result) {
+                    user.addCreatedCard(card);
+                    user.upload();
+                    return card;
+                })
 
                 function canceled(error) {
                     $log.info("create_fail: Canceled");

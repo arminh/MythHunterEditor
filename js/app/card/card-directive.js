@@ -17,7 +17,6 @@
             templateUrl: "js/app/card/card.tpl.html",
             bindToController: {
                 card: "=",
-                image: "=",
                 editable: "="
             },
             controller: "CardController",
@@ -31,7 +30,7 @@
         return directive;
 
         function link(scope, element, attrs, vm) {
-            console.log(vm.image);
+            console.log(vm.card.image);
         }
     }
 

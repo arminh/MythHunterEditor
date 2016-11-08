@@ -23,7 +23,7 @@
         vm.imageDragBounds = null;
 
         vm.imageDragOptions = {
-            // containment: 'parent'
+             containment: 'parent'
         };
 
         vm.getStarImage = getStarImage;
@@ -36,10 +36,6 @@
 
         function activate() {
             console.log("CardController");
-            $q.when(vm.image).then(function(result) {
-                console.log(result);
-                vm.image = result;
-            })
         }
 
         function getStarImage() {
@@ -53,11 +49,7 @@
                 width: vm.dimensions.width,
                 height: vm.dimensions.height
             };
-
-            vm.width = vm.dimensions.width;
-            vm.height = vm.dimensions.height;
-            vm.top = 0;
-            vm.left = 0;
+            vm.dragBoundsStyle = CardService.getDragBounds(vm.dimensions);
         }
     }
 

@@ -1,4 +1,13 @@
+#collection-container {
+    margin-top: 20px;
+}
+
+.collection-card-preview-container {
+    display: inline-block;
+    margin-right: 40px;
+}
+
 .collection-card-preview {
-    zoom: 0.5;
+    zoom: 0.7;
     -moz-transform: scale(0.5);
 }

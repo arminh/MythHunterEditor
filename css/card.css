@@ -21,6 +21,10 @@
     overflow: hidden;
 }
 
+.card-image-drag-bounds {
+    position: absolute;
+}
+
 .card-image-container {
     position: absolute;
     z-index: auto !important;
