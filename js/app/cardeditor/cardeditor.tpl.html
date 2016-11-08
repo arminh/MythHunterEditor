@@ -44,7 +44,7 @@
                               ng-change="cardeditor.calculateStarCount()"></textarea>
                 </md-input-container>
 
-                <md-select placeholder="Action" ng-model="cardeditor.card.action"
+                <md-select placeholder="Action" ng-model="cardeditor.card.actions[0]"
                            ng-change="cardeditor.actionChanged()">
                     <md-option ng-value="action" ng-repeat="action in cardeditor.actions | orderBy:'starCosts'"
                                ng-disabled="!cardeditor.isActionAffordable(action)">

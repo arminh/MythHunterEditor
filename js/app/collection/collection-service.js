@@ -13,11 +13,10 @@
 
     /* @ngInject */
     function CollectionService($log, $q, $modal, BackendService, CardType, Card, Action) {
-        $log = $log.getInstance("Collection", debugging);
+        $log = $log.getInstance("CollectionService", debugging);
 
         var user = null;
         var actions = [];
-        var actionsPromise = null;
 
         var service = {
             setUser: setUser,
@@ -35,6 +34,7 @@
         }
 
         function getCreatedCards() {
+            $log.info("getCreatedCards");
             var createdCards = user.getCreatedCards();
 
             var cardPromises = [];
@@ -45,16 +45,14 @@
             }
 
             return $q.all(cardPromises).then(function (results) {
-                console.log("Created cards: ")
+                $log.info("getCreatedCards_success", results);
                 return results;
             });
         }
 
         function getCreatedCard(id) {
-            var promises = [];
-            var cardPromise = BackendService.getCard(id).then(initCard);
-            promises.push(cardPromise);
-            promises.push(actionsPromise);
+            $log.info("getCreatedCard", id);
+            return BackendService.getCard(id).then(initCard);
 
             function initCard(remoteCard) {
                 var card = new Card();
@@ -65,35 +63,27 @@
                 }
 
                 card.getImage();
+                $log.info("getCreatedCard_success", card);
                 return card;
             }
-
-            return $q.all(promises);
         }
 
         function getActions() {
-
-            actionsPromise = BackendService.getAllActionsOfCardType(CardType.MONSTER).then(function (results) {
-                var actions = [];
+            $log.info("getActions");
+            return BackendService.getAllActionsOfCardType(CardType.MONSTER).then(function (results) {
                 for (var i = 0; i < results.length; i++) {
                     var action = new Action();
                     action.initFromRemote(results[i]);
                     actions.push(action);
                 }
-
+                $log.info("getActions_success", actions);
                 return actions;
             });
-
-            actionsPromise.then(initActions);
-
-            function initActions(result) {
-                actions = result;
-            }
         }
 
         function getAction(id) {
             for (var i = 0; i < actions.length; i++) {
-                if(actions[i].getId() == id) {
+                if(actions[i].getRemoteId() == id) {
                     return actions[i];
                 }
             }

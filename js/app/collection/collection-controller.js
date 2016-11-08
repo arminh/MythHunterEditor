@@ -24,11 +24,14 @@
 
         function activate() {
             CollectionService.setUser(user);
-            CollectionService.getCreatedCards().then(function(createdCards) {
-                console.log(createdCards);
-                vm.cards = createdCards;
-            });
-            CollectionService.getActions();
+            CollectionService.getActions().then(getCreatedCards);
+
+            function getCreatedCards() {
+                CollectionService.getCreatedCards().then(function(createdCards) {
+                    console.log(createdCards);
+                    vm.cards = createdCards;
+                });
+            }
         }
     }
 

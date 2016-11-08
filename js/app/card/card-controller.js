@@ -37,6 +37,7 @@
         function activate() {
             console.log("CardController");
             $q.when(vm.image).then(function(result) {
+                console.log(result);
                 vm.image = result;
             })
         }

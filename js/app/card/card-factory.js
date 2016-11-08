@@ -78,7 +78,7 @@
         }
 
         function addAction(action) {
-            actions.push(action);
+            this.actions.push(action);
         }
 
         function upload() {
