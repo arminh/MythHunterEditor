@@ -78,7 +78,7 @@
             this.version = remoteCard.getVersion();
             this.name = remoteCard.getName();
             this.stars = remoteCard.getStars();
-            this.imageUrl = remoteCard.getCardImageUrl();
+            this.imageUrl = remoteCard.getImageUrl();
             this.description = remoteCard.getDescription();
             this.life = remoteCard.getLife();
             this.attack = remoteCard.getAttack();
@@ -105,15 +105,21 @@
         function upload() {
             $log.info("upload: ", this);
 
-            BackendService.uploadImage(this.name + "_" + Date.now(), this.image.base64).then(success);
+            return BackendService.uploadImage(this.name + "_" + Date.now(), this.image.base64).then(uploadCard.bind(this));
 
-            var remoteCard = BackendService.createRemoteCard(this);
-            return BackendService.addCard(remoteCard).then(success.bind(this));
 
-            function success(result) {
-                this.remoteId = result.getId();
-                return result;
+            function uploadCard(imageUrl) {
+                this.imageUrl = imageUrl;
+                var remoteCard = BackendService.createRemoteCard(this);
+                return BackendService.addCard(remoteCard).then(success.bind(this));
+
+                function success(result) {
+                    this.remoteId = result.getId();
+                    return result;
+                }
             }
+
+
         }
 
         function getRemoteId() {

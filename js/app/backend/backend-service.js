@@ -229,7 +229,7 @@
             remoteCard.setAttack(card.getAttack());
             remoteCard.setLife(card.getLife());
             remoteCard.setStars(Math.ceil(card.getStars()));
-            remoteCard.setCardImageUrl(card.getImageUrl());
+            remoteCard.setImageUrl(card.getImageUrl());
             remoteCard.setImageUrl("");
             remoteCard.setType(card.getType());
             remoteCard.setVersion(0);
