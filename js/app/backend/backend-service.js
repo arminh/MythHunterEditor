@@ -15,8 +15,8 @@
     function BackendService($log, $q) {
 
         var backend = new backend_com_wsdl_IBackend();
-        //backend.url = "http://192.168.1.216:8080/Backend/webservices/Backend?wsdl";
-        backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.1.216:8080/Backend/webservices/Backend?wsdl";
+        //backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -230,7 +230,6 @@
             remoteCard.setLife(card.getLife());
             remoteCard.setStars(Math.ceil(card.getStars()));
             remoteCard.setImageUrl(card.getImageUrl());
-            remoteCard.setImageUrl("");
             remoteCard.setType(card.getType());
             remoteCard.setVersion(0);
 
