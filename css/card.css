@@ -8,7 +8,15 @@
     float:left;
 }
 
-.card-image {
+.card-image-instruction {
+    position:absolute;
+    top: 130px;
+    left: 15px;
+    width: 200px;
+    pointer-events: none;
+    background-color: rgba(84, 97, 133, .4);
+    color: #fff;
+    text-align:center;
 
 }
 

@@ -5,3 +5,11 @@
 .md-select-menu-container {
     z-index: 1100;
 }
+
+.card-settings-content {
+    width: 350px;
+}
+
+.slider-input {
+     max-width: 60px !important;
+}

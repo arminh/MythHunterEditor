@@ -11,6 +11,7 @@
             </div>
         </div>
     </div>
+    <span ng-show="cardPreview.editable && cardPreview.card.image.base64" class="card-image-instruction">Drag image to reposition</span>
     <div class="card-mask">
         <img src="media/card/card_plain_stars_0.png" class="card_front"/>
         <img ng-src="{{cardPreview.getStarImage()}}" class="card-star-overlay"/>
