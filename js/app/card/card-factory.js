@@ -9,10 +9,10 @@
         .module('card')
         .factory('Card', CardFactory);
 
-    CardFactory.$inject = ["$log", "CardType", "BackendService"];
+    CardFactory.$inject = ["$log", "CardType", "BackendService", "CardImage"];
 
     /* @ngInject */
-    function CardFactory($log, CardType, BackendService) {
+    function CardFactory($log, CardType, BackendService, CardImage) {
         $log = $log.getInstance("Card", debugging);
 
         function Card() {
@@ -20,8 +20,6 @@
             this.version = 0;
             this.name = "";
             this.stars = 0;
-            this.imageUrl = "";
-            this.image = {};
             this.description = "";
             this.actionIds = [];
             this.actions = [];
@@ -29,6 +27,8 @@
             this.attack = 0;
             this.type = CardType.MONSTER;
 
+
+            this.image = new CardImage();
             this.loadPromise = null;
             this.changed = false;
         }
@@ -36,7 +36,7 @@
         Card.prototype = {
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
-            getImage: getImage,
+            createImage: createImage,
             addAction: addAction,
             upload: upload,
 
@@ -46,11 +46,10 @@
             getAttack: getAttack,
             getLife: getLife,
             getStars: getStars,
-            getImageUrl: getImageUrl,
+            getImage: getImage,
             getType: getType,
             getActions: getActions,
 
-            setImageUrl: setImageUrl,
             setImage: setImage,
             setLoadPromise: setLoadPromise
         };
@@ -65,20 +64,15 @@
 
             function success(remoteCard) {
                 this.initFromRemote(remoteCard);
-                return this.getImage().then(function() {
-                    $log.info("getFromRemote_success", this);
-                    return this;
-                }.bind(this));
-
+                return this;
             }
         }
 
         function initFromRemote(remoteCard) {
             this.remoteId = remoteCard.getId();
-            this.version = remoteCard.getVersion();
             this.name = remoteCard.getName();
             this.stars = remoteCard.getStars();
-            this.imageUrl = remoteCard.getImageUrl();
+            this.image.initFromRemote(remoteCard.getImage());
             this.description = remoteCard.getDescription();
             this.life = remoteCard.getLife();
             this.attack = remoteCard.getAttack();
@@ -86,16 +80,8 @@
             this.actionIds = remoteCard.getActionIds();
         }
 
-        function getImage() {
-            return BackendService.downloadImage(this.imageUrl).then(success.bind(this));
-
-            function success(result) {
-                this.image = {
-                    filetype: "image/jpeg",
-                    base64: result
-                };
-                return this.image;
-            }
+        function createImage() {
+            return new CardImage();
         }
 
         function addAction(action) {
@@ -105,12 +91,11 @@
         function upload() {
             $log.info("upload: ", this);
 
-            return BackendService.uploadImage(this.name + "_" + Date.now(), this.image.base64).then(uploadCard.bind(this));
+            return this.image.upload(this.name).then(uploadCard.bind(this));
 
+            function uploadCard(remoteImage) {
 
-            function uploadCard(imageUrl) {
-                this.imageUrl = imageUrl;
-                var remoteCard = BackendService.createRemoteCard(this);
+                var remoteCard = BackendService.createRemoteCard(this, remoteImage);
                 return BackendService.addCard(remoteCard).then(success.bind(this));
 
                 function success(result) {
@@ -118,8 +103,6 @@
                     return result;
                 }
             }
-
-
         }
 
         function getRemoteId() {
@@ -146,12 +129,12 @@
             return this.stars;
         }
 
-        function setImageUrl(url) {
-            this.imageUrl = url;
+        function setImage(img) {
+            this.image = img;
         }
 
-        function getImageUrl() {
-            return this.imageUrl;
+        function getImage() {
+            return this.image;
         }
 
         function getType() {
@@ -160,10 +143,6 @@
 
         function getActions() {
             return this.actions;
-        }
-
-        function setImage(image) {
-            this.image = image;
         }
 
         function setLoadPromise(promise) {

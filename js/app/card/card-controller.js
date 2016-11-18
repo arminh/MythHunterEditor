@@ -39,10 +39,11 @@
         }
 
         function getStarImage() {
-            return CardService.getStarImage(vm.card.stars);
+            return CardService.getStarImage(Math.ceil(vm.card.stars));
         }
 
         function imageLoaded() {
+
             vm.imageContainerStyle = {
                 top: 0,
                 left: 0,

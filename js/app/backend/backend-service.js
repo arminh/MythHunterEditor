@@ -15,8 +15,8 @@
     function BackendService($log, $q) {
 
         var backend = new backend_com_wsdl_IBackend();
-        //backend.url = "http://192.168.1.216:8080/Backend/webservices/Backend?wsdl";
-        backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.1.216:8080/Backend/webservices/Backend?wsdl";
+        //backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -28,17 +28,20 @@
             createRemoteHtml: createRemoteHtml,
             createRemoteTreePart: createRemoteTreePart,
             createRemoteCard: createRemoteCard,
+            createRemoteCardImage: createRemoteCardImage,
             getQuest: getQuest,
             getQuests: getQuests,
             getTask: getTask,
             getHtml: getHtml,
             getTreePart: getTreePart,
             getCard: getCard,
+            getCardImage: getCardImage,
             getAllActionsOfCardType: getAllActionsOfCardType,
             addQuest: addQuest,
             addTask: addTask,
             addHtml: addHtml,
             addCard: addCard,
+            addCardImage: addCardImage,
             addTreePart: addTreePart,
             updateUser: updateUser,
             updateQuest: updateQuest,
@@ -221,7 +224,7 @@
             return remoteTreePart;
         }
 
-        function createRemoteCard(card) {
+        function createRemoteCard(card, image) {
             var remoteCard = new backend_com_wsdl_card();
 
             remoteCard.setName(card.getName());
@@ -229,9 +232,8 @@
             remoteCard.setAttack(card.getAttack());
             remoteCard.setLife(card.getLife());
             remoteCard.setStars(Math.ceil(card.getStars()));
-            remoteCard.setImageUrl(card.getImageUrl());
+            remoteCard.setImage(image);
             remoteCard.setType(card.getType());
-            remoteCard.setVersion(0);
 
             var actionIds = [];
             var actions = card.getActions();
@@ -243,6 +245,20 @@
             remoteCard.setActionIds(actionIds);
 
             return remoteCard;
+        }
+
+        function createRemoteCardImage(cardImage) {
+            var remoteCardImage = new backend_com_wsdl_cardImage();
+
+            remoteCardImage.setType(cardImage.getType());
+            remoteCardImage.setOriginalImageSrc(cardImage.getSrc());
+            remoteCardImage.setImageSrc("");
+            remoteCardImage.setOffsetTop(cardImage.getTop());
+            remoteCardImage.setOffsetLeft(cardImage.getLeft());
+            remoteCardImage.setWidth(cardImage.getWidth());
+            remoteCardImage.setHeight(cardImage.getHeight());
+
+            return remoteCardImage;
         }
 
         function mapPosition(lon, lat) {
@@ -383,6 +399,27 @@
             return deffered.promise;
         }
 
+        function getCardImage(cardImageId) {
+            var deffered = $q.defer();
+
+            $log.info("getCardImage: id =", cardImageId);
+            backend.getCardImage(function (result) {
+                if (result.getReturn()) {
+                    $log.info("getCardImage_success (id = " + cardImageId + ")", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("getCardImage_fail (id = " + cardImageId + ")", result.getReturn());
+                    deffered.reject("Error loading Card with id: " + cardId);
+                }
+
+            }, function (error) {
+                $log.error("getCardImage_fail (id = " + cardImageId + ")", error);
+                deffered.reject(error);
+            }, cardImageId);
+
+            return deffered.promise;
+        }
+
         function getAllActionsOfCardType(type) {
             var deffered = $q.defer();
 
@@ -487,7 +524,7 @@
             return deffered.promise;
         }
 
-        function addCard(card) {
+        function addCard(card, image) {
             var deffered = $q.defer();
 
             $log.info("addCard: ", card);
@@ -504,6 +541,27 @@
                 $log.error("addCard_fail: ", error);
                 deffered.reject(error);
             }, card);
+
+            return deffered.promise;
+        }
+
+        function addCardImage(cardImage) {
+            var deffered = $q.defer();
+
+            $log.info("addCardImage: ", cardImage);
+            backend.addCardImage(function (result) {
+                if (result.getReturn()) {
+                    $log.info("addCardImage_success: ", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("addCardImage_fail: ", result.getReturn());
+                    deffered.reject("Error adding quest");
+                }
+
+            }, function (error) {
+                $log.error("addCardImage_fail: ", error);
+                deffered.reject(error);
+            }, cardImage);
 
             return deffered.promise;
         }

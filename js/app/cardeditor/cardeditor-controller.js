@@ -16,10 +16,12 @@
 
         var vm = this;
         vm.card = card;
+        vm.image = {};
         console.log(card);
 
         vm.calculateStarCount = calculateStarCount;
         vm.isActionAffordable = isActionAffordable;
+        vm.cardImageChanged = cardImageChanged;
         vm.confirm = confirm;
         vm.close = close;
 
@@ -40,6 +42,14 @@
 
         function calculateStarCount() {
             vm.card.stars = CardEditorService.calculateStarCount(vm.card.attack, vm.card.life, vm.card.actions)
+        }
+
+        function cardImageChanged(e, newImage) {
+            var cardImage = vm.card.getImage();
+            console.log(vm.image);
+            cardImage.setContent(vm.image.base64);
+            cardImage.setType(vm.image.filetype);
+            console.log(vm.card);
         }
 
         function confirm() {

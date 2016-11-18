@@ -5,7 +5,7 @@
     <div style="float:left; width: 300px">
 
     </div>
-    <card-preview card="cardeditor.card" image="cardeditor.card.image" editable="true"></card-preview>
+    <card-preview card="cardeditor.card" editable="true"></card-preview>
     <div id="card-settings-container" style="float:left; z-index: 100">
         <md-content layout-padding="" class="card-settings-content">
             <div>
@@ -20,7 +20,7 @@
                     <md-slider class="md-primary" md-discrete ng-model="cardeditor.card.attack" min="0" max="10"
                                step="1"
                                ng-change="cardeditor.calculateStarCount()"></md-slider>
-                    <md-input-container  class="slider-input">
+                    <md-input-container class="slider-input">
                         <!-- <label>Attack</label>-->
                         <input type="number" min="0" max="10" ng-model="cardeditor.card.attack"
                                ng-change="cardeditor.calculateStarCount()"/>
@@ -38,7 +38,7 @@
                                ng-change="cardeditor.calculateStarCount()"/>
                     </md-input-container>
                 </md-slider-container>
-                <md-input-container  style="width: 100%">
+                <md-input-container style="width: 100%">
                     <label>Description</label>
                     <textarea class="textarea-noresize" maxlength="100" ng-model="cardeditor.card.description"
                               ng-change="cardeditor.calculateStarCount()"></textarea>
@@ -52,7 +52,10 @@
                     </md-option>
                 </md-select>
                 <label class="btn btn-default">
-                    Choose Card Image <input type="file" ng-model='cardeditor.card.image' base-sixty-four-input style="display: none;"/>
+                    Choose Card Image
+                    <input type="file" ng-model='cardeditor.image'
+                           on-after-validate="cardeditor.cardImageChanged" base-sixty-four-input
+                           style="display: none;"/>
                 </label>
             </div>
         </md-content>

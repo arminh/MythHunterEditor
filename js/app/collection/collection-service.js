@@ -84,7 +84,7 @@
                     user.addCreatedCard(card);
                     user.upload();
                     return card;
-                })
+                });
 
                 function canceled(error) {
                     $log.info("create_fail: Canceled");

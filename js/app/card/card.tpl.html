@@ -5,13 +5,13 @@
             <div class="card-image-container" ng-class="{'card-image-container-movable': cardPreview.editable}"
                  jqyoui-draggable="{containment:'position'}" data-drag="cardPreview.editable"
                  data-jqyoui-options="{{cardPreview.imageDragOptions}}" ng-style="cardPreview.imageContainerStyle">
-                <img ng-show="cardPreview.card.image.base64" class="card-image"
-                     data-ng-src="data:{{cardPreview.card.image.filetype}};base64, {{cardPreview.card.image.base64}}" scale-card-image
+                <img ng-if="cardPreview.card.image.content" class="card-image"
+                     data-ng-src="data:{{cardPreview.card.image.type}};base64, {{cardPreview.card.image.content}}" scale-card-image
                      dimensions="cardPreview.dimensions" callback="cardPreview.imageLoaded()"/>
             </div>
         </div>
     </div>
-    <span ng-show="cardPreview.editable && cardPreview.card.image.base64" class="card-image-instruction">Drag image to reposition</span>
+    <span ng-show="cardPreview.editable && cardPreview.card.image.content" class="card-image-instruction">Drag image to reposition</span>
     <div class="card-mask">
         <img src="media/card/card_plain_stars_0.png" class="card_front"/>
         <img ng-src="{{cardPreview.getStarImage()}}" class="card-star-overlay"/>
