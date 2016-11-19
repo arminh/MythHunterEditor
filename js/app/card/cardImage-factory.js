@@ -29,8 +29,8 @@
         }
 
         CardImage.prototype = {
-            getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
+            downloadImage: downloadImage,
             upload: upload,
 
             getSrc: getSrc,
@@ -44,7 +44,8 @@
             setWidth: setWidth,
             getWidth: getWidth,
             setHeight: setHeight,
-            getHeight: getHeight
+            getHeight: getHeight,
+            getOriginalImageSrc: getOriginalImageSrc
         };
 
         return (CardImage);
@@ -53,17 +54,14 @@
 
         function getFromRemote() {
             $log.info("getFromRemote", this.remoteId);
-            return BackendService.getCardImage().then(initCardImage);
+            return BackendService.getCardImage(this.remoteId).then(initCardImage);
 
             function initCardImage(result) {
                 this.initFromRemote(result);
-                return BackendService.downloadImage(this.src).then(success.bind(this));
+
             }
 
-            function success(result) {
-                this.content = result;
-                return this;
-            }
+
         }
 
         function initFromRemote(remoteCardImage) {
@@ -76,6 +74,17 @@
             this.left = remoteCardImage.getOffsetLeft();
             this.width = remoteCardImage.getWidth();
             this.height = remoteCardImage.getHeight();
+
+            return this.downloadImage();
+        }
+
+        function downloadImage() {
+            return BackendService.downloadImage(this.originalImageSrc).then(success.bind(this));
+
+            function success(result) {
+                this.content = result;
+                return this;
+            }
         }
 
         function upload(name) {
@@ -86,7 +95,7 @@
 
             function success(imageSrc) {
                 console.log(imageSrc);
-                this.src = imageSrc;
+                this.originalImageSrc = imageSrc;
                 var remoteCardImage = BackendService.createRemoteCardImage(this);
                 return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
             }
@@ -143,6 +152,10 @@
 
         function getHeight() {
             return this.height;
+        }
+
+        function getOriginalImageSrc() {
+            return this.originalImageSrc;
         }
     }
 

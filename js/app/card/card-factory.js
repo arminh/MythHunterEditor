@@ -64,7 +64,9 @@
 
             function success(remoteCard) {
                 this.initFromRemote(remoteCard);
-                return this;
+                return this.image.initFromRemote(remoteCard.getImage()).then(function() {
+                    return this;
+                }.bind(this))
             }
         }
 
@@ -72,7 +74,6 @@
             this.remoteId = remoteCard.getId();
             this.name = remoteCard.getName();
             this.stars = remoteCard.getStars();
-            this.image.initFromRemote(remoteCard.getImage());
             this.description = remoteCard.getDescription();
             this.life = remoteCard.getLife();
             this.attack = remoteCard.getAttack();
@@ -100,6 +101,7 @@
 
                 function success(result) {
                     this.remoteId = result.getId();
+                    $log.info("upload_success: ", result);
                     return result;
                 }
             }
