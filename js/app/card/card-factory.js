@@ -21,7 +21,6 @@
             this.name = "";
             this.stars = 0;
             this.description = "";
-            this.actionIds = [];
             this.actions = [];
             this.life = 1;
             this.attack = 0;
@@ -58,19 +57,19 @@
 
         ////////////////
 
-        function getFromRemote() {
+        function getFromRemote(actions) {
             $log.info("getFromRemote", this.remoteId);
             return BackendService.getCard(this.remoteId).then(success.bind(this));
 
             function success(remoteCard) {
-                this.initFromRemote(remoteCard);
+                this.initFromRemote(remoteCard, actions);
                 return this.image.initFromRemote(remoteCard.getImage()).then(function() {
                     return this;
                 }.bind(this))
             }
         }
 
-        function initFromRemote(remoteCard) {
+        function initFromRemote(remoteCard, actions) {
             this.remoteId = remoteCard.getId();
             this.name = remoteCard.getName();
             this.stars = remoteCard.getStars();
@@ -78,7 +77,13 @@
             this.life = remoteCard.getLife();
             this.attack = remoteCard.getAttack();
             this.type = CardType[remoteCard.getType()];
-            this.actionIds = remoteCard.getActionIds();
+
+            var actionIds = remoteCard.getActionIds();
+            for(var i = 0; i < actionIds.length; i++) {
+                this.addAction(findAction(actionIds[i], actions));
+
+            }
+
         }
 
         function createImage() {
@@ -87,6 +92,15 @@
 
         function addAction(action) {
             this.actions.push(action);
+        }
+
+        function findAction(id, actions) {
+            for(var i = 0; i < actions.length; i++) {
+                if(actions[i].getRemoteId() == id) {
+                    return actions[i];
+                }
+            }
+            return null;
         }
 
         function upload() {

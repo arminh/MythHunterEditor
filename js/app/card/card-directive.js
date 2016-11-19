@@ -30,7 +30,6 @@
         return directive;
 
         function link(scope, element, attrs, vm) {
-            console.log(vm.card.image);
         }
     }
 

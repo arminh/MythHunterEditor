@@ -28,7 +28,6 @@
                 var el = $(evt.currentTarget);
                 el.height("auto");
                 el.width("auto");
-                console.log(el.width() + " / " + el.height());
                 if(el.width() > el.height()) {
                     el.height("183px");
                 } else {

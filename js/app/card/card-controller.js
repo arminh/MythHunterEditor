@@ -35,7 +35,6 @@
         ////////////////
 
         function activate() {
-            console.log("CardController");
         }
 
         function getStarImage() {

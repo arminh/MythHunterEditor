@@ -33,14 +33,14 @@
             user = currentUser;
         }
 
-        function getCreatedCards() {
+        function getCreatedCards(actions) {
             $log.info("getCreatedCards");
             var createdCards = user.getCreatedCards();
 
             var cardPromises = [];
 
             for (var i = 0; i < createdCards.length; i++) {
-                var cardPromise = createdCards[i].getFromRemote();
+                var cardPromise = createdCards[i].getFromRemote(actions);
                 cardPromises.push(cardPromise);
             }
 

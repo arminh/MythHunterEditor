@@ -27,9 +27,8 @@
             CollectionService.setUser(user);
             CollectionService.getActions().then(getCreatedCards);
 
-            function getCreatedCards() {
-                CollectionService.getCreatedCards().then(function(createdCards) {
-                    console.log(createdCards);
+            function getCreatedCards(actions) {
+                CollectionService.getCreatedCards(actions).then(function(createdCards) {
                     vm.cards = createdCards;
                 });
             }
