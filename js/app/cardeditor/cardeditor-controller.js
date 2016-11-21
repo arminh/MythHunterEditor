@@ -46,10 +46,9 @@
 
         function cardImageChanged(e, newImage) {
             var cardImage = vm.card.getImage();
-            console.log(vm.image);
             cardImage.setContent(vm.image.base64);
             cardImage.setType(vm.image.filetype);
-            console.log(vm.card);
+            cardImage.setOriginalSize(vm.image);
         }
 
         function confirm() {

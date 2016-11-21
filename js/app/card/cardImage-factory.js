@@ -26,13 +26,21 @@
             this.height = 0;
 
             this.content = "";
+            this.scaledWidth = 0;
+            this.scaledHeight = 0;
+            this.scaledTop = 0;
+            this.scaledLeft = 0;
         }
 
         CardImage.prototype = {
             initFromRemote: initFromRemote,
             downloadImage: downloadImage,
+            calculateDimensions: calculateDimensions,
             upload: upload,
 
+            setOriginalSize: setOriginalSize,
+            setScaledSize: setScaledSize,
+            setScaledPosition: setScaledPosition,
             getSrc: getSrc,
             setContent: setContent,
             setType: setType,
@@ -58,10 +66,7 @@
 
             function initCardImage(result) {
                 this.initFromRemote(result);
-
             }
-
-
         }
 
         function initFromRemote(remoteCardImage) {
@@ -94,8 +99,8 @@
             return BackendService.uploadImage(this.name + "_" + Date.now(), this.content).then(success.bind(this));
 
             function success(imageSrc) {
-                console.log(imageSrc);
                 this.originalImageSrc = imageSrc;
+                this.calculateDimensions();
                 var remoteCardImage = BackendService.createRemoteCardImage(this);
                 return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
             }
@@ -104,6 +109,34 @@
                 this.remoteId = result.getId();
                 return result;
             }
+        }
+
+        function calculateDimensions() {
+            var scaleRatio = this.width / this.scaledWidth;
+            this.top = this.scaledTop * scaleRatio;
+            this.left = this.scaledLeft * scaleRatio;
+        }
+
+        function setOriginalSize(size) {
+            this.width = size.width;
+            this.height = size.height;
+        }
+
+        function setScaledSize(size) {
+            this.scaledWidth = size.width;
+            this.scaledHeight = size.height;
+
+            if((this.scaledTop <= 0 && this.top > 0) || (this.scaledLeft <= 0 && this.left > 0)) {
+                var scaleRatio = this.width / this.scaledWidth;
+                this.scaledTop = this.top / scaleRatio;
+                this.scaledLeft = this.left / scaleRatio;
+            }
+        }
+
+        function setScaledPosition(top, left) {
+            this.scaledTop = top;
+            this.scaledLeft = left;
+            console.log(this);
         }
 
         function getSrc() {

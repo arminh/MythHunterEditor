@@ -28,7 +28,7 @@
 
         vm.getStarImage = getStarImage;
         vm.imageLoaded = imageLoaded;
-
+        vm.positionChanged = positionChanged;
 
         activate();
 
@@ -41,7 +41,10 @@
             return CardService.getStarImage(Math.ceil(vm.card.stars));
         }
 
-        function imageLoaded() {
+        function imageLoaded(originalSize, scaledSize) {
+            var cardImage = vm.card.getImage();
+            cardImage.setOriginalSize(originalSize);
+            cardImage.setScaledSize(scaledSize);
 
             vm.imageContainerStyle = {
                 top: 0,
@@ -50,6 +53,12 @@
                 height: vm.dimensions.height
             };
             vm.dragBoundsStyle = CardService.getDragBounds(vm.dimensions);
+        }
+
+        function positionChanged(evt) {
+            var cardImage = vm.card.getImage();
+            console.log(cardImage);
+            //cardImage.setScaledPosition(evt.target.offsetTop, evt.target.offsetLeft);
         }
     }
 
