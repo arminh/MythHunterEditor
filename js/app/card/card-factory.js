@@ -21,7 +21,7 @@
             this.name = "";
             this.stars = 0;
             this.description = "";
-            this.actions = [];
+            this.actionIds = [];
             this.life = 1;
             this.attack = 0;
             this.type = CardType.MONSTER;
@@ -35,6 +35,7 @@
         Card.prototype = {
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
+            updateFromCard: updateFromCard,
             createImage: createImage,
             addAction: addAction,
             upload: upload,
@@ -47,7 +48,7 @@
             getStars: getStars,
             getImage: getImage,
             getType: getType,
-            getActions: getActions,
+            getActionIds: getActionIds,
 
             setImage: setImage,
             setLoadPromise: setLoadPromise
@@ -57,19 +58,24 @@
 
         ////////////////
 
-        function getFromRemote(actions) {
+        function create() {
+
+        }
+
+        function getFromRemote() {
             $log.info("getFromRemote", this.remoteId);
             return BackendService.getCard(this.remoteId).then(success.bind(this));
 
             function success(remoteCard) {
-                this.initFromRemote(remoteCard, actions);
+                this.initFromRemote(remoteCard);
                 return this.image.initFromRemote(remoteCard.getImage()).then(function() {
+                    $log.info("getFromRemote_success", this);
                     return this;
                 }.bind(this))
             }
         }
 
-        function initFromRemote(remoteCard, actions) {
+        function initFromRemote(remoteCard) {
             this.remoteId = remoteCard.getId();
             this.name = remoteCard.getName();
             this.stars = remoteCard.getStars();
@@ -77,13 +83,40 @@
             this.life = remoteCard.getLife();
             this.attack = remoteCard.getAttack();
             this.type = CardType[remoteCard.getType()];
+            this.actionIds = remoteCard.getActionIds();
+        }
 
-            var actionIds = remoteCard.getActionIds();
-            for(var i = 0; i < actionIds.length; i++) {
-                this.addAction(findAction(actionIds[i], actions));
+        function updateFromCard(card) {
 
+            if(this.name != card.getName()) {
+                this.name = card.getName();
+                this.changed = true;
             }
 
+            if(this.stars != card.getStars()) {
+                this.stars = card.getStars();
+                this.changed = true;
+            }
+
+            if(this.description != card.getDescription()) {
+                this.description = card.getDescription();
+                this.changed = true;
+            }
+
+            if(this.life != card.getLife()) {
+                this.life = card.getLife();
+                this.changed = true;
+            }
+
+            if(this.attack != card.getAttack()) {
+                this.attack = card.getAttack();
+                this.changed = true;
+            }
+
+            var imageChanged = this.image.updateFromCardImage(card.getImage());
+            if(imageChanged) {
+                this.changed = true;
+            }
         }
 
         function createImage() {
@@ -106,18 +139,35 @@
         function upload() {
             $log.info("upload: ", this);
 
-            return this.image.upload(this.name).then(uploadCard.bind(this));
+            if(!this.changed) {
+                return this.image.upload(this.name).then(uploadCard.bind(this));
+            } else {
+                return this.image.upload(this.name).then(updateCard.bind(this));
+            }
+        }
 
-            function uploadCard(remoteImage) {
+        function uploadCard(remoteImage) {
 
-                var remoteCard = BackendService.createRemoteCard(this, remoteImage);
-                return BackendService.addCard(remoteCard).then(success.bind(this));
+            var remoteCard = BackendService.createRemoteCard(this, remoteImage);
+            return BackendService.addCard(remoteCard).then(success.bind(this));
 
-                function success(result) {
-                    this.remoteId = result.getId();
-                    $log.info("upload_success: ", result);
-                    return result;
-                }
+            function success(result) {
+                this.remoteId = result.getId();
+                $log.info("upload_success: ", result);
+                return result;
+            }
+        }
+
+        function updateCard(remoteImage) {
+
+            var remoteCard = BackendService.createRemoteCard(this, remoteImage);
+            return BackendService.updateCard(remoteCard).then(success.bind(this));
+
+            function success(result) {
+                this.version = result.getVersion();
+                this.changed = false;
+                $log.info("upload_success: ", result);
+                return result;
             }
         }
 
@@ -157,8 +207,8 @@
             return this.type;
         }
 
-        function getActions() {
-            return this.actions;
+        function getActionIds() {
+            return this.actionIds;
         }
 
         function setLoadPromise(promise) {

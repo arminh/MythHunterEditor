@@ -25,6 +25,7 @@
             this.width = 0;
             this.height = 0;
 
+            this.changed = false;
             this.content = "";
             this.scaledWidth = 0;
             this.scaledHeight = 0;
@@ -34,8 +35,8 @@
 
         CardImage.prototype = {
             initFromRemote: initFromRemote,
-            downloadImage: downloadImage,
             calculateDimensions: calculateDimensions,
+            updateFromCardImage: updateFromCardImage,
             upload: upload,
 
             setOriginalSize: setOriginalSize,
@@ -60,18 +61,8 @@
 
         ////////////////
 
-        function getFromRemote() {
-            $log.info("getFromRemote", this.remoteId);
-            return BackendService.getCardImage(this.remoteId).then(initCardImage);
-
-            function initCardImage(result) {
-                this.initFromRemote(result);
-            }
-        }
-
         function initFromRemote(remoteCardImage) {
             $log.info("initFromRemote", remoteCardImage);
-
             this.originalImageSrc = remoteCardImage.getOriginalImageSrc();
             this.imageSrc = remoteCardImage.getImageSrc();
             this.type = remoteCardImage.getType();
@@ -80,17 +71,37 @@
             this.width = remoteCardImage.getWidth();
             this.height = remoteCardImage.getHeight();
 
-            return this.downloadImage();
-        }
-
-        function downloadImage() {
             return BackendService.downloadImage(this.originalImageSrc).then(success.bind(this));
 
             function success(result) {
                 this.content = result;
+                $log.info("initFromRemote_success", this);
                 return this;
             }
         }
+
+        function updateFromCardImage(cardImage) {
+            this.changed = false;
+            if(this.top != cardImage.getOffsetTop()) {
+                this.top = cardImage.getOffsetTop();
+                this.changed = true;
+            }
+            if(this.left != cardImage.getOffsetLeft()) {
+                this.left = cardImage.getOffsetLeft();
+                this.changed = true;
+            }
+            if(this.width != cardImage.getWidth()) {
+                this.width = cardImage.getWidth();
+                this.changed = true;
+            }
+            if(this.height != cardImage.getHeight()) {
+                this.height = cardImage.getHeight();
+                this.changed = true;
+            }
+
+            return this.changed;
+        }
+
 
         function upload(name) {
             this.name = name;

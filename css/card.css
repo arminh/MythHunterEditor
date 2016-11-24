@@ -119,7 +119,7 @@
     top: 330px;
     /*left: 160px;*/
     left: 18px;
-    height: 80px;
+    height: 60px;
     resize: none;
     overflow: hidden;
     line-height: 27px;
@@ -140,5 +140,16 @@
 
 .textarea-noresize {
     resize: none;
+}
+
+.card-control-menu {
+    position:absolute;
+    top: 15px;
+    right: 15px;
+    width: 100px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+
 }
 

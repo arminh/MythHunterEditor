@@ -21,6 +21,7 @@
             setModalInstance: setModalInstance,
             createCard: createCard,
             loadActions: loadActions,
+            initCardActions: initCardActions,
             calculateStarCount: calculateStarCount,
             isActionAffordable: isActionAffordable,
             confirmCard: confirmCard,
@@ -63,6 +64,17 @@
             noAction.addDescription('en', "");
 
             return noAction;
+        }
+
+        function initCardActions(card, actions) {
+            var cardActions = card.getActions();
+            for(var i = 0; i < cardActions.length; i++) {
+                for(var j = 0; j < actions.length; i++) {
+                    if(cardActions[i].getRemoteId() == actions[j].getRemoteId()) {
+                        cardActions[i]
+                    }
+                }
+            }
         }
 
         function calculateStarCount(attack, life, actions) {

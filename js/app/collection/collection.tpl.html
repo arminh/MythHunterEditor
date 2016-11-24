@@ -1,7 +1,7 @@
 <div id="collection-container" class="col-md-10 col-md-offset-1">
     <div class="row created-cards-preview">
         <div ng-repeat="card in collection.cards" class="collection-card-preview-container" ng-click="collection.showCard(card)">
-            <card-preview class="collection-card-preview" card="card" image="card.image" editable="false"></card-preview>
+            <card-preview class="collection-card-preview" card="card" image="card.image" editable="false" menu="true"></card-preview>
         </div>
 
     </div>

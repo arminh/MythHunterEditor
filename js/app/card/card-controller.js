@@ -9,10 +9,10 @@
         .module('card')
         .controller('CardController', CardController);
 
-    CardController.$inject = ["$q", "$scope", "CardService"];
+    CardController.$inject = ["$q", "$scope", "CardService", "ActionService"];
 
     /* @ngInject */
-    function CardController($q, $scope, CardService) {
+    function CardController($q, $scope, CardService, ActionService) {
         var vm = this;
 
         vm.dimensions = {
@@ -29,12 +29,17 @@
         vm.getStarImage = getStarImage;
         vm.imageLoaded = imageLoaded;
         vm.positionChanged = positionChanged;
+        vm.editCard = editCard;
+        vm.deleteCard = deleteCard;
 
         activate();
 
         ////////////////
 
         function activate() {
+            for(var i = 0; i < vm.card.action.length; i++) {
+
+            }
         }
 
         function getStarImage() {
@@ -59,6 +64,14 @@
             var cardImage = vm.card.getImage();
             console.log(cardImage);
             //cardImage.setScaledPosition(evt.target.offsetTop, evt.target.offsetLeft);
+        }
+
+        function editCard() {
+            CardService.editCard(vm.card);
+        }
+
+        function deleteCard() {
+            CardService.deleteCard(vm.card);
         }
     }
 

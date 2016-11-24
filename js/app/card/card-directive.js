@@ -17,7 +17,8 @@
             templateUrl: "js/app/card/card.tpl.html",
             bindToController: {
                 card: "=",
-                editable: "="
+                editable: "=",
+                menu: "="
             },
             controller: "CardController",
             controllerAs: 'cardPreview',

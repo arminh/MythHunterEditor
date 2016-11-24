@@ -24,11 +24,11 @@
         ////////////////
 
         function activate() {
-            CollectionService.setUser(user);
-            CollectionService.getActions().then(getCreatedCards);
+            CollectionService.init(user).then(getCreatedCards);
 
-            function getCreatedCards(actions) {
-                CollectionService.getCreatedCards(actions).then(function(createdCards) {
+
+            function getCreatedCards() {
+                CollectionService.getCreatedCards().then(function(createdCards) {
                     vm.cards = createdCards;
                 });
             }

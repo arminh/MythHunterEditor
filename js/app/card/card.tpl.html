@@ -1,5 +1,4 @@
-<div id="card-container">
-
+<div id="card-container" ng-mouseenter="cardPreview.showMenu = true" ng-mouseleave="cardPreview.showMenu = false">
     <div class="card-image-bounds">
         <div class="card-image-drag-bounds" ng-style="cardPreview.dragBoundsStyle">
             <div class="card-image-container" ng-class="{'card-image-container-movable': cardPreview.editable}"
@@ -35,4 +34,20 @@
 
     <span class="card-input card-text" placeholder="Enter card text ..."
           readonly="readonly">{{cardPreview.card.description}}</span>
+
+    <div class="card-control-menu" ng-show="cardPreview.menu && cardPreview.showMenu">
+        <md-button aria-label="edit" class="md-icon-button" ng-click="cardPreview.editCard()">
+            <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="top">
+                Edit card
+            </md-tooltip>
+            <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+        </md-button>
+
+        <md-button aria-label="delete" class="md-icon-button" ng-click="cardPreview.deleteCard()">
+            <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="top">
+                Delete card
+            </md-tooltip>
+            <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
+        </md-button>
+    </div>
 </div>
