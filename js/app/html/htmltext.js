@@ -17,13 +17,16 @@
         $log = $log.getInstance("HtmlText", debugging);
 
         function HtmlText() {
-            this.loaded = false;
             this.remoteId = 0;
+            this.version = -1;
             this.content = "";
+            this.answers = {};
+
+            this.loaded = false;
+            this.changed = false;
             this.taskTitle = "";
             this.questTitle = "";
-            this.changed = false;
-            this.answers = {};
+
         }
 
         HtmlText.prototype = {

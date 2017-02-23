@@ -16,24 +16,23 @@
 
         $log = $log.getInstance("Quest", debugging);
         function Quest() {
-            this.loaded = false;
             this.remoteId = 0;
-            this.creatorId = -1;
+            this.version = null;
             this.name = "";
             this.description = "";
-            this.html = null;
-            this.changed = false;
-            this.version = null;
-            this.submitted = true;
-            this.approved = true;
-            this.specialCards = [];
             this.diffulty = DifficultyLevel.LOW;
             this.qualityRating = 0;
             this.difficultyRating = 0;
+            this.html = null;
+            this.creatorId = -1;
+            this.approved = true;
+            this.submitted = true;
+            this.specialCards = [];
 
+            this.loaded = false;
+            this.specialCards = [];
             this.treeParts = [];
             this.treePartRoot = null;
-
             this.treePartsToDelete = [];
         }
 
