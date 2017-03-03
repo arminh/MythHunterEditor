@@ -47,6 +47,7 @@
             updateQuest: updateQuest,
             updateTask: updateTask,
             updateHtml: updateHtml,
+            updateCard: updateCard,
             deleteQuest: deleteQuest,
             deleteTask: deleteTask,
             deleteTreePart: deleteTreePart,
@@ -655,6 +656,28 @@
                 $log.error("updateHtml_fail: ", error);
                 deffered.reject(error);
             }, html);
+
+            return deffered.promise;
+        }
+
+        function updateCard(card) {
+
+            var deffered = $q.defer();
+
+            $log.info("updateCard: ", card);
+            backend.updateCard(function (result) {
+                if (result.getReturn()) {
+                    $log.info("updateCard: ", result);
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("updateCard_fail: ", result);
+                    deffered.reject("Error updating Card");
+                }
+
+            }, function (error) {
+                $log.error("updateCard_fail: ", error);
+                deffered.reject(error);
+            }, card);
 
             return deffered.promise;
         }

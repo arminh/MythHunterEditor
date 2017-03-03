@@ -9,10 +9,11 @@
         .module('card')
         .factory('CardService', CardService);
 
-    CardService.$inject = [];
+    CardService.$inject = ["$log", "$modal", "Card"];
 
     /* @ngInject */
-    function CardService() {
+    function CardService($log, $modal, Card) {
+        $log = $log.getInstance("CardService", debugging);
 
         var maskWidth = 214;
         var maskHeight = 183;
@@ -34,7 +35,10 @@
 
         var service = {
             getStarImage: getStarImage,
-            getDragBounds: getDragBounds
+            getDragBounds: getDragBounds,
+            createCard: createCard,
+            editCard: editCard,
+            deleteCard: deleteCard
         };
         return service;
 
@@ -70,6 +74,65 @@
              }
 
              return imageDragBounds;
+        }
+
+        function createCard() {
+            $log.info("createCard");
+
+            var card = new Card();
+            return openCardCreatorDialog(card).then(uploadCard);
+
+            function uploadCard() {
+
+                return card.upload().then(function (result) {
+                    return card;
+                });
+
+                function canceled(error) {
+                    $log.info("create_fail: Canceled");
+                    return $q.reject("Canceled");
+                }
+            }
+        }
+
+        function editCard(card) {
+            $log.info("createCard");
+
+            var editCard = angular.copy(card);
+            return openCardCreatorDialog(editCard).then(updateCard);
+
+            function updateCard() {
+                card.updateFromCard(editCard);
+
+                return card.upload();
+
+                function canceled(error) {
+                    $log.info("create_fail: Canceled");
+                    return $q.reject("Canceled");
+                }
+            }
+        }
+
+        function openCardCreatorDialog(card) {
+            var modalInstance = $modal.open({
+                animation: true,
+                backdrop: 'static',
+                size: "lg",
+                templateUrl: 'js/app/cardeditor/cardeditor.tpl.html',
+                controller: 'CardEditorController',
+                controllerAs: "cardeditor",
+                resolve: {
+                    card: function () {
+                        return card;
+                    }
+                }
+            });
+
+            return modalInstance.result;
+        }
+
+        function deleteCard() {
+
         }
     }
 

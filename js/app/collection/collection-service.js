@@ -9,110 +9,56 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "$q", "$modal", "BackendService", "CardType", "Card", "Action"];
+    CollectionService.$inject = ["$log", "$q", "CardService", "ActionService"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $modal, BackendService, CardType, Card, Action) {
+    function CollectionService($log, $q, CardService, ActionService) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var user = null;
-        var actions = [];
 
         var service = {
-            setUser: setUser,
+            init: init,
             getCreatedCards: getCreatedCards,
-            getActions: getActions,
-            getAction: getAction,
             createCard: createCard
         };
         return service;
 
         ////////////////
 
-        function setUser(currentUser) {
+        function init(currentUser) {
             user = currentUser;
+            return ActionService.getActionsFromRemote();
         }
 
-        function getCreatedCards(actions) {
+        function getCreatedCards() {
             $log.info("getCreatedCards");
             var createdCards = user.getCreatedCards();
 
             var cardPromises = [];
 
             for (var i = 0; i < createdCards.length; i++) {
-                var cardPromise = createdCards[i].getFromRemote(actions);
+                var cardPromise = createdCards[i].getFromRemote();
                 cardPromises.push(cardPromise);
             }
 
             return $q.all(cardPromises).then(function (results) {
+                for(var j = 0; j < results.length; j++) {
+                    //TODO
+                }
                 $log.info("getCreatedCards_success", results);
                 return results;
             });
         }
 
-        function getActions() {
-            $log.info("getActions");
-            return BackendService.getAllActionsOfCardType(CardType.MONSTER).then(function (results) {
-                for (var i = 0; i < results.length; i++) {
-                    var action = new Action();
-                    action.initFromRemote(results[i]);
-                    actions.push(action);
-                }
-                $log.info("getActions_success", actions);
-                return actions;
-            });
-        }
-
-        function getAction(id) {
-            for (var i = 0; i < actions.length; i++) {
-                if(actions[i].getRemoteId() == id) {
-                    return actions[i];
-                }
-            }
-        }
-
-
         function createCard() {
-            $log.info("createCard");
+            return CardService.createCard().then(updateUser);
 
-            var card = new Card();
-            return openCardCreatorDialog(card).then(uploadCard);
-
-            function uploadCard() {
-
-                return card.upload().then(function (result) {
-                    user.addCreatedCard(card);
-                    user.upload();
-                    return card;
-                });
-
-                function canceled(error) {
-                    $log.info("create_fail: Canceled");
-                    return $q.reject("Canceled");
-                }
+            function updateUser(card) {
+                user.addCreatedCard(card);
+                user.upload();
+                return card;
             }
-        }
-
-
-        function openCardCreatorDialog(card) {
-            var modalInstance = $modal.open({
-                animation: true,
-                backdrop: 'static',
-                size: "lg",
-                templateUrl: 'js/app/cardeditor/cardeditor.tpl.html',
-                controller: 'CardEditorController',
-                controllerAs: "cardeditor",
-                resolve: {
-                    user: function () {
-                        return user;
-                    },
-                    card: function () {
-                        return card;
-                    }
-                }
-            });
-
-            return modalInstance.result;
         }
     }
 

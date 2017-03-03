@@ -9,7 +9,7 @@
         .module('card')
         .controller('CardEditorController', CardEditorController);
 
-    CardEditorController.$inject = ["$modalInstance", "CardEditorService", "user","card"];
+    CardEditorController.$inject = ["$modalInstance", "CardEditorService","card"];
 
     /* @ngInject */
     function CardEditorController($modalInstance, CardEditorService, user, card) {
@@ -33,6 +33,7 @@
             CardEditorService.setModalInstance($modalInstance);
             CardEditorService.loadActions().then(function(actions) {
                 vm.actions = actions;
+                CardEditorService.initCardActions(vm.card, actions);
             });
         }
 
@@ -46,9 +47,9 @@
 
         function cardImageChanged(e, newImage) {
             var cardImage = vm.card.getImage();
-            cardImage.setContent(vm.image.base64);
-            cardImage.setType(vm.image.filetype);
-            cardImage.setOriginalSize(vm.image);
+             cardImage.setContent(vm.image.base64);
+             cardImage.setType(vm.image.filetype);
+             cardImage.setOriginalSize(vm.image);
         }
 
         function confirm() {
