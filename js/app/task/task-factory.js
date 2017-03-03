@@ -16,22 +16,20 @@
         $log = $log.getInstance("Task", debugging);
 
         function Task(questName) {
-            this.loaded = false;
             this.remoteId = 0;
             this.name = "";
             this.type = null;
-            this.version = -1;
-
+            this.version = 0;
             this.html = null;
-            this.markerId = -1;
+            this.targetHtml = null;
+            this.enemyId = 0;
             this.lon = 0;
             this.lat = 0;
-
-            this.targetHtml = null;
-            this.targetMarkerId = -1;
             this.targetLon = 0;
             this.targetLat = 0;
 
+            this.markerId = -1;
+            this.targetMarkerId = -1;
             this.questName = questName;
             this.popupTpl = "";
             this.changed = false;
@@ -80,7 +78,8 @@
             setTargetLon: setTargetLon,
             getQuestName: getQuestName,
             setQuestName: setQuestName,
-            setFixed: setFixed
+            setFixed: setFixed,
+            getEnemyId: getEnemyId
         };
 
         return (Task);
@@ -190,6 +189,7 @@
             this.name = taskObject.name;
             this.type = taskObject.type;
             this.version = taskObject.version;
+            this.enemyId = taskObject.enemyId;
 
             this.markerId = taskObject.markerId;
             this.lon = taskObject.lon;
@@ -245,6 +245,7 @@
             this.version = remoteTask.getVersion();
             this.name = remoteTask.getName();
             this.type = MarkerType[remoteTask.getType()];
+            this.enemyId = remoteTask.getEnemyId();
 
             var position = remoteTask.getPosition();
             this.lon = position.getLongitude();
@@ -568,6 +569,11 @@
         function setFixed(value) {
             this.fixed = value;
         }
+
+        function getEnemyId() {
+            return this.enemyId;
+        }
+
     }
 
 })();

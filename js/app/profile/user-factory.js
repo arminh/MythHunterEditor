@@ -17,11 +17,23 @@
 
         function User() {
             this.id = -1;
+            this.activeQuestIds = [];
+            this.createdQuests = [];
             this.name = "";
             this.password = "";
+            this.solvedQuestIds = [];
+            this.deckIds = [];
+            this.taskCount = 0;
+            this.answeredQuestionsCount = 0;
+            this.foundLocationsCount = 0;
+            this.wonFightsCount = 0;
+            this.startedFightsCount = 0;
+            this.money = 0;
+            this.kmWalked = 0;
+            this.cardIds = [];
+            this.createdCardIds = [];
+
             this.currentQuest = null;
-            this.createdQuests = [];
-            this.createdCards = [];
         }
 
         User.prototype = {
@@ -43,7 +55,18 @@
             getName: getName,
             getPassword: getPassword,
             getCreatedQuests: getCreatedQuests,
-            getCreatedCards: getCreatedCards
+            getActiveQuestIds: getActiveQuestIds,
+            getSolvedQuestIds: getSolvedQuestIds,
+            getDeckIds: getDeckIds,
+            getTaskCount: getTaskCount,
+            getAnsweredQuestionsCount: getAnsweredQuestionsCount,
+            getFoundLocationsCount: getFoundLocationsCount,
+            getWonFightsCount: getWonFightsCount,
+            getStartedFightsCount: getStartedFightsCount,
+            getMoney: getMoney,
+            getKmWalked: getKmWalked,
+            getCardIds: getCardIds,
+            getCreatedCardIds: getCreatedCardIds
         };
 
         return (User);
@@ -51,10 +74,23 @@
         ////////////////
 
         function initFromRemote(remoteUser) {
+
             $log.info("initFromRemote: ", remoteUser);
             this.id = remoteUser.getId();
             this.name = remoteUser.getName();
             this.password = remoteUser.getPassword();
+            this.activeQuestIds = remoteUser.getActiveQuestIds();
+            this.solvedQuestIds = remoteUser.getSolvedQuestIds();
+            this.deckIds = remoteUser.getDeckIds();
+            this.taskCount = remoteUser.getTaskCount();
+            this.answeredQuestionsCount = remoteUser.getAnsweredQuestionsCount();
+            this.foundLocationsCount = remoteUser.getFoundLocationsCount();
+            this.wonFightsCount = remoteUser.getWonFightsCount();
+            this.startedFightsCount = remoteUser.getStartedFightsCount();
+            this.money = remoteUser.getMoney();
+            this.kmWalked = remoteUser.getKmWalked();
+            this.cardIds = remoteUser.getCardIds();
+            this.createdCardIds = remoteUser.getCreatedCardIds();
 
             var remoteQuests = remoteUser.getCreatedQuestIds();
             for(var i = 0; i < remoteQuests.length; i++) {
@@ -220,9 +256,54 @@
             return this.createdQuests;
         }
 
-        function getCreatedCards() {
-            return this.createdCards;
+        function getActiveQuestIds() {
+            return this.activeQuestIds;
         }
+
+        function getSolvedQuestIds() {
+            return this.solvedQuestIds;
+        }
+
+        function getDeckIds() {
+            return this.deckIds;
+        }
+
+        function getTaskCount() {
+            return this.taskCount;
+        }
+
+        function getAnsweredQuestionsCount() {
+            return this.answeredQuestionsCount;
+        }
+
+        function getFoundLocationsCount() {
+            return this.foundLocationsCount;
+        }
+
+        function getWonFightsCount() {
+            return this.wonFightsCount;
+        }
+
+        function getStartedFightsCount() {
+            return this.startedFightsCount;
+        }
+
+        function getMoney() {
+            return this.money;
+        }
+
+        function getKmWalked() {
+            return this.kmWalked;
+        }
+
+        function getCardIds() {
+            return this.cardIds;
+        }
+
+        function getCreatedCardIds() {
+            return this.createdCardIds;
+        }
+
     }
 
 })();

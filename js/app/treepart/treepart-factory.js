@@ -16,14 +16,22 @@
         $log = $log.getInstance("TreePart", debugging);
 
         function TreePart(task) {
-            this.loaded = false;
-            this.id = 0;
             this.remoteId = 0;
             this.version = 0;
-            this.type = null;
-            this.changed = false;
+            this.finished = false;
+            this.active = false;
+            this.opened = false;
             this.task = task;
+            this.questInstanceId = 0;
+            this.executedAt = null;
             this.successors = [];
+            this.type = null;
+            this.highlightedInvisibeMarker = false;
+
+            this.loaded = false;
+            this.id = 0;
+            this.changed = false;
+
         }
 
         TreePart.prototype = {
@@ -43,7 +51,13 @@
             getType: getType,
             setType: setType,
             getTask: getTask,
-            getSuccessors: getSuccessors
+            getSuccessors: getSuccessors,
+            getFinished: getFinished,
+            getActive: getActive,
+            getOpened: getOpened,
+            getQuestInstanceId: getQuestInstanceId,
+            getExecutedAt: getExecutedAt,
+            getHighlightedInvisibleMarker: getHighlightedInvisibleMarker
         };
 
         return (TreePart);
@@ -61,6 +75,12 @@
             this.version = treePartObject.version;
             this.type = treePartObject.type;
             this.changed = treePartObject.changed;
+            this.finished = treePartObject.finished;
+            this.active = treePartObject.active;
+            this.opened = treePartObject.opened;
+            this.executedAt = treePartObject.executedAt;
+            this.questInstanceId = treePartObject.questInstanceId;
+            this.highlightedInvisibeMarker = treePartObject.highlightedInvisibeMarker;
 
             this.task = new Task(quest.getName());
             this.task.initFromObject(treePartObject.task);
@@ -109,6 +129,12 @@
             this.remoteId = remoteTreePart.getId();
             this.version = remoteTreePart.getVersion();
             this.type = TreePartType[remoteTreePart.getType()];
+            this.finished = remoteTreePart.getFinished();
+            this.active = remoteTreePart.getActive();
+            this.opened = remoteTreePart.getOpened();
+            this.executedAt = remoteTreePart.getExecutedAt();
+            this.questInstanceId = remoteTreePart.getQuestInstanceId();
+            this.highlightedInvisibeMarker = remoteTreePart.getHighlightedInvisibeMarker();
 
             this.task = new Task();
             this.task.setRemoteId(remoteTreePart.getMarker().getId());
@@ -212,6 +238,31 @@
         function getSuccessors() {
             return this.successors;
         }
+
+        function getFinished() {
+            return this.finished;
+        }
+
+        function getActive() {
+            return this.active;
+        }
+
+        function getOpened() {
+            return this.opened;
+        }
+
+        function getQuestInstanceId() {
+            return this.questInstanceId;
+        }
+
+        function getExecutedAt() {
+            return this.executedAt;
+        }
+
+        function getHighlightedInvisibleMarker() {
+            return this.highlightedInvisibeMarker;
+        }
+
     }
 
 })();

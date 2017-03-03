@@ -25,9 +25,8 @@
             this.life = 1;
             this.attack = 0;
             this.type = CardType.MONSTER;
-
-
             this.image = new CardImage();
+
             this.loadPromise = null;
             this.changed = false;
         }
