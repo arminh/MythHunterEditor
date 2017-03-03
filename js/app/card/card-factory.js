@@ -9,10 +9,10 @@
         .module('card')
         .factory('Card', CardFactory);
 
-    CardFactory.$inject = ["$log", "CardType", "BackendService", "CardImage"];
+    CardFactory.$inject = ["$log", "$filter", "CardType", "BackendService", "CardImage"];
 
     /* @ngInject */
-    function CardFactory($log, CardType, BackendService, CardImage) {
+    function CardFactory($log, $filter, CardType, BackendService, CardImage) {
         $log = $log.getInstance("Card", debugging);
 
         function Card() {
@@ -22,12 +22,14 @@
             this.stars = 0;
             this.description = "";
             this.actionIds = [];
+            this.actions = [];
             this.life = 1;
             this.attack = 0;
             this.type = CardType.MONSTER;
             this.image = new CardImage();
 
             this.loadPromise = null;
+            this.loaded = false;
             this.changed = false;
         }
 
@@ -36,6 +38,7 @@
             initFromRemote: initFromRemote,
             updateFromCard: updateFromCard,
             createImage: createImage,
+            initActions: initActions,
             addAction: addAction,
             upload: upload,
 
@@ -48,6 +51,8 @@
             getImage: getImage,
             getType: getType,
             getActionIds: getActionIds,
+            getActions: getActions,
+            getLoaded: getLoaded,
 
             setImage: setImage,
             setLoadPromise: setLoadPromise
@@ -67,10 +72,14 @@
 
             function success(remoteCard) {
                 this.initFromRemote(remoteCard);
-                return this.image.initFromRemote(remoteCard.getImage()).then(function() {
-                    $log.info("getFromRemote_success", this);
-                    return this;
-                }.bind(this))
+
+                return BackendService.getCardImage(remoteCard.getImageId()).then(function(result) {
+                    return this.image.initFromRemote(result).then(function() {
+                        $log.info("getFromRemote_success", this);
+                        return this;
+                    }.bind(this))
+                }.bind(this));
+
             }
         }
 
@@ -122,6 +131,19 @@
             return new CardImage();
         }
 
+        function initActions(actions) {
+            if(this.actionIds.length > this.actions.length) {
+                for(var i = 0; i < this.actionIds.length; i++) {
+                    var found = $filter('filter')(actions, {remoteId: this.actionIds[i]}, true);
+                    if(found.length > 0) {
+                        this.actions.push(found[0]);
+                    } else {
+                        $log.error("initActions: action not found");
+                    }
+                }
+            }
+        }
+
         function addAction(action) {
             this.actions.push(action);
         }
@@ -145,9 +167,9 @@
             }
         }
 
-        function uploadCard(remoteImage) {
+        function uploadCard(remoteImageId) {
 
-            var remoteCard = BackendService.createRemoteCard(this, remoteImage);
+            var remoteCard = BackendService.createRemoteCard(this, remoteImageId);
             return BackendService.addCard(remoteCard).then(success.bind(this));
 
             function success(result) {
@@ -208,6 +230,14 @@
 
         function getActionIds() {
             return this.actionIds;
+        }
+
+        function getActions() {
+            return this.actions;
+        }
+
+        function getLoaded() {
+            return this.loaded;
         }
 
         function setLoadPromise(promise) {

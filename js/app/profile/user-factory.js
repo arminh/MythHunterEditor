@@ -31,7 +31,7 @@
             this.money = 0;
             this.kmWalked = 0;
             this.cardIds = [];
-            this.createdCardIds = [];
+            this.createdCards = [];
 
             this.currentQuest = null;
         }
@@ -66,7 +66,7 @@
             getMoney: getMoney,
             getKmWalked: getKmWalked,
             getCardIds: getCardIds,
-            getCreatedCardIds: getCreatedCardIds
+            getCreatedCards: getCreatedCards
         };
 
         return (User);
@@ -300,8 +300,8 @@
             return this.cardIds;
         }
 
-        function getCreatedCardIds() {
-            return this.createdCardIds;
+        function getCreatedCards() {
+            return this.createdCards;
         }
 
     }

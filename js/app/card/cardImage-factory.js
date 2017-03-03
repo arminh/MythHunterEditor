@@ -64,7 +64,7 @@
         function initFromRemote(remoteCardImage) {
             $log.info("initFromRemote", remoteCardImage);
             this.originalImageSrc = remoteCardImage.getOriginalImageSrc();
-            this.imageSrc = remoteCardImage.getImageSrc();
+            this.image = remoteCardImage.getImage();
             this.type = remoteCardImage.getType();
             this.top = remoteCardImage.getOffsetTop();
             this.left = remoteCardImage.getOffsetLeft();
@@ -118,7 +118,7 @@
 
             function cardImageUploaded(result) {
                 this.remoteId = result.getId();
-                return result;
+                return this.remoteId;
             }
         }
 

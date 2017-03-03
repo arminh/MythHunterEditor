@@ -12,7 +12,7 @@
     CardEditorController.$inject = ["$modalInstance", "CardEditorService","card"];
 
     /* @ngInject */
-    function CardEditorController($modalInstance, CardEditorService, user, card) {
+    function CardEditorController($modalInstance, CardEditorService, card) {
 
         var vm = this;
         vm.card = card;
@@ -31,14 +31,13 @@
 
         function activate() {
             CardEditorService.setModalInstance($modalInstance);
-            CardEditorService.loadActions().then(function(actions) {
+            CardEditorService.getActions().then(function(actions) {
                 vm.actions = actions;
-                CardEditorService.initCardActions(vm.card, actions);
             });
         }
 
         function isActionAffordable(action) {
-            return CardEditorService.isActionAffordable(action, vm.card.stars, vm.card.actions);
+            return CardEditorService.isActionAffordable(action, vm.card);
         }
 
         function calculateStarCount() {

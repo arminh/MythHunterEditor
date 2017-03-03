@@ -9,17 +9,16 @@
         .module('action')
         .factory('ActionService', ActionService);
 
-    ActionService.$inject = ["$log", "Action"];
+    ActionService.$inject = ["$log", "$q", "Action", "BackendService", "CardType"];
 
     /* @ngInject */
-    function ActionService($log, Action) {
+    function ActionService($log, $q, Action, BackendService, CardType) {
         $log = $log.getInstance("ActionService", debugging);
 
         var actions = [];
         var actionsInitialized = false;
 
         var service = {
-            getActionsFromRemote: getActionsFromRemote,
             getActions: getActions,
             getAction: getAction
         };
@@ -43,11 +42,10 @@
 
         function getActions() {
             if(actionsInitialized) {
-                return actions;
+               return actions;
             } else {
-                return null;
+                return getActionsFromRemote();
             }
-
         }
 
         function getAction(id) {
