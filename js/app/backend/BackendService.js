@@ -1377,6 +1377,44 @@ function backend_com_wsdl_addActionResponse_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserTutorialPlayedResponse
+//
+function backend_com_wsdl_setUserTutorialPlayedResponse () {
+    this.typeMarker = 'backend_com_wsdl_setUserTutorialPlayedResponse';
+}
+
+//
+// Serialize {http://backend.com/wsdl}setUserTutorialPlayedResponse
+//
+function backend_com_wsdl_setUserTutorialPlayedResponse_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName !== null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    if (elementName !== null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserTutorialPlayedResponse.prototype.serialize = backend_com_wsdl_setUserTutorialPlayedResponse_serialize;
+
+function backend_com_wsdl_setUserTutorialPlayedResponse_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserTutorialPlayedResponse();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}addTreePartLazy
 //
 function backend_com_wsdl_addTreePartLazy () {
@@ -2867,6 +2905,7 @@ function backend_com_wsdl_user () {
     this._solvedQuestIds = [];
     this._startedFightsCount = 0;
     this._taskCount = 0;
+    this._tutorialPlayed = '';
     this._wonFightsCount = 0;
 }
 
@@ -3123,6 +3162,22 @@ function backend_com_wsdl_user_setTaskCount(value) { this._taskCount = value;}
 
 backend_com_wsdl_user.prototype.setTaskCount = backend_com_wsdl_user_setTaskCount;
 //
+// accessor is backend_com_wsdl_user.prototype.getTutorialPlayed
+// element get for tutorialPlayed
+// - element type is {http://www.w3.org/2001/XMLSchema}boolean
+// - required element
+//
+// element set for tutorialPlayed
+// setter function is is backend_com_wsdl_user.prototype.setTutorialPlayed
+//
+function backend_com_wsdl_user_getTutorialPlayed() { return this._tutorialPlayed;}
+
+backend_com_wsdl_user.prototype.getTutorialPlayed = backend_com_wsdl_user_getTutorialPlayed;
+
+function backend_com_wsdl_user_setTutorialPlayed(value) { this._tutorialPlayed = value;}
+
+backend_com_wsdl_user.prototype.setTutorialPlayed = backend_com_wsdl_user_setTutorialPlayed;
+//
 // accessor is backend_com_wsdl_user.prototype.getWonFightsCount
 // element get for wonFightsCount
 // - element type is {http://www.w3.org/2001/XMLSchema}long
@@ -3290,6 +3345,12 @@ function backend_com_wsdl_user_serialize(cxfjsutils, elementName, extraNamespace
      xml = xml + '<taskCount>';
      xml = xml + cxfjsutils.escapeXmlEntities(this._taskCount);
      xml = xml + '</taskCount>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<tutorialPlayed>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._tutorialPlayed);
+     xml = xml + '</tutorialPlayed>';
     }
     // block for local variables
     {
@@ -3527,6 +3588,18 @@ function backend_com_wsdl_user_deserialize (cxfjsutils, element) {
      item = parseInt(value);
     }
     newobject.setTaskCount(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing tutorialPlayed');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = (value == 'true');
+    }
+    newobject.setTutorialPlayed(item);
     var item = null;
     if (curElement != null) {
      curElement = cxfjsutils.getNextElementSibling(curElement);
@@ -11734,6 +11807,114 @@ function backend_com_wsdl_quest_deserialize (cxfjsutils, element) {
 }
 
 //
+// Constructor for XML Schema item {http://backend.com/wsdl}setUserTutorialPlayed
+//
+function backend_com_wsdl_setUserTutorialPlayed () {
+    this.typeMarker = 'backend_com_wsdl_setUserTutorialPlayed';
+    this._arg0 = 0;
+    this._arg1 = '';
+}
+
+//
+// accessor is backend_com_wsdl_setUserTutorialPlayed.prototype.getArg0
+// element get for arg0
+// - element type is {http://www.w3.org/2001/XMLSchema}long
+// - required element
+//
+// element set for arg0
+// setter function is is backend_com_wsdl_setUserTutorialPlayed.prototype.setArg0
+//
+function backend_com_wsdl_setUserTutorialPlayed_getArg0() { return this._arg0;}
+
+backend_com_wsdl_setUserTutorialPlayed.prototype.getArg0 = backend_com_wsdl_setUserTutorialPlayed_getArg0;
+
+function backend_com_wsdl_setUserTutorialPlayed_setArg0(value) { this._arg0 = value;}
+
+backend_com_wsdl_setUserTutorialPlayed.prototype.setArg0 = backend_com_wsdl_setUserTutorialPlayed_setArg0;
+//
+// accessor is backend_com_wsdl_setUserTutorialPlayed.prototype.getArg1
+// element get for arg1
+// - element type is {http://www.w3.org/2001/XMLSchema}boolean
+// - required element
+//
+// element set for arg1
+// setter function is is backend_com_wsdl_setUserTutorialPlayed.prototype.setArg1
+//
+function backend_com_wsdl_setUserTutorialPlayed_getArg1() { return this._arg1;}
+
+backend_com_wsdl_setUserTutorialPlayed.prototype.getArg1 = backend_com_wsdl_setUserTutorialPlayed_getArg1;
+
+function backend_com_wsdl_setUserTutorialPlayed_setArg1(value) { this._arg1 = value;}
+
+backend_com_wsdl_setUserTutorialPlayed.prototype.setArg1 = backend_com_wsdl_setUserTutorialPlayed_setArg1;
+//
+// Serialize {http://backend.com/wsdl}setUserTutorialPlayed
+//
+function backend_com_wsdl_setUserTutorialPlayed_serialize(cxfjsutils, elementName, extraNamespaces) {
+    var xml = '';
+    if (elementName !== null) {
+     xml = xml + '<';
+     xml = xml + elementName;
+     if (extraNamespaces) {
+      xml = xml + ' ' + extraNamespaces;
+     }
+     xml = xml + '>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg0>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg0);
+     xml = xml + '</arg0>';
+    }
+    // block for local variables
+    {
+     xml = xml + '<arg1>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._arg1);
+     xml = xml + '</arg1>';
+    }
+    if (elementName !== null) {
+     xml = xml + '</';
+     xml = xml + elementName;
+     xml = xml + '>';
+    }
+    return xml;
+}
+
+backend_com_wsdl_setUserTutorialPlayed.prototype.serialize = backend_com_wsdl_setUserTutorialPlayed_serialize;
+
+function backend_com_wsdl_setUserTutorialPlayed_deserialize (cxfjsutils, element) {
+    var newobject = new backend_com_wsdl_setUserTutorialPlayed();
+    cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
+    var curElement = cxfjsutils.getFirstElementChild(element);
+    var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg0');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setArg0(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing arg1');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = (value == 'true');
+    }
+    newobject.setArg1(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
+    }
+    return newobject;
+}
+
+//
 // Constructor for XML Schema item {http://backend.com/wsdl}getMarkers
 //
 function backend_com_wsdl_getMarkers () {
@@ -18976,6 +19157,8 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}deleteQuestInstance'] = backend_com_wsdl_deleteQuestInstance_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addActionResponse'] = backend_com_wsdl_addActionResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addActionResponse'] = backend_com_wsdl_addActionResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserTutorialPlayedResponse'] = backend_com_wsdl_setUserTutorialPlayedResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserTutorialPlayedResponse'] = backend_com_wsdl_setUserTutorialPlayedResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addTreePartLazy'] = backend_com_wsdl_addTreePartLazy_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addTreePartLazy'] = backend_com_wsdl_addTreePartLazy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getQuestResponse'] = backend_com_wsdl_getQuestResponse_serialize;
@@ -18994,6 +19177,8 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}setTreePartHighlightedInvisibleMarkerResponse'] = backend_com_wsdl_setTreePartHighlightedInvisibleMarkerResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}setUserMoney'] = backend_com_wsdl_setUserMoney_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}setUserMoney'] = backend_com_wsdl_setUserMoney_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserTutorialPlayed'] = backend_com_wsdl_setUserTutorialPlayed_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserTutorialPlayed'] = backend_com_wsdl_setUserTutorialPlayed_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarkers'] = backend_com_wsdl_getMarkers_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarkers'] = backend_com_wsdl_getMarkers_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getCards'] = backend_com_wsdl_getCards_serialize;
@@ -19300,6 +19485,8 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}getAllActionsOfCardType'] = backend_com_wsdl_getAllActionsOfCardType_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addActionResponse'] = backend_com_wsdl_addActionResponse_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addActionResponse'] = backend_com_wsdl_addActionResponse_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserTutorialPlayedResponse'] = backend_com_wsdl_setUserTutorialPlayedResponse_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserTutorialPlayedResponse'] = backend_com_wsdl_setUserTutorialPlayedResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addTreePartLazy'] = backend_com_wsdl_addTreePartLazy_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}addTreePartLazy'] = backend_com_wsdl_addTreePartLazy_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}addEnemy'] = backend_com_wsdl_addEnemy_serialize;
@@ -19494,6 +19681,8 @@ function backend_com_wsdl_IBackend () {
     this.globalElementDeserializers['{http://backend.com/wsdl}createRandomEnemiesResponse'] = backend_com_wsdl_createRandomEnemiesResponse_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}quest'] = backend_com_wsdl_quest_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}quest'] = backend_com_wsdl_quest_deserialize;
+    this.globalElementSerializers['{http://backend.com/wsdl}setUserTutorialPlayed'] = backend_com_wsdl_setUserTutorialPlayed_serialize;
+    this.globalElementDeserializers['{http://backend.com/wsdl}setUserTutorialPlayed'] = backend_com_wsdl_setUserTutorialPlayed_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}getMarkers'] = backend_com_wsdl_getMarkers_serialize;
     this.globalElementDeserializers['{http://backend.com/wsdl}getMarkers'] = backend_com_wsdl_getMarkers_deserialize;
     this.globalElementSerializers['{http://backend.com/wsdl}updateQuest'] = backend_com_wsdl_updateQuest_serialize;
@@ -22024,6 +22213,94 @@ function backend_com_wsdl_setUserKmWalked_serializeInput(cxfjsutils, args) {
 backend_com_wsdl_IBackend.prototype.setUserKmWalked_serializeInput = backend_com_wsdl_setUserKmWalked_serializeInput;
 
 function backend_com_wsdl_setUserKmWalkedResponse_deserializeResponse(cxfjsutils, partElement) {
+}
+function backend_com_wsdl_setUserTutorialPlayed_op_onsuccess(client, responseXml) {
+    if (client.user_onsuccess) {
+     var responseObject = null;
+     var element = responseXml.documentElement;
+     this.jsutils.trace('responseXml: ' + this.jsutils.traceElementName(element));
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('first element child: ' + this.jsutils.traceElementName(element));
+     while (!this.jsutils.isNodeNamedNS(element, 'http://schemas.xmlsoap.org/soap/envelope/', 'Body')) {
+      element = this.jsutils.getNextElementSibling(element);
+      if (element == null) {
+       throw 'No env:Body in message.'
+      }
+     }
+     element = this.jsutils.getFirstElementChild(element);
+     this.jsutils.trace('part element: ' + this.jsutils.traceElementName(element));
+     this.jsutils.trace('calling backend_com_wsdl_setUserTutorialPlayedResponse_deserializeResponse');
+     responseObject = backend_com_wsdl_setUserTutorialPlayedResponse_deserializeResponse(this.jsutils, element);
+     client.user_onsuccess(responseObject);
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserTutorialPlayed_onsuccess = backend_com_wsdl_setUserTutorialPlayed_op_onsuccess;
+
+function backend_com_wsdl_setUserTutorialPlayed_op_onerror(client) {
+    if (client.user_onerror) {
+     var httpStatus;
+     var httpStatusText;
+     try {
+      httpStatus = client.req.status;
+      httpStatusText = client.req.statusText;
+     } catch(e) {
+      httpStatus = -1;
+      httpStatusText = 'Error opening connection to server';
+     }
+     if (client.parseErrorDetails) {
+      client.user_onerror(httpStatus, httpStatusText, client.parseErrorDetails(this));
+     } else {
+      client.user_onerror(httpStatus, httpStatusText);
+     }
+    }
+}
+
+backend_com_wsdl_IBackend.prototype.setUserTutorialPlayed_onerror = backend_com_wsdl_setUserTutorialPlayed_op_onerror;
+
+//
+// Operation {http://backend.com/wsdl}setUserTutorialPlayed
+// Wrapped operation.
+// parameter arg0
+// - simple type {http://www.w3.org/2001/XMLSchema}long// parameter arg1
+// - simple type {http://www.w3.org/2001/XMLSchema}boolean//
+function backend_com_wsdl_setUserTutorialPlayed_op(successCallback, errorCallback, arg0, arg1) {
+    this.client = new CxfApacheOrgClient(this.jsutils);
+    var xml = null;
+    var args = new Array(2);
+    args[0] = arg0;
+    args[1] = arg1;
+    xml = this.setUserTutorialPlayed_serializeInput(this.jsutils, args);
+    this.client.user_onsuccess = successCallback;
+    this.client.user_onerror = errorCallback;
+    var closureThis = this;
+    this.client.onsuccess = function(client, responseXml) { closureThis.setUserTutorialPlayed_onsuccess(client, responseXml); };
+    this.client.onerror = function(client) { closureThis.setUserTutorialPlayed_onerror(client); };
+    var requestHeaders = [];
+    requestHeaders['SOAPAction'] = '';
+    this.jsutils.trace('synchronous = ' + this.synchronous);
+    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+}
+
+backend_com_wsdl_IBackend.prototype.setUserTutorialPlayed = backend_com_wsdl_setUserTutorialPlayed_op;
+
+function backend_com_wsdl_setUserTutorialPlayed_serializeInput(cxfjsutils, args) {
+    var wrapperObj = new backend_com_wsdl_setUserTutorialPlayed();
+    wrapperObj.setArg0(args[0]);
+    wrapperObj.setArg1(args[1]);
+    var xml;
+    xml = cxfjsutils.beginSoap11Message("xmlns:jns0='http://backend.com/wsdl' ");
+    // block for local variables
+    {
+     xml = xml + wrapperObj.serialize(cxfjsutils, 'jns0:setUserTutorialPlayed', null);
+    }
+    xml = xml + cxfjsutils.endSoap11Message();
+    return xml;
+}
+
+backend_com_wsdl_IBackend.prototype.setUserTutorialPlayed_serializeInput = backend_com_wsdl_setUserTutorialPlayed_serializeInput;
+
+function backend_com_wsdl_setUserTutorialPlayedResponse_deserializeResponse(cxfjsutils, partElement) {
 }
 function backend_com_wsdl_getMarkers_op_onsuccess(client, responseXml) {
     if (client.user_onsuccess) {

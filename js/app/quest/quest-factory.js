@@ -327,16 +327,25 @@
         function remove() {
             $log.info("remove: ", this);
 
-            return BackendService.deleteQuest(this.remoteId).then(function () {
-                $log.info("remove_success: ", this);
-                this.treePartRoot.remove();
+            if(!this.loaded) {
+                return this.load().then(deleteQuest.bind(this));
+            } else {
+                return deleteQuest.bind(this)();
+            }
 
-                for (var i = 0; i < this.treeParts.length; i++) {
-                    this.treeParts[i].remove();
-                }
+            function deleteQuest() {
+                return BackendService.deleteQuest(this.remoteId).then(function () {
+                    $log.info("remove_success: ", this);
+                    this.treePartRoot.remove();
 
-                return this;
-            }.bind(this));
+                    for (var i = 0; i < this.treeParts.length; i++) {
+                        this.treeParts[i].remove();
+                    }
+
+                    return this;
+                }.bind(this));
+            }
+
         }
 
         function rewireTree(treePartRoot, treeParts) {

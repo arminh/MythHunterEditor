@@ -15,8 +15,8 @@
     function BackendService($log, $q) {
 
         var backend = new backend_com_wsdl_IBackend();
-        backend.url = "http://192.168.1.216:8080/Backend/webservices/Backend?wsdl";
-        // backend.url = "http://192.168.178.85:8080/Backend/webservices/Backend?wsdl";
+        //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.1.201:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -142,6 +142,7 @@
             remoteUser.setMoney(user.getMoney());
             remoteUser.setKmWalked(user.getKmWalked());
             remoteUser.setCardIds(user.getCardIds());
+            remoteUser.setTutorialPlayed(user.getTutorialPlayed());
 
             var createdQuestIds = [];
             var createdCardIds = [];
