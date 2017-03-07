@@ -16,7 +16,7 @@
 
         var backend = new backend_com_wsdl_IBackend();
         //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
-        backend.url = "http://192.168.178.67:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.1.201:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -87,9 +87,23 @@
 
         function createRemoteUser(user) {
             var remoteUser = new backend_com_wsdl_user();
+
             remoteUser.setName(user.getName());
             remoteUser.setPassword(user.getPassword());
             remoteUser.setId(user.getId());
+            remoteUser.setActiveQuestIds(user.getActiveQuestIds());
+            remoteUser.setSolvedQuestIds(user.getSolvedQuestIds());
+            remoteUser.setDeckIds(user.getDeckIds());
+            remoteUser.setTaskCount(user.getTaskCount());
+            remoteUser.setAnsweredQuestionsCount(user.getAnsweredQuestionsCount());
+            remoteUser.setFoundLocationsCount(user.getFoundLocationsCount());
+            remoteUser.setWonFightsCount(user.getWonFightsCount());
+            remoteUser.setStartedFightsCount(user.getStartedFightsCount());
+            remoteUser.setMoney(user.getMoney());
+            remoteUser.setKmWalked(user.getKmWalked());
+            remoteUser.setCardIds(user.getCardIds());
+            remoteUser.setCreatedCardIds(user.getCreatedCardIds());
+            remoteUser.setTutorialPlayed(user.getTutorialPlayed());
 
             var createdQuestIds = [];
             var createdQuests = user.getCreatedQuests();
@@ -118,6 +132,11 @@
             remoteQuest.setSubmitted(quest.getSubmitted());
             remoteQuest.setApproved(quest.getApproved());
 
+            remoteQuest.setSpecialCards(quest.getSpecialCards());
+            remoteQuest.setDifficulty(quest.getDifficulty());
+            remoteQuest.setQualityRating(quest.getQualityRating());
+            remoteQuest.setDifficultyRating(quest.getDifficultyRating());
+
             return remoteQuest;
         }
 
@@ -133,6 +152,7 @@
             remoteTask.setVersion(task.getVersion());
             remoteTask.setId(task.getRemoteId());
             remoteTask.setName(task.getName());
+            remoteTask.setEnemyId(task.getEnemyId());
             remoteTask.setHtmlId(task.getHtml().getRemoteId());
             if(task.getTargetHtml()) {
                 remoteTask.setFinishedHtmlId(task.getTargetHtml().getRemoteId());
@@ -170,6 +190,13 @@
             remoteTreePart.setVersion(treePart.getVersion());
             remoteTreePart.setType(treePart.getType());
             remoteTreePart.setMarker(createRemoteTask(treePart.getTask()));
+            remoteTreePart.setFinished(treePart.getFinished());
+            remoteTreePart.setOpened(treePart.getOpened());
+            remoteTreePart.setActive(treePart.getActive());
+            remoteTreePart.setQuestInstanceId(treePart.getQuestInstanceId());
+            remoteTreePart.setExecutedAt(treePart.getExecutedAt());
+            remoteTreePart.setHighlightedInvisibeMarker(treePart.getHighlightedInvisibleMarker());
+
 
             return remoteTreePart;
         }

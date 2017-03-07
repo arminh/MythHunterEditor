@@ -16,5 +16,10 @@
             Marker: "Marker",
             And: "And",
             Or: "Or"
+        })
+        .constant("DifficultyLevel", {
+            LOW: "LOW",
+            MEDIUM: "MEDIUM",
+            HIGH: "HIGH"
         });
 })();

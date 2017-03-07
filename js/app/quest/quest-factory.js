@@ -9,27 +9,30 @@
         .module('quest')
         .factory('Quest', QuestFactory);
 
-    QuestFactory.$inject = ["$log", "$q", "QuestService", "AuthenticationService", "BackendService", "TreePartType", "Task", "HtmlText", "TreePart"];
+    QuestFactory.$inject = ["$log", "$q", "QuestService", "AuthenticationService", "BackendService", "TreePartType", "Task", "HtmlText", "TreePart", "DifficultyLevel"];
 
     /* @ngInject */
-    function QuestFactory($log, $q, QuestService, AuthenticationService, BackendService, TreePartType, Task, HtmlText, TreePart) {
+    function QuestFactory($log, $q, QuestService, AuthenticationService, BackendService, TreePartType, Task, HtmlText, TreePart, DifficultyLevel) {
 
         $log = $log.getInstance("Quest", debugging);
         function Quest() {
-            this.loaded = false;
             this.remoteId = 0;
-            this.creatorId = -1;
+            this.version = null;
             this.name = "";
             this.description = "";
+            this.diffulty = DifficultyLevel.LOW;
+            this.qualityRating = 0;
+            this.difficultyRating = 0;
             this.html = null;
-            this.changed = false;
-            this.version = null;
-            this.submitted = true;
+            this.creatorId = -1;
             this.approved = true;
+            this.submitted = true;
+            this.specialCards = [];
 
+            this.loaded = false;
+            this.specialCards = [];
             this.treeParts = [];
             this.treePartRoot = null;
-
             this.treePartsToDelete = [];
         }
 
@@ -60,7 +63,11 @@
             getSubmitted: getSubmitted,
             getApproved: getApproved,
             getLoaded: getLoaded,
-            setLoaded: setLoaded
+            setLoaded: setLoaded,
+            getSpecialCards: getSpecialCards,
+            getDifficulty: getDifficulty,
+            getDifficultyRating: getDifficultyRating,
+            getQualityRating: getQualityRating
         };
 
         return (Quest);
@@ -115,7 +122,7 @@
                     this.name = result.name;
                     this.html.setQuestTitle(result.name);
                     this.treePartRoot.getTask().getHtml().setQuestTitle(result.name);
-                    for(var i = 0; i < this.treeParts.length; i++) {
+                    for (var i = 0; i < this.treeParts.length; i++) {
                         this.treeParts[i].getTask().getHtml().setQuestTitle(result.name);
                     }
                     this.change();
@@ -146,7 +153,12 @@
             this.version = questObject.version;
             this.loaded = questObject.loaded;
 
-                this.html = new HtmlText();
+            this.specialCards = questObject.specialCards;
+            this.diffulty = questObject.diffulty;
+            this.qualityRating = questObject.qualityRating;
+            this.difficultyRating = questObject.difficultyRating;
+
+            this.html = new HtmlText();
             this.html.initFromObject(questObject.html);
 
             this.treePartRoot = new TreePart(null);
@@ -161,7 +173,7 @@
             return BackendService.getQuest(this.remoteId).then(success.bind(this), fail.bind(this));
 
             function success(remoteQuest) {
-                if(remoteQuest) {
+                if (remoteQuest) {
                     $log.info("getFromRemote_success: ", this.remoteId);
                     return this.initFromRemote(remoteQuest);
                 } else {
@@ -185,6 +197,10 @@
             this.creatorId = remoteQuest.getCreaterId();
             this.description = remoteQuest.getShortDescription();
             this.version = remoteQuest.getVersion();
+            this.specialCards = remoteQuest.getSpecialCards();
+            this.diffulty = remoteQuest.getDifficulty();
+            this.qualityRating = remoteQuest.getQualityRating();
+            this.difficultyRating= remoteQuest.getDifficultyRating();
 
             this.html = new HtmlText();
             this.html.setRemoteId(remoteQuest.getHtmlId());
@@ -311,16 +327,25 @@
         function remove() {
             $log.info("remove: ", this);
 
-            return BackendService.deleteQuest(this.remoteId).then(function() {
-                $log.info("remove_success: ", this);
-                this.treePartRoot.remove();
+            if(!this.loaded) {
+                return this.load().then(deleteQuest.bind(this));
+            } else {
+                return deleteQuest.bind(this)();
+            }
 
-                for(var i = 0; i < this.treeParts.length; i++) {
-                    this.treeParts[i].remove();
-                }
+            function deleteQuest() {
+                return BackendService.deleteQuest(this.remoteId).then(function () {
+                    $log.info("remove_success: ", this);
+                    this.treePartRoot.remove();
 
-                return this;
-            }.bind(this));
+                    for (var i = 0; i < this.treeParts.length; i++) {
+                        this.treeParts[i].remove();
+                    }
+
+                    return this;
+                }.bind(this));
+            }
+
         }
 
         function rewireTree(treePartRoot, treeParts) {
@@ -395,6 +420,21 @@
             this.loaded = value;
         }
 
+        function getSpecialCards() {
+            return this.specialCards;
+        }
+
+        function getDifficulty() {
+            return this.diffulty;
+        }
+
+        function getQualityRating() {
+            return this.qualityRating;
+        }
+
+        function getDifficultyRating() {
+            return this.difficultyRating;
+        }
     }
 
 })();
