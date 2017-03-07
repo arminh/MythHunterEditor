@@ -19,12 +19,16 @@
         var checkboxGroupCounter = 0;
         var checkboxCounter = 0;
         var textBoxCounter = 1;
+        var taSelection_ = null;
 
         $provide.decorator('taOptions', extendTaOptions);
 
         extendTaOptions.$inject = ["taRegisterTool", "taSelection", "$delegate"];
 
         function extendTaOptions(taRegisterTool, taSelection, taOptions) { // $delegate is the taOptions we are decorating
+            console.log(taSelection);
+            taSelection_ = taSelection;
+
             var toolbarQuiz = [
                 ['h1', 'h2', 'h3', 'p'],
                 ['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
@@ -62,6 +66,7 @@
             checkboxCounter = getElementCount("checkbox", this.$editor().html) + 1;
 
             var selection = window.getSelection().toString();
+            var selectedElement = taSelection.getSelectionElement();
 
             var content = "<input ";
             content += "id='textbox" + textBoxCounter++ + "' ";
@@ -77,28 +82,57 @@
             radioGroupCounter = getElementCount('name="radio', this.$editor().html) + 1;
             radioCounter = getElementCount('id="radioBtn', this.$editor().html) + 1;
 
-            var name = "radio" + radioGroupCounter;
-            var selection = window.getSelection().toString();
-            var options = selection.split("\n");
-            var content = "<p>";
+            var ourSelection = taSelection_.getSelection();
+            var selectedElement = taSelection_.getSelectionElement();
+            var $selected = angular.element(selectedElement);
+            var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
 
-            for (var i = 0; i < options.length; i++) {
-                if (options[i] != "") {
-                    var id = "radioBtn" + radioCounter++;
+            console.log(selectedElement);
 
-                    content += "<label><input ";
-                    content += "id='" + id + "' ";
-                    content += "type='radio' ";
-                    content += "name='" + name + "' ";
-                    content += "value='" + options[i] + "' ";
-                    content = content + "/>" + options[i] + "</label><br>";
+            var childBlockElements = false;
+            angular.forEach($selected.children(), function(elem){
+                if(elem.tagName.match(BLOCKELEMENTS)) {
+                    childBlockElements = true;
                 }
+            });
+            if(childBlockElements){
+                return childElementsToList($selected.children(), $selected);
+            }else{
+                return childElementsToList([angular.element('<div>' + selectedElement.innerHTML + '</div>')[0]], $selected);
             }
 
-            radioCounter++;
-            this.$editor().wrapSelection("insertHTML", content);
+            // var name = "radio" + radioGroupCounter;
+            // var selection = window.getSelection().toString();
+            // var options = selection.split("\n");
+            // var content = "<p>";
+            //
+            // for (var i = 0; i < options.length; i++) {
+            //     if (options[i] != "") {
+            //         var id = "radioBtn" + radioCounter++;
+            //
+            //         content += "<label><input ";
+            //         content += "id='" + id + "' ";
+            //         content += "type='radio' ";
+            //         content += "name='" + name + "' ";
+            //         content += "value='" + options[i] + "' ";
+            //         content = content + "/>" + options[i] + "</label><br>";
+            //     }
+            // }
+            //
+            // radioCounter++;
+            // this.$editor().wrapSelection("insertHTML", content);
 
         }
+
+        function childElementsToList(elements, listElement){
+            var html = '';
+            for(var i = 0; i < elements.length; i++){
+                html += '<label><input type="radio" value="' + elements[i].innerText + '"/>' + elements[i].innerHTML + '</label><br>';
+            }
+            var $target = angular.element('<div>' + html + '</div>');
+            listElement.after($target);
+            listElement.remove();
+        };
 
         function addCheckboxGroup() {
 
