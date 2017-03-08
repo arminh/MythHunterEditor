@@ -19,15 +19,15 @@
         var checkboxGroupCounter = 0;
         var checkboxCounter = 0;
         var textBoxCounter = 1;
-        var taSelection_ = null;
+        var taSelection = null;
 
         $provide.decorator('taOptions', extendTaOptions);
 
         extendTaOptions.$inject = ["taRegisterTool", "taSelection", "$delegate"];
 
-        function extendTaOptions(taRegisterTool, taSelection, taOptions) { // $delegate is the taOptions we are decorating
+        function extendTaOptions(taRegisterTool, taSelection_, taOptions) { // $delegate is the taOptions we are decorating
             console.log(taSelection);
-            taSelection_ = taSelection;
+            taSelection = taSelection_;
 
             var toolbarQuiz = [
                 ['h1', 'h2', 'h3', 'p'],
@@ -63,10 +63,6 @@
         }
 
         function addInputBox() {
-            checkboxCounter = getElementCount("checkbox", this.$editor().html) + 1;
-
-            var selection = window.getSelection().toString();
-            var selectedElement = taSelection.getSelectionElement();
 
             var content = "<input ";
             content += "id='textbox" + textBoxCounter++ + "' ";
@@ -82,12 +78,40 @@
             radioGroupCounter = getElementCount('name="radio', this.$editor().html) + 1;
             radioCounter = getElementCount('id="radioBtn', this.$editor().html) + 1;
 
-            var ourSelection = taSelection_.getSelection();
-            var selectedElement = taSelection_.getSelectionElement();
+            addGroup("radio");
+        }
+
+        function addCheckboxGroup() {
+
+            checkboxGroupCounter = getElementCount('name="checkbox', this.$editor().html) + 1;
+            checkboxCounter = getElementCount('id="checkboxBtn', this.$editor().html) + 1;
+
+            addGroup("checkbox");
+        }
+
+        function addGroup(type) {
+            var ourSelection = taSelection.getSelection();
+            var selectedElement = taSelection.getSelectionElement();
             var $selected = angular.element(selectedElement);
             var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
+            var selectedElements = taSelection.getOnlySelectedElements();
 
-            console.log(selectedElement);
+            var selfTag = "label";
+            var taDefaultWrap = "p";
+            if (selectedElements.length>1 && tagName === 'ul') {
+                return listElementsToSelfTag($selected, selectedElements, selfTag, selfTag===tagName, "p");
+            }
+            if(tagName === selfTag){
+                // if all selected then we should remove the list
+                // grab all li elements and convert to taDefaultWrap tags
+                //console.log('tagName===selfTag');
+                if ($selected[0].childNodes.length !== selectedElements.length && selectedElements.length===1) {
+                    $selected = angular.element(selectedElements[0]);
+                    return listElementToSelfTag($selected.parent(), $selected, selfTag, true, taDefaultWrap);
+                } else {
+                    return listToDefault($selected, taDefaultWrap); //TODO
+                }
+            }
 
             var childBlockElements = false;
             angular.forEach($selected.children(), function(elem){
@@ -96,68 +120,199 @@
                 }
             });
             if(childBlockElements){
-                return childElementsToList($selected.children(), $selected);
+                return childElementsToList($selected.children(), $selected, type);
             }else{
-                return childElementsToList([angular.element('<div>' + selectedElement.innerHTML + '</div>')[0]], $selected);
+                return childElementsToList([angular.element('<div>' + selectedElement.innerHTML + '</div>')[0]], $selected, type);
             }
-
-            // var name = "radio" + radioGroupCounter;
-            // var selection = window.getSelection().toString();
-            // var options = selection.split("\n");
-            // var content = "<p>";
-            //
-            // for (var i = 0; i < options.length; i++) {
-            //     if (options[i] != "") {
-            //         var id = "radioBtn" + radioCounter++;
-            //
-            //         content += "<label><input ";
-            //         content += "id='" + id + "' ";
-            //         content += "type='radio' ";
-            //         content += "name='" + name + "' ";
-            //         content += "value='" + options[i] + "' ";
-            //         content = content + "/>" + options[i] + "</label><br>";
-            //     }
-            // }
-            //
-            // radioCounter++;
-            // this.$editor().wrapSelection("insertHTML", content);
-
         }
 
-        function childElementsToList(elements, listElement){
-            var html = '';
+        function childElementsToList(elements, listElement, type){
+            var name = type + radioGroupCounter;
+
+            var html = '<ul style="list-style-type: none;">';
             for(var i = 0; i < elements.length; i++){
-                html += '<label><input type="radio" value="' + elements[i].innerText + '"/>' + elements[i].innerHTML + '</label><br>';
+                var id = type + "Btn" + radioCounter++;
+
+                html += '<li></lui><label style="font-weight: normal"><input' +
+                    ' type="' + type + '"' +
+                    ' id="' + id + '"' +
+                    ' name="' + name + '"' +
+                    ' value="' + elements[i].innerText + '"/>' +
+                    elements[i].innerHTML +
+                    '</label></li>';
             }
+            html += '</ul>';
+            radioCounter++;
             var $target = angular.element('<div>' + html + '</div>');
             listElement.after($target);
             listElement.remove();
+            taSelection.setSelectionToElementEnd($target.find('label')[0]);
+        }
+
+        var listToDefault = function(listElement, defaultWrap){
+            var $target, i;
+            // if all selected then we should remove the list
+            // grab all li elements and convert to taDefaultWrap tags
+            var children = listElement.find('li');
+            for(i = children.length - 1; i >= 0; i--){
+                $target = angular.element('<' + defaultWrap + '>' + children[i].innerHTML + '</' + defaultWrap + '>');
+                listElement.after($target);
+            }
+            listElement.remove();
+            taSelection.setSelectionToElementEnd($target[0]);
         };
 
-        function addCheckboxGroup() {
-
-            checkboxGroupCounter = getElementCount('name="checkbox', this.$editor().html) + 1;
-            checkboxCounter = getElementCount('id="checkboxBtn', this.$editor().html) + 1;
-
-            var name = "checkbox" + checkboxGroupCounter;
-            var selection = window.getSelection().toString();
-            var options = selection.split("\n");
-            var content = "<p>";
-
-            for (var i = 0; i < options.length; i++) {
-                if (options[i] != "") {
-                    var id = "checkboxBtn" + checkboxCounter++;
-
-                    content += "<label><input ";
-                    content += "id='" + id + "' ";
-                    content += "type='checkbox' ";
-                    content += "name='" + name + "' ";
-                    content += "value='" + options[i] + "' ";
-                    content = content + "/>" + options[i] + "</label><br>";
+        var listElementToSelfTag = function(list, listElement, selfTag, bDefault, defaultWrap){
+            var $target, i;
+            // if all selected then we should remove the list
+            // grab all li elements
+            var priorElement;
+            var nextElement;
+            var children = list.find('li');
+            var foundIndex;
+            for (i = 0; i<children.length; i++) {
+                if (children[i].outerHTML === listElement[0].outerHTML) {
+                    // found it...
+                    foundIndex = i;
+                    if (i>0) {
+                        priorElement = children[i-1];
+                    }
+                    if (i+1<children.length) {
+                        nextElement = children[i+1];
+                    }
+                    break;
                 }
             }
+            //console.log('listElementToSelfTag', list, listElement, selfTag, bDefault, priorElement, nextElement);
+            // un-list the listElement
+            var html = '';
+            if (bDefault) {
+                html += '<' + defaultWrap + '>' + listElement[0].innerHTML + '</' + defaultWrap + '>';
+            } else {
+                html += '<' + taBrowserTag(selfTag) + '>';
+                html += '<li>' + listElement[0].innerHTML + '</li>';
+                html += '</' + taBrowserTag(selfTag) + '>';
+            }
+            $target = angular.element(html);
+            //console.log('$target', $target[0]);
+            if (!priorElement) {
+                // this is the first the list, so we just remove it...
+                listElement.remove();
+                list.after(angular.element(list[0].outerHTML));
+                list.after($target);
+                list.remove();
+                taSelection.setSelectionToElementEnd($target[0]);
+                return;
+            } else if (!nextElement) {
+                // this is the last in the list, so we just remove it..
+                listElement.remove();
+                list.after($target);
+                taSelection.setSelectionToElementEnd($target[0]);
+            } else {
+                var p = list.parent();
+                // okay it was some where in the middle... so we need to break apart the list...
+                var html1 = '';
+                var listTag = list[0].nodeName.toLowerCase();
+                html1 += '<' + listTag + '>';
+                for(i = 0; i < foundIndex; i++){
+                    html1 += '<li>' + children[i].innerHTML + '</li>';
+                }
+                html1 += '</' + listTag + '>';
+                var html2 = '';
+                html2 += '<' + listTag + '>';
+                for(i = foundIndex+1; i < children.length; i++){
+                    html2 += '<li>' + children[i].innerHTML + '</li>';
+                }
+                html2 += '</' + listTag + '>';
+                //console.log(html1, $target[0], html2);
+                list.after(angular.element(html2));
+                list.after($target);
+                list.after(angular.element(html1));
+                list.remove();
+                //console.log('parent ******XXX*****', p[0]);
+                taSelection.setSelectionToElementEnd($target[0]);
+            }
+        };
 
-            this.$editor().wrapSelection("insertHTML", content);
+
+        var listElementsToSelfTag = function(list, listElements, selfTag, bDefault, defaultWrap){
+            var $target, i, j, p;
+            // grab all li elements
+            var priorElement;
+            var afterElement;
+            //console.log('list:', list, 'listElements:', listElements, 'selfTag:', selfTag, 'bDefault:', bDefault);
+            var children = list.find('li');
+            var foundIndexes = [];
+            for (i = 0; i<children.length; i++) {
+                for (j = 0; j<listElements.length; j++) {
+                    if (children[i].isEqualNode(listElements[j])) {
+                        // found it...
+                        foundIndexes[j] = i;
+                    }
+                }
+            }
+            if (foundIndexes[0] > 0) {
+                priorElement = children[foundIndexes[0] - 1];
+            }
+            if (foundIndexes[listElements.length-1] + 1 < children.length) {
+                afterElement = children[foundIndexes[listElements.length-1] + 1];
+            }
+            //console.log('listElementsToSelfTag', list, listElements, selfTag, bDefault, !priorElement, !afterElement, foundIndexes[listElements.length-1], children.length);
+            // un-list the listElements
+            var html = '';
+            if (bDefault) {
+                for (j = 0; j < listElements.length; j++) {
+                    html += '<' + defaultWrap + '>' + listElements[j].innerHTML + '</' + defaultWrap + '>';
+                    listElements[j].remove();
+                }
+            } else {
+                html += '<' + taBrowserTag(selfTag) + '>';
+                for (j = 0; j < listElements.length; j++) {
+                    html += listElements[j].outerHTML;
+                    listElements[j].remove();
+                }
+                html += '</' + taBrowserTag(selfTag) + '>';
+            }
+            $target = angular.element(html);
+            if (!priorElement) {
+                // this is the first the list, so we just remove it...
+                list.after(angular.element(list[0].outerHTML));
+                list.after($target);
+                list.remove();
+                taSelection.setSelectionToElementEnd($target[0]);
+                return;
+            } else if (!afterElement) {
+                // this is the last in the list, so we just remove it..
+                list.after($target);
+                taSelection.setSelectionToElementEnd($target[0]);
+                return;
+            } else {
+                // okay it was some where in the middle... so we need to break apart the list...
+                var html1 = '';
+                var listTag = list[0].nodeName.toLowerCase();
+                html1 += '<' + listTag + '>';
+                for(i = 0; i < foundIndexes[0]; i++){
+                    html1 += '<li>' + children[i].innerHTML + '</li>';
+                }
+                html1 += '</' + listTag + '>';
+                var html2 = '';
+                html2 += '<' + listTag + '>';
+                for(i = foundIndexes[listElements.length-1]+1; i < children.length; i++){
+                    html2 += '<li>' + children[i].innerHTML + '</li>';
+                }
+                html2 += '</' + listTag + '>';
+                list.after(angular.element(html2));
+                list.after($target);
+                list.after(angular.element(html1));
+                list.remove();
+                //console.log('parent ******YYY*****', list.parent()[0]);
+                taSelection.setSelectionToElementEnd($target[0]);
+            }
+        };
+
+        function selectLi(liElement){
+            if(/(<br(|\/)>)$/i.test(liElement.innerHTML.trim())) taSelection.setSelectionBeforeElement(angular.element(liElement).find("br")[0]);
+            else taSelection.setSelectionToElementEnd(liElement);
         }
 
         function getElementCount(element, string) {
