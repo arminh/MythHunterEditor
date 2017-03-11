@@ -9,19 +9,17 @@
         .module('card')
         .factory('CardEditorService', CardEditorService);
 
-    CardEditorService.$inject = ["BackendService", "Card", "CardType", "Action", "$q"];
+    CardEditorService.$inject = ["$q", "ActionService"];
 
     /* @ngInject */
-    function CardEditorService(BackendService, Card, CardType, Action, $q) {
+    function CardEditorService($q, ActionService) {
 
         var maxStars = 10;
         var modalInstance = null;
 
         var service = {
             setModalInstance: setModalInstance,
-            createCard: createCard,
-            loadActions: loadActions,
-            initCardActions: initCardActions,
+            getActions: getActions,
             calculateStarCount: calculateStarCount,
             isActionAffordable: isActionAffordable,
             confirmCard: confirmCard,
@@ -35,46 +33,8 @@
             modalInstance = $modalInstance;
         }
 
-        function createCard() {
-            return new Card();
-        }
-
-        function loadActions() {
-
-            return BackendService.getAllActionsOfCardType(CardType.MONSTER).then(function(results) {
-                var actions = [];
-                for(var i = 0; i < results.length; i++) {
-                    var action = new Action();
-                    action.initFromRemote(results[i]);
-                    actions.push(action);
-                }
-                actions.push(createNoAction());
-
-                return actions;
-            });
-        }
-
-        function createNoAction() {
-            var noAction = new Action();
-
-            noAction.addName('de', "Keine");
-            noAction.addName('en', "None");
-
-            noAction.addDescription('de', "");
-            noAction.addDescription('en', "");
-
-            return noAction;
-        }
-
-        function initCardActions(card, actions) {
-            var cardActions = card.getActions();
-            for(var i = 0; i < cardActions.length; i++) {
-                for(var j = 0; j < actions.length; i++) {
-                    if(cardActions[i].getRemoteId() == actions[j].getRemoteId()) {
-                        cardActions[i]
-                    }
-                }
-            }
+        function getActions() {
+            return $q.when(ActionService.getActions());
         }
 
         function calculateStarCount(attack, life, actions) {
@@ -87,8 +47,9 @@
             return stars;
         }
 
-        function isActionAffordable(newAction, stars, actions) {
-            var starCount = stars;
+        function isActionAffordable(newAction, card) {
+            var starCount = card.getStars();
+            var actions = card.getActions();
             if(actions.length > 0) {
                 for(var i = 0; i < actions.length; i++) {
                     starCount -= actions[i].starCosts;

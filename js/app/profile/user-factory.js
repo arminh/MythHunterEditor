@@ -31,7 +31,8 @@
             this.money = 0;
             this.kmWalked = 0;
             this.cardIds = [];
-            this.createdCardIds = [];
+            this.createdCards = [];
+            this.tutorialPlayed = false;
 
             this.currentQuest = null;
         }
@@ -66,7 +67,8 @@
             getMoney: getMoney,
             getKmWalked: getKmWalked,
             getCardIds: getCardIds,
-            getCreatedCardIds: getCreatedCardIds
+            getCreatedCards: getCreatedCards,
+            getTutorialPlayed: getTutorialPlayed
         };
 
         return (User);
@@ -91,6 +93,7 @@
             this.kmWalked = remoteUser.getKmWalked();
             this.cardIds = remoteUser.getCardIds();
             this.createdCardIds = remoteUser.getCreatedCardIds();
+            this.tutorialPlayed = remoteUser.getTutorialPlayed();
 
             var remoteQuests = remoteUser.getCreatedQuestIds();
             for(var i = 0; i < remoteQuests.length; i++) {
@@ -300,10 +303,13 @@
             return this.cardIds;
         }
 
-        function getCreatedCardIds() {
-            return this.createdCardIds;
+        function getCreatedCards() {
+            return this.createdCards;
         }
 
+        function getTutorialPlayed() {
+            return this.tutorialPlayed;
+        }
     }
 
 })();

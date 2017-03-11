@@ -37,9 +37,6 @@
         ////////////////
 
         function activate() {
-            for(var i = 0; i < vm.card.action.length; i++) {
-
-            }
         }
 
         function getStarImage() {

@@ -28,10 +28,10 @@
 
         function init(currentUser) {
             user = currentUser;
-            return ActionService.getActionsFromRemote();
+            return $q.when(ActionService.getActions());
         }
 
-        function getCreatedCards() {
+        function getCreatedCards(actions) {
             $log.info("getCreatedCards");
             var createdCards = user.getCreatedCards();
 
@@ -44,7 +44,7 @@
 
             return $q.all(cardPromises).then(function (results) {
                 for(var j = 0; j < results.length; j++) {
-                    //TODO
+                    results[j].initActions(actions);
                 }
                 $log.info("getCreatedCards_success", results);
                 return results;
