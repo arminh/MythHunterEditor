@@ -30,7 +30,7 @@
 
     <div class="task-content" ng-click="task.contentChanged()">
         <p class="task-modal-label">Task content</p>
-        <text-angular ng-if="task.activeType == task.types.QUIZ" name="task-editor-quiz" ta-toolbar="{{task.quizToolbar}}" ng-model="task.content" class="task-text"></text-angular>
+        <text-angular ng-if="task.activeType == task.types.QUIZ" name="task-editor-quiz" ta-toolbar="{{task.quizToolbar}}" ng-model="task.content" class="task-text" ng-keydown="task.keyDown()"></text-angular>
         <text-angular ng-if="task.activeType != task.types.QUIZ" name="task-editor" ta-toolbar="{{task.toolbar}}" ng-model="task.content" class="task-text"></text-angular>
         <div ng-if="task.activeType != task.types.INFO && task.activeType != 'start'">
             <p ng-if="task.activeType == task.types.INVISIBLE" class="task-modal-label">Invisible task target content</p>

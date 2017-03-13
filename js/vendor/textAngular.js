@@ -629,7 +629,7 @@ angular.module('textAngular.DOM', ['textAngular.factories'])
 			$target = angular.element(html);
 			if (!priorElement) {
 				// this is the first the list, so we just remove it...
-				list.after(angular.element(list[0].outerHTML));
+				//list.after(angular.element(list[0].outerHTML));
 				list.after($target);
 				list.remove();
 				taSelection.setSelectionToElementEnd($target[0]);

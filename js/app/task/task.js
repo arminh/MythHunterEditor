@@ -97,9 +97,24 @@
             var $selected = angular.element(selectedElement);
             var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
             var isQuizGroup = false;
+            var isRadioGroup = false;
+            var isCheckboxGroup = false;
+            var quizToSameQuiz = false;
+
             angular.forEach(selectedElement.className.split(' '), function(elem){
-                if(elem.match("radio-group") || elem.match("checkbox-group")) {
+                if(elem.match("radio-group")) {
                     isQuizGroup = true;
+                    isRadioGroup = true;
+                    if(type == "radio") {
+                        quizToSameQuiz = true;
+                    }
+                } else if(elem.match("checkbox-group")) {
+                    isQuizGroup = true;
+                    isCheckboxGroup = true;
+                    if(type == "checkbox") {
+                        quizToSameQuiz = true;
+
+                    }
                 }
             });
 
@@ -109,10 +124,41 @@
             var taDefaultWrap = "p";
 
             if (selectedElements.length>1 && isQuizGroup) {
-                return listElementsToSelfTag($selected, selectedElements, type, selfTag===tagName, taDefaultWrap);
+                return listElementsToSelfTag($selected, selectedElements, type, quizToSameQuiz, taDefaultWrap);
             }
 
-            if(tagName.match(BLOCKELEMENTS) && !$selected.hasClass('ta-bind')){
+            if(quizToSameQuiz){
+                // if all selected then we should remove the list
+                // grab all li elements and convert to taDefaultWrap tags
+                //console.log('tagName===selfTag');
+                if ($selected[0].childNodes.length !== selectedElements.length && selectedElements.length===1) {
+                    $selected = angular.element(selectedElements[0]);
+                    return listElementToSelfTag($selected.parent(), $selected, selfTag, true, taDefaultWrap);
+                } else {
+                    return listToDefault($selected, taDefaultWrap);
+                }
+            } else if(tagName === 'label') {
+                var group = $selected.parent().parent();
+                if(group.children().length === 1) {
+                    angular.forEach(group[0].className.split(' '), function(elem){
+                        if(elem.match("radio-group")) {
+                            if(type == "radio") {
+                                return listToDefault(group, taDefaultWrap);
+                            } else {
+                                return listToList(group, selfTag);
+                            }
+                        } else if(elem.match("checkbox-group")) {
+                            if(type == "checkbox") {
+                                return listToDefault(group, taDefaultWrap);
+                            } else {
+                                return listToList(group, selfTag);
+                            }
+                        }
+                    });
+                }
+                // catch for the previous statement if only one li exists
+
+            } else if(tagName.match(BLOCKELEMENTS) && !$selected.hasClass('ta-bind')){
                 // if it's one of those block elements we have to change the contents
                 // if it's a ol/ul we are changing from one to the other
                 if (selectedElements.length) {
@@ -122,7 +168,7 @@
                         return listElementToSelfTag($selected.parent(), $selected, selfTag, selfTag===tagName, taDefaultWrap);
                     }
                 }
-                if(tagName === 'ol' || tagName === 'ul'){
+                if(isQuizGroup){
                     // now if this is a set of selected elements... behave diferently
                     return listToList($selected, selfTag);
                 }else{
@@ -259,9 +305,9 @@
             var $target, i;
             // if all selected then we should remove the list
             // grab all li elements and convert to taDefaultWrap tags
-            var children = listElement.find('li');
+            var children = listElement.find('p');
             for(i = children.length - 1; i >= 0; i--){
-                $target = angular.element('<' + defaultWrap + '>' + children[i].innerHTML + '</' + defaultWrap + '>');
+                $target = angular.element('<' + defaultWrap + '>' + stripQuizGroupElement(children[i]) + '</' + defaultWrap + '>');
                 listElement.after($target);
             }
             listElement.remove();
@@ -274,7 +320,7 @@
             // grab all li elements
             var priorElement;
             var nextElement;
-            var children = list.find('li');
+            var children = list.find('p');
             var foundIndex;
             for (i = 0; i<children.length; i++) {
                 if (children[i].outerHTML === listElement[0].outerHTML) {
@@ -304,7 +350,7 @@
             if (!priorElement) {
                 // this is the first the list, so we just remove it...
                 listElement.remove();
-                list.after(angular.element(list[0].outerHTML));
+                //list.after(angular.element(list[0].outerHTML));
                 list.after($target);
                 list.remove();
                 taSelection.setSelectionToElementEnd($target[0]);
@@ -386,7 +432,7 @@
             $target = angular.element(html);
             if (!priorElement) {
                 // this is the first the list, so we just remove it...
-                list.after(angular.element(list[0].outerHTML));
+                // list.after(angular.element(list[0].outerHTML));
                 list.after($target);
                 list.remove();
                 taSelection.setSelectionToElementEnd($target[0]);
