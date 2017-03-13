@@ -209,7 +209,6 @@
                 checkboxGroupCounter++;
             }
             return html;
-
         }
 
         function newQuizGroupElement(el, type) {
@@ -223,13 +222,23 @@
                 name = type + checkboxGroupCounter;
             }
 
+            var content = "";
+            var value = "";
+
+            if(el.innerHTML) {
+                content = el.innerHTML;
+                value = el.innerText;
+            } else {
+                content = el;
+                value = el;
+            }
 
             var html = '<p style="text-indent: 20px;"><label style="font-weight: normal"><input' +
                 ' type="' + type + '"' +
                 ' id="' + id + '"' +
                 ' name="' + name + '"' +
-                ' value="' + el.innerText + '"/>' +
-                el.innerHTML +
+                ' value="' + value + '"/>' +
+                content +
                 '</label></p>';
 
             return html;
@@ -244,7 +253,6 @@
 
             label.remove();
             return html;
-
         }
 
         var listToDefault = function(listElement, defaultWrap){
@@ -399,12 +407,12 @@
                     type = "checkbox";
                 }
                 for(i = 0; i < foundIndexes[0]; i++){
-                    html1 += '<p>' + children[i].innerHTML + '</p>';
+                    html1 += newQuizGroupElement(stripQuizGroupElement(children[i]), type);
                 }
                 html1 = encloseQuizGroupElements(html1, type);
                 var html2 = '';
                 for(i = foundIndexes[listElements.length-1]+1; i < children.length; i++){
-                    html2 += '<p>' + children[i].innerHTML + '</p>';
+                    html2 += newQuizGroupElement(stripQuizGroupElement(children[i]), type);
                 }
                 html2 = encloseQuizGroupElements(html2, type);
                 list.after(angular.element(html2));
