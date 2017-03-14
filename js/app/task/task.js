@@ -96,21 +96,14 @@
             selectedElement = taSelection.getSelectionElement();
             var $selected = angular.element(selectedElement);
             var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
-            var isQuizGroup = false;
-            var isRadioGroup = false;
-            var isCheckboxGroup = false;
             var quizToSameQuiz = false;
 
             var elType = getQuizGroupType(selectedElement);
             if (elType == "radio") {
-                isQuizGroup = true;
-                isRadioGroup = true;
                 if (type == "radio") {
                     quizToSameQuiz = true;
                 }
             } else if (elType == "checkbox") {
-                isQuizGroup = true;
-                isCheckboxGroup = true;
                 if (type == "checkbox") {
                     quizToSameQuiz = true;
 
@@ -119,10 +112,10 @@
 
             var selectedElements = taSelection.getOnlySelectedElements();
 
-            var selfTag = "div";
+            var selfTag = "fieldset";
             var taDefaultWrap = "p";
 
-            if (selectedElements.length > 1 && isQuizGroup) {
+            if (selectedElements.length > 1 && tagName == "fieldset") {
                 return listElementsToSelfTag($selected, selectedElements, type, quizToSameQuiz, taDefaultWrap);
             }
 
@@ -130,9 +123,9 @@
                 // if all selected then we should remove the list
                 // grab all li elements and convert to taDefaultWrap tags
                 //console.log('tagName===selfTag');
-                if ($selected[0].childNodes.length !== selectedElements.length && selectedElements.length === 1) {
+                if ($selected[0].childNodes.length !== selectedElements.length) {
                     $selected = angular.element(selectedElements[0]);
-                    return listElementToSelfTag($selected.parent(), $selected, selfTag, true, taDefaultWrap);
+                    return listElementToSelfTag($selected.parent(), $selected, type, true, taDefaultWrap);
                 } else {
                     return listToDefault($selected, taDefaultWrap);
                 }
@@ -144,15 +137,17 @@
                         if (type == "radio") {
                             return listToDefault(group, taDefaultWrap);
                         } else {
-                            return listToList(group, selfTag);
+                            return listToList(group, type);
                         }
                     } else if (groupType == "checkbox") {
                         if (type == "checkbox") {
                             return listToDefault(group, taDefaultWrap);
                         } else {
-                            return listToList(group, selfTag);
+                            return listToList(group, type);
                         }
                     }
+                } else {
+                    listElementToSelfTag(group, $selected.parent(), type, getQuizGroupType(group[0]) == type, taDefaultWrap);
                 }
                 // catch for the previous statement if only one li exists
 
@@ -163,10 +158,10 @@
                     if ($selected[0].childNodes.length !== selectedElements.length && selectedElements.length === 1) {
                         //console.log('&&&&&&&&&&&&&&& --------- &&&&&&&&&&&&&&&&', selectedElements[0], $selected[0].childNodes);
                         $selected = angular.element(selectedElements[0]);
-                        return listElementToSelfTag($selected.parent(), $selected, selfTag, selfTag === tagName, taDefaultWrap);
+                        return listElementToSelfTag($selected.parent(), $selected, type, quizToSameQuiz, taDefaultWrap);
                     }
                 }
-                if (isQuizGroup) {
+                if (tagName == "fieldset") {
                     // now if this is a set of selected elements... behave diferently
                     return listToList($selected, selfTag);
                 } else {
@@ -197,7 +192,7 @@
                         // remove
                         return listToDefault(angular.element(_nodes[0]), taDefaultWrap);
                     } else {
-                        return listToList(angular.element(_nodes[0]), selfTag);
+                        return listToList(angular.element(_nodes[0]), type);
                     }
                 } else {
                     html = '';
@@ -206,15 +201,19 @@
                         /* istanbul ignore else: catch for real-world can't make it occur in testing */
                         if (_nodes[i].nodeType !== 3) {
                             var $n = angular.element(_nodes[i]);
-                            /*/!* istanbul ignore if: browser check only, phantomjs doesn't return children nodes but chrome at least does *!/
-                             if(_nodes[i].tagName.toLowerCase() === 'li') continue;
-                             else if(_nodes[i].tagName.toLowerCase() === 'ol' || _nodes[i].tagName.toLowerCase() === 'ul'){
-                             html += $n[0].innerHTML; // if it's a list, add all it's children
-                             }else if(_nodes[i].tagName.toLowerCase() === 'span' && (_nodes[i].childNodes[0].tagName.toLowerCase() === 'ol' || _nodes[i].childNodes[0].tagName.toLowerCase() === 'ul')){
-                             html += $n[0].childNodes[0].innerHTML; // if it's a list, add all it's children
-                             }else{*/
-                            html += newQuizGroupElement($n[0], type);
-                            //}
+                            /* istanbul ignore if: browser check only, phantomjs doesn't return children nodes but chrome at least does */
+                            if (_nodes[i].tagName.toLowerCase() === 'label') continue;
+                            else if (getQuizGroupType(_nodes[i]) == "radio" || getQuizGroupType(_nodes[i]) == "checkbox") {
+                                // if it's a list, add all it's children
+                                var children = $n[0].children;
+                                for(var j = 0; j < children.length; j++) {
+                                    html += newQuizGroupElement(stripQuizGroupElement(children[j]), type);
+                                }
+                            } else if (_nodes[i].tagName.toLowerCase() === 'span' && (_nodes[i].childNodes[0].tagName.toLowerCase() === 'ol' || _nodes[i].childNodes[0].tagName.toLowerCase() === 'ul')) {
+                                html += $n[0].childNodes[0].innerHTML; // if it's a list, add all it's children
+                            } else {
+                                html += newQuizGroupElement($n[0], type);
+                            }
                             $nodes.unshift($n);
                         }
                     }
@@ -245,9 +244,9 @@
         }
 
         function encloseQuizGroupElements(elements, type) {
-            var html = '<div class="' + type + '-group" style="background-color: lightblue">';
+            var html = '<fieldset class="' + type + '-group" style="background-color: lightblue; margin-bottom: 3px;">';
             html += elements;
-            html += '</div>';
+            html += '</fieldset>';
 
             if (type == "radio") {
                 radioGroupCounter++;
@@ -307,10 +306,13 @@
 
         function stripQuizGroupElement(groupEl) {
             var el = $(groupEl);
-            var label = el.find("label")[0];
-            var input = el.find("input")[0];
+            var label = $(el.find("label")[0]);
+            if(!label) {
+                return el;
+            }
+            var input = $(label.find("input")[0]);
             input.remove();
-            var html = label.innerHTML;
+            var html = label.text();
 
             label.remove();
             return html;
@@ -329,7 +331,7 @@
             taSelection.setSelectionToElementEnd($target[0]);
         };
 
-        var listElementToSelfTag = function (list, listElement, selfTag, bDefault, defaultWrap) {
+        var listElementToSelfTag = function (list, listElement, type, bDefault, defaultWrap) {
             var $target, i;
             // if all selected then we should remove the list
             // grab all li elements
@@ -356,9 +358,8 @@
             if (bDefault) {
                 html += '<' + defaultWrap + '>' + stripQuizGroupElement(listElement[0]) + '</' + defaultWrap + '>';
             } else {
-                html += '<' + taBrowserTag(selfTag) + '>';
-                html += '<li>' + listElement[0].innerHTML + '</li>';
-                html += '</' + taBrowserTag(selfTag) + '>';
+                var content = newQuizGroupElement(stripQuizGroupElement(listElement[0]), type);
+                html += encloseQuizGroupElements(content, type)
             }
             $target = angular.element(html);
             //console.log('$target', $target[0]);
@@ -376,20 +377,17 @@
                 list.after($target);
                 taSelection.setSelectionToElementEnd($target[0]);
             } else {
-                var p = list.parent();
-                // okay it was some where in the middle... so we need to break apart the list...
                 var html1 = '';
                 var type = getQuizGroupType(list[0]);
                 for (i = 0; i < foundIndex; i++) {
-                    html1 += '<li>' + children[i].innerHTML + '</li>';
+                    html1 += newQuizGroupElement(stripQuizGroupElement(children[i]), type);
                 }
                 html1 = encloseQuizGroupElements(html1, type);
                 var html2 = '';
                 for (i = foundIndex + 1; i < children.length; i++) {
-                    html2 += '<li>' + children[i].innerHTML + '</li>';
+                    html2 += newQuizGroupElement(stripQuizGroupElement(children[i]), type);
                 }
                 html2 = encloseQuizGroupElements(html2, type);
-                //console.log(html1, $target[0], html2);
                 list.after(angular.element(html2));
                 list.after($target);
                 list.after(angular.element(html1));
@@ -400,7 +398,7 @@
         };
 
 
-        var listElementsToSelfTag = function (list, listElements, selfTag, bDefault, defaultWrap) {
+        var listElementsToSelfTag = function (list, listElements, type, bDefault, defaultWrap) {
             var $target, i, j, p;
             // grab all li elements
             var priorElement;
@@ -431,12 +429,11 @@
                     listElements[j].remove();
                 }
             } else {
-                html += '<' + selfTag + '>';
                 for (j = 0; j < listElements.length; j++) {
-                    html += listElements[j].outerHTML;
+                    html += newQuizGroupElement(stripQuizGroupElement(listElements[j]), type);
                     listElements[j].remove();
                 }
-                html += '</' + selfTag + '>';
+                html = encloseQuizGroupElements(html, type);
             }
             $target = angular.element(html);
             if (!priorElement) {
@@ -477,6 +474,23 @@
             if (/(<br(|\/)>)$/i.test(liElement.innerHTML.trim())) taSelection.setSelectionBeforeElement(angular.element(liElement).find("br")[0]);
             else taSelection.setSelectionToElementEnd(liElement);
         }
+
+        var listToList = function(listElement, type){
+            var group = listElement[0];
+            var children = group.children;
+
+            var html = "";
+            for (i = 0; i < children.length; i++) {
+                var childText = stripQuizGroupElement(children[0]);
+                html += newQuizGroupElement(childText, type);
+            }
+            var newGroup = angular.element(encloseQuizGroupElements(html, type));
+
+            listElement.after(newGroup);
+            listElement.remove();
+            var firstElement = newGroup.find('label')[0];
+            selectLi(firstElement);
+        };
 
         function getElementCount(element, string) {
             var regexString = element + '(.)\" ';
