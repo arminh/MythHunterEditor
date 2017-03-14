@@ -38,6 +38,7 @@
         vm.contentChanged = contentChanged;
         vm.okClicked = okClicked;
         vm.close = close;
+        vm.keyPressed = keyPressed;
 
         activate();
 
@@ -50,6 +51,12 @@
             }
             vm.content = task.getHtml().getContent();
             vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
+        }
+
+        function keyPressed(event) {
+            if(event.which == 13) {
+                TaskService.enterKeyPressed(event);
+            }
         }
 
         function markerSelected(newType, index) {

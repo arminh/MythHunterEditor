@@ -9,10 +9,10 @@
         .module('task')
         .factory('TaskService', TaskService);
 
-    TaskService.$inject = ["$log", "$modal", "MarkerType"];
+    TaskService.$inject = ["$log", "$modal", "MarkerType", "taSelection"];
 
     /* @ngInject */
-    function TaskService($log, $modal, MarkerType) {
+    function TaskService($log, $modal, MarkerType, taSelection) {
 
         $log = $log.getInstance("TaskService", debugging);
         var $modalInstance = null;
@@ -25,6 +25,7 @@
             removeQuizFeatures: removeQuizFeatures,
             removeInvisibleFeatures: removeInvisibleFeatures,
             openTaskDialog: openTaskDialog,
+            enterKeyPressed: enterKeyPressed,
             createTask: createTask,
             cancelTask: cancelTask,
             getMarkerSrc: getMarkerSrc,
@@ -93,6 +94,87 @@
             });
 
             return modalInstance.result;
+        }
+
+        function enterKeyPressed(event) {
+
+            var selectedElement = taSelection.getSelectionElement();
+            var $selected = angular.element(selectedElement);
+            var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
+
+            if(tagName == "label") {
+                event.preventDefault();
+                event.stopPropagation();
+
+                var group = $selected.parent().parent();
+                if ($selected.find("input").attr("value").trim() == "") {
+                    // if last element is blank, pull element outside.
+                    var newEl =  angular.element("<p></p>");
+                    group.after(newEl);
+                    $selected.remove();
+                    $selected.parent().remove();
+                    if (group.children().length === 0) group.remove();
+                    taSelection.setSelectionToElementStart(newEl[0]);
+                }
+
+                var type = getQuizGroupType(group[0]);
+
+                var input = $selected.find("input");
+                var name = input.attr("name");
+
+                var html = angular.element(newQuizGroupElement("", type, name));
+
+                $selected.parent().after(html);
+                taSelection.setSelectionToElementEnd(html[0]);
+            }
+        }
+
+        function getQuizGroupType(el) {
+            var classNames = el.className.split(' ');
+            var type;
+            for (var i = 0; i < classNames.length; i++) {
+                var className = classNames[i];
+                if (className.match("radio-group")) {
+                    type = "radio";
+                } else if (className.match("checkbox-group")) {
+                    type = "checkbox";
+                }
+            }
+
+            return type;
+        }
+
+        function newQuizGroupElement(el, type, name) {
+            var id;
+            // var name;
+            if (type == "radio") {
+                // id = "radioBtn" + radioCounter++;
+                // name = type + radioGroupCounter;
+            } else {
+                // id = "checkboxBtn" + checkboxCounter++;
+                // name = type + checkboxGroupCounter;
+            }
+
+            var content = "";
+            var value = "";
+
+            if (el.innerHTML) {
+                content = el.innerHTML;
+                value = el.innerText;
+            } else {
+                content = el;
+                value = el;
+            }
+
+            var html = '<p style="text-indent: 20px;"><label style="font-weight: normal"><input' +
+                ' type="' + type + '"' +
+                // ' id="' + id + '"' +
+                ' name="' + name + '"' +
+                ' value="' + value + '"/>' +
+                content +
+                '</label></p>';
+
+            return html;
         }
 
         function createTask(questName, taskName, content, targetContent, answers, type) {
