@@ -56,6 +56,8 @@
         function keyPressed(event) {
             if(event.which == 13) {
                 TaskService.enterKeyPressed(event);
+            } else {
+
             }
         }
 

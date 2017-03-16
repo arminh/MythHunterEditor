@@ -102,30 +102,43 @@
             var $selected = angular.element(selectedElement);
             var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
 
-            if(tagName == "label") {
+            if(tagName == "label" || (tagName == "p" && $selected.children()[0].tagName.toLowerCase() == "label")) {
+                var group;
+                var inputField;
+                var label;
+                var p;
+
                 event.preventDefault();
                 event.stopPropagation();
 
-                var group = $selected.parent().parent();
-                if ($selected.find("input").attr("value").trim() == "") {
-                    // if last element is blank, pull element outside.
-                    var newEl =  angular.element("<p></p>");
-                    group.after(newEl);
-                    $selected.remove();
-                    $selected.parent().remove();
-                    if (group.children().length === 0) group.remove();
-                    taSelection.setSelectionToElementStart(newEl[0]);
+                if(tagName == "label") {
+                    label = $selected;
+                    p = $selected.parent();
+                    group = $selected.parent().parent();
+                    inputField = $selected.find("input");
+                } else {
+                    label = $selected.find("label");
+                    p = $selected;
+                    group = $selected.parent();
+                    inputField = $selected.find("input");
                 }
 
-                var type = getQuizGroupType(group[0]);
+                if (label.text().trim() == "") {
+                    // if last element is blank, pull element outside.
+                    p.remove();
+                    var newEl =  angular.element("<p><br></p>");
+                    group.after(newEl);
 
-                var input = $selected.find("input");
-                var name = input.attr("name");
+                    if (group.children().length === 0) group.remove();
+                    taSelection.setSelectionToElementStart(newEl[0]);
+                } else {
+                    var type = getQuizGroupType(group[0]);
+                    var name = inputField.attr("name");
+                    var html = angular.element(newQuizGroupElement("", type, name));
 
-                var html = angular.element(newQuizGroupElement("", type, name));
-
-                $selected.parent().after(html);
-                taSelection.setSelectionToElementEnd(html[0]);
+                    p.after(html);
+                    taSelection.setSelectionToElementEnd(html[0]);
+                }
             }
         }
 
