@@ -89,10 +89,12 @@
             addGroup("checkbox", checkboxCounter, checkboxGroupCounter);
         }
 
-
+        //Adapted from TextAngular ol/ul implementation: https://github.com/fraywing/textAngular
         function addGroup(type) {
-            var i, $target, html, _nodes, next, optionsTagName, selectedElement, ourSelection;
-            ourSelection = taSelection.getSelection();
+            var i, $target, html, _nodes, selectedElement;
+            var selfTag = "fieldset";
+            var taDefaultWrap = "p";
+
             selectedElement = taSelection.getSelectionElement();
             var $selected = angular.element(selectedElement);
             var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
@@ -111,10 +113,6 @@
             }
 
             var selectedElements = taSelection.getOnlySelectedElements();
-
-            var selfTag = "fieldset";
-            var taDefaultWrap = "p";
-
             if (selectedElements.length > 1 && tagName == "fieldset") {
                 return listElementsToSelfTag($selected, selectedElements, type, quizToSameQuiz, taDefaultWrap);
             }
@@ -186,9 +184,8 @@
                     $target = angular.element(encloseQuizGroupElements(newQuizGroupElement(selectedElement, type)));
                     $selected.html('');
                     $selected.append($target);
-                } else if (_nodes.length === 1 && (_nodes[0].tagName.toLowerCase() === 'ol' || _nodes[0].tagName.toLowerCase() === 'ul')) {
-                    //TODO
-                    if (_nodes[0].tagName.toLowerCase() === selfTag) {
+                } else if (_nodes.length === 1 && (_nodes[0].tagName.toLowerCase() === 'fieldset')) {
+                    if (getQuizGroupType(_nodes[0]) == type) {
                         // remove
                         return listToDefault(angular.element(_nodes[0]), taDefaultWrap);
                     } else {
@@ -227,20 +224,6 @@
                 taSelection.setSelectionToElementEnd($target[0]);
                 return;
             }
-        }
-
-        function childElementsToList(elements, listElement, type) {
-            var html = "";
-
-            for (var i = 0; i < elements.length; i++) {
-                html += newQuizGroupElement(elements[0], type);
-            }
-            html = encloseQuizGroupElements(html, type);
-            radioCounter++;
-            var $target = angular.element(html);
-            listElement.after($target);
-            listElement.remove();
-            taSelection.setSelectionToElementEnd($target.find('label')[0]);
         }
 
         function encloseQuizGroupElements(elements, type) {
@@ -316,6 +299,20 @@
 
             label.remove();
             return html;
+        }
+
+        function childElementsToList(elements, listElement, type) {
+            var html = "";
+
+            for (var i = 0; i < elements.length; i++) {
+                html += newQuizGroupElement(elements[0], type);
+            }
+            html = encloseQuizGroupElements(html, type);
+            radioCounter++;
+            var $target = angular.element(html);
+            listElement.after($target);
+            listElement.remove();
+            taSelection.setSelectionToElementEnd($target.find('label')[0]);
         }
 
         var listToDefault = function (listElement, defaultWrap) {
@@ -508,26 +505,6 @@
             } while (res);
 
             return max;
-        }
-
-        function handleExercise(selectedElement, exerciseType, taSelection) {
-            var $selected = angular.element(selectedElement);
-            if (selectedElement !== undefined) {
-                var tagName = selectedElement.tagName.toLowerCase();
-
-                if (tagName === "input") {
-
-                } else if (tagName.match(BLOCKELEMENTS) && !$selected.hasClass('ta-bind')) {
-
-                } else if (tagName.match(BLOCKELEMENTS)) {
-                    var _nodes = taSelection.getOnlySelectedElements();
-                    if (_nodes.length === 0) {
-                        var $target = angular.element('<' + selfTag + '><li>' + selectedElement.innerHTML + '</li></' + selfTag + '>');
-                        $selected.html('');
-                        $selected.append($target);
-                    }
-                }
-            }
         }
     }
 })();

@@ -9,10 +9,10 @@
         .module('task')
         .controller('TaskController', TaskController);
 
-    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "MarkerType", "task", "ngDialog"];
+    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "TextAngularHandler", "MarkerType", "task", "ngDialog"];
 
     /* @ngInject */
-    function TaskController($scope, $modalInstance, TaskService, MarkerType, task, ngDialog) {
+    function TaskController($scope, $modalInstance, TaskService, TextAngularHandler, MarkerType, task, ngDialog) {
         var vm = this;
 
         vm.types = MarkerType;
@@ -50,14 +50,12 @@
                 vm.targetContent = task.getTargetHtml().getContent();
             }
             vm.content = task.getHtml().getContent();
-            vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
+            vm.content = TextAngularHandler.setCheckedAttributes(vm.content, vm.answers);
         }
 
         function keyPressed(event) {
             if(event.which == 13) {
-                TaskService.enterKeyPressed(event);
-            } else {
-
+                TextAngularHandler.enterKeyPressed(event);
             }
         }
 
@@ -70,11 +68,11 @@
                     function (confirm) {
                         switch(vm.activeType) {
                             case MarkerType.QUIZ:
-                                vm.content = TaskService.removeQuizFeatures(vm.content);
+                                vm.content = TextAngularHandler.removeQuizFeatures(vm.content);
                                 vm.answers = [];
                                 break;
                             case MarkerType.INVISIBLE:
-                                vm.content = TaskService.removeInvisibleFeatures(vm.content);
+                                vm.content = TextAngularHandler.removeInvisibleFeatures(vm.content);
                                 break;
                         }
 
@@ -115,7 +113,7 @@
             var textAngular = $("text-angular");
             var inputElements = textAngular.find("input");
 
-            vm.answers = TaskService.retrieveCheckedAttributes(inputElements, vm.answers);
+            vm.answers = TextAngularHandler.retrieveCheckedAttributes(inputElements, vm.answers);
         }
 
         function okClicked() {
@@ -123,7 +121,7 @@
                 vm.error = true;
             } else {
                 if(vm.activeType == MarkerType.QUIZ) {
-                    vm.content = TaskService.clearCheckedAttributes(vm.content);
+                    vm.content = TextAngularHandler.clearCheckedAttributes(vm.content);
                 }
                 TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)
             }
