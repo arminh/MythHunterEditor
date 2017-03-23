@@ -70,7 +70,7 @@
             var $selected = angular.element(selectedElement);
             var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
 
-            if(tagName == "label" || (tagName == "p" && $selected.children()[0].tagName.toLowerCase() == "label")) {
+            if(tagName == "label" || (tagName == "p" && $selected.find("label").length > 0) || tagName == "fieldset") {
                 var group;
                 var inputField;
                 var label;
@@ -84,11 +84,16 @@
                     p = $selected.parent();
                     group = $selected.parent().parent();
                     inputField = $selected.find("input");
-                } else {
+                } else if(tagName == "p") {
                     label = $selected.find("label");
                     p = $selected;
                     group = $selected.parent();
                     inputField = $selected.find("input");
+                } else if(tagName == "fieldset") {
+                    group = $selected;
+                    p = group.find("p").last();
+                    label = p.find("label");
+                    inputField = label.find("input");
                 }
 
                 if (label.text().trim() == "") {
@@ -101,8 +106,9 @@
                     taSelection.setSelectionToElementStart(newEl[0]);
                 } else {
                     var type = getQuizGroupType(group[0]);
+                    var id = type + getGroupId(inputField) + "-" + (getHighestElementId(group) + 1);
                     var name = inputField.attr("name");
-                    var html = angular.element(newQuizGroupElement("", type, name));
+                    var html = angular.element(newQuizGroupElement("", type, name, id));
 
                     p.after(html);
                     taSelection.setSelectionToElementEnd(html[0]);
@@ -125,7 +131,38 @@
             return type;
         }
 
-        function newQuizGroupElement(el, type, name) {
+        function getGroupId(inputField) {
+            var name = inputField.attr("name");
+
+            if(name.match(/radio/)) {
+                return parseInt(name.match(/radio([0-9]*)/)[1]);
+            } else if(name.match(/checkbox/)) {
+                return parseInt(name.match(/checkbox([0-9]*)/)[1]);
+            }
+        }
+
+        function getHighestElementId(group) {
+            var elements = group.children();
+
+            var maxId = -1;
+            for(var i = 0; i < elements.length; i++) {
+                var p = elements[i];
+                var label = angular.element(p).find("label");
+                var inputField = label.find("input");
+
+                var idName = inputField.attr("id");
+                var id = -1;
+                if(idName.match(/radio/)) {
+                    id = parseInt(idName.match(/radio[0-9]*-([0-9]*)/)[1]);
+                } else if(idName.match(/checkbox/)) {
+                    id = parseInt(idName.match(/checkbox[0-9]*-([0-9]*)/)[1]);
+                }
+                maxId = id > maxId ? id : maxId;
+            }
+            return maxId;
+        }
+
+        function newQuizGroupElement(el, type, name, id) {
 
             var content = "";
             var value = "";
@@ -140,7 +177,7 @@
 
             var html = '<p style="text-indent: 20px;"><label style="font-weight: normal"><input' +
                 ' type="' + type + '"' +
-                // ' id="' + id + '"' +
+                 ' id="' + id + '"' +
                 ' name="' + name + '"' +
                 ' value="' + value + '"/>' +
                 content +

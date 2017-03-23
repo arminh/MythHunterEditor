@@ -227,7 +227,7 @@
         'color,cols,colspan,compact,coords,dir,face,headers,height,hreflang,hspace,'+
         'id,ismap,lang,language,nohref,nowrap,rel,rev,rows,rowspan,rules,'+
         'scope,scrolling,shape,size,span,start,summary,target,title,type,'+
-        'valign,value,vspace,width','name','checked');
+        'valign,value,vspace,width,name,checked');
     //Armin: added 'name' and 'checked' to list
 
 // SVG attributes (without "id" and "name" attributes)

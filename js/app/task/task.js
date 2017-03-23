@@ -75,16 +75,16 @@
 
         function addRadioGroup() {
 
-            radioGroupCounter = getElementCount('name="radio', this.$editor().html) + 1;
-            radioCounter = getElementCount('id="radioBtn', this.$editor().html) + 1;
+            radioGroupCounter = getNewGroupIdCount("radio", this.$editor().html);
+            radioCounter = 0;
 
             addGroup("radio", radioCounter, radioGroupCounter);
         }
 
         function addCheckboxGroup() {
 
-            checkboxGroupCounter = getElementCount('name="checkbox', this.$editor().html) + 1;
-            checkboxCounter = getElementCount('id="checkboxBtn', this.$editor().html) + 1;
+            checkboxGroupCounter = getNewGroupIdCount("checkbox", this.$editor().html);
+            //checkboxCounter = getElementCount('id="checkboxBtn', this.$editor().html) + 1;
 
             addGroup("checkbox", checkboxCounter, checkboxGroupCounter);
         }
@@ -258,10 +258,10 @@
             var id;
             var name;
             if (type == "radio") {
-                id = "radioBtn" + radioCounter++;
+                id = "radio" + radioGroupCounter + "-" + radioCounter++;
                 name = type + radioGroupCounter;
             } else {
-                id = "checkboxBtn" + checkboxCounter++;
+                id = "checkbox" + checkboxGroupCounter + "-" + checkboxCounter++;
                 name = type + checkboxGroupCounter;
             }
 
@@ -489,8 +489,8 @@
             selectLi(firstElement);
         };
 
-        function getElementCount(element, string) {
-            var regexString = element + '(.)\" ';
+        function getNewGroupIdCount(type, string) {
+            var regexString = 'name="' + type + '(.)\" ';
             var regex = new RegExp(regexString, "g");
 
             var res = null;
@@ -498,7 +498,7 @@
             do {
                 res = regex.exec(string);
                 if (res) {
-                    var val = parseInt(res[1]);
+                    var val = parseInt(res[1]) + 1;
                     max = val > max ? val : max;
                 }
 
@@ -508,11 +508,3 @@
         }
     }
 })();
-
-
-
-
-
-
-
-
