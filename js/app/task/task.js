@@ -127,8 +127,21 @@
                 } else {
                     return listToDefault($selected, taDefaultWrap);
                 }
-            } else if (tagName === 'label') {
-                var group = $selected.parent().parent();
+            } else if (tagName === 'label' || (tagName == "p" && $selected.find("label").length > 0)) {
+                var p;
+                var label;
+                var group;
+
+                if(tagName == "p") {
+                    label = $selected.find("label");
+                    p = $selected;
+                    group = $selected.parent();
+                } else if(tagName == "label") {
+                    label = $selected;
+                    p = $selected.parent();
+                    group = $selected.parent().parent();
+                }
+
                 if (group.children().length === 1) {
                     var groupType = getQuizGroupType(group[0]);
                     if (groupType == "radio") {
@@ -145,7 +158,7 @@
                         }
                     }
                 } else {
-                    listElementToSelfTag(group, $selected.parent(), type, getQuizGroupType(group[0]) == type, taDefaultWrap);
+                    listElementToSelfTag(group, p, type, getQuizGroupType(group[0]) == type, taDefaultWrap);
                 }
                 // catch for the previous statement if only one li exists
 
@@ -254,7 +267,7 @@
             return type;
         }
 
-        function newQuizGroupElement(el, type) {
+        function newQuizGroupElement(el, type, first) {
             var id;
             var name;
             if (type == "radio") {
@@ -280,6 +293,7 @@
                 ' type="' + type + '"' +
                 ' id="' + id + '"' +
                 ' name="' + name + '"' +
+                ' checked="true"' +
                 ' value="' + value + '"/>' +
                 content +
                 '</label></p>';
@@ -305,7 +319,7 @@
             var html = "";
 
             for (var i = 0; i < elements.length; i++) {
-                html += newQuizGroupElement(elements[0], type);
+                html += newQuizGroupElement(elements[i], type);
             }
             html = encloseQuizGroupElements(html, type);
             radioCounter++;
@@ -353,10 +367,13 @@
             // un-list the listElement
             var html = '';
             if (bDefault) {
-                html += '<' + defaultWrap + '>' + stripQuizGroupElement(listElement[0]) + '</' + defaultWrap + '>';
+                var quizElementContent = stripQuizGroupElement(listElement[0]);
+                if(quizElementContent != "") {
+                    html += '<' + defaultWrap + '>' + quizElementContent + '</' + defaultWrap + '>';
+                }
             } else {
                 var content = newQuizGroupElement(stripQuizGroupElement(listElement[0]), type);
-                html += encloseQuizGroupElements(content, type)
+                html += encloseQuizGroupElements(content, type);
             }
             $target = angular.element(html);
             //console.log('$target', $target[0]);
