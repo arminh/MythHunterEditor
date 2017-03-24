@@ -15,6 +15,8 @@
     function TaskController($scope, $modalInstance, TaskService, TextAngularHandler, MarkerType, task, ngDialog) {
         var vm = this;
 
+        var oldContent = "";
+
         vm.types = MarkerType;
         vm.name = task.getName();
         vm.description = task.getDescription();
@@ -35,7 +37,6 @@
 
         vm.markerSelected = markerSelected;
         vm.getMarkerIconSrc = getMarkerIconSrc;
-        vm.contentChanged = contentChanged;
         vm.okClicked = okClicked;
         vm.close = close;
         vm.keyPressed = keyPressed;
@@ -108,19 +109,13 @@
             return TaskService.getMarkerSrc(type);
         }
 
-        function contentChanged() {
-            vm.answers = {};
-            var textAngular = $("text-angular");
-            var inputElements = textAngular.find("input");
-
-            vm.answers = TextAngularHandler.retrieveCheckedAttributes(inputElements, vm.answers);
-        }
-
         function okClicked() {
             if(!vm.activeType) {
                 vm.error = true;
             } else {
                 if(vm.activeType == MarkerType.QUIZ) {
+                    vm.answers = {};
+                    vm.answers = TextAngularHandler.retrieveCheckedAttributes(vm.answers);
                     vm.content = TextAngularHandler.clearCheckedAttributes(vm.content);
                 }
                 TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)

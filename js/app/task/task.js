@@ -63,7 +63,7 @@
         }
 
         function addInputBox() {
-
+            var selection = window.getSelection().toString();
             var content = "<input ";
             content += "id='textbox" + textBoxCounter++ + "' ";
             content += "type='text' ";
@@ -293,7 +293,7 @@
                 ' type="' + type + '"' +
                 ' id="' + id + '"' +
                 ' name="' + name + '"' +
-                ' checked="true"' +
+                ' checked' +
                 ' value="' + value + '"/>' +
                 content +
                 '</label></p>';
