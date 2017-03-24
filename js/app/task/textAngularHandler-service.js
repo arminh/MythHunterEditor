@@ -35,7 +35,12 @@
             return content;
         }
 
-        function retrieveCheckedAttributes(inputElements, answers) {
+        function retrieveCheckedAttributes(answers) {
+            var textAngular = $('text-angular#task-editor-quiz div[id^="taTextElement"]');
+            var inputElements = textAngular.find("input");
+            if(inputElements.length == 0) {
+                return answers;
+            }
 
             for(var i = 0; i < inputElements.length; i++) {
                 if(inputElements[i].id != "") {
@@ -46,7 +51,7 @@
         }
 
         function clearCheckedAttributes(content) {
-            return content.replace(" checked","");
+            return content.replace(' checked=""',"");
         }
 
 
