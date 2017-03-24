@@ -28,7 +28,7 @@
         function setCheckedAttributes(content, answers) {
             angular.forEach(answers, function(val, key) {
                 if(val == true) {
-                    content = content.replace('id="' + key + '"', 'id="' + key + '"  checked');
+                    content = content.replace('id="' + key + '"', 'id="' + key + '" checked');
                 }
             });
 
