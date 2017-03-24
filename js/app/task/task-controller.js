@@ -37,6 +37,7 @@
 
         vm.markerSelected = markerSelected;
         vm.getMarkerIconSrc = getMarkerIconSrc;
+        // vm.contentChanged = contentChanged;
         vm.okClicked = okClicked;
         vm.close = close;
         vm.keyPressed = keyPressed;
@@ -108,6 +109,14 @@
         function getMarkerIconSrc(type) {
             return TaskService.getMarkerSrc(type);
         }
+
+        // function contentChanged() {
+        //     vm.answers = {};
+        //     var textAngular = $("text-angular");
+        //     var inputElements = textAngular.find("input");
+        //
+        //     vm.answers = TaskService.retrieveCheckedAttributes(inputElements, vm.answers);
+        // }
 
         function okClicked() {
             if(!vm.activeType) {

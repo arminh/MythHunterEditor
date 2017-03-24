@@ -51,15 +51,20 @@
         }
 
         function clearCheckedAttributes(content) {
-            return content.replace(' checked=""',"");
+            var checked = new RegExp(' checked=""', "g");
+            var checked2 = new RegExp(' checked', "g");
+            var content = content.replace(checked,"").replace(checked2,"");
+            return content;
         }
 
 
         function removeQuizFeatures(content) {
-            var regex = new RegExp("<label><input.*?>(.*?)<\/label>", "g");
+            var group = new RegExp("<fieldset.*?>(.*?)<\/fieldset>", "g");
+            var quizItem = new RegExp("<label><input.*?>(.*?)<\/label>", "g");
             var regexInputBox = new RegExp("<input.*? value\=\"(.*?)\"\/>", "g");
 
-            content = content.replace(regex, "$1");
+            content = content.replace(group, "$1");
+            content = content.replace(quizItem, "$1");
             content = content.replace(regexInputBox, "$1");
             content = content.replace("<label>", "");
             return content.replace("</label>", "");
