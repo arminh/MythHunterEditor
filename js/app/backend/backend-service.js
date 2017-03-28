@@ -94,13 +94,21 @@
         function convertImage(serverPath, left, top, width, height) {
             var deffered = $q.defer();
 
-            var params = new backend_com_wsdl_integrationConfigParams(serverPath, left, top, width, height);
+            var params = new backend_com_wsdl_integrationConfigParams();
+            params.setInName(serverPath);
+            params.setOutName("");
+            params.setTopX(left);
+            params.setTopY(top);
+            params.setHeight(height);
+            params.setWidth(width);
+
+            $log.info("convertImage", params);
             backend.convertPicture(function (result) {
-                $log.info("convertPicture_success", result);
+                $log.info("convertImage_success", result);
                 var resultParams = result.getReturn();
-                deffered.resolve(resultParams.getOutputFilename());
+                deffered.resolve(resultParams.getOutName());
             }, function (error) {
-                $log.error("convertPicture_fail", error);
+                $log.error("convertImage_fail", error);
                 deffered.reject(error);
             }, params);
 

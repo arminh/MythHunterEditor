@@ -25,6 +25,7 @@
             this.height = 0;
             this.image = "";
 
+            this.fileEnding = "";
             this.changed = false;
             this.scaledWidth = 0;
             this.scaledHeight = 0;
@@ -58,7 +59,8 @@
             getHeight: getHeight,
             getOffsetTop: getOffsetTop,
             getOffsetLeft: getOffsetLeft,
-            getOriginalImageSrc: getOriginalImageSrc
+            getOriginalImageSrc: getOriginalImageSrc,
+            setFileEnding: setFileEnding
         };
 
         return (CardImage);
@@ -115,7 +117,7 @@
             this.name = name;
             $log.info("upload", this);
 
-            var imageName = this.name + "_" + Date.now() + "." + this.type;
+            var imageName = this.name + "_" + Date.now() + "." + this.fileEnding;
             $log.info("uploadImage", imageName);
             return BackendService.uploadImage(imageName, this.image).then(convertImage.bind(this));
 
@@ -245,6 +247,10 @@
 
         function getOriginalImageSrc() {
             return this.originalImageSrc;
+        }
+
+        function setFileEnding(value) {
+            this.fileEnding = value;
         }
     }
 
