@@ -789,9 +789,26 @@ function backend_com_wsdl_getEnemy_deserialize (cxfjsutils, element) {
 //
 function backend_com_wsdl_integrationConfigParams () {
     this.typeMarker = 'backend_com_wsdl_integrationConfigParams';
+    this._inputFilename = null;
     this._outputFilename = null;
 }
 
+//
+// accessor is backend_com_wsdl_integrationConfigParams.prototype.getInputFilename
+// element get for inputFilename
+// - element type is {http://www.w3.org/2001/XMLSchema}string
+// - optional element
+//
+// element set for inputFilename
+// setter function is is backend_com_wsdl_integrationConfigParams.prototype.setInputFilename
+//
+function backend_com_wsdl_integrationConfigParams_getInputFilename() { return this._inputFilename;}
+
+backend_com_wsdl_integrationConfigParams.prototype.getInputFilename = backend_com_wsdl_integrationConfigParams_getInputFilename;
+
+function backend_com_wsdl_integrationConfigParams_setInputFilename(value) { this._inputFilename = value;}
+
+backend_com_wsdl_integrationConfigParams.prototype.setInputFilename = backend_com_wsdl_integrationConfigParams_setInputFilename;
 //
 // accessor is backend_com_wsdl_integrationConfigParams.prototype.getOutputFilename
 // element get for outputFilename
@@ -823,6 +840,14 @@ function backend_com_wsdl_integrationConfigParams_serialize(cxfjsutils, elementN
     }
     // block for local variables
     {
+     if (this._inputFilename != null) {
+      xml = xml + '<inputFilename>';
+      xml = xml + cxfjsutils.escapeXmlEntities(this._inputFilename);
+      xml = xml + '</inputFilename>';
+     }
+    }
+    // block for local variables
+    {
      if (this._outputFilename != null) {
       xml = xml + '<outputFilename>';
       xml = xml + cxfjsutils.escapeXmlEntities(this._outputFilename);
@@ -844,6 +869,20 @@ function backend_com_wsdl_integrationConfigParams_deserialize (cxfjsutils, eleme
     cxfjsutils.trace('element: ' + cxfjsutils.traceElementName(element));
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
+    cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
+    cxfjsutils.trace('processing inputFilename');
+    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'inputFilename')) {
+     var value = null;
+     if (!cxfjsutils.isElementNil(curElement)) {
+      value = cxfjsutils.getNodeText(curElement);
+      item = value;
+     }
+     newobject.setInputFilename(item);
+     var item = null;
+     if (curElement != null) {
+      curElement = cxfjsutils.getNextElementSibling(curElement);
+     }
+    }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing outputFilename');
     if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'outputFilename')) {

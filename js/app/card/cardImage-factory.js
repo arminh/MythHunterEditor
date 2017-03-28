@@ -115,7 +115,28 @@
             this.name = name;
             $log.info("upload", this);
 
-            return BackendService.uploadImage(this.name + "_" + Date.now(), this.image).then(success.bind(this));
+            var imageName = this.name + "_" + Date.now() + "." + this.type;
+            $log.info("uploadImage", imageName);
+            return BackendService.uploadImage(imageName, this.image).then(convertImage.bind(this));
+
+            function convertImage(imagePath) {
+                $log.info("uploadImage_success", imagePath);
+                $log.info("convertImage", imagePath);
+                this.originalImageSrc = imagePath;
+                return BackendService.convertImage(imagePath, this.left, this.top, this.width, this.height).then(downloadConvertedImage.bind(this));
+            }
+
+            function downloadConvertedImage(convertedImagePath) {
+                $log.info("convertImage_success", convertedImagePath);
+                $log.info("downloadImage", convertedImagePath);
+                return BackendService.downloadImage(convertedImagePath).then(setConvertedImage.bind(this));
+            }
+
+            function setConvertedImage(convertedImage) {
+                $log.info("downloadImage_success", convertedImage);
+                this.image = convertedImage;
+                return convertedImage;
+            }
 
             function success(imageSrc) {
                 this.originalImageSrc = imageSrc;

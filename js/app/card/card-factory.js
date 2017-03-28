@@ -168,27 +168,27 @@
 
         function uploadCard(remoteImageId) {
 
-            var remoteCard = BackendService.createRemoteCard(this, remoteImageId);
-            return BackendService.addCard(remoteCard).then(success.bind(this));
-
-            function success(result) {
-                this.remoteId = result.getId();
-                $log.info("upload_success: ", result);
-                return result;
-            }
+            // var remoteCard = BackendService.createRemoteCard(this, remoteImageId);
+            // return BackendService.addCard(remoteCard).then(success.bind(this));
+            //
+            // function success(result) {
+            //     this.remoteId = result.getId();
+            //     $log.info("upload_success: ", result);
+            //     return result;
+            // }
         }
 
         function updateCard(remoteImage) {
 
-            var remoteCard = BackendService.createRemoteCard(this, remoteImage);
-            return BackendService.updateCard(remoteCard).then(success.bind(this));
-
-            function success(result) {
-                this.version = result.getVersion();
-                this.changed = false;
-                $log.info("upload_success: ", result);
-                return result;
-            }
+            // var remoteCard = BackendService.createRemoteCard(this, remoteImage);
+            // return BackendService.updateCard(remoteCard).then(success.bind(this));
+            //
+            // function success(result) {
+            //     this.version = result.getVersion();
+            //     this.changed = false;
+            //     $log.info("upload_success: ", result);
+            //     return result;
+            // }
         }
 
         function getRemoteId() {
