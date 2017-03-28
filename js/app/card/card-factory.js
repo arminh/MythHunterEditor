@@ -73,12 +73,10 @@
             function success(remoteCard) {
                 this.initFromRemote(remoteCard);
 
-                return BackendService.getCardImage(remoteCard.getImageId()).then(function(result) {
-                    return this.image.initFromRemote(result).then(function() {
-                        $log.info("getFromRemote_success", this);
-                        return this;
-                    }.bind(this))
-                }.bind(this));
+                return this.image.getFromRemote().then(function() {
+                    $log.info("getFromRemote_success", this);
+                    return this;
+                }.bind(this))
 
             }
         }
@@ -92,6 +90,7 @@
             this.attack = remoteCard.getAttack();
             this.type = CardType[remoteCard.getType()];
             this.actionIds = remoteCard.getActionIds();
+            this.image.setRemoteId(remoteCard.getImageId());
         }
 
         function updateFromCard(card) {

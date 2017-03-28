@@ -16,7 +16,7 @@
 
         var backend = new backend_com_wsdl_IBackend();
         //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
-        backend.url = "http://192.168.1.201:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://192.168.1.240:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -54,6 +54,7 @@
             deleteHtml: deleteHtml,
             uploadImage: uploadImage,
             downloadImage: downloadImage,
+            convertImage: convertImage,
             mapPosition: mapPosition
         };
         return service;
@@ -86,6 +87,22 @@
                 $log.error("downloadImage_fail", error);
                 deffered.reject(error);
             }, fileName);
+
+            return deffered.promise;
+        }
+
+        function convertImage(serverPath, left, top, width, height) {
+            var deffered = $q.defer();
+
+            var params = new backend_com_wsdl_integrationConfigParams(serverPath, left, top, width, height);
+            backend.convertPicture(function (result) {
+                $log.info("convertPicture_success", result);
+                var resultParams = result.getReturn();
+                deffered.resolve(resultParams.getOutputFilename());
+            }, function (error) {
+                $log.error("convertPicture_fail", error);
+                deffered.reject(error);
+            }, params);
 
             return deffered.promise;
         }
@@ -278,6 +295,7 @@
             remoteCardImage.setOffsetLeft(cardImage.getLeft());
             remoteCardImage.setWidth(cardImage.getWidth());
             remoteCardImage.setHeight(cardImage.getHeight());
+            remoteCardImage.setImage(cardImage.getImage());
 
             return remoteCardImage;
         }

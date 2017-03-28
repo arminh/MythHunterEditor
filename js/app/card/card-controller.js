@@ -60,7 +60,7 @@
         function positionChanged(evt) {
             var cardImage = vm.card.getImage();
             console.log(cardImage);
-            //cardImage.setScaledPosition(evt.target.offsetTop, evt.target.offsetLeft);
+            cardImage.setScaledPosition(evt.target.offsetTop, evt.target.offsetLeft);
         }
 
         function editCard() {
