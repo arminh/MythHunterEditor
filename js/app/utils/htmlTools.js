@@ -9,10 +9,10 @@
         .module('app')
         .service('HtmlTools', HtmlTools);
 
-    HtmlTools.$inject = ["$templateRequest"];
+    HtmlTools.$inject = ["$templateRequest", "$interpolate"];
 
     /* @ngInject */
-    function HtmlTools($templateRequest) {
+    function HtmlTools($templateRequest, $interpolate) {
 
         //Copied from "https://github.com/janl/mustache.js/blob/master/mustache.js#L82"
         var entityMap = {
@@ -67,12 +67,20 @@
 
         function encloseContent(questTitle, taskTitle, content) {
             return $templateRequest("js/app/task/remoteTask.tpl.html").then(function(template) {
-                template = template.replace("[Quest Title]", questTitle);
-                template = template.replace("[Task Title]", taskTitle);
-                template = template.replace("[Quest Content]", content);
+                var replaceDict = {
+                    task: {
+                        questTitle: questTitle,
+                        title: taskTitle,
+                        content: content
+                    }
+                };
+                template = $interpolate(template)(replaceDict);
 
-/*                var templateParts = template.split("[Quest Content]");
-                var result = templateParts[0] + content + templateParts[1];*/
+
+                // template = template.replace("[Quest Title]", questTitle);
+                // template = template.replace("[Task Title]", taskTitle);
+                // template = template.replace("[Quest Content]", content);
+
                 return template;
             });
         }
