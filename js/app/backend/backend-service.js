@@ -15,8 +15,8 @@
     function BackendService($log, $q) {
 
         var backend = new backend_com_wsdl_IBackend();
-        //backend.url = "http://46.101.176.138:8080/Backend/webservices/Backend?wsdl";
-        backend.url = "http://192.168.1.201:8080/Backend/webservices/Backend?wsdl";
+        backend.url = "http://mythhunter.ddns.net:18080/Backend/webservices/Backend?wsdl";
+        //backend.url = "http://192.168.1.240:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
         var service = {
@@ -54,6 +54,7 @@
             deleteHtml: deleteHtml,
             uploadImage: uploadImage,
             downloadImage: downloadImage,
+            convertImage: convertImage,
             mapPosition: mapPosition
         };
         return service;
@@ -86,6 +87,30 @@
                 $log.error("downloadImage_fail", error);
                 deffered.reject(error);
             }, fileName);
+
+            return deffered.promise;
+        }
+
+        function convertImage(serverPath, left, top, width, height) {
+            var deffered = $q.defer();
+
+            var params = new backend_com_wsdl_integrationConfigParams();
+            params.setInName(serverPath);
+            params.setOutName("");
+            params.setTopX(left);
+            params.setTopY(top);
+            params.setHeight(height);
+            params.setWidth(width);
+
+            $log.info("convertImage", params);
+            backend.convertPicture(function (result) {
+                $log.info("convertImage_success", result);
+                var resultParams = result.getReturn();
+                deffered.resolve(resultParams.getOutName());
+            }, function (error) {
+                $log.error("convertImage_fail", error);
+                deffered.reject(error);
+            }, params);
 
             return deffered.promise;
         }
@@ -256,6 +281,7 @@
             remoteCard.setStars(Math.ceil(card.getStars()));
             remoteCard.setImageId(imageId);
             remoteCard.setType(card.getType());
+            remoteCard.setVersion(card.getVersion());
 
             var actionIds = [];
             var actions = card.getActions();
@@ -278,6 +304,7 @@
             remoteCardImage.setOffsetLeft(cardImage.getLeft());
             remoteCardImage.setWidth(cardImage.getWidth());
             remoteCardImage.setHeight(cardImage.getHeight());
+            remoteCardImage.setImage(cardImage.getImage());
 
             return remoteCardImage;
         }

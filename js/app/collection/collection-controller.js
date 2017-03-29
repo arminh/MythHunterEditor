@@ -9,10 +9,10 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["CollectionService", "user"];
+    CollectionController.$inject = ["$q", "CollectionService", "user"];
 
     /* @ngInject */
-    function CollectionController(CollectionService, user) {
+    function CollectionController($q, CollectionService, user) {
         var vm = this;
         vm.cards = [];
 
@@ -35,11 +35,14 @@
         }
 
         function createCard() {
+            vm.cardDefer = $q.defer();
+
             CollectionService.createCard().then(addCard);
 
             function addCard(card) {
                 console.log(card);
                 vm.cards.push(card);
+                vm.cardDefer.resolve();
             }
         }
     }

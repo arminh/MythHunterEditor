@@ -18,15 +18,15 @@
         function CardImage() {
             this.remoteId = 0;
             this.originalImageSrc = "";
-            this.imageSrc = "";
             this.type = "";
             this.top = 0;
             this.left = 0;
             this.width = 0;
             this.height = 0;
+            this.image = "";
 
+            this.fileEnding = "";
             this.changed = false;
-            this.content = "";
             this.scaledWidth = 0;
             this.scaledHeight = 0;
             this.scaledTop = 0;
@@ -34,16 +34,19 @@
         }
 
         CardImage.prototype = {
+            getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
             calculateDimensions: calculateDimensions,
             updateFromCardImage: updateFromCardImage,
             upload: upload,
 
+            setRemoteId: setRemoteId,
+            getImage: getImage,
+            setImage: setImage,
             setOriginalSize: setOriginalSize,
             setScaledSize: setScaledSize,
             setScaledPosition: setScaledPosition,
             getSrc: getSrc,
-            setContent: setContent,
             setType: setType,
             getType: getType,
             setTop: setTop,
@@ -54,12 +57,19 @@
             getWidth: getWidth,
             setHeight: setHeight,
             getHeight: getHeight,
-            getOriginalImageSrc: getOriginalImageSrc
+            getOffsetTop: getOffsetTop,
+            getOffsetLeft: getOffsetLeft,
+            getOriginalImageSrc: getOriginalImageSrc,
+            setFileEnding: setFileEnding
         };
 
         return (CardImage);
 
         ////////////////
+
+        function getFromRemote() {
+            return BackendService.getCardImage(this.remoteId).then(initFromRemote.bind(this));
+        }
 
         function initFromRemote(remoteCardImage) {
             $log.info("initFromRemote", remoteCardImage);
@@ -70,14 +80,14 @@
             this.left = remoteCardImage.getOffsetLeft();
             this.width = remoteCardImage.getWidth();
             this.height = remoteCardImage.getHeight();
-
-            return BackendService.downloadImage(this.originalImageSrc).then(success.bind(this));
-
-            function success(result) {
-                this.content = result;
-                $log.info("initFromRemote_success", this);
-                return this;
-            }
+            this.image = remoteCardImage.getImage();
+            // return BackendService.downloadImage(this.originalImageSrc).then(success.bind(this));
+            //
+            // function success(result) {
+            //     this.content = result;
+            //     $log.info("initFromRemote_success", this);
+            //     return this;
+            // }
         }
 
         function updateFromCardImage(cardImage) {
@@ -107,16 +117,37 @@
             this.name = name;
             $log.info("upload", this);
 
-            return BackendService.uploadImage(this.name + "_" + Date.now(), this.content).then(success.bind(this));
+            var imageName = this.name + "_" + Date.now() + "." + this.fileEnding;
+            $log.info("uploadImage", imageName);
+            return BackendService.uploadImage(imageName, this.image).then(convertImage.bind(this));
+            // var remoteCardImage = BackendService.createRemoteCardImage(this);
+            // return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
 
-            function success(imageSrc) {
-                this.originalImageSrc = imageSrc;
+            function convertImage(imagePath) {
+                $log.info("uploadImage_success", imagePath);
+                $log.info("convertImage", imagePath);
+                this.originalImageSrc = imagePath;
                 this.calculateDimensions();
+                return BackendService.convertImage(imagePath, this.left, this.top, this.width, this.height).then(downloadConvertedImage.bind(this));
+            }
+
+            function downloadConvertedImage(convertedImagePath) {
+                $log.info("convertImage_success", convertedImagePath);
+                $log.info("downloadImage", convertedImagePath);
+                return BackendService.downloadImage(convertedImagePath).then(uploadCardImage.bind(this));
+            }
+
+            function uploadCardImage(convertedImage) {
+                $log.info("downloadImage_success");
+                this.image = convertedImage;
+
+                $log.info("addCardImage", this);
                 var remoteCardImage = BackendService.createRemoteCardImage(this);
                 return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
             }
 
             function cardImageUploaded(result) {
+                $log.info("addCardImage_success", result);
                 this.remoteId = result.getId();
                 return this.remoteId;
             }
@@ -124,8 +155,8 @@
 
         function calculateDimensions() {
             var scaleRatio = this.width / this.scaledWidth;
-            this.top = this.scaledTop * scaleRatio;
-            this.left = this.scaledLeft * scaleRatio;
+            this.top = Math.floor(this.scaledTop * scaleRatio);
+            this.left = Math.floor(this.scaledLeft * scaleRatio);
         }
 
         function setOriginalSize(size) {
@@ -147,15 +178,22 @@
         function setScaledPosition(top, left) {
             this.scaledTop = top;
             this.scaledLeft = left;
-            console.log(this);
+        }
+
+        function setRemoteId(remoteId) {
+            this.remoteId = remoteId;
+        }
+
+        function getImage() {
+            return this.image;
+        }
+
+        function setImage(image) {
+            this.image = image;
         }
 
         function getSrc() {
             return this.src;
-        }
-
-        function setContent(value) {
-            this.content = value;
         }
 
         function setType(value) {
@@ -198,8 +236,20 @@
             return this.height;
         }
 
+        function getOffsetTop() {
+            return this.offsetTop;
+        }
+
+        function getOffsetLeft() {
+            return this.offsetLeft;
+        }
+
         function getOriginalImageSrc() {
             return this.originalImageSrc;
+        }
+
+        function setFileEnding(value) {
+            this.fileEnding = value;
         }
     }
 

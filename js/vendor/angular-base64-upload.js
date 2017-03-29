@@ -82,7 +82,7 @@
               fileObject.filetype = file.type;
               fileObject.filename = file.name;
               fileObject.filesize = file.size;
-              
+
               _attachEventHandlers(reader, file, fileObject);
               reader.readAsArrayBuffer(file);
             }
@@ -90,7 +90,12 @@
 
           function _onChange(e) {
             if (attrs.onChange) {
-              scope.onChange()(e, rawFiles);
+              if (scope.onChange && typeof scope.onChange() === "function") {
+                scope.onChange()(e, rawFiles);
+              }
+              else {
+                scope.onChange(e, rawFiles);
+              }
             }
           }
 
@@ -102,8 +107,13 @@
               for (var i = rawFiles.length - 1; i >= 0; i--) {
                 promises.push(rawFiles[i].deferredObj.promise);
               }
-              $q.all(promises).then(function() {
-                scope.onAfterValidate()(e, fileObjects, rawFiles);
+              $q.all(promises).then(function () {
+                if (scope.onAfterValidate && typeof scope.onAfterValidate() === "function"){
+                  scope.onAfterValidate()(e, fileObjects, rawFiles);
+                }
+                else{
+                  scope.onAfterValidate(e, fileObjects, rawFiles);
+                }
               });
             }
           }
@@ -133,7 +143,14 @@
               var buffer = e.target.result;
               var promise;
 
-              fileObject.base64 = $window._arrayBufferToBase64(buffer);
+              // do not convert the image to base64 if it exceeds the maximum
+              // size to prevent the browser from freezing
+              var exceedsMaxSize = attrs.maxsize && file.size > attrs.maxsize * 1024;
+              if (attrs.doNotParseIfOversize !== undefined && exceedsMaxSize) {
+                fileObject.base64 = null;
+              } else {
+                fileObject.base64 = $window._arrayBufferToBase64(buffer);
+              }
 
               if (attrs.parser) {
                 promise = $q.when(scope.parser()(file, fileObject));
@@ -148,7 +165,12 @@
               });
 
               if (attrs.onload) {
-                scope.onload()(e, fReader, file, rawFiles, fileObjects, fileObject);
+                if (scope.onload && typeof scope.onload() === "function"){
+                  scope.onload()(e, fReader, file, rawFiles, fileObjects, fileObject);
+                }
+                else{
+                  scope.onload(e, rawFiles);
+                }
               }
 
             };
@@ -176,9 +198,7 @@
 
           scope.$watch(function() {
             return ngModel.$viewValue;
-          }, function(val, oldVal) {
-            if (ngModel.$isEmpty(oldVal)) {
-              return; }
+          }, function(val) {
             if (ngModel.$isEmpty(val)) {
               scope._clearInput();
             }

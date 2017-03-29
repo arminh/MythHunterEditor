@@ -6,8 +6,8 @@
                  data-drag="cardPreview.editable"
                  data-jqyoui-options="{{cardPreview.imageDragOptions}}" ng-style="cardPreview.imageContainerStyle"
                  ng-top top="cardPreview.card.image.scaledTop" left="cardPreview.card.image.scaledLeft">
-                <img ng-if="cardPreview.card.image.content" class="card-image"
-                     data-ng-src="data:{{cardPreview.card.image.type}};base64, {{cardPreview.card.image.content}}"
+                <img ng-if="cardPreview.card.image.image" class="card-image"
+                     data-ng-src="data:{{cardPreview.card.image.type}};base64, {{cardPreview.card.image.image}}"
                      scale-card-image
                      dimensions="cardPreview.dimensions" callback="cardPreview.imageLoaded"/>
             </div>
