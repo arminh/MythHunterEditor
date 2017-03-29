@@ -17,7 +17,6 @@
         var vm = this;
         vm.card = card;
         vm.image = {};
-        console.log(card);
 
         vm.calculateStarCount = calculateStarCount;
         vm.isActionAffordable = isActionAffordable;

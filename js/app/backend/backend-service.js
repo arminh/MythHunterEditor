@@ -281,6 +281,7 @@
             remoteCard.setStars(Math.ceil(card.getStars()));
             remoteCard.setImageId(imageId);
             remoteCard.setType(card.getType());
+            remoteCard.setVersion(card.getVersion());
 
             var actionIds = [];
             var actions = card.getActions();

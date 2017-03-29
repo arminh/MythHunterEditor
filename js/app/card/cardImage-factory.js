@@ -120,34 +120,34 @@
             var imageName = this.name + "_" + Date.now() + "." + this.fileEnding;
             $log.info("uploadImage", imageName);
             return BackendService.uploadImage(imageName, this.image).then(convertImage.bind(this));
+            // var remoteCardImage = BackendService.createRemoteCardImage(this);
+            // return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
 
             function convertImage(imagePath) {
                 $log.info("uploadImage_success", imagePath);
                 $log.info("convertImage", imagePath);
                 this.originalImageSrc = imagePath;
+                this.calculateDimensions();
                 return BackendService.convertImage(imagePath, this.left, this.top, this.width, this.height).then(downloadConvertedImage.bind(this));
             }
 
             function downloadConvertedImage(convertedImagePath) {
                 $log.info("convertImage_success", convertedImagePath);
                 $log.info("downloadImage", convertedImagePath);
-                return BackendService.downloadImage(convertedImagePath).then(setConvertedImage.bind(this));
+                return BackendService.downloadImage(convertedImagePath).then(uploadCardImage.bind(this));
             }
 
-            function setConvertedImage(convertedImage) {
-                $log.info("downloadImage_success", convertedImage);
+            function uploadCardImage(convertedImage) {
+                $log.info("downloadImage_success");
                 this.image = convertedImage;
-                return convertedImage;
-            }
 
-            function success(imageSrc) {
-                this.originalImageSrc = imageSrc;
-                this.calculateDimensions();
+                $log.info("addCardImage", this);
                 var remoteCardImage = BackendService.createRemoteCardImage(this);
                 return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
             }
 
             function cardImageUploaded(result) {
+                $log.info("addCardImage_success", result);
                 this.remoteId = result.getId();
                 return this.remoteId;
             }
@@ -155,8 +155,8 @@
 
         function calculateDimensions() {
             var scaleRatio = this.width / this.scaledWidth;
-            this.top = this.scaledTop * scaleRatio;
-            this.left = this.scaledLeft * scaleRatio;
+            this.top = Math.floor(this.scaledTop * scaleRatio);
+            this.left = Math.floor(this.scaledLeft * scaleRatio);
         }
 
         function setOriginalSize(size) {
@@ -178,7 +178,6 @@
         function setScaledPosition(top, left) {
             this.scaledTop = top;
             this.scaledLeft = left;
-            console.log(this);
         }
 
         function setRemoteId(remoteId) {
