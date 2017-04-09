@@ -99,8 +99,8 @@
                     return (vm.content.indexOf("input") >= 0);
                 }
 
-            } else if(newType == MarkerType.INVISIBLE) {
-                return !(vm.targetContent == "");
+            } else if(oldType == MarkerType.INVISIBLE) {
+                return true;
             } else {
                 return false;
             }
