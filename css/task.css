@@ -122,3 +122,12 @@
 .markerLabel {
     line-height: 30px;
 }
+
+fieldset.radio-group, fieldset.checkbox-group {
+    margin-bottom: 3px;
+    background-color: ;
+}
+
+fieldset p {
+    text-indent: 20px;
+}
