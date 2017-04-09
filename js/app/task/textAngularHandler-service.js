@@ -14,9 +14,9 @@
     /* @ngInject */
     function TextAngularHandler(taSelection) {
         var service = {
-            setCheckedAttributes: setCheckedAttributes,
+            restoreContent: restoreContent,
+            prepareContent: prepareContent,
             retrieveCheckedAttributes: retrieveCheckedAttributes,
-            clearCheckedAttributes: clearCheckedAttributes,
             removeQuizFeatures: removeQuizFeatures,
             removeInvisibleFeatures: removeInvisibleFeatures,
             enterKeyPressed: enterKeyPressed
@@ -25,6 +25,11 @@
 
         ////////////////
 
+        function restoreContent(content, answers) {
+            content = restoreTags(content);
+            return setCheckedAttributes(content, answers);
+        }
+
         function setCheckedAttributes(content, answers) {
             angular.forEach(answers, function(val, key) {
                 if(val == true) {
@@ -32,6 +37,17 @@
                 }
             });
 
+            return content;
+        }
+
+        function restoreTags(content) {
+            content = content.replace(/<div (class=\"(?:radio|checkbox)-group\")/g, "<fieldset $1");
+            return content.replace(/<\/div>/g, "<\/fieldset>");
+        }
+
+        function prepareContent(content) {
+            content = clearCheckedAttributes(content);
+            content = replaceTags(content);
             return content;
         }
 
@@ -54,6 +70,12 @@
             var checked = new RegExp(' checked=""', "g");
             var checked2 = new RegExp(' checked', "g");
             var content = content.replace(checked,"").replace(checked2,"");
+            return content;
+        }
+
+        function replaceTags(content) {
+            content = content.replace(/<fieldset/g, "<div");
+            content = content.replace(/<\/fieldset>/g, "<\/div>");
             return content;
         }
 

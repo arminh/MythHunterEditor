@@ -52,7 +52,7 @@
                 vm.targetContent = task.getTargetHtml().getContent();
             }
             vm.content = task.getHtml().getContent();
-            vm.content = TextAngularHandler.setCheckedAttributes(vm.content, vm.answers);
+            vm.content = TextAngularHandler.restoreContent(vm.content, vm.answers);
         }
 
         function keyPressed(event) {
@@ -125,7 +125,7 @@
                 if(vm.activeType == MarkerType.QUIZ) {
                     vm.answers = {};
                     vm.answers = TextAngularHandler.retrieveCheckedAttributes(vm.answers);
-                    vm.content = TextAngularHandler.clearCheckedAttributes(vm.content);
+                    vm.content = TextAngularHandler.prepareContent(vm.content);
                 }
                 TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)
             }
