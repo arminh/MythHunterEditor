@@ -27,6 +27,8 @@
 
         function restoreContent(content, answers) {
             content = restoreTags(content);
+            content = restoreVideoTag(content);
+            content = removeImageWidth(content);
             return setCheckedAttributes(content, answers);
         }
 
@@ -45,9 +47,21 @@
             return content.replace(/<\/div>/g, "<\/fieldset>");
         }
 
+        function restoreVideoTag(content) {
+            var regex = /<a href="(.*?)"><img src="(.*?)".*?\/><\/a>/g;
+            var replaceString = '<img class="ta-insert-video" src="$2" ta-insert-video="$1" contenteditable="false" allowfullscreen="true" frameborder="0"\/>';
+            return content.replace(regex, replaceString);
+        }
+
+        function removeImageWidth(content) {
+            return content.replace(/<img(.*?)style=(?:"|').*?(?:"|')/g, "<img$1");
+        }
+
         function prepareContent(content) {
             content = clearCheckedAttributes(content);
             content = replaceTags(content);
+            content = replaceVideoTag(content);
+            content = setImageWidth(content);
             return content;
         }
 
@@ -79,6 +93,19 @@
             return content;
         }
 
+        function replaceVideoTag(content) {
+            var regex = /<img class="ta-insert-video" src="(.*?)" ta-insert-video="(.*?)" contenteditable="(.*?)" allowfullscreen="(.*?)" frameborder="(.*?)".*?\/>/g;
+            var replaceString = '<a href="$2"><img src="$1" style="width: 100%"/></a>';
+            return content.replace(regex, replaceString);
+        }
+
+        function setImageWidth(content) {
+            var regex = /<img(.*)style="width:/;
+            if(!regex.test(content)) {
+                content = content.replace(/<img(.*)\/>/g, "<img$1 style='width:100%'/>");
+            }
+            return content;
+        }
 
         function removeQuizFeatures(content) {
             var group = new RegExp("<fieldset.*?>(.*?)<\/fieldset>", "g");

@@ -125,8 +125,8 @@
                 if(vm.activeType == MarkerType.QUIZ) {
                     vm.answers = {};
                     vm.answers = TextAngularHandler.retrieveCheckedAttributes(vm.answers);
-                    vm.content = TextAngularHandler.prepareContent(vm.content);
                 }
+                vm.content = TextAngularHandler.prepareContent(vm.content);
                 TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)
             }
         }
