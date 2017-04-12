@@ -205,7 +205,8 @@
         function editQuestTree() {
             var modalInstance = $modal.open({
                 animation: true,
-                backdrop: 'static',
+                backdrop  : 'static',
+                keyboard  : false,
                 size: "lg",
                 templateUrl: 'js/app/quest_tree/quest_tree.tpl.html',
                 controller: 'QuestTreeController',

@@ -9,15 +9,18 @@
         .module('questTree')
         .controller('QuestTreeController', QuestTreeController);
 
-    QuestTreeController.$inject = ['QuestTreeService', "treeRoot", "$modalInstance"];
+    QuestTreeController.$inject = ["$scope", 'QuestTreeService', "treeRoot", "$modalInstance"];
 
     /* @ngInject */
-    function QuestTreeController(QuestTreeService, treeRoot, $modalInstance) {
+    function QuestTreeController($scope, QuestTreeService, treeRoot, $modalInstance) {
         var vm = this;
         vm.drawing = false;
 
         vm.init = init;
         vm.close = close;
+
+        $scope.$on("keypress:27", QuestTreeService.escapeKeyPressed);
+        $scope.$on("keypress:46", QuestTreeService.deleteKeyPressed);
 
         ////////////////
 

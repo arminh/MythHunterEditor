@@ -17,6 +17,7 @@
         var markers = [];
         var lines = [];
 
+        var startMarker = null;
         var drawing = false;
         var line = null;
 
@@ -30,13 +31,16 @@
         var service = {
             init: init,
             activateDraw: activateDraw,
-            deactivateDraw: deactivateDraw
+            deactivateDraw: deactivateDraw,
+            escapeKeyPressed: escapeKeyPressed,
+            deleteKeyPressed: deleteKeyPressed
         };
         return service;
 
         ////////////////
 
-        function Marker(id, img, label) {
+        function Marker(treePart, id, img, label) {
+            this.treePart = treePart;
             this.id = id;
             this.img = img;
             this.label = label;
@@ -54,29 +58,81 @@
         function init(treeRoot) {
             markers = [];
             lines = [];
-            canvas = new fabric.Canvas('myCanvas');
+            drawing = false;
+            line = null;
+
+            xPos = 0;
+            markerId = 0;
+            curMarkerId = -1;
+            lineId = 0;
+            canvas = new fabric.Canvas('myCanvas', {
+                targetFindTolerance: 15
+            });
+            initRightClick();
             initDrag();
             return addTreePartMarker(treeRoot, null).then(activateDraw);
         }
 
-        function addTreePartMarker(treePart, parentTreePart) {
-            var promises = [];
+        function escapeKeyPressed() {
+            stopDrawing();
+        }
 
-            promises.push(addMarker(treePart.getTask().getType(), treePart.getTask().getName(), xPos += 100, 50));
+        function deleteKeyPressed() {
+
+        }
+
+        function initRightClick() {
+            $(".upper-canvas").bind('contextmenu', function (e) {
+                var pointer = canvas.getPointer(e.originalEvent);
+                e.preventDefault();
+
+                for(var i = 0; i < lines.length; i++) {
+                    var lineObject = lines[i].img;
+                    var lineHead = lines[i].head;
+                    if (containsPoint(lineObject, pointer) || containsPoint(lineHead, pointer)) {
+                    }
+                }
+                return false;
+            });
+        }
+
+        function addTreePartMarker(treePart, parentMarker) {
+
+            return addMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 150, 200).then(drawLineFromParent);
+
+            function drawLineFromParent(marker) {
+                if(parentMarker) {
+                    var parentAnchor = getAnchorPoint(parentMarker.img);
+                    var anchor = getAnchorPoint(marker.img);
+                    var points = [parentAnchor.left, parentAnchor.top, anchor.left, anchor.top];
+                    var line = addLine(points);
+                    positionLine(line);
+                    addArrowHead(line);
+
+                    parentMarker.lineStarts.push(line);
+                    marker.lineEnds.push(line);
+                }
+                return addSuccessors(treePart, marker);
+            }
+        }
+
+        function addSuccessors(treePart, parentMarker) {
+            var promises = [];
 
             var successors = treePart.getSuccessors();
             for (var i = 0; i < successors.length; i++) {
-                promises.push(addTreePartMarker(successors[i]));
+                promises.push(addTreePartMarker(successors[i], parentMarker));
             }
 
             return $q.all(promises);
         }
 
-        function addMarker(type, label, x, y) {
+        function addMarker(treePart, type, label, x, y) {
             var deffered = $q.defer();
 
             fabric.Image.fromURL(TaskService.getMarkerSrc(type), function (img) {
                 var markerImage = img.set({left: x, top: y}).scale(markerImgScale);
+                markerImage.type = "marker";
 
                 var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale)/2);
 
@@ -84,7 +140,7 @@
                 markerImage.hasControls = false;
                 markerImage.hasBorders = false;
 
-                var marker = new Marker(markerId++, markerImage, markerLabel);
+                var marker = new Marker(treePart, markerId++, markerImage, markerLabel);
                 markers.push(marker);
                 markerImage.marker = marker;
                 deffered.resolve(marker);
@@ -106,6 +162,7 @@
             canvas.add(markerLabel).renderAll();
             markerLabel.hasControls = false;
             markerLabel.hasBorders = false;
+            markerLabel.set({selectable: false});
 
             return markerLabel;
 
@@ -113,7 +170,7 @@
 
         function addLine(points) {
             var lineImage = new fabric.Line(points, {
-                strokeWidth: 2,
+                strokeWidth: 4,
                 fill: 'red',
                 stroke: 'red',
                 originX: 'center',
@@ -121,6 +178,7 @@
                 perPixelTargetFind: true
             });
 
+            lineImage.type = "line";
             lineImage.hasControls = false;
             lineImage.hasBorders = false;
             lineImage.set({selectable: false});
@@ -169,8 +227,8 @@
                 fill: 'red',
                 left: anchorLeft,
                 top: anchorTop,
-                height: 10,
-                width: 8
+                height: 18,
+                width: 10
             });
 
             triangle.set({selectable: false});
@@ -246,10 +304,13 @@
 
             var objLeft = obj.left;
             var objTop = obj.top;
-            var anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
-            var anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
+            var anchorPoint = getAnchorPoint(obj);
+            var anchorLeft = anchorPoint.left;
+            var anchorTop = anchorPoint.top;
             var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
             canvas.on("mouse:up", onMouseUp);
+
+
 
             function onMouseUp() {
                 canvas.off('mouse:up');
@@ -260,30 +321,33 @@
                     }
 
                     curMarkerId = obj.marker.id;
+                    startMarker = obj.marker;
+
                     line = addLine(points);
                     line.start = {x: anchorLeft, y: anchorTop};
                     line.end = {x: pointer.x, y: pointer.y};
                     positionLine(line);
 
-                    if (obj.marker.lineStarts) {
-                        obj.marker.lineStarts.push(line);
-                    }
-
                     canvas.on('mouse:move', onMouseMove);
                     drawing = true;
                 } else {
                     if (obj.marker.id == curMarkerId) {
-                        return;
+                        stopDrawing();
                     }
 
                     canvas.off('mouse:move');
 
-                    anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
-                    anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
+                    anchorPoint = getAnchorPoint(obj);
+                    anchorLeft = anchorPoint.left;
+                    anchorTop = anchorPoint.top;
                     line.end = {x: anchorLeft, y: anchorTop};
 
                     positionLine(line);
                     addArrowHead(line);
+
+                    if (startMarker.lineStarts) {
+                        startMarker.lineStarts.push(line);
+                    }
 
                     if (obj.marker.lineEnds) {
                         obj.marker.lineEnds.push(line);
@@ -307,6 +371,16 @@
             canvas.renderAll();
         }
 
+        function stopDrawing() {
+            console.log("stopDrawing");
+            if(drawing) {
+                drawing = false;
+                canvas.off('mouse:move');
+                line.img.remove();
+            }
+
+        }
+
         function deactivateDraw() {
             canvas.off('mouse:down');
             canvas.off('mouse:move');
@@ -324,42 +398,66 @@
                 }
 
                 var obj = evt.target;
-
-                var anchorLeft;
-                var anchorTop;
-
-                if (obj.marker.lineStarts && obj.marker.lineEnds) {
-                    for (var i = 0; i < obj.marker.lineStarts.length; i++) {
-                        var line = obj.marker.lineStarts[i];
-
-                        anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
-                        anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
-                        line.start = {x: anchorLeft, y: anchorTop};
-                        positionLine(line);
-
-                        canvas.remove(line.head);
-                        addArrowHead(line);
-                    }
-
-                    for (var i = 0; i < obj.marker.lineEnds.length; i++) {
-                        var line = obj.marker.lineEnds[i];
-
-                        anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
-                        anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
-                        line.end = {x: anchorLeft, y: anchorTop};
-                        positionLine(line);
-
-                        canvas.remove(line.head);
-                        addArrowHead(line);
-                    }
+                switch(obj.get('type')) {
+                    case "marker":
+                        moveMarker(obj, obj.left, obj.top);
+                        break;
+                    case "group":
+                        var objects = obj.getObjects();
+                        for(var i = 0; i < objects.length; i++) {
+                            if(objects[i].get('type') == "marker") {
+                                moveMarker(objects[i], objects[i].left + obj.left + obj.width/2, objects[i].top + obj.top  + obj.height/2);
+                            }
+                        }
                 }
-
-                if(obj.marker.label) {
-                    var label = obj.marker.label;
-                    positionLabel(label, obj.top, obj.left + (obj.width * markerImgScale)/2)
-                }
-
             });
+        }
+
+        function moveMarker(obj, left, top) {
+            var anchorLeft;
+            var anchorTop;
+
+            if (obj.marker.lineStarts && obj.marker.lineEnds) {
+                for (var i = 0; i < obj.marker.lineStarts.length; i++) {
+                    var line = obj.marker.lineStarts[i];
+
+                    anchorLeft = left + (obj.width / 2) * obj.scaleX;
+                    anchorTop = top + (obj.height / 2) * obj.scaleY;
+                    line.start = {x: anchorLeft, y: anchorTop};
+                    positionLine(line);
+
+                    canvas.remove(line.head);
+                    addArrowHead(line);
+                }
+
+                for (var i = 0; i < obj.marker.lineEnds.length; i++) {
+                    var line = obj.marker.lineEnds[i];
+
+                    anchorLeft = left + (obj.width / 2) * obj.scaleX;
+                    anchorTop = top + (obj.height / 2) * obj.scaleY;
+                    line.end = {x: anchorLeft, y: anchorTop};
+                    positionLine(line);
+
+                    canvas.remove(line.head);
+                    addArrowHead(line);
+                }
+            }
+
+            if(obj.marker.label) {
+                var label = obj.marker.label;
+                positionLabel(label, top, left + (obj.width * markerImgScale)/2)
+            }
+        }
+
+        function getAnchorPoint(obj) {
+            return {
+                left: obj.left + (obj.width / 2) * obj.scaleX,
+                top: obj.top + (obj.height / 2) * obj.scaleY
+            }
+        }
+
+        function containsPoint(object, point) {
+            return !canvas.isTargetTransparent(object, point.x, point.y);
         }
     }
 
