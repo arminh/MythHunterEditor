@@ -9,11 +9,13 @@
         .module('task')
         .controller('TaskController', TaskController);
 
-    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "MarkerType", "task", "ngDialog"];
+    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "TextAngularHandler", "MarkerType", "task", "ngDialog"];
 
     /* @ngInject */
-    function TaskController($scope, $modalInstance, TaskService, MarkerType, task, ngDialog) {
+    function TaskController($scope, $modalInstance, TaskService, TextAngularHandler, MarkerType, task, ngDialog) {
         var vm = this;
+
+        var oldContent = "";
 
         vm.types = MarkerType;
         vm.name = task.getName();
@@ -35,9 +37,10 @@
 
         vm.markerSelected = markerSelected;
         vm.getMarkerIconSrc = getMarkerIconSrc;
-        vm.contentChanged = contentChanged;
+        // vm.contentChanged = contentChanged;
         vm.okClicked = okClicked;
         vm.close = close;
+        vm.keyPressed = keyPressed;
 
         activate();
 
@@ -49,7 +52,13 @@
                 vm.targetContent = task.getTargetHtml().getContent();
             }
             vm.content = task.getHtml().getContent();
-            vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
+            vm.content = TextAngularHandler.restoreContent(vm.content, vm.answers);
+        }
+
+        function keyPressed(event) {
+            if(event.which == 13) {
+                TextAngularHandler.enterKeyPressed(event);
+            }
         }
 
         function markerSelected(newType, index) {
@@ -61,11 +70,11 @@
                     function (confirm) {
                         switch(vm.activeType) {
                             case MarkerType.QUIZ:
-                                vm.content = TaskService.removeQuizFeatures(vm.content);
+                                vm.content = TextAngularHandler.removeQuizFeatures(vm.content);
                                 vm.answers = [];
                                 break;
                             case MarkerType.INVISIBLE:
-                                vm.content = TaskService.removeInvisibleFeatures(vm.content);
+                                vm.content = TextAngularHandler.removeInvisibleFeatures(vm.content);
                                 break;
                         }
 
@@ -90,8 +99,8 @@
                     return (vm.content.indexOf("input") >= 0);
                 }
 
-            } else if(newType == MarkerType.INVISIBLE) {
-                return !(vm.targetContent == "");
+            } else if(oldType == MarkerType.INVISIBLE) {
+                return true;
             } else {
                 return false;
             }
@@ -101,21 +110,23 @@
             return TaskService.getMarkerSrc(type);
         }
 
-        function contentChanged() {
-            vm.answers = {};
-            var textAngular = $("text-angular");
-            var inputElements = textAngular.find("input");
-
-            vm.answers = TaskService.retrieveCheckedAttributes(inputElements, vm.answers);
-        }
+        // function contentChanged() {
+        //     vm.answers = {};
+        //     var textAngular = $("text-angular");
+        //     var inputElements = textAngular.find("input");
+        //
+        //     vm.answers = TaskService.retrieveCheckedAttributes(inputElements, vm.answers);
+        // }
 
         function okClicked() {
             if(!vm.activeType) {
                 vm.error = true;
             } else {
                 if(vm.activeType == MarkerType.QUIZ) {
-                    vm.content = TaskService.clearCheckedAttributes(vm.content);
+                    vm.answers = {};
+                    vm.answers = TextAngularHandler.retrieveCheckedAttributes(vm.answers);
                 }
+                vm.content = TextAngularHandler.prepareContent(vm.content);
                 TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)
             }
         }

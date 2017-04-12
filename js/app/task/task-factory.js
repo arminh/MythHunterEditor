@@ -146,7 +146,8 @@
                     this.html.setContent(result.content);
                     this.html.change();
                 }
-                if (this.html.getAnswers() != result.answers) {
+
+                if (JSON.stringify(this.html.getAnswers()) != JSON.stringify(result.answers)) {
                     this.html.setAnswers(result.answers);
                     this.html.change();
                 }

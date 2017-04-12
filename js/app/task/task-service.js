@@ -19,11 +19,6 @@
 
         var service = {
             setModalInstance: setModalInstance,
-            setCheckedAttributes: setCheckedAttributes,
-            retrieveCheckedAttributes: retrieveCheckedAttributes,
-            clearCheckedAttributes: clearCheckedAttributes,
-            removeQuizFeatures: removeQuizFeatures,
-            removeInvisibleFeatures: removeInvisibleFeatures,
             openTaskDialog: openTaskDialog,
             createTask: createTask,
             cancelTask: cancelTask,
@@ -38,44 +33,7 @@
             $modalInstance = modalInstance;
         }
 
-        function setCheckedAttributes(content, answers) {
-            angular.forEach(answers, function(val, key) {
-                if(val == true) {
-                    content = content.replace('id="' + key + '"', 'id="' + key + '"  checked');
-                }
-            });
 
-            return content;
-        }
-
-        function retrieveCheckedAttributes(inputElements, answers) {
-
-            for(var i = 0; i < inputElements.length; i++) {
-                if(inputElements[i].id != "") {
-                    answers[inputElements[i].id] = inputElements[i].checked;
-                }
-            }
-            return answers;
-        }
-
-        function clearCheckedAttributes(content) {
-            return content.replace(" checked","");
-        }
-
-
-        function removeQuizFeatures(content) {
-            var regex = new RegExp("<label><input.*?>(.*?)<\/label>", "g");
-            var regexInputBox = new RegExp("<input.*? value\=\"(.*?)\"\/>", "g");
-
-            content = content.replace(regex, "$1");
-            content = content.replace(regexInputBox, "$1");
-            content = content.replace("<label>", "");
-            return content.replace("</label>", "");
-        }
-
-        function removeInvisibleFeatures(content) {
-            return content;
-        }
 
         function openTaskDialog(task) {
             var modalInstance = $modal.open({

@@ -172,7 +172,7 @@
         DOCTYPE_REGEXP = /<!DOCTYPE([^>]*?)>/i,
         CDATA_REGEXP = /<!\[CDATA\[(.*?)]]>/g,
         SURROGATE_PAIR_REGEXP = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
-    // Match everything outside of normal chars and " (quote character)
+        // Match everything outside of normal chars and " (quote character)
         NON_ALPHANUMERIC_REGEXP = /([^\#-~| |!])/g,
         WHITE_SPACE_REGEXP = /^(\s+)/;
 
@@ -196,7 +196,7 @@
 // Safe Block Elements - HTML5
     var blockElements = angular.extend({}, optionalEndTagBlockElements, makeMap("address,article," +
         "aside,blockquote,caption,center,del,dir,div,dl,figure,figcaption,footer,h1,h2,h3,h4,h5," +
-        "h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,script,section,table,ul"));
+        "h6,header,hgroup,hr,ins,map,menu,nav,ol,pre,script,section,table,ul,fieldset"));
 
 // Inline Elements - HTML5
     var inlineElements = angular.extend({}, optionalEndTagInlineElements, makeMap("a,abbr,acronym,b," +
@@ -228,6 +228,7 @@
         'id,ismap,lang,language,nohref,nowrap,rel,rev,rows,rowspan,rules,'+
         'scope,scrolling,shape,size,span,start,summary,target,title,type,'+
         'valign,value,vspace,width,name,checked');
+    //Armin: added 'name' and 'checked' to list
 
 // SVG attributes (without "id" and "name" attributes)
 // https://wiki.whatwg.org/wiki/Sanitization_rules#svg_Attributes
@@ -539,14 +540,45 @@
                         value === 'underline'
                         || value === 'line-through'
                     )
-                    || key === 'font-weight' && (
+                    ||
+                    key === 'font-weight' && (
                         value === 'bold'
+                    )
+                    ||
+                    key === 'font-style' && (
+                        value === 'italic'
                     )
                     ||
                     key === 'float' && (
                         value === 'left'
                         || value === 'right'
                         || value === 'none'
+                    )
+                    ||
+                    key === 'vertical-align' && (
+                        value === 'baseline'
+                        || value === 'sub'
+                        || value === 'super'
+                        || value === 'test-top'
+                        || value === 'text-bottom'
+                        || value === 'middle'
+                        || value === 'top'
+                        || value === 'bottom'
+                        || value.match(/[0-9]*(px|em)/)
+                        || value.match(/[0-9]+?%/)
+                    )
+                    ||
+                    key === 'font-size' && (
+                        value === 'xx-small'
+                        || value === 'x-small'
+                        || value === 'small'
+                        || value === 'medium'
+                        || value === 'large'
+                        || value === 'x-large'
+                        || value === 'xx-large'
+                        || value === 'larger'
+                        || value === 'smaller'
+                        || value.match(/[0-9]*\.?[0-9]*(px|em|rem|mm|q|cm|in|pt|pc|%)/)
                     )
                     ||
                     (key === 'width' || key === 'height') && (
