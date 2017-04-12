@@ -25,6 +25,8 @@
         var curMarkerId = -1;
         var lineId = 0;
 
+        var markerImgScale = 0.05;
+
         var service = {
             init: init,
             activateDraw: activateDraw,
@@ -34,9 +36,10 @@
 
         ////////////////
 
-        function Marker(id, img) {
+        function Marker(id, img, label) {
             this.id = id;
             this.img = img;
+            this.label = label;
             this.lineStarts = [];
             this.lineEnds = [];
         }
@@ -59,7 +62,7 @@
         function addTreePartMarker(treePart, parentTreePart) {
             var promises = [];
 
-            promises.push(addMarker(treePart.getTask().getType(), xPos += 100, 50));
+            promises.push(addMarker(treePart.getTask().getType(), treePart.getTask().getName(), xPos += 100, 50));
 
             var successors = treePart.getSuccessors();
             for (var i = 0; i < successors.length; i++) {
@@ -69,22 +72,43 @@
             return $q.all(promises);
         }
 
-        function addMarker(type, x, y) {
+        function addMarker(type, label, x, y) {
             var deffered = $q.defer();
 
             fabric.Image.fromURL(TaskService.getMarkerSrc(type), function (img) {
-                var markerImage = img.set({left: x, top: y}).scale(0.05);
+                var markerImage = img.set({left: x, top: y}).scale(markerImgScale);
+
+                var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale)/2);
+
                 canvas.add(markerImage).renderAll();
                 markerImage.hasControls = false;
                 markerImage.hasBorders = false;
 
-                var marker = new Marker(markerId++, markerImage);
+                var marker = new Marker(markerId++, markerImage, markerLabel);
                 markers.push(marker);
                 markerImage.marker = marker;
                 deffered.resolve(marker);
             });
 
             return deffered.promise;
+        }
+
+        function addMarkerLabel(text, anchorTop, anchorLeft) {
+            var markerLabel = new fabric.Text(text, {
+                fontFamily: 'Arial',
+                fontSize: 12,
+                left: 100,
+                top: 100
+            });
+
+            positionLabel(markerLabel, anchorTop, anchorLeft);
+
+            canvas.add(markerLabel).renderAll();
+            markerLabel.hasControls = false;
+            markerLabel.hasBorders = false;
+
+            return markerLabel;
+
         }
 
         function addLine(points) {
@@ -126,6 +150,11 @@
             var y2 = line.end.y - vy * 20;
 
             line.img.set({x1: x1, y1: y1, x2: x2, y2: y2});
+        }
+        
+        function positionLabel(label, anchorTop, anchorLeft) {
+            label.set("top", anchorTop - 20);
+            label.set("left", anchorLeft - label.width/2);
         }
 
         function addArrowHead(line) {
@@ -301,26 +330,33 @@
 
                 if (obj.marker.lineStarts && obj.marker.lineEnds) {
                     for (var i = 0; i < obj.marker.lineStarts.length; i++) {
+                        var line = obj.marker.lineStarts[i];
 
                         anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
                         anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
-                        obj.marker.lineStarts[i].start = {x: anchorLeft, y: anchorTop};
-                        positionLine(obj.marker.lineStarts[i]);
+                        line.start = {x: anchorLeft, y: anchorTop};
+                        positionLine(line);
 
-                        canvas.remove(obj.marker.lineStarts[i].head);
-                        addArrowHead(obj.marker.lineStarts[i]);
+                        canvas.remove(line.head);
+                        addArrowHead(line);
                     }
 
                     for (var i = 0; i < obj.marker.lineEnds.length; i++) {
+                        var line = obj.marker.lineEnds[i];
 
                         anchorLeft = obj.left + (obj.width / 2) * obj.scaleX;
                         anchorTop = obj.top + (obj.height / 2) * obj.scaleY;
-                        obj.marker.lineEnds[i].end = {x: anchorLeft, y: anchorTop};
-                        positionLine(obj.marker.lineEnds[i]);
+                        line.end = {x: anchorLeft, y: anchorTop};
+                        positionLine(line);
 
-                        canvas.remove(obj.marker.lineEnds[i].head);
-                        addArrowHead(obj.marker.lineEnds[i]);
+                        canvas.remove(line.head);
+                        addArrowHead(line);
                     }
+                }
+
+                if(obj.marker.label) {
+                    var label = obj.marker.label;
+                    positionLabel(label, obj.top, obj.left + (obj.width * markerImgScale)/2)
                 }
 
             });
