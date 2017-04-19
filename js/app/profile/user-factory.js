@@ -9,10 +9,10 @@
         .module('profile')
         .factory('User', UserFactory);
 
-    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest"];
+    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "QuestService"];
 
     /* @ngInject */
-    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest) {
+    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, QuestService) {
         $log = $log.getInstance("User", debugging);
 
         function User() {
@@ -189,6 +189,7 @@
             this.currentQuest = null;
             $rootScope.currentQuest = null;
             delete $localStorage.currentQuest;
+            delete $localStorage.treePartId;
 
             $log.info("clearCurrentQuest");
         }
@@ -199,20 +200,15 @@
                 return;
             }
 
-            var treePartId = 0;
-
-            this.currentQuest.treePartRoot.setId(treePartId++);
-            for(var i = 0; i < this.currentQuest.treeParts.length; i++) {
-                this.currentQuest.treeParts[i].setId(treePartId++);
-            }
-
             $localStorage.currentQuest = this.currentQuest;
+            $localStorage.treePartId = QuestService.getTreePartId();
         }
 
         function retrieveCurrentQuest() {
             if($localStorage.currentQuest) {
                 var quest = new Quest();
                 quest.initFromObject($localStorage.currentQuest);
+                QuestService.setTreePartId($localStorage.treePartId);
                 return quest;
             } else {
                 return null;

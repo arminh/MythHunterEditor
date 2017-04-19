@@ -9,10 +9,10 @@
         .module('treePart')
         .factory('TreePart', TreePartFactory);
 
-    TreePartFactory.$inject = ["$log", "$q", "BackendService", "TreePartType", "Task"];
+    TreePartFactory.$inject = ["$log", "$q", "BackendService", "TreePartType", "QuestService", "Task"];
 
     /* @ngInject */
-    function TreePartFactory($log, $q, BackendService, TreePartType, Task) {
+    function TreePartFactory($log, $q, BackendService, TreePartType, QuestService, Task) {
         $log = $log.getInstance("TreePart", debugging);
 
         function TreePart(task) {
@@ -31,7 +31,7 @@
             this.loaded = false;
             this.id = 0;
             this.changed = false;
-
+            this.uploadPromise = null;
         }
 
         TreePart.prototype = {
@@ -72,6 +72,7 @@
                 quest.addTreePart(this);
             }
 
+            this.id = treePartObject.id;
             this.remoteId = treePartObject.remoteId;
             this.version = treePartObject.version;
             this.type = treePartObject.type;
@@ -87,8 +88,13 @@
             this.task.initFromObject(treePartObject.task);
 
             for (var i = 0; i < treePartObject.successors.length; i++) {
-                var treePart = new TreePart(null);
-                treePart.initFromObject(treePartObject.successors[i], quest, false);
+                var successorObject = treePartObject.successors[i];
+                var treePart = quest.getTreePart(successorObject.id);
+                if(!treePart) {
+                    treePart = new TreePart(null);
+                    treePart.initFromObject(treePartObject.successors[i], quest, false);
+                }
+
                 this.successors.push(treePart);
             }
             $log.info("initFromObject_success: ", this);
@@ -124,7 +130,7 @@
             $log.info("initFromRemote: ", remoteTreePart);
 
             if (!isRoot) {
-                quest.addTreePart(this);
+                QuestService.addTreePartToQuest(quest, this)
             }
 
             this.remoteId = remoteTreePart.getId();
@@ -146,10 +152,13 @@
 
             var successors = remoteTreePart.getSuccessors();
             for (var i = 0; i < successors.length; i++) {
-                var treePart = new TreePart(null);
+                var treePart = quest.getTreePartByRemoteId(successors[i].getId());
+                if(!treePart) {
+                    treePart = new TreePart(null);
+                    treePart.setRemoteId(successors[i].getId());
+                    promises.push(treePart.getFromRemote(quest, false));
+                }
                 this.successors.push(treePart);
-                treePart.setRemoteId(successors[i].getId());
-                promises.push(treePart.getFromRemote(quest, false));
             }
 
             return $q.all(promises).then(function() {
@@ -167,6 +176,9 @@
         }
 
         function upload() {
+            if(this.uploadPromise) {
+                return this.uploadPromise;
+            }
             $log.info("upload: ", this);
 
             var deferred = $q.defer();
@@ -195,8 +207,8 @@
                 }
 
             }.bind(this));
-
-            return deferred.promise;
+            this.uploadPromise = deferred.promise;
+            return this.uploadPromise;
         }
 
         function remove() {

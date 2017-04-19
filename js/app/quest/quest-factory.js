@@ -48,6 +48,8 @@
             newTreePart: newTreePart,
             addTreePart: addTreePart,
             deleteTreePart: deleteTreePart,
+            getTreePart: getTreePart,
+            getTreePartByRemoteId: getTreePartByRemoteId,
             rewireTree: rewireTree,
             upload: upload,
             remove: remove,
@@ -242,7 +244,7 @@
                 this.treeParts[this.treeParts.length - 1].change();
             }
 
-            this.treeParts.push(treePart);
+            QuestService.addTreePartToQuest(this, treePart);
             $log.info("newTreePart_success: ", treePart);
             this.change();
         }
@@ -270,6 +272,26 @@
             $log.info("deleteTreePart_success: ", this.treeParts);
 
             this.change();
+        }
+
+        function getTreePart(treePartId) {
+            var treePart = null;
+            for(var i = 0; i < this.treeParts.length; i++) {
+                if(this.treeParts[i].id == treePartId) {
+                    treePart = this.treeParts[i];
+                }
+            }
+            return treePart;
+        }
+
+        function getTreePartByRemoteId(treePartRemoteId) {
+            var treePart = null;
+            for(var i = 0; i < this.treeParts.length; i++) {
+                if(this.treeParts[i].remoteId == treePartRemoteId) {
+                    treePart = this.treeParts[i];
+                }
+            }
+            return treePart;
         }
 
         function change() {

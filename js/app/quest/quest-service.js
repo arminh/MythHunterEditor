@@ -16,12 +16,17 @@
         $log = $log.getInstance("Quest", debugging);
 
         var $modalInstance = null;
+        var treePartId = 1;
 
         var service = {
             setModalInstance: setModalInstance,
             createQuest: createQuest,
             cancelQuest: cancelQuest,
-            openQuestDialog: openQuestDialog
+            addTreePartToQuest: addTreePartToQuest,
+            openQuestDialog: openQuestDialog,
+
+            getTreePartId: getTreePartId,
+            setTreePartId: setTreePartId
         };
         return service;
 
@@ -47,6 +52,11 @@
             $modalInstance.dismiss('cancel');
         }
 
+        function addTreePartToQuest(quest, treePart) {
+            treePart.setId(treePartId++);
+            quest.addTreePart(treePart);
+        }
+
         function openQuestDialog(quest, edit) {
             var modalInstance = $modal.open({
                 animation: true,
@@ -66,6 +76,14 @@
             });
 
             return modalInstance.result;
+        }
+
+        function getTreePartId() {
+            return treePartId;
+        }
+
+        function setTreePartId(value) {
+            treePartId = value;
         }
     }
 

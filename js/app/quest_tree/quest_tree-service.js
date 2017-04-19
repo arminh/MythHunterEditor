@@ -14,7 +14,7 @@
     /* @ngInject */
     function QuestTreeService($q, TaskService) {
         var canvas = null;
-        var markers = [];
+        var markers = {};
         var lines = [];
 
         var startMarker = null;
@@ -70,6 +70,7 @@
             });
             initRightClick();
             initDrag();
+            console.log(treeRoot);
             return addTreePartMarker(treeRoot, null).then(activateDraw);
         }
 
@@ -98,19 +99,12 @@
 
         function addTreePartMarker(treePart, parentMarker) {
 
+
             return addMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 150, 200).then(drawLineFromParent);
 
             function drawLineFromParent(marker) {
                 if(parentMarker) {
-                    var parentAnchor = getAnchorPoint(parentMarker.img);
-                    var anchor = getAnchorPoint(marker.img);
-                    var points = [parentAnchor.left, parentAnchor.top, anchor.left, anchor.top];
-                    var line = addLine(points);
-                    positionLine(line);
-                    addArrowHead(line);
-
-                    parentMarker.lineStarts.push(line);
-                    marker.lineEnds.push(line);
+                    drawLineBetweenMarkers(parentMarker, marker);
                 }
                 return addSuccessors(treePart, marker);
             }
@@ -130,21 +124,25 @@
         function addMarker(treePart, type, label, x, y) {
             var deffered = $q.defer();
 
-            fabric.Image.fromURL(TaskService.getMarkerSrc(type), function (img) {
-                var markerImage = img.set({left: x, top: y}).scale(markerImgScale);
-                markerImage.type = "marker";
+            if(markers[treePart.getId()]) {
+                deffered.resolve(markers[treePart.getId()]);
+            } else {
+                fabric.Image.fromURL(TaskService.getMarkerSrc(type), function (img) {
+                    var markerImage = img.set({left: x, top: y}).scale(markerImgScale);
+                    markerImage.type = "marker";
 
-                var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale)/2);
+                    var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale)/2);
 
-                canvas.add(markerImage).renderAll();
-                markerImage.hasControls = false;
-                markerImage.hasBorders = false;
+                    canvas.add(markerImage).renderAll();
+                    markerImage.hasControls = false;
+                    markerImage.hasBorders = false;
 
-                var marker = new Marker(treePart, markerId++, markerImage, markerLabel);
-                markers.push(marker);
-                markerImage.marker = marker;
-                deffered.resolve(marker);
-            });
+                    var marker = new Marker(treePart, markerId++, markerImage, markerLabel);
+                    markers[treePart.getId()] = marker;
+                    markerImage.marker = marker;
+                    deffered.resolve(marker);
+                });
+            }
 
             return deffered.promise;
         }
@@ -165,7 +163,18 @@
             markerLabel.set({selectable: false});
 
             return markerLabel;
+        }
 
+        function drawLineBetweenMarkers(fromMarker, toMarker) {
+            var fromAnchor = getAnchorPoint(fromMarker.img);
+            var toAnchor = getAnchorPoint(toMarker.img);
+            var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
+            var line = addLine(points);
+            positionLine(line);
+            addArrowHead(line);
+
+            fromMarker.lineStarts.push(line);
+            toMarker.lineEnds.push(line);
         }
 
         function addLine(points) {
@@ -348,6 +357,7 @@
                     if (startMarker.lineStarts) {
                         startMarker.lineStarts.push(line);
                     }
+                    startMarker.treePart.addSuccessor(obj.marker.treePart);
 
                     if (obj.marker.lineEnds) {
                         obj.marker.lineEnds.push(line);
