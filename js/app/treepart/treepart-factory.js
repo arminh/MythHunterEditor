@@ -40,6 +40,7 @@
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
             addSuccessor: addSuccessor,
+            hasAncestor: hasAncestor,
             change: change,
             upload: upload,
             remove: remove,
@@ -169,6 +170,20 @@
 
         function addSuccessor(treePart) {
             this.successors.push(treePart);
+        }
+
+        function hasAncestor(treePartId) {
+            var found = false;
+            for(var i = 0; i < this.successors.length; i++) {
+                if(this.successors[i].getId() == treePartId) {
+                    return true;
+                } else {
+                    if(this.successors[i].hasAncestor(treePartId)) {
+                        found = true;
+                    }
+                }
+            }
+            return found;
         }
 
         function change() {

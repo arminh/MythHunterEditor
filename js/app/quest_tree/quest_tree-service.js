@@ -9,10 +9,11 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$q", "TaskService"];
+    QuestTreeService.$inject = ["$log", "$q", "TaskService"];
 
     /* @ngInject */
-    function QuestTreeService($q, TaskService) {
+    function QuestTreeService($log, $q, TaskService) {
+        $log = $log.getInstance("QuestTreeService", debugging);
         var canvas = null;
         var markers = {};
         var lines = [];
@@ -340,8 +341,10 @@
                     canvas.on('mouse:move', onMouseMove);
                     drawing = true;
                 } else {
-                    if (obj.marker.id == curMarkerId) {
+                    if (obj.marker.id == curMarkerId || obj.marker.treePart.hasAncestor(startMarker.treePart.getId())) {
+                        $log.warn("Loop detected!");
                         stopDrawing();
+                        return;
                     }
 
                     canvas.off('mouse:move');
@@ -367,7 +370,6 @@
                     canvas.renderAll();
                     drawing = false;
                 }
-
             }
         }
 
