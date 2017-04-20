@@ -219,7 +219,7 @@
 
             var promises = [];
             promises.push(this.html.getFromRemote());
-            promises.push(this.treePartRoot.getFromRemote(this, true));
+            promises.push(this.treePartRoot.getFromRemote(this));
 
             return $q.all(promises).then(function () {
                 this.treePartRoot.getTask().setType("start");

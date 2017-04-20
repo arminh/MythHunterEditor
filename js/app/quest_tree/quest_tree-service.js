@@ -15,7 +15,8 @@
     function QuestTreeService($log, $q, TaskService) {
         $log = $log.getInstance("QuestTreeService", debugging);
         var canvas = null;
-        var markers = {};
+        var markers = [];
+        var markerPromises = {};
         var lines = [];
 
         var startMarker = null;
@@ -58,6 +59,7 @@
 
         function init(treeRoot) {
             markers = [];
+            markerPromises = {};
             lines = [];
             drawing = false;
             line = null;
@@ -125,28 +127,36 @@
         function addMarker(treePart, type, label, x, y) {
             var deffered = $q.defer();
 
-            if(markers[treePart.getId()]) {
-                deffered.resolve(markers[treePart.getId()]);
+            var treePartId = treePart.getId();
+            if(markerPromises[treePartId]) {
+                return markerPromises[treePartId];
             } else {
-                fabric.Image.fromURL(TaskService.getMarkerSrc(type), function (img) {
-                    var markerImage = img.set({left: x, top: y}).scale(markerImgScale);
-                    markerImage.type = "marker";
+                var marker = new Marker(treePart, markerId++, null, null);
+                markerPromises[treePartId] = deffered.promise;
+                fabric.Image.fromURL(TaskService.getMarkerSrc(type), initMarker.bind(marker));
+            }
 
-                    var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale)/2);
+            function initMarker(img) {
+                var markerImage = img.set({left: x, top: y}).scale(markerImgScale);
+                markerImage.type = "marker";
 
-                    canvas.add(markerImage).renderAll();
-                    markerImage.hasControls = false;
-                    markerImage.hasBorders = false;
+                var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale)/2);
 
-                    var marker = new Marker(treePart, markerId++, markerImage, markerLabel);
-                    markers[treePart.getId()] = marker;
-                    markerImage.marker = marker;
-                    deffered.resolve(marker);
-                });
+                canvas.add(markerImage).renderAll();
+                markerImage.hasControls = false;
+                markerImage.hasBorders = false;
+                markerImage.marker = marker;
+
+                this.img = markerImage;
+                this.label = markerLabel;
+                markers.push(marker);
+                deffered.resolve(marker);
             }
 
             return deffered.promise;
         }
+
+
 
         function addMarkerLabel(text, anchorTop, anchorLeft) {
             var markerLabel = new fabric.Text(text, {
@@ -167,6 +177,7 @@
         }
 
         function drawLineBetweenMarkers(fromMarker, toMarker) {
+            $log.info("Draw line between: " + fromMarker.treePart.getId() + " and " + toMarker.treePart.getId());
             var fromAnchor = getAnchorPoint(fromMarker.img);
             var toAnchor = getAnchorPoint(toMarker.img);
             var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
@@ -319,8 +330,6 @@
             var anchorTop = anchorPoint.top;
             var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
             canvas.on("mouse:up", onMouseUp);
-
-
 
             function onMouseUp() {
                 canvas.off('mouse:up');
