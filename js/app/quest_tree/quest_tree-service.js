@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "TaskService"];
+    QuestTreeService.$inject = ["$log", "$q", "TaskService", "QuestTreeLine"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, TaskService) {
+    function QuestTreeService($log, $q, TaskService, QuestTreeLine) {
         $log = $log.getInstance("QuestTreeService", debugging);
         var canvas = null;
         var markers = [];
@@ -48,16 +48,6 @@
             this.label = label;
             this.lineStarts = [];
             this.lineEnds = [];
-        }
-
-        function Line(img, start, end, fromMarker, toMarker) {
-            this.id = lineId++;
-            this.img = img;
-            this.start = start;
-            this.end = end;
-            this.head = null;
-            this.fromMarker = fromMarker;
-            this.toMarker = toMarker;
         }
 
         function init(treeRoot) {
@@ -113,7 +103,7 @@
                 select: function (e, ui) {
                     switch (ui.cmd) {
                         case "remove":
-                            removeLine(lineSelected);
+                            lineSelected.remove();
                             break;
                     }
                 }
@@ -176,6 +166,7 @@
             return deffered.promise;
         }
 
+
         function addMarkerLabel(text, anchorTop, anchorLeft) {
             var markerLabel = new fabric.Text(text, {
                 fontFamily: 'Arial',
@@ -199,151 +190,21 @@
             var fromAnchor = getAnchorPoint(fromMarker.img);
             var toAnchor = getAnchorPoint(toMarker.img);
             var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
-            var line = addLine(points, fromMarker, toMarker);
-            positionLine(line);
-            addArrowHead(line);
+
+            var line = new QuestTreeLine(lineId++, canvas);
+            line.draw(points, fromMarker, toMarker);
+            line.position();
+            line.drawArrowHead();
+            lines.push(line);
 
             fromMarker.lineStarts.push(line);
             toMarker.lineEnds.push(line);
-            lines.push(line);
-        }
-
-        function addLine(points, fromMarker, toMarker) {
-            var lineImage = new fabric.Line(points, {
-                strokeWidth: 4,
-                fill: 'red',
-                stroke: 'red',
-                originX: 'center',
-                originY: 'center',
-                perPixelTargetFind: true
-            });
-
-            lineImage.type = "line";
-            lineImage.hasControls = false;
-            lineImage.hasBorders = false;
-            lineImage.set({selectable: false});
-            canvas.add(lineImage);
-
-            var lineStart = {x: points[0], y: points[1]};
-            var lineEnd = {x: points[2], y: points[3]};
-            var line = new Line(lineImage, lineStart, lineEnd, fromMarker, toMarker);
-
-            return line;
-        }
-
-        function removeLine(line) {
-            for (var i = 0; i < line.fromMarker.lineStarts.length; i++) {
-                if (line.id = line.fromMarker.lineStarts[i]) {
-                    line.fromMarker.lineStarts.splice(i, 1);
-                }
-            }
-            for (var i = 0; i < line.toMarker.lineEnds.length; i++) {
-                if (line.id = line.toMarker.lineEnds[i]) {
-                    line.toMarker.lineEnds.splice(i, 1);
-                }
-            }
-            line.fromMarker.treePart.removeSuccessor(line.toMarker.treePart.getId());
-            canvas.remove(line.img);
-            canvas.remove(line.head);
-            console.log(treeRoot_);
-        }
-
-        function positionLine(line) {
-
-            var vy = (line.end.y - line.start.y);
-            var vx = (line.end.x - line.start.x);
-
-            var len = Math.sqrt(vx * vx + vy * vy);
-
-            vy = vy / len;
-            vx = vx / len;
-
-            var x1 = line.start.x + vx * 20;
-            var y1 = line.start.y + vy * 20;
-
-            var x2 = line.end.x - vx * 20;
-            var y2 = line.end.y - vy * 20;
-
-            line.img.set({x1: x1, y1: y1, x2: x2, y2: y2});
         }
 
         function positionLabel(label, anchorTop, anchorLeft) {
             label.set("top", anchorTop - 20);
             label.set("left", anchorLeft - label.width / 2);
         }
-
-        function addArrowHead(line) {
-
-            var width = 15;
-            var height = 20;
-
-            var anchorLeft = line.img.x2;
-            var anchorTop = line.img.y2;
-
-            var triangle = new fabric.Triangle({
-                fill: 'red',
-                left: anchorLeft,
-                top: anchorTop,
-                height: 18,
-                width: 10
-            });
-
-            triangle.set({selectable: false});
-            canvas.add(triangle);
-            line.head = triangle;
-
-            positionArrowHead(line, triangle);
-        }
-
-        function positionArrowHead(line, head) {
-
-            var angle = getLineAngle(line);
-
-            var angleRad = angle * (Math.PI / 180);
-            head.top = head.top - Math.cos(angleRad) * head.width / 2;
-            head.left = head.left - Math.sin(angleRad) * head.width / 2;
-
-            head.set({"angle": 90 - angle});
-        }
-
-        function getLineAngle(line) {
-            var dy = (line.img.y1 - line.img.y2);
-            var dx = (line.img.x2 - line.img.x1);
-
-            var angle;
-
-            if (dx == 0) {
-                angle = 90;
-            } else {
-                angle = Math.atan(dy / dx);
-                angle = angle * (180 / Math.PI); // rad --> deg
-            }
-
-
-            //first quadrant
-            if (line.img.x1 <= line.img.x2 && line.img.y1 > line.img.y2) {
-                angle = angle + 0;
-
-            }
-
-            //second quadrant
-            if (line.img.x1 > line.img.x2 && line.img.y1 >= line.img.y2) {
-                angle = angle + 180;
-            }
-
-            //third quadrant
-            if (line.img.x1 >= line.img.x2 && line.img.y1 < line.img.y2) {
-                angle = angle + 180;
-            }
-
-            //fourth quadrant
-            if (line.img.x1 < line.img.x2 && line.img.y1 <= line.img.y2) {
-                angle = angle + 360;
-            }
-
-            return angle;
-        }
-
 
         function activateDraw() {
             canvas.on('mouse:down', onMouseDown);
@@ -384,22 +245,19 @@
             curMarkerId = obj.marker.id;
             startMarker = obj.marker;
 
-            line = addLine(points, null, null);
-            line.start = {x: anchorLeft, y: anchorTop};
-            line.end = {x: pointer.x, y: pointer.y};
-            positionLine(line);
+            line = new QuestTreeLine(lineId++, canvas);
+            line.draw(points, null, null);
+            line.position();
 
             canvas.on('mouse:move', onMouseMove);
             drawing = true;
         }
 
         function onMouseMove(evt) {
-            //if (!isDown) return;
             var pointer = canvas.getPointer(evt.e);
-
-            line.end = {x: pointer.x, y: pointer.y};
-            positionLine(line);
-            line.img.set({x2: pointer.x, y2: pointer.y});
+            line.setEnd({x: pointer.x, y: pointer.y});
+            line.position();
+            line.getImage().set({x2: pointer.x, y2: pointer.y});
             canvas.renderAll();
         }
 
@@ -419,12 +277,13 @@
             var anchorPoint = getAnchorPoint(obj);
             var anchorLeft = anchorPoint.left;
             var anchorTop = anchorPoint.top;
-            line.end = {x: anchorLeft, y: anchorTop};
-            line.fromMarker = startMarker;
-            line.toMarker = obj.marker;
 
-            positionLine(line);
-            addArrowHead(line);
+            line.setEnd({x: anchorLeft, y: anchorTop});
+            line.setFromMarker(startMarker);
+            line.setToMarker(obj.marker);
+            line.position();
+            line.drawArrowHead();
+            lines.push(line);
 
             if (startMarker.lineStarts) {
                 startMarker.lineStarts.push(line);
@@ -435,7 +294,6 @@
                 obj.marker.lineEnds.push(line);
             }
 
-            lines.push(line);
             canvas.renderAll();
             drawing = false;
         }
@@ -445,7 +303,7 @@
             if (drawing) {
                 drawing = false;
                 canvas.off('mouse:move');
-                line.img.remove();
+                line.stopDrawing();
             }
 
         }
@@ -492,11 +350,11 @@
 
                     anchorLeft = left + (obj.width / 2) * obj.scaleX;
                     anchorTop = top + (obj.height / 2) * obj.scaleY;
-                    line.start = {x: anchorLeft, y: anchorTop};
-                    positionLine(line);
+                    line.setStart({x: anchorLeft, y: anchorTop});
+                    line.position();
 
-                    canvas.remove(line.head);
-                    addArrowHead(line);
+                    line.removeArrowHead();
+                    line.drawArrowHead();
                 }
 
                 for (var i = 0; i < obj.marker.lineEnds.length; i++) {
@@ -504,11 +362,11 @@
 
                     anchorLeft = left + (obj.width / 2) * obj.scaleX;
                     anchorTop = top + (obj.height / 2) * obj.scaleY;
-                    line.end = {x: anchorLeft, y: anchorTop};
-                    positionLine(line);
+                    line.setEnd({x: anchorLeft, y: anchorTop});
+                    line.position();
 
-                    canvas.remove(line.head);
-                    addArrowHead(line);
+                    line.removeArrowHead();
+                    line.drawArrowHead();
                 }
             }
 
