@@ -28,8 +28,10 @@
             draw: draw,
             stopDrawing: stopDrawing,
             position: position,
+            isHit: isHit,
             remove: remove,
             drawArrowHead: drawArrowHead,
+            getArrowHead: getArrowHead,
             removeArrowHead: removeArrowHead,
 
             getImage: getImage,
@@ -88,6 +90,12 @@
             var y2 = this.end.y - vy * 20;
 
             this.img.set({x1: x1, y1: y1, x2: x2, y2: y2});
+        }
+
+        function isHit(pointer) {
+            if (containsPoint(this.img, pointer) || containsPoint(this.head, pointer)) {
+                return true;
+            }
         }
 
         function remove() {
@@ -175,8 +183,16 @@
             return angle;
         }
 
+        function getArrowHead() {
+            return this.head;
+        }
+
         function removeArrowHead() {
             this.canvas.remove(this.head);
+        }
+
+        function containsPoint(object, point) {
+            return !canvas.isTargetTransparent(object, point.x, point.y);
         }
 
         function getImage() {

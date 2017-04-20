@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "TaskService", "QuestTreeLine"];
+    QuestTreeService.$inject = ["$log", "$q", "TaskService", "QuestTreeMarker", "QuestTreeLine"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, TaskService, QuestTreeLine) {
+    function QuestTreeService($log, $q, TaskService, QuestTreeMarker, QuestTreeLine) {
         $log = $log.getInstance("QuestTreeService", debugging);
         var canvas = null;
         var markers = [];
@@ -40,15 +40,6 @@
         return service;
 
         ////////////////
-
-        function Marker(treePart, id, img, label) {
-            this.treePart = treePart;
-            this.id = id;
-            this.img = img;
-            this.label = label;
-            this.lineStarts = [];
-            this.lineEnds = [];
-        }
 
         function init(treeRoot) {
             markers = [];
@@ -89,9 +80,7 @@
                     var pointer = canvas.getPointer(e.originalEvent);
                     var lineHit = false;
                     for (var i = 0; i < lines.length; i++) {
-                        var lineObject = lines[i].img;
-                        var lineHead = lines[i].head;
-                        if (containsPoint(lineObject, pointer) || containsPoint(lineHead, pointer)) {
+                        if (lines[i].isHit(pointer)) {
                             lineHit = true;
                             lineSelected = lines[i];
                         }
@@ -112,14 +101,27 @@
 
         function addTreePartMarker(treePart, parentMarker) {
 
-
             return addMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 150, 200).then(drawLineFromParent);
 
             function drawLineFromParent(marker) {
+                markers.push(marker);
                 if (parentMarker) {
                     drawLineBetweenMarkers(parentMarker, marker);
                 }
                 return addSuccessors(treePart, marker);
+            }
+        }
+
+        function addMarker(treePart, type, label, x, y) {
+
+            var treePartId = treePart.getId();
+            if (markerPromises[treePartId]) {
+                return markerPromises[treePartId];
+            } else {
+                var marker = new QuestTreeMarker(treePart, markerId++, canvas, markerImgScale);
+                var promise = marker.add(type, x, y, label);
+                markerPromises[treePartId] = promise;
+                return promise;
             }
         }
 
@@ -134,61 +136,10 @@
             return $q.all(promises);
         }
 
-        function addMarker(treePart, type, label, x, y) {
-            var deffered = $q.defer();
-
-            var treePartId = treePart.getId();
-            if (markerPromises[treePartId]) {
-                return markerPromises[treePartId];
-            } else {
-                var marker = new Marker(treePart, markerId++, null, null);
-                markerPromises[treePartId] = deffered.promise;
-                fabric.Image.fromURL(TaskService.getMarkerSrc(type), initMarker.bind(marker));
-            }
-
-            function initMarker(img) {
-                var markerImage = img.set({left: x, top: y}).scale(markerImgScale);
-                markerImage.type = "marker";
-
-                var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale) / 2);
-
-                canvas.add(markerImage).renderAll();
-                markerImage.hasControls = false;
-                markerImage.hasBorders = false;
-                markerImage.marker = marker;
-
-                this.img = markerImage;
-                this.label = markerLabel;
-                markers.push(marker);
-                deffered.resolve(marker);
-            }
-
-            return deffered.promise;
-        }
-
-
-        function addMarkerLabel(text, anchorTop, anchorLeft) {
-            var markerLabel = new fabric.Text(text, {
-                fontFamily: 'Arial',
-                fontSize: 12,
-                left: 100,
-                top: 100
-            });
-
-            positionLabel(markerLabel, anchorTop, anchorLeft);
-
-            canvas.add(markerLabel).renderAll();
-            markerLabel.hasControls = false;
-            markerLabel.hasBorders = false;
-            markerLabel.set({selectable: false});
-
-            return markerLabel;
-        }
-
         function drawLineBetweenMarkers(fromMarker, toMarker) {
-            $log.info("Draw line between: " + fromMarker.treePart.getId() + " and " + toMarker.treePart.getId());
-            var fromAnchor = getAnchorPoint(fromMarker.img);
-            var toAnchor = getAnchorPoint(toMarker.img);
+            $log.info("Draw line between: " + fromMarker.getTreePart().getId() + " and " + toMarker.getTreePart().getId());
+            var fromAnchor = getAnchorPoint(fromMarker.getImage());
+            var toAnchor = getAnchorPoint(toMarker.getImage());
             var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
 
             var line = new QuestTreeLine(lineId++, canvas);
@@ -197,13 +148,8 @@
             line.drawArrowHead();
             lines.push(line);
 
-            fromMarker.lineStarts.push(line);
-            toMarker.lineEnds.push(line);
-        }
-
-        function positionLabel(label, anchorTop, anchorLeft) {
-            label.set("top", anchorTop - 20);
-            label.set("left", anchorLeft - label.width / 2);
+            fromMarker.addLineStart(line);
+            toMarker.addLineEnd(line);
         }
 
         function activateDraw() {
@@ -242,7 +188,7 @@
             var anchorTop = anchorPoint.top;
             var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
 
-            curMarkerId = obj.marker.id;
+            curMarkerId = obj.marker.getId();
             startMarker = obj.marker;
 
             line = new QuestTreeLine(lineId++, canvas);
@@ -262,10 +208,10 @@
         }
 
         function finishDrawing(obj) {
-            if (obj.marker.id == curMarkerId ||
-                obj.marker.id == 0 ||
-                obj.marker.treePart.hasAncestor(startMarker.treePart.getId()) ||
-                startMarker.treePart.hasSuccessor(obj.marker.treePart.getId())) {
+            if (obj.marker.getId() == curMarkerId ||
+                obj.marker.getId() == 0 ||
+                obj.marker.getTreePart().hasAncestor(startMarker.getTreePart().getId()) ||
+                startMarker.getTreePart().hasSuccessor(obj.marker.getTreePart().getId())) {
 
                 $log.warn("Loop detected!");
                 stopDrawing();
@@ -285,14 +231,9 @@
             line.drawArrowHead();
             lines.push(line);
 
-            if (startMarker.lineStarts) {
-                startMarker.lineStarts.push(line);
-            }
-            startMarker.treePart.addSuccessor(obj.marker.treePart);
-
-            if (obj.marker.lineEnds) {
-                obj.marker.lineEnds.push(line);
-            }
+            startMarker.addLineStart(line);
+            startMarker.getTreePart().addSuccessor(obj.marker.getTreePart());
+            obj.marker.addLineEnd(line);
 
             canvas.renderAll();
             drawing = false;
@@ -311,11 +252,6 @@
         function deactivateDraw() {
             canvas.off('mouse:down');
             canvas.off('mouse:move');
-
-            /*            for (var i = 0; i < markers.length; i++) {
-             markers[i].set("lockMovementX", false);
-             markers[i].set("lockMovementY", false);
-             }*/
         }
 
         function initDrag() {
@@ -327,53 +263,17 @@
                 var obj = evt.target;
                 switch (obj.get('type')) {
                     case "marker":
-                        moveMarker(obj, obj.left, obj.top);
+                        obj.marker.move(obj.left, obj.top);
                         break;
                     case "group":
                         var objects = obj.getObjects();
                         for (var i = 0; i < objects.length; i++) {
                             if (objects[i].get('type') == "marker") {
-                                moveMarker(objects[i], objects[i].left + obj.left + obj.width / 2, objects[i].top + obj.top + obj.height / 2);
+                                objects[i].marker.move(objects[i].left + obj.left + obj.width / 2, objects[i].top + obj.top + obj.height / 2)
                             }
                         }
                 }
             });
-        }
-
-        function moveMarker(obj, left, top) {
-            var anchorLeft;
-            var anchorTop;
-
-            if (obj.marker.lineStarts && obj.marker.lineEnds) {
-                for (var i = 0; i < obj.marker.lineStarts.length; i++) {
-                    var line = obj.marker.lineStarts[i];
-
-                    anchorLeft = left + (obj.width / 2) * obj.scaleX;
-                    anchorTop = top + (obj.height / 2) * obj.scaleY;
-                    line.setStart({x: anchorLeft, y: anchorTop});
-                    line.position();
-
-                    line.removeArrowHead();
-                    line.drawArrowHead();
-                }
-
-                for (var i = 0; i < obj.marker.lineEnds.length; i++) {
-                    var line = obj.marker.lineEnds[i];
-
-                    anchorLeft = left + (obj.width / 2) * obj.scaleX;
-                    anchorTop = top + (obj.height / 2) * obj.scaleY;
-                    line.setEnd({x: anchorLeft, y: anchorTop});
-                    line.position();
-
-                    line.removeArrowHead();
-                    line.drawArrowHead();
-                }
-            }
-
-            if (obj.marker.label) {
-                var label = obj.marker.label;
-                positionLabel(label, top, left + (obj.width * markerImgScale) / 2)
-            }
         }
 
         function getAnchorPoint(obj) {
@@ -381,10 +281,6 @@
                 left: obj.left + (obj.width / 2) * obj.scaleX,
                 top: obj.top + (obj.height / 2) * obj.scaleY
             }
-        }
-
-        function containsPoint(object, point) {
-            return !canvas.isTargetTransparent(object, point.x, point.y);
         }
     }
 
