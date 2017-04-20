@@ -50,11 +50,14 @@
             this.lineEnds = [];
         }
 
-        function Line(img, start, end) {
+        function Line(img, start, end, fromMarker, toMarker) {
+            this.id = lineId++;
             this.img = img;
             this.start = start;
             this.end = end;
             this.head = null;
+            this.fromMarker = fromMarker;
+            this.toMarker = toMarker;
         }
 
         function init(treeRoot) {
@@ -73,7 +76,6 @@
             });
             initRightClick();
             initDrag();
-            console.log(treeRoot);
             return addTreePartMarker(treeRoot, null).then(activateDraw);
         }
 
@@ -86,17 +88,35 @@
         }
 
         function initRightClick() {
-            $(".upper-canvas").bind('contextmenu', function (e) {
-                var pointer = canvas.getPointer(e.originalEvent);
-                e.preventDefault();
+            var lineSelected = null;
 
-                for(var i = 0; i < lines.length; i++) {
-                    var lineObject = lines[i].img;
-                    var lineHead = lines[i].head;
-                    if (containsPoint(lineObject, pointer) || containsPoint(lineHead, pointer)) {
+            $(document).contextmenu({
+                delegate: ".upper-canvas",
+                menu: [
+                    {title: "Remove", cmd: "remove", uiIcon: "ui-icon-trash"},
+                ],
+                beforeOpen: function (e, ui) {
+                    var pointer = canvas.getPointer(e.originalEvent);
+                    var lineHit = false;
+                    for (var i = 0; i < lines.length; i++) {
+                        var lineObject = lines[i].img;
+                        var lineHead = lines[i].head;
+                        if (containsPoint(lineObject, pointer) || containsPoint(lineHead, pointer)) {
+                            lineHit = true;
+                            lineSelected = lines[i];
+                        }
+                    }
+                    if (!lineHit) {
+                        e.preventDefault();
+                    }
+                },
+                select: function (e, ui) {
+                    switch (ui.cmd) {
+                        case "remove":
+                            removeLine(lineSelected);
+                            break;
                     }
                 }
-                return false;
             });
         }
 
@@ -106,7 +126,7 @@
             return addMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 150, 200).then(drawLineFromParent);
 
             function drawLineFromParent(marker) {
-                if(parentMarker) {
+                if (parentMarker) {
                     drawLineBetweenMarkers(parentMarker, marker);
                 }
                 return addSuccessors(treePart, marker);
@@ -128,7 +148,7 @@
             var deffered = $q.defer();
 
             var treePartId = treePart.getId();
-            if(markerPromises[treePartId]) {
+            if (markerPromises[treePartId]) {
                 return markerPromises[treePartId];
             } else {
                 var marker = new Marker(treePart, markerId++, null, null);
@@ -140,7 +160,7 @@
                 var markerImage = img.set({left: x, top: y}).scale(markerImgScale);
                 markerImage.type = "marker";
 
-                var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale)/2);
+                var markerLabel = addMarkerLabel(label, img.top, img.left + (img.width * markerImgScale) / 2);
 
                 canvas.add(markerImage).renderAll();
                 markerImage.hasControls = false;
@@ -155,8 +175,6 @@
 
             return deffered.promise;
         }
-
-
 
         function addMarkerLabel(text, anchorTop, anchorLeft) {
             var markerLabel = new fabric.Text(text, {
@@ -181,15 +199,16 @@
             var fromAnchor = getAnchorPoint(fromMarker.img);
             var toAnchor = getAnchorPoint(toMarker.img);
             var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
-            var line = addLine(points);
+            var line = addLine(points, fromMarker, toMarker);
             positionLine(line);
             addArrowHead(line);
 
             fromMarker.lineStarts.push(line);
             toMarker.lineEnds.push(line);
+            lines.push(line);
         }
 
-        function addLine(points) {
+        function addLine(points, fromMarker, toMarker) {
             var lineImage = new fabric.Line(points, {
                 strokeWidth: 4,
                 fill: 'red',
@@ -207,9 +226,26 @@
 
             var lineStart = {x: points[0], y: points[1]};
             var lineEnd = {x: points[2], y: points[3]};
-            var line = new Line(lineImage, lineStart, lineEnd);
+            var line = new Line(lineImage, lineStart, lineEnd, fromMarker, toMarker);
 
             return line;
+        }
+
+        function removeLine(line) {
+            for (var i = 0; i < line.fromMarker.lineStarts.length; i++) {
+                if (line.id = line.fromMarker.lineStarts[i]) {
+                    line.fromMarker.lineStarts.splice(i, 1);
+                }
+            }
+            for (var i = 0; i < line.toMarker.lineEnds.length; i++) {
+                if (line.id = line.toMarker.lineEnds[i]) {
+                    line.toMarker.lineEnds.splice(i, 1);
+                }
+            }
+            line.fromMarker.treePart.removeSuccessor(line.toMarker.treePart.getId());
+            canvas.remove(line.img);
+            canvas.remove(line.head);
+            console.log(treeRoot_);
         }
 
         function positionLine(line) {
@@ -230,10 +266,10 @@
 
             line.img.set({x1: x1, y1: y1, x2: x2, y2: y2});
         }
-        
+
         function positionLabel(label, anchorTop, anchorLeft) {
             label.set("top", anchorTop - 20);
-            label.set("left", anchorLeft - label.width/2);
+            label.set("left", anchorLeft - label.width / 2);
         }
 
         function addArrowHead(line) {
@@ -320,66 +356,41 @@
             if (!obj) {
                 return;
             }
-
-            var pointer = canvas.getPointer(evt.e);
-
             var objLeft = obj.left;
             var objTop = obj.top;
-            var anchorPoint = getAnchorPoint(obj);
-            var anchorLeft = anchorPoint.left;
-            var anchorTop = anchorPoint.top;
-            var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
             canvas.on("mouse:up", onMouseUp);
 
             function onMouseUp() {
                 canvas.off('mouse:up');
 
                 if (!drawing) {
-                    if(obj.left != objLeft || obj.top != objTop) {  //item was dragged
-                        return;
+
+                    if (obj.left == objLeft && obj.top == objTop) {  //item wasn't dragged
+                        startDrawing(obj, canvas.getPointer(evt.e));
                     }
-
-                    curMarkerId = obj.marker.id;
-                    startMarker = obj.marker;
-
-                    line = addLine(points);
-                    line.start = {x: anchorLeft, y: anchorTop};
-                    line.end = {x: pointer.x, y: pointer.y};
-                    positionLine(line);
-
-                    canvas.on('mouse:move', onMouseMove);
-                    drawing = true;
                 } else {
-                    if (obj.marker.id == curMarkerId || obj.marker.treePart.hasAncestor(startMarker.treePart.getId())) {
-                        $log.warn("Loop detected!");
-                        stopDrawing();
-                        return;
-                    }
-
-                    canvas.off('mouse:move');
-
-                    anchorPoint = getAnchorPoint(obj);
-                    anchorLeft = anchorPoint.left;
-                    anchorTop = anchorPoint.top;
-                    line.end = {x: anchorLeft, y: anchorTop};
-
-                    positionLine(line);
-                    addArrowHead(line);
-
-                    if (startMarker.lineStarts) {
-                        startMarker.lineStarts.push(line);
-                    }
-                    startMarker.treePart.addSuccessor(obj.marker.treePart);
-
-                    if (obj.marker.lineEnds) {
-                        obj.marker.lineEnds.push(line);
-                    }
-
-                    lines.push(line);
-                    canvas.renderAll();
-                    drawing = false;
+                    finishDrawing(obj);
                 }
             }
+        }
+
+        function startDrawing(obj, pointer) {
+
+            var anchorPoint = getAnchorPoint(obj);
+            var anchorLeft = anchorPoint.left;
+            var anchorTop = anchorPoint.top;
+            var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
+
+            curMarkerId = obj.marker.id;
+            startMarker = obj.marker;
+
+            line = addLine(points, null, null);
+            line.start = {x: anchorLeft, y: anchorTop};
+            line.end = {x: pointer.x, y: pointer.y};
+            positionLine(line);
+
+            canvas.on('mouse:move', onMouseMove);
+            drawing = true;
         }
 
         function onMouseMove(evt) {
@@ -392,9 +403,46 @@
             canvas.renderAll();
         }
 
+        function finishDrawing(obj) {
+            if (obj.marker.id == curMarkerId ||
+                obj.marker.id == 0 ||
+                obj.marker.treePart.hasAncestor(startMarker.treePart.getId()) ||
+                startMarker.treePart.hasSuccessor(obj.marker.treePart.getId())) {
+
+                $log.warn("Loop detected!");
+                stopDrawing();
+                return;
+            }
+
+            canvas.off('mouse:move');
+
+            var anchorPoint = getAnchorPoint(obj);
+            var anchorLeft = anchorPoint.left;
+            var anchorTop = anchorPoint.top;
+            line.end = {x: anchorLeft, y: anchorTop};
+            line.fromMarker = startMarker;
+            line.toMarker = obj.marker;
+
+            positionLine(line);
+            addArrowHead(line);
+
+            if (startMarker.lineStarts) {
+                startMarker.lineStarts.push(line);
+            }
+            startMarker.treePart.addSuccessor(obj.marker.treePart);
+
+            if (obj.marker.lineEnds) {
+                obj.marker.lineEnds.push(line);
+            }
+
+            lines.push(line);
+            canvas.renderAll();
+            drawing = false;
+        }
+
         function stopDrawing() {
             console.log("stopDrawing");
-            if(drawing) {
+            if (drawing) {
                 drawing = false;
                 canvas.off('mouse:move');
                 line.img.remove();
@@ -406,28 +454,28 @@
             canvas.off('mouse:down');
             canvas.off('mouse:move');
 
-/*            for (var i = 0; i < markers.length; i++) {
-                markers[i].set("lockMovementX", false);
-                markers[i].set("lockMovementY", false);
-            }*/
+            /*            for (var i = 0; i < markers.length; i++) {
+             markers[i].set("lockMovementX", false);
+             markers[i].set("lockMovementY", false);
+             }*/
         }
 
         function initDrag() {
             canvas.on('object:moving', function (evt) {
-                if(drawing) {
+                if (drawing) {
                     return;
                 }
 
                 var obj = evt.target;
-                switch(obj.get('type')) {
+                switch (obj.get('type')) {
                     case "marker":
                         moveMarker(obj, obj.left, obj.top);
                         break;
                     case "group":
                         var objects = obj.getObjects();
-                        for(var i = 0; i < objects.length; i++) {
-                            if(objects[i].get('type') == "marker") {
-                                moveMarker(objects[i], objects[i].left + obj.left + obj.width/2, objects[i].top + obj.top  + obj.height/2);
+                        for (var i = 0; i < objects.length; i++) {
+                            if (objects[i].get('type') == "marker") {
+                                moveMarker(objects[i], objects[i].left + obj.left + obj.width / 2, objects[i].top + obj.top + obj.height / 2);
                             }
                         }
                 }
@@ -464,9 +512,9 @@
                 }
             }
 
-            if(obj.marker.label) {
+            if (obj.marker.label) {
                 var label = obj.marker.label;
-                positionLabel(label, top, left + (obj.width * markerImgScale)/2)
+                positionLabel(label, top, left + (obj.width * markerImgScale) / 2)
             }
         }
 

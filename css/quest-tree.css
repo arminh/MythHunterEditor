@@ -3,3 +3,7 @@
     /* height: 500px; */
     /* width: 500px; */
 }
+
+.ui-contextmenu {
+    z-index: 1500
+}
