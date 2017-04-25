@@ -9,11 +9,14 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "TaskService", "QuestTreeMarker", "QuestTreeLine"];
+    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, TaskService, QuestTreeMarker, QuestTreeLine) {
+    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine) {
         $log = $log.getInstance("QuestTreeService", debugging);
+        var originalTreeRoot = null;
+        var modifiedTreeRoot = null;
+
         var canvas = null;
         var markers = [];
         var markerPromises = {};
@@ -35,13 +38,16 @@
             activateDraw: activateDraw,
             deactivateDraw: deactivateDraw,
             escapeKeyPressed: escapeKeyPressed,
-            deleteKeyPressed: deleteKeyPressed
+            deleteKeyPressed: deleteKeyPressed,
+            saveTree: saveTree
         };
         return service;
 
         ////////////////
 
         function init(treeRoot) {
+            originalTreeRoot = treeRoot;
+            modifiedTreeRoot = angular.copy(treeRoot);
             markers = [];
             markerPromises = {};
             lines = [];
@@ -59,7 +65,7 @@
             initDrag();
             initGroups();
 
-            return addTreePartMarker(treeRoot, null).then(activateDraw);
+            return addTreePartMarker(modifiedTreeRoot, null).then(activateDraw);
         }
 
         function escapeKeyPressed() {
@@ -316,6 +322,18 @@
                 left: obj.left + (obj.width / 2) * obj.scaleX,
                 top: obj.top + (obj.height / 2) * obj.scaleY
             }
+        }
+
+        function saveTree($modalInstance) {
+
+            for(var i = 0; i < markers.length; i++) {
+                if(marker.getId() != 0 && marker.getLineEnds().length == 0) {
+                    alert("Missing connection!");
+                }
+            }
+
+
+            $modalInstance.close();
         }
     }
 

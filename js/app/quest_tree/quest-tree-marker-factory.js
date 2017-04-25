@@ -32,6 +32,7 @@
             addLineEnd: addLineEnd,
 
             getId: getId,
+            getLineEnds: getLineEnds,
             getTreePart: getTreePart,
             getImage: getImage
         };
@@ -128,6 +129,10 @@
 
         function addLineEnd(line) {
             this.lineEnds.push(line);
+        }
+
+        function getLineEnds() {
+            return this.lineEnds;
         }
 
         function getId() {

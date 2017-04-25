@@ -17,6 +17,7 @@
         vm.drawing = false;
 
         vm.init = init;
+        vm.okClicked = okClicked;
         vm.close = close;
 
         $scope.$on("keypress:27", QuestTreeService.escapeKeyPressed);
@@ -26,7 +27,10 @@
 
         function init() {
             QuestTreeService.init(treeRoot);
+        }
 
+        function okClicked() {
+            QuestTreeService.saveTree($modalInstance);
         }
 
         function close() {
