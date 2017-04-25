@@ -57,6 +57,8 @@
             });
             initRightClick();
             initDrag();
+            initGroups();
+
             return addTreePartMarker(treeRoot, null).then(activateDraw);
         }
 
@@ -66,6 +68,16 @@
 
         function deleteKeyPressed() {
 
+        }
+
+        function initGroups() {
+            canvas.on('selection:created',function(ev){
+                ev.target.set({
+                    lockScalingX: true,
+                    lockScalingY: true,
+                    lockRotation: true
+                });
+            });
         }
 
         function initRightClick() {
@@ -256,11 +268,12 @@
 
         function initDrag() {
             canvas.on('object:moving', function (evt) {
+                var obj = evt.target;
                 if (drawing) {
                     return;
                 }
 
-                var obj = evt.target;
+                checkDragBounds(obj);
                 switch (obj.get('type')) {
                     case "marker":
                         obj.marker.move(obj.left, obj.top);
@@ -274,6 +287,28 @@
                         }
                 }
             });
+        }
+
+        function checkDragBounds(el) {
+            var width = el.getBoundingRectWidth();
+            var height = el.getBoundingRectHeight();
+            var left = el.left;
+            var right = left + width;
+            var top = el.top;
+            var bottom = top + height;
+
+            if(left < 0) {
+                el.left = 0;
+            }
+            if(right > canvas.width) {
+                el.left = canvas.width - width;
+            }
+            if(top < 0) {
+                el.top = 0;
+            }
+            if(bottom > canvas.height) {
+                el.top = canvas.height - height;
+            }
         }
 
         function getAnchorPoint(obj) {
