@@ -9,10 +9,10 @@
         .module('quest')
         .factory('Quest', QuestFactory);
 
-    QuestFactory.$inject = ["$log", "$q", "QuestService", "AuthenticationService", "BackendService", "TreePartType", "Task", "HtmlText", "TreePart", "DifficultyLevel"];
+    QuestFactory.$inject = ["$log", "$q", "QuestService", "AuthenticationService", "BackendService", "TreePartType", "Task", "HtmlText", "TreePart", "DifficultyLevel", "UploadErrors"];
 
     /* @ngInject */
-    function QuestFactory($log, $q, QuestService, AuthenticationService, BackendService, TreePartType, Task, HtmlText, TreePart, DifficultyLevel) {
+    function QuestFactory($log, $q, QuestService, AuthenticationService, BackendService, TreePartType, Task, HtmlText, TreePart, DifficultyLevel, UploadErrors) {
 
         $log = $log.getInstance("Quest", debugging);
         function Quest() {
@@ -49,6 +49,7 @@
             addTreePart: addTreePart,
             deleteTreePart: deleteTreePart,
             rewireTree: rewireTree,
+            check: check,
             upload: upload,
             remove: remove,
 
@@ -275,6 +276,16 @@
         function change() {
             this.changed = true;
             AuthenticationService.getUser().backup();
+        }
+
+        function check() {
+            var errors = new UploadErrors();
+            var nameMissing = (this.name == "");
+            var descriptionMissing = (this.description == "");
+            if(nameMissing || descriptionMissing) {
+                errors.addQuestError(this, nameMissing, descriptionMissing);
+            }
+            return errors;
         }
 
         function upload() {

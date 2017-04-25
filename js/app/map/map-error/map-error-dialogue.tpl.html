@@ -1,0 +1,19 @@
+<div class="ngdialog-message">
+    <div class="quest-errors" ng-if="mapErrors.errors.questErrors.length > 0">
+
+        <div ng-repeat="questError in mapErrors.errors.questErrors">
+            <b>Your <a ng-click="mapErrors.editQuest(questError.quest)">quest</a> is missing:</b>
+            <ul>
+                <li ng-if="questError.nameMissing">Name</li>
+                <li ng-if="questError.descriptionMissing">Description</li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="task-errors">
+
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button" ng-click="mapErrors.close()">OK</button>
+    </div>
+</div>

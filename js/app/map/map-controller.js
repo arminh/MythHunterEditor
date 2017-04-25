@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "$q", "MapInteractionService", "MapService", "user"];
+    MapController.$inject = ["$scope", "$state", "$q", "MapInteractionService", "MapService", "user", "ngDialog"];
 
     /* @ngInject */
-    function MapController($scope, $state, $q, MapInteraction, MapService, user) {
+    function MapController($scope, $state, $q, MapInteraction, MapService, user, ngDialog) {
         var vm = this;
 
         vm.quest = null;
@@ -91,9 +91,22 @@
         }
 
         function saveQuest() {
-            vm.showQuestline = false;
-            vm.saveQuestPromise = MapService.saveQuest();
-            vm.interactionDisabled = true;
+            var errors = vm.quest.check();
+            if(!errors.getErroneous()) {
+                vm.showQuestline = false;
+                vm.saveQuestPromise = MapService.saveQuest();
+                vm.interactionDisabled = true;
+            } else {
+                ngDialog.open({
+                    template: "js/app/map/map-error/map-error-dialogue.tpl.html",
+                    controller: "MapErrorController",
+                    controllerAs: "mapErrors",
+                    data: {
+                        errors: errors
+                    }
+                });
+            }
+
         }
 
         function cancelQuest() {
