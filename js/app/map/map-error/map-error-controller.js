@@ -15,6 +15,7 @@
     function MapErrorController($scope) {
         var vm = this;
         vm.editQuest = editQuest;
+        vm.editTask = editTask;
         vm.close = close;
 
         activate();
@@ -29,6 +30,11 @@
         function editQuest(quest) {
             $scope.closeThisDialog();
             quest.edit();
+        }
+
+        function editTask(task) {
+            $scope.closeThisDialog();
+            task.edit();
         }
 
         function close() {

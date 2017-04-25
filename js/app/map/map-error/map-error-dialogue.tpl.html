@@ -1,6 +1,5 @@
 <div class="ngdialog-message">
     <div class="quest-errors" ng-if="mapErrors.errors.questErrors.length > 0">
-
         <div ng-repeat="questError in mapErrors.errors.questErrors">
             <b>Your <a ng-click="mapErrors.editQuest(questError.quest)">quest</a> is missing:</b>
             <ul>
@@ -10,8 +9,15 @@
 
         </div>
     </div>
-    <div class="task-errors">
+    <div class="task-errors" ng-if="mapErrors.errors.taskErrors.length > 0">
+        <div ng-repeat="taskError in mapErrors.errors.taskErrors">
+            <b>Your <a ng-click="mapErrors.editTask(taskError.task)">task</a> is missing:</b>
+            <ul>
+                <li ng-if="taskError.nameMissing">Name</li>
+                <li ng-if="taskError.descriptionMissing">Description</li>
+            </ul>
 
+        </div>
     </div>
     <div class="ngdialog-buttons">
         <button type="button" class="ngdialog-button" ng-click="mapErrors.close()">OK</button>

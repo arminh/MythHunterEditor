@@ -51,6 +51,7 @@
             getMarkerSrc: getMarkerSrc,
             change: change,
             preview: preview,
+            check: check,
             upload: upload,
             remove: remove,
 
@@ -397,6 +398,14 @@
             });
 
             return modalInstance.result;
+        }
+
+        function check(errors) {
+            var nameMissing = (this.name == "");
+            var descriptionMissing = (this.html.getContent() == "");
+            if(nameMissing || descriptionMissing) {
+                errors.addTaskError(this, nameMissing, descriptionMissing);
+            }
         }
 
         function upload() {

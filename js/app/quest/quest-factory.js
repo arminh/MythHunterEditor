@@ -285,6 +285,12 @@
             if(nameMissing || descriptionMissing) {
                 errors.addQuestError(this, nameMissing, descriptionMissing);
             }
+
+            this.treePartRoot.getTask().check(errors);
+            for (var i = 0; i < this.treeParts.length; i++) {
+                this.treeParts[i].getTask().check(errors);
+            }
+
             return errors;
         }
 
