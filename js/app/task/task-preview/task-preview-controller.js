@@ -9,10 +9,10 @@
         .module('task')
         .controller('TaskPreviewController', TaskPreviewController);
 
-    TaskPreviewController.$inject = ["$sce", "htmlContent", "targetContent", "$modalInstance"];
+    TaskPreviewController.$inject = ["$mdDialog", "$sce"];
 
     /* @ngInject */
-    function TaskPreviewController($sce, htmlContent, targetContent, $modalInstance) {
+    function TaskPreviewController($mdDialog, $sce) {
         var vm = this;
         vm.showTarget = false;
         vm.html = null;
@@ -27,8 +27,8 @@
         ////////////////
 
         function activate() {
-            vm.html = $sce.trustAsHtml(htmlContent);
-            if(targetContent) {
+            vm.html = $sce.trustAsHtml(vm.htmlContent);
+            if(vm.targetContent) {
                 vm.targetHtml = $sce.trustAsHtml(targetContent);
             }
         }
@@ -42,7 +42,7 @@
         }
 
         function close() {
-            $modalInstance.close();
+            $mdDialog.cancel();
         }
     }
 

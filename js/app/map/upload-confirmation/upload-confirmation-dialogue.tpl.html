@@ -1,0 +1,24 @@
+<md-dialog aria-label="Upload Quest">
+    <form ng-cloak>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <p ng-if="uploadConfirmation.quest.getRemoteId() > 0">Do you want to update your existing quest "<b>{{uploadConfirmation.quest.getName()}}?</b>"</p>
+                <p ng-if="uploadConfirmation.quest.getRemoteId() <= 0">Do you want to update your quest "<b>{{uploadConfirmation.quest.getName()}}?</b>"</p>
+                <md-divider></md-divider>
+                <md-checkbox ng-model="uploadConfirmation.submit" aria-label="Submit?">
+                    Submit quest for approval?
+                </md-checkbox>
+            </div>
+        </md-dialog-content>
+
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="uploadConfirmation.confirm()" md-autofocus>
+                OK
+            </md-button>
+            <md-button ng-click="uploadConfirmation.cancel()" md-autofocus>
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

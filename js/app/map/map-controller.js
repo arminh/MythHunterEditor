@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "$q", "MapInteractionService", "MapService", "user", "ngDialog"];
+    MapController.$inject = ["$scope", "$state", "$q", "$mdDialog", "MapInteractionService", "MapService", "user"];
 
     /* @ngInject */
-    function MapController($scope, $state, $q, MapInteraction, MapService, user, ngDialog) {
+    function MapController($scope, $state, $q, $mdDialog, MapInteraction, MapService, user) {
         var vm = this;
 
         vm.quest = null;
@@ -91,22 +91,37 @@
         }
 
         function saveQuest() {
-            var errors = vm.quest.check();
+            var errorDialog = $mdDialog.alert({
+                templateUrl: "js/app/map/upload-confirmation/upload-confirmation-dialogue.tpl.html",
+                bindToController: true,
+                controller: "UploadConfirmationController",
+                controllerAs: "uploadConfirmation",
+                locals: {
+                    quest: vm.quest
+                }
+            });
+
+            $mdDialog
+                .show( errorDialog ).then(uploadQuest);
+        }
+
+        function uploadQuest(submit) {
+            var errors = null;
+            if(submit) {
+                vm.quest.setSubmitted(true);
+                errors = vm.quest.check(false);
+
+            } else {
+                errors = vm.quest.check(true);
+            }
+
             if(!errors.getErroneous()) {
                 vm.showQuestline = false;
                 vm.saveQuestPromise = MapService.saveQuest();
                 vm.interactionDisabled = true;
             } else {
-                ngDialog.open({
-                    template: "js/app/map/map-error/map-error-dialogue.tpl.html",
-                    controller: "MapErrorController",
-                    controllerAs: "mapErrors",
-                    data: {
-                        errors: errors
-                    }
-                });
+                errors.showErrorDialog(true);
             }
-
         }
 
         function cancelQuest() {

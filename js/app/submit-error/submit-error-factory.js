@@ -7,26 +7,27 @@
 
     angular
         .module('map')
-        .factory('UploadErrors', UploadErrorsFactory);
+        .factory('SubmitErrors', SubmitErrorsFactory);
 
-    UploadErrorsFactory.$inject = [];
+    SubmitErrorsFactory.$inject = ["$mdDialog"];
 
     /* @ngInject */
-    function UploadErrorsFactory() {
-        function UploadErrors() {
+    function SubmitErrorsFactory($mdDialog) {
+        function SubmitErrors() {
             this.erroneous = false;
             this.questErrors = [];
             this.taskErrors = [];
         }
 
-        UploadErrors.prototype = {
+        SubmitErrors.prototype = {
             addQuestError: addQuestError,
             addTaskError: addTaskError,
+            showErrorDialog: showErrorDialog,
 
             getErroneous: getErroneous
         };
 
-        return (UploadErrors);
+        return (SubmitErrors);
 
         ////////////////
 
@@ -54,6 +55,21 @@
 
         function getErroneous() {
             return this.erroneous;
+        }
+
+        function showErrorDialog() {
+            var errorDialog = $mdDialog.alert({
+                templateUrl: "js/app/submit-error/submit-error-dialogue.tpl.html",
+                bindToController: true,
+                controller: "SubmitErrorController",
+                controllerAs: "submitErrors",
+                locals: {
+                    errors: this
+                }
+            });
+
+            $mdDialog
+                .show( errorDialog );
         }
 
     }

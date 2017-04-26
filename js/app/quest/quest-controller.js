@@ -9,10 +9,10 @@
         .module('quest')
         .controller('QuestController', QuestController);
 
-    QuestController.$inject = ["$modalInstance", "QuestService", "quest", "edit"];
+    QuestController.$inject = ["$mdDialog", "QuestService", "quest", "edit"];
 
     /* @ngInject */
-    function QuestController($modalInstance, QuestService, quest, edit) {
+    function QuestController($mdDialog, QuestService, quest, edit) {
 
         var vm = this;
 
@@ -23,8 +23,8 @@
         vm.separateDescription = true;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
 
-        vm.okClicked = okClicked;
-        vm.close = close;
+        vm.confirm = confirm;
+        vm.cancel = cancel;
 
         activate();
 
@@ -34,16 +34,22 @@
             if(quest.getHtml()) {
                 vm.questContent = quest.getHtml().getContent();
             }
-
-            QuestService.setModalInstance($modalInstance);
         }
 
-        function okClicked() {
-            QuestService.createQuest(vm.name, vm.questContent, vm.taskContent, vm.separateDescription);
+        function confirm() {
+            if(!vm.separateDescription) {
+                vm.taskContent = vm.questContent;
+            }
+
+            $mdDialog.hide({
+                name: vm.name,
+                questContent: vm.questContent,
+                taskContent: vm.taskContent
+            });
         }
 
-        function close() {
-            QuestService.cancelQuest();
+        function cancel() {
+            $mdDialog.cancel();
         }
     }
 

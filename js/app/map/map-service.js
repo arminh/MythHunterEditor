@@ -149,10 +149,10 @@
 
         }
 
-        function createTask() {
+        function createTask(evt) {
             var task = new Task(quest.name);
 
-            task.create().then(function() {
+            task.create(evt).then(function() {
                 drawing = true;
                 task.drawMarker().then(function()
                 {

@@ -9,22 +9,22 @@
         .module('task')
         .controller('TaskController', TaskController);
 
-    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "TextAngularHandler", "MarkerType", "task", "ngDialog"];
+    TaskController.$inject = ["TaskService", "TextAngularHandler", "MarkerType", "$mdDialog"];
 
     /* @ngInject */
-    function TaskController($scope, $modalInstance, TaskService, TextAngularHandler, MarkerType, task, ngDialog) {
+    function TaskController(TaskService, TextAngularHandler, MarkerType, $mdDialog) {
         var vm = this;
 
         var oldContent = "";
 
         vm.types = MarkerType;
-        vm.name = task.getName();
-        vm.description = task.getDescription();
+        vm.name = vm.task.getName();
+        vm.description = vm.task.getDescription();
         vm.content = "";
         vm.targetContent = "";
-        vm.activeType = task.getType();
-        vm.questName = task.getQuestName();
-        vm.answers = task.getHtml().getAnswers();
+        vm.activeType = vm.task.getType();
+        vm.questName = vm.task.getQuestName();
+        vm.answers = vm.task.getHtml().getAnswers();
         vm.error = false;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
         vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo'],['input','radio','checkbox']]"
@@ -37,9 +37,8 @@
 
         vm.markerSelected = markerSelected;
         vm.getMarkerIconSrc = getMarkerIconSrc;
-        // vm.contentChanged = contentChanged;
-        vm.okClicked = okClicked;
-        vm.close = close;
+        vm.confirm = confirm;
+        vm.cancel = cancel;
         vm.keyPressed = keyPressed;
 
         activate();
@@ -47,11 +46,10 @@
         ////////////////
 
         function activate() {
-            TaskService.setModalInstance($modalInstance);
-            if(task.getTargetHtml()) {
-                vm.targetContent = task.getTargetHtml().getContent();
+            if(vm.task.getTargetHtml()) {
+                vm.targetContent = vm.task.getTargetHtml().getContent();
             }
-            vm.content = task.getHtml().getContent();
+            vm.content = vm.task.getHtml().getContent();
             vm.content = TextAngularHandler.restoreContent(vm.content, vm.answers);
         }
 
@@ -63,10 +61,15 @@
 
         function markerSelected(newType, index) {
             if(showConfirm(vm.activeType, newType)) {
-                ngDialog.openConfirm({
-                    scope: $scope,
-                    template: "js/app/task/change-type-dialogue.tpl.html"
-                }).then(
+                var confirm = $mdDialog.confirm()
+                    .title('Change task type')
+                    .htmlContent('<p>Changing the task type will discard all type related features.</p><p>Are you sure you want to change the type of the task?</p>')
+                    .multiple(true)
+                    .ariaLabel('Change task type')
+                    .ok('Confirm')
+                    .cancel('Cancel');
+
+                $mdDialog.show(confirm).then(
                     function (confirm) {
                         switch(vm.activeType) {
                             case MarkerType.QUIZ:
@@ -118,7 +121,7 @@
         //     vm.answers = TaskService.retrieveCheckedAttributes(inputElements, vm.answers);
         // }
 
-        function okClicked() {
+        function confirm() {
             if(!vm.activeType) {
                 vm.error = true;
             } else {
@@ -127,12 +130,19 @@
                     vm.answers = TextAngularHandler.retrieveCheckedAttributes(vm.answers);
                 }
                 vm.content = TextAngularHandler.prepareContent(vm.content);
-                TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)
+                $mdDialog.hide({
+                    type: vm.activeType,
+                    questName: vm.questName,
+                    taskName: vm.name,
+                    content: vm.content,
+                    targetContent: vm.targetContent != "" ? vm.targetContent : null,
+                    answers: vm.answers
+                });
             }
         }
 
-        function close() {
-            TaskService.cancelTask();
+        function cancel() {
+            $mdDialog.cancel();
         }
     }
 

@@ -7,12 +7,12 @@
 
     angular
         .module('map')
-        .controller('MapErrorController', MapErrorController);
+        .controller('SubmitErrorController', SubmitErrorController);
 
-    MapErrorController.$inject = ["$scope"];
+    SubmitErrorController.$inject = ["$mdDialog"];
 
     /* @ngInject */
-    function MapErrorController($scope) {
+    function SubmitErrorController($mdDialog) {
         var vm = this;
         vm.editQuest = editQuest;
         vm.editTask = editTask;
@@ -23,22 +23,20 @@
         ////////////////
 
         function activate() {
-            console.log($scope.ngDialogData);
-            vm.errors = $scope.ngDialogData.errors;
         }
 
         function editQuest(quest) {
-            $scope.closeThisDialog();
+            $mdDialog.hide();
             quest.edit();
         }
 
         function editTask(task) {
-            $scope.closeThisDialog();
+            $mdDialog.hide();
             task.edit();
         }
 
         function close() {
-            $scope.closeThisDialog();
+            $mdDialog.hide();
         }
     }
 
