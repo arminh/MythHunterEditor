@@ -10,7 +10,7 @@
             <form name="cardSettings" role="form">
                 <md-input-container style="width: 100%">
                     <label>Name</label>
-                    <input type="text" name="name" required md-no-asterisk maxlength="10"
+                    <input type="text" name="name" required md-no-asterisk maxlength="20"
                            ng-model="cardeditor.card.name"/>
                     <div ng-messages="cardSettings.name.$error">
                         <div ng-message="required">Name is required</div>
@@ -46,7 +46,7 @@
                 </md-slider-container>
                 <md-input-container style="width: 100%">
                     <label>Description</label>
-                    <textarea class="textarea-noresize" maxlength="100" ng-model="cardeditor.card.description"
+                    <textarea class="textarea-noresize" maxlength="200" ng-model="cardeditor.card.description"
                               ng-change="cardeditor.calculateStarCount()"></textarea>
                 </md-input-container>
 

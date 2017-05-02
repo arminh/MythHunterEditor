@@ -2,6 +2,10 @@
     margin: 20px;
 }
 
+#card-editor-container * {
+
+}
+
 .md-select-menu-container {
     z-index: 1100;
 }

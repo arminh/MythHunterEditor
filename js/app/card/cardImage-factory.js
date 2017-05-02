@@ -140,6 +140,8 @@
             function uploadCardImage(convertedImage) {
                 $log.info("downloadImage_success");
                 this.image = convertedImage;
+                this.top = 0;
+                this.left = 0;
 
                 $log.info("addCardImage", this);
                 var remoteCardImage = BackendService.createRemoteCardImage(this);
@@ -157,6 +159,8 @@
             var scaleRatio = this.width / this.scaledWidth;
             this.top = Math.floor(this.scaledTop * scaleRatio);
             this.left = Math.floor(this.scaledLeft * scaleRatio);
+            this.width = this.width - this.left - 1;
+            this.height = this.height - this.top - 1;
         }
 
         function setOriginalSize(size) {

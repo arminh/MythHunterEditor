@@ -28,12 +28,28 @@
     <span type="number" min="0" max="10" class="card-input defence-val"
           readonly="readonly">{{cardPreview.card.life}}</span>
 
-    <span ng-if="cardPreview.card.actions[0] && cardPreview.card.actions[0].descriptions[1]._value != ''"
-          class="card-input card-attack"
-          readonly="readonly"><b>{{cardPreview.card.actions[0].names[1]._value}}: </b>{{cardPreview.card.actions[0].descriptions[1]._value}}</span>
+    <!--<span ng-if="cardPreview.card.actions[0] && cardPreview.card.actions[0].descriptions[1]._value != ''"-->
+          <!--class="card-input card-attack"-->
+          <!--readonly="readonly"><b>{{cardPreview.card.actions[0].names[1]._value}}: </b>{{cardPreview.card.actions[0].descriptions[1]._value}}</span>-->
 
-    <span class="card-input card-text" placeholder="Enter card text ..."
-          readonly="readonly">{{cardPreview.card.description}}</span>
+    <!--<span class="card-input card-text" placeholder="Enter card text ..."-->
+          <!--readonly="readonly">{{cardPreview.card.description}}</span>-->
+    <div class="card-input card-text card-text-left">
+        Size<br>
+        PS<br>
+        Brains<br>
+        Chillness<br>
+        Fabulousness<br>
+        Clumsiness
+    </div>
+    <div class="card-input card-text  card-text-right">
+        198 cm<br>
+        190 PS<br>
+        20 Mrd Gehirnzellen<br>
+        73 Snoop Dog<br>
+        1 Einhorn<br>
+        5 Salatschüssel
+    </div>
 
     <div class="card-control-menu" ng-show="cardPreview.menu && cardPreview.showMenu">
         <md-button aria-label="edit" class="md-icon-button" ng-click="cardPreview.editCard()">

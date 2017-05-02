@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "EnchantedLand";
+    src: url("../fonts/EnchantedLand.otf");
+}
+
 #card-container {
     position:relative;
     left: 0;
@@ -6,6 +11,10 @@
     /* width: 250px; */
     height: 400px;
     float:left;
+}
+
+#card-container * {
+    font-family: "EnchantedLand";
 }
 
 .card-image-instruction {
@@ -92,11 +101,12 @@
 }
 
 .card-name {
-    top: 15px;
+    top: 7px;
     left: 20px;
     width: 200px;
     text-align: center;
-    font-size: 20px;
+    font-size: 30px;
+    color: #7a5d5c;
 }
 
 .attack-val {
@@ -105,6 +115,7 @@
     left: 11px;
     width: 25px;
     text-align: center;
+    font-size: 20px;
 }
 
 .defence-val {
@@ -113,18 +124,41 @@
     left: 196px;
     width: 25px;
     text-align: center;
+    font-size: 20px;
 }
 
-.card-text {
-    top: 330px;
+.card-text-left {
+    top: 260px;
     /*left: 160px;*/
     left: 18px;
-    height: 60px;
+    height: 130px;
     resize: none;
     overflow: hidden;
-    line-height: 27px;
-    width: 200px;
-    font-size: 12px;
+    width: 100px;
+    font-size: 15px;
+    display: inline-block;
+}
+
+.card-text-right {
+    top: 260px;
+    /*left: 160px;*/
+    left: 118px;
+    height: 130px;
+    resize: none;
+    overflow: hidden;
+    width: 100px;
+    font-size: 15px;
+    display: inline-block;
+    text-align: right;
+}
+
+.card-text-row {
+    height:20px;
+    line-height: 20px;
+}
+.card-text-col {
+    height:20px;
+    line-height: 20px;
 }
 
 .card-attack {
@@ -135,7 +169,7 @@
     overflow: hidden;
     line-height: 27px;
     width: 200px;
-    font-size: 12px;
+    font-size: 20px;
 }
 
 .textarea-noresize {
