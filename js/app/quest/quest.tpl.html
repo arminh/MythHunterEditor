@@ -1,5 +1,5 @@
 <md-dialog aria-label="Create task">
-    <form ng-cloak>
+    <form name="questForm" ng-cloak ng-submit="quest.confirm()">
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2 ng-if="!quest.edit">Create Quest</h2>
@@ -13,13 +13,18 @@
 
         <md-dialog-content>
             <div class="md-dialog-content">
-                <div class="task-info">
-                    <p>Enter a title for the quest: </p>
-                    <input class="task-info-input task-info-title" ng-model="quest.name" placeholder="Enter title"/><br>
+                <div layout="row" layout-align="center center">
+                    <md-input-container flex="50">
+                        <label>Quest Name</label>
+                        <input required name="questName" ng-model="quest.name" class="task-info">
+                        <div ng-messages="projectForm.clientName.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
                 </div>
-
                 <div class="task-content">
-                    <text-angular ta-toolbar="{{quest.toolbar}}" ng-model="quest.questContent" id="quest-text"></text-angular>
+                    <text-angular ta-toolbar="{{quest.toolbar}}" ng-model="quest.questContent"
+                                  id="quest-text"></text-angular>
                     <md-checkbox ng-if="!quest.edit" ng-model="quest.separateDescription" aria-label="Submit?">
                         Use separate description for Start marker
                     </md-checkbox>
@@ -32,10 +37,10 @@
 
         <md-dialog-actions layout="row">
             <span flex></span>
-            <md-button ng-click="quest.confirm()">
+            <md-button type="submit" class="md-raised md-primary">
                 OK
             </md-button>
-            <md-button ng-click="quest.cancel()">
+            <md-button class="md-raised" ng-click="quest.cancel()">
                 Cancel
             </md-button>
         </md-dialog-actions>

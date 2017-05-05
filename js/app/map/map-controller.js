@@ -69,7 +69,7 @@
         }
 
         function toggleQuestline() {
-            return !vm.showQuestline;
+            vm.showQuestline = !vm.showQuestline;
         }
 
         function searchLocation(query) {

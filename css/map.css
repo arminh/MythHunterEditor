@@ -2,9 +2,11 @@ a#content {
 }
 
 #mapView {
-    width: 100%;
-    height: 100%;
-    float: left;
+    position: relative;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 .ol-zoom {
@@ -15,9 +17,8 @@ a#content {
 }
 
 .md-button.md-icon-button {
-    line-height: 30px;
-    height: 30px;
-    width: 30px;
+    margin: 0;
+    width: auto;
 }
 
 .md-container, .md-lable {
@@ -33,15 +34,12 @@ a#content {
     position: absolute;
     top: 90px;
     left: 10px;
+    right: 30px;
     width: 480px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 5px 5px 5px #888888;
     min-height: 50px;
-}
-
-.md-toolbar-tools {
-    height: 50px;
 }
 
 #toolbar-search {
@@ -82,6 +80,15 @@ a#content {
     box-shadow: 5px 5px 5px #888888;
 }
 
+@media screen and (max-width: 960px) {
+    #map-tasks {
+        width: 330px;
+    }
+    #toolbar {
+        width: 330px;
+    }
+}
+
 #map-task-list {
     padding-left: 0px;
     margin-bottom: 0px;
@@ -95,8 +102,8 @@ a#content {
     border-radius: 10px;
     vertical-align: middle;
     line-height: 35px;
-/*    -moz-box-shadow:    inset 0 0 10px #000000;
-    -webkit-box-shadow: inset 0 0 10px #000000;*/
+    /*    -moz-box-shadow:    inset 0 0 10px #000000;
+        -webkit-box-shadow: inset 0 0 10px #000000;*/
     box-shadow: inset 0px -5px 5px #888888;
 }
 
@@ -124,7 +131,6 @@ a#content {
 }
 
 .map-task-edit {
-    float: right;
 }
 
 .map-task-input {
@@ -139,18 +145,13 @@ a#content {
     height: 40px;
 }
 
-
-
-
-
-
 /*****************POPUP*****************/
 
 #popup {
     position: absolute;
     background-color: white;
-    -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
     padding: 15px;
     border-radius: 10px;
     border: 1px solid #cccccc;
