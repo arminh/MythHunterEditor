@@ -32,10 +32,10 @@
 <form action="">
     <div id="container" style='height:100%;width:100%;'>
         <div id="quest-content" style='height:100%;width:100%;overflow:hidden;'>
-            <div id="quest-title">[Quest Title]</div>
-            <div id="task-title">[Task Title]</div>
+            <div id="quest-title">{{task.questTitle}}</div>
+            <div id="task-title">{{task.title}}</div>
 
-            <div id="quest-content-text">[Quest Content]</div><div id="quest-footer">
+            <div id="quest-content-text">{{task.content}}</div><div id="quest-footer">
                 <p id="start-info" style="display:none"></p>
                 <button class="footer-btn" id="start-btn" value='Start'/>
                 <button class="footer-btn" id="cancel-btn" value='Cancel'/>

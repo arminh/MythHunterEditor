@@ -1,86 +1,105 @@
-<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="cardeditor.close()">
-    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
-</md-button>
-<div id="card-editor-container">
+<md-dialog aria-label="Create task">
+    <form name="questForm" ng-cloak ng-submit="cardeditor.confirm()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Create Card</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cardeditor.cancel()">
+                    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="column" layout-gt-sm="row">
 
-    <card-preview card="cardeditor.card" editable="true" menu="false"></card-preview>
+                    <card-preview card="cardeditor.card" editable="true" menu="false"></card-preview>
+                    <div >
+                        <md-content class="card-settings-content">
+                            <md-input-container>
+                                <label>Name</label>
+                                <input type="text" name="name" required md-no-asterisk maxlength="10"
+                                       ng-model="cardeditor.card.name"/>
+                                <div ng-messages="cardSettings.name.$error">
+                                    <div ng-message="required">Name is required</div>
+                                </div>
+                            </md-input-container>
 
-    <div id="card-settings-container" style="float:left; z-index: 100">
-        <md-content layout-padding="" class="card-settings-content">
-            <form name="cardSettings" role="form">
-                <md-input-container style="width: 100%">
-                    <label>Name</label>
-                    <input type="text" name="name" required md-no-asterisk maxlength="10"
-                           ng-model="cardeditor.card.name"/>
-                    <div ng-messages="cardSettings.name.$error">
-                        <div ng-message="required">Name is required</div>
+
+                            <md-slider-container>
+                                <span>Attack</span>
+                                <md-slider class="md-primary" name="attack" md-discrete
+                                           ng-model="cardeditor.card.attack"
+                                           min="0"
+                                           max="10"
+                                           step="1" aria-label="attack-slider"
+                                           ng-change="cardeditor.calculateStarCount()"></md-slider>
+                                <md-input-container class="slider-input">
+                                    <!-- <label>Attack</label>-->
+                                    <input type="number" min="0" max="10" name="attack" id="card-attack-input"
+                                           ng-model="cardeditor.card.attack"
+                                           ng-change="cardeditor.calculateStarCount()" aria-label="attack-input"/>
+                                </md-input-container>
+                            </md-slider-container>
+
+                            <md-slider-container>
+                                <span>Lifeforce</span>
+                                <md-slider class="md-primary" aria-label="life-slider" md-discrete
+                                           ng-model="cardeditor.card.life"
+                                           min="1" max="10" step="1"
+                                           ng-change="cardeditor.calculateStarCount()"></md-slider>
+
+                                <md-input-container class="slider-input">
+
+                                    <input type="number" min="1" max="10" ng-model="cardeditor.card.life"
+                                           aria-label="life-input"
+                                           ng-change="cardeditor.calculateStarCount()"/>
+                                </md-input-container>
+                            </md-slider-container>
+                            <md-input-container style="width: 100%">
+                                <label>Description</label>
+                                <textarea class="textarea-noresize" maxlength="100"
+                                          ng-model="cardeditor.card.description"
+                                          ng-change="cardeditor.calculateStarCount()"></textarea>
+                            </md-input-container>
+
+                            <md-select placeholder="Action" ng-model="cardeditor.card.actions[0]"
+                                       ng-change="cardeditor.actionChanged()">
+                                <md-option ng-value="action"
+                                           ng-repeat="action in cardeditor.actions | orderBy:'starCosts'"
+                                           ng-disabled="!cardeditor.isActionAffordable(action)">
+                                    {{action.names[1]._value}}
+                                </md-option>
+                            </md-select>
+                            <label for="card-image-input" required class="md-button md-raised"
+                                   required="cardeditor.image.base64">
+                                Choose Card Image
+                            </label>
+                            <md-input-container>
+                                <input required name="image" type="file" id="card-image-input"
+                                       ng-model='cardeditor.image'
+                                       class="ng-hide"
+                                       on-after-validate="cardeditor.cardImageChanged" base-sixty-four-input/>
+                                <div ng-messages="cardSettings.image.$error">
+                                    <div ng-message="required">Image is required</div>
+                                </div>
+                            </md-input-container>
+
+                        </md-content>
                     </div>
-                </md-input-container>
 
-
-                <md-slider-container>
-                    <span>Attack</span>
-                    <md-slider class="md-primary" name="attack" md-discrete ng-model="cardeditor.card.attack" min="0"
-                               max="10"
-                               step="1" aria-label="attack-slider"
-                               ng-change="cardeditor.calculateStarCount()"></md-slider>
-                    <md-input-container class="slider-input">
-                        <!-- <label>Attack</label>-->
-                        <input type="number" min="0" max="10" name="attack" id="card-attack-input"
-                               ng-model="cardeditor.card.attack"
-                               ng-change="cardeditor.calculateStarCount()" aria-label="attack-input"/>
-                    </md-input-container>
-                </md-slider-container>
-
-                <md-slider-container>
-                    <span>Lifeforce</span>
-                    <md-slider class="md-primary" aria-label="life-slider" md-discrete ng-model="cardeditor.card.life"
-                               min="1" max="10" step="1"
-                               ng-change="cardeditor.calculateStarCount()"></md-slider>
-
-                    <md-input-container class="slider-input">
-
-                        <input type="number" min="1" max="10" ng-model="cardeditor.card.life" aria-label="life-input"
-                               ng-change="cardeditor.calculateStarCount()"/>
-                    </md-input-container>
-                </md-slider-container>
-                <md-input-container style="width: 100%">
-                    <label>Description</label>
-                    <textarea class="textarea-noresize" maxlength="100" ng-model="cardeditor.card.description"
-                              ng-change="cardeditor.calculateStarCount()"></textarea>
-                </md-input-container>
-
-                <md-select placeholder="Action" ng-model="cardeditor.card.actions[0]"
-                           ng-change="cardeditor.actionChanged()">
-                    <md-option ng-value="action" ng-repeat="action in cardeditor.actions | orderBy:'starCosts'"
-                               ng-disabled="!cardeditor.isActionAffordable(action)">
-                        {{action.names[1]._value}}
-                    </md-option>
-                </md-select>
-                <label for="card-image-input" required class="md-button md-raised" required="cardeditor.image.base64">
-                    Choose Card Image
-                </label>
-                <md-input-container>
-                    <input required name="image" type="file" id="card-image-input" ng-model='cardeditor.image' class="ng-hide"
-                           on-after-validate="cardeditor.cardImageChanged" base-sixty-four-input/>
-                    <div ng-messages="cardSettings.image.$error">
-                        <div ng-message="required">Image is required</div>
-                    </div>
-                </md-input-container>
-
-            </form>
-
-        </md-content>
-
-    </div>
-
-
-</div>
-<div style="clear: both" class="modal-footer">
-    <md-button class="md-raised md-primary" type="submit" aria-label="ok" ng-disabled="cardSettings.$invalid"
-               ng-click="cardeditor.confirm()">OK
-    </md-button>
-    <md-button class="md-raised md-warn" type="submit" aria-label="cancel" ng-click="cardeditor.close()">Cancel
-    </md-button>
-</div>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button type="submit" class="md-raised md-primary">
+                OK
+            </md-button>
+            <md-button class="md-raised" ng-click="cardeditor.cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
 

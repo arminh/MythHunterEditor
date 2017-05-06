@@ -1,28 +1,69 @@
 <div class="map-task">
-    <img aria-label="icon" class="map-task-icon" ng-src="{{mapTask.task == null && '' || mapTask.task.type == 'FIGHT'  && 'media/fight_marker.png' || mapTask.task.type == 'QUIZ'  && 'media/quiz_marker.png' || mapTask.task.type == 'INFO'  && 'media/info_marker.png' || mapTask.task.type == 'INVISIBLE'  && 'media/invisible_marker.png' || mapTask.task.type == 'start' && 'media/start_marker.png'}}">
-    <input class="map-task-input" type="text" placeholder="Enter task name ..." value="mapTask.task.name" ng-model="mapTask.task.name"/>
-    <md-button aria-label="delete" class="md-icon-button map-task-edit" ng-class="{disabled: mapTask.task.type == 'start'}" ng-disabled="mapTask.task.type == 'start'" ng-click="mapTask.deleteTask()">
-        <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
-            Delete task
-        </md-tooltip>
-        <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
-    </md-button>
-    <md-button aria-label="edit" class="md-icon-button map-task-edit" ng-click="mapTask.editTask()">
-        <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
-            Edit task
-        </md-tooltip>
-        <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
-    </md-button>
-    <md-button aria-label="preview" class="md-icon-button map-task-edit" ng-click="mapTask.previewHtml()">
-        <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
-                    Preview task
-        </md-tooltip>
-        <md-icon md-svg-icon="media/preview_icon.svg"></md-icon>
-    </md-button>
-    <md-button aria-label="focus" class="md-icon-button map-task-edit" ng-click="mapTask.focusMarker()">
-        <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
-                    Focus task marker
-        </md-tooltip>
-        <md-icon md-svg-icon="media/location_icon.svg"></md-icon>
-    </md-button>
+    <img aria-label="icon" class="map-task-icon"
+         ng-src="{{mapTask.task == null && '' || mapTask.task.type == 'FIGHT'  && 'media/fight_marker.png' || mapTask.task.type == 'QUIZ'  && 'media/quiz_marker.png' || mapTask.task.type == 'INFO'  && 'media/info_marker.png' || mapTask.task.type == 'INVISIBLE'  && 'media/invisible_marker.png' || mapTask.task.type == 'start' && 'media/start_marker.png'}}">
+    <input class="map-task-input" type="text" placeholder="Enter task name ..." value="mapTask.task.name"
+           ng-model="mapTask.task.name"/>
+    <span flex></span>
+    <span hide-xs hide-sm>
+        <md-button aria-label="delete" class="md-icon-button map-task-edit"
+                   ng-class="{disabled: mapTask.task.type == 'start'}" ng-disabled="mapTask.task.type == 'start'"
+                   ng-click="mapTask.deleteTask()">
+            <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                Delete task
+            </md-tooltip>
+            <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
+        </md-button>
+        <md-button aria-label="edit" class="md-icon-button map-task-edit" ng-click="mapTask.editTask($event)">
+            <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                Edit task
+            </md-tooltip>
+            <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+        </md-button>
+        <md-button aria-label="preview" class="md-icon-button map-task-edit" ng-click="mapTask.previewHtml($event)">
+            <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                Preview task
+            </md-tooltip>
+            <md-icon md-svg-icon="media/preview_icon.svg"></md-icon>
+        </md-button>
+        <md-button aria-label="focus" class="md-icon-button map-task-edit" ng-click="mapTask.focusMarker()">
+            <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
+                Focus task marker
+            </md-tooltip>
+            <md-icon md-svg-icon="media/location_icon.svg"></md-icon>
+        </md-button>
+    </span>
+    <md-menu hide-gt-sm>
+        <md-button aria-label="Open demo menu" class="md-icon-button" style="text-transform: none;"
+                   ng-click="$mdOpenMenu($event)">
+            <md-icon md-svg-icon="media/more_icon.svg">arminb</md-icon>
+        </md-button>
+        <md-menu-content width="2">
+            <md-menu-item ng-click="mapTask.deleteTask()">
+                <md-button aria-label="delete" class="md-icon-button map-task-edit"
+                           ng-class="{disabled: mapTask.task.type == 'start'}"
+                           ng-disabled="mapTask.task.type == 'start'">
+                    <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
+                </md-button>
+                <md-label>Delete</md-label>
+            </md-menu-item>
+            <md-menu-item ng-click="mapTask.editTask($event)">
+                <md-button aria-label="edit" class="md-icon-button map-task-edit">
+                    <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                </md-button>
+                <md-label>Edit</md-label>
+            </md-menu-item>
+            <md-menu-item ng-click="mapTask.previewHtml($event)">
+                <md-button aria-label="preview" class="md-icon-button map-task-edit">
+                    <md-icon md-svg-icon="media/preview_icon.svg"></md-icon>
+                </md-button>
+                <md-label>Preview</md-label>
+            </md-menu-item>
+            <md-menu-item ng-click="mapTask.focusMarker()">
+                <md-button aria-label="focus" class="md-icon-button map-task-edit">
+                    <md-icon md-svg-icon="media/location_icon.svg"></md-icon>
+                </md-button>
+                <md-label>Focus</md-label>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
 </div>

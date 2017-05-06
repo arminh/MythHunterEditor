@@ -1,28 +1,65 @@
-<nav id="navbar-container" ng-controller="MainController" role="navigation" class="navbar navbar-default">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a href="#" class="navbar-brand">Myth Hunter</a>
-    </div>
-    <!-- Collection of nav links, forms, and other content for toggling -->
-    <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
+<md-nav-bar ng-if="user"
+            md-selected-nav-item="main.state"
+            nav-bar-aria-label="navigation links">
+    <md-nav-item ng-if="user" hide-xs hide-sm md-nav-sref="app.profile" name="/profile">
+        Profile
+    </md-nav-item>
+    <md-nav-item ng-if="user" hide-xs hide-sm md-nav-sref="app.map" name="/quest">
+        Quest creator
+    </md-nav-item>
+    <!--<md-nav-item md-nav-sref="app.card" name="/card">-->
+    <!--Card Collection-->
+    <!--</md-nav-item>-->
+    <!--<md-nav-item md-nav-sref="app.deck" name="deck">-->
+    <!--Deck Creator-->
+    <!--</md-nav-item>-->
 
-            <li ng-hide="user"><a href="#" ng-click="main.login()">Login</a></li>
-            <li ng-show="user">
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#/profile">{{user.name}} <b class="caret"></b></a>
-                <ul role="menu" class="dropdown-menu">
-                    <li><a href="#" ng-click="main.logout()">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
-<div class="row" ui-view></div>
+    <md-button hide-gt-sm ng-click="main.toggleSidenav()" md-swipe-right="main.toggleSidenav()"
+               aria-label="toggle sidenav"
+               class="md-icon-button">
+        <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
+    </md-button>
+    <span flex></span>
+
+    <md-button aria-label="Profile" class="md-icon-button" style="text-transform: none;">
+        <a ui-sref="app.profile">{{user.name}}</a>
+    </md-button>
+    <md-menu>
+        <md-button aria-label="Open demo menu" class="md-icon-button" style="text-transform: none;"
+                   ng-click="$mdOpenMenu($event)">
+            <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
+        </md-button>
+        <md-menu-content width="3">
+            <md-menu-item>
+                <md-button ng-click="main.logout()">
+                    <md-icon md-svg-icon="media/logout_icon.svg"></md-icon>
+                    Logout
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
+</md-nav-bar>
+<md-sidenav ng-if="user" class="md-sidenav-left" md-component-id="sidenav" md-whiteframe="2">
+
+    <md-toolbar class="md-theme-indigo" md-swipe-left="main.toggleSidenav()">
+        <h1 class="md-toolbar-tools">Menu</h1>
+    </md-toolbar>
+
+    <md-content layout-margin>
+        <md-menu-content ng-mouseleave="$mdMenu.close()">
+            <md-menu-item>
+                <md-button ui-sref="app.profile" ng-click="main.toggleSidenav()" aria-label="Do something">
+                    Profile
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ui-sref="app.map" ng-click="main.toggleSidenav()"  aria-label="Do something">
+                    Quest creator
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+
+    </md-content>
+
+</md-sidenav>
+<div layout="colum" layout-fill="layout-fill" ui-view></div>

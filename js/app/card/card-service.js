@@ -9,10 +9,10 @@
         .module('card')
         .factory('CardService', CardService);
 
-    CardService.$inject = ["$log", "$modal", "Card"];
+    CardService.$inject = ["$log", "$mdDialog", "Card"];
 
     /* @ngInject */
-    function CardService($log, $modal, Card) {
+    function CardService($log, $mdDialog, Card) {
         $log = $log.getInstance("CardService", debugging);
 
         var maskWidth = 214;
@@ -80,19 +80,9 @@
             $log.info("createCard");
 
             var card = new Card();
-            return openCardCreatorDialog(card).then(uploadCard);
-
-            function uploadCard() {
-
-                return card.upload().then(function (result) {
-                    return card;
-                });
-
-                function canceled(error) {
-                    $log.info("create_fail: Canceled");
-                    return $q.reject("Canceled");
-                }
-            }
+            return openCardCreatorDialog(card).then(function() {
+                return card;
+            });
         }
 
         function editCard(card) {
@@ -114,21 +104,15 @@
         }
 
         function openCardCreatorDialog(card) {
-            var modalInstance = $modal.open({
-                animation: true,
-                backdrop: 'static',
-                size: "lg",
+            return $mdDialog.show({
                 templateUrl: 'js/app/cardeditor/cardeditor.tpl.html',
                 controller: 'CardEditorController',
                 controllerAs: "cardeditor",
-                resolve: {
-                    card: function () {
-                        return card;
-                    }
+                bindToController: true,
+                locals: {
+                    card: card
                 }
             });
-
-            return modalInstance.result;
         }
 
         function deleteCard() {

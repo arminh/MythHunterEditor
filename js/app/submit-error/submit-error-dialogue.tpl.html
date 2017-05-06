@@ -1,0 +1,34 @@
+<md-dialog aria-label="Submit Error" flex="20">
+    <form ng-cloak>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div class="quest-errors" ng-if="submitErrors.errors.questErrors.length > 0">
+                    <div ng-repeat="questError in submitErrors.errors.questErrors">
+                        <b>Your <a ng-click="submitErrors.editQuest(questError.quest)">quest</a> is missing:</b>
+                        <ul>
+                            <li ng-if="questError.nameMissing">Name</li>
+                            <li ng-if="questError.descriptionMissing">Description</li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="task-errors" ng-if="submitErrors.errors.taskErrors.length > 0">
+                    <div ng-repeat="taskError in submitErrors.errors.taskErrors">
+                        <b>Your <a ng-click="submitErrors.editTask(taskError.task)">task</a> is missing:</b>
+                        <ul>
+                            <li ng-if="taskError.nameMissing">Name</li>
+                            <li ng-if="taskError.descriptionMissing">Description</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="submitErrors.close()" md-autofocus>
+                OK
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

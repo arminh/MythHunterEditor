@@ -35,9 +35,15 @@
         }
 
         function createCard() {
-            vm.cardDefer = $q.defer();
 
-            CollectionService.createCard().then(addCard);
+
+            CollectionService.createCard().then(uploadCard);
+
+            function uploadCard(card) {
+                vm.cardDefer = $q.defer();
+                card.upload().then(addCard);
+
+            }
 
             function addCard(card) {
                 console.log(card);

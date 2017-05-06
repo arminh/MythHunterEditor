@@ -9,29 +9,23 @@
         .module('card')
         .factory('CardEditorService', CardEditorService);
 
-    CardEditorService.$inject = ["$q", "ActionService"];
+    CardEditorService.$inject = ["$q", "ActionService", "$mdDialog"];
 
     /* @ngInject */
-    function CardEditorService($q, ActionService) {
+    function CardEditorService($q, ActionService, $mdDialog) {
 
         var maxStars = 10;
-        var modalInstance = null;
 
         var service = {
-            setModalInstance: setModalInstance,
             getActions: getActions,
             calculateStarCount: calculateStarCount,
             isActionAffordable: isActionAffordable,
-            confirmCard: confirmCard,
-            cancelCard: cancelCard
+            confirm: confirm,
+            cancel: cancel
         };
         return service;
 
         ////////////////
-
-        function setModalInstance($modalInstance) {
-            modalInstance = $modalInstance;
-        }
 
         function getActions() {
             return $q.when(ActionService.getActions());
@@ -59,12 +53,12 @@
             return (starCount + newAction.starCosts) <= maxStars;
         }
 
-        function confirmCard() {
-            modalInstance.close();
+        function confirm() {
+            $mdDialog.hide();
         }
 
-        function cancelCard() {
-            modalInstance.dismiss('cancel');
+        function cancel() {
+            $mdDialog.cancel();
         }
     }
 

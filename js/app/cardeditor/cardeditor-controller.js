@@ -9,13 +9,12 @@
         .module('card')
         .controller('CardEditorController', CardEditorController);
 
-    CardEditorController.$inject = ["$modalInstance", "CardEditorService", "card"];
+    CardEditorController.$inject = ["CardEditorService"];
 
     /* @ngInject */
-    function CardEditorController($modalInstance, CardEditorService, card) {
+    function CardEditorController(CardEditorService) {
 
         var vm = this;
-        vm.card = card;
         vm.image = {};
 
         vm.calculateStarCount = calculateStarCount;
@@ -23,14 +22,13 @@
         vm.isActionAffordable = isActionAffordable;
         vm.cardImageChanged = cardImageChanged;
         vm.confirm = confirm;
-        vm.close = close;
+        vm.cancel = cancel;
 
         activate();
 
         ////////////////
 
         function activate() {
-            CardEditorService.setModalInstance($modalInstance);
             CardEditorService.getActions().then(function (actions) {
                 vm.actions = actions;
             });
@@ -61,12 +59,12 @@
 
         function confirm() {
             if (vm.card.image) {
-                CardEditorService.confirmCard();
+                CardEditorService.confirm();
             }
         }
 
-        function close() {
-            CardEditorService.cancelCard();
+        function cancel() {
+            CardEditorService.cancel();
         }
     }
 

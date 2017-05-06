@@ -9,24 +9,16 @@
         .module('task')
         .factory('TaskService', TaskService);
 
-    TaskService.$inject = ["$log", "$modal", "MarkerType"];
+    TaskService.$inject = ["$log", "$mdDialog", "MarkerType"];
 
     /* @ngInject */
-    function TaskService($log, $modal, MarkerType) {
+    function TaskService($log, $mdDialog, MarkerType) {
 
         $log = $log.getInstance("TaskService", debugging);
-        var $modalInstance = null;
 
         var service = {
-            setModalInstance: setModalInstance,
-            setCheckedAttributes: setCheckedAttributes,
-            retrieveCheckedAttributes: retrieveCheckedAttributes,
-            clearCheckedAttributes: clearCheckedAttributes,
-            removeQuizFeatures: removeQuizFeatures,
-            removeInvisibleFeatures: removeInvisibleFeatures,
             openTaskDialog: openTaskDialog,
-            createTask: createTask,
-            cancelTask: cancelTask,
+            showPreview: showPreview,
             getMarkerSrc: getMarkerSrc,
             getFightTpl: getFightTpl
         };
@@ -34,85 +26,37 @@
 
         ////////////////
 
-        function setModalInstance(modalInstance) {
-            $modalInstance = modalInstance;
-        }
+        function openTaskDialog(task, edit, evt) {
 
-        function setCheckedAttributes(content, answers) {
-            angular.forEach(answers, function(val, key) {
-                if(val == true) {
-                    content = content.replace('id="' + key + '"', 'id="' + key + '"  checked');
-                }
-            });
-
-            return content;
-        }
-
-        function retrieveCheckedAttributes(inputElements, answers) {
-
-            for(var i = 0; i < inputElements.length; i++) {
-                if(inputElements[i].id != "") {
-                    answers[inputElements[i].id] = inputElements[i].checked;
-                }
-            }
-            return answers;
-        }
-
-        function clearCheckedAttributes(content) {
-            return content.replace(" checked","");
-        }
-
-
-        function removeQuizFeatures(content) {
-            var regex = new RegExp("<label><input.*?>(.*?)<\/label>", "g");
-            var regexInputBox = new RegExp("<input.*? value\=\"(.*?)\"\/>", "g");
-
-            content = content.replace(regex, "$1");
-            content = content.replace(regexInputBox, "$1");
-            content = content.replace("<label>", "");
-            return content.replace("</label>", "");
-        }
-
-        function removeInvisibleFeatures(content) {
-            return content;
-        }
-
-        function openTaskDialog(task) {
-            var modalInstance = $modal.open({
-                animation: true,
-                backdrop: 'static',
-                size: "lg",
+            return $mdDialog.show({
                 templateUrl: 'js/app/task/task.tpl.html',
                 controller: 'TaskController',
                 controllerAs: 'task',
-                resolve: {
-                    task: function () {
-                        return task;
-                    }
+                bindToController: true,
+                targetEvent: evt,
+                locals: {
+                    task: task,
+                    edit: edit
                 }
             });
-
-            return modalInstance.result;
         }
 
-        function createTask(questName, taskName, content, targetContent, answers, type) {
-
-                $modalInstance.close({
-                    type: type,
-                    questName: questName,
-                    taskName: taskName,
-                    content: content,
-                    targetContent: targetContent != "" ? targetContent : null,
-                    answers: answers
-                });
-        }
-
-        function cancelTask() {
-            $modalInstance.dismiss('cancel');
+        function showPreview(html, evt) {
+            return $mdDialog.show({
+                templateUrl: 'js/app/task/task-preview/task-preview.tpl.html',
+                controller: 'TaskPreviewController',
+                controllerAs: 'taskPreview',
+                bindToController: true,
+                targetEvent: evt,
+                locals: {
+                    htmlContent: html.getContentHtml(),
+                    targetContent: null
+                }
+            });
         }
 
         function getMarkerSrc(type) {
-            switch(type) {
+            switch (type) {
                 case MarkerType.FIGHT:
                     return "media/fight_marker.png";
                 case MarkerType.QUIZ:

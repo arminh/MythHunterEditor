@@ -1,15 +1,15 @@
-<div id="collection-container" class="col-md-10 col-md-offset-1">
-    <div class="row created-cards-preview">
+<div id="collection-container" flex-offset="10" flex="80">
+    <div class="created-cards-preview">
 
         <div ng-repeat="card in collection.cards" class="collection-card-preview-container" ng-click="collection.showCard(card)">
             <card-preview class="collection-card-preview" card="card" image="card.image" editable="false" menu="true"></card-preview>
         </div>
-        <div class="collection-card-preview-container" cg-busy="{promise:collection.cardDefer.promise, message:'Creating card...', minDuration:1000}" style="position:relative; height: 280px; width:165px;">
+        <div class="collection-card-preview-container" cg-busy="{promise:collection.cardDefer.promise, message:'Uploading card...', minDuration:1000}" style="position:relative; height: 280px; width:165px;">
 
         </div>
 
     </div>
-    <div class="row">
+    <div>
         <button id="create-card-btn" class="btn btn-default" ng-click="collection.createCard()">Create card</button>
     </div>
 </div>

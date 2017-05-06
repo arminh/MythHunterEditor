@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "$q", "MapInteractionService", "MapService", "user"];
+    MapController.$inject = ["$scope", "$state", "$q", "$mdDialog", "MapInteractionService", "MapService", "user"];
 
     /* @ngInject */
-    function MapController($scope, $state, $q, MapInteraction, MapService, user) {
+    function MapController($scope, $state, $q, $mdDialog, MapInteraction, MapService, user) {
         var vm = this;
 
         vm.quest = null;
@@ -69,7 +69,7 @@
         }
 
         function toggleQuestline() {
-            return !vm.showQuestline;
+            vm.showQuestline = !vm.showQuestline;
         }
 
         function searchLocation(query) {
@@ -91,9 +91,37 @@
         }
 
         function saveQuest() {
-            vm.showQuestline = false;
-            vm.saveQuestPromise = MapService.saveQuest();
-            vm.interactionDisabled = true;
+            var errorDialog = $mdDialog.alert({
+                templateUrl: "js/app/map/upload-confirmation/upload-confirmation-dialogue.tpl.html",
+                bindToController: true,
+                controller: "UploadConfirmationController",
+                controllerAs: "uploadConfirmation",
+                locals: {
+                    quest: vm.quest
+                }
+            });
+
+            $mdDialog
+                .show( errorDialog ).then(uploadQuest);
+        }
+
+        function uploadQuest(submit) {
+            var errors = null;
+            if(submit) {
+                vm.quest.setSubmitted(true);
+                errors = vm.quest.check(false);
+
+            } else {
+                errors = vm.quest.check(true);
+            }
+
+            if(!errors.getErroneous()) {
+                vm.showQuestline = false;
+                vm.saveQuestPromise = MapService.saveQuest();
+                vm.interactionDisabled = true;
+            } else {
+                errors.showErrorDialog(true);
+            }
         }
 
         function cancelQuest() {

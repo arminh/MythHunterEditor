@@ -9,10 +9,10 @@
         .module('profile')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ["$log", "$q", "$scope", "$state", "ngDialog", "user"];
+    ProfileController.$inject = ["$log", "$q", "$scope", "$state", "$mdDialog", "user"];
 
     /* @ngInject */
-    function ProfileController($log, $q, $scope, $state, ngDialog, user) {
+    function ProfileController($log, $q, $scope, $state, $mdDialog, user) {
         var vm = this;
         vm.user = user;
         vm.currentQuest = null;
@@ -60,19 +60,17 @@
             vm.currentQuest = null;
         }
 
-        function deleteQuest(quest) {
+        function deleteQuest(evt, quest) {
 
-            $scope.deleteQuest = quest;
-            ngDialog.openConfirm({
-                scope: $scope,
-                template: "js/app/quest/delete-quest-dialogue.tpl.html"
-            }).then(
-                function (confirm) {
-                    user.deleteQuest(quest);
-                }, function (reject) {
+            var confirm = $mdDialog.confirm()
+                .title('Delete quest')
+                .htmlContent('Are you sure you want to delete Quest <b>' + quest.getName() + '</b> ?')
+                .ariaLabel('Delete quest')
+                .targetEvent(evt)
+                .ok('Confirm')
+                .cancel('Cancel');
 
-                }
-            );
+            $mdDialog.show(confirm);
         }
     }
 

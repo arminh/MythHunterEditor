@@ -49,8 +49,8 @@
             }
         }
 
-        function editTask() {
-            vm.task.edit(vm.quest);
+        function editTask(evt) {
+            vm.task.edit(evt);
         }
 
         function deleteTask() {
@@ -61,8 +61,8 @@
             }
         }
 
-        function previewHtml() {
-            vm.task.preview();
+        function previewHtml(evt) {
+            vm.task.preview(evt);
         }
     }
 

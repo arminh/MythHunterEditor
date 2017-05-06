@@ -9,20 +9,20 @@
         .module('task')
         .controller('TaskController', TaskController);
 
-    TaskController.$inject = ["$scope","$modalInstance", "TaskService", "MarkerType", "task", "ngDialog"];
+    TaskController.$inject = ["TaskService", "TextAngularHandler", "MarkerType", "$mdDialog"];
 
     /* @ngInject */
-    function TaskController($scope, $modalInstance, TaskService, MarkerType, task, ngDialog) {
+    function TaskController(TaskService, TextAngularHandler, MarkerType, $mdDialog) {
         var vm = this;
 
         vm.types = MarkerType;
-        vm.name = task.getName();
-        vm.description = task.getDescription();
+        vm.name = "";
+        vm.description = "";
         vm.content = "";
         vm.targetContent = "";
-        vm.activeType = task.getType();
-        vm.questName = task.getQuestName();
-        vm.answers = task.getHtml().getAnswers();
+        vm.activeType = null;
+        vm.questName = "";
+        vm.answers = null;
         vm.error = false;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
         vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo'],['input','radio','checkbox']]"
@@ -35,41 +35,61 @@
 
         vm.markerSelected = markerSelected;
         vm.getMarkerIconSrc = getMarkerIconSrc;
-        vm.contentChanged = contentChanged;
-        vm.okClicked = okClicked;
-        vm.close = close;
+        vm.confirm = confirm;
+        vm.cancel = cancel;
+        vm.keyPressed = keyPressed;
 
         activate();
 
         ////////////////
 
         function activate() {
-            TaskService.setModalInstance($modalInstance);
-            if(task.getTargetHtml()) {
-                vm.targetContent = task.getTargetHtml().getContent();
+            vm.name = vm.task.getName();
+            if(vm.task.getType()) {
+                vm.activeType = vm.task.getType();
+            } else {
+                vm.activeType = MarkerType.INFO;
             }
-            vm.content = task.getHtml().getContent();
-            vm.content = TaskService.setCheckedAttributes(vm.content, vm.answers);
+
+            vm.description = vm.task.getDescription();
+            vm.questName = vm.task.getQuestName();
+            vm.answers = vm.task.getHtml().getAnswers();
+            if (vm.task.getTargetHtml()) {
+                vm.targetContent = vm.task.getTargetHtml().getContent();
+            }
+            vm.content = vm.task.getHtml().getContent();
+            vm.content = TextAngularHandler.restoreContent(vm.content, vm.answers);
+        }
+
+        function keyPressed(event) {
+            if (event.which == 13) {
+                TextAngularHandler.enterKeyPressed(event);
+            }
         }
 
         function markerSelected(newType, index) {
-            if(showConfirm(vm.activeType, newType)) {
-                ngDialog.openConfirm({
-                    scope: $scope,
-                    template: "js/app/task/change-type-dialogue.tpl.html"
-                }).then(
+            if (showConfirm(vm.activeType, newType)) {
+                var confirm = $mdDialog.confirm()
+                    .title('Change task type')
+                    .htmlContent('<p>Changing the task type will discard all type related features.</p><p>Are you sure you want to change the type of the task?</p>')
+                    .multiple(true)
+                    .ariaLabel('Change task type')
+                    .ok('Confirm')
+                    .cancel('Cancel');
+
+                $mdDialog.show(confirm).then(
                     function (confirm) {
-                        switch(vm.activeType) {
+                        switch (vm.activeType) {
                             case MarkerType.QUIZ:
-                                vm.content = TaskService.removeQuizFeatures(vm.content);
+                                vm.content = TextAngularHandler.removeQuizFeatures(vm.content);
                                 vm.answers = [];
                                 break;
                             case MarkerType.INVISIBLE:
-                                vm.content = TaskService.removeInvisibleFeatures(vm.content);
+                                vm.content = TextAngularHandler.removeInvisibleFeatures(vm.content);
                                 break;
                         }
 
-                        if(newType == MarkerType.INFO) {
+                        if (newType == MarkerType.INFO) {
                             vm.targetContent = "";
                         }
 
@@ -83,15 +103,15 @@
         }
 
         function showConfirm(oldType, newType) {
-            if(oldType == MarkerType.QUIZ) {
-                if(newType == MarkerType.INFO) {
+            if (oldType == MarkerType.QUIZ) {
+                if (newType == MarkerType.INFO) {
                     return (vm.content.indexOf("input") >= 0 || vm.targetContent != "");
                 } else {
                     return (vm.content.indexOf("input") >= 0);
                 }
 
-            } else if(newType == MarkerType.INVISIBLE) {
-                return !(vm.targetContent == "");
+            } else if (oldType == MarkerType.INVISIBLE && vm.edit) {
+                return true;
             } else {
                 return false;
             }
@@ -101,27 +121,33 @@
             return TaskService.getMarkerSrc(type);
         }
 
-        function contentChanged() {
-            vm.answers = {};
-            var textAngular = $("text-angular");
-            var inputElements = textAngular.find("input");
+        // function contentChanged() {
+        //     vm.answers = {};
+        //     var textAngular = $("text-angular");
+        //     var inputElements = textAngular.find("input");
+        //
+        //     vm.answers = TaskService.retrieveCheckedAttributes(inputElements, vm.answers);
+        // }
 
-            vm.answers = TaskService.retrieveCheckedAttributes(inputElements, vm.answers);
-        }
+        function confirm() {
 
-        function okClicked() {
-            if(!vm.activeType) {
-                vm.error = true;
-            } else {
-                if(vm.activeType == MarkerType.QUIZ) {
-                    vm.content = TaskService.clearCheckedAttributes(vm.content);
-                }
-                TaskService.createTask(vm.questName, vm.name, vm.content, vm.targetContent, vm.answers, vm.activeType)
+            if (vm.activeType == MarkerType.QUIZ) {
+                vm.answers = {};
+                vm.answers = TextAngularHandler.retrieveCheckedAttributes(vm.answers);
             }
+            vm.content = TextAngularHandler.prepareContent(vm.content);
+            $mdDialog.hide({
+                type: vm.activeType,
+                questName: vm.questName,
+                taskName: vm.name,
+                content: vm.content,
+                targetContent: vm.targetContent != "" ? vm.targetContent : null,
+                answers: vm.answers
+            });
         }
 
-        function close() {
-            TaskService.cancelTask();
+        function cancel() {
+            $mdDialog.cancel();
         }
     }
 
