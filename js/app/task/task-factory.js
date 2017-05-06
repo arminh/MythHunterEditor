@@ -9,10 +9,10 @@
         .module('task')
         .factory('Task', TaskFactory);
 
-    TaskFactory.$inject = ["$log", "$q", "$modal", "TaskService", "AuthenticationService", "BackendService", "MapInteractionService", "MarkerType", "HtmlText"];
+    TaskFactory.$inject = ["$log", "$q", "TaskService", "AuthenticationService", "BackendService", "MapInteractionService", "MarkerType", "HtmlText"];
 
     /* @ngInject */
-    function TaskFactory($log, $q, $modal, TaskService, AuthenticationService, BackendService, MapInteraction, MarkerType, HtmlText) {
+    function TaskFactory($log, $q, TaskService, AuthenticationService, BackendService, MapInteraction, MarkerType, HtmlText) {
         $log = $log.getInstance("Task", debugging);
 
         function Task(questName) {
@@ -51,6 +51,7 @@
             getMarkerSrc: getMarkerSrc,
             change: change,
             preview: preview,
+            check: check,
             upload: upload,
             remove: remove,
 
@@ -86,12 +87,12 @@
 
         ////////////////
 
-        function create() {
+        function create(evt) {
             $log.info("create");
 
             this.html = new HtmlText();
 
-            return TaskService.openTaskDialog(this).then(function (result) {
+            return TaskService.openTaskDialog(this, false, evt).then(function (result) {
                 this.questName = result.questName;
                 this.name = result.taskName;
                 this.type = result.type;
@@ -110,11 +111,11 @@
             }.bind(this));
         }
 
-        function edit() {
+        function edit(evt) {
             $log.info("edit", this);
             var marker = null;
 
-            return TaskService.openTaskDialog(this).then(updateTask.bind(this));
+            return TaskService.openTaskDialog(this, true, evt).then(updateTask.bind(this));
 
             function updateTask(result) {
                 if (this.name != result.taskName) {
@@ -373,30 +374,16 @@
             this.changed = true;
         }
 
-        function preview() {
-            var modalInstance = $modal.open({
-                animation: true,
-                backdrop: 'static',
-                size: "md",
-                templateUrl: "js/app/task/task-preview/task-preview.tpl.html",
-                controller: 'TaskPreviewController',
-                controllerAs: "taskPreview",
-                resolve: {
-                    htmlContent: function () {
-                        return this.html.getContentHtml();
-                    }.bind(this),
-                    targetContent: function() {
-                        if(this.targetHtml) {
-                            return this.targetHtml.getContentHtml();
-                        } else {
-                            return null
-                        }
+        function preview(evt) {
+            TaskService.showPreview(this.html, evt);
+        }
 
-                    }.bind(this)
-                }
-            });
-
-            return modalInstance.result;
+        function check(errors) {
+            var nameMissing = (this.name == "");
+            var descriptionMissing = (this.html.getContent() == "");
+            if(nameMissing || descriptionMissing) {
+                errors.addTaskError(this, nameMissing, descriptionMissing);
+            }
         }
 
         function upload() {

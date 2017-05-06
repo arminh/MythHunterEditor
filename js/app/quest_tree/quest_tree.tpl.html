@@ -1,16 +1,48 @@
-<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="questTree.close()">
-    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
-</md-button>
-<div class="modal-header">
-    <h3 class="modal-title">Create Quest</h3>
-</div>
-<div class="modal-body">
-    <div id="questTreeContainer" ng-init="questTree.init()" keypress-events>
-        <canvas id="myCanvas" width="1067px" height="600px"></canvas>
-    </div>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-primary" type="button" aria-label="ok" ng-click="questTree.okClicked()">OK</button>
-    <button class="btn btn-warning" type="button" aria-label="cancel" ng-click="questTree.close()">Cancel</button>
-</div>
+<md-dialog aria-label="Create task">
+    <form name="questForm" ng-cloak ng-submit="questTree.confirm()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Edit Storyline</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="questTree.cancel()">
+                    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content flex>
+            <div class="md-dialog-content">
+                <div id="questTreeContainer" layout="column" layout-fill="layout-fill" keypress-events>
+                    <canvas id="questTree-canvas" width="960px" height="500px"></canvas>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button type="submit" class="md-raised md-primary">
+                OK
+            </md-button>
+            <md-button class="md-raised" ng-click="questTree.cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+
+
+<!--<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="questTree.close()">-->
+    <!--<md-icon md-svg-icon="media/close_icon.svg"></md-icon>-->
+<!--</md-button>-->
+<!--<div class="modal-header">-->
+    <!--<h3 class="modal-title">Create Quest</h3>-->
+<!--</div>-->
+<!--<div class="modal-body">-->
+    <!--<div id="questTreeContainer" ng-init="questTree.init()" keypress-events>-->
+        <!--<canvas id="myCanvas" width="1067px" height="600px"></canvas>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="modal-footer">-->
+    <!--<button class="btn btn-primary" type="button" aria-label="ok" ng-click="questTree.confirm()">OK</button>-->
+    <!--<button class="btn btn-warning" type="button" aria-label="cancel" ng-click="questTree.cancel()">Cancel</button>-->
+<!--</div>-->
 

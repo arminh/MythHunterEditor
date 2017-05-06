@@ -9,32 +9,33 @@
         .module('questTree')
         .controller('QuestTreeController', QuestTreeController);
 
-    QuestTreeController.$inject = ["$scope", 'QuestTreeService', "treeRoot", "$modalInstance"];
+    QuestTreeController.$inject = ["$scope", 'QuestTreeService', "$mdDialog", "$timeout"];
 
     /* @ngInject */
-    function QuestTreeController($scope, QuestTreeService, treeRoot, $modalInstance) {
+    function QuestTreeController($scope, QuestTreeService, $mdDialog, $timeout) {
         var vm = this;
         vm.drawing = false;
 
-        vm.init = init;
-        vm.okClicked = okClicked;
-        vm.close = close;
+        vm.confirm = confirm;
+        vm.cancel = cancel;
 
         $scope.$on("keypress:27", QuestTreeService.escapeKeyPressed);
         $scope.$on("keypress:46", QuestTreeService.deleteKeyPressed);
 
+        $timeout(init);
+
         ////////////////
 
         function init() {
-            QuestTreeService.init(treeRoot);
+            QuestTreeService.init(vm.treeRoot);
         }
 
-        function okClicked() {
-            QuestTreeService.saveTree($modalInstance);
+        function confirm() {
+            QuestTreeService.saveTree();
         }
 
-        function close() {
-            $modalInstance.close();
+        function cancel() {
+            $mdDialog.cancel();
         }
     }
 

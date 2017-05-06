@@ -1,23 +1,48 @@
-<md-button class="md-icon-button choose-marker-close" aria-label="close" ng-click="quest.close()">
-    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
-</md-button>
-<div class="modal-header">
-    <h3 class="modal-title">Create Quest</h3>
-</div>
-<div class="modal-body">
-    <div class="task-info">
-        <p>Enter a title for the quest: </p>
-        <input class="task-info-input task-info-title" ng-model="quest.name" placeholder="Enter title"/><br>
-    </div>
+<md-dialog aria-label="Create task">
+    <form name="questForm" ng-cloak ng-submit="quest.confirm()">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-if="!quest.edit">Create Quest</h2>
+                <h2 ng-if="quest.edit">Edit Quest</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="quest.cancel()">
+                    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
 
-    <div class="task-content">
-        <text-angular ta-toolbar="{{quest.toolbar}}" ng-model="quest.questContent" id="quest-text"></text-angular>
-        <span ng-if="!quest.edit"><input type="checkbox" ng-model="quest.separateDescription"/> Use separate description for Start marker</span>
-        <text-angular ng-if="!quest.edit" ta-toolbar="{{quest.toolbar}}" ng-show="quest.separateDescription" ng-model="quest.taskContent" id="task-text"></text-angular>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="row" layout-align="center center">
+                    <md-input-container flex="50">
+                        <label>Quest Name</label>
+                        <input required name="questName" ng-model="quest.name" class="task-info">
+                        <div ng-messages="projectForm.clientName.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div class="task-content">
+                    <text-angular ta-toolbar="{{quest.toolbar}}" ng-model="quest.questContent"
+                                  id="quest-text"></text-angular>
+                    <md-checkbox ng-if="!quest.edit" ng-model="quest.separateDescription" aria-label="Submit?">
+                        Use separate description for Start marker
+                    </md-checkbox>
+                    <text-angular ng-if="!quest.edit" ta-toolbar="{{quest.toolbar}}" ng-show="quest.separateDescription"
+                                  ng-model="quest.taskContent" id="task-text"></text-angular>
 
-    </div>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-primary" type="button" aria-label="ok" ng-click="quest.okClicked()">OK</button>
-    <button class="btn btn-warning" type="button" aria-label="cancel" ng-click="quest.close()">Cancel</button>
-</div>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button type="submit" class="md-raised md-primary">
+                OK
+            </md-button>
+            <md-button class="md-raised" ng-click="quest.cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

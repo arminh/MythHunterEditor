@@ -9,10 +9,10 @@
         .module('quest')
         .factory('Quest', QuestFactory);
 
-    QuestFactory.$inject = ["$log", "$q", "QuestService", "AuthenticationService", "BackendService", "TreePartType", "Task", "HtmlText", "TreePart", "DifficultyLevel"];
+    QuestFactory.$inject = ["$log", "$q", "QuestService", "AuthenticationService", "BackendService", "TreePartType", "Task", "HtmlText", "TreePart", "DifficultyLevel", "SubmitErrors"];
 
     /* @ngInject */
-    function QuestFactory($log, $q, QuestService, AuthenticationService, BackendService, TreePartType, Task, HtmlText, TreePart, DifficultyLevel) {
+    function QuestFactory($log, $q, QuestService, AuthenticationService, BackendService, TreePartType, Task, HtmlText, TreePart, DifficultyLevel, SubmitErrors) {
 
         $log = $log.getInstance("Quest", debugging);
         function Quest() {
@@ -26,7 +26,7 @@
             this.html = null;
             this.creatorId = -1;
             this.approved = true;
-            this.submitted = true;
+            this.submitted = false;
             this.specialCards = [];
 
             this.loaded = false;
@@ -51,6 +51,7 @@
             getTreePart: getTreePart,
             getTreePartByRemoteId: getTreePartByRemoteId,
             rewireTree: rewireTree,
+            check: check,
             upload: upload,
             remove: remove,
 
@@ -63,13 +64,14 @@
             getTreePartRoot: getTreePartRoot,
             getTreeParts: getTreeParts,
             getSubmitted: getSubmitted,
+            setSubmitted: setSubmitted,
             getApproved: getApproved,
             getLoaded: getLoaded,
             setLoaded: setLoaded,
             getSpecialCards: getSpecialCards,
             getDifficulty: getDifficulty,
             getDifficultyRating: getDifficultyRating,
-            getQualityRating: getQualityRating
+            getQualityRating: getQualityRating,
         };
 
         return (Quest);
@@ -299,6 +301,30 @@
             AuthenticationService.getUser().backup();
         }
 
+        function check(checkNameOnly) {
+            var errors = new SubmitErrors();
+
+            if(checkNameOnly) {
+                var nameMissing = (this.name == "");
+                if(nameMissing) {
+                    errors.addQuestError(this, nameMissing, false);
+                }
+            } else {
+                var nameMissing = (this.name == "");
+                var descriptionMissing = (this.description == "");
+                if(nameMissing || descriptionMissing) {
+                    errors.addQuestError(this, nameMissing, descriptionMissing);
+                }
+
+                this.treePartRoot.getTask().check(errors);
+                for (var i = 0; i < this.treeParts.length; i++) {
+                    this.treeParts[i].getTask().check(errors);
+                }
+            }
+
+            return errors;
+        }
+
         function upload() {
             $log.info("upload: ", this);
 
@@ -428,6 +454,10 @@
 
         function getSubmitted() {
             return this.submitted;
+        }
+
+        function setSubmitted(value) {
+            this.submitted = value;
         }
 
         function getApproved() {

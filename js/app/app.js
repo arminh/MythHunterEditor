@@ -13,7 +13,6 @@
         'ui.router',
         'ui.bootstrap',
         'ui.sortable',
-        'ngDialog',
         'ngDragDrop',
         'cgBusy',
         'textAngular',

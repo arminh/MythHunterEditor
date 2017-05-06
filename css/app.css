@@ -29,9 +29,21 @@
 
 
 #login-container, #register-container {
-    background-color: #e7e7e7;
-    border-radius: 10px;
-    margin-top: 40px;
+    height: 100%;
+    width: 100%
+}
+
+.loginBox {
+    max-width:  90%;
+    width: 500px
+}
+
+.stretch input  {
+    width: 100%
+}
+
+md-input-container {
+    margin: 5px 0;
 }
 
 .button {

@@ -9,10 +9,10 @@
         .module('map')
         .factory('MapService', mapService);
 
-    mapService.$inject = ["$log", "$q", "$state", "$http", "$modal", "DefaultConfig", "MapInteractionService", "Task"];
+    mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "DefaultConfig", "MapInteractionService", "Task"];
 
     /* @ngInject */
-    function mapService($log, $q, $state, $http, $modal, DefaultConfig, MapInteraction, Task) {
+    function mapService($log, $q, $state, $http, $mdDialog, DefaultConfig, MapInteraction, Task) {
 
         $log = $log.getInstance("MapService", debugging);
 
@@ -150,10 +150,10 @@
 
         }
 
-        function createTask() {
+        function createTask(evt) {
             var task = new Task(quest.name);
 
-            task.create().then(function() {
+            task.create(evt).then(function() {
                 drawing = true;
                 task.drawMarker().then(function()
                 {
@@ -203,22 +203,15 @@
         }
 
         function editQuestTree() {
-            var modalInstance = $modal.open({
-                animation: true,
-                backdrop  : 'static',
-                keyboard  : false,
-                size: "lg",
+            return $mdDialog.show({
                 templateUrl: 'js/app/quest_tree/quest_tree.tpl.html',
                 controller: 'QuestTreeController',
                 controllerAs: "questTree",
-                resolve: {
-                    treeRoot: function () {
-                        return quest.getTreePartRoot();
-                    }
+                bindToController: true,
+                locals: {
+                    treeRoot: quest.getTreePartRoot()
                 }
             });
-
-            return modalInstance.result;
         }
     }
 

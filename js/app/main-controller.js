@@ -9,14 +9,17 @@
         .module('app')
         .controller('MainController', MainController);
 
-    MainController.$inject = ["$state", "AuthenticationService"];
+    MainController.$inject = ["$rootScope", "$state", "$mdSidenav", "AuthenticationService"];
 
     /* @ngInject */
-    function MainController($state, AuthenticationService) {
+    function MainController($rootScope, $state, $mdSidenav, AuthenticationService) {
         var vm = this;
 
         vm.login = login;
         vm.logout = logout;
+        vm.state = $state.current.url;
+        vm.toggleSidenav = initToggle("sidenav");
+        $rootScope.$on('$locationChangeSuccess', locationChangeSuccess);
 
         ////////////////
 
@@ -27,6 +30,17 @@
         function logout() {
             AuthenticationService.logout();
             $state.go("app.login");
+        }
+
+        function initToggle(id) {
+            return function() {
+                $mdSidenav(id).toggle();
+            }
+        }
+
+        function locationChangeSuccess() {
+            console.log($state.current);
+            vm.state = $state.current.url;
         }
     }
 })();

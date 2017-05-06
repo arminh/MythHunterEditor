@@ -9,21 +9,16 @@
         .module('quest')
         .factory('QuestService', QuestService);
 
-    QuestService.$inject = ["$log", "$modal"];
+    QuestService.$inject = ["$log", "$mdDialog"];
 
     /* @ngInject */
-    function QuestService($log, $modal) {
+    function QuestService($log, $mdDialog) {
         $log = $log.getInstance("Quest", debugging);
 
-        var $modalInstance = null;
         var treePartId = 1;
-
         var service = {
-            setModalInstance: setModalInstance,
-            createQuest: createQuest,
-            cancelQuest: cancelQuest,
-            addTreePartToQuest: addTreePartToQuest,
             openQuestDialog: openQuestDialog,
+            addTreePartToQuest: addTreePartToQuest,
 
             getTreePartId: getTreePartId,
             setTreePartId: setTreePartId
@@ -32,50 +27,24 @@
 
         ////////////////
 
-        function setModalInstance(modalInstance) {
-            $modalInstance = modalInstance;
-        }
 
-        function createQuest(name, questContent, taskContent, separateDescription) {
-            if(!separateDescription) {
-                taskContent = questContent;
-            }
-
-            $modalInstance.close({
-                name: name,
-                questContent: questContent,
-                taskContent: taskContent
+        function openQuestDialog(quest, edit, evt) {
+            return $mdDialog.show({
+                templateUrl: 'js/app/quest/quest.tpl.html',
+                controller: 'QuestController',
+                controllerAs: 'quest',
+                bindToController: true,
+                targetEvent: evt,
+                locals: {
+                    quest: quest,
+                    edit: edit
+                }
             });
-        }
-
-        function cancelQuest() {
-            $modalInstance.dismiss('cancel');
         }
 
         function addTreePartToQuest(quest, treePart) {
             treePart.setId(treePartId++);
             quest.addTreePart(treePart);
-        }
-
-        function openQuestDialog(quest, edit) {
-            var modalInstance = $modal.open({
-                animation: true,
-                backdrop: 'static',
-                size: "lg",
-                templateUrl: 'js/app/quest/quest.tpl.html',
-                controller: 'QuestController',
-                controllerAs: "quest",
-                resolve: {
-                    quest: function () {
-                        return quest;
-                    },
-                    edit: function () {
-                        return edit;
-                    }
-                }
-            });
-
-            return modalInstance.result;
         }
 
         function getTreePartId() {

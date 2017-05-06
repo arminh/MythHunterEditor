@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine"];
+    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine", "$mdDialog"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine) {
+    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine, $mdDialog) {
         $log = $log.getInstance("QuestTreeService", debugging);
         var originalTreeRoot = null;
         var modifiedTreeRoot = null;
@@ -58,7 +58,7 @@
             markerId = 0;
             curMarkerId = -1;
             lineId = 0;
-            canvas = new fabric.Canvas('myCanvas', {
+            canvas = new fabric.Canvas('questTree-canvas', {
                 targetFindTolerance: 15
             });
             initRightClick();
@@ -324,7 +324,7 @@
             }
         }
 
-        function saveTree($modalInstance) {
+        function saveTree() {
 
             for(var i = 0; i < markers.length; i++) {
                 if(marker.getId() != 0 && marker.getLineEnds().length == 0) {
@@ -332,8 +332,7 @@
                 }
             }
 
-
-            $modalInstance.close();
+            $mdDialog.cancel();
         }
     }
 
