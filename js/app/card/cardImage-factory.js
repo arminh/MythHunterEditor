@@ -160,8 +160,8 @@
         }
 
         function setOriginalSize(size) {
-            this.width = size.width;
-            this.height = size.height;
+            this.width = size.width - 1;
+            this.height = size.height - 1;
         }
 
         function setScaledSize(size) {

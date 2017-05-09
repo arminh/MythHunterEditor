@@ -9,10 +9,10 @@
         .module('card')
         .factory('CardService', CardService);
 
-    CardService.$inject = ["$log", "$mdDialog", "Card"];
+    CardService.$inject = ["$log", "$q", "$mdDialog", "Card"];
 
     /* @ngInject */
-    function CardService($log, $mdDialog, Card) {
+    function CardService($log, $q, $mdDialog, Card) {
         $log = $log.getInstance("CardService", debugging);
 
         var maskWidth = 214;
@@ -76,14 +76,26 @@
              return imageDragBounds;
         }
 
-        function createCard() {
+        function createCard(user) {
             $log.info("createCard");
 
             var card = new Card();
-            return openCardCreatorDialog(card).then(function() {
+            return openCardCreatorDialog(card).then(createFinished, createCanceled);
+
+            function createFinished(){
+                user.addCreatedCard(card);
+                card.upload().then(function() {
+                    user.upload();
+                });
                 return card;
-            });
+            }
+
+            function createCanceled() {
+                return $q.reject();
+            }
         }
+
+
 
         function editCard(card) {
             $log.info("createCard");

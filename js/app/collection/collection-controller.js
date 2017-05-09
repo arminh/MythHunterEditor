@@ -28,27 +28,15 @@
 
 
             function getCreatedCards(actions) {
-                CollectionService.getCreatedCards(actions).then(function(createdCards) {
-                    vm.cards = createdCards;
-                });
+                vm.cards = CollectionService.getCreatedCards(actions);
             }
         }
 
         function createCard() {
 
-
-            CollectionService.createCard().then(uploadCard);
-
-            function uploadCard(card) {
-                vm.cardDefer = $q.defer();
-                card.upload().then(addCard);
-
-            }
-
+            CollectionService.createCard().then(addCard);
             function addCard(card) {
-                console.log(card);
-                vm.cards.push(card);
-                vm.cardDefer.resolve();
+                vm.cards = CollectionService.getCreatedCards(actions);
             }
         }
     }

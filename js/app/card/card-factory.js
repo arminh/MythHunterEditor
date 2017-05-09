@@ -69,7 +69,8 @@
 
         function getFromRemote() {
             $log.info("getFromRemote", this.remoteId);
-            return BackendService.getCard(this.remoteId).then(success.bind(this));
+            this.loadPromise = BackendService.getCard(this.remoteId).then(success.bind(this));
+            return this.loadPromise;
 
             function success(remoteCard) {
                 this.initFromRemote(remoteCard);
@@ -160,11 +161,13 @@
         function upload() {
             $log.info("upload: ", this);
 
+
             if(!this.changed) {
-                return this.image.upload(this.name).then(uploadCard.bind(this));
+                this.loadPromise = this.image.upload(this.name).then(uploadCard.bind(this));
             } else {
-                return this.image.upload(this.name).then(updateCard.bind(this));
+                this.loadPromise = this.image.upload(this.name).then(updateCard.bind(this));
             }
+            return this.loadPromise;
         }
 
         function uploadCard(remoteImageId) {

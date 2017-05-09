@@ -1,4 +1,5 @@
-<div id="card-container" ng-mouseenter="cardPreview.showMenu = true" ng-mouseleave="cardPreview.showMenu = false">
+<div id="card-container" ng-mouseenter="cardPreview.showMenu = true" ng-mouseleave="cardPreview.showMenu = false"
+     cg-busy="{promise:cardPreview.card.loadPromise, message:'Loading card...', minDuration:1000}">
     <div class="card-image-bounds">
         <div class="card-image-drag-bounds" ng-style="cardPreview.dragBoundsStyle">
             <div class="card-image-container" ng-class="{'card-image-container-movable': cardPreview.editable}"

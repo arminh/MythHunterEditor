@@ -42,23 +42,18 @@
                 cardPromises.push(cardPromise);
             }
 
-            return $q.all(cardPromises).then(function (results) {
+            $q.all(cardPromises).then(function (results) {
                 for(var j = 0; j < results.length; j++) {
                     results[j].initActions(actions);
                 }
                 $log.info("getCreatedCards_success", results);
-                return results;
             });
+
+            return createdCards;
         }
 
         function createCard() {
-            return CardService.createCard().then(updateUser);
-
-            function updateUser(card) {
-                user.addCreatedCard(card);
-                user.upload();
-                return card;
-            }
+            return CardService.createCard(user);
         }
     }
 

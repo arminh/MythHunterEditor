@@ -135,6 +135,7 @@
         }
 
         function addQuest(quest) {
+            $log.info("addQuest:", quest);
             this.createdQuests.push(quest);
         }
 
@@ -202,11 +203,8 @@
         }
 
         function addCreatedCard(card) {
+            $log.info("addCreatedCard:", card);
             this.createdCards.push(card);
-        }
-
-        function getCurrentCard() {
-            return null;
         }
 
         function backup() {
