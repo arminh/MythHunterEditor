@@ -101,17 +101,17 @@
             $log.info("createCard");
 
             var editCard = angular.copy(card);
-            return openCardCreatorDialog(editCard).then(updateCard);
+            return openCardCreatorDialog(editCard).then(updateCard, cacheOriginalImage);
 
             function updateCard() {
                 card.updateFromCard(editCard);
-
                 return card.upload();
+            }
 
-                function canceled(error) {
-                    $log.info("create_fail: Canceled");
-                    return $q.reject("Canceled");
-                }
+            function cacheOriginalImage() {
+                var cardImage = card.getImage();
+                var editCardImage = editCard.getImage();
+                cardImage.setOriginalImage(editCardImage.getOriginalImage());
             }
         }
 

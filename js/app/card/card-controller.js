@@ -14,6 +14,7 @@
     /* @ngInject */
     function CardController($q, $scope, CardService, ActionService) {
         var vm = this;
+        vm.originalImage = "";
 
         vm.dimensions = {
             width: 0,
@@ -37,6 +38,14 @@
         ////////////////
 
         function activate() {
+            if(vm.edit && vm.card.getImage().getOriginalImageSrc() != "") {
+                vm.card.loadOriginalCardImage().then(function(image) {
+                    vm.originalImage = image;
+                });
+            }
+            $scope.$watch("cardPreview.card.image.originalImage", function() {
+                vm.originalImage = vm.card.getImage().getOriginalImage();
+            })
         }
 
         function getStarImage() {
@@ -45,6 +54,7 @@
 
         function imageLoaded(originalSize, scaledSize) {
             var cardImage = vm.card.getImage();
+            cardImage.setScaledPosition(0, 0);
             cardImage.setOriginalSize(originalSize);
             cardImage.setScaledSize(scaledSize);
 
@@ -55,12 +65,13 @@
                 height: vm.dimensions.height
             };
             vm.dragBoundsStyle = CardService.getDragBounds(vm.dimensions);
+            vm.imageContainerStyle.top = cardImage.getTop() - vm.dragBoundsStyle.top;
+            vm.imageContainerStyle.left = cardImage.getLeft() - vm.dragBoundsStyle.left;
         }
 
         function positionChanged(evt) {
             var cardImage = vm.card.getImage();
-            console.log(cardImage);
-            cardImage.setScaledPosition(evt.target.offsetTop, evt.target.offsetLeft);
+            cardImage.setScaledPosition(Math.abs(evt.target.offsetTop + vm.dragBoundsStyle.top), Math.abs(evt.target.offsetLeft + vm.dragBoundsStyle.left));
         }
 
         function editCard() {

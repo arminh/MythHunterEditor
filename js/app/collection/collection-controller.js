@@ -28,7 +28,7 @@
 
 
             function getCreatedCards(actions) {
-                vm.cards = CollectionService.getCreatedCards(actions);
+                vm.cards = CollectionService.loadCreatedCards(actions);
             }
         }
 
@@ -36,7 +36,7 @@
 
             CollectionService.createCard().then(addCard);
             function addCard(card) {
-                vm.cards = CollectionService.getCreatedCards(actions);
+                vm.cards = CollectionService.getCreatedCards();
             }
         }
     }

@@ -13,7 +13,7 @@
             <div class="md-dialog-content">
                 <div layout="column" layout-gt-sm="row">
 
-                    <card-preview card="cardeditor.card" editable="true" menu="false"></card-preview>
+                    <card-preview card="cardeditor.card" edit="true" menu="false"></card-preview>
                     <div >
                         <md-content class="card-settings-content">
                             <md-input-container>
@@ -76,7 +76,7 @@
                                 Choose Card Image
                             </label>
                             <md-input-container>
-                                <input required name="image" type="file" id="card-image-input"
+                                <input name="image" type="file" id="card-image-input"
                                        ng-model='cardeditor.image'
                                        class="ng-hide"
                                        on-after-validate="cardeditor.cardImageChanged" base-sixty-four-input/>

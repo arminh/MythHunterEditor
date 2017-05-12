@@ -45,22 +45,19 @@
         function statMaxLife() {
             var starCount = CardEditorService.calculateStarCount(vm.card.attack, 0, vm.card.actions);
             var max = Math.min(10, (10-starCount)*2);
-            console.log(max);
             return max;
         }
 
         function cardImageChanged(e, newImage) {
             var cardImage = vm.card.getImage();
-            cardImage.setImage(vm.image.base64);
+            cardImage.setOriginalImage(vm.image.base64);
             cardImage.setType(vm.image.filetype);
             cardImage.setFileEnding(vm.image.filename.substr(vm.image.filename.lastIndexOf('.')+1));
             cardImage.setOriginalSize(vm.image);
         }
 
         function confirm() {
-            if (vm.card.image) {
-                CardEditorService.confirm();
-            }
+            CardEditorService.confirm();
         }
 
         function cancel() {

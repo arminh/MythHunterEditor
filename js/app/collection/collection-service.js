@@ -20,6 +20,7 @@
         var service = {
             init: init,
             getCreatedCards: getCreatedCards,
+            loadCreatedCards: loadCreatedCards,
             createCard: createCard
         };
         return service;
@@ -31,15 +32,18 @@
             return $q.when(ActionService.getActions());
         }
 
-        function getCreatedCards(actions) {
+        function loadCreatedCards(actions) {
             $log.info("getCreatedCards");
             var createdCards = user.getCreatedCards();
 
             var cardPromises = [];
 
             for (var i = 0; i < createdCards.length; i++) {
-                var cardPromise = createdCards[i].getFromRemote();
-                cardPromises.push(cardPromise);
+                if(!createdCards[i].getLoaded()) {
+                    var cardPromise = createdCards[i].getFromRemote();
+                    cardPromises.push(cardPromise);
+                }
+
             }
 
             $q.all(cardPromises).then(function (results) {
@@ -50,6 +54,10 @@
             });
 
             return createdCards;
+        }
+
+        function getCreatedCards() {
+            return user.getCreatedCards();
         }
 
         function createCard() {

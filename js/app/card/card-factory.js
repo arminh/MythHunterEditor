@@ -9,10 +9,10 @@
         .module('card')
         .factory('Card', CardFactory);
 
-    CardFactory.$inject = ["$log", "$filter", "CardType", "BackendService", "CardImage"];
+    CardFactory.$inject = ["$log", "$timeout", "$filter", "CardType", "BackendService", "CardImage"];
 
     /* @ngInject */
-    function CardFactory($log, $filter, CardType, BackendService, CardImage) {
+    function CardFactory($log, $timeout, $filter, CardType, BackendService, CardImage) {
         $log = $log.getInstance("Card", debugging);
 
         function Card() {
@@ -38,6 +38,7 @@
             initFromRemote: initFromRemote,
             updateFromCard: updateFromCard,
             createImage: createImage,
+            loadOriginalCardImage: loadOriginalCardImage,
             initActions: initActions,
             addAction: addAction,
             upload: upload,
@@ -77,6 +78,7 @@
 
                 return this.image.getFromRemote().then(function() {
                     $log.info("getFromRemote_success", this);
+                    this.loaded = true;
                     return this;
                 }.bind(this))
 
@@ -130,6 +132,19 @@
 
         function createImage() {
             return new CardImage();
+        }
+
+        function loadOriginalCardImage() {
+            if(this.image.getOriginalImageSrc() != "") {
+                if(this.image.getOriginalImage() == "") {
+                    this.loadPromise = this.image.loadOriginalImage();
+                } else {
+                    this.loadPromise = $timeout(function() {
+                        return this.image.getOriginalImage()
+                    }.bind(this), 1000);
+                }
+                return this.loadPromise;
+            }
         }
 
         function initActions(actions) {

@@ -2,19 +2,23 @@
      cg-busy="{promise:cardPreview.card.loadPromise, message:'Loading card...', minDuration:1000}">
     <div class="card-image-bounds">
         <div class="card-image-drag-bounds" ng-style="cardPreview.dragBoundsStyle">
-            <div class="card-image-container" ng-class="{'card-image-container-movable': cardPreview.editable}"
+            <div class="card-image-container" ng-class="{'card-image-container-movable': cardPreview.edit}"
                  jqyoui-draggable="{containment:'position', onStop:'cardPreview.positionChanged'}"
-                 data-drag="cardPreview.editable"
+                 data-drag="cardPreview.edit"
                  data-jqyoui-options="{{cardPreview.imageDragOptions}}" ng-style="cardPreview.imageContainerStyle"
-                 ng-top top="cardPreview.card.image.scaledTop" left="cardPreview.card.image.scaledLeft">
-                <img ng-if="cardPreview.card.image.image" class="card-image"
+                 >
+                <img ng-if="!cardPreview.edit && cardPreview.card.image.image" class="card-image"
                      data-ng-src="data:{{cardPreview.card.image.type}};base64, {{cardPreview.card.image.image}}"
+                     scale-card-image
+                     dimensions="cardPreview.dimensions" callback="cardPreview.imageLoaded"/>
+                <img ng-if="cardPreview.edit && cardPreview.originalImage" class="card-image"
+                     data-ng-src="data:{{cardPreview.card.image.type}};base64, {{cardPreview.originalImage}}"
                      scale-card-image
                      dimensions="cardPreview.dimensions" callback="cardPreview.imageLoaded"/>
             </div>
         </div>
     </div>
-    <span ng-show="cardPreview.editable && cardPreview.card.image.content" class="card-image-instruction">Drag image to reposition</span>
+    <span ng-show="cardPreview.edit && cardPreview.card.image.content" class="card-image-instruction">Drag image to reposition</span>
 
     <div class="card-mask">
         <img src="media/card/card_plain_stars_0.png" class="card_front"/>

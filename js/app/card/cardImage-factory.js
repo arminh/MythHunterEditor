@@ -25,6 +25,7 @@
             this.height = 0;
             this.image = "";
 
+            this.originalImage = "";
             this.fileEnding = "";
             this.changed = false;
             this.scaledWidth = 0;
@@ -38,6 +39,7 @@
             initFromRemote: initFromRemote,
             calculateDimensions: calculateDimensions,
             updateFromCardImage: updateFromCardImage,
+            loadOriginalImage: loadOriginalImage,
             upload: upload,
 
             setRemoteId: setRemoteId,
@@ -60,6 +62,8 @@
             getOffsetTop: getOffsetTop,
             getOffsetLeft: getOffsetLeft,
             getOriginalImageSrc: getOriginalImageSrc,
+            getOriginalImage: getOriginalImage,
+            setOriginalImage: setOriginalImage,
             setFileEnding: setFileEnding
         };
 
@@ -81,17 +85,20 @@
             this.width = remoteCardImage.getWidth();
             this.height = remoteCardImage.getHeight();
             this.image = remoteCardImage.getImage();
-            // return BackendService.downloadImage(this.originalImageSrc).then(success.bind(this));
-            //
-            // function success(result) {
-            //     this.content = result;
-            //     $log.info("initFromRemote_success", this);
-            //     return this;
-            // }
         }
 
         function updateFromCardImage(cardImage) {
             this.changed = false;
+
+            if(this.originalImage != "") {
+                if(this.originalImage  != cardImage.getOriginalImage()) {
+                    this.originalImage = cardImage.getOriginalImage();
+                    this.changed = true;
+                }
+            } else {
+                this.originalImage = cardImage.getOriginalImage();
+            }
+
             if(this.top != cardImage.getOffsetTop()) {
                 this.top = cardImage.getOffsetTop();
                 this.changed = true;
@@ -112,6 +119,16 @@
             return this.changed;
         }
 
+        function loadOriginalImage() {
+            $log.info("getOriginalImage", this.originalImageSrc);
+            return BackendService.downloadImage(this.originalImageSrc).then(success.bind(this));
+
+            function success(result) {
+                this.originalImage = result;
+                $log.info("getOriginalImage_success", this.originalImageSrc);
+                return this.originalImage;
+            }
+        }
 
         function upload(name) {
             this.name = name;
@@ -119,7 +136,7 @@
 
             var imageName = this.name + "_" + Date.now() + "." + this.fileEnding;
             $log.info("uploadImage", imageName);
-            return BackendService.uploadImage(imageName, this.image).then(convertImage.bind(this));
+            return BackendService.uploadImage(imageName, this.originalImage).then(convertImage.bind(this));
             // var remoteCardImage = BackendService.createRemoteCardImage(this);
             // return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
 
@@ -157,6 +174,8 @@
             var scaleRatio = this.width / this.scaledWidth;
             this.top = Math.floor(this.scaledTop * scaleRatio);
             this.left = Math.floor(this.scaledLeft * scaleRatio);
+            this.height -= this.top;
+            this.width -= this.left;
         }
 
         function setOriginalSize(size) {
@@ -244,8 +263,16 @@
             return this.offsetLeft;
         }
 
+        function getOriginalImage() {
+            return this.originalImage;
+        }
+
         function getOriginalImageSrc() {
             return this.originalImageSrc;
+        }
+
+        function setOriginalImage(image) {
+            this.originalImage = image;
         }
 
         function setFileEnding(value) {
