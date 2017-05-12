@@ -7,12 +7,12 @@
 
     angular
         .module('card')
-        .directive('cardPreview', cardPreview);
+        .directive('card', card);
 
-    cardPreview.$inject = ["$q"];
+    card.$inject = ["$q"];
 
     /* @ngInject */
-    function cardPreview($q) {
+    function card($q) {
         var directive = {
             templateUrl: "js/app/card/card.tpl.html",
             bindToController: {
@@ -21,7 +21,7 @@
                 menu: "="
             },
             controller: "CardController",
-            controllerAs: 'cardPreview',
+            controllerAs: 'cardCtrl',
             link: link,
             restrict: 'E',
             scope: {

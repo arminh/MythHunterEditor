@@ -7,7 +7,12 @@
     margin-right: 40px;
 }
 
-.collection-card-preview {
+.collection-card {
     zoom: 0.7;
-    -moz-transform: scale(0.5);
+    -moz-transform: scale(0.7);
+}
+
+.collection-card-preview {
+    zoom: 1.2;
+    -moz-transform: scale(1.2);
 }

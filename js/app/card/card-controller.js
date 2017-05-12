@@ -9,10 +9,10 @@
         .module('card')
         .controller('CardController', CardController);
 
-    CardController.$inject = ["$q", "$scope", "CardService", "ActionService"];
+    CardController.$inject = ["$scope", "$mdDialog", "CardService"];
 
     /* @ngInject */
-    function CardController($q, $scope, CardService, ActionService) {
+    function CardController($scope, $mdDialog, CardService) {
         var vm = this;
         vm.originalImage = "";
 
@@ -31,7 +31,7 @@
         vm.imageLoaded = imageLoaded;
         vm.positionChanged = positionChanged;
         vm.editCard = editCard;
-        vm.deleteCard = deleteCard;
+        vm.previewCard = previewCard;
 
         activate();
 
@@ -43,7 +43,7 @@
                     vm.originalImage = image;
                 });
             }
-            $scope.$watch("cardPreview.card.image.originalImage", function() {
+            $scope.$watch("cardCtrl.card.image.originalImage", function() {
                 vm.originalImage = vm.card.getImage().getOriginalImage();
             })
         }
@@ -76,6 +76,20 @@
 
         function editCard() {
             CardService.editCard(vm.card);
+        }
+
+        function previewCard(evt) {
+            return $mdDialog.show({
+                templateUrl: 'js/app/card/card-preview/card-preview.tpl.html',
+                controller: 'CardPreviewController',
+                controllerAs: 'cardPreview',
+                bindToController: true,
+                targetEvent: evt,
+                clickOutsideToClose: true,
+                locals: {
+                    card: vm.card
+                }
+            });
         }
 
         function deleteCard() {
