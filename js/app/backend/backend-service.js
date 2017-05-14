@@ -26,33 +26,98 @@
             createRemoteTask: createRemoteTask,
             createRemoteHtml: createRemoteHtml,
             createRemoteTreePart: createRemoteTreePart,
+            createRemoteCard: createRemoteCard,
+            createRemoteCardImage: createRemoteCardImage,
             getQuest: getQuest,
             getQuests: getQuests,
             getTask: getTask,
             getHtml: getHtml,
             getTreePart: getTreePart,
+            getCard: getCard,
+            getCardImage: getCardImage,
+            getAllActionsOfCardType: getAllActionsOfCardType,
             addQuest: addQuest,
             addTask: addTask,
             addHtml: addHtml,
+            addCard: addCard,
+            addCardImage: addCardImage,
             addTreePart: addTreePart,
             updateUser: updateUser,
             updateQuest: updateQuest,
             updateTask: updateTask,
             updateHtml: updateHtml,
+            updateCard: updateCard,
             deleteQuest: deleteQuest,
             deleteTask: deleteTask,
             deleteTreePart: deleteTreePart,
             deleteHtml: deleteHtml,
+            uploadImage: uploadImage,
+            downloadImage: downloadImage,
+            convertImage: convertImage,
             mapPosition: mapPosition
         };
         return service;
 
         ////////////////
 
+        function uploadImage(fileName, imageData) {
+            var deffered = $q.defer();
+
+            $log.info("uploadFile", fileName);
+            backend.uploadFile(function (result) {
+                $log.info("uploadFile_success", result.getReturn());
+                deffered.resolve(result.getReturn());
+            }, function (error) {
+                $log.error("uploadFile_fail", error);
+                deffered.reject(error);
+            }, fileName, imageData);
+
+            return deffered.promise;
+        }
+
+        function downloadImage(fileName) {
+            var deffered = $q.defer();
+
+            $log.info("downloadImage", fileName);
+            backend.downloadFile(function (result) {
+                $log.info("downloadImage_success", fileName);
+                deffered.resolve(result.getReturn());
+            }, function (error) {
+                $log.error("downloadImage_fail", error);
+                deffered.reject(error);
+            }, fileName);
+
+            return deffered.promise;
+        }
+
+        function convertImage(serverPath, left, top, width, height) {
+            var deffered = $q.defer();
+
+            var params = new backend_com_wsdl_integrationConfigParams();
+            params.setInName(serverPath);
+            params.setOutName("");
+            params.setTopX(left);
+            params.setTopY(top);
+            params.setHeight(height);
+            params.setWidth(width);
+
+            $log.info("convertImage", params);
+            backend.convertPicture(function (result) {
+                $log.info("convertImage_success", result);
+                var resultParams = result.getReturn();
+                deffered.resolve(resultParams.getOutName());
+            }, function (error) {
+                $log.error("convertImage_fail", error);
+                deffered.reject(error);
+            }, params);
+
+            return deffered.promise;
+        }
+
         function login(username, password) {
             var deffered = $q.defer();
 
-            $log.info("login", username);
+            $log.info("login", username);1
             backend.login(function(result) {
                 if(result.getReturn()) {
                     $log.info("login_success", username);
@@ -101,17 +166,22 @@
             remoteUser.setMoney(user.getMoney());
             remoteUser.setKmWalked(user.getKmWalked());
             remoteUser.setCardIds(user.getCardIds());
-            remoteUser.setCreatedCardIds(user.getCreatedCardIds());
             remoteUser.setTutorialPlayed(user.getTutorialPlayed());
 
             var createdQuestIds = [];
+            var createdCardIds = [];
             var createdQuests = user.getCreatedQuests();
+            var createdCards = user.getCreatedCards();
 
             for(var i = 0; i < createdQuests.length; i++) {
                 createdQuestIds.push(createdQuests[i].getRemoteId());
             }
+            for (i = 0; i < createdCards.length; i++) {
+                createdCardIds.push(createdCards[i].getRemoteId());
+            }
 
             remoteUser.setCreatedQuestIds(createdQuestIds);
+            remoteUser.setCreatedCardIds(createdCardIds);
 
             return remoteUser;
         }
@@ -198,6 +268,44 @@
 
 
             return remoteTreePart;
+        }
+
+        function createRemoteCard(card, imageId) {
+            var remoteCard = new backend_com_wsdl_card();
+
+            remoteCard.setName(card.getName());
+            remoteCard.setDescription(card.getDescription());
+            remoteCard.setAttack(card.getAttack());
+            remoteCard.setLife(card.getLife());
+            remoteCard.setStars(Math.ceil(card.getStars()));
+            remoteCard.setImageId(imageId);
+            remoteCard.setType(card.getType());
+            remoteCard.setVersion(card.getVersion());
+
+            var actionIds = [];
+            var actions = card.getActions();
+            if(actions.length > 0) {
+                for(var i = 0; i < actions.length; i++) {
+                    actionIds.push(actions[i].getRemoteId())
+                }
+            }
+            remoteCard.setActionIds(actionIds);
+
+            return remoteCard;
+        }
+
+        function createRemoteCardImage(cardImage) {
+            var remoteCardImage = new backend_com_wsdl_cardImage();
+
+            remoteCardImage.setType(cardImage.getType());
+            remoteCardImage.setOriginalImageSrc(cardImage.getOriginalImageSrc());
+            remoteCardImage.setOffsetTop(cardImage.getTop());
+            remoteCardImage.setOffsetLeft(cardImage.getLeft());
+            remoteCardImage.setWidth(cardImage.getWidth());
+            remoteCardImage.setHeight(cardImage.getHeight());
+            remoteCardImage.setImage(cardImage.getImage());
+
+            return remoteCardImage;
         }
 
         function mapPosition(lon, lat) {
@@ -317,6 +425,68 @@
             return deffered.promise;
         }
 
+        function getCard(cardId) {
+            var deffered = $q.defer();
+
+            $log.info("getCard: id =", cardId);
+            backend.getCard(function (result) {
+                if (result.getReturn()) {
+                    $log.info("getCard_success (id = " + cardId + ")", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("getCard_fail (id = " + cardId + ")", result.getReturn());
+                    deffered.reject("Error loading Card with id: " + cardId);
+                }
+
+            }, function (error) {
+                $log.error("getCard_fail (id = " + cardId + ")", error);
+                deffered.reject(error);
+            }, cardId);
+
+            return deffered.promise;
+        }
+
+        function getCardImage(cardImageId) {
+            var deffered = $q.defer();
+
+            $log.info("getCardImage: id =", cardImageId);
+            backend.getCardImage(function (result) {
+                if (result.getReturn()) {
+                    $log.info("getCardImage_success (id = " + cardImageId + ")", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("getCardImage_fail (id = " + cardImageId + ")", result.getReturn());
+                    deffered.reject("Error loading Card with id: " + cardId);
+                }
+
+            }, function (error) {
+                $log.error("getCardImage_fail (id = " + cardImageId + ")", error);
+                deffered.reject(error);
+            }, cardImageId);
+
+            return deffered.promise;
+        }
+
+        function getAllActionsOfCardType(type) {
+            var deffered = $q.defer();
+
+            $log.info("getActions");
+            backend.getAllActionsOfCardType(function (result) {
+                if (result.getReturn()) {
+                    $log.info("getActions_success", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("getActions_fail", result.getReturn());
+                    deffered.reject("Error loading Actions");
+                }
+            }, function (error) {
+                $log.error("getActions_fail", error);
+                deffered.reject(error);
+            }, type);
+
+            return deffered.promise;
+        }
+
         function addQuest(quest) {
             var deffered = $q.defer();
 
@@ -401,6 +571,48 @@
             return deffered.promise;
         }
 
+        function addCard(card, image) {
+            var deffered = $q.defer();
+
+            $log.info("addCard: ", card);
+            backend.addCard(function (result) {
+                if (result.getReturn()) {
+                    $log.info("addCard_success: ", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("addCard_fail: ", result.getReturn());
+                    deffered.reject("Error adding quest");
+                }
+
+            }, function (error) {
+                $log.error("addCard_fail: ", error);
+                deffered.reject(error);
+            }, card);
+
+            return deffered.promise;
+        }
+
+        function addCardImage(cardImage) {
+            var deffered = $q.defer();
+
+            $log.info("addCardImage: ", cardImage);
+            backend.addCardImage(function (result) {
+                if (result.getReturn()) {
+                    $log.info("addCardImage_success: ", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("addCardImage_fail: ", result.getReturn());
+                    deffered.reject("Error adding quest");
+                }
+
+            }, function (error) {
+                $log.error("addCardImage_fail: ", error);
+                deffered.reject(error);
+            }, cardImage);
+
+            return deffered.promise;
+        }
+
         function updateUser(user) {
             var deffered = $q.defer();
 
@@ -470,6 +682,28 @@
                 $log.error("updateHtml_fail: ", error);
                 deffered.reject(error);
             }, html);
+
+            return deffered.promise;
+        }
+
+        function updateCard(card) {
+
+            var deffered = $q.defer();
+
+            $log.info("updateCard: ", card);
+            backend.updateCard(function (result) {
+                if (result.getReturn()) {
+                    $log.info("updateCard: ", result);
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("updateCard_fail: ", result);
+                    deffered.reject("Error updating Card");
+                }
+
+            }, function (error) {
+                $log.error("updateCard_fail: ", error);
+                deffered.reject(error);
+            }, card);
 
             return deffered.promise;
         }

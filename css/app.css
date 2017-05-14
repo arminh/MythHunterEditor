@@ -1,10 +1,11 @@
 #navbar-container {
     margin-bottom: 1px;
-/*    background: #663333; !*For browsers that do not support gradients *!
+    /*    background: #663333; !*For browsers that do not support gradients *!
     background: -webkit-linear-gradient(#cc0000, #dd0000); !* For Safari 5.1 to 6.0 *!
     background: -o-linear-gradient(#a69698, #43322cc); !* For Opera 11.1 to 12.0 *!
     background: -moz-linear-gradient(#a69698, #43322c); !* For Firefox 3.6 to 15 *!
     background: linear-gradient(#CC3300, #663333); !* Standard syntax *!*/
+    z-index: 10;
 }
 
 .navbar-brand, .navbar-nav>li>a {
@@ -72,6 +73,10 @@ md-input-container {
 
 .input-help {
     color:red;
+}
+
+input[type='file'] {
+    color: transparent;
 }
 
 .ngdialog-buttons {

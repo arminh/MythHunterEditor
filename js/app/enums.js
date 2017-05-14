@@ -1,7 +1,7 @@
 /**
  * Created by armin on 06.04.16.
  */
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -21,5 +21,9 @@
             LOW: "LOW",
             MEDIUM: "MEDIUM",
             HIGH: "HIGH"
+        })
+        .constant("CardType", {
+            MONSTER: "MONSTER",
+            SPELL: "SPELL"
         });
 })();

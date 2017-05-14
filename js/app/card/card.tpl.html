@@ -1,0 +1,58 @@
+<div id="card-container" ng-mouseenter="cardCtrl.showMenu = true" ng-mouseleave="cardCtrl.showMenu = false" ng-touch-
+     cg-busy="{promise:cardCtrl.card.loadPromise, message:'Loading card...', minDuration:1000}">
+    <div class="card-image-bounds">
+        <div class="card-image-drag-bounds" ng-style="cardCtrl.dragBoundsStyle">
+            <div class="card-image-container" ng-class="{'card-image-container-movable': cardCtrl.edit}"
+                 jqyoui-draggable="{containment:'position', onStop:'cardCtrl.positionChanged'}"
+                 data-drag="cardCtrl.edit"
+                 data-jqyoui-options="{{cardCtrl.imageDragOptions}}" ng-style="cardCtrl.imageContainerStyle"
+                 >
+                <img ng-if="!cardCtrl.edit && cardCtrl.card.image.image" class="card-image"
+                     data-ng-src="data:{{cardCtrl.card.image.type}};base64, {{cardCtrl.card.image.image}}"
+                     scale-card-image
+                     dimensions="cardCtrl.dimensions" callback="cardCtrl.imageLoaded"/>
+                <img ng-if="cardCtrl.edit && cardCtrl.originalImage" class="card-image"
+                     data-ng-src="data:{{cardCtrl.card.image.type}};base64, {{cardCtrl.originalImage}}"
+                     scale-card-image
+                     dimensions="cardCtrl.dimensions" callback="cardCtrl.imageLoaded"/>
+            </div>
+        </div>
+    </div>
+    <span ng-show="cardCtrl.edit && cardCtrl.card.image.content" class="card-image-instruction">Drag image to reposition</span>
+
+    <div class="card-mask">
+        <img src="media/card/card_plain_stars_0.png" class="card_front"/>
+        <img ng-src="{{cardCtrl.getStarImage()}}" class="card-star-overlay"/>
+    </div>
+
+    <span ng-if="cardCtrl.card.name" class="card-input card-name"
+          readonly="readonly">{{cardCtrl.card.name}}</span>
+
+    <span type="number" min="0" max="10" class="card-input attack-val"
+          readonly="readonly">{{cardCtrl.card.attack}}</span>
+    <span type="number" min="0" max="10" class="card-input defence-val"
+          readonly="readonly">{{cardCtrl.card.life}}</span>
+
+    <span ng-if="cardCtrl.card.actions[0] && cardCtrl.card.actions[0].descriptions[1]._value != ''"
+          class="card-input card-attack"
+          readonly="readonly"><b>{{cardCtrl.card.actions[0].names[1]._value}}: </b>{{cardCtrl.card.actions[0].descriptions[1]._value}}</span>
+
+    <span class="card-input card-text" placeholder="Enter card text ..."
+          readonly="readonly">{{cardCtrl.card.description}}</span>
+
+    <div class="card-control-menu" ng-show="cardCtrl.menu && cardCtrl.showMenu">
+        <md-button aria-label="edit" class="md-icon-button" ng-click="cardCtrl.editCard()">
+            <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="top">
+                Edit card
+            </md-tooltip>
+            <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+        </md-button>
+
+        <md-button aria-label="preview" class="md-icon-button" ng-click="cardCtrl.previewCard($event)">
+            <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="top">
+                Preview card
+            </md-tooltip>
+            <md-icon md-svg-icon="media/preview_icon.svg"></md-icon>
+        </md-button>
+    </div>
+</div>

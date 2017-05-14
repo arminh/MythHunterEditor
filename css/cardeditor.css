@@ -1,0 +1,15 @@
+#card-editor-container {
+    margin: 20px;
+}
+
+.md-select-menu-container {
+    z-index: 1100;
+}
+
+.card-settings-content {
+    padding: 20px;
+}
+
+.slider-input {
+     max-width: 60px !important;
+}

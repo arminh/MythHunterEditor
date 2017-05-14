@@ -1,0 +1,155 @@
+#card-container {
+    position:relative;
+    left: 0;
+    right: 0;
+    /*    width: 60%;*/
+    /* width: 250px; */
+    height: 400px;
+    float:left;
+}
+
+.card-image-instruction {
+    position:absolute;
+    top: 130px;
+    left: 15px;
+    width: 200px;
+    pointer-events: none;
+    background-color: rgba(84, 97, 133, .4);
+    color: #fff;
+    text-align:center;
+
+}
+
+.card-image-bounds {
+    position: absolute;
+    top: 55px;
+    left: 8px;
+    width: 214px;
+    height: 183px;
+    overflow: hidden;
+}
+
+.card-image-drag-bounds {
+    position: absolute;
+}
+
+.card-image-container {
+    position: absolute;
+    z-index: auto !important;
+}
+
+.card-image-container-movable {
+    cursor: move;
+}
+
+.card-mask {
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    pointer-events: none;
+    /*width: 519px;*/
+    height: 400px;
+    width: 236px;
+    /* position:absolute; */
+    top:0;
+    left:0;
+    /*    background:url(../media/card/card_plain_stars_0.png) 0 0 no-repeat;
+    background-size: auto 400px;
+    background-position: center;*/
+}
+
+.card_front {
+    width: 236px;
+    height: 400px;
+    /*left: 142px;*/
+    pointer-events: none;
+    position:absolute;
+
+}
+
+.card-star-overlay {
+    width: 236px;
+    height: 400px;
+    /*left: 142px;*/
+    pointer-events: none;
+    position:absolute;
+}
+
+.landscape {
+    height: 183px;
+}
+
+.portrait {
+    width: 214px;
+}
+
+.card-input {
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    overflow: hidden;
+    font-size: 17px;
+}
+
+.card-name {
+    top: 15px;
+    left: 20px;
+    width: 200px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.attack-val {
+    top: 213px;
+    /*left: 159px;*/
+    left: 11px;
+    width: 25px;
+    text-align: center;
+}
+
+.defence-val {
+    top: 213px;
+    /*left: 347px;*/
+    left: 196px;
+    width: 25px;
+    text-align: center;
+}
+
+.card-text {
+    top: 330px;
+    /*left: 160px;*/
+    left: 18px;
+    height: 60px;
+    resize: none;
+    overflow: hidden;
+    line-height: 27px;
+    width: 200px;
+    font-size: 12px;
+}
+
+.card-attack {
+    top: 250px;
+    left: 18px;
+    height: 130px;
+    resize: none;
+    overflow: hidden;
+    line-height: 27px;
+    width: 200px;
+    font-size: 12px;
+}
+
+.textarea-noresize {
+    resize: none;
+}
+
+.card-control-menu {
+    position:absolute;
+    top: 15px;
+    right: 15px;
+    width: 100px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+
+}
+

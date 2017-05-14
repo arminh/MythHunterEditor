@@ -15,6 +15,7 @@
         'ui.sortable',
         'ngDragDrop',
         'cgBusy',
+        'naif.base64',
         'textAngular',
         'authentication',
         'profile',
@@ -23,6 +24,10 @@
         'treePart',
         'html',
         'map',
+        'collection',
+        'cardeditor',
+        'card',
+        'action',
         'questTree'
 
     ]);

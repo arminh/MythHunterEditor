@@ -21,6 +21,7 @@
         vm.editQuest = editQuest;
         vm.clearCurrentQuest = clearCurrentQuest;
         vm.deleteQuest = deleteQuest;
+        vm.showCollection = showCollection;
 
         activate();
 
@@ -28,6 +29,10 @@
 
         function activate() {
             vm.currentQuest = user.getCurrentQuest();
+        }
+
+        function showCollection() {
+            $state.go("app.collection");
         }
 
         function newQuest() {

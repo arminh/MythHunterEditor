@@ -1,0 +1,15 @@
+<div id="collection-container" flex-offset="10" flex="80">
+    <div class="created-cards-preview">
+
+        <div ng-repeat="card in collection.cards" class="collection-card-preview-container" ng-click="collection.showCard(card)">
+            <card class="collection-card" card="card" image="card.image" edit="false" menu="true"></card>
+        </div>
+        <div class="collection-card-preview-container"  style="position:relative; height: 280px; width:165px;">
+
+        </div>
+
+    </div>
+    <div>
+        <button id="create-card-btn" class="btn btn-default" ng-click="collection.createCard()">Create card</button>
+    </div>
+</div>

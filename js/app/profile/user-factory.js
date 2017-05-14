@@ -9,10 +9,10 @@
         .module('profile')
         .factory('User', UserFactory);
 
-    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "QuestService"];
+    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "Card", "QuestService"];
 
     /* @ngInject */
-    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, QuestService) {
+    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, Card, QuestService) {
         $log = $log.getInstance("User", debugging);
 
         function User() {
@@ -31,7 +31,7 @@
             this.money = 0;
             this.kmWalked = 0;
             this.cardIds = [];
-            this.createdCardIds = [];
+            this.createdCards = [];
             this.tutorialPlayed = false;
 
             this.currentQuest = null;
@@ -48,6 +48,7 @@
             getCurrentQuest: getCurrentQuest,
             setCurrentQuest: setCurrentQuest,
             clearCurrentQuest: clearCurrentQuest,
+            addCreatedCard: addCreatedCard,
             backup: backup,
             upload: upload,
 
@@ -66,7 +67,7 @@
             getMoney: getMoney,
             getKmWalked: getKmWalked,
             getCardIds: getCardIds,
-            getCreatedCardIds: getCreatedCardIds,
+            getCreatedCards: getCreatedCards,
             getTutorialPlayed: getTutorialPlayed
         };
 
@@ -101,6 +102,13 @@
                 this.createdQuests.push(quest);
             }
 
+            var remoteCreatedCards = remoteUser.getCreatedCardIds();
+            for(var i = 0; i < remoteCreatedCards.length; i++) {
+                var card = new Card();
+                card.remoteId = remoteCreatedCards[i];
+                this.createdCards.push(card);
+            }
+
             return this.load().then(function() {
                 $log.info("initFromRemote_success: ", this);
                 return this;
@@ -127,6 +135,7 @@
         }
 
         function addQuest(quest) {
+            $log.info("addQuest:", quest);
             this.createdQuests.push(quest);
         }
 
@@ -192,6 +201,11 @@
             delete $localStorage.treePartId;
 
             $log.info("clearCurrentQuest");
+        }
+
+        function addCreatedCard(card) {
+            $log.info("addCreatedCard:", card);
+            this.createdCards.push(card);
         }
 
         function backup() {
@@ -283,8 +297,8 @@
             return this.cardIds;
         }
 
-        function getCreatedCardIds() {
-            return this.createdCardIds;
+        function getCreatedCards() {
+            return this.createdCards;
         }
 
         function getTutorialPlayed() {

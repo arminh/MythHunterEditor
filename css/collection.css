@@ -1,0 +1,18 @@
+#collection-container {
+    margin-top: 20px;
+}
+
+.collection-card-preview-container {
+    display: inline-block;
+    margin-right: 40px;
+}
+
+.collection-card {
+    zoom: 0.7;
+    -moz-transform: scale(0.7);
+}
+
+.collection-card-preview {
+    zoom: 1.2;
+    -moz-transform: scale(1.2);
+}
