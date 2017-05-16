@@ -171,7 +171,7 @@
             var createdQuestIds = [];
             var createdCardIds = [];
             var createdQuests = user.getCreatedQuests();
-            var createdCards = user.getCreatedCards();
+            var createdCards = user.getCollection().getCards();
 
             for(var i = 0; i < createdQuests.length; i++) {
                 createdQuestIds.push(createdQuests[i].getRemoteId());

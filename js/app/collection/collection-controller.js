@@ -14,7 +14,7 @@
     /* @ngInject */
     function CollectionController($q, CollectionService, user) {
         var vm = this;
-        vm.cards = [];
+        vm.collection = null;
 
         vm.createCard = createCard;
         vm.showCard = CollectionService.showCard;
@@ -24,20 +24,15 @@
         ////////////////
 
         function activate() {
-            CollectionService.init(user).then(getCreatedCards);
+            CollectionService.init(user).then(getCollection);
 
-
-            function getCreatedCards(actions) {
-                vm.cards = CollectionService.loadCreatedCards(actions);
+            function getCollection(actions) {
+                vm.collection = CollectionService.loadCollection(actions);
             }
         }
 
         function createCard() {
-
-            CollectionService.createCard().then(addCard);
-            function addCard(card) {
-                vm.cards = CollectionService.getCreatedCards();
-            }
+            CollectionService.createCard();
         }
     }
 

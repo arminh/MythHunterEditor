@@ -34,7 +34,8 @@
             searchLocation: searchLocation,
             getDrawing: getDrawing,
             getContinueDrawing: getContinueDrawing,
-            editQuestTree: editQuestTree
+            editQuestTree: editQuestTree,
+            addQuestReward: addQuestReward
         };
         return service;
 
@@ -67,7 +68,7 @@
 
         function saveQuest() {
             var deffered = $q.defer();
-            user.uploadQuest().then(function() {
+            user.uploadQuest().then(function () {
                 deffered.resolve();
                 $state.go("app.profile");
             });
@@ -84,7 +85,7 @@
                 var task = treeParts[i].getTask();
                 task.setMarkerId(MapInteraction.addMarker(task.getLon(), task.getLat(), task.getMarkerSrc()));
 
-                if(task.getTargetLon() != 0 && task.getTargetLat() != 0) {
+                if (task.getTargetLon() != 0 && task.getTargetLat() != 0) {
                     task.setTargetMarkerId(MapInteraction.addMarker(task.getTargetLon(), task.getTargetLat(), "media/target_marker.png"));
                     MapInteraction.addLine(task.getMarkerId(), task.getTargetMarkerId());
                 }
@@ -92,7 +93,7 @@
         }
 
         function toggleMarker(type) {
-            if(activeMarker == type) {
+            if (activeMarker == type) {
                 activeMarker = "";
                 continueDrawing = false;
                 drawing = false;
@@ -111,9 +112,9 @@
             var task = new Task(quest.getName());
             task.setType(activeMarker);
             drawing = true;
-            task.drawMarker().then(function() {
+            task.drawMarker().then(function () {
                 quest.addTask(task);
-                if(continueDrawing) {
+                if (continueDrawing) {
                     drawMarker();
                 } else {
                     drawing = false;
@@ -126,12 +127,12 @@
             var changedMarkerId = changedMarker.getId();
 
             var treePartRoot = quest.getTreePartRoot();
-            if(treePartRoot.getTask().getMarkerId() == changedMarkerId) {
+            if (treePartRoot.getTask().getMarkerId() == changedMarkerId) {
                 treePartRoot.getTask().updateMarker(changedMarker);
             }
 
             var treeParts = quest.getTreeParts();
-            for(var i = 0; i < treeParts.length; i++) {
+            for (var i = 0; i < treeParts.length; i++) {
                 if (treeParts[i].getTask().getMarkerId() == changedMarkerId) {
                     treeParts[i].getTask().updateMarker(changedMarker);
                 }
@@ -153,10 +154,9 @@
         function createTask(evt) {
             var task = new Task(quest.name);
 
-            task.create(evt).then(function() {
+            task.create(evt).then(function () {
                 drawing = true;
-                task.drawMarker().then(function()
-                {
+                task.drawMarker().then(function () {
                     quest.newTreePart(task);
                     drawing = false;
                 });
@@ -174,7 +174,7 @@
 
             var deffered = $q.defer();
 
-            if(!currentPosition) {
+            if (!currentPosition) {
                 navigator.geolocation.getCurrentPosition(getCurrentPositionSuccess, getCurrentPositionFail, navigatorOptions);
             } else {
                 deffered.resolve(currentPosition);
@@ -213,37 +213,48 @@
                 }
             });
         }
+
+        function addQuestReward() {
+            var promise = $mdDialog.show({
+                templateUrl: 'js/app/reward/reward.tpl.html',
+                controller: 'RewardController',
+                controllerAs: "reward",
+                bindToController: true,
+                resolve: {
+                    user: ['AuthenticationService', function (AuthenticationService) {
+                        return AuthenticationService.userPromise();
+                    }]
+                },
+                locals: {
+                    rewardIds: angular.copy(quest.getRewards())
+                }
+            });
+
+            promise.then(function (result) {
+                var newRewards = result.rewards;
+                var oldRewards = quest.getRewards();
+
+                //Check if reward was removed
+                for (var i = 0; i < oldRewards.length; i++) {
+                    if ($.inArray(oldRewards[i], newRewards) < 0) {
+                        quest.change();
+                    }
+                }
+
+                //Check if reward was added
+                for (var i = 0; i < newRewards.length; i++) {
+                    if ($.inArray(newRewards[i], oldRewards) < 0) {
+                        quest.change();
+                    }
+                }
+
+                quest.clearRewards();
+                for (var i = 0; i < newRewards.length; i++) {
+                    quest.addReward(newRewards[i]);
+                }
+            });
+        }
     }
 
 })();
-
-
-/*
- var popupContainer = document.getElementById('popup');
- var popupContent = $("#popupContent");
- var popupCloser = $("#popupCloser");
- MapInteraction.addPopupOverlay(popupContainer);
-
- popupCloser.on("click", function() {
- MapInteraction.hideOverlay();
- popupCloser.blur();
- return false;
- });
-
- $scope.$on('markerClicked', function (evt, args) {
- console.log("Marker clicked");
- var clickedMarker = args.marker;
- var clickedMarkerId = clickedMarker.getId();
-
-
- for (var i = 0; i < $scope.tasks.length; i++) {
- if ($scope.tasks[i].id == clickedMarkerId) {
- popupContent.html($scope.tasks[i].popupTpl);
- MapInteraction.showOverlay(clickedMarker.getGeometry().getCoordinates());
- //MapInteraction.hideOverlay();
- }
- }
-
-
- });*/
 

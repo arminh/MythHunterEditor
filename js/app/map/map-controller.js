@@ -33,6 +33,7 @@
         vm.saveQuest = saveQuest;
         vm.cancelQuest = cancelQuest;
         vm.editQuestTree = editQuestTree;
+        vm.addQuestReward = addQuestReward;
 
         $scope.$on('markerChanged', MapService.markerChanged);
 
@@ -132,6 +133,10 @@
 
         function editQuestTree() {
             MapService.editQuestTree();
+        }
+
+        function addQuestReward() {
+            MapService.addQuestReward();
         }
     }
 

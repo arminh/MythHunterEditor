@@ -23,7 +23,7 @@
                     }]
                 },
                 controller: 'CollectionController',
-                controllerAs: 'collection'
+                controllerAs: 'collectionCtrl'
             });
     }
 

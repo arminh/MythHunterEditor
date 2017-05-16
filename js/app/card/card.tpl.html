@@ -1,5 +1,6 @@
-<div id="card-container" ng-mouseenter="cardCtrl.showMenu = true" ng-mouseleave="cardCtrl.showMenu = false" ng-touch-
-     cg-busy="{promise:cardCtrl.card.loadPromise, message:'Loading card...', minDuration:1000}">
+<div class="card-container" ng-mouseenter="cardCtrl.showMenu = true" ng-mouseleave="cardCtrl.showMenu = false" ng-touch-
+     cg-busy="{promise:cardCtrl.card.loadPromise, message:'Loading card...', minDuration:1000}"
+     ng-class="{'card-selected': cardCtrl.card.selected}">
     <div class="card-image-bounds">
         <div class="card-image-drag-bounds" ng-style="cardCtrl.dragBoundsStyle">
             <div class="card-image-container" ng-class="{'card-image-container-movable': cardCtrl.edit}"

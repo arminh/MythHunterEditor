@@ -28,7 +28,8 @@
         'cardeditor',
         'card',
         'action',
-        'questTree'
+        'questTree',
+        'reward'
 
     ]);
 })();

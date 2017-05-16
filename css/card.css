@@ -1,4 +1,4 @@
-#card-container {
+.card-container {
     position:relative;
     left: 0;
     right: 0;
@@ -6,6 +6,11 @@
     /* width: 250px; */
     height: 400px;
     float:left;
+    border: 5px solid #fff;
+}
+
+.card-selected {
+    border: 5px solid lightblue;
 }
 
 .card-image-instruction {
@@ -47,7 +52,7 @@
     /* margin-right: auto; */
     pointer-events: none;
     /*width: 519px;*/
-    height: 400px;
+    height: 395px;
     width: 236px;
     /* position:absolute; */
     top:0;
@@ -58,8 +63,8 @@
 }
 
 .card_front {
-    width: 236px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     /*left: 142px;*/
     pointer-events: none;
     position:absolute;
@@ -67,8 +72,8 @@
 }
 
 .card-star-overlay {
-    width: 236px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     /*left: 142px;*/
     pointer-events: none;
     position:absolute;
@@ -100,7 +105,7 @@
 }
 
 .attack-val {
-    top: 213px;
+    top: 210px;
     /*left: 159px;*/
     left: 11px;
     width: 25px;
@@ -108,7 +113,7 @@
 }
 
 .defence-val {
-    top: 213px;
+    top: 210px;
     /*left: 347px;*/
     left: 196px;
     width: 25px;
@@ -150,6 +155,9 @@
     padding: 5px;
     background-color: rgba(255, 255, 255, 1);
     border-radius: 10px;
-
 }
 
+.card-placeholder {
+    opacity: 0.5;
+    vertical-align: top;
+}

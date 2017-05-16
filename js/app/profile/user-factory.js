@@ -9,10 +9,10 @@
         .module('profile')
         .factory('User', UserFactory);
 
-    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "Card", "QuestService"];
+    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "Collection", "Card", "QuestService"];
 
     /* @ngInject */
-    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, Card, QuestService) {
+    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, Collection, Card, QuestService) {
         $log = $log.getInstance("User", debugging);
 
         function User() {
@@ -31,10 +31,10 @@
             this.money = 0;
             this.kmWalked = 0;
             this.cardIds = [];
-            this.createdCards = [];
             this.tutorialPlayed = false;
 
             this.currentQuest = null;
+            this.collection = null;
         }
 
         User.prototype = {
@@ -67,7 +67,7 @@
             getMoney: getMoney,
             getKmWalked: getKmWalked,
             getCardIds: getCardIds,
-            getCreatedCards: getCreatedCards,
+            getCollection: getCollection,
             getTutorialPlayed: getTutorialPlayed
         };
 
@@ -103,11 +103,13 @@
             }
 
             var remoteCreatedCards = remoteUser.getCreatedCardIds();
+            var cards = [];
             for(var i = 0; i < remoteCreatedCards.length; i++) {
                 var card = new Card();
-                card.remoteId = remoteCreatedCards[i];
-                this.createdCards.push(card);
+                card.setRemoteId(remoteCreatedCards[i]);
+                cards.push(card);
             }
+            this.collection = new Collection(cards);
 
             return this.load().then(function() {
                 $log.info("initFromRemote_success: ", this);
@@ -205,7 +207,7 @@
 
         function addCreatedCard(card) {
             $log.info("addCreatedCard:", card);
-            this.createdCards.push(card);
+            this.collection.addCard(card);
         }
 
         function backup() {
@@ -297,8 +299,8 @@
             return this.cardIds;
         }
 
-        function getCreatedCards() {
-            return this.createdCards;
+        function getCollection() {
+            return this.collection;
         }
 
         function getTutorialPlayed() {

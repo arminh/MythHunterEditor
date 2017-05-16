@@ -1,0 +1,18 @@
+.card-reward-instruction {
+    margin-bottom: 20px;
+}
+
+.reward-card-container {
+    position:relative;
+    display: inline-block;
+    margin: 0 10px;
+    width: 165px;
+    vertical-align:top;
+}
+
+.reward-deselect-button {
+    z-index: 1000;
+    position: absolute;
+    top: -20px;
+    right: -25px;
+}

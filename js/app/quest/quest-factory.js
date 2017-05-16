@@ -30,7 +30,6 @@
             this.specialCards = [];
 
             this.loaded = false;
-            this.specialCards = [];
             this.treeParts = [];
             this.treePartRoot = null;
             this.treePartsToDelete = [];
@@ -55,6 +54,9 @@
             upload: upload,
             remove: remove,
 
+            addReward: addReward,
+            getRewards: getRewards,
+            clearRewards: clearRewards,
             getRemoteId: getRemoteId,
             getVersion: getVersion,
             getCreatorId: getCreatorId,
@@ -418,6 +420,18 @@
             }
 
             $log.info("rewireTree_success: ", treePartRoot);
+        }
+
+        function addReward(cardId) {
+            this.specialCards.push(cardId);
+        }
+
+        function getRewards() {
+            return this.specialCards;
+        }
+
+        function clearRewards() {
+            this.specialCards = [];
         }
 
         function getRemoteId() {

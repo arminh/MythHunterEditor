@@ -121,6 +121,7 @@
                 controller: 'CardEditorController',
                 controllerAs: "cardeditor",
                 bindToController: true,
+                multiple: true,
                 locals: {
                     card: card
                 }

@@ -20,7 +20,7 @@
         var service = {
             init: init,
             getCreatedCards: getCreatedCards,
-            loadCreatedCards: loadCreatedCards,
+            loadCollection: loadCollection,
             createCard: createCard
         };
         return service;
@@ -32,28 +32,11 @@
             return $q.when(ActionService.getActions());
         }
 
-        function loadCreatedCards(actions) {
-            $log.info("getCreatedCards");
-            var createdCards = user.getCreatedCards();
+        function loadCollection(actions) {
 
-            var cardPromises = [];
-
-            for (var i = 0; i < createdCards.length; i++) {
-                if(!createdCards[i].getLoaded()) {
-                    var cardPromise = createdCards[i].getFromRemote();
-                    cardPromises.push(cardPromise);
-                }
-
-            }
-
-            $q.all(cardPromises).then(function (results) {
-                for(var j = 0; j < results.length; j++) {
-                    results[j].initActions(actions);
-                }
-                $log.info("getCreatedCards_success", results);
-            });
-
-            return createdCards;
+            var collection = user.getCollection();
+            collection.loadCards(actions);
+            return collection;
         }
 
         function getCreatedCards() {

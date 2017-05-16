@@ -29,6 +29,7 @@
             this.image = new CardImage();
 
             this.loadPromise = null;
+            this.selected = false;
             this.loaded = false;
             this.changed = false;
         }
@@ -44,6 +45,7 @@
             upload: upload,
 
             getRemoteId: getRemoteId,
+            setRemoteId: setRemoteId,
             getName: getName,
             getDescription: getDescription,
             getAttack: getAttack,
@@ -53,10 +55,12 @@
             getType: getType,
             getActionIds: getActionIds,
             getActions: getActions,
-            getLoaded: getLoaded,
             getVersion: getVersion,
 
             setImage: setImage,
+            getLoaded: getLoaded,
+            getSelected: getSelected,
+            setSelected: setSelected,
             setLoadPromise: setLoadPromise
         };
 
@@ -214,6 +218,10 @@
             return this.remoteId;
         }
 
+        function setRemoteId(value) {
+            this.remoteId = value;
+        }
+
         function getName() {
             return this.name;
         }
@@ -256,6 +264,14 @@
 
         function getLoaded() {
             return this.loaded;
+        }
+
+        function getSelected() {
+            return this.selected;
+        }
+
+        function setSelected(value) {
+            this.selected = value;
         }
 
         function setLoadPromise(promise) {
