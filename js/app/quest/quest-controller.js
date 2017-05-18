@@ -9,15 +9,13 @@
         .module('quest')
         .controller('QuestController', QuestController);
 
-    QuestController.$inject = ["$mdDialog", "QuestService", "quest", "edit"];
+    QuestController.$inject = ["$state", "$stateParams", "QuestService", "user"];
 
     /* @ngInject */
-    function QuestController($mdDialog, QuestService, quest, edit) {
+    function QuestController($state, $stateParams, QuestService, user) {
 
         var vm = this;
-
-        vm.edit = edit;
-        vm.name = quest.name;
+        vm.editStartMarker = false;
         vm.questContent = "";
         vm.taskContent = "";
         vm.separateDescription = true;
@@ -31,25 +29,27 @@
         ////////////////
 
         function activate() {
-            if(quest.getHtml()) {
-                vm.questContent = quest.getHtml().getContent();
+            if($stateParams.quest) {
+                vm.originalQuest = $stateParams.quest;
+                vm.quest = angular.copy($stateParams.quest);
+            } else {
+                $state.go("app.map");
             }
+
+            if($stateParams.editStartMarker) {
+                vm.editStartMarker = $stateParams.editStartMarker;
+            }
+
         }
 
         function confirm() {
-            if(!vm.separateDescription) {
-                vm.taskContent = vm.questContent;
-            }
-
-            $mdDialog.hide({
-                name: vm.name,
-                questContent: vm.questContent,
-                taskContent: vm.taskContent
-            });
+            QuestService.finishEditing(vm.quest, vm.originalQuest, vm.separateDescription, vm.editStartMarker);
+            user.backup();
+            $state.go("app.map");
         }
 
         function cancel() {
-            $mdDialog.cancel();
+            $state.go("app.map");
         }
     }
 

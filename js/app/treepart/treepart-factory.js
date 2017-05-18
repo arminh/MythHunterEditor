@@ -36,6 +36,7 @@
 
         TreePart.prototype = {
             constructor: TreePart,
+            init: init,
             initFromObject: initFromObject,
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
@@ -67,6 +68,11 @@
         return (TreePart);
 
         ////////////////
+
+        function init(taskType) {
+            this.task = new Task();
+            this.task.init(taskType);
+        }
 
         function initFromObject(treePartObject, quest, isRoot) {
             $log.info("initFromObject: ", treePartObject);

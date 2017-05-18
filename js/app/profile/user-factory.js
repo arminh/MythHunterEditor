@@ -41,7 +41,7 @@
             constructor: User,
             initFromRemote: initFromRemote,
             load: load,
-            newQuest: newQuest,
+            createQuest: createQuest,
             addQuest: addQuest,
             deleteQuest: deleteQuest,
             uploadQuest: uploadQuest,
@@ -126,14 +126,14 @@
             return $q.all(promises);
         }
 
-        function newQuest() {
-            var quest = new Quest(this.id);
-            return quest.create().then(function(result) {
-                this.currentQuest = result;
-                this.currentQuest.creatorId = this.id;
-                this.backup();
-                return result;
-            }.bind(this));
+        function createQuest() {
+            return new Quest(this.id);
+            // return quest.create().then(function(result) {
+            //     this.currentQuest = result;
+            //     this.currentQuest.creatorId = this.id;
+            //     this.backup();
+            //     return result;
+            // }.bind(this));
         }
 
         function addQuest(quest) {
@@ -182,17 +182,18 @@
         }
 
         function setCurrentQuest(quest) {
-            var editQuest = angular.copy(quest);
-
-            $localStorage.currentQuest = editQuest;
-            this.currentQuest = editQuest;
+            this.currenQuest = quest;
+            $localStorage.currentQuest = quest;
+            // var editQuest = angular.copy(quest);
+            //
+            // $localStorage.currentQuest = editQuest;
+            // this.currentQuest = editQuest;
         }
 
         function getCurrentQuest() {
             if(!this.currentQuest) {
                 this.currentQuest = retrieveCurrentQuest();
             }
-            this.backup();
             return this.currentQuest;
         }
 

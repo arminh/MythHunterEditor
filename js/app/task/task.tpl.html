@@ -20,24 +20,6 @@
                     </md-input-container>
                 </div>
 
-
-                <div class="task-type" ng-hide="task.activeType == 'start'">
-
-                    <md-label class="task-modal-label">Choose the type of task you want to create for your quest:</md-label>
-                    <div class="task-type-selection">
-                        <md-button ng-disabled="type == task.types.FIGHT" ng-repeat="type in task.types"
-                                   ng-click="task.markerSelected(type, $index)"
-                                   aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle"
-                                   ng-class="{ 'active-marker': task.activeType == type }">
-                            <img class="tasl-type-icon" ng-src="{{task.getMarkerIconSrc(type)}}"/>
-                            <p class="task-type-label">{{type}}</p>
-                            <!--
-                                            <md-tooltip style="z-index:10000">{{attrs.description}}</md-tooltip>
-                            -->
-                        </md-button>
-                    </div>
-                </div>
-
                 <div class="task-content">
                     <p class="task-modal-label">Task content</p>
                     <text-angular ng-click="task.contentChanged()" id="task-editor-quiz"

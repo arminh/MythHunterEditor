@@ -14,7 +14,7 @@
     function config($stateProvider) {
         $stateProvider
             .state('app.map', {
-                url: '/quest',
+                url: '/map',
                 templateUrl: 'js/app/map/map.tpl.html',
                 resolve: {
                     user: ['AuthenticationService', function (AuthenticationService) {

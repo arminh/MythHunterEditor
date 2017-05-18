@@ -8,16 +8,24 @@
         .module("quest", [])
         .config(config);
 
-    config.$inject = ["$provide"];
+    config.$inject = ["$stateProvider"];
 
-    function config($provide) {
-        /*    $provide.decorator('taOptions', ['taRegisterTool', 'taSelection', '$delegate', function(taRegisterTool, taSelection, taOptions) { // $delegate is the taOptions we are decorating
-         taOptions.toolbar = [
-         ['h1', 'h2', 'h3', 'p'],
-         ['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
-         ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
-         ['insertImage', 'insertLink', 'insertVideo']
-         ];
-         }]);*/
+    function config($stateProvider) {
+        $stateProvider
+            .state('app.quest', {
+                url: '/quest',
+                templateUrl: 'js/app/quest/quest.tpl.html',
+                resolve: {
+                    user: ['AuthenticationService', function (AuthenticationService) {
+                        return AuthenticationService.userPromise();
+                    }]
+                },
+                params:{
+                    quest:null,
+                    editStartMarker: null,
+                },
+                controller: 'QuestController',
+                controllerAs: 'questCtrl'
+            });
     }
 })();

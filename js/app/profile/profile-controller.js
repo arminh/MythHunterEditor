@@ -19,6 +19,7 @@
 
         vm.newQuest = newQuest;
         vm.editQuest = editQuest;
+        vm.editQuestCurrentQuest = editQuestCurrentQuest;
         vm.clearCurrentQuest = clearCurrentQuest;
         vm.deleteQuest = deleteQuest;
         vm.showCollection = showCollection;
@@ -45,6 +46,10 @@
                 user.setCurrentQuest(quest);
                 $state.go("app.map");
             });
+        }
+
+        function editQuestCurrentQuest() {
+            $state.go("app.map");
         }
 
         function loadQuest(quest) {

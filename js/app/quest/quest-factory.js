@@ -39,11 +39,13 @@
             constructor: Quest,
             create: create,
             edit: edit,
+            init: init,
             initFromObject: initFromObject,
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
             load: load,
             change: change,
+            createTreePart: createTreePart,
             newTreePart: newTreePart,
             addTreePart: addTreePart,
             deleteTreePart: deleteTreePart,
@@ -61,6 +63,7 @@
             getVersion: getVersion,
             getCreatorId: getCreatorId,
             getName: getName,
+            setName: setName,
             getDescription: getDescription,
             getHtml: getHtml,
             getTreePartRoot: getTreePartRoot,
@@ -121,31 +124,39 @@
         function edit() {
 
             $log.info("edit");
-            return QuestService.openQuestDialog(this, true).then(editComplete.bind(this), editQuestCanceled);
+            $
+            // return QuestService.openQuestDialog(this, true).then(editComplete.bind(this), editQuestCanceled);
+            //
+            // function editComplete(result) {
+            //     if (this.name != result.name) {
+            //         this.name = result.name;
+            //         this.html.setQuestTitle(result.name);
+            //         this.treePartRoot.getTask().getHtml().setQuestTitle(result.name);
+            //         for (var i = 0; i < this.treeParts.length; i++) {
+            //             this.treeParts[i].getTask().getHtml().setQuestTitle(result.name);
+            //         }
+            //         this.change();
+            //     }
+            //
+            //     if (this.html.getContent() != result.questContent) {
+            //         this.html.setContent(result.questContent);
+            //         this.change();
+            //     }
+            //     $log.info("edit_success: ", this);
+            //     return this;
+            // }
+            //
+            // function editQuestCanceled(error) {
+            //     $log.info("edit_fail: Canceled");
+            //     return $q.reject("Canceled");
+            // }
+        }
 
-            function editComplete(result) {
-                if (this.name != result.name) {
-                    this.name = result.name;
-                    this.html.setQuestTitle(result.name);
-                    this.treePartRoot.getTask().getHtml().setQuestTitle(result.name);
-                    for (var i = 0; i < this.treeParts.length; i++) {
-                        this.treeParts[i].getTask().getHtml().setQuestTitle(result.name);
-                    }
-                    this.change();
-                }
+        function init() {
+            this.treePartRoot = new TreePart();
+            this.treePartRoot.init("start");
 
-                if (this.html.getContent() != result.questContent) {
-                    this.html.setContent(result.questContent);
-                    this.change();
-                }
-                $log.info("edit_success: ", this);
-                return this;
-            }
-
-            function editQuestCanceled(error) {
-                $log.info("edit_fail: Canceled");
-                return $q.reject("Canceled");
-            }
+            this.html = new HtmlText();
         }
 
         function initFromObject(questObject) {
@@ -233,6 +244,12 @@
                 $log.info("load_success: ", this);
                 return this;
             }.bind(this));
+        }
+
+        function createTreePart(markerType) {
+            var treePart = new TreePart();
+            treePart.init(markerType)
+            return treePart();
         }
 
         function newTreePart(task) {
@@ -448,6 +465,10 @@
 
         function getName() {
             return this.name;
+        }
+
+        function setName(value) {
+            this.name = value;
         }
 
         function getDescription() {

@@ -9,10 +9,10 @@
         .module('map')
         .factory('MapService', mapService);
 
-    mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "DefaultConfig", "MapInteractionService", "Task"];
+    mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "DefaultConfig", "MapInteractionService", "MarkerType", "TaskService", "Task"];
 
     /* @ngInject */
-    function mapService($log, $q, $state, $http, $mdDialog, DefaultConfig, MapInteraction, Task) {
+    function mapService($log, $q, $state, $http, $mdDialog, DefaultConfig, MapInteraction, MarkerType, TaskService, Task) {
 
         $log = $log.getInstance("MapService", debugging);
 
@@ -26,9 +26,10 @@
 
         var service = {
             getQuest: getQuest,
+            editQuest: editQuest,
             saveQuest: saveQuest,
             createTask: createTask,
-            toggleMarker: toggleMarker,
+            addTreePart: addTreePart,
             markerChanged: markerChanged,
             getCurrentPosition: getCurrentPosition,
             searchLocation: searchLocation,
@@ -41,37 +42,172 @@
 
         ////////////////
 
-        function getQuest(loggedInUser) {
+        function getQuest(user) {
             $log.info("getQuest");
-
-            user = loggedInUser;
             quest = user.getCurrentQuest();
 
-            if (!quest) {
-                return user.newQuest().then(
-                    function (result) {
-                        $log.info("getQuest_success: ", result);
-                        quest = result;
-                        quest.setLoaded(true);
-                        return result;
-                    },
-                    function (error) {
-                        $log.error("getQuest_fail: ", error);
-                        $state.go("app.profile");
-                    });
-            } else {
-                $log.info("getQuest_success: ", quest);
+            if(quest) {
                 addMarkers(quest);
                 return quest;
+            } else {
+                quest = user.createQuest();
+                quest.init();
+                quest.setName("New Quest");
+                return drawMarker(quest.getTreePartRoot().getTask()).then(addQuestToUser);
+            }
+
+            function addQuestToUser() {
+                user.setCurrentQuest(quest);
+                editQuest(quest, true);
+                return quest;
+            }
+
+            // if (!quest) {
+            //     return user.newQuest().then(
+            //         function (result) {
+            //             $log.info("getQuest_success: ", result);
+            //             quest = result;
+            //             quest.setLoaded(true);
+            //             return result;
+            //         },
+            //         function (error) {
+            //             $log.error("getQuest_fail: ", error);
+            //             $state.go("app.profile");
+            //         });
+            // } else {
+            //     $log.info("getQuest_success: ", quest);
+            //     addMarkers(quest);
+            //     return quest;
+            // }
+        }
+
+        // function drawMarker() {
+        //     var task = new Task(quest.getName());
+        //     task.setType(activeMarker);
+        //     drawing = true;
+        //     task.drawMarker().then(function () {
+        //         quest.addTask(task);
+        //         if (continueDrawing) {
+        //             drawMarker();
+        //         } else {
+        //             drawing = false;
+        //         }
+        //     });
+        // }
+
+        function editQuest(quest, editStartMarker) {
+            $state.go("app.quest", {
+                quest: quest,
+                editStartMarker: editStartMarker
+            });
+        }
+
+        function saveQuest(user, quest) {
+            var errorDialog = $mdDialog.alert({
+                templateUrl: "js/app/map/upload-confirmation/upload-confirmation-dialogue.tpl.html",
+                bindToController: true,
+                controller: "UploadConfirmationController",
+                controllerAs: "uploadConfirmation",
+                locals: {
+                    quest: quest
+                }
+            });
+
+            return $mdDialog
+                .show( errorDialog ).then(uploadQuest);
+
+            function uploadQuest(submit) {
+                var errors = null;
+                if(submit) {
+                    quest.setSubmitted(true);
+                    errors = quest.check(false);
+
+                } else {
+                    errors = quest.check(true);
+                }
+
+                if(!errors.getErroneous()) {
+                    return user.uploadQuest().then(function () {
+                        $state.go("app.profile");
+                    });
+                } else {
+                    errors.showErrorDialog(true);
+                    return $q.reject();
+                }
+            }
+
+        }
+
+
+
+        function addTreePart(evt) {
+            var promise = $mdDialog.show({
+                templateUrl: 'js/app/task/choose-type-dialog/choose-type-dialog.tpl.html',
+                controller: 'ChooseTypeController',
+                controllerAs: 'chooseTypeDialog',
+                bindToController: true,
+                targetEvent: evt
+            });
+
+            promise.then(success, cancel);
+
+            function success() {
+
+            }
+
+            function cancel() {
+
             }
         }
 
-        function saveQuest() {
+        function drawMarker(task) {
             var deffered = $q.defer();
-            user.uploadQuest().then(function () {
+            var promises = [];
+
+            if (task.getType() != MarkerType.INVISIBLE) {
+                return MapInteraction.drawMarker(TaskService.getMarkerSrc(task.getType())).then(initMarker);
+
+            } else {
+                promises.push(MapInteraction.drawMarker(TaskService.getMarkerSrc(MarkerType.INVISIBLE)).then(initAndDraw));
+                promises.push(MapInteraction.drawLine());
+            }
+
+            function initMarker(markerId) {
+                var marker = MapInteraction.getMarkerById(markerId);
+                task.setMarkerId(markerId);
+                task.initFromMarker(marker);
+            }
+
+            function initAndDraw(markerId) {
+                var marker = MapInteraction.getMarkerById(markerId);
+                task.setMarkerId(markerId);
+                task.initFromMarker(marker);
+
+                promises.push(MapInteraction.drawMarker("media/target_marker.png").then(initTarget));
+                $q.all(promises).then(drawFinished);
+                return marker;
+            }
+
+            function initTarget(markerId) {
+                var marker = MapInteraction.getMarkerById(markerId);
+                task.setTargetMarkerId(markerId);
+                task.initFromTargetMarker(marker);
+                return marker;
+            }
+
+            function drawFinished(results) {
+                var marker = results[0];
+                var targetMarker = results[2];
+                var line = results[1];
+                marker.getGeometry().lineStart = line;
+                targetMarker.getGeometry().lineEnd = line;
                 deffered.resolve();
-                $state.go("app.profile");
-            });
+            }
+
+            function addLineToMarker() {
+                console.log("Line ready");
+            }
+
             return deffered.promise;
         }
 
@@ -92,35 +228,6 @@
             }
         }
 
-        function toggleMarker(type) {
-            if (activeMarker == type) {
-                activeMarker = "";
-                continueDrawing = false;
-                drawing = false;
-
-                MapInteraction.stopDrawing();
-            } else {
-                MapInteraction.stopDrawing();
-                activeMarker = type;
-                continueDrawing = true;
-                drawing = true;
-                drawMarker();
-            }
-        }
-
-        function drawMarker() {
-            var task = new Task(quest.getName());
-            task.setType(activeMarker);
-            drawing = true;
-            task.drawMarker().then(function () {
-                quest.addTask(task);
-                if (continueDrawing) {
-                    drawMarker();
-                } else {
-                    drawing = false;
-                }
-            });
-        }
 
         function markerChanged(evt, args) {
             var changedMarker = args.marker;

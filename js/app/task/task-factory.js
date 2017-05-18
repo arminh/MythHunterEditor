@@ -40,7 +40,8 @@
             constructor: Task,
             create: create,
             edit: edit,
-            drawMarker: drawMarker,
+            // drawMarker: drawMarker,
+            init: init,
             initFromObject: initFromObject,
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
@@ -185,6 +186,11 @@
             }
         }
 
+        function init(type) {
+            this.html = new HtmlText();
+            this.type = type;
+        }
+
         function initFromObject(taskObject) {
             $log.info("initFromObject", taskObject);
             this.remoteId = taskObject.remoteId;
@@ -306,56 +312,56 @@
             return ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
         }
 
-        function drawMarker() {
-            var deffered = $q.defer();
-            var promises = [];
-
-            if (this.type != MarkerType.INVISIBLE) {
-                return MapInteraction.drawMarker(this.getMarkerSrc()).then(initMarker.bind(this));
-
-            } else {
-                promises.push(MapInteraction.drawMarker(this.getMarkerSrc()).then(initAndDraw.bind(this)));
-                promises.push(MapInteraction.drawLine());
-            }
-
-            function initMarker(markerId) {
-                var marker = MapInteraction.getMarkerById(markerId);
-                this.markerId = markerId;
-                this.initFromMarker(marker);
-            }
-
-            function initAndDraw(markerId) {
-                var marker = MapInteraction.getMarkerById(markerId);
-                this.markerId = markerId;
-                this.initFromMarker(marker);
-
-                promises.push(MapInteraction.drawMarker("media/target_marker.png").then(initTarget.bind(this)));
-                $q.all(promises).then(drawFinished.bind(this));
-                return marker;
-            }
-
-            function initTarget(markerId) {
-                var marker = MapInteraction.getMarkerById(markerId);
-                this.targetMarkerId = markerId;
-                this.initFromTargetMarker(marker);
-                return marker;
-            }
-
-            function drawFinished(results) {
-                var marker = results[0];
-                var targetMarker = results[2];
-                var line = results[1];
-                marker.getGeometry().lineStart = line;
-                targetMarker.getGeometry().lineEnd = line;
-                deffered.resolve();
-            }
-
-            function addLineToMarker() {
-                console.log("Line ready");
-            }
-
-            return deffered.promise;
-        }
+        // function drawMarker() {
+        //     var deffered = $q.defer();
+        //     var promises = [];
+        //
+        //     if (this.type != MarkerType.INVISIBLE) {
+        //         return MapInteraction.drawMarker(this.getMarkerSrc()).then(initMarker.bind(this));
+        //
+        //     } else {
+        //         promises.push(MapInteraction.drawMarker(this.getMarkerSrc()).then(initAndDraw.bind(this)));
+        //         promises.push(MapInteraction.drawLine());
+        //     }
+        //
+        //     function initMarker(markerId) {
+        //         var marker = MapInteraction.getMarkerById(markerId);
+        //         this.markerId = markerId;
+        //         this.initFromMarker(marker);
+        //     }
+        //
+        //     function initAndDraw(markerId) {
+        //         var marker = MapInteraction.getMarkerById(markerId);
+        //         this.markerId = markerId;
+        //         this.initFromMarker(marker);
+        //
+        //         promises.push(MapInteraction.drawMarker("media/target_marker.png").then(initTarget.bind(this)));
+        //         $q.all(promises).then(drawFinished.bind(this));
+        //         return marker;
+        //     }
+        //
+        //     function initTarget(markerId) {
+        //         var marker = MapInteraction.getMarkerById(markerId);
+        //         this.targetMarkerId = markerId;
+        //         this.initFromTargetMarker(marker);
+        //         return marker;
+        //     }
+        //
+        //     function drawFinished(results) {
+        //         var marker = results[0];
+        //         var targetMarker = results[2];
+        //         var line = results[1];
+        //         marker.getGeometry().lineStart = line;
+        //         targetMarker.getGeometry().lineEnd = line;
+        //         deffered.resolve();
+        //     }
+        //
+        //     function addLineToMarker() {
+        //         console.log("Line ready");
+        //     }
+        //
+        //     return deffered.promise;
+        // }
 
 
         function updateMarker(marker) {

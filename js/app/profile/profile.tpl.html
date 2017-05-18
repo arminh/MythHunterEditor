@@ -1,11 +1,11 @@
-<div id="profile-container" flex-offset="10" flex="80" ng-show="profile.user">
-    <div class="row" >
+<div id="profile-container" ng-show="profile.user"  flex-offset-gt-sm="10" flex-gt-sm="80" flex="100" layout-padding>
+    <div>
         <div>
             <h1>Profile</h1>
         </div>
     </div>
 
-    <div id="profile-quest-container" layout="column" layout-gt-sm="row">
+    <div layout="column" layout-gt-sm="row" >
         <div flex-gt-sm="60" flex-order="1" flex-order-gt-sm="0">
             <div ng-if="profile.currentQuest">
                 <h3>Quest in Development</h3>
@@ -13,7 +13,7 @@
                     <tr class="odd-profile-quest">
                         <td width="50%" class="profile-quest-col">
                             <a href=""
-                               ng-click="profile.editQuest(profile.currentQuest)">{{profile.currentQuest.name}}</a>
+                               ng-click="profile.editQuestCurrentQuest()">{{profile.currentQuest.name}}</a>
                         </td>
                         <td width="20%" class="profile-quest-col">
                             {{profile.currentQuest.startTask.lon | number:4}}, {{profile.currentQuest.startTask.lat |

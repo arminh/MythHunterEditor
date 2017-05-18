@@ -9,15 +9,15 @@
         .module('quest')
         .factory('QuestService', QuestService);
 
-    QuestService.$inject = ["$log", "$mdDialog"];
+    QuestService.$inject = ["$log", "$state"];
 
     /* @ngInject */
-    function QuestService($log, $mdDialog) {
-        $log = $log.getInstance("Quest", debugging);
+    function QuestService($log, $state) {
+        $log = $log.getInstance("QuestService", debugging);
 
         var treePartId = 1;
         var service = {
-            openQuestDialog: openQuestDialog,
+            finishEditing: finishEditing,
             addTreePartToQuest: addTreePartToQuest,
 
             getTreePartId: getTreePartId,
@@ -27,19 +27,25 @@
 
         ////////////////
 
+        function finishEditing(editQuest, originalQuest, separateDescription, editStartMarker) {
+            originalQuest.setName(editQuest.getName());
+            originalQuest.getHtml().setContent(editQuest.getHtml().getContent());
 
-        function openQuestDialog(quest, edit, evt) {
-            return $mdDialog.show({
-                templateUrl: 'js/app/quest/quest.tpl.html',
-                controller: 'QuestController',
-                controllerAs: 'quest',
-                bindToController: true,
-                targetEvent: evt,
-                locals: {
-                    quest: quest,
-                    edit: edit
+            if(editStartMarker) {
+                var startTask = originalQuest.getTreePartRoot().getTask();
+                startTask.setName(editQuest.getName());
+                startTask.setQuestName(editQuest.getName());
+                startTask.setFixed(true);
+
+                var startHtml = startTask.getHtml();
+                if(!separateDescription) {
+                    startHtml.setContent(editQuest.getHtml().getContent());
                 }
-            });
+                startHtml.setQuestTitle(editQuest.getName());
+                startHtml.setTaskTitle(editQuest.getName());
+            }
+
+            originalQuest.change();
         }
 
         function addTreePartToQuest(quest, treePart) {
