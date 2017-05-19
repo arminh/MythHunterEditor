@@ -3,7 +3,30 @@
  */
 
 (function() {
+    'use strict';
+
     angular
-        .module('treePart',[]);
+        .module('treePart',[])
+        .config(config);
+
+    config.inject = ["$stateProvider"];
+
+    function config($stateProvider) {
+        $stateProvider
+            .state('app.task', {
+                url: '/task',
+                templateUrl: 'js/app/treepart/treepart.tpl.html',
+                resolve: {
+                    user: ['AuthenticationService', function (AuthenticationService) {
+                        return AuthenticationService.userPromise();
+                    }]
+                },
+                params:{
+                    treePart:null
+                },
+                controller: 'TreePartController',
+                controllerAs: 'treePartCtrl'
+            });
+    }
 
 })();

@@ -17,7 +17,6 @@
         $log = $log.getInstance("TaskService", debugging);
 
         var service = {
-            openTaskDialog: openTaskDialog,
             showPreview: showPreview,
             getMarkerSrc: getMarkerSrc,
             getFightTpl: getFightTpl
@@ -25,21 +24,6 @@
         return service;
 
         ////////////////
-
-        function openTaskDialog(task, edit, evt) {
-
-            return $mdDialog.show({
-                templateUrl: 'js/app/task/task.tpl.html',
-                controller: 'TaskController',
-                controllerAs: 'task',
-                bindToController: true,
-                targetEvent: evt,
-                locals: {
-                    task: task,
-                    edit: edit
-                }
-            });
-        }
 
         function showPreview(html, evt) {
             return $mdDialog.show({

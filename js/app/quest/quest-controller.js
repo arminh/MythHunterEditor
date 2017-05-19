@@ -33,13 +33,16 @@
                 vm.originalQuest = $stateParams.quest;
                 vm.quest = angular.copy($stateParams.quest);
             } else {
-                $state.go("app.map");
+                if(user.getCurrentQuest()) {
+                    $state.go("app.map");
+                } else {
+                    $state.go("app.profile");
+                }
             }
 
             if($stateParams.editStartMarker) {
                 vm.editStartMarker = $stateParams.editStartMarker;
             }
-
         }
 
         function confirm() {

@@ -9,10 +9,10 @@
         .module('quest')
         .factory('QuestService', QuestService);
 
-    QuestService.$inject = ["$log", "$state"];
+    QuestService.$inject = ["$log"];
 
     /* @ngInject */
-    function QuestService($log, $state) {
+    function QuestService($log) {
         $log = $log.getInstance("QuestService", debugging);
 
         var treePartId = 1;
@@ -28,28 +28,54 @@
         ////////////////
 
         function finishEditing(editQuest, originalQuest, separateDescription, editStartMarker) {
-            originalQuest.setName(editQuest.getName());
+            $log.info("finishEditing: ", editQuest);
+
             originalQuest.getHtml().setContent(editQuest.getHtml().getContent());
+
+            if(editQuest.getName() != originalQuest.getName()) {
+                originalQuest.setName(editQuest.getName());
+
+                var startTask = originalQuest.getTreePartRoot().getTask();
+                startTask.setQuestName(editQuest.getName());
+
+                var startHtml = startTask.getHtml();
+                startHtml.setQuestTitle(editQuest.getName());
+
+                var treeParts = originalQuest.getTreeParts();
+
+                for (var i = 0; i < treeParts.length; i++) {
+                    var task = treeParts[i].getTask();
+                    task.setQuestName(editQuest.getName());
+                    task.change();
+
+                    var html = task.getHtml();
+                    html.setQuestTitle(editQuest.getName());
+                    html.change();
+                }
+            }
 
             if(editStartMarker) {
                 var startTask = originalQuest.getTreePartRoot().getTask();
                 startTask.setName(editQuest.getName());
-                startTask.setQuestName(editQuest.getName());
                 startTask.setFixed(true);
 
-                var startHtml = startTask.getHtml();
                 if(!separateDescription) {
                     startHtml.setContent(editQuest.getHtml().getContent());
                 }
-                startHtml.setQuestTitle(editQuest.getName());
+
+                var startHtml = startTask.getHtml();
                 startHtml.setTaskTitle(editQuest.getName());
             }
 
             originalQuest.change();
+            $log.info("finishEditing_success: ", originalQuest);
         }
 
-        function addTreePartToQuest(quest, treePart) {
+        function addTreePartToQuest(quest, treePart, addToTree) {
             treePart.setId(treePartId++);
+            if(addToTree) {
+                quest.addTreePartToTree(treePart);
+            }
             quest.addTreePart(treePart);
         }
 

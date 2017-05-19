@@ -9,17 +9,17 @@
         <md-menu>
             <md-button aria-label="Open demo menu" class="md-icon-button" style="text-transform: none;"
                        ng-click="$mdOpenMenu($event)">
-                <md-icon md-svg-icon="media/more_icon.svg">arminb</md-icon>
+                <md-icon md-svg-icon="media/more_icon.svg"></md-icon>
             </md-button>
             <md-menu-content width="2">
-                <md-menu-item ng-click="mapTask.deleteTask()" ng-if="mapTask.task.type != 'start'">
+                <md-menu-item ng-click="mapTask.deleteTask()" ng-if="mapTask.task.getType() != 'start'">
                     <md-button aria-label="delete" class="md-icon-button map-task-edit"
-                               ng-class="{disabled: mapTask.task.type == 'start'}">
+                               ng-class="{disabled: mapTask.task.getType() == 'start'}">
                         <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
                     </md-button>
                     <md-label>Delete</md-label>
                 </md-menu-item>
-                <md-menu-item ng-click="mapTask.editTask($event)">
+                <md-menu-item ng-click="mapTask.editTask()">
                     <md-button aria-label="edit" class="md-icon-button map-task-edit">
                         <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
                     </md-button>

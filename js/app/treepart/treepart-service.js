@@ -1,0 +1,81 @@
+/**
+ * Created by Hannah on 19.05.2017.
+ */
+
+(function () {
+    'use strict';
+
+    angular
+        .module('treePart')
+        .factory('TreePartService', TreePartService);
+
+    TreePartService.$inject = ["$log", "TextAngularHandler", "MarkerType"];
+
+    /* @ngInject */
+    function TreePartService($log, TextAngularHandler, MarkerType) {
+        $log = $log.getInstance("TreePartService", debugging);
+
+        var service = {
+            getContent: getContent,
+            getTargetContent: getTargetContent,
+            keyPressed: keyPressed,
+            finishEditing: finishEditing
+        };
+        return service;
+
+        ////////////////
+
+        function getContent(task) {
+            var html = task.getHtml();
+            var content = html.getContent();
+            var answers = html.getAnswers();
+            return TextAngularHandler.restoreContent(content, answers);
+        }
+
+        function getTargetContent(task) {
+            if (task.getTargetHtml()) {
+                var targetContent = task.getTargetHtml().getContent();
+                return TextAngularHandler.restoreContent(targetContent, {});
+            } else {
+                return "";
+            }
+        }
+
+        function keyPressed(evt) {
+            if (evt.which == 13) {
+                TextAngularHandler.enterKeyPressed(evt);
+            }
+        }
+
+        function finishEditing(editTreePart, originalTreePart, content, targetContent) {
+
+            $log.info("finishEditing", editTreePart);
+            var editTask = editTreePart.getTask();
+            var originalTask = originalTreePart.getTask();
+
+            originalTask.setName(editTask.getName());
+            var answers = {};
+            if (editTreePart.getType() == MarkerType.QUIZ) {
+                answers = TextAngularHandler.retrieveCheckedAttributes(answers);
+            }
+
+            var originalHtml = originalTask.getHtml();
+            originalHtml.setContent(TextAngularHandler.prepareContent(content, answers));
+            originalHtml.setAnswers(answers);
+            originalHtml.setTaskTitle(editTask.getName());
+            originalHtml.change();
+
+            var originalTargetHtml = originalTask.getTargetHtml();
+            if (originalTargetHtml) {
+                originalTargetHtml.setContent(TextAngularHandler.prepareContent(targetContent, {}));
+                originalTargetHtml.setTaskTitle(editTask.getName());
+                originalTargetHtml.change();
+            }
+
+            originalTask.change();
+            $log.info("finishEditing_success: ", originalTreePart);
+        }
+    }
+
+})();
+

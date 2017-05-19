@@ -9,10 +9,10 @@
         .module('task')
         .factory('Task', TaskFactory);
 
-    TaskFactory.$inject = ["$log", "$q", "TaskService", "AuthenticationService", "BackendService", "MapInteractionService", "MarkerType", "HtmlText"];
+    TaskFactory.$inject = ["$log", "$q", "TaskService", "AuthenticationService", "BackendService", "MarkerType", "HtmlText"];
 
     /* @ngInject */
-    function TaskFactory($log, $q, TaskService, AuthenticationService, BackendService, MapInteraction, MarkerType, HtmlText) {
+    function TaskFactory($log, $q, TaskService, AuthenticationService, BackendService, MarkerType, HtmlText) {
         $log = $log.getInstance("Task", debugging);
 
         function Task(questName) {
@@ -38,9 +38,6 @@
 
         Task.prototype = {
             constructor: Task,
-            create: create,
-            edit: edit,
-            // drawMarker: drawMarker,
             init: init,
             initFromObject: initFromObject,
             getFromRemote: getFromRemote,
@@ -87,104 +84,6 @@
         return (Task);
 
         ////////////////
-
-        function create(evt) {
-            $log.info("create");
-
-            this.html = new HtmlText();
-
-            return TaskService.openTaskDialog(this, false, evt).then(function (result) {
-                this.questName = result.questName;
-                this.name = result.taskName;
-                this.type = result.type;
-
-                this.html.setContent(result.content);
-                this.html.setQuestTitle(result.questName);
-                this.html.setTaskTitle(result.taskName);
-                this.html.setAnswers(result.answers);
-
-                if(result.targetContent) {
-                    this.targetHtml = new HtmlText();
-                    this.targetHtml.setContent(result.targetContent);
-                }
-
-                $log.info("create_success", this);
-            }.bind(this));
-        }
-
-        function edit(evt) {
-            $log.info("edit", this);
-            var marker = null;
-
-            return TaskService.openTaskDialog(this, true, evt).then(updateTask.bind(this));
-
-            function updateTask(result) {
-                if (this.name != result.taskName) {
-                    this.name = result.taskName;
-                    this.change();
-                }
-                if (this.type != result.type) {
-                    if (this.type == MarkerType.INVISIBLE) {
-                        MapInteraction.removeMarker(this.targetMarkerId);
-                        this.targetLon = 0;
-                        this.targetLat = 0;
-                        this.targetMarkerId = -1;
-                    }
-
-                    if(result.type == MarkerType.INFO) {
-                        this.targetHtml = null;
-                    }
-
-                    this.type = result.type;
-
-                    marker = MapInteraction.getMarkerById(this.markerId);
-                    MapInteraction.setMarkerStyle(marker, this.getMarkerSrc());
-                    if (this.type == MarkerType.INVISIBLE) {
-                        MapInteraction.drawMarker("media/target_marker.png").then(initTarget.bind(this));
-                    }
-                    this.change();
-                }
-                if (this.html.getContent() != result.content) {
-                    this.html.setContent(result.content);
-                    this.html.change();
-                }
-
-                if (JSON.stringify(this.html.getAnswers()) != JSON.stringify(result.answers)) {
-                    this.html.setAnswers(result.answers);
-                    this.html.change();
-                }
-                if(result.targetContent) {
-                    if(this.targetHtml) {
-                        if (this.targetHtml.content != result.targetContent) {
-                            this.targetHtml.setContent(result.targetContent);
-                            this.targetHtml.change();
-                        }
-                    } else {
-                        this.targetHtml = new HtmlText();
-                        this.targetHtml.setContent(result.targetContent);
-                        this.change();
-                    }
-                } else {
-                    if(this.targetHtml) {
-                        this.targetHtml = null;
-                    }
-                }
-
-                $log.info("edit_success", this);
-            }
-
-            function initTarget(markerId) {
-                var targetMarker = MapInteraction.getMarkerById(markerId);
-                this.targetMarkerId = markerId;
-                this.initFromTargetMarker(targetMarker);
-
-                var line = MapInteraction.addLine(this.markerId, this.targetMarkerId);
-
-                marker.getGeometry().lineStart = line;
-                targetMarker.getGeometry().lineEnd = line;
-                return marker;
-            }
-        }
 
         function init(type) {
             this.html = new HtmlText();
@@ -312,60 +211,7 @@
             return ol.proj.transform([coord[0], coord[1]], 'EPSG:3857', 'EPSG:4326');
         }
 
-        // function drawMarker() {
-        //     var deffered = $q.defer();
-        //     var promises = [];
-        //
-        //     if (this.type != MarkerType.INVISIBLE) {
-        //         return MapInteraction.drawMarker(this.getMarkerSrc()).then(initMarker.bind(this));
-        //
-        //     } else {
-        //         promises.push(MapInteraction.drawMarker(this.getMarkerSrc()).then(initAndDraw.bind(this)));
-        //         promises.push(MapInteraction.drawLine());
-        //     }
-        //
-        //     function initMarker(markerId) {
-        //         var marker = MapInteraction.getMarkerById(markerId);
-        //         this.markerId = markerId;
-        //         this.initFromMarker(marker);
-        //     }
-        //
-        //     function initAndDraw(markerId) {
-        //         var marker = MapInteraction.getMarkerById(markerId);
-        //         this.markerId = markerId;
-        //         this.initFromMarker(marker);
-        //
-        //         promises.push(MapInteraction.drawMarker("media/target_marker.png").then(initTarget.bind(this)));
-        //         $q.all(promises).then(drawFinished.bind(this));
-        //         return marker;
-        //     }
-        //
-        //     function initTarget(markerId) {
-        //         var marker = MapInteraction.getMarkerById(markerId);
-        //         this.targetMarkerId = markerId;
-        //         this.initFromTargetMarker(marker);
-        //         return marker;
-        //     }
-        //
-        //     function drawFinished(results) {
-        //         var marker = results[0];
-        //         var targetMarker = results[2];
-        //         var line = results[1];
-        //         marker.getGeometry().lineStart = line;
-        //         targetMarker.getGeometry().lineEnd = line;
-        //         deffered.resolve();
-        //     }
-        //
-        //     function addLineToMarker() {
-        //         console.log("Line ready");
-        //     }
-        //
-        //     return deffered.promise;
-        // }
-
-
         function updateMarker(marker) {
-
             this.initFromMarker(marker);
             this.change();
         }

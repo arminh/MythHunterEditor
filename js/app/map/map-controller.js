@@ -20,9 +20,8 @@
         vm.saveQuestPromise = null;
         vm.interactionDisabled = false;
 
-        vm.createTask = MapService.createTask;
+        vm.addTreePart = addTreePart;
         vm.drawing = MapService.getDrawing;
-        vm.continueDrawing = MapService.getContinueDrawing;
 
         vm.toggleQuestline = toggleQuestline;
         vm.searchLocation = searchLocation;
@@ -68,9 +67,10 @@
             $q.when(MapService.getQuest(user), function (quest) {
                 vm.quest = quest;
             });
-            // $q.when(MapService.getQuest(user), function(result) {
-            //     this.quest = result;
-            // }.bind(vm));
+        }
+
+        function addTreePart(quest, evt) {
+            MapService.addTreePart(user, quest, evt);
         }
 
         function toggleQuestline() {
@@ -108,7 +108,6 @@
                 vm.showQuestline = true;
                 vm.interactionDisabled = false;
             }
-
         }
 
         function cancelQuest() {

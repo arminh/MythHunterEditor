@@ -128,12 +128,6 @@
 
         function createQuest() {
             return new Quest(this.id);
-            // return quest.create().then(function(result) {
-            //     this.currentQuest = result;
-            //     this.currentQuest.creatorId = this.id;
-            //     this.backup();
-            //     return result;
-            // }.bind(this));
         }
 
         function addQuest(quest) {
@@ -182,12 +176,8 @@
         }
 
         function setCurrentQuest(quest) {
-            this.currenQuest = quest;
+            this.currentQuest = quest;
             $localStorage.currentQuest = quest;
-            // var editQuest = angular.copy(quest);
-            //
-            // $localStorage.currentQuest = editQuest;
-            // this.currentQuest = editQuest;
         }
 
         function getCurrentQuest() {

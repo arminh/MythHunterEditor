@@ -9,10 +9,10 @@
         .module('quest')
         .factory('Quest', QuestFactory);
 
-    QuestFactory.$inject = ["$log", "$q", "QuestService", "AuthenticationService", "BackendService", "TreePartType", "Task", "HtmlText", "TreePart", "DifficultyLevel", "SubmitErrors"];
+    QuestFactory.$inject = ["$log", "$q", "AuthenticationService", "BackendService", "HtmlText", "TreePart", "DifficultyLevel", "SubmitErrors"];
 
     /* @ngInject */
-    function QuestFactory($log, $q, QuestService, AuthenticationService, BackendService, TreePartType, Task, HtmlText, TreePart, DifficultyLevel, SubmitErrors) {
+    function QuestFactory($log, $q, AuthenticationService, BackendService, HtmlText, TreePart, DifficultyLevel, SubmitErrors) {
 
         $log = $log.getInstance("Quest", debugging);
         function Quest() {
@@ -37,8 +37,6 @@
 
         Quest.prototype = {
             constructor: Quest,
-            create: create,
-            edit: edit,
             init: init,
             initFromObject: initFromObject,
             getFromRemote: getFromRemote,
@@ -46,8 +44,8 @@
             load: load,
             change: change,
             createTreePart: createTreePart,
-            newTreePart: newTreePart,
             addTreePart: addTreePart,
+            addTreePartToTree: addTreePartToTree,
             deleteTreePart: deleteTreePart,
             getTreePart: getTreePart,
             getTreePartByRemoteId: getTreePartByRemoteId,
@@ -82,75 +80,6 @@
         return (Quest);
 
         ////////////////
-
-        function create(creatorId) {
-            this.creatorId = creatorId;
-
-            $log.info("create");
-            return QuestService.openQuestDialog(this, false).then(questCreated.bind(this), createQuestCanceled);
-
-            function questCreated(result) {
-                this.name = result.name;
-
-                this.html = new HtmlText();
-                this.html.setContent(result.questContent);
-
-                var startTask = new Task(this.name);
-                startTask.setName(result.name);
-                startTask.setType("start");
-                startTask.setQuestName(result.name);
-                startTask.setFixed(true);
-
-                var startHtml = new HtmlText();
-                startHtml.setContent(result.taskContent);
-                startHtml.setQuestTitle(this.name);
-                startHtml.setTaskTitle(this.name);
-                startTask.setHtml(startHtml);
-
-                return startTask.drawMarker().then(function () {
-                    this.treePartRoot = new TreePart(startTask);
-                    this.treePartRoot.setType(TreePartType.Marker);
-                    $log.info("create_success: ", this);
-                    return this;
-                }.bind(this));
-            }
-
-            function createQuestCanceled(error) {
-                $log.info("create_fail: Canceled");
-                return $q.reject("Canceled");
-            }
-        }
-
-        function edit() {
-
-            $log.info("edit");
-            $
-            // return QuestService.openQuestDialog(this, true).then(editComplete.bind(this), editQuestCanceled);
-            //
-            // function editComplete(result) {
-            //     if (this.name != result.name) {
-            //         this.name = result.name;
-            //         this.html.setQuestTitle(result.name);
-            //         this.treePartRoot.getTask().getHtml().setQuestTitle(result.name);
-            //         for (var i = 0; i < this.treeParts.length; i++) {
-            //             this.treeParts[i].getTask().getHtml().setQuestTitle(result.name);
-            //         }
-            //         this.change();
-            //     }
-            //
-            //     if (this.html.getContent() != result.questContent) {
-            //         this.html.setContent(result.questContent);
-            //         this.change();
-            //     }
-            //     $log.info("edit_success: ", this);
-            //     return this;
-            // }
-            //
-            // function editQuestCanceled(error) {
-            //     $log.info("edit_fail: Canceled");
-            //     return $q.reject("Canceled");
-            // }
-        }
 
         function init() {
             this.treePartRoot = new TreePart();
@@ -248,15 +177,16 @@
 
         function createTreePart(markerType) {
             var treePart = new TreePart();
-            treePart.init(markerType)
-            return treePart();
+            treePart.init(markerType);
+            return treePart;
         }
 
-        function newTreePart(task) {
-            $log.info("newTreePart: ", task);
-            var treePart = new TreePart(task);
-            treePart.setType(TreePartType.Marker);
+        function addTreePart(treePart) {
+            this.treeParts.push(treePart);
+        }
 
+        function addTreePartToTree(treePart) {
+            $log.info("addTreePartToTree: ", treePart);
             if (this.treeParts.length == 0) {
                 this.treePartRoot.addSuccessor(treePart);
                 this.treePartRoot.change();
@@ -264,14 +194,8 @@
                 this.treeParts[this.treeParts.length - 1].addSuccessor(treePart);
                 this.treeParts[this.treeParts.length - 1].change();
             }
-
-            QuestService.addTreePartToQuest(this, treePart);
-            $log.info("newTreePart_success: ", treePart);
             this.change();
-        }
-
-        function addTreePart(treePart) {
-            this.treeParts.push(treePart);
+            $log.info("addTreePartToTree_success: ", treePart);
         }
 
         function deleteTreePart(treePart) {

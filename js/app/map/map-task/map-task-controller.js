@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapTaskController', MapTaskController);
 
-    MapTaskController.$inject = ["$scope", "MapInteractionService"];
+    MapTaskController.$inject = ["$scope", "$state", "MapInteractionService"];
 
     /* @ngInject */
-    function MapTaskController($scope, MapInteraction) {
+    function MapTaskController($scope, $state, MapInteraction) {
 
         var vm = this;
         vm.task = null;
@@ -34,11 +34,11 @@
         }
 
         function flashMarker() {
-            MapInteraction.flashMarker(vm.task.markerId);
+            MapInteraction.flashMarker(vm.task.getMarkerId());
         }
 
         function focusMarker() {
-            MapInteraction.setCenter(parseFloat(vm.task.lon), parseFloat(vm.task.lat), 17);
+            MapInteraction.setCenter(parseFloat(vm.task.getLon()), parseFloat(vm.task.lat), 17);
             flashMarker();
         }
 
@@ -49,8 +49,8 @@
             }
         }
 
-        function editTask(evt) {
-            vm.task.edit(evt);
+        function editTask() {
+            $state.go("app.task", { treePart: vm.treepart });
         }
 
         function deleteTask() {
