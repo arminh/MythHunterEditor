@@ -7,7 +7,7 @@
 
     <div layout="column" layout-gt-sm="row" >
         <div flex-gt-sm="60" flex-order="1" flex-order-gt-sm="0">
-            <div ng-if="profile.currentQuest">
+            <div ng-if="profile.user.getCurrentQuest()">
                 <h3>Quest in Development</h3>
                 <table class="profile-quest-table">
                     <tr class="odd-profile-quest">

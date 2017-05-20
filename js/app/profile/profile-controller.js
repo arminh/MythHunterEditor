@@ -9,10 +9,10 @@
         .module('profile')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ["$log", "$q", "$scope", "$state", "$mdDialog", "user"];
+    ProfileController.$inject = ["$log", "$q", "$state", "$mdDialog", "user"];
 
     /* @ngInject */
-    function ProfileController($log, $q, $scope, $state, $mdDialog, user) {
+    function ProfileController($log, $q, $state, $mdDialog, user) {
         var vm = this;
         vm.user = user;
         vm.currentQuest = null;
@@ -75,7 +75,9 @@
                 .ok('Confirm')
                 .cancel('Cancel');
 
-            $mdDialog.show(confirm);
+            $mdDialog.show(confirm).then(function() {
+                user.deleteQuest(quest);
+            });
         }
     }
 

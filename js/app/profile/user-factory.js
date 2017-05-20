@@ -137,13 +137,18 @@
 
 
         function deleteQuest(quest) {
+            $log.info("deleteQuest: ", quest);
             for (var i = 0; i < this.createdQuests.length; i++) {
                 if (this.createdQuests[i].remoteId = quest.remoteId) {
                     this.createdQuests.splice(i, 1);
                 }
             }
+            if(quest.getRemoteId() > 0 && quest.getRemoteId() == this.currentQuest.getRemoteId()) {
+                this.clearCurrentQuest();
+            }
 
             this.upload().then(function () {
+                $log.info("deleteQuest_success: ");
                 quest.remove();
             }.bind(this));
         }
