@@ -44,6 +44,7 @@
             removeSuccessor: removeSuccessor,
             hasSuccessor: hasSuccessor,
             hasAncestor: hasAncestor,
+            check: check,
             change: change,
             upload: upload,
             remove: remove,
@@ -207,6 +208,10 @@
                 }
             }
             return found;
+        }
+
+        function check(errors) {
+            this.task.check(this, errors);
         }
 
         function change() {

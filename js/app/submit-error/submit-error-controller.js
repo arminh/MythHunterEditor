@@ -9,10 +9,10 @@
         .module('map')
         .controller('SubmitErrorController', SubmitErrorController);
 
-    SubmitErrorController.$inject = ["$mdDialog"];
+    SubmitErrorController.$inject = ["$state", "$mdDialog"];
 
     /* @ngInject */
-    function SubmitErrorController($mdDialog) {
+    function SubmitErrorController($state, $mdDialog) {
         var vm = this;
         vm.editQuest = editQuest;
         vm.editTask = editTask;
@@ -27,12 +27,17 @@
 
         function editQuest(quest) {
             $mdDialog.hide();
-            quest.edit();
+            $state.go("app.quest", {
+                quest: quest,
+                editStartMarker: false
+            });
         }
 
-        function editTask(task) {
+        function editTask(treePart) {
             $mdDialog.hide();
-            task.edit();
+            $state.go("app.task", {
+                treePart: treePart
+            });
         }
 
         function close() {

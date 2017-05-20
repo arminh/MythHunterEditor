@@ -1,7 +1,7 @@
 <div id="quest-container" layout="column" ng-cloak flex-offset-gt-sm="10" flex-gt-sm="80" flex="100" layout-padding>
     <form name="questForm" ng-submit="questCtrl.confirm()">
         <div layout-padding>
-            <div flex>
+            <div layout="row" >
                 <md-input-container flex>
                     <label>Quest name</label>
                     <input required name="questName" ng-model="questCtrl.quest.name" class="task-info">

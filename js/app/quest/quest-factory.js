@@ -146,7 +146,7 @@
             this.specialCards = remoteQuest.getSpecialCards();
             this.diffulty = remoteQuest.getDifficulty();
             this.qualityRating = remoteQuest.getQualityRating();
-            this.difficultyRating= remoteQuest.getDifficultyRating();
+            this.difficultyRating = remoteQuest.getDifficultyRating();
 
             this.html = new HtmlText();
             this.html.setRemoteId(remoteQuest.getHtmlId());
@@ -220,8 +220,8 @@
 
         function getTreePart(treePartId) {
             var treePart = null;
-            for(var i = 0; i < this.treeParts.length; i++) {
-                if(this.treeParts[i].id == treePartId) {
+            for (var i = 0; i < this.treeParts.length; i++) {
+                if (this.treeParts[i].id == treePartId) {
                     treePart = this.treeParts[i];
                 }
             }
@@ -230,8 +230,8 @@
 
         function getTreePartByRemoteId(treePartRemoteId) {
             var treePart = null;
-            for(var i = 0; i < this.treeParts.length; i++) {
-                if(this.treeParts[i].remoteId == treePartRemoteId) {
+            for (var i = 0; i < this.treeParts.length; i++) {
+                if (this.treeParts[i].remoteId == treePartRemoteId) {
                     treePart = this.treeParts[i];
                 }
             }
@@ -243,25 +243,12 @@
             AuthenticationService.getUser().backup();
         }
 
-        function check(checkNameOnly) {
+        function check() {
             var errors = new SubmitErrors();
 
-            if(checkNameOnly) {
-                var nameMissing = (this.name == "");
-                if(nameMissing) {
-                    errors.addQuestError(this, nameMissing, false);
-                }
-            } else {
-                var nameMissing = (this.name == "");
-                var descriptionMissing = (this.description == "");
-                if(nameMissing || descriptionMissing) {
-                    errors.addQuestError(this, nameMissing, descriptionMissing);
-                }
-
-                this.treePartRoot.getTask().check(errors);
-                for (var i = 0; i < this.treeParts.length; i++) {
-                    this.treeParts[i].getTask().check(errors);
-                }
+            this.treePartRoot.check(errors);
+            for (var i = 0; i < this.treeParts.length; i++) {
+                this.treeParts[i].check(errors);
             }
 
             return errors;
@@ -317,7 +304,7 @@
         function remove() {
             $log.info("remove: ", this);
 
-            if(!this.loaded) {
+            if (!this.loaded) {
                 return this.load().then(deleteQuest.bind(this));
             } else {
                 return deleteQuest.bind(this)();

@@ -230,11 +230,10 @@
             TaskService.showPreview(this.html, evt);
         }
 
-        function check(errors) {
+        function check(treePart, errors) {
             var nameMissing = (this.name == "");
-            var descriptionMissing = (this.html.getContent() == "");
-            if(nameMissing || descriptionMissing) {
-                errors.addTaskError(this, nameMissing, descriptionMissing);
+            if(nameMissing) {
+                errors.addTaskError(treePart, nameMissing);
             }
         }
 

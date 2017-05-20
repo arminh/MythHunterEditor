@@ -31,26 +31,23 @@
 
         ////////////////
 
-        function QuestError(quest, nameMissing, descriptionMissing) {
+        function QuestError(quest) {
             this.quest = quest;
+        }
+
+        function TaskError(treePart, nameMissing) {
+            this.treePart = treePart;
             this.nameMissing = nameMissing;
-            this.descriptionMissing = descriptionMissing;
         }
 
-        function TaskError(task, nameMissing, descriptionMissing) {
-            this.task = task;
-            this.nameMissing = nameMissing;
-            this.descriptionMissing = descriptionMissing;
-        }
-
-        function addQuestError(quest, nameMissing, descriptionMissing) {
+        function addQuestError(quest) {
             this.erroneous = true;
-            this.questErrors.push(new QuestError(quest, nameMissing, descriptionMissing));
+            this.questErrors.push(new QuestError(quest));
         }
 
-        function addTaskError(task, nameMissing, descriptionMissing) {
+        function addTaskError(treePart, nameMissing) {
             this.erroneous = true;
-            this.taskErrors.push(new TaskError(task, nameMissing, descriptionMissing));
+            this.taskErrors.push(new TaskError(treePart, nameMissing));
         }
 
         function getErroneous() {
