@@ -9,17 +9,14 @@
         .module('reward')
         .controller('RewardController', RewardController);
 
-    RewardController.$inject = ["$mdDialog", "RewardService", "CollectionService", "user", "REWARD_MAX_CARDS"];
+    RewardController.$inject = ["RewardService"];
 
     /* @ngInject */
-    function RewardController($mdDialog, RewardService, CollectionService, user, REWARD_MAX_CARDS) {
+    function RewardController(RewardService) {
         var vm = this;
-        vm.cards =  new Array(REWARD_MAX_CARDS);
-        vm.maxCards = REWARD_MAX_CARDS;
+        vm.cards =  new Array(vm.maxCards);
         vm.cardIndex = 0;
 
-        vm.confirm = confirm;
-        vm.cancel = cancel;
         vm.removeCard = removeCard;
         vm.createCard = createCard;
         vm.openCollection = openCollection;
@@ -29,9 +26,9 @@
         ////////////////
 
         function activate() {
-            RewardService.init(user, REWARD_MAX_CARDS);
+            RewardService.init(vm.user, vm.maxCards);
 
-            var collection = user.getCollection();
+            var collection = vm.user.getCollection();
             for(var i = 0; i < vm.rewardIds.length; i++) {
                 vm.cards[i] = collection.getCard(vm.rewardIds[i]);
                 vm.cardIndex++;
@@ -63,7 +60,7 @@
 
         function openCollection() {
             RewardService.chooseCardsFromCollection(vm.rewardIds).then(function(result) {
-                vm.cards =  new Array(REWARD_MAX_CARDS);
+                vm.cards =  new Array(vm.maxCards);
                 vm.rewardIds = [];
                 vm.cardIndex = 0;
                 for(var i = 0; i < result.cards.length; i++) {
@@ -71,23 +68,6 @@
                     vm.rewardIds.push(result.cards[i].getRemoteId());
                 }
             });
-        }
-
-        function confirm() {
-            var rewards = [];
-            for(var i = 0; i < vm.cards.length; i++) {
-                if(vm.cards[i]) {
-                    rewards.push(vm.cards[i].getRemoteId());
-                }
-
-            }
-            $mdDialog.hide({
-                rewards: rewards
-            });
-        }
-
-        function cancel() {
-            $mdDialog.cancel();
         }
     }
 

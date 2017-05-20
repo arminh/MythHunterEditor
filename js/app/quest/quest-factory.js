@@ -195,7 +195,6 @@
                 this.treeParts[this.treeParts.length - 1].change();
             }
             this.change();
-            $log.info("addTreePartToTree_success: ", treePart);
         }
 
         function deleteTreePart(treePart) {

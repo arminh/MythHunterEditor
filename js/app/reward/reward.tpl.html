@@ -1,50 +1,19 @@
-<md-dialog aria-label="Create task">
-    <form name="rewardForm" ng-cloak ng-submit="reward.confirm()">
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2>Reward</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="reward.cancel()">
-                    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
-                </md-button>
-            </div>
-        </md-toolbar>
+<div class="reward-card-container" ng-repeat="card in reward.cards track by $index">
+    <div class="reward-deselect-button" ng-if="card">
+        <md-button class="md-raised md-icon-button" ng-click="reward.removeCard($index)">
+            <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+        </md-button>
+    </div>
 
-        <md-dialog-content>
-            <div class="md-dialog-content">
-                <div class="card-reward-instruction"><md-label><b>Add up to {{reward.maxCards}} cards as quest reward</b></md-label></div>
+    <img ng-if="!card" src="media/card/card_placeholder.png" class="card-placeholder" width="100%"/>
+    <card ng-if="card" class="collection-card" card="card" image="card.image" edit="false" menu="false"></card>
+</div>
 
-                <div class="reward-card-container" ng-repeat="card in reward.cards track by $index">
-                    <div class="reward-deselect-button" ng-if="card">
-                        <md-button class="md-raised md-icon-button" ng-click="reward.removeCard($index)">
-                            <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
-                        </md-button>
-                    </div>
-
-                    <img ng-if="!card" src="media/card/card_placeholder.png" class="card-placeholder" width="100%"/>
-                    <card ng-if="card" class="collection-card" card="card" image="card.image" edit="false" menu="false"></card>
-                </div>
-            </div>
-
-            <div style="text-align: center">
-                <md-button class="md-raised" ng-click="reward.openCollection()">
-                    Open Collection
-                </md-button>
-                <md-button ng-show="reward.cardIndex < reward.maxCards" class="md-raised" ng-click="reward.createCard()">
-                    Create card
-                </md-button>
-            </div>
-
-        </md-dialog-content>
-
-        <md-dialog-actions layout="row">
-            <span flex></span>
-            <md-button type="submit" class="md-raised md-primary">
-                OK
-            </md-button>
-            <md-button class="md-raised" ng-click="reward.cancel()">
-                Cancel
-            </md-button>
-        </md-dialog-actions>
-    </form>
-</md-dialog>
+<div style="text-align: center">
+    <md-button class="md-raised" ng-click="reward.openCollection()">
+        Open Collection
+    </md-button>
+    <md-button ng-show="reward.cardIndex < reward.maxCards" class="md-raised" ng-click="reward.createCard()">
+        Create card
+    </md-button>
+</div>

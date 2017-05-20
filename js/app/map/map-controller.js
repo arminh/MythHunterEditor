@@ -119,7 +119,7 @@
         }
 
         function addQuestReward() {
-            MapService.addQuestReward();
+            MapService.addQuestReward(user);
         }
     }
 

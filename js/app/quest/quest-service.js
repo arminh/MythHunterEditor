@@ -19,6 +19,7 @@
         var service = {
             finishEditing: finishEditing,
             addTreePartToQuest: addTreePartToQuest,
+            addRewardsToQuest: addRewardsToQuest,
 
             getTreePartId: getTreePartId,
             setTreePartId: setTreePartId
@@ -31,6 +32,7 @@
             $log.info("finishEditing: ", editQuest);
 
             originalQuest.getHtml().setContent(editQuest.getHtml().getContent());
+            addRewardsToQuest(originalQuest, editQuest.getRewards());
 
             if(editQuest.getName() != originalQuest.getName()) {
                 originalQuest.setName(editQuest.getName());
@@ -85,6 +87,29 @@
 
         function setTreePartId(value) {
             treePartId = value;
+        }
+
+        function addRewardsToQuest(quest, newRewards) {
+            var oldRewards = quest.getRewards();
+
+            //Check if reward was removed
+            for (var i = 0; i < oldRewards.length; i++) {
+                if ($.inArray(oldRewards[i], newRewards) < 0) {
+                    quest.change();
+                }
+            }
+
+            //Check if reward was added
+            for (var i = 0; i < newRewards.length; i++) {
+                if ($.inArray(newRewards[i], oldRewards) < 0) {
+                    quest.change();
+                }
+            }
+
+            quest.clearRewards();
+            for (var i = 0; i < newRewards.length; i++) {
+                quest.addReward(newRewards[i]);
+            }
         }
     }
 

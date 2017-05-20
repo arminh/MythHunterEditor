@@ -267,16 +267,16 @@
             });
         }
 
-        function addQuestReward() {
+        function addQuestReward(user) {
             var promise = $mdDialog.show({
-                templateUrl: 'js/app/reward/reward.tpl.html',
-                controller: 'RewardController',
-                controllerAs: "reward",
+                templateUrl: 'js/app/reward/reward-dialog/reward-dialog.tpl.html',
+                controller: 'RewardDialogController',
+                controllerAs: "rewardDialog",
                 bindToController: true,
                 resolve: {
-                    user: ['AuthenticationService', function (AuthenticationService) {
-                        return AuthenticationService.userPromise();
-                    }]
+                    user: function() {
+                        return user;
+                    }
                 },
                 locals: {
                     rewardIds: angular.copy(quest.getRewards())
@@ -284,27 +284,8 @@
             });
 
             promise.then(function (result) {
-                var newRewards = result.rewards;
-                var oldRewards = quest.getRewards();
+                QuestService.addRewardsToQuest(quest, result.rewards);
 
-                //Check if reward was removed
-                for (var i = 0; i < oldRewards.length; i++) {
-                    if ($.inArray(oldRewards[i], newRewards) < 0) {
-                        quest.change();
-                    }
-                }
-
-                //Check if reward was added
-                for (var i = 0; i < newRewards.length; i++) {
-                    if ($.inArray(newRewards[i], oldRewards) < 0) {
-                        quest.change();
-                    }
-                }
-
-                quest.clearRewards();
-                for (var i = 0; i < newRewards.length; i++) {
-                    quest.addReward(newRewards[i]);
-                }
             });
         }
     }

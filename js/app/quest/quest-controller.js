@@ -9,17 +9,19 @@
         .module('quest')
         .controller('QuestController', QuestController);
 
-    QuestController.$inject = ["$state", "$stateParams", "QuestService", "user"];
+    QuestController.$inject = ["$state", "$stateParams", "QuestService", "user", "REWARD_MAX_CARDS"];
 
     /* @ngInject */
-    function QuestController($state, $stateParams, QuestService, user) {
+    function QuestController($state, $stateParams, QuestService, user, REWARD_MAX_CARDS) {
 
         var vm = this;
+        vm.user = user;
         vm.editStartMarker = false;
         vm.questContent = "";
         vm.taskContent = "";
         vm.separateDescription = true;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
+        vm.maxCards = REWARD_MAX_CARDS;
 
         vm.confirm = confirm;
         vm.cancel = cancel;

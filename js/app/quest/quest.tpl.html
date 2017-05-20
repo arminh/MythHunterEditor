@@ -21,6 +21,11 @@
                               ng-model="questCtrl.quest.treePartRoot.task.html.content" id="task-text"></text-angular>
             </div>
             <div>
+                <div class="card-reward-instruction"><md-label><b>Add up to {{reward.maxCards}} cards as quest reward</b></md-label></div>
+
+                <reward reward-ids="questCtrl.quest.specialCards" max-cards="questCtrl.maxCards" user="questCtrl.user"></reward>
+            </div>
+            <div>
                 <md-button class="md-raised md-primary" type="submit" md-autofocus>
                     Confirm
                 </md-button>
@@ -28,7 +33,6 @@
                     Cancel
                 </md-button>
             </div>
-
         </div>
     </form>
 </div>
