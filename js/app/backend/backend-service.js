@@ -28,6 +28,7 @@
             createRemoteTreePart: createRemoteTreePart,
             createRemoteCard: createRemoteCard,
             createRemoteCardImage: createRemoteCardImage,
+            createRemoteEnemy: createRemoteEnemy,
             getQuest: getQuest,
             getQuests: getQuests,
             getTask: getTask,
@@ -36,17 +37,20 @@
             getCard: getCard,
             getCardImage: getCardImage,
             getAllActionsOfCardType: getAllActionsOfCardType,
+            getEnemy: getEnemy,
             addQuest: addQuest,
             addTask: addTask,
             addHtml: addHtml,
             addCard: addCard,
             addCardImage: addCardImage,
             addTreePart: addTreePart,
+            addEnemy: addEnemy,
             updateUser: updateUser,
             updateQuest: updateQuest,
             updateTask: updateTask,
             updateHtml: updateHtml,
             updateCard: updateCard,
+            updateEnemy: updateEnemy,
             deleteQuest: deleteQuest,
             deleteTask: deleteTask,
             deleteTreePart: deleteTreePart,
@@ -221,13 +225,19 @@
             remoteTask.setVersion(task.getVersion());
             remoteTask.setId(task.getRemoteId());
             remoteTask.setName(task.getName());
-            remoteTask.setEnemyId(task.getEnemyId());
             remoteTask.setHtmlId(task.getHtml().getRemoteId());
             if(task.getTargetHtml()) {
                 remoteTask.setFinishedHtmlId(task.getTargetHtml().getRemoteId());
             } else {
                 remoteTask.setFinishedHtmlId(0);
             }
+
+            if(task.getEnemy()) {
+                remoteTask.setEnemyId(task.getEnemy().getRemoteId());
+            } else {
+                remoteTask.setEnemyId(0);
+            }
+
             remoteTask.setPosition(mapPosition(task.getLon(), task.getLat()));
             remoteTask.setTargetPosition(mapPosition(task.getTargetLon(), task.getTargetLat()));
 
@@ -306,6 +316,18 @@
             remoteCardImage.setImage(cardImage.getImage());
 
             return remoteCardImage;
+        }
+
+        function createRemoteEnemy(enemy, imageUrl) {
+            var remoteEnemy = new backend_com_wsdl_enemy();
+
+            remoteEnemy.setImageUrl(imageUrl);
+            remoteEnemy.setRandomEnemy(enemy.getRandomEnemy());
+            remoteEnemy.setName(enemy.getName());
+            remoteEnemy.setDescription(enemy.getDescription());
+            remoteEnemy.setCardIds(enemy.getCardIds());
+
+            return remoteEnemy;
         }
 
         function mapPosition(lon, lat) {
@@ -487,6 +509,27 @@
             return deffered.promise;
         }
 
+        function getEnemy(enemyId) {
+            var deffered = $q.defer();
+
+            $log.info("getEnemy: id =", enemyId);
+            backend.getEnemy(function (result) {
+                if (result.getReturn()) {
+                    $log.info("getEnemy_success (id = " + enemyId + ")", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("getEnemy_fail (id = " + enemyId + ")", result.getReturn());
+                    deffered.reject();
+                }
+
+            }, function (error) {
+                $log.error("getEnemy_fail (id = " + enemyId + ")", error);
+                deffered.reject(error);
+            }, enemyId);
+
+            return deffered.promise;
+        }
+
         function addQuest(quest) {
             var deffered = $q.defer();
 
@@ -613,6 +656,27 @@
             return deffered.promise;
         }
 
+        function addEnemy(enemy) {
+            var deffered = $q.defer();
+
+            $log.info("addEnemy: ", enemy);
+            backend.addEnemy(function (result) {
+                if (result.getReturn()) {
+                    $log.info("addEnemy_success: ", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("addEnemy_fail: ", result.getReturn());
+                    deffered.reject();
+                }
+
+            }, function (error) {
+                $log.error("addEnemy_fail: ", error);
+                deffered.reject(error);
+            }, enemy);
+
+            return deffered.promise;
+        }
+
         function updateUser(user) {
             var deffered = $q.defer();
 
@@ -708,6 +772,27 @@
             return deffered.promise;
         }
 
+        function updateEnemy(enemy) {
+            var deffered = $q.defer();
+
+            $log.info("updateEnemy: ", card);
+            backend.updateEnemy(function (result) {
+                if (result.getReturn()) {
+                    $log.info("updateEnemy: ", result);
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("updateEnemy_fail: ", result);
+                    deffered.reject("Error updating Card");
+                }
+
+            }, function (error) {
+                $log.error("updateEnemy_fail: ", error);
+                deffered.reject(error);
+            }, enemy);
+
+            return deffered.promise;
+        }
+
         function deleteQuest(questId) {
             var deffered = $q.defer();
 
@@ -770,6 +855,7 @@
 
             return deffered.promise;
         }
+
     }
 
 })();

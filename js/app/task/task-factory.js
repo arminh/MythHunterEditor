@@ -9,10 +9,10 @@
         .module('task')
         .factory('Task', TaskFactory);
 
-    TaskFactory.$inject = ["$log", "$q", "TaskService", "AuthenticationService", "BackendService", "MarkerType", "HtmlText"];
+    TaskFactory.$inject = ["$log", "$q", "TaskService", "AuthenticationService", "BackendService", "MarkerType", "HtmlText", "Enemy"];
 
     /* @ngInject */
-    function TaskFactory($log, $q, TaskService, AuthenticationService, BackendService, MarkerType, HtmlText) {
+    function TaskFactory($log, $q, TaskService, AuthenticationService, BackendService, MarkerType, HtmlText, Enemy) {
         $log = $log.getInstance("Task", debugging);
 
         function Task(questName) {
@@ -22,7 +22,7 @@
             this.version = 0;
             this.html = null;
             this.targetHtml = null;
-            this.enemyId = 0;
+            this.enemy = null;
             this.lon = 0;
             this.lat = 0;
             this.targetLon = 0;
@@ -78,7 +78,8 @@
             getQuestName: getQuestName,
             setQuestName: setQuestName,
             setFixed: setFixed,
-            getEnemyId: getEnemyId
+            getEnemy: getEnemy,
+            setEnemy: setEnemy
         };
 
         return (Task);
@@ -87,6 +88,12 @@
 
         function init(type) {
             this.html = new HtmlText();
+            if(type == MarkerType.FIGHT || MarkerType.INVISIBLE || MarkerType.QUIZ) {
+                this.targetHtml = new HtmlText();
+            }
+            if(type == MarkerType.FIGHT) {
+                this.enemy = new Enemy();
+            }
             this.type = type;
         }
 
@@ -96,7 +103,6 @@
             this.name = taskObject.name;
             this.type = taskObject.type;
             this.version = taskObject.version;
-            this.enemyId = taskObject.enemyId;
 
             this.markerId = taskObject.markerId;
             this.lon = taskObject.lon;
@@ -104,13 +110,17 @@
             this.html = new HtmlText();
             this.html.initFromObject(taskObject.html);
 
-
             if(taskObject.targetHtml) {
                 this.targetMarkerId = taskObject.targetMarkerId;
                 this.targetLon = taskObject.targetLon;
                 this.targetLat = taskObject.targetLat;
                 this.targetHtml = new HtmlText();
                 this.targetHtml.initFromObject(taskObject.targetHtml);
+            }
+
+            if(taskObject.enemy) {
+                this.enemy = new Enemy();
+                this.enemy.initFromObject(taskObject.enemy);
             }
 
             this.questName = taskObject.questName;
@@ -152,7 +162,6 @@
             this.version = remoteTask.getVersion();
             this.name = remoteTask.getName();
             this.type = MarkerType[remoteTask.getType()];
-            this.enemyId = remoteTask.getEnemyId();
 
             var position = remoteTask.getPosition();
             this.lon = position.getLongitude();
@@ -172,6 +181,12 @@
                 this.targetHtml = new HtmlText();
                 this.targetHtml.setRemoteId(remoteTask.getFinishedHtmlId());
                 promises.push(this.targetHtml.getFromRemote());
+            }
+
+            if(remoteTask.getEnemyId()) {
+                this.enemy = new Enemy();
+                this.enemy.setRemoteId(remoteTask.getEnemyId());
+                promises.push(this.enemy.getFromRemote());
             }
 
             return $q.all(promises).then(function(result) {
@@ -232,8 +247,10 @@
 
         function check(treePart, errors) {
             var nameMissing = (this.name == "");
-            if(nameMissing) {
-                errors.addTaskError(treePart, nameMissing);
+            var enemyMissing = (this.type == MarkerType.FIGHT && this.enemy == null);
+
+            if(nameMissing || enemyMissing) {
+                errors.addTaskError(treePart, nameMissing, enemyMissing);
             }
         }
 
@@ -244,9 +261,13 @@
             this.remoteTask = BackendService.createRemoteTask(this);
 
             var promises = [];
+
             promises.push(this.html.upload());
             if (this.targetHtml) {
                 promises.push(this.targetHtml.upload());
+            }
+            if(this.enemy){
+                promises.push($q.when(this.enemy.upload()));
             }
 
             if (this.remoteId < 1 || this.changed) {
@@ -259,6 +280,7 @@
                 this.remoteTask.setHtmlId(results[0]);
                 if (results[1]) {
                     this.remoteTask.setFinishedHtmlId(results[1]);
+                    this.remoteTask.setEnemyId(results[2]);
                 }
 
                 if (this.remoteId > 0 && this.changed) {
@@ -409,10 +431,13 @@
             this.fixed = value;
         }
 
-        function getEnemyId() {
-            return this.enemyId;
+        function getEnemy() {
+            return this.enemy;
         }
 
+        function setEnemy(value) {
+            this.enemy = value;
+        }
     }
 
 })();

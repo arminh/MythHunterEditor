@@ -35,9 +35,10 @@
             this.quest = quest;
         }
 
-        function TaskError(treePart, nameMissing) {
+        function TaskError(treePart, nameMissing, enemyMissing) {
             this.treePart = treePart;
             this.nameMissing = nameMissing;
+            this.enemyMissing = enemyMissing;
         }
 
         function addQuestError(quest) {
@@ -45,9 +46,9 @@
             this.questErrors.push(new QuestError(quest));
         }
 
-        function addTaskError(treePart, nameMissing) {
+        function addTaskError(treePart, nameMissing, enemyMissing) {
             this.erroneous = true;
-            this.taskErrors.push(new TaskError(treePart, nameMissing));
+            this.taskErrors.push(new TaskError(treePart, nameMissing, enemyMissing));
         }
 
         function getErroneous() {

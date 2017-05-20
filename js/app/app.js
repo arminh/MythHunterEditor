@@ -29,7 +29,7 @@
         'card',
         'action',
         'questTree',
-        'reward'
-
+        'reward',
+        'enemy'
     ]);
 })();

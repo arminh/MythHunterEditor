@@ -30,6 +30,9 @@
                                       ng-model="treePartCtrl.task.targetHtml.content"
                                       class="task-text"></text-angular>
                     </div>
+                    <div ng-if="treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">
+                        <enemy enemy="treePartCtrl.task.enemy"></enemy>
+                    </div>
                 </div>
                 <div>
                     <md-button class="md-raised md-primary" type="submit" md-autofocus>

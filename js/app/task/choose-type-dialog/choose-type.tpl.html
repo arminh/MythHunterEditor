@@ -12,7 +12,7 @@
     <md-dialog-content>
         <div class="md-dialog-content">
             <div class="task-type-selection">
-                <md-button ng-repeat="type in chooseTypeDialog.types" ng-disabled="type == chooseTypeDialog.types.FIGHT"
+                <md-button ng-repeat="type in chooseTypeDialog.types"
                            ng-click="chooseTypeDialog.typeChosen(type)"
                            aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle">
                     <img class="tasl-type-icon" ng-src="{{chooseTypeDialog.getMarkerIconSrc(type)}}"/>

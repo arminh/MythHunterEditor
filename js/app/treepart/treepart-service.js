@@ -55,8 +55,17 @@
 
             originalTask.setName(editTask.getName());
             var answers = {};
-            if (editTreePart.getType() == MarkerType.QUIZ) {
+            if (editTask.getType() == MarkerType.QUIZ) {
                 answers = TextAngularHandler.retrieveCheckedAttributes(answers);
+            }
+
+            if (editTask.getType() == MarkerType.FIGHT) {
+                var editEnemy = editTask.getEnemy();
+                var originalEnemy = originalTask.getEnemy();
+                originalEnemy.setName(editEnemy.getName());
+                originalEnemy.setImage(editEnemy.getImage());
+                originalEnemy.setDescription(editEnemy.getDescription());
+                originalEnemy.change();
             }
 
             var originalHtml = originalTask.getHtml();

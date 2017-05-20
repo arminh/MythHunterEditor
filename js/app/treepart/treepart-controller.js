@@ -9,11 +9,12 @@
         .module('treePart')
         .controller('TreePartController', TreePartController);
 
-    TreePartController.$inject = ["$state", "$stateParams", "TreePartService", "user"];
+    TreePartController.$inject = ["$state", "$stateParams", "TreePartService", "MarkerType", "user"];
 
     /* @ngInject */
-    function TreePartController($state, $stateParams, TreePartService, user) {
+    function TreePartController($state, $stateParams, TreePartService, MarkerType, user) {
         var vm = this;
+        vm.types = MarkerType;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
         vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo'],['input','radio','checkbox']]"
 
@@ -49,6 +50,7 @@
 
         function confirm() {
             TreePartService.finishEditing(vm.treePart, vm.originalTreePart, vm.content, vm.targetContent);
+            user.backup();
             $state.go("app.map");
         }
 
