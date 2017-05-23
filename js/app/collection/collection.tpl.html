@@ -1,25 +1,46 @@
-<div id="collection-container" flex-offset="10" flex="80">
-    <div class="collection-filter-container">
-        <img src="media/star_full.png" class="collection-filter-star" ng-click="collectionCtrl.filterStarClicked($index+1, true)"
-             ng-repeat="star in collectionCtrl.starsFull track by $index"/>
-        <img src="media/star_empty.png" class="collection-filter-star" ng-click="collectionCtrl.filterStarClicked($index+1 , false)"
-             ng-repeat="star in collectionCtrl.starsEmpty track by $index"/>
-        <md-input-container>
-            <label>Filter</label>
-            <input type="text" name="name" ng-model="collectionCtrl.searchText"/>
-        </md-input-container>
+<div id="collection-container" flex-offset="10" flex="80" layout="row">
+    <div flex="80" layout="column">
+        <div class="collection-filter-container">
+            <divs>Filters</divs>
+            <div ng-repeat="star in collectionCtrl.starsFull track by $index" ng-click="collectionCtrl.filterStarClicked($index+1, true)"
+                 class="collection-filter-star-container">
+                <img src="media/star_full.png" class="collection-filter-star"/>
+                <div class="collection-filter-star-label"><span>{{$index+1}}</span></div>
+            </div>
+            <div ng-repeat="star in collectionCtrl.starsEmpty track by $index" ng-click="collectionCtrl.filterStarClicked($index+1 , false)"
+                 class="collection-filter-star-container">
+                <img src="media/star_empty.png" class="collection-filter-star"/>
+                <div class="collection-filter-star-label"><span>{{$index + collectionCtrl.starsFull.length + 1}}</span></div>
+            </div>
+            <md-input-container class="collection-filter-content">
+                <label>Filter</label>
+                <input type="text" name="name" ng-model="collectionCtrl.searchText"/>
+            </md-input-container>
+        </div>
+
+        <div class="created-cards-preview" flex>
+            <div class="collection-card-add">
+                <md-button class="md-raised" ng-click="collectionCtrl.createCard()">
+                    <div style="position:relative; height: 280px; width:165px;">
+                        <img src="media/card/card_placeholder.png" class="card-add" width="100%"/>
+                    </div>
+                    <div class="card-add-icon">
+                        <img src="media/add_icon.svg" />
+                    </div>
+
+                    <md-tooltip md-direction="top">Create new card</md-tooltip>
+                </md-button>
+            </div>
+
+            <div ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter()"
+                 class="collection-card-preview-container" ng-click="collectionCtrl.showCard(card)">
+                <card class="collection-card" card="card" image="card.image" edit="false" menu="true"></card>
+            </div>
+        </div>
+
+    </div>
+    <div flex="20">
+        <div class="collection-decks-container" flex></div>
     </div>
 
-    <div class="created-cards-preview">
-        <div ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter()"
-             class="collection-card-preview-container" ng-click="collectionCtrl.showCard(card)">
-            <card class="collection-card" card="card" image="card.image" edit="false" menu="true"></card>
-        </div>
-        <div class="collection-card-preview-container" style="position:relative; height: 280px; width:165px;">
-            <img src="media/card/card_placeholder.png" class="card-placeholder" width="100%"/>
-        </div>
-    </div>
-    <md-button class="md-raised" ng-click="collectionCtrl.createCard()">
-        Create card
-    </md-button>
 </div>

@@ -1,10 +1,14 @@
 #collection-container {
-    margin-top: 20px;
+    margin-top: 10px;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    padding: 10px;
+    height: calc(100vh - 74px);
 }
 
 .collection-card-preview-container {
     display: inline-block;
-    margin-right: 40px;
+    margin-right: 10px;
     vertical-align:top;
 }
 
@@ -19,16 +23,78 @@
 }
 
 .collection-filter-container {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #eeeeee;
 }
 
 .collection-filter-star {
     height: 30px;
+}
+
+.collection-filter-star-label {
+    position: absolute;
+    top: 6px;
+    width: 100%;
+}
+
+.collection-filter-star-container {
+    display: inline-block;
+    position: relative;
+    text-align: center;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
     outline: none;
+}
+.collection-filter-content {
+    margin-left: 10px;
+}
+
+
+.collection-filter-content > .md-errors-spacer {
+    display: none;
+}
+
+.collection-decks-container {
+    border-radius: 10px;
+    background-color: #eeeeee;
+    height: 100%;
+    margin-left: 20px;
+}
+
+.collection-card-add {
+    position: relative;
+    opacity: 0.5;
+    vertical-align: top;
+    display: inline-block;
+    margin-left: -11px;
+    margin-right: 9px;
+}
+
+.card-add {
+
+}
+
+.card-add-icon {
+    top: 75px;
+    position: absolute;
+    width: 100%;
+    margin-left: -5px;
+}
+
+.card-add-icon > img {
+    width: 50px;
+}
+
+.created-cards-preview {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #eeeeee;
+    height: 100%;
+    overflow: auto;
 
 }
