@@ -24,7 +24,8 @@ var debugging = true;
             defaultEnableHighAccuracy: true,
             defaultTimeout: 8000, // 8 seconds
             defaultMaximumAge: 0 // 0 seconds, no-cache
-        });
+        })
+        .constant('MAX_STARS', 10);
 
     ////////////////
 

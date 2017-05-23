@@ -51,6 +51,7 @@
             getAttack: getAttack,
             getLife: getLife,
             getStars: getStars,
+            setStars: setStars,
             getImage: getImage,
             getType: getType,
             getActionIds: getActionIds,
@@ -240,6 +241,10 @@
 
         function getStars() {
             return this.stars;
+        }
+
+        function setStars(value) {
+            this.stars = value;
         }
 
         function setImage(img) {

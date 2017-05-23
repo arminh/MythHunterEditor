@@ -32,6 +32,7 @@
             CardEditorService.getActions().then(function (actions) {
                 vm.actions = actions;
             });
+            calculateStarCount();
         }
 
         function isActionAffordable(action) {
@@ -39,7 +40,7 @@
         }
 
         function calculateStarCount() {
-            vm.card.stars = CardEditorService.calculateStarCount(vm.card.attack, vm.card.life, vm.card.actions)
+            vm.card.setStars(CardEditorService.calculateStarCount(vm.card.attack, vm.card.life, vm.card.actions));
         }
 
         function statMaxLife() {

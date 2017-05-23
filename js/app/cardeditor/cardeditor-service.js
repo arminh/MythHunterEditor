@@ -9,12 +9,10 @@
         .module('card')
         .factory('CardEditorService', CardEditorService);
 
-    CardEditorService.$inject = ["$q", "ActionService", "$mdDialog"];
+    CardEditorService.$inject = ["$q", "ActionService", "$mdDialog", "MAX_STARS"];
 
     /* @ngInject */
-    function CardEditorService($q, ActionService, $mdDialog) {
-
-        var maxStars = 10;
+    function CardEditorService($q, ActionService, $mdDialog, MAX_STARS) {
 
         var service = {
             getActions: getActions,
@@ -32,7 +30,7 @@
         }
 
         function calculateStarCount(attack, life, actions) {
-            var stars =  attack * 0.5 + life * 0.5;
+            var stars = Math.ceil(attack * 0.5 + life * 0.5);
             if(actions.length > 0) {
                 for(var i = 0; i < actions.length; i++) {
                     stars += actions[i].starCosts;
@@ -50,7 +48,7 @@
                 }
             }
 
-            return (starCount + newAction.starCosts) <= maxStars;
+            return (starCount + newAction.starCosts) <= MAX_STARS;
         }
 
         function confirm() {
