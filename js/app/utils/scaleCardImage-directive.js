@@ -42,7 +42,7 @@
                 originalSize.width = el.width();
                 originalSize.height = el.height()
 
-                if(el.width() > el.height()) {
+                if(el.width() > el.height() * 214 / 183) {
                     el.height("183px");
                 } else {
                     el.width("214px");

@@ -55,6 +55,7 @@
             cardImage.setType(vm.image.filetype);
             cardImage.setFileEnding(vm.image.filename.substr(vm.image.filename.lastIndexOf('.')+1));
             cardImage.setOriginalSize(vm.image);
+            cardImage.setImageChanged(true);
         }
 
         function confirm() {

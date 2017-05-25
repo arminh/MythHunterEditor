@@ -2,22 +2,20 @@
      cg-busy="{promise:cardCtrl.card.loadPromise, message:'Loading card...', minDuration:1000}"
      ng-class="{'card-selected': cardCtrl.card.selected}">
     <div class="card-image-bounds">
-        <div class="card-image-drag-bounds" ng-style="cardCtrl.dragBoundsStyle">
+        <div ng-if="cardCtrl.edit && cardCtrl.originalImage" class="card-image-drag-bounds" ng-style="cardCtrl.dragBoundsStyle">
             <div class="card-image-container" ng-class="{'card-image-container-movable': cardCtrl.edit}"
                  jqyoui-draggable="{containment:'position', onStop:'cardCtrl.positionChanged'}"
                  data-drag="cardCtrl.edit"
                  data-jqyoui-options="{{cardCtrl.imageDragOptions}}" ng-style="cardCtrl.imageContainerStyle"
                  >
-                <img ng-if="!cardCtrl.edit && cardCtrl.card.image.image" class="card-image"
-                     data-ng-src="data:{{cardCtrl.card.image.type}};base64, {{cardCtrl.card.image.image}}"
-                     scale-card-image
-                     dimensions="cardCtrl.dimensions" callback="cardCtrl.imageLoaded"/>
-                <img ng-if="cardCtrl.edit && cardCtrl.originalImage" class="card-image"
+                <img class="card-image"
                      data-ng-src="data:{{cardCtrl.card.image.type}};base64, {{cardCtrl.originalImage}}"
                      scale-card-image
                      dimensions="cardCtrl.dimensions" callback="cardCtrl.imageLoaded"/>
             </div>
         </div>
+        <img ng-if="!cardCtrl.edit && cardCtrl.card.image.image" class="card-image-converted"
+             data-ng-src="data:image/png;base64, {{cardCtrl.card.image.image}}"/>
     </div>
     <span ng-show="cardCtrl.edit && cardCtrl.card.image.content" class="card-image-instruction">Drag image to reposition</span>
 

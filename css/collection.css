@@ -22,6 +22,12 @@
     -moz-transform: scale(1.2);
 }
 
+.card-preview-dialog {
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+}
+
 .collection-filter-container {
     margin-bottom: 10px;
     padding: 10px;

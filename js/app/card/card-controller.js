@@ -9,12 +9,13 @@
         .module('card')
         .controller('CardController', CardController);
 
-    CardController.$inject = ["$scope", "$mdDialog", "CardService"];
+    CardController.$inject = ["$scope", "$mdDialog", "$timeout", "CardService"];
 
     /* @ngInject */
-    function CardController($scope, $mdDialog, CardService) {
+    function CardController($scope, $mdDialog, $timeout, CardService) {
         var vm = this;
         vm.originalImage = "";
+        vm.loadingExisitingImage = false;
 
         vm.dimensions = {
             width: 0,
@@ -33,7 +34,7 @@
         vm.editCard = editCard;
         vm.previewCard = previewCard;
 
-        activate();
+        $timeout(activate);
 
         ////////////////
 
@@ -41,6 +42,7 @@
             if(vm.edit && vm.card.getImage().getOriginalImageSrc() != "") {
                 vm.card.loadOriginalCardImage().then(function(image) {
                     vm.originalImage = image;
+                    vm.loadingExisitingImage = true;
                 });
             }
             $scope.$watch("cardCtrl.card.image.originalImage", function() {
@@ -53,8 +55,13 @@
         }
 
         function imageLoaded(originalSize, scaledSize) {
+
             var cardImage = vm.card.getImage();
-            cardImage.setScaledPosition(0, 0);
+            if(!vm.loadingExisitingImage) {
+                cardImage.setScaledPosition(0, 0)
+            } else {
+                vm.loadingExisitingImage = false;
+            }
             cardImage.setOriginalSize(originalSize);
             cardImage.setScaledSize(scaledSize);
 
@@ -65,8 +72,8 @@
                 height: vm.dimensions.height
             };
             vm.dragBoundsStyle = CardService.getDragBounds(vm.dimensions);
-            vm.imageContainerStyle.top = cardImage.getTop() - vm.dragBoundsStyle.top;
-            vm.imageContainerStyle.left = cardImage.getLeft() - vm.dragBoundsStyle.left;
+            vm.imageContainerStyle.top = Math.abs(cardImage.getScaledTop() + vm.dragBoundsStyle.top);
+            vm.imageContainerStyle.left = Math.abs(cardImage.getScaledLeft() + vm.dragBoundsStyle.left);
         }
 
         function positionChanged(evt) {

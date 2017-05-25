@@ -17,6 +17,7 @@
 
         var maskWidth = 214;
         var maskHeight = 183;
+        var aspectRatio = 214 / 183;
         var maskTop = 0;
         var maskLeft = 0;
 
@@ -59,7 +60,7 @@
              var imageWidth = imageDimensions.width;
              var imageHeight = imageDimensions.height;
 
-             if(imageWidth > imageHeight) {
+             if(imageWidth > imageHeight * aspectRatio) {
                  imageDragBounds.top = maskTop;
                  imageDragBounds.height = maskHeight;
                  imageDragBounds.left = maskLeft - (imageWidth - maskWidth);
@@ -95,8 +96,6 @@
             }
         }
 
-
-
         function editCard(card) {
             $log.info("createCard");
 
@@ -105,7 +104,8 @@
 
             function updateCard() {
                 card.updateFromCard(editCard);
-                return card.upload();
+                card.upload();
+                return card;
             }
 
             function cacheOriginalImage() {

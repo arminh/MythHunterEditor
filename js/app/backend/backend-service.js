@@ -50,6 +50,7 @@
             updateTask: updateTask,
             updateHtml: updateHtml,
             updateCard: updateCard,
+            updateCardImage: updateCardImage,
             updateEnemy: updateEnemy,
             deleteQuest: deleteQuest,
             deleteTask: deleteTask,
@@ -280,15 +281,16 @@
             return remoteTreePart;
         }
 
-        function createRemoteCard(card, imageId) {
+        function createRemoteCard(card) {
             var remoteCard = new backend_com_wsdl_card();
 
+            remoteCard.setId(card.getRemoteId());
             remoteCard.setName(card.getName());
             remoteCard.setDescription(card.getDescription());
             remoteCard.setAttack(card.getAttack());
             remoteCard.setLife(card.getLife());
             remoteCard.setStars(Math.ceil(card.getStars()));
-            remoteCard.setImageId(imageId);
+            remoteCard.setImageId(card.getImage().getRemoteId());
             remoteCard.setType(card.getType());
             remoteCard.setVersion(card.getVersion());
 
@@ -307,6 +309,7 @@
         function createRemoteCardImage(cardImage) {
             var remoteCardImage = new backend_com_wsdl_cardImage();
 
+            remoteCardImage.setId(cardImage.getRemoteId());
             remoteCardImage.setType(cardImage.getType());
             remoteCardImage.setOriginalImageSrc(cardImage.getOriginalImageSrc());
             remoteCardImage.setOffsetTop(cardImage.getTop());
@@ -768,6 +771,28 @@
                 $log.error("updateCard_fail: ", error);
                 deffered.reject(error);
             }, card);
+
+            return deffered.promise;
+        }
+
+        function updateCardImage(cardImage) {
+
+            var deffered = $q.defer();
+
+            $log.info("updateCardImage: ", cardImage);
+            backend.updateCardImage(function (result) {
+                if (result.getReturn()) {
+                    $log.info("updateCardImage_success: ", result);
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("updateCardImage_fail: ", result);
+                    deffered.reject("Error updating CardImage");
+                }
+
+            }, function (error) {
+                $log.error("updateCardImage_fail: ", error);
+                deffered.reject(error);
+            }, cardImage);
 
             return deffered.promise;
         }

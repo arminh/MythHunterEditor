@@ -28,10 +28,12 @@
             this.originalImage = "";
             this.fileEnding = "";
             this.changed = false;
+            this.imageChanged = false;
             this.scaledWidth = 0;
             this.scaledHeight = 0;
             this.scaledTop = 0;
             this.scaledLeft = 0;
+            this.aspectRatio = 1;
         }
 
         CardImage.prototype = {
@@ -41,13 +43,19 @@
             updateFromCardImage: updateFromCardImage,
             loadOriginalImage: loadOriginalImage,
             upload: upload,
+            change: change,
 
+            getRemoteId: getRemoteId,
             setRemoteId: setRemoteId,
             getImage: getImage,
             setImage: setImage,
             setOriginalSize: setOriginalSize,
             setScaledSize: setScaledSize,
             setScaledPosition: setScaledPosition,
+            getScaledTop: getScaledTop,
+            getScaledLeft: getScaledLeft,
+            getScaledWidth: getScaledWidth,
+            getScaledHeight: getScaledHeight,
             getSrc: getSrc,
             setType: setType,
             getType: getType,
@@ -59,12 +67,14 @@
             getWidth: getWidth,
             setHeight: setHeight,
             getHeight: getHeight,
-            getOffsetTop: getOffsetTop,
-            getOffsetLeft: getOffsetLeft,
+            getAspectRatio: getAspectRatio,
             getOriginalImageSrc: getOriginalImageSrc,
             getOriginalImage: getOriginalImage,
             setOriginalImage: setOriginalImage,
-            setFileEnding: setFileEnding
+            setFileEnding: setFileEnding,
+            getChanged: getChanged,
+            getImageChanged: getImageChanged,
+            setImageChanged: setImageChanged
         };
 
         return (CardImage);
@@ -84,39 +94,29 @@
             this.left = remoteCardImage.getOffsetLeft();
             this.width = remoteCardImage.getWidth();
             this.height = remoteCardImage.getHeight();
-            this.image = remoteCardImage.getImage();
         }
 
         function updateFromCardImage(cardImage) {
-            this.changed = false;
-
-            if(this.originalImage != "") {
-                if(this.originalImage  != cardImage.getOriginalImage()) {
-                    this.originalImage = cardImage.getOriginalImage();
+            if (cardImage.getImageChanged()) {
+                this.originalImage = cardImage.getOriginalImage();
+                this.width = cardImage.getWidth();
+                this.height = cardImage.getHeight();
+                this.top = cardImage.getTop();
+                this.left = cardImage.getLeft();
+                this.imageChanged = true;
+                this.changed = true;
+            } else {
+                this.aspectRatio = cardImage.getAspectRatio();
+                if (this.top != cardImage.getTop()) {
+                    this.top = cardImage.getTop();
                     this.changed = true;
                 }
-            } else {
-                this.originalImage = cardImage.getOriginalImage();
+                if (this.scaledLeft != cardImage.getScaledLeft()) {
+                    this.scaledLeft = cardImage.getScaledLeft();
+                    this.left = cardImage.getLeft();
+                    this.changed = true;
+                }
             }
-
-            if(this.top != cardImage.getOffsetTop()) {
-                this.top = cardImage.getOffsetTop();
-                this.changed = true;
-            }
-            if(this.left != cardImage.getOffsetLeft()) {
-                this.left = cardImage.getOffsetLeft();
-                this.changed = true;
-            }
-            if(this.width != cardImage.getWidth()) {
-                this.width = cardImage.getWidth();
-                this.changed = true;
-            }
-            if(this.height != cardImage.getHeight()) {
-                this.height = cardImage.getHeight();
-                this.changed = true;
-            }
-
-            return this.changed;
         }
 
         function loadOriginalImage() {
@@ -131,49 +131,59 @@
         }
 
         function upload(name) {
-            this.name = name;
+            if (this.remoteId > 0 && !this.changed) {
+                return this.remoteId;
+            }
+
             $log.info("upload", this);
 
-            var imageName = this.name + "_" + Date.now() + "." + this.fileEnding;
-            $log.info("uploadImage", imageName);
-            return BackendService.uploadImage(imageName, this.originalImage).then(convertImage.bind(this));
-            // var remoteCardImage = BackendService.createRemoteCardImage(this);
-            // return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
+            if (this.originalImageSrc == "") {
+                var imageName = name + "_" + Date.now() + "." + this.fileEnding;
+                $log.info("uploadImage", imageName);
+                return BackendService.uploadImage(imageName, this.originalImage).then(convertImage.bind(this));
+            } else if(this.imageChanged) {
+                return BackendService.uploadImage(this.originalImageSrc, this.originalImage).then(convertImage.bind(this));
+            } else {
+                return convertImage.bind(this)(this.originalImageSrc);
+            }
 
             function convertImage(imagePath) {
                 $log.info("uploadImage_success", imagePath);
                 $log.info("convertImage", imagePath);
                 this.originalImageSrc = imagePath;
                 this.calculateDimensions();
-                return BackendService.convertImage(imagePath, this.left, this.top, this.width, this.height).then(downloadConvertedImage.bind(this));
+                return BackendService.convertImage(imagePath, Math.floor(this.left), Math.floor(this.top), Math.floor(this.width), Math.floor(this.height)).then(downloadConvertedImage.bind(this));
             }
 
             function downloadConvertedImage(convertedImagePath) {
                 $log.info("convertImage_success", convertedImagePath);
                 $log.info("downloadImage", convertedImagePath);
-                return BackendService.downloadImage(convertedImagePath).then(uploadCardImage.bind(this));
+                return BackendService.downloadImage(convertedImagePath).then(addOrUpdateCardImage.bind(this));
             }
 
-            function uploadCardImage(convertedImage) {
+            function addOrUpdateCardImage(convertedImage) {
                 $log.info("downloadImage_success");
                 this.image = convertedImage;
 
-                $log.info("addCardImage", this);
                 var remoteCardImage = BackendService.createRemoteCardImage(this);
-                return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
+                if (this.remoteId <= 0) {
+                    $log.info("addCardImage", this);
+                    return BackendService.addCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
+                } else {
+                    $log.info("updateCardImage", this);
+                    return BackendService.updateCardImage(remoteCardImage).then(cardImageUploaded.bind(this));
+                }
+
             }
 
             function cardImageUploaded(result) {
-                $log.info("addCardImage_success", result);
+                $log.info("uploadCardImage_success", result);
                 this.remoteId = result.getId();
                 return this.remoteId;
             }
         }
 
         function calculateDimensions() {
-            var scaleRatio = this.width / this.scaledWidth;
-            this.top = Math.floor(this.scaledTop * scaleRatio);
-            this.left = Math.floor(this.scaledLeft * scaleRatio);
             this.height -= this.top;
             this.width -= this.left;
         }
@@ -186,17 +196,43 @@
         function setScaledSize(size) {
             this.scaledWidth = size.width;
             this.scaledHeight = size.height;
+            this.aspectRatio = this.width / this.scaledWidth;
 
-            if((this.scaledTop <= 0 && this.top > 0) || (this.scaledLeft <= 0 && this.left > 0)) {
-                var scaleRatio = this.width / this.scaledWidth;
-                this.scaledTop = this.top / scaleRatio;
-                this.scaledLeft = this.left / scaleRatio;
+            if ((this.scaledTop <= 0 && this.top > 0) || (this.scaledLeft <= 0 && this.left > 0)) {
+                this.scaledTop = this.top / this.aspectRatio;
+                this.scaledLeft = this.left / this.aspectRatio;
             }
         }
 
         function setScaledPosition(top, left) {
             this.scaledTop = top;
             this.scaledLeft = left;
+            this.top = this.scaledTop * this.aspectRatio;
+            this.left = this.scaledLeft * this.aspectRatio;
+        }
+
+        function change() {
+            this.changed = true;
+        }
+
+        function getScaledTop() {
+            return this.scaledTop;
+        }
+
+        function getScaledLeft() {
+            return this.scaledLeft;
+        }
+
+        function getScaledWidth() {
+            return this.scaledWidth;
+        }
+
+        function getScaledHeight() {
+            return this.scaledHeight;
+        }
+
+        function getRemoteId() {
+            return this.remoteId;
         }
 
         function setRemoteId(remoteId) {
@@ -255,12 +291,8 @@
             return this.height;
         }
 
-        function getOffsetTop() {
-            return this.offsetTop;
-        }
-
-        function getOffsetLeft() {
-            return this.offsetLeft;
+        function getAspectRatio() {
+            return this.aspectRatio;
         }
 
         function getOriginalImage() {
@@ -277,6 +309,18 @@
 
         function setFileEnding(value) {
             this.fileEnding = value;
+        }
+
+        function getChanged() {
+            return this.changed;
+        }
+
+        function getImageChanged() {
+            return this.imageChanged;
+        }
+
+        function setImageChanged(value) {
+            this.imageChanged = value;
         }
     }
 

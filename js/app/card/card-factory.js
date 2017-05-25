@@ -9,10 +9,10 @@
         .module('card')
         .factory('Card', CardFactory);
 
-    CardFactory.$inject = ["$log", "$timeout", "$filter", "CardType", "BackendService", "CardImage"];
+    CardFactory.$inject = ["$log", "$q", "$timeout", "$filter", "CardType", "BackendService", "CardImage"];
 
     /* @ngInject */
-    function CardFactory($log, $timeout, $filter, CardType, BackendService, CardImage) {
+    function CardFactory($log, $q, $timeout, $filter, CardType, BackendService, CardImage) {
         $log = $log.getInstance("Card", debugging);
 
         function Card() {
@@ -129,10 +129,7 @@
                 this.changed = true;
             }
 
-            var imageChanged = this.image.updateFromCardImage(card.getImage());
-            if(imageChanged) {
-                this.changed = true;
-            }
+            this.image.updateFromCardImage(card.getImage());
         }
 
         function createImage() {
@@ -179,20 +176,22 @@
         }
 
         function upload() {
-            $log.info("upload: ", this);
 
-
-            if(!this.changed) {
-                this.loadPromise = this.image.upload(this.name).then(uploadCard.bind(this));
+            if(this.remoteId <= 0) {
+                $log.info("upload: ", this);
+                this.loadPromise = $q.when(this.image.upload(this.name)).then(uploadCard.bind(this));
+            } else if(this.remoteId > 0 && this.changed) {
+                $log.info("update: ", this);
+                this.loadPromise = $q.when(this.image.upload(this.name)).then(updateCard.bind(this));
             } else {
-                this.loadPromise = this.image.upload(this.name).then(updateCard.bind(this));
+                this.loadPromise = $q.when(this.image.upload(this.name))
             }
             return this.loadPromise;
         }
 
-        function uploadCard(remoteImageId) {
+        function uploadCard() {
 
-            var remoteCard = BackendService.createRemoteCard(this, remoteImageId);
+            var remoteCard = BackendService.createRemoteCard(this);
             return BackendService.addCard(remoteCard).then(success.bind(this));
 
             function success(result) {
@@ -202,9 +201,9 @@
             }
         }
 
-        function updateCard(remoteImage) {
+        function updateCard() {
 
-            var remoteCard = BackendService.createRemoteCard(this, remoteImage);
+            var remoteCard = BackendService.createRemoteCard(this);
             return BackendService.updateCard(remoteCard).then(success.bind(this));
 
             function success(result) {
