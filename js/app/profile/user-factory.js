@@ -9,10 +9,10 @@
         .module('profile')
         .factory('User', UserFactory);
 
-    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "Collection", "Card", "QuestService"];
+    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "Collection", "Card", "Deck", "QuestService"];
 
     /* @ngInject */
-    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, Collection, Card, QuestService) {
+    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, Collection, Card, Deck, QuestService) {
         $log = $log.getInstance("User", debugging);
 
         function User() {
@@ -22,7 +22,7 @@
             this.name = "";
             this.password = "";
             this.solvedQuestIds = [];
-            this.deckIds = [];
+            this.decks = [];
             this.taskCount = 0;
             this.answeredQuestionsCount = 0;
             this.foundLocationsCount = 0;
@@ -30,7 +30,8 @@
             this.startedFightsCount = 0;
             this.money = 0;
             this.kmWalked = 0;
-            this.cardIds = [];
+            this.cards = [];
+            this.createdCards = [];
             this.tutorialPlayed = false;
 
             this.currentQuest = null;
@@ -92,7 +93,6 @@
             this.money = remoteUser.getMoney();
             this.kmWalked = remoteUser.getKmWalked();
             this.cardIds = remoteUser.getCardIds();
-            this.createdCardIds = remoteUser.getCreatedCardIds();
             this.tutorialPlayed = remoteUser.getTutorialPlayed();
 
             var remoteQuests = remoteUser.getCreatedQuestIds();
@@ -102,14 +102,28 @@
                 this.createdQuests.push(quest);
             }
 
-            var remoteCreatedCards = remoteUser.getCreatedCardIds();
-            var cards = [];
-            for(var i = 0; i < remoteCreatedCards.length; i++) {
+            var remoteCreatedCardIds = remoteUser.getCreatedCardIds();
+            for(var i = 0; i < remoteCreatedCardIds.length; i++) {
                 var card = new Card();
-                card.setRemoteId(remoteCreatedCards[i]);
-                cards.push(card);
+                card.setRemoteId(remoteCreatedCardIds[i]);
+                this.createdCards.push(card);
             }
-            this.collection = new Collection(cards);
+
+            var remoteCardIds = remoteUser.getCardIds();
+            for(var i = 0; i < remoteCardIds.length; i++) {
+                var card = new Card();
+                card.setRemoteId(remoteCardIds[i].getKey());
+                this.cards.push(card);
+            }
+
+            var remoteDeckIds = remoteUser.getDeckIds();
+            for(var i = 0; i < remoteDeckIds.length; i++) {
+                var deck = new Deck();
+                deck.setRemoteId(remoteDeckIds[i]);
+                this.decks.push(deck);
+            }
+
+            this.collection = new Collection(this.cards, this.createdCards, this.decks);
 
             return this.load().then(function() {
                 $log.info("initFromRemote_success: ", this);

@@ -40,7 +40,16 @@
 
     </div>
     <div flex="20">
-        <div class="collection-decks-container" flex></div>
+        <div class="collection-decks-container" flex>
+            <div class="collection-decks-add">
+                <md-button class="md-raised" ng-click="collectionCtrl.createDeck()">
+                    <md-label>Create deck</md-label>
+                </md-button>
+            </div>
+            <div ng-repeat="deck in collectionCtrl.collection.decks">
+                <deck deck="deck" control="deck.control"></deck>
+            </div>
+        </div>
     </div>
 
 </div>

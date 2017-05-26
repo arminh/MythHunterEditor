@@ -9,7 +9,7 @@
         .module('app')
         .factory('BackendService', BackendService);
 
-    BackendService.$inject = ["$log",'$q'];
+    BackendService.$inject = ["$log", '$q'];
 
     /* @ngInject */
     function BackendService($log, $q) {
@@ -29,6 +29,7 @@
             createRemoteCard: createRemoteCard,
             createRemoteCardImage: createRemoteCardImage,
             createRemoteEnemy: createRemoteEnemy,
+            createRemoteDeck: createRemoteDeck,
             getQuest: getQuest,
             getQuests: getQuests,
             getTask: getTask,
@@ -38,6 +39,7 @@
             getCardImage: getCardImage,
             getAllActionsOfCardType: getAllActionsOfCardType,
             getEnemy: getEnemy,
+            getDeck: getDeck,
             addQuest: addQuest,
             addTask: addTask,
             addHtml: addHtml,
@@ -45,6 +47,7 @@
             addCardImage: addCardImage,
             addTreePart: addTreePart,
             addEnemy: addEnemy,
+            addDeck: addDeck,
             updateUser: updateUser,
             updateQuest: updateQuest,
             updateTask: updateTask,
@@ -52,10 +55,12 @@
             updateCard: updateCard,
             updateCardImage: updateCardImage,
             updateEnemy: updateEnemy,
+            updateDeck: updateDeck,
             deleteQuest: deleteQuest,
             deleteTask: deleteTask,
             deleteTreePart: deleteTreePart,
             deleteHtml: deleteHtml,
+            deleteDeck: deleteDeck,
             uploadImage: uploadImage,
             downloadImage: downloadImage,
             convertImage: convertImage,
@@ -122,9 +127,10 @@
         function login(username, password) {
             var deffered = $q.defer();
 
-            $log.info("login", username);1
-            backend.login(function(result) {
-                if(result.getReturn()) {
+            $log.info("login", username);
+            1
+            backend.login(function (result) {
+                if (result.getReturn()) {
                     $log.info("login_success", username);
                     deffered.resolve(result.getReturn());
                 } else {
@@ -132,7 +138,7 @@
                     deffered.reject("Wrong username or password");
                 }
 
-            }, function(error) {
+            }, function (error) {
                 alert("Login error: " + error);
                 $log.error("login_fail", error);
                 deffered.reject(error);
@@ -144,9 +150,9 @@
         function register(username, password) {
             var deffered = $q.defer();
 
-            backend.register(function(result) {
+            backend.register(function (result) {
                 deffered.resolve(result);
-            }, function(error) {
+            }, function (error) {
                 alert("Register error: " + error);
                 deffered.reject(error);
             }, username, password);
@@ -178,7 +184,7 @@
             var createdQuests = user.getCreatedQuests();
             var createdCards = user.getCollection().getCards();
 
-            for(var i = 0; i < createdQuests.length; i++) {
+            for (var i = 0; i < createdQuests.length; i++) {
                 createdQuestIds.push(createdQuests[i].getRemoteId());
             }
             for (i = 0; i < createdCards.length; i++) {
@@ -218,7 +224,7 @@
 
             var remoteTask = new backend_com_wsdl_marker();
 
-            if(task.type == "start") {
+            if (task.type == "start") {
                 remoteTask.setType("INFO");
             } else {
                 remoteTask.setType(task.getType());
@@ -227,13 +233,13 @@
             remoteTask.setId(task.getRemoteId());
             remoteTask.setName(task.getName());
             remoteTask.setHtmlId(task.getHtml().getRemoteId());
-            if(task.getTargetHtml()) {
+            if (task.getTargetHtml()) {
                 remoteTask.setFinishedHtmlId(task.getTargetHtml().getRemoteId());
             } else {
                 remoteTask.setFinishedHtmlId(0);
             }
 
-            if(task.getEnemy()) {
+            if (task.getEnemy()) {
                 remoteTask.setEnemyId(task.getEnemy().getRemoteId());
             } else {
                 remoteTask.setEnemyId(0);
@@ -252,7 +258,7 @@
             remoteHtml.setId(html.getRemoteId());
 
             var answers = [];
-            angular.forEach(html.getAnswers(), function(val, key) {
+            angular.forEach(html.getAnswers(), function (val, key) {
                 var answer = new backend_com_wsdl_stringToBoolEntry();
                 answer.setValue(val);
                 answer.setKey(key);
@@ -296,8 +302,8 @@
 
             var actionIds = [];
             var actions = card.getActions();
-            if(actions.length > 0) {
-                for(var i = 0; i < actions.length; i++) {
+            if (actions.length > 0) {
+                for (var i = 0; i < actions.length; i++) {
                     actionIds.push(actions[i].getRemoteId())
                 }
             }
@@ -333,6 +339,21 @@
             return remoteEnemy;
         }
 
+        function createRemoteDeck(deck) {
+            var remoteDeck = new backend_com_wsdl_deck();
+
+            remoteDeck.setName(deck.getName());
+
+            var cardIds = [];
+            var cards = card.getCards();
+            for (var i = 0; i < cards.length; i++) {
+                cardIds.push(cards[i].getRemoteId())
+            }
+            remoteDeck.setActionIds(cardIds);
+
+            return remoteDeck;
+        }
+
         function mapPosition(lon, lat) {
             var pos = new backend_com_wsdl_mapPosition();
             pos.setLongitude(lon);
@@ -344,8 +365,8 @@
             var deffered = $q.defer();
 
             $log.info("getQuest: id =", questId);
-            backend.getEditorQuest(function(result) {
-                if(result.getReturn()) {
+            backend.getEditorQuest(function (result) {
+                if (result.getReturn()) {
                     $log.info("getQuest_success (id = " + questId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -353,7 +374,7 @@
                     deffered.reject("Error loading quest with id: " + questId);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getQuest_fail (id = " + questId + ")", error);
                 deffered.reject(error);
             }, questId);
@@ -365,8 +386,8 @@
             var deffered = $q.defer();
 
             $log.info("getQuests: ids = ", questIds);
-            backend.getEditorQuests(function(result) {
-                if(result.getReturn()) {
+            backend.getEditorQuests(function (result) {
+                if (result.getReturn()) {
                     $log.info("getQuests_success (ids = " + questIds + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -374,7 +395,7 @@
                     deffered.reject("Error loading quests width ids: " + questIds);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getQuests_success (ids = " + questIds + ")", error);
                 deffered.reject(error);
             }, questIds);
@@ -386,8 +407,8 @@
             var deffered = $q.defer();
 
             $log.info("getTask: id =", taskId);
-            backend.getMarker(function(result) {
-                if(result.getReturn()) {
+            backend.getMarker(function (result) {
+                if (result.getReturn()) {
                     $log.info("getTask_success (id = " + taskId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -395,7 +416,7 @@
                     deffered.reject("Error loading task with id: " + taskId);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getTask_fail (id = " + taskId + ")", error);
                 deffered.reject(error);
             }, taskId);
@@ -406,14 +427,14 @@
         function getHtml(htmlId) {
             var deffered = $q.defer();
 
-            if(htmlId < 1) {
+            if (htmlId < 1) {
                 deffered.resolve(null);
                 return deffered.promise;
             }
 
             $log.info("getHtml: id =", htmlId);
-            backend.getHtml(function(result) {
-                if(result.getReturn()) {
+            backend.getHtml(function (result) {
+                if (result.getReturn()) {
                     $log.info("getHtml_success (id = " + htmlId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -421,7 +442,7 @@
                     deffered.reject("Error loading html with id: " + htmlId);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getHtml_fail (id = " + htmlId + ")", error);
                 deffered.reject(error);
             }, htmlId);
@@ -433,8 +454,8 @@
             var deffered = $q.defer();
 
             $log.info("getTreePart: id =", treePartId);
-            backend.getTreePart(function(result) {
-                if(result.getReturn()) {
+            backend.getTreePart(function (result) {
+                if (result.getReturn()) {
                     $log.info("getTreePart_success (id = " + treePartId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -442,7 +463,7 @@
                     deffered.reject("Error loading TreePart with id: " + treePartId);
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("getTreePart_fail (id = " + treePartId + ")", error);
                 deffered.reject(error);
             }, treePartId);
@@ -533,12 +554,33 @@
             return deffered.promise;
         }
 
+        function getDeck(deckId) {
+            var deffered = $q.defer();
+
+            $log.info("getDeck: id =", deckId);
+            backend.getDeck(function (result) {
+                if (result.getReturn()) {
+                    $log.info("getDeck_success (id = " + deckId + ")", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("getDeck_fail (id = " + deckId + ")", result.getReturn());
+                    deffered.reject();
+                }
+
+            }, function (error) {
+                $log.error("getDeck_fail (id = " + deckId + ")", error);
+                deffered.reject(error);
+            }, deckId);
+
+            return deffered.promise;
+        }
+
         function addQuest(quest) {
             var deffered = $q.defer();
 
             $log.info("addQuest: ", quest);
-            backend.addEditorQuest(function(result) {
-                if(result.getReturn()) {
+            backend.addEditorQuest(function (result) {
+                if (result.getReturn()) {
                     $log.info("addQuest_success: ", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -546,7 +588,7 @@
                     deffered.reject("Error adding quest");
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("addQuest_fail: ", error);
                 deffered.reject(error);
             }, quest);
@@ -558,8 +600,8 @@
             var deffered = $q.defer();
 
             $log.info("addTask: ", task);
-            backend.addOrUpdateMarker(function(result) {
-                if(result.getReturn()) {
+            backend.addOrUpdateMarker(function (result) {
+                if (result.getReturn()) {
                     $log.info("addTask_success: ", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -567,7 +609,7 @@
                     deffered.reject("Error adding task");
                 }
 
-            },  function (error) {
+            }, function (error) {
                 $log.error("addTask_fail: ", error);
                 deffered.reject(error);
             }, task);
@@ -579,8 +621,8 @@
             var deffered = $q.defer();
 
             $log.info("addHtml: ", html);
-            backend.addHtml(function(result) {
-                if(result.getReturn()) {
+            backend.addHtml(function (result) {
+                if (result.getReturn()) {
                     $log.info("addHtml_success: ", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -588,7 +630,7 @@
                     deffered.reject("Error adding html");
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("addHtml_fail: ", error);
                 deffered.reject(error);
             }, html);
@@ -600,8 +642,8 @@
             var deffered = $q.defer();
 
             $log.info("addTreePart: ", treePart);
-            backend.addOrUpdateTreePart(function(result) {
-                if(result.getReturn()) {
+            backend.addOrUpdateTreePart(function (result) {
+                if (result.getReturn()) {
                     $log.info("addTreePart_success: ", result.getReturn());
                     deffered.resolve(result.getReturn());
                 } else {
@@ -609,7 +651,7 @@
                     deffered.reject("Error adding treePart");
                 }
 
-            }, function(error) {
+            }, function (error) {
                 $log.error("addTreePart_fail: ", error);
                 deffered.reject(error);
             }, treePart);
@@ -680,14 +722,35 @@
             return deffered.promise;
         }
 
+        function addDeck(deck) {
+            var deffered = $q.defer();
+
+            $log.info("addDeck: ", deck);
+            backend.addDeck(function (result) {
+                if (result.getReturn()) {
+                    $log.info("addDeck_success: ", result.getReturn());
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("addDeck_fail: ", result.getReturn());
+                    deffered.reject();
+                }
+
+            }, function (error) {
+                $log.error("addDeck_fail: ", error);
+                deffered.reject(error);
+            }, deck);
+
+            return deffered.promise;
+        }
+
         function updateUser(user) {
             var deffered = $q.defer();
 
             $log.info("updateUser: ", user);
-            backend.updateUser(function(result) {
+            backend.updateUser(function (result) {
                 $log.info("updateUser_success: ", result);
                 deffered.resolve(result.getReturn());
-            }, function(error) {
+            }, function (error) {
                 $log.error("updateUser_fail: ", error);
                 deffered.reject(error);
             }, user);
@@ -699,10 +762,10 @@
             var deffered = $q.defer();
 
             $log.info("updateQuest: ", quest);
-            backend.updateEditorQuest(function(result) {
+            backend.updateEditorQuest(function (result) {
                 $log.info("updateQuest_success: ", quest);
                 deffered.resolve(result.getReturn());
-            }, function(error) {
+            }, function (error) {
                 $log.error("updateQuest_fail: ", error);
                 deffered.reject(error);
             }, quest);
@@ -714,8 +777,8 @@
             var deffered = $q.defer();
 
             $log.info("updateTask: ", task);
-            backend.addOrUpdateMarker(function(result) {
-                if(result.getReturn()) {
+            backend.addOrUpdateMarker(function (result) {
+                if (result.getReturn()) {
                     $log.info("updateTask_success: ", result);
                     deffered.resolve(result.getReturn());
                 } else {
@@ -723,7 +786,7 @@
                     deffered.reject("Error updating task");
                 }
 
-            },  function (error) {
+            }, function (error) {
                 $log.error("updateTask_fail: ", error);
                 deffered.reject(error);
             }, task);
@@ -736,8 +799,8 @@
             var deffered = $q.defer();
 
             $log.info("updateHtml: ", html);
-            backend.updateHtml(function(result) {
-                if(result.getReturn()) {
+            backend.updateHtml(function (result) {
+                if (result.getReturn()) {
                     $log.info("updateHtml: ", result);
                     deffered.resolve(result.getReturn());
                 } else {
@@ -745,7 +808,7 @@
                     deffered.reject("Error updating Html");
                 }
 
-            },  function (error) {
+            }, function (error) {
                 $log.error("updateHtml_fail: ", error);
                 deffered.reject(error);
             }, html);
@@ -818,14 +881,35 @@
             return deffered.promise;
         }
 
+        function updateDeck(deck) {
+            var deffered = $q.defer();
+
+            $log.info("updateDeck: ", card);
+            backend.updateDeck(function (result) {
+                if (result.getReturn()) {
+                    $log.info("updateDeck: ", result);
+                    deffered.resolve(result.getReturn());
+                } else {
+                    $log.error("updateDeck_fail: ", result);
+                    deffered.reject("Error updating Card");
+                }
+
+            }, function (error) {
+                $log.error("updateDeck_fail: ", error);
+                deffered.reject(error);
+            }, deck);
+
+            return deffered.promise;
+        }
+
         function deleteQuest(questId) {
             var deffered = $q.defer();
 
             $log.info("deleteQuest: ", questId);
-            backend.deleteQuest(function(result) {
+            backend.deleteQuest(function (result) {
                 $log.info("deleteQuest_success");
                 deffered.resolve(result);
-            }, function(error) {
+            }, function (error) {
                 $log.error("deleteQuest_fail: ", error);
                 deffered.reject(error);
             }, questId);
@@ -839,10 +923,10 @@
             var deffered = $q.defer();
 
             $log.info("deleteTask: ", taskId);
-            backend.deleteMarker(function(result) {
+            backend.deleteMarker(function (result) {
                 $log.info("deleteTask_success: ");
                 deffered.resolve(result);
-            }, function(error) {
+            }, function (error) {
                 $log.error("deleteTask_fail: ", error);
                 deffered.reject(error);
             }, taskId);
@@ -855,10 +939,10 @@
             var deffered = $q.defer();
 
             $log.info("deleteTreePart: ", treePartId);
-            backend.deleteTreePart(function(result) {
+            backend.deleteTreePart(function (result) {
                 $log.info("deleteTreePart_success: ");
                 deffered.resolve();
-            }, function(error) {
+            }, function (error) {
                 $log.error("deleteTreePart_fail: ", error);
             }, treePartId);
 
@@ -871,12 +955,27 @@
             deffered.resolve();
 
             /*$log.info("deleteHtml: ", htmlId);
-            backend.deleteHtml(function(result) {
-                $log.info("deleteHtml_success: ");
+             backend.deleteHtml(function(result) {
+             $log.info("deleteHtml_success: ");
+             deffered.resolve();
+             }, function(error) {
+             $log.error("deleteHtml_fail: ", error);
+             }, htmlId);*/
+
+            return deffered.promise;
+        }
+
+        function deleteDeck(deckId) {
+
+            var deffered = $q.defer();
+
+            $log.info("deleteDeck: ", deckId);
+            backend.deleteDeck(function (result) {
+                $log.info("deleteDeck_success: ");
                 deffered.resolve();
-            }, function(error) {
-                $log.error("deleteHtml_fail: ", error);
-            }, htmlId);*/
+            }, function (error) {
+                $log.error("deleteDeck_fail: ", error);
+            }, deckId);
 
             return deffered.promise;
         }

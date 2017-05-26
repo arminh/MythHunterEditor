@@ -19,8 +19,10 @@
         vm.starsEmpty = new Array(MAX_STARS);
         vm.filterStars = -1;
         vm.searchText = "";
+        vm.deckCreation = false;
 
         vm.createCard = createCard;
+        vm.createDeck = createDeck;
         vm.starsFilter = starsFilter;
         vm.contentFilter = contentFilter;
         vm.filterStarClicked = filterStarClicked;
@@ -71,6 +73,11 @@
 
         function createCard() {
             CollectionService.createCard();
+        }
+
+        function createDeck() {
+            vm.deckCreation = true;
+            CollectionService.createDeck(vm.collection);
         }
     }
 

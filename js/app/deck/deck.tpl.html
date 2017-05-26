@@ -1,0 +1,9 @@
+<div class="deck-container">
+    <div class="deck-header">
+        <span>{{deckCtrl.deck.name}}</span>
+    </div>
+    <div class="deck-card-list" ng-if="deckCtrl.showCardList">
+        Card List
+        <span ng-repeat="card in deckCtrl.deck.getCards()">{{card.getName()}}</span>
+    </div>
+</div>

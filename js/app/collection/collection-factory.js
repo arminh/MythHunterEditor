@@ -14,13 +14,16 @@
     /* @ngInject */
     function CollectionFactory($q, $log) {
         $log = $log.getInstance("Collection", debugging);
-        function Collection(cards) {
-            this.cards = cards;
+        function Collection(cards, createdCards, decks) {
+            this.cards = cards.concat(createdCards);
+            this.decks = decks;
         }
 
         Collection.prototype = {
             addCard: addCard,
             loadCards: loadCards,
+            addDeck: addDeck,
+            loadDecks: loadDecks,
             getCards: getCards,
             getCard: getCard,
             selectCard: selectCard,
@@ -46,12 +49,32 @@
                 }
             }
 
-            $q.all(cardPromises).then(function (results) {
-                for(var j = 0; j < results.length; j++) {
-                    results[j].initActions(actions);
-                }
+            return $q.all(cardPromises).then(function (results) {
                 $log.info("loadCards_success", results);
+                return null;
             });
+        }
+
+        function addDeck(deck) {
+            this.decks.push(deck);
+        }
+
+        function loadDecks() {
+            var deckPromises = [];
+
+            $log.info("loadDecks");
+            for (var i = 0; i < this.decks.length; i++) {
+                if(!this.decks[i].getLoaded()) {
+                    var deckPromise = this.decks[i].getFromRemote();
+                    deckPromises.push(deckPromise);
+                }
+            }
+
+            return $q.all(deckPromises).then(function (results) {
+                $log.info("loadDecks_success", results);
+                return null;
+            });
+
         }
 
         function getCards() {

@@ -30,6 +30,7 @@
         'action',
         'questTree',
         'reward',
-        'enemy'
+        'enemy',
+        'deck'
     ]);
 })();
