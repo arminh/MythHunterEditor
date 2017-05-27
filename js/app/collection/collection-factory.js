@@ -9,10 +9,10 @@
         .module('collection')
         .factory('Collection', CollectionFactory);
 
-    CollectionFactory.$inject = ["$q", "$log"];
+    CollectionFactory.$inject = ["$q", "$log", "ActionService"];
 
     /* @ngInject */
-    function CollectionFactory($q, $log) {
+    function CollectionFactory($q, $log, ActionService) {
         $log = $log.getInstance("Collection", debugging);
         function Collection(cards, createdCards, decks) {
             this.cards = cards.concat(createdCards);
@@ -43,14 +43,28 @@
 
             $log.info("loadCards");
             for (var i = 0; i < this.cards.length; i++) {
-                if(!this.cards[i].getLoaded()) {
-                    var cardPromise = this.cards[i].getFromRemote();
+                if (!this.cards[i].getLoaded()) {
+                    var cardPromise = this.cards[i].getFromRemote().then(setActions.bind(this.cards[i]));
                     cardPromises.push(cardPromise);
                 }
             }
 
+            function setActions() {
+                var actionIds = this.getActionIds();
+                for (var i = 0; i < actionIds.length; i++) {
+                    var action = ActionService.getAction(actionIds[i]);
+                    if(action) {
+                        this.addAction(action);
+                    } else {
+                        $log.error("Card action not found: ", actionIds[i]);
+                    }
+                }
+                return this;
+            }
+
             return $q.all(cardPromises).then(function (results) {
                 $log.info("loadCards_success", results);
+
                 return null;
             });
         }
@@ -64,7 +78,7 @@
 
             $log.info("loadDecks");
             for (var i = 0; i < this.decks.length; i++) {
-                if(!this.decks[i].getLoaded()) {
+                if (!this.decks[i].getLoaded()) {
                     var deckPromise = this.decks[i].getFromRemote();
                     deckPromises.push(deckPromise);
                 }
@@ -82,23 +96,23 @@
         }
 
         function getCard(cardId) {
-            for(var i = 0; i < this.cards.length; i++) {
-                if(this.cards[i].remoteId == cardId) {
+            for (var i = 0; i < this.cards.length; i++) {
+                if (this.cards[i].remoteId == cardId) {
                     return this.cards[i];
                 }
             }
         }
 
         function selectCard(cardId) {
-            for(var i = 0; i < this.cards.length; i++) {
-                if(this.cards[i].remoteId == cardId) {
+            for (var i = 0; i < this.cards.length; i++) {
+                if (this.cards[i].remoteId == cardId) {
                     this.cards[i].selected = true;
                 }
             }
         }
 
         function clearSelections() {
-            for(var i = 0; i < this.cards.length; i++) {
+            for (var i = 0; i < this.cards.length; i++) {
                 this.cards[i].selected = false;
             }
         }

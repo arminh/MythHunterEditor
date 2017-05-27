@@ -17,6 +17,7 @@
 
         function Action() {
             this.remoteId = 0;
+            this.forCardType = null;
             this.names = [];
             this.descriptions = [];
             this.starCosts = 0.0;
@@ -27,7 +28,8 @@
 
             addName: addName,
             addDescription: addDescription,
-            getRemoteId: getRemoteId
+            getRemoteId: getRemoteId,
+            getForCardType: getForCardType
         };
 
         return (Action);
@@ -39,6 +41,7 @@
             this.names = remoteAction.getNames();
             this.descriptions = remoteAction.getDescriptions();
             this.starCosts = remoteAction.getStarCosts();
+            this.forCardType = remoteAction.getForCardType();
         }
 
         function addName(langKey, value) {
@@ -57,6 +60,10 @@
 
         function getRemoteId() {
             return this.remoteId;
+        }
+
+        function getForCardType() {
+            return this.forCardType;
         }
     }
 

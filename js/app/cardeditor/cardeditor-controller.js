@@ -29,7 +29,7 @@
         ////////////////
 
         function activate() {
-            CardEditorService.getActions().then(function (actions) {
+            CardEditorService.getMonsterActions().then(function (actions) {
                 vm.actions = actions;
             });
             calculateStarCount();

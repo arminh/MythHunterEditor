@@ -15,7 +15,7 @@
     function CardEditorService($q, ActionService, $mdDialog, MAX_STARS) {
 
         var service = {
-            getActions: getActions,
+            getMonsterActions: getMonsterActions,
             calculateStarCount: calculateStarCount,
             isActionAffordable: isActionAffordable,
             confirm: confirm,
@@ -25,8 +25,8 @@
 
         ////////////////
 
-        function getActions() {
-            return $q.when(ActionService.getActions());
+        function getMonsterActions() {
+            return $q.when(ActionService.getMonsterActions());
         }
 
         function calculateStarCount(attack, life, actions) {
