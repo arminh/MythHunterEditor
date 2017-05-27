@@ -21,11 +21,16 @@
         vm.searchText = "";
         vm.deckCreation = false;
 
+        vm.collectionShown = true;
+        vm.createdCardsShown = false;
+
         vm.createCard = createCard;
         vm.createDeck = createDeck;
         vm.starsFilter = starsFilter;
         vm.contentFilter = contentFilter;
         vm.filterStarClicked = filterStarClicked;
+        vm.showCreatedCards = showCreatedCards;
+        vm.showCollection = showCollection;
         vm.showCard = CollectionService.showCard;
 
         activate();
@@ -69,6 +74,16 @@
                 vm.starsFull = new Array(filterStars);
                 vm.starsEmpty = new Array(MAX_STARS - filterStars);
             }
+        }
+
+        function showCollection() {
+            vm.collectionShown = true;
+            vm.createdCardsShown = false;
+        }
+
+        function showCreatedCards() {
+            vm.collectionShown = false;
+            vm.createdCardsShown = true;
         }
 
         function createCard() {

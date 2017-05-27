@@ -1,40 +1,52 @@
 <div id="collection-container" flex-offset="10" flex="80" layout="row">
     <div flex="80" layout="column">
-        <div class="collection-filter-container">
+        <div class="collection-filter-container" layout="row">
             <divs>Filters</divs>
-            <div ng-repeat="star in collectionCtrl.starsFull track by $index" ng-click="collectionCtrl.filterStarClicked($index+1, true)"
+            <div ng-repeat="star in collectionCtrl.starsFull track by $index"
+                 ng-click="collectionCtrl.filterStarClicked($index+1, true)"
                  class="collection-filter-star-container">
                 <img src="media/star_full.png" class="collection-filter-star"/>
                 <div class="collection-filter-star-label"><span>{{$index+1}}</span></div>
             </div>
-            <div ng-repeat="star in collectionCtrl.starsEmpty track by $index" ng-click="collectionCtrl.filterStarClicked($index+1 , false)"
+            <div ng-repeat="star in collectionCtrl.starsEmpty track by $index"
+                 ng-click="collectionCtrl.filterStarClicked($index+1 , false)"
                  class="collection-filter-star-container">
                 <img src="media/star_empty.png" class="collection-filter-star"/>
-                <div class="collection-filter-star-label"><span>{{$index + collectionCtrl.starsFull.length + 1}}</span></div>
+                <div class="collection-filter-star-label"><span>{{$index + collectionCtrl.starsFull.length + 1}}</span>
+                </div>
             </div>
             <md-input-container class="collection-filter-content">
                 <label>Filter</label>
                 <input type="text" name="name" ng-model="collectionCtrl.searchText"/>
             </md-input-container>
+            <span flex></span>
+            <md-tabs style="width: 350px" md-selected="selectedIndex">
+                <md-tab label="Collection" name="collection" ng-click="collectionCtrl.showCollection()"></md-tab>
+                <md-tab label="Created cards" name="created" ng-click="collectionCtrl.showCreatedCards()"></md-tab>
+            </md-tabs>
         </div>
 
         <div class="created-cards-preview" flex>
-            <div class="collection-card-add">
+            <div class="collection-card-add" ng-if="collectionCtrl.createdCardsShown" >
                 <md-button class="md-raised" ng-click="collectionCtrl.createCard()">
                     <div style="position:relative; height: 280px; width:165px;">
                         <img src="media/card/card_placeholder.png" class="card-add" width="100%"/>
                     </div>
                     <div class="card-add-icon">
-                        <img src="media/add_icon.svg" />
+                        <img src="media/add_icon.svg"/>
                     </div>
 
                     <md-tooltip md-direction="top">Create new card</md-tooltip>
                 </md-button>
             </div>
 
-            <div ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter()"
+            <div ng-show="collectionCtrl.collectionShown" ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter()"
                  class="collection-card-preview-container" ng-click="collectionCtrl.showCard(card)">
-                <card class="collection-card" card="card" image="card.image" edit="false" menu="true"></card>
+                <card class="collection-card" card="card" edit="false" menu="true"></card>
+            </div>
+            <div ng-show="collectionCtrl.createdCardsShown" ng-repeat="card in collectionCtrl.collection.createdCards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter()"
+                 class="collection-card-preview-container" ng-click="collectionCtrl.showCard(card)">
+                <card class="collection-card" card="card" edit="false" menu="false"></card>
             </div>
         </div>
 

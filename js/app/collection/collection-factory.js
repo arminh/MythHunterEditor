@@ -15,18 +15,20 @@
     function CollectionFactory($q, $log, ActionService) {
         $log = $log.getInstance("Collection", debugging);
         function Collection(cards, createdCards, decks) {
-            this.cards = cards.concat(createdCards);
+            this.cards = cards;
+            this.createdCards = createdCards;
             this.decks = decks;
         }
 
         Collection.prototype = {
-            addCard: addCard,
+            addCreatedCard: addCreatedCard,
             loadCards: loadCards,
             addDeck: addDeck,
             loadDecks: loadDecks,
             getCards: getCards,
-            getCard: getCard,
-            selectCard: selectCard,
+            getCreatedCards: getCreatedCards,
+            getCreatedCard: getCreatedCard,
+            selectCreatedCard: selectCreatedCard,
             clearSelections: clearSelections
         };
 
@@ -34,8 +36,8 @@
 
         ////////////////
 
-        function addCard(card) {
-            this.cards.push(card);
+        function addCreatedCard(card) {
+            this.createdCards.push(card);
         }
 
         function loadCards(actions) {
@@ -45,6 +47,13 @@
             for (var i = 0; i < this.cards.length; i++) {
                 if (!this.cards[i].getLoaded()) {
                     var cardPromise = this.cards[i].getFromRemote().then(setActions.bind(this.cards[i]));
+                    cardPromises.push(cardPromise);
+                }
+            }
+
+            for (var i = 0; i < this.createdCards.length; i++) {
+                if (!this.createdCards[i].getLoaded()) {
+                    var cardPromise = this.createdCards[i].getFromRemote().then(setActions.bind(this.createdCards[i]));
                     cardPromises.push(cardPromise);
                 }
             }
@@ -95,18 +104,22 @@
             return this.cards;
         }
 
-        function getCard(cardId) {
-            for (var i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].remoteId == cardId) {
-                    return this.cards[i];
+        function getCreatedCards() {
+            return this.createdCards;
+        }
+
+        function getCreatedCard(cardId) {
+            for (var i = 0; i < this.createdCards.length; i++) {
+                if (this.createdCards[i].remoteId == cardId) {
+                    return this.createdCards[i];
                 }
             }
         }
 
-        function selectCard(cardId) {
-            for (var i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].remoteId == cardId) {
-                    this.cards[i].selected = true;
+        function selectCreatedCard(cardId) {
+            for (var i = 0; i < this.createdCards.length; i++) {
+                if (this.createdCards[i].remoteId == cardId) {
+                    this.createdCards[i].selected = true;
                 }
             }
         }

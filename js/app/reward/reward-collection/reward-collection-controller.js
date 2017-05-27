@@ -33,8 +33,8 @@
             function loadCollection(actions) {
                 vm.collection = CollectionService.loadCollection(actions);
                 for(var i = 0; i < vm.rewardIds.length; i++) {
-                    vm.collection.selectCard(vm.rewardIds[i]);
-                    vm.selectedCards.push(vm.collection.getCard(vm.rewardIds[i]));
+                    vm.collection.selectCreatedCard(vm.rewardIds[i]);
+                    vm.selectedCards.push(vm.collection.getCreatedCard(vm.rewardIds[i]));
                     vm.numSelected++;
                 }
                 if(vm.selectedCards.length > 0) {

@@ -39,7 +39,7 @@
     <span class="card-input card-text" placeholder="Enter card text ..."
           readonly="readonly">{{cardCtrl.card.description}}</span>
 
-    <div class="card-control-menu" ng-show="cardCtrl.menu && cardCtrl.showMenu">
+    <div class="card-control-menu" ng-show="cardCtrl.menu">
         <md-button aria-label="edit" class="md-icon-button" ng-click="cardCtrl.editCard()">
             <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="top">
                 Edit card

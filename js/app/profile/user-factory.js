@@ -217,7 +217,7 @@
 
         function addCreatedCard(card) {
             $log.info("addCreatedCard:", card);
-            this.collection.addCard(card);
+            this.collection.addCreatedCard(card);
         }
 
         function backup() {
