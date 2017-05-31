@@ -4,7 +4,7 @@
         <input name="deckName" ng-model="deckCtrl.deck.name" class="deck-name">
     </md-input-container>
 </div>
-<div ng-repeat="deckCard in deckCtrl.deck.cards" class="deck-card">
+<div ng-repeat="deckCard in deckCtrl.deck.cards" class="deck-card" ng-dblclick="deckCtrl.removeCard(deckCard)">
     <div class="deck-card-background" ng-style="deckCard.style"></div>
     <div class="deck-card-text"><span>{{deckCard.card.getName()}}</span><span ng-if="deckCard.amount > 1"> x{{deckCard.amount}}</span></div>
 </div>

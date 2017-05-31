@@ -144,9 +144,13 @@
         }
 
         function removeCard(cardId) {
-            for (var i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].getRemoteId() == cardId) {
-                    this.cards.splice(i, 1);
+            for(var i = 0; i < this.cards.length; i++) {
+                if(this.cards[i].id = cardId) {
+                    if(this.cards[i].amount > 1) {
+                        this.cards[i].amount--;
+                    } else {
+                        this.cards.splice(i, 1);
+                    }
                     break;
                 }
             }

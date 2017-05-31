@@ -14,30 +14,14 @@
     /* @ngInject */
     function DeckController(CollectionService) {
         var vm = this;
-        vm.showCardList = false;
 
-        vm.open = open;
-        vm.close = close;
-
-        activate();
+        vm.removeCard = removeCard;
 
         ////////////////
 
-        function activate() {
-
+        function removeCard(card) {
+            vm.deck.removeCard(card.id);
         }
-
-        // function open() {
-        //     if(!vm.showCardList && !vm.deck.getLoaded()) {
-        //         var collection = vm.user.getCollection();
-        //         vm.deck.loadCards(collection.getCards());
-        //     }
-        //     vm.showCardList = true;
-        // }
-        //
-        // function close() {
-        //     vm.showCardList = false;
-        // }
     }
 
 
