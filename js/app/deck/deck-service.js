@@ -23,8 +23,6 @@
         ////////////////
 
         function createDeck() {
-
-
             var deck = new Deck();
             deck.setName("New deck");
             return deck;

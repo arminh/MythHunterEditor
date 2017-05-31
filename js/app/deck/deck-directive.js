@@ -17,6 +17,7 @@
             templateUrl: "js/app/deck/deck.tpl.html",
             bindToController: {
                 deck: "=",
+                user: "=",
                 control: "="
             },
             controller: "DeckController",

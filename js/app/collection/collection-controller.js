@@ -9,45 +9,47 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["CollectionService", "MAX_STARS", "user"];
+    CollectionController.$inject = ["$scope", "CollectionService", "MAX_STARS", "user"];
 
     /* @ngInject */
-    function CollectionController(CollectionService, MAX_STARS, user) {
+    function CollectionController($scope, CollectionService, MAX_STARS, user) {
         var vm = this;
+
+        vm.user = user;
         vm.collection = null;
         vm.starsFull = new Array(0);
         vm.starsEmpty = new Array(MAX_STARS);
         vm.filterStars = -1;
         vm.searchText = "";
-        vm.deckCreation = false;
 
         vm.collectionShown = true;
         vm.createdCardsShown = false;
+        vm.editingDeck = false;
+        vm.currentDeck = null;
 
         vm.createCard = createCard;
         vm.createDeck = createDeck;
+        vm.addCardToDeck = addCardToDeck;
         vm.starsFilter = starsFilter;
         vm.contentFilter = contentFilter;
         vm.filterStarClicked = filterStarClicked;
         vm.showCreatedCards = showCreatedCards;
         vm.showCollection = showCollection;
-        vm.showCard = CollectionService.showCard;
+
+        vm.openDeck = openDeck;
+        vm.closeDeck = closeDeck;
 
         activate();
 
         ////////////////
 
         function activate() {
-            CollectionService.init(user).then(getCollection);
-
-            function getCollection(actions) {
-                vm.collection = CollectionService.loadCollection(actions);
-            }
+            vm.collection = CollectionService.loadCollection(user);
         }
 
         function starsFilter() {
-            return function(card){
-                if(vm.filterStars < 0) {
+            return function (card) {
+                if (vm.filterStars < 0) {
                     return true;
                 } else {
                     return (card.getStars() == vm.filterStars);
@@ -56,16 +58,16 @@
         }
 
         function contentFilter() {
-            return function(card){
+            return function (card) {
                 return card.getName().indexOf(vm.searchText) > -1 || card.getDescription().indexOf(vm.searchText) > -1;
             }
         }
 
-        function filterStarClicked(filterStars, fullStars){
-            if(!fullStars) {
+        function filterStarClicked(filterStars, fullStars) {
+            if (!fullStars) {
                 filterStars += vm.starsFull.length;
             }
-            if(filterStars == vm.filterStars) {
+            if (filterStars == vm.filterStars) {
                 vm.filterStars = -1;
                 vm.starsFull = new Array(0);
                 vm.starsEmpty = new Array(MAX_STARS);
@@ -91,8 +93,35 @@
         }
 
         function createDeck() {
-            vm.deckCreation = true;
-            CollectionService.createDeck(vm.collection);
+            vm.currentDeck = CollectionService.createDeck(vm.collection);
+        }
+
+        function addCardToDeck(card) {
+            if (vm.currentDeck) {
+                vm.currentDeck.addCard(card);
+            }
+        }
+
+        function openDeck(deck) {
+
+            vm.currentDeck = deck;
+            var decks = vm.collection.getDecks();
+
+            for (var i = 0; i < decks.length; i++) {
+                decks[i].setVisible(false);
+            }
+
+            vm.currentDeck.setVisible(true);
+        }
+
+        function closeDeck() {
+            vm.currentDeck.closeDeck();
+
+            var decks = vm.collection.getDecks();
+            for (var i = 0; i < decks.length; i++) {
+                decks[i].setVisible(true);
+            }
+            vm.currentDeck = null;
         }
     }
 

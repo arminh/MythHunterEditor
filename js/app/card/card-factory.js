@@ -62,6 +62,7 @@
             getLoaded: getLoaded,
             getSelected: getSelected,
             setSelected: setSelected,
+            getLoadPromise: getLoadPromise,
             setLoadPromise: setLoadPromise
         };
 
@@ -276,6 +277,10 @@
 
         function setSelected(value) {
             this.selected = value;
+        }
+
+        function getLoadPromise() {
+            return this.loadPromise;
         }
 
         function setLoadPromise(promise) {

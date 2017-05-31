@@ -9,17 +9,15 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "$q", "$timeout", "CardService", "ActionService", "DeckService"];
+    CollectionService.$inject = ["$log", "CardService", "DeckService"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $timeout, CardService, ActionService, DeckService) {
+    function CollectionService($log, CardService, DeckService) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var user = null;
 
         var service = {
-            init: init,
-            getCreatedCards: getCreatedCards,
             loadCollection: loadCollection,
             createCard: createCard,
             createDeck: createDeck
@@ -28,21 +26,11 @@
 
         ////////////////
 
-        function init(currentUser) {
-            user = currentUser;
-            return $q.when(ActionService.getActions());
-        }
-
-        function loadCollection(actions) {
+        function loadCollection(user) {
 
             var collection = user.getCollection();
-            collection.loadCards(actions);
-            collection.loadDecks();
+            collection.load();
             return collection;
-        }
-
-        function getCreatedCards() {
-            return user.getCreatedCards();
         }
 
         function createCard() {
@@ -52,11 +40,7 @@
         function createDeck(collection) {
             var deck = DeckService.createDeck();
             collection.addDeck(deck);
-            $timeout(showCardList);
-
-            function showCardList() {
-                deck.showCardList();
-            }
+            return deck;
         }
     }
 

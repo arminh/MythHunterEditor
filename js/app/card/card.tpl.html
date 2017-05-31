@@ -1,4 +1,4 @@
-<div class="card-container" ng-mouseenter="cardCtrl.showMenu = true" ng-mouseleave="cardCtrl.showMenu = false" ng-touch-
+<div class="card-container" ng-mouseenter="cardCtrl.showMenu = true" ng-mouseleave="cardCtrl.showMenu = false"
      cg-busy="{promise:cardCtrl.card.loadPromise, message:'Loading card...', minDuration:1000}"
      ng-class="{'card-selected': cardCtrl.card.selected}">
     <div class="card-image-bounds">
@@ -39,7 +39,7 @@
     <span class="card-input card-text" placeholder="Enter card text ..."
           readonly="readonly">{{cardCtrl.card.description}}</span>
 
-    <div class="card-control-menu" ng-show="cardCtrl.menu">
+    <div class="card-control-menu" ng-show="cardCtrl.menu && cardCtrl.showMenu">
         <md-button aria-label="edit" class="md-icon-button" ng-click="cardCtrl.editCard()">
             <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="top">
                 Edit card

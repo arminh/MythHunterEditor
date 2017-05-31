@@ -1,9 +1,13 @@
-<div class="deck-container">
-    <div class="deck-header">
-        <span>{{deckCtrl.deck.name}}</span>
+<div class="deck-container"  layout="column">
+    <div class="deck-header" cg-busy="{promise:deckCtrl.deck.loadPromise, message:'Loading deck...', minDuration:1000}">
+        <md-button class="md-raised">
+            <md-label>{{deckCtrl.deck.name}}</md-label>
+        </md-button>
     </div>
-    <div class="deck-card-list" ng-if="deckCtrl.showCardList">
-        Card List
-        <span ng-repeat="card in deckCtrl.deck.getCards()">{{card.getName()}}</span>
+    <div class="deck-card-list" ng-if="deckCtrl.deck.open" flex>
+        <div ng-repeat="deckCard in deckCtrl.deck.getCards()" class="deck-card">
+            <div class="deck-card-background" ng-style="deckCard.style"></div>
+            <div class="deck-card-text">{{deckCard.card.getName()}}</div>
+        </div>
     </div>
 </div>

@@ -21,10 +21,10 @@
         }
 
         Collection.prototype = {
+            load: load,
             addCreatedCard: addCreatedCard,
-            loadCards: loadCards,
             addDeck: addDeck,
-            loadDecks: loadDecks,
+            getDecks: getDecks,
             getCards: getCards,
             getCreatedCards: getCreatedCards,
             getCreatedCard: getCreatedCard,
@@ -36,11 +36,13 @@
 
         ////////////////
 
-        function addCreatedCard(card) {
-            this.createdCards.push(card);
+
+
+        function load() {
+            return $q.when(ActionService.getActions()).then(loadCards.bind(this));
         }
 
-        function loadCards(actions) {
+        function loadCards() {
             var cardPromises = [];
 
             $log.info("loadCards");
@@ -71,24 +73,20 @@
                 return this;
             }
 
+            loadDecks.bind(this)(this.cards);
+
             return $q.all(cardPromises).then(function (results) {
                 $log.info("loadCards_success", results);
-
-                return null;
             });
         }
 
-        function addDeck(deck) {
-            this.decks.push(deck);
-        }
-
-        function loadDecks() {
+        function loadDecks(ownedCards) {
             var deckPromises = [];
 
             $log.info("loadDecks");
             for (var i = 0; i < this.decks.length; i++) {
                 if (!this.decks[i].getLoaded()) {
-                    var deckPromise = this.decks[i].getFromRemote();
+                    var deckPromise = this.decks[i].getFromRemote(ownedCards);
                     deckPromises.push(deckPromise);
                 }
             }
@@ -97,7 +95,14 @@
                 $log.info("loadDecks_success", results);
                 return null;
             });
+        }
 
+        function addCreatedCard(card) {
+            this.createdCards.push(card);
+        }
+
+        function addDeck(deck) {
+            this.decks.push(deck);
         }
 
         function getCards() {
@@ -128,6 +133,10 @@
             for (var i = 0; i < this.cards.length; i++) {
                 this.cards[i].selected = false;
             }
+        }
+
+        function getDecks() {
+            return this.decks;
         }
     }
 

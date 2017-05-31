@@ -89,7 +89,7 @@
     width: 50px;
 }
 
-.created-cards-preview {
+.collection-cards-preview {
     border-radius: 10px;
     padding: 10px;
     background-color: #eeeeee;
@@ -100,13 +100,22 @@
 .collection-decks-container {
     border-radius: 10px;
     background-color: #eeeeee;
-    height: 100%;
     margin-left: 20px;
     padding: 5px;
+    height: 100%;
 }
 
-.collection-decks-add > .md-button {
+.collection-deck-container {
+    height:100%;
+    overflow: auto;
+}
+
+.collection-deck-button {
+    margin-bottom: 5px;
+}
+
+.collection-deck-button> .md-button {
     margin: 0;
     width: 100%;
-    height: 60px;
+    height: 50px;
 }
