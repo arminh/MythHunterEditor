@@ -97,7 +97,7 @@
         }
 
         function addCardToDeck(card) {
-            if (vm.currentDeck) {
+            if (vm.currentDeck && card.getLoaded()) {
                 vm.currentDeck.addCard(card);
             }
         }

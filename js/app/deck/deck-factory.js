@@ -9,10 +9,10 @@
         .module('deck')
         .factory('Deck', DeckFactory);
 
-    DeckFactory.$inject = ["$log", "$q", "BackendService"];
+    DeckFactory.$inject = ["$log", "$q", "BackendService", "MAX_CARD_IN_DECK", "MAX_DECK_CARDS"];
 
     /* @ngInject */
-    function DeckFactory($log, $q, BackendService) {
+    function DeckFactory($log, $q, BackendService, MAX_CARD_IN_DECK, MAX_DECK_CARDS) {
         $log = $log.getInstance("Deck", debugging);
 
         function Deck() {
@@ -112,7 +112,35 @@
         }
 
         function addCard(card) {
-            this.cards.push(card);
+            $log.info("addCard", card);
+            if(this.cards.length >= MAX_DECK_CARDS) {
+                $log.info("addCard_fail: Deck full");
+                return;
+            }
+
+            for (var i = 0; i < this.cards.length; i++) {
+                if(this.cards[i].id == card.getRemoteId()) {
+                    if(this.cards[i].amount < MAX_CARD_IN_DECK) {
+                        this.cards[i].amount++;
+                        $log.info("addCard_success", this.cards[i]);
+                    } else {
+                        $log.info("addCard_fail: Maximum amount of this card in deck reached");
+                    }
+                    return;
+                }
+            }
+
+            var deckCard = new DeckCard(card.getRemoteId(), 1);
+            deckCard.card = card;
+            deckCard.style["background-image"] =
+                "url(data:"
+                + card.getImage().getType()
+                + ";base64,"
+                + card.getImage().getImage()
+                + ")";
+            this.cards.push(deckCard);
+            $log.info("addCard_success", deckCard);
+            console.log(this);
         }
 
         function removeCard(cardId) {

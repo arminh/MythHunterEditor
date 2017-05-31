@@ -73,16 +73,10 @@
             </div>
 
             <div ng-if="collectionCtrl.currentDeck" class="collection-deck-container" flex>
-                <div class="deck-header">
-                    <span>{{collectionCtrl.currentDeck.name}}</span>
-                </div>
-                <div ng-repeat="deckCard in collectionCtrl.currentDeck.getCards()" class="deck-card">
-                    <div class="deck-card-background" ng-style="deckCard.style"></div>
-                    <div class="deck-card-text">{{deckCard.card.getName()}}</div>
-                </div>
+                <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck"></deck>
             </div>
 
-            <div class="collection-deck-button">
+            <div ng-if="collectionCtrl.currentDeck" class="collection-deck-button">
                 <md-button class="md-raised" ng-click="collectionCtrl.closeDeck()">
                     <md-label>Close</md-label>
                 </md-button>

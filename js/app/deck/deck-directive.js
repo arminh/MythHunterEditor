@@ -17,8 +17,7 @@
             templateUrl: "js/app/deck/deck.tpl.html",
             bindToController: {
                 deck: "=",
-                user: "=",
-                control: "="
+                user: "="
             },
             controller: "DeckController",
             controllerAs: 'deckCtrl',
@@ -29,16 +28,6 @@
         return directive;
 
         function link(scope, element, attrs, vm) {
-            vm.control.showCardList = showCardList;
-            vm.control.hideCardList = hideCardList;
-
-            function showCardList() {
-                vm.showCardList = true;
-            }
-
-            function hideCardList() {
-                vm.showCardList = false;
-            }
         }
     }
 

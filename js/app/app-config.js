@@ -25,7 +25,9 @@ var debugging = true;
             defaultTimeout: 8000, // 8 seconds
             defaultMaximumAge: 0 // 0 seconds, no-cache
         })
-        .constant('MAX_STARS', 10);
+        .constant('MAX_STARS', 10)
+        .constant('MAX_CARD_IN_DECK', 2)
+        .constant('MAX_DECK_CARDS', 30);
 
     ////////////////
 
