@@ -27,6 +27,7 @@
             this.open = false;
             this.visible = true;
             this.changed = false;
+            this.complete = false;
             this.droppedCard = {};
         }
 
@@ -49,7 +50,8 @@
             getCards: getCards,
             setCards: setCards,
             getLoaded: getLoaded,
-            setVisible: setVisible
+            setVisible: setVisible,
+            getComplete: getComplete
         };
 
         return (Deck);
@@ -106,6 +108,8 @@
                 }
 
                 this.loaded = true;
+                this.complete = this.cards.length >= 20;
+
                 $log.info("loadCards_success", this.cards);
                 return this.cards;
             }.bind(this));
@@ -141,6 +145,7 @@
                 + card.getImage().getImage()
                 + ")";
             this.cards.push(deckCard);
+            this.complete = this.cards.length >= 20;
             $log.info("addCard_success", deckCard);
             console.log(this);
         }
@@ -156,6 +161,7 @@
                     break;
                 }
             }
+            this.complete = this.cards.length >= 20;
         }
 
         function upload() {
@@ -230,6 +236,10 @@
 
         function setVisible(value) {
             this.visible = value;
+        }
+
+        function getComplete() {
+            return this.complete;
         }
     }
 

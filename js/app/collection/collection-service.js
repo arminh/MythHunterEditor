@@ -9,10 +9,10 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "CardService", "DeckService", "Collection"];
+    CollectionService.$inject = ["$log", "$q", "$mdDialog", "CardService", "DeckService", "Collection", "MIN_DECK_CARDS"];
 
     /* @ngInject */
-    function CollectionService($log, CardService, DeckService, Collection) {
+    function CollectionService($log, $q, $mdDialog, CardService, DeckService, Collection, MIN_DECK_CARDS) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var user = null;
@@ -77,18 +77,88 @@
             return angular.copy(deck);
         }
 
-        function saveDeck(currentDeck) {
+        function saveDeck(currentDeck, collection, evt) {
+
+            if(!currentDeck.getComplete()) {
+
+                if(otherCompleteDeckExists(collection, currentDeck)) {
+                    var confirm = $mdDialog.confirm()
+                        .title('Saving incomplete deck')
+                        .htmlContent('Your deck does not contain the minimum number of cards (' + MIN_DECK_CARDS + ').<br>Are you sure you want to save?')
+                        .ariaLabel('Save deck')
+                        .targetEvent(evt)
+                        .ok('Confirm')
+                        .cancel('Cancel');
+
+                    return $mdDialog.show(confirm).then(function() {
+                        return finishEditing(currentDeck);
+                    });
+                } else {
+                    var alert = $mdDialog.alert()
+                        .title('Saving deck failed')
+                        .htmlContent('Your deck does not contain the minimum number of cards (' + MIN_DECK_CARDS + ').<br>You must have at least one complete deck.')
+                        .ariaLabel('Save deck')
+                        .targetEvent(evt)
+                        .ok('Close');
+
+                    return $mdDialog.show(alert).then(function() {
+                        return $q.reject();
+                    });
+                }
+
+            } else {
+                return finishEditing(currentDeck);
+            }
+
+        }
+
+        function otherCompleteDeckExists(collection, deck) {
+            var completeDeckExists = false;
+            var decks = collection.getDecks();
+            for(var i = 0; i < decks.length; i++) {
+                if(decks[i].getComplete() && decks[i].getRemoteId() != deck.getRemoteId()) {
+                    completeDeckExists = true;
+                }
+            }
+
+            return completeDeckExists;
+        }
+
+        function finishEditing(currentDeck) {
             originalDeck.setName(currentDeck.getName());
             originalDeck.setCards(currentDeck.getCards());
             originalDeck.change();
             return originalDeck.upload();
         }
 
-        function removeDeck(collection, deck) {
-            return deck.remove().then(function () {
-                collection.removeDeck(deck.getId());
-                return deck.getId();
-            });
+        function removeDeck(collection, deck, evt) {
+            if(otherCompleteDeckExists(collection, deck)) {
+                var confirm = $mdDialog.confirm()
+                    .title('Delete deck')
+                    .htmlContent('Are you sure you want to delete your Deck <b>' + deck.getName() + '</b> ?')
+                    .ariaLabel('Delete deck')
+                    .targetEvent(evt)
+                    .ok('Confirm')
+                    .cancel('Cancel');
+
+                return $mdDialog.show(confirm).then(function() {
+                    return deck.remove().then(function () {
+                        collection.removeDeck(deck.getId());
+                        return deck.getId();
+                    });
+                });
+            } else {
+                var alert = $mdDialog.alert()
+                    .title('Deleting deck failed')
+                    .htmlContent('You must have at least one complete deck.')
+                    .ariaLabel('Delete deck')
+                    .targetEvent(evt)
+                    .ok('Close');
+
+                return $mdDialog.show(alert).then(function() {
+                    return $q.reject();
+                });
+            }
         }
     }
 

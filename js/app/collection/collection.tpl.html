@@ -58,10 +58,10 @@
 
     </div>
     <div flex="20">
-        <form name="deckForm" ng-submit="collectionCtrl.saveDeck()" class="collection-decks-container" layout="column"
+        <form name="deckForm" ng-submit="collectionCtrl.saveDeck($event)" class="collection-decks-container" layout="column"
               cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}" >
             <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck">
-                <md-button class="md-raised" ng-click="collectionCtrl.createDeck()">
+                <md-button class="md-raised" ng-click="collectionCtrl.createDeck()" ng-disabled="!collectionCtrl.collection.loaded">
                     <md-label>Create deck</md-label>
                 </md-button>
             </div>
@@ -76,11 +76,12 @@
                 <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible" class="collection-deck-button-container"
                      cg-busy="{promise:deck.loadPromise, message:'Loading deck...'}" layout="row">
                     <div class="collection-deck-button" flex>
-                        <md-button class="md-raised md-button-primary" ng-click="collectionCtrl.openDeck(deck)">
+                        <md-button class="md-raised md-button-primary" ng-click="collectionCtrl.openDeck(deck)" ng-disabled="!collectionCtrl.collection.loaded">
                             <md-label>{{deck.name}}</md-label>
                         </md-button>
                     </div>
-                    <md-icon class="collection-deck-remove" md-svg-src="media/close_icon.svg" ng-click="collectionCtrl.removeDeck(deck)"></md-icon>
+                    <md-icon class="collection-deck-remove" md-svg-src="media/close_icon.svg"
+                             ng-click="collectionCtrl.removeDeck(deck, $event)" ng-disabled="!collectionCtrl.collection.loaded"></md-icon>
                 </div>
             </div>
 

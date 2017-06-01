@@ -18,6 +18,8 @@
             this.cards = cards;
             this.createdCards = createdCards;
             this.decks = decks;
+
+            this.loaded = false;
         }
 
         Collection.prototype = {
@@ -32,7 +34,8 @@
             getCreatedCards: getCreatedCards,
             getCreatedCard: getCreatedCard,
             selectCreatedCard: selectCreatedCard,
-            clearSelections: clearSelections
+            clearSelections: clearSelections,
+            getLoaded: getLoaded
         };
 
         return (Collection);
@@ -96,8 +99,9 @@
 
             return $q.all(deckPromises).then(function (results) {
                 $log.info("loadDecks_success", results);
+                this.loaded = true;
                 return null;
-            });
+            }.bind(this));
         }
 
         function addCreatedCard(card) {
@@ -160,6 +164,10 @@
 
         function getDecks() {
             return this.decks;
+        }
+
+        function getLoaded() {
+            return this.loaded;
         }
     }
 

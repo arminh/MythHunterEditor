@@ -141,15 +141,15 @@
             }
         }
 
-        function saveDeck() {
-            vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck).then(function() {
+        function saveDeck(evt) {
+            vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck, vm.collection, evt).then(function() {
                 user.upload();
                 closeDeck();
             });
         }
 
-        function removeDeck(deck) {
-            CollectionService.removeDeck(vm.collection, deck).then(function() {
+        function removeDeck(deck, evt) {
+            CollectionService.removeDeck(vm.collection, deck, evt).then(function() {
                 user.upload();
             });
         }

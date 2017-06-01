@@ -27,6 +27,7 @@ var debugging = true;
         })
         .constant('MAX_STARS', 10)
         .constant('MAX_CARD_IN_DECK', 2)
+        .constant('MIN_DECK_CARDS', 20)
         .constant('MAX_DECK_CARDS', 30);
 
     ////////////////
