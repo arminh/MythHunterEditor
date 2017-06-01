@@ -25,6 +25,7 @@
             createCard: createCard,
             createDeck: createDeck,
             addCardToDeck: addCardToDeck,
+            addDroppedCard: addDroppedCard,
             openDeck: openDeck,
             saveDeck: saveDeck,
             removeDeck: removeDeck
@@ -64,6 +65,11 @@
             if (deck && card.getLoaded()) {
                 deck.addCard(card);
             }
+        }
+
+        function addDroppedCard(cardId, deck, collection) {
+            var card = collection.getCard(cardId);
+            addCardToDeck(card, deck);
         }
 
         function openDeck(deck) {

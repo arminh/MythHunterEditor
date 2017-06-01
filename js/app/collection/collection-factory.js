@@ -27,6 +27,7 @@
             removeDeck: removeDeck,
             getDecks: getDecks,
             getCards: getCards,
+            getCard: getCard,
             getCreatedDecks: getCreatedDecks,
             getCreatedCards: getCreatedCards,
             getCreatedCard: getCreatedCard,
@@ -117,6 +118,14 @@
 
         function getCards() {
             return this.cards;
+        }
+
+        function getCard(cardId) {
+            for (var i = 0; i < this.cards.length; i++) {
+                if (this.cards[i].remoteId == cardId) {
+                    return this.cards[i];
+                }
+            }
         }
 
         function getCreatedDecks() {

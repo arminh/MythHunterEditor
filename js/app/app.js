@@ -10,6 +10,7 @@
         'ngStorage',
         'ngCookies',
         'ngAnimate',
+        'ngDragDrop',
         'ui.router',
         'ui.bootstrap',
         'ui.sortable',

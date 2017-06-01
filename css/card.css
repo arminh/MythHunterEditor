@@ -5,6 +5,7 @@
     height: 400px;
     float:left;
     border: 5px solid transparent;
+    user-select: none;
 }
 
 .card-selected {

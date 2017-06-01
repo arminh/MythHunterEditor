@@ -40,9 +40,13 @@
                 </md-button>
             </div>
 
-            <div ng-show="collectionCtrl.collectionShown"
+            <div ng-show="collectionCtrl.collectionShown" ng-model="card.remoteId"
                  ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter()"
-                 class="collection-card-preview-container" ng-dblclick="collectionCtrl.addCardToDeck(card)">
+                 ng-dblclick="collectionCtrl.addCardToDeck(card)" class="collection-card-preview-container"
+                 ng-class="{'collection-card-movable': card.loaded && collectionCtrl.currentDeck}"
+                 jqyoui-draggable="{index: {{$index}}, placeholder:'keep', containment: 'offset'}"
+                 data-drag="card.loaded && collectionCtrl.currentDeck"
+                 data-jqyoui-options="{revert: 'invalid', helper: 'clone', containment: '#collection-container'}">
                 <card class="collection-card" card="card" edit="false" menu="false"></card>
             </div>
             <div ng-show="collectionCtrl.createdCardsShown"
@@ -62,27 +66,27 @@
                 </md-button>
             </div>
             <div class="collection-deck-button" ng-if="collectionCtrl.currentDeck">
-                <md-button class="md-raised" ng-click="collectionCtrl.closeDeck()">
+                <md-button class="md-raised" ng-click="collectionCtrl.cancelDeck()">
                     <md-icon md-svg-src="media/back_icon.svg" class="back-icon"></md-icon>
                     <md-label>Cancel</md-label>
                 </md-button>
             </div>
 
             <div ng-if="!collectionCtrl.currentDeck" flex>
-                <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible"
+                <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible" class="collection-deck-button-container"
                      cg-busy="{promise:deck.loadPromise, message:'Loading deck...'}" layout="row">
                     <div class="collection-deck-button" flex>
                         <md-button class="md-raised md-button-primary" ng-click="collectionCtrl.openDeck(deck)">
                             <md-label>{{deck.name}}</md-label>
                         </md-button>
                     </div>
-                    <md-button class="md-raised md-icon-button" ng-click="collectionCtrl.removeDeck(deck)">
-                        <md-icon md-svg-src="media/delete_icon.svg"></md-icon>
-                    </md-button>
+                    <md-icon class="collection-deck-remove" md-svg-src="media/close_icon.svg" ng-click="collectionCtrl.removeDeck(deck)"></md-icon>
                 </div>
             </div>
 
-            <div ng-if="collectionCtrl.currentDeck" class="collection-deck-container" flex>
+            <div ng-if="collectionCtrl.currentDeck" class="collection-deck-container" flex
+                 data-drop="true" jqyoui-droppable="{onDrop: 'collectionCtrl.cardDropped($event)'}"
+                 ng-model="collectionCtrl.droppedCard">
                 <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck"></deck>
             </div>
 
@@ -94,6 +98,4 @@
             </div>
         </form>
     </div>
-
-
 </div>

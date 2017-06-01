@@ -26,6 +26,7 @@
         vm.createdCardsShown = false;
         vm.editingDeck = false;
         vm.currentDeck = null;
+        vm.droppedCard = {};
 
         vm.createCard = createCard;
         vm.createDeck = createDeck;
@@ -35,9 +36,10 @@
         vm.filterStarClicked = filterStarClicked;
         vm.showCreatedCards = showCreatedCards;
         vm.showCollection = showCollection;
+        vm.cardDropped = cardDropped;
 
         vm.openDeck = openDeck;
-        vm.closeDeck = closeDeck;
+        vm.cancelDeck = cancelDeck;
         vm.saveDeck = saveDeck;
         vm.removeDeck = removeDeck;
 
@@ -106,6 +108,11 @@
             CollectionService.addCardToDeck(card, vm.currentDeck);
         }
 
+        function cardDropped() {
+            CollectionService.addDroppedCard(vm.droppedCard, vm.currentDeck, vm.collection);
+            vm.droppedCard = {};
+        }
+
         function openDeck(deck) {
 
             vm.currentDeck = CollectionService.openDeck(deck);
@@ -118,10 +125,14 @@
             vm.currentDeck.setVisible(true);
         }
 
-        function closeDeck() {
+        function cancelDeck() {
             if(vm.currentDeck.getRemoteId() <= 0) {
                 vm.collection.removeDeck(vm.currentDeck.getId());
             }
+            closeDeck();
+        }
+
+        function closeDeck() {
 
             vm.currentDeck = null;
             var decks = vm.collection.getDecks();

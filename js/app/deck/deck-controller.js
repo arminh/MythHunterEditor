@@ -16,7 +16,6 @@
         var vm = this;
 
         vm.removeCard = removeCard;
-
         ////////////////
 
         function removeCard(card) {

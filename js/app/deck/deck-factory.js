@@ -27,10 +27,7 @@
             this.open = false;
             this.visible = true;
             this.changed = false;
-            this.control = {
-                showCardList: null,
-                hideCardList: null
-            }
+            this.droppedCard = {};
         }
 
         Deck.prototype = {

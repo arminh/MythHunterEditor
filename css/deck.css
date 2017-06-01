@@ -26,6 +26,10 @@
     border: 1px solid #aaa;
 }
 
+.deck-card:focus {
+    outline: 0;
+}
+
 .deck-card-text {
     position: absolute;
     color: #000 ;
