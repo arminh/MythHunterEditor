@@ -41,7 +41,7 @@
             </div>
 
             <div ng-show="collectionCtrl.collectionShown" ng-model="card.remoteId"
-                 ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter()"
+                 ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter() | orderBy : 'stars'"
                  ng-dblclick="collectionCtrl.addCardToDeck(card)" class="collection-card-preview-container"
                  ng-class="{'collection-card-movable': card.loaded && collectionCtrl.currentDeck}"
                  jqyoui-draggable="{index: {{$index}}, placeholder:'keep', containment: 'offset'}"
@@ -50,7 +50,7 @@
                 <card class="collection-card" card="card" edit="false" menu="false"></card>
             </div>
             <div ng-show="collectionCtrl.createdCardsShown"
-                 ng-repeat="card in collectionCtrl.collection.createdCards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter()"
+                 ng-repeat="card in collectionCtrl.collection.createdCards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter() | orderBy : 'stars'"
                  class="collection-card-preview-container" ng-click="collectionCtrl.showCard(card)">
                 <card class="collection-card" card="card" edit="false" menu="true"></card>
             </div>

@@ -9,10 +9,10 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["$scope", "CollectionService", "MAX_STARS", "user"];
+    CollectionController.$inject = ["CollectionService", "MAX_STARS", "CardType", "user"];
 
     /* @ngInject */
-    function CollectionController($scope, CollectionService, MAX_STARS, user) {
+    function CollectionController(CollectionService, MAX_STARS, CardType, user) {
         var vm = this;
 
         vm.user = user;
@@ -63,7 +63,13 @@
 
         function contentFilter() {
             return function (card) {
-                return card.getName().indexOf(vm.searchText) > -1 || card.getDescription().indexOf(vm.searchText) > -1;
+                if(vm.searchText == "Spell") {
+                    return card.getType() == CardType.SPELL;
+                } else if(vm.searchText == "Monster") {
+                    return card.getType() == CardType.MONSTER;
+                } else {
+                    return card.getName().indexOf(vm.searchText) > -1 || card.getDescription().indexOf(vm.searchText) > -1;
+                }
             }
         }
 

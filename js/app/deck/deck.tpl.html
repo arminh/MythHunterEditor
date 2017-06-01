@@ -8,7 +8,7 @@
             </div>
         </md-input-container>
     </div>
-    <div ng-repeat="deckCard in deckCtrl.deck.cards" class="deck-card" ng-dblclick="deckCtrl.removeCard(deckCard)">
+    <div ng-repeat="deckCard in deckCtrl.deck.cards | orderBy : 'card.stars'" class="deck-card" ng-dblclick="deckCtrl.removeCard(deckCard)">
         <div class="deck-card-background" ng-style="deckCard.style"></div>
         <div class="deck-card-text"><span>{{deckCard.card.getName()}}</span><span class="deck-card-amount" ng-if="deckCard.amount > 1">{{deckCard.amount}}</span></div>
     </div>
