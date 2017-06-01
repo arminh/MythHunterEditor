@@ -181,8 +181,10 @@
 
             var createdQuestIds = [];
             var createdCardIds = [];
+            var createdDeckIds = [];
             var createdQuests = user.getCreatedQuests();
             var createdCards = user.getCollection().getCreatedCards();
+            var createdDecks = user.getCollection().getCreatedDecks();
 
             for (var i = 0; i < createdQuests.length; i++) {
                 createdQuestIds.push(createdQuests[i].getRemoteId());
@@ -190,9 +192,13 @@
             for (i = 0; i < createdCards.length; i++) {
                 createdCardIds.push(createdCards[i].getRemoteId());
             }
+            for (i = 0; i < createdDecks.length; i++) {
+                createdDeckIds.push(createdDecks[i].getRemoteId());
+            }
 
             remoteUser.setCreatedQuestIds(createdQuestIds);
             remoteUser.setCreatedCardIds(createdCardIds);
+            remoteUser.setDeckIds(createdDeckIds);
 
             return remoteUser;
         }
@@ -330,6 +336,7 @@
         function createRemoteEnemy(enemy, imageUrl) {
             var remoteEnemy = new backend_com_wsdl_enemy();
 
+            remoteEnemy.setId(enemy.getRemoteId());
             remoteEnemy.setImageUrl(imageUrl);
             remoteEnemy.setRandomEnemy(enemy.getRandomEnemy());
             remoteEnemy.setName(enemy.getName());
@@ -342,14 +349,19 @@
         function createRemoteDeck(deck) {
             var remoteDeck = new backend_com_wsdl_deck();
 
+            remoteDeck.setId(deck.getRemoteId());
             remoteDeck.setName(deck.getName());
 
             var cardIds = [];
-            var cards = card.getCards();
+            var cards = deck.getCards();
             for (var i = 0; i < cards.length; i++) {
-                cardIds.push(cards[i].getRemoteId())
+                var entry = new backend_com_wsdl_longToIntEntry();
+                entry.setKey(cards[i].id);
+                entry.setValue(cards[i].amount);
+                cardIds.push(entry);
+
             }
-            remoteDeck.setActionIds(cardIds);
+            remoteDeck.setCardIds(cardIds);
 
             return remoteDeck;
         }
@@ -884,14 +896,14 @@
         function updateDeck(deck) {
             var deffered = $q.defer();
 
-            $log.info("updateDeck: ", card);
+            $log.info("updateDeck: ", deck);
             backend.updateDeck(function (result) {
                 if (result.getReturn()) {
                     $log.info("updateDeck: ", result);
                     deffered.resolve(result.getReturn());
                 } else {
                     $log.error("updateDeck_fail: ", result);
-                    deffered.reject("Error updating Card");
+                    deffered.reject("Error updating Deck");
                 }
 
             }, function (error) {

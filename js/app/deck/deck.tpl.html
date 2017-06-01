@@ -1,10 +1,13 @@
 <div class="deck-header">
     <md-input-container>
         <label>Deck name</label>
-        <input name="deckName" ng-model="deckCtrl.deck.name" class="deck-name">
+        <input required name="deckName" ng-model="deckCtrl.deck.name" class="deck-name">
+        <div ng-messages="deckForm.deckName.$error">
+            <div ng-message="required">This is required.</div>
+        </div>
     </md-input-container>
 </div>
 <div ng-repeat="deckCard in deckCtrl.deck.cards" class="deck-card" ng-dblclick="deckCtrl.removeCard(deckCard)">
     <div class="deck-card-background" ng-style="deckCard.style"></div>
-    <div class="deck-card-text"><span>{{deckCard.card.getName()}}</span><span ng-if="deckCard.amount > 1"> x{{deckCard.amount}}</span></div>
+    <div class="deck-card-text"><span>{{deckCard.card.getName()}}</span><span class="deck-card-amount" ng-if="deckCard.amount > 1">{{deckCard.amount}}</span></div>
 </div>

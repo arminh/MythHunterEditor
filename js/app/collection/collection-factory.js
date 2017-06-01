@@ -24,8 +24,10 @@
             load: load,
             addCreatedCard: addCreatedCard,
             addDeck: addDeck,
+            removeDeck: removeDeck,
             getDecks: getDecks,
             getCards: getCards,
+            getCreatedDecks: getCreatedDecks,
             getCreatedCards: getCreatedCards,
             getCreatedCard: getCreatedCard,
             selectCreatedCard: selectCreatedCard,
@@ -105,8 +107,20 @@
             this.decks.push(deck);
         }
 
+        function removeDeck(id) {
+            for(var i = 0; i < this.decks.length; i++) {
+                if(this.decks[i].id == id) {
+                    this.decks.splice(i, 1);
+                }
+            }
+        }
+
         function getCards() {
             return this.cards;
+        }
+
+        function getCreatedDecks() {
+            return this.decks;
         }
 
         function getCreatedCards() {

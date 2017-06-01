@@ -54,21 +54,31 @@
 
     </div>
     <div flex="20">
-        <div class="collection-decks-container" layout="column">
+        <form name="deckForm" ng-submit="collectionCtrl.saveDeck()" class="collection-decks-container" layout="column"
+              cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}" >
             <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck">
                 <md-button class="md-raised" ng-click="collectionCtrl.createDeck()">
                     <md-label>Create deck</md-label>
                 </md-button>
             </div>
+            <div class="collection-deck-button" ng-if="collectionCtrl.currentDeck">
+                <md-button class="md-raised" ng-click="collectionCtrl.closeDeck()">
+                    <md-icon md-svg-src="media/back_icon.svg" class="back-icon"></md-icon>
+                    <md-label>Cancel</md-label>
+                </md-button>
+            </div>
 
             <div ng-if="!collectionCtrl.currentDeck" flex>
                 <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible"
-                     cg-busy="{promise:deck.loadPromise, message:'Loading deck...'}">
-                    <div class="collection-deck-button">
-                        <md-button class="md-raised" ng-click="collectionCtrl.openDeck(deck)">
+                     cg-busy="{promise:deck.loadPromise, message:'Loading deck...'}" layout="row">
+                    <div class="collection-deck-button" flex>
+                        <md-button class="md-raised md-button-primary" ng-click="collectionCtrl.openDeck(deck)">
                             <md-label>{{deck.name}}</md-label>
                         </md-button>
                     </div>
+                    <md-button class="md-raised md-icon-button" ng-click="collectionCtrl.removeDeck(deck)">
+                        <md-icon md-svg-src="media/delete_icon.svg"></md-icon>
+                    </md-button>
                 </div>
             </div>
 
@@ -76,12 +86,14 @@
                 <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck"></deck>
             </div>
 
+
             <div ng-if="collectionCtrl.currentDeck" class="collection-deck-button">
-                <md-button class="md-raised" ng-click="collectionCtrl.closeDeck()">
-                    <md-label>Close</md-label>
+                <md-button type="submit" class="md-raised">
+                    <md-label>Save deck</md-label>
                 </md-button>
             </div>
-        </div>
+        </form>
     </div>
+
 
 </div>

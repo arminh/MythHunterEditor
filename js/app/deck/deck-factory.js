@@ -16,6 +16,7 @@
         $log = $log.getInstance("Deck", debugging);
 
         function Deck() {
+            this.id = -1;
             this.remoteId = 0;
             this.name = "";
             this.cardIds = [];
@@ -25,6 +26,7 @@
             this.loaded = false;
             this.open = false;
             this.visible = true;
+            this.changed = false;
             this.control = {
                 showCardList: null,
                 hideCardList: null
@@ -37,15 +39,18 @@
             loadCards: loadCards,
             addCard: addCard,
             removeCard: removeCard,
-            showCardList: showCardList,
-            hideCardList: hideCardList,
-            openDeck: openDeck,
-            closeDeck: closeDeck,
+            upload: upload,
+            change: change,
+            remove: remove,
 
+            getId: getId,
+            setId: setId,
+            getRemoteId: getRemoteId,
             setRemoteId: setRemoteId,
             getName: getName,
             setName: setName,
             getCards: getCards,
+            setCards: setCards,
             getLoaded: getLoaded,
             setVisible: setVisible
         };
@@ -113,14 +118,14 @@
 
         function addCard(card) {
             $log.info("addCard", card);
-            if(this.cards.length >= MAX_DECK_CARDS) {
+            if (this.cards.length >= MAX_DECK_CARDS) {
                 $log.info("addCard_fail: Deck full");
                 return;
             }
 
             for (var i = 0; i < this.cards.length; i++) {
-                if(this.cards[i].id == card.getRemoteId()) {
-                    if(this.cards[i].amount < MAX_CARD_IN_DECK) {
+                if (this.cards[i].id == card.getRemoteId()) {
+                    if (this.cards[i].amount < MAX_CARD_IN_DECK) {
                         this.cards[i].amount++;
                         $log.info("addCard_success", this.cards[i]);
                     } else {
@@ -144,9 +149,9 @@
         }
 
         function removeCard(cardId) {
-            for(var i = 0; i < this.cards.length; i++) {
-                if(this.cards[i].id = cardId) {
-                    if(this.cards[i].amount > 1) {
+            for (var i = 0; i < this.cards.length; i++) {
+                if (this.cards[i].id == cardId) {
+                    if (this.cards[i].amount > 1) {
                         this.cards[i].amount--;
                     } else {
                         this.cards.splice(i, 1);
@@ -156,24 +161,50 @@
             }
         }
 
+        function upload() {
+            $log.info("upload", this);
+            var remoteDeck = BackendService.createRemoteDeck(this);
 
-        function openDeck(ownedCards) {
-            return this.loadPromise = this.loadCards(ownedCards).then(function () {
-                this.open = true;
-                return this;
+            if (this.remoteId <= 0) {
+                $log.info("add");
+                this.loadPromise = BackendService.addDeck(remoteDeck).then(uploadSuccess.bind(this));
+            } else {
+                $log.info("update");
+                this.loadPromise = BackendService.updateDeck(remoteDeck).then(uploadSuccess.bind(this));
+            }
+
+            return this.loadPromise;
+
+                function uploadSuccess(result) {
+                this.remoteId = result.getId();
+                $log.info("upload_success", result.getId());
+                return result.getId();
+            }
+        }
+
+        function remove() {
+            $log.info("remove", this);
+            this.loadPromise = BackendService.deleteDeck(this.remoteId).then(function() {
+                $log.info("remove_success", this.remoteId);
+                return this.remoteId;
             }.bind(this));
+            return this.loadPromise;
         }
 
-        function closeDeck() {
-            this.open = false;
+        function change() {
+            this.changed = true;
         }
 
-        function showCardList() {
-            this.control.showCardList();
+        function getId() {
+            return this.id;
         }
 
-        function hideCardList() {
-            this.control.hideCardList();
+        function setId(value) {
+            this.id = value;
+        }
+
+        function getRemoteId() {
+            return this.remoteId;
         }
 
         function setRemoteId(value) {
@@ -190,6 +221,10 @@
 
         function getCards() {
             return this.cards;
+        }
+
+        function setCards(value) {
+            this.cards = value;
         }
 
         function getLoaded() {

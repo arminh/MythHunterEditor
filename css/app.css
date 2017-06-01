@@ -101,3 +101,9 @@ input[type='file'] {
 .cg-busy {
     z-index: 10;
 }
+
+.back-icon {
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(1800deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}

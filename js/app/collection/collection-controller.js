@@ -38,6 +38,8 @@
 
         vm.openDeck = openDeck;
         vm.closeDeck = closeDeck;
+        vm.saveDeck = saveDeck;
+        vm.removeDeck = removeDeck;
 
         activate();
 
@@ -93,18 +95,20 @@
         }
 
         function createDeck() {
-            vm.currentDeck = CollectionService.createDeck(vm.collection);
+            // vm.collection.decks.length = 0;
+            // user.upload();
+            var deck = CollectionService.createDeck(vm.collection);
+            openDeck(deck);
+
         }
 
         function addCardToDeck(card) {
-            if (vm.currentDeck && card.getLoaded()) {
-                vm.currentDeck.addCard(card);
-            }
+            CollectionService.addCardToDeck(card, vm.currentDeck);
         }
 
         function openDeck(deck) {
 
-            vm.currentDeck = deck;
+            vm.currentDeck = CollectionService.openDeck(deck);
             var decks = vm.collection.getDecks();
 
             for (var i = 0; i < decks.length; i++) {
@@ -115,13 +119,28 @@
         }
 
         function closeDeck() {
-            vm.currentDeck.closeDeck();
+            if(vm.currentDeck.getRemoteId() <= 0) {
+                vm.collection.removeDeck(vm.currentDeck.getId());
+            }
 
+            vm.currentDeck = null;
             var decks = vm.collection.getDecks();
             for (var i = 0; i < decks.length; i++) {
                 decks[i].setVisible(true);
             }
-            vm.currentDeck = null;
+        }
+
+        function saveDeck() {
+            vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck).then(function() {
+                user.upload();
+                closeDeck();
+            });
+        }
+
+        function removeDeck(deck) {
+            CollectionService.removeDeck(vm.collection, deck).then(function() {
+                user.upload();
+            });
         }
     }
 

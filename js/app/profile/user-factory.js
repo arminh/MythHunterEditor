@@ -9,10 +9,10 @@
         .module('profile')
         .factory('User', UserFactory);
 
-    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "Collection", "Card", "Deck", "QuestService"];
+    UserFactory.$inject = ["$log", "$rootScope", "$q", "$localStorage", "BackendService", "Quest", "CollectionService", "Card", "Deck", "QuestService"];
 
     /* @ngInject */
-    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, Collection, Card, Deck, QuestService) {
+    function UserFactory($log, $rootScope, $q, $localStorage, BackendService, Quest, CollectionService, Card, Deck, QuestService) {
         $log = $log.getInstance("User", debugging);
 
         function User() {
@@ -123,7 +123,7 @@
                 this.decks.push(deck);
             }
 
-            this.collection = new Collection(this.cards, this.createdCards, this.decks);
+            this.collection = CollectionService.createCollection(this.cards, this.createdCards, this.decks);
 
             return this.load().then(function() {
                 $log.info("initFromRemote_success: ", this);
