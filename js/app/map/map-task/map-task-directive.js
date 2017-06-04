@@ -16,7 +16,12 @@
                     quest: "="
                 },
                 controller: "MapTaskController",
-                controllerAs: "mapTask"
+                controllerAs: "mapTask",
+                link: link
             }
         });
+
+        function link(scope, element, attrs, vm) {
+            vm.task = vm.treepart.getTask();
+        }
 })();

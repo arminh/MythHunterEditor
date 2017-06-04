@@ -13,11 +13,8 @@
 
     /* @ngInject */
     function RewardService($mdDialog, CardService) {
-        var user = null;
-        var maxCards = -1;
 
         var service = {
-            init: init,
             createCard: createCard,
             chooseCardsFromCollection: chooseCardsFromCollection
         };
@@ -25,16 +22,11 @@
 
         ////////////////
 
-        function init(currentUser, rewardMaxCards) {
-            user = currentUser;
-            maxCards = rewardMaxCards;
-        }
-
-        function createCard() {
+        function createCard(user) {
             return CardService.createCard(user);
         }
 
-        function chooseCardsFromCollection(rewardIds) {
+        function chooseCardsFromCollection(user, maxCards, rewardIds) {
             return $mdDialog.show({
                 templateUrl: 'js/app/reward/reward-collection/reward-collection.tpl.html',
                 resolve: {

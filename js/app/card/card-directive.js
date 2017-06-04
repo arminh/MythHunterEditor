@@ -17,6 +17,7 @@
             templateUrl: "js/app/card/card.tpl.html",
             bindToController: {
                 card: "=",
+                selected: "=?",
                 edit: "=",
                 menu: "="
             },

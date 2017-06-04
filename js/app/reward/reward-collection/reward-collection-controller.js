@@ -27,32 +27,26 @@
         ////////////////
 
         function activate() {
-            CollectionService.init(user).then(loadCollection);
-
-
-            function loadCollection(actions) {
-                vm.collection = CollectionService.loadCollection(actions);
-                for(var i = 0; i < vm.rewardIds.length; i++) {
-                    vm.collection.selectCreatedCard(vm.rewardIds[i]);
-                    vm.selectedCards.push(vm.collection.getCreatedCard(vm.rewardIds[i]));
-                    vm.numSelected++;
-                }
-                if(vm.selectedCards.length > 0) {
-                    vm.lastCard = vm.selectedCards[vm.selectedCards.length-1];
-                }
-
+            vm.collection = CollectionService.loadCollection(user);
+            for (var i = 0; i < vm.rewardIds.length; i++) {
+                vm.collection.selectCreatedCard(vm.rewardIds[i]);
+                vm.selectedCards.push(vm.collection.getCreatedCard(vm.rewardIds[i]));
+                vm.numSelected++;
+            }
+            if (vm.selectedCards.length > 0) {
+                vm.lastCard = vm.selectedCards[vm.selectedCards.length - 1];
             }
         }
 
         function toggleSelect(card) {
 
-            if(card.getSelected()) {
+            if (card.getSelected()) {
                 card.setSelected(false);
                 vm.numSelected--;
                 removeCard(card);
             } else {
                 card.setSelected(true);
-                if((vm.numSelected + 1) > vm.maxCards) {
+                if ((vm.numSelected + 1) > vm.maxCards) {
                     vm.lastCard.setSelected(false);
                     vm.selectedCards.pop();
                 } else {
@@ -64,8 +58,8 @@
         }
 
         function removeCard(card) {
-            for(var i = 0; i < vm.selectedCards.length; i++) {
-                if(vm.selectedCards[i].getRemoteId() == card.getRemoteId()) {
+            for (var i = 0; i < vm.selectedCards.length; i++) {
+                if (vm.selectedCards[i].getRemoteId() == card.getRemoteId()) {
                     vm.selectedCards.splice(i, 1);
                     return;
                 }

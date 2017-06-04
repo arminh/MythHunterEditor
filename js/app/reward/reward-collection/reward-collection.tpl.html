@@ -15,9 +15,9 @@
                 <div class="card-reward-instruction"><md-label><b>Add up to {{rewardCollection.maxCards}} cards as quest reward</b></md-label></div>
 
                 <div class="created-cards-preview">
-                    <div ng-repeat="card in rewardCollection.collection.cards" class="collection-card-preview-container"
+                    <div ng-repeat="card in rewardCollection.collection.createdCards" class="collection-card-preview-container"
                          ng-click="rewardCollection.toggleSelect(card)">
-                        <card class="collection-card" card="card" image="card.image" edit="false" menu="false"></card>
+                        <card class="collection-card" card="card" selected="card.selected" edit="false" menu="false"></card>
                     </div>
                 </div>
             </div>

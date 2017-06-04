@@ -19,10 +19,11 @@
         vm.editStartMarker = false;
         vm.questContent = "";
         vm.taskContent = "";
-        vm.separateDescription = true;
+        vm.sameDescription = false;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
         vm.maxCards = REWARD_MAX_CARDS;
 
+        vm.showQuestDescriptionTooltip = showQuestDescriptionTooltip;
         vm.confirm = confirm;
         vm.cancel = cancel;
 
@@ -45,6 +46,10 @@
             if($stateParams.editStartMarker) {
                 vm.editStartMarker = $stateParams.editStartMarker;
             }
+        }
+
+        function showQuestDescriptionTooltip() {
+            vm.questDescriptionTooltipVisible = true;
         }
 
         function confirm() {

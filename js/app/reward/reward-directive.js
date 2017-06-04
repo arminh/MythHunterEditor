@@ -9,10 +9,10 @@
         .module('reward')
         .directive('reward', reward);
 
-    reward.$inject = [];
+    reward.$inject = ["RewardService"];
 
     /* @ngInject */
-    function reward() {
+    function reward(RewardService) {
         var directive = {
             templateUrl: "js/app/reward/reward.tpl.html",
             bindToController: {
@@ -28,8 +28,18 @@
         };
         return directive;
 
-        function link(scope, element, attrs) {
+        function link(scope, element, attrs, vm) {
 
+            vm.cards =  new Array(vm.maxCards);
+            var collection = vm.user.getCollection();
+            vm.numCollectionCards = collection.getCards().length;
+            for(var i = 0; i < vm.rewardIds.length; i++) {
+                vm.cards[i] = collection.getCreatedCard(vm.rewardIds[i]);
+                vm.cardIndex++;
+                if(!vm.cards[i].getLoaded()) {
+                    vm.cards[i].getFromRemote();
+                }
+            }
         }
     }
 

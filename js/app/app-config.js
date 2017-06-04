@@ -26,6 +26,7 @@ var debugging = true;
             defaultMaximumAge: 0 // 0 seconds, no-cache
         })
         .constant('MAX_STARS', 10)
+        .constant('REWARD_MAX_CARDS', 2)
         .constant('MAX_CARD_IN_DECK', 2)
         .constant('MIN_DECK_CARDS', 20)
         .constant('MAX_DECK_CARDS', 30);

@@ -8,7 +8,6 @@
     angular
         .module("reward", [])
         .config(config)
-        .constant("REWARD_MAX_CARDS", 2);
 
     config.$inject = ["$provide"];
 

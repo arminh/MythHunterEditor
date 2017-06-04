@@ -4,29 +4,56 @@
             <div layout="row" >
                 <md-input-container flex>
                     <label>Quest name</label>
-                    <input required name="questName" ng-model="questCtrl.quest.name" class="task-info">
+                    <input required name="questName" ng-model="questCtrl.quest.name" class="task-info" autofocus md-select-on-focus>
                     <div ng-messages="questForm.questName.$error">
                         <div ng-message="required">This is required.</div>
                     </div>
                 </md-input-container>
             </div>
             <div flex>
-                <md-label>Enter a quest description</md-label>
+                <md-label class="description-label">Enter a quest description</md-label>
+                <md-button aria-label="description-hint" class="md-icon-button">
+                    <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
+                        Here you can enter an overall description of the quest that players can see before activating the quest <br>
+                        Use this description to set up your story an convince players to start your quest.
+                    </md-tooltip>
+                    <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                </md-button>
+
                 <text-angular ta-toolbar="{{questCtrl.toolbar}}" ng-model="questCtrl.quest.html.content"
-                              id="quest-text"></text-angular>
-                <md-checkbox ng-if="questCtrl.editStartMarker" ng-model="questCtrl.separateDescription" aria-label="separateDescription">
-                    Use separate description for Start marker
+                              id="quest-text" ng-focus="questCtrl.showQuestDescriptionTooltip()"></text-angular>
+                <md-checkbox ng-if="questCtrl.editStartMarker" ng-model="questCtrl.sameDescription" aria-label="separateDescription">
+                    <md-label class="description-label">Use same description for quest and first task</md-label>
                 </md-checkbox>
-                <text-angular ng-if="questCtrl.editStartMarker" ta-toolbar="{{questCtrl.toolbar}}" ng-show="questCtrl.separateDescription"
+                <md-button ng-if="questCtrl.editStartMarker"  aria-label="description-hint" class="md-icon-button">
+                    <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
+                        Here you can enter a description for the start task you just placed on the map.<br>
+                        It should give player directions to the first real task.<br>
+                        If you are lazy just check the box and use the quest description also for the start task  ;-)
+                    </md-tooltip>
+                    <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                </md-button>
+                <text-angular ng-if="questCtrl.editStartMarker" ta-toolbar="{{questCtrl.toolbar}}" ng-show="!questCtrl.sameDescription"
                               ng-model="questCtrl.quest.treePartRoot.task.html.content" id="task-text"></text-angular>
             </div>
             <div>
-                <div class="card-reward-instruction"><md-label><b>Add up to {{reward.maxCards}} cards as quest reward</b></md-label></div>
-
-                <reward reward-ids="questCtrl.quest.specialCards" max-cards="questCtrl.maxCards" user="questCtrl.user"></reward>
+                <div class="card-reward-instruction">
+                    <md-label class="description-label">Add up to {{questCtrl.maxCards}} cards as quest reward</md-label>
+                    <md-button aria-label="description-hint" class="md-icon-button">
+                        <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
+                            Reward your players for completing your incredible quest!<br>
+                            Add up to {{questCtrl.maxCards}} from your collection or create new cards.<br>
+                            These cards are added to the player's collection... if they are lucky.
+                        </md-tooltip>
+                        <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                    </md-button>
+                </div>
+                <div class="quest-reward-container">
+                    <reward reward-ids="questCtrl.quest.specialCards" max-cards="questCtrl.maxCards" user="questCtrl.user"></reward>
+                </div>
             </div>
             <div>
-                <md-button class="md-raised md-primary" type="submit" md-autofocus>
+                <md-button class="md-raised md-primary" type="submit">
                     Confirm
                 </md-button>
                 <md-button class="md-raised" ng-click="questCtrl.cancel()" >

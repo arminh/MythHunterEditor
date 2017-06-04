@@ -5,15 +5,21 @@
         </md-button>
     </div>
 
-    <img ng-if="!card" src="media/card/card_placeholder.png" class="card-placeholder" width="100%"/>
+    <md-button ng-if="!card"  class="md-raised" ng-click="reward.createCard($index)">
+        <div style="position:relative; height: 280px; width:165px;">
+            <img src="media/card/card_placeholder.png" class="card-add" width="100%"/>
+        </div>
+        <div class="card-add-icon">
+            <img src="media/add_icon.svg"/>
+        </div>
+
+        <md-tooltip md-direction="top">Create new card</md-tooltip>
+    </md-button>
     <card ng-if="card" class="collection-card" card="card" image="card.image" edit="false" menu="false"></card>
 </div>
 
 <div style="text-align: center">
-    <md-button class="md-raised" ng-click="reward.openCollection()">
-        Open Collection
-    </md-button>
-    <md-button ng-show="reward.cardIndex < reward.maxCards" class="md-raised" ng-click="reward.createCard()">
-        Create card
+    <md-button class="md-raised" ng-click="reward.openCollection()" ng-if="reward.numCollectionCards > 0">
+        Choose from Collection
     </md-button>
 </div>

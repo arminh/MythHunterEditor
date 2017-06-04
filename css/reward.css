@@ -11,7 +11,6 @@
 }
 
 .reward-deselect-button {
-    z-index: 1000;
     position: absolute;
     top: -20px;
     right: -25px;

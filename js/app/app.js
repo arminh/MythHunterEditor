@@ -6,6 +6,7 @@
 
     angular.module('app', [
         'ngMaterial',
+        'ngMessages',
         'ngCookies',
         'ngStorage',
         'ngCookies',

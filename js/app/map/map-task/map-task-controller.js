@@ -25,13 +25,7 @@
 
         $scope.$watch("mapTask.task.name", taskNameChanged);
 
-        activate();
-
         ////////////////
-
-        function activate() {
-            vm.task = vm.treepart.getTask();
-        }
 
         function flashMarker() {
             MapInteraction.flashMarker(vm.task.getMarkerId());
