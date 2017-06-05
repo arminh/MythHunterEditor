@@ -29,7 +29,8 @@
             addName: addName,
             addDescription: addDescription,
             getRemoteId: getRemoteId,
-            getForCardType: getForCardType
+            getForCardType: getForCardType,
+            getStarCosts: getStarCosts
         };
 
         return (Action);
@@ -64,6 +65,10 @@
 
         function getForCardType() {
             return this.forCardType;
+        }
+
+        function getStarCosts() {
+            return this.starCosts;
         }
     }
 

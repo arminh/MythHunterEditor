@@ -18,6 +18,7 @@
             getMonsterActions: getMonsterActions,
             calculateStarCount: calculateStarCount,
             isActionAffordable: isActionAffordable,
+            getMinStarCost: getMinStarCost,
             confirm: confirm,
             cancel: cancel
         };
@@ -32,26 +33,36 @@
         function calculateStarCount(attack, life, actions) {
             var stars = Math.ceil(attack * 0.5 + life * 0.5);
             if(actions.length > 0) {
-                for(var i = 0; i < actions.length; i++) {
-                    stars += actions[i].starCosts;
-                }
+                stars += calculateActionsStarCount(actions);
             }
             return stars;
         }
 
         function isActionAffordable(newAction, card) {
-            var starCount = card.getStars();
-            var actions = card.getActions();
-            if(actions.length > 0) {
-                for(var i = 0; i < actions.length; i++) {
-                    starCount -= actions[i].starCosts;
-                }
-            }
-
-            return (starCount + newAction.starCosts) <= MAX_STARS;
+            return (card.getStars() + newAction.getStarCosts()) <= MAX_STARS;
         }
 
-        function confirm() {
+        function calculateActionsStarCount(actions) {
+            var starCount = 0;
+            for(var i = 0; i < actions.length; i++) {
+                if(actions[i]) {
+                    starCount += actions[i].getStarCosts();
+                }
+            }
+            return starCount;
+        }
+
+        function getMinStarCost() {
+            return ActionService.getMinStarCost();
+        }
+
+        function confirm(card) {
+            var actions = card.getActions();
+            for(var i = 0; i < actions.length; i++) {
+                if(!actions[i]){
+                    actions.splice(i, 1);
+                }
+            }
             $mdDialog.hide();
         }
 

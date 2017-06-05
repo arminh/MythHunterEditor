@@ -99,7 +99,7 @@
         }
 
         function createCard() {
-            CollectionService.createCard();
+            CollectionService.createCard(user);
         }
 
         function createDeck() {

@@ -8,7 +8,7 @@
 
 .collection-card-preview-container {
     display: inline-block;
-    margin-right: 10px;
+    margin: 0 10px;
     vertical-align: top;
 }
 
@@ -78,12 +78,6 @@
     opacity: 0.5;
     vertical-align: top;
     display: inline-block;
-    margin-left: -11px;
-    margin-right: 9px;
-}
-
-.card-add {
-
 }
 
 .card-add-icon {
@@ -103,6 +97,7 @@
     background-color: #eeeeee;
     height: 100%;
     overflow: auto;
+    justify-content: space-around;
 }
 
 .collection-decks-container {

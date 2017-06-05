@@ -18,13 +18,15 @@
         var actions = [];
         var monsterActions = [];
         var spellActions = [];
+        var minStarCost = 10;
 
         var actionsInitialized = false;
 
         var service = {
             getActions: getActions,
             getMonsterActions: getMonsterActions,
-            getAction: getAction
+            getAction: getAction,
+            getMinStarCost: getMinStarCost
         };
         return service;
 
@@ -38,6 +40,7 @@
                     action.initFromRemote(results[i]);
                     monsterActions.push(action);
                     actions.push(action);
+                    minStarCost = action.getStarCosts() < minStarCost ? action.getStarCosts() : minStarCost;
                 }
                 return monsterActions;
             });
@@ -87,6 +90,10 @@
                     return actions[i];
                 }
             }
+        }
+
+        function getMinStarCost() {
+            return minStarCost;
         }
 
     }

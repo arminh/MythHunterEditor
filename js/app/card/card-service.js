@@ -92,7 +92,7 @@
             }
 
             function createCanceled() {
-                return $q.reject();
+                return null;
             }
         }
 

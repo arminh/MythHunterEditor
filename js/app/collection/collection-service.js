@@ -15,7 +15,6 @@
     function CollectionService($log, $q, $mdDialog, CardService, DeckService, Collection, MIN_DECK_CARDS) {
         $log = $log.getInstance("CollectionService", debugging);
 
-        var user = null;
         var originalDeck = null;
         var deckCount = 0;
 
@@ -50,7 +49,7 @@
             return collection;
         }
 
-        function createCard() {
+        function createCard(user) {
             return CardService.createCard(user);
         }
 

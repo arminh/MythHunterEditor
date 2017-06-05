@@ -8,8 +8,42 @@
 
 .card-settings-content {
     padding: 20px;
+    min-width:350px;
 }
 
 .slider-input {
      max-width: 60px !important;
+}
+
+.cardeditor-star {
+    height:20px;
+}
+
+.cardeditor-star-label {
+    font-size: 12px;
+    position: absolute;
+    top: 3px;
+    width: 100%;
+}
+
+.cardeditor-stars-container {
+    margin-bottom: 20px;
+}
+
+.cardeditor-star-container {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    outline: none;
+}
+.cardeditor-stars-error {
+    color: rgb(221,44,0);
+    font-size: 12px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+
 }
