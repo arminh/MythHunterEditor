@@ -260,7 +260,7 @@
         function createRemoteHtml(html) {
             var remoteHtml = new backend_com_wsdl_htmlObject();
 
-            remoteHtml.setHtml(html.getContent());
+            remoteHtml.setHtml(html.getContentHtml());
             remoteHtml.setId(html.getRemoteId());
 
             var answers = [];

@@ -1,0 +1,67 @@
+<md-dialog aria-label="Create quiz">
+    <form name="quiz" ng-cloak ng-submit="quizGroupCtrl.confirm($event)">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Create Quiz</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="quizGroupCtrl.cancel()">
+                    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="quiz-group-dialog-content">
+            <div class="md-dialog-content">
+                <md-input-container>
+                    <label>Question</label>
+                    <input type="text" name="name" required maxlength="100"
+                           ng-model="quizGroupCtrl.group.question" md-autofocus/>
+                    <div ng-messages="quiz.name.$error">
+                        <div ng-message="required">Question is required</div>
+                    </div>
+                </md-input-container>
+                <md-radio-group ng-model="quizGroupCtrl.selected" ng-if="quizGroupCtrl.group.type == 'radio'">
+
+                    <div ng-repeat="option in quizGroupCtrl.group.options" layout="row">
+                        <md-radio-button class="quiz-group-option-selector" ng-model="option.selected"
+                                         ng-value="$index">
+                        </md-radio-button>
+                        <md-input-container class="quiz-group-option-input-container">
+                            <input type="text" name="name" required maxlength="30"
+                                   ng-model="option.text"/>
+                        </md-input-container>
+                        <md-button class="md-icon-button" ng-click="quizGroupCtrl.removeOption($index)">
+                            <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
+                        </md-button>
+                    </div>
+                </md-radio-group>
+                <div class="quiz-checkbox-group" ng-if="quizGroupCtrl.group.type == 'checkbox'">
+                    <div ng-repeat="option in quizGroupCtrl.group.options" layout="row">
+                        <md-checkbox class="quiz-group-option-selector" ng-model="option.selected">
+
+                        </md-checkbox>
+                        <md-input-container class="quiz-group-option-input-container">
+                            <input type="text" name="name" required maxlength="30"
+                                   ng-model="option.text"/>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div>
+                    <md-button class="quiz-group-add" ng-click="quizGroupCtrl.addOption()">
+                        <md-icon md-svg-icon="media/add_icon.svg"></md-icon>
+                        <md-label>Add Option</md-label>
+                    </md-button>
+                </div>
+
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button type="submit" class="md-raised md-primary">
+                OK
+            </md-button>
+            <md-button class="md-raised" ng-click="quizGroupCtrl.cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

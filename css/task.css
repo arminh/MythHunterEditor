@@ -15,7 +15,7 @@
 }
 
 .modal-backdrop {
-    bottom:0;
+    bottom: 0;
 }
 
 .error {
@@ -54,7 +54,6 @@
 .task-content {
 }
 
-
 .choose-marker-container {
     text-align: center;
 }
@@ -65,7 +64,7 @@
 
 .choose-marker-close {
     position: absolute;
-    top:0px;
+    top: 0px;
     right: 0px;
 }
 
@@ -110,7 +109,7 @@
 
 }
 
-.markerSelector{
+.markerSelector {
     float: left;
     margin-bottom: 10px;
     margin-right: 5px;
@@ -122,6 +121,14 @@
     line-height: 30px;
 }
 
+#task-editor-quiz > .ta-toolbar {
+    max-width: 800px;
+}
+
+#task-editor-quiz > .ta-toolbar > .btn-group {
+    margin-bottom: 10px;
+}
+
 fieldset.radio-group, fieldset.checkbox-group {
     margin-bottom: 3px;
 }
@@ -129,3 +136,52 @@ fieldset.radio-group, fieldset.checkbox-group {
 fieldset p {
     text-indent: 20px;
 }
+
+.quiz-group-container {
+    padding: 3px;
+    margin-bottom: 5px;
+    border: solid 1px #aaa;
+    border-radius: 10px;
+}
+
+.quiz-group-container > p {
+    font-weight: bold;
+}
+
+.quiz-group-container .quiz-group-option {
+    text-indent: 10px;
+}
+
+.quiz-group-container .quiz-group-option > label {
+    font-weight: normal;
+}
+
+.quiz-group-dialog-content {
+    min-width: 400px;
+}
+
+.quiz-group-option {
+    width: 100%;
+}
+
+.quiz-group-option-input-container {
+    width: 100%;
+}
+
+.quiz-group-option-input-container > .md-errors-spacer {
+    display: none;
+}
+
+.quiz-group-option-selector {
+    margin-bottom: 0;
+}
+
+.quiz-group-add {
+    padding: 0;
+    margin: 0;
+}
+
+.quiz-input {
+    margin: 0 2px;
+}
+

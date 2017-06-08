@@ -83,11 +83,13 @@
 
         ////////////////
 
-        function init() {
-            this.treePartRoot = new TreePart();
+        function init(name) {
+            this.name = name;
+
+            this.treePartRoot = new TreePart(name);
             this.treePartRoot.init("start");
 
-            this.html = new HtmlText();
+            this.html = new HtmlText(name, "");
         }
 
         function initFromObject(questObject) {
@@ -106,10 +108,10 @@
             this.qualityRating = questObject.qualityRating;
             this.difficultyRating = questObject.difficultyRating;
 
-            this.html = new HtmlText();
+            this.html = new HtmlText(questObject.name, "");
             this.html.initFromObject(questObject.html);
 
-            this.treePartRoot = new TreePart(null);
+            this.treePartRoot = new TreePart(this.name);
             this.treePartRoot.initFromObject(questObject.treePartRoot, this, true);
 
 
@@ -150,10 +152,10 @@
             this.qualityRating = remoteQuest.getQualityRating();
             this.difficultyRating = remoteQuest.getDifficultyRating();
 
-            this.html = new HtmlText();
+            this.html = new HtmlText(remoteQuest.getName(), "");
             this.html.setRemoteId(remoteQuest.getHtmlId());
 
-            this.treePartRoot = new TreePart(null);
+            this.treePartRoot = new TreePart(this.name);
             this.treePartRoot.setRemoteId(remoteQuest.getTreeRootId());
 
             $log.info("initFromRemote_success: ", this);
@@ -178,7 +180,7 @@
         }
 
         function createTreePart(markerType) {
-            var treePart = new TreePart();
+            var treePart = new TreePart(this.name);
             treePart.init(markerType);
             return treePart;
         }

@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by armin on 04.02.16.
  */
 
@@ -87,9 +87,9 @@
         ////////////////
 
         function init(type) {
-            this.html = new HtmlText();
+            this.html = new HtmlText(this.questName, this.name);
             if(type == MarkerType.FIGHT || MarkerType.INVISIBLE || MarkerType.QUIZ) {
-                this.targetHtml = new HtmlText();
+                this.targetHtml = new HtmlText(this.questName, this.name);
             }
             if(type == MarkerType.FIGHT) {
                 this.enemy = new Enemy();
@@ -107,14 +107,14 @@
             this.markerId = taskObject.markerId;
             this.lon = taskObject.lon;
             this.lat = taskObject.lat;
-            this.html = new HtmlText();
+            this.html = new HtmlText(taskObject.questName, taskObject.name);
             this.html.initFromObject(taskObject.html);
 
             if(taskObject.targetHtml) {
                 this.targetMarkerId = taskObject.targetMarkerId;
                 this.targetLon = taskObject.targetLon;
                 this.targetLat = taskObject.targetLat;
-                this.targetHtml = new HtmlText();
+                this.targetHtml = new HtmlText(taskObject.questName, taskObject.name);
                 this.targetHtml.initFromObject(taskObject.targetHtml);
             }
 
@@ -168,17 +168,19 @@
             this.lat = position.getLatitude();
 
             var targetPos = remoteTask.getTargetPosition();
-            this.targetLon = targetPos.getLongitude();
-            this.targetLat = targetPos.getLatitude();
+            if(targetPos) {
+                this.targetLon = targetPos.getLongitude();
+                this.targetLat = targetPos.getLatitude();
+            }
 
             var promises = [];
 
-            this.html = new HtmlText();
+            this.html = new HtmlText(this.questName, this.name);
             this.html.setRemoteId(remoteTask.getHtmlId());
             promises.push(this.html.getFromRemote());
 
             if(remoteTask.getFinishedHtmlId() > 0) {
-                this.targetHtml = new HtmlText();
+                this.targetHtml = new HtmlText(this.questName, this.name);
                 this.targetHtml.setRemoteId(remoteTask.getFinishedHtmlId());
                 promises.push(this.targetHtml.getFromRemote());
             }

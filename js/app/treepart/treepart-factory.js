@@ -15,19 +15,20 @@
     function TreePartFactory($log, $q, BackendService, TreePartType, QuestService, Task) {
         $log = $log.getInstance("TreePart", debugging);
 
-        function TreePart(task) {
+        function TreePart(questName) {
             this.remoteId = 0;
             this.version = 0;
             this.finished = false;
             this.active = false;
             this.opened = false;
-            this.task = task;
+            this.task = null;
             this.questInstanceId = 0;
             this.executedAt = null;
             this.successors = [];
             this.type = null;
             this.highlightedInvisibeMarker = false;
 
+            this.questName = questName;
             this.loaded = false;
             this.id = 0;
             this.changed = false;
@@ -71,7 +72,7 @@
         ////////////////
 
         function init(taskType) {
-            this.task = new Task();
+            this.task = new Task(this.questName);
             this.task.init(taskType);
         }
 
@@ -93,6 +94,7 @@
             this.executedAt = treePartObject.executedAt;
             this.questInstanceId = treePartObject.questInstanceId;
             this.highlightedInvisibeMarker = treePartObject.highlightedInvisibeMarker;
+            this.questName = quest.getName();
 
             this.task = new Task(quest.getName());
             this.task.initFromObject(treePartObject.task);
@@ -101,7 +103,7 @@
                 var successorObject = treePartObject.successors[i];
                 var treePart = quest.getTreePart(successorObject.id);
                 if(!treePart) {
-                    treePart = new TreePart(null);
+                    treePart = new TreePart(quest.getName());
                     treePart.initFromObject(treePartObject.successors[i], quest, false);
                 }
 
@@ -149,9 +151,8 @@
             this.questInstanceId = remoteTreePart.getQuestInstanceId();
             this.highlightedInvisibeMarker = remoteTreePart.getHighlightedInvisibeMarker();
 
-            this.task = new Task();
+            this.task = new Task(quest.getName());
             this.task.setRemoteId(remoteTreePart.getMarker().getId());
-            this.task.setQuestName(quest.getName());
 
             var promises = [];
             promises.push(this.task.getFromRemote());
@@ -161,7 +162,7 @@
                 var successorId = successors[i].getId();
                 var treePart = quest.getTreePartByRemoteId(successorId);
                 if(!treePart) {
-                    treePart = new TreePart(null);
+                    treePart = new TreePart(quest.getName());
                     treePart.setRemoteId(successorId);
                     QuestService.addTreePartToQuest(quest, treePart);
                     promises.push(treePart.getFromRemote(quest, false));

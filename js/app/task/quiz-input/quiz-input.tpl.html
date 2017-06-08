@@ -1,0 +1,31 @@
+<md-dialog aria-label="Create quiz">
+    <form name="quiz" ng-cloak ng-submit="quizInputCtrl.confirm($event)">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Create Quiz</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="quizInputCtrl.cancel()">
+                    <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="quiz-group-dialog-content">
+            <div class="md-dialog-content">
+                <md-label class="description-label">Enter the solutions for the gap:</md-label><br><br>
+                <md-input-container>
+                    <label>Solution</label>
+                    <input required name="quizInputText" ng-model="quizInputCtrl.text" autofocus md-select-on-focus>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button type="submit" class="md-raised md-primary">
+                OK
+            </md-button>
+            <md-button class="md-raised" ng-click="quizInputCtrl.cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

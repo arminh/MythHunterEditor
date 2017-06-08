@@ -16,7 +16,7 @@
 
         $log = $log.getInstance("HtmlText", debugging);
 
-        function HtmlText() {
+        function HtmlText(questName, taskName) {
             this.remoteId = 0;
             this.version = -1;
             this.content = "";
@@ -25,7 +25,7 @@
             this.loaded = false;
             this.changed = false;
             this.taskTitle = "";
-            this.questTitle = "";
+            this.questTitle = questName;
 
         }
 

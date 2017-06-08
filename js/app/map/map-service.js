@@ -46,9 +46,8 @@
                 return quest;
             } else {
                 quest = user.createQuest();
-                quest.init();
+                quest.init("New Quest");
                 quest.setLoaded(true);
-                quest.setName("New Quest");
                 return drawMarker(quest.getTreePartRoot().getTask()).then(addQuestToUser);
             }
 

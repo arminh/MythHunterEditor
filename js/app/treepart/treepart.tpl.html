@@ -13,8 +13,9 @@
                     <p class="task-modal-label">Task content</p>
                     <text-angular id="task-editor-quiz"
                                   ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ" name="task-editor-quiz"
-                                  ta-toolbar="{{treePartCtrl.quizToolbar}}" ng-model="treePartCtrl.task.html.content" class="task-text"
+                                  ta-toolbar="{{treePartCtrl.quizToolbar}}" ng-model="treePartCtrl.content" class="task-text"
                                   ng-keydown="treePartCtrl.keyPressed($event)"></text-angular>
+
                     <text-angular ng-if="treePartCtrl.task.getType() != treePartCtrl.types.QUIZ" name="task-editor"
                                   ta-toolbar="{{treePartCtrl.toolbar}}" ng-model="treePartCtrl.content"
                                   class="task-text"></text-angular>
@@ -27,7 +28,7 @@
                             completed
                             content</p>
                         <text-angular name="task-target" ta-toolbar="{{treePartCtrl.toolbar}}"
-                                      ng-model="treePartCtrl.task.targetHtml.content"
+                                      ng-model="treePartCtrl.targetContent"
                                       class="task-text"></text-angular>
                     </div>
                     <div ng-if="treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">

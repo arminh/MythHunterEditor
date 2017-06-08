@@ -26,7 +26,6 @@
         ////////////////
 
         function restoreContent(content, answers) {
-            content = restoreTags(content);
             content = restoreVideoTag(content);
             content = removeImageWidth(content);
             return setCheckedAttributes(content, answers);
@@ -42,11 +41,6 @@
             return content;
         }
 
-        function restoreTags(content) {
-            content = content.replace(/<div (class=\"(?:radio|checkbox)-group\")/g, "<fieldset $1");
-            return content.replace(/<\/div>/g, "<\/fieldset>");
-        }
-
         function restoreVideoTag(content) {
             var regex = /<a href="(.*?)"><img src="(.*?)".*?\/><\/a>/g;
             var replaceString = '<img class="ta-insert-video" src="$2" ta-insert-video="$1" contenteditable="false" allowfullscreen="true" frameborder="0"\/>';
@@ -59,7 +53,6 @@
 
         function prepareContent(content) {
             content = clearCheckedAttributes(content);
-            content = replaceTags(content);
             content = replaceVideoTag(content);
             content = setImageWidth(content);
             return content;
@@ -84,12 +77,6 @@
             var checked = new RegExp(' checked=""', "g");
             var checked2 = new RegExp(' checked', "g");
             var content = content.replace(checked,"").replace(checked2,"");
-            return content;
-        }
-
-        function replaceTags(content) {
-            content = content.replace(/<fieldset/g, "<div");
-            content = content.replace(/<\/fieldset>/g, "<\/div>");
             return content;
         }
 
@@ -155,15 +142,15 @@
                     inputField = label.find("input");
                 }
 
-                if (label.text().trim() == "") {
-                    // if last element is blank, pull element outside.
-                    p.remove();
-                    var newEl =  angular.element("<p><br></p>");
-                    group.after(newEl);
-
-                    if (group.children().length === 0) group.remove();
-                    taSelection.setSelectionToElementStart(newEl[0]);
-                } else {
+                // if (label.text().trim() == "") {
+                //     // if last element is blank, pull element outside.
+                //     p.remove();
+                //     var newEl =  angular.element("<p><br></p>");
+                //     group.after(newEl);
+                //
+                //     if (group.children().length === 0) group.remove();
+                //     taSelection.setSelectionToElementStart(newEl[0]);
+                // } else {
                     var type = getQuizGroupType(group[0]);
                     var id = type + getGroupId(inputField) + "-" + (getHighestElementId(group) + 1);
                     var name = inputField.attr("name");
@@ -171,7 +158,7 @@
 
                     p.after(html);
                     taSelection.setSelectionToElementEnd(html[0]);
-                }
+                // }
             }
         }
 
