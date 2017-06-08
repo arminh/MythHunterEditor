@@ -93,7 +93,7 @@
         }
 
         function isHit(pointer) {
-            if (containsPoint(this.img, pointer) || containsPoint(this.head, pointer)) {
+            if (containsPoint.bind(this)(this.img, pointer) || containsPoint.bind(this)(this.head, pointer)) {
                 return true;
             }
         }
@@ -192,7 +192,7 @@
         }
 
         function containsPoint(object, point) {
-            return !canvas.isTargetTransparent(object, point.x, point.y);
+            return !this.canvas.isTargetTransparent(object, point.x, point.y);
         }
 
         function getImage() {

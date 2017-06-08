@@ -324,11 +324,21 @@
             }
         }
 
-        function saveTree() {
+        function saveTree(evt) {
 
             for(var i = 0; i < markers.length; i++) {
-                if(marker.getId() != 0 && marker.getLineEnds().length == 0) {
-                    alert("Missing connection!");
+                if(markers[i].getId() != 0 && markers[i].getLineEnds().length == 0) {
+                    var alert = $mdDialog.alert()
+                        .title('Saving Questline failed')
+                        .htmlContent('Not all marker are connected to the tree')
+                        .ariaLabel('Save Questline')
+                        .targetEvent(evt)
+                        .multiple(true)
+                        .ok('Close');
+
+                    return $mdDialog.show(alert).then(function() {
+                        return $q.reject();
+                    });
                 }
             }
 

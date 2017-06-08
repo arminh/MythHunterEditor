@@ -30,8 +30,8 @@
             QuestTreeService.init(vm.treeRoot);
         }
 
-        function confirm() {
-            QuestTreeService.saveTree();
+        function confirm(evt) {
+            QuestTreeService.saveTree(evt);
         }
 
         function cancel() {
