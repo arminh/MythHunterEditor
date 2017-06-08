@@ -61,12 +61,11 @@
                 startTask.setName(editQuest.getName());
                 startTask.setFixed(true);
 
+                var startHtml = startTask.getHtml();
+                startHtml.setTaskTitle(editQuest.getName());
                 if(!separateDescription) {
                     startHtml.setContent(editQuest.getHtml().getContent());
                 }
-
-                var startHtml = startTask.getHtml();
-                startHtml.setTaskTitle(editQuest.getName());
             }
 
             originalQuest.change();

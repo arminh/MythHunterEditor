@@ -183,7 +183,7 @@
                 promises.push(this.targetHtml.getFromRemote());
             }
 
-            if(remoteTask.getEnemyId()) {
+            if(remoteTask.getEnemyId() > 0) {
                 this.enemy = new Enemy();
                 this.enemy.setRemoteId(remoteTask.getEnemyId());
                 promises.push(this.enemy.getFromRemote());
@@ -280,7 +280,9 @@
                 this.remoteTask.setHtmlId(results[0]);
                 if (results[1]) {
                     this.remoteTask.setFinishedHtmlId(results[1]);
-                    this.remoteTask.setEnemyId(results[2]);
+                    if(this.type == MarkerType.FIGHT) {
+                        this.remoteTask.setEnemyId(results[2]);
+                    }
                 }
 
                 if (this.remoteId > 0 && this.changed) {
