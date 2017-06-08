@@ -185,3 +185,7 @@ fieldset p {
     margin: 0 2px;
 }
 
+.footer-btn {
+    display: none;
+}
+

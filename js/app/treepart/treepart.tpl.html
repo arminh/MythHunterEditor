@@ -5,7 +5,10 @@
                 <div layout="row" layout-align="center center">
                     <md-input-container flex="50">
                         <label>Task Name</label>
-                        <input name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus md-select-on-focus>
+                        <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus md-select-on-focus>
+                        <div ng-messages="taskForm.taskName.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
                     </md-input-container>
                 </div>
 
