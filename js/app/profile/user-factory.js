@@ -98,7 +98,7 @@
             var remoteQuests = remoteUser.getCreatedQuestIds();
             for(var i = 0; i < remoteQuests.length; i++) {
                 var quest = new Quest();
-                quest.remoteId = remoteQuests[i];
+                quest.setRemoteId(remoteQuests[i]);
                 this.createdQuests.push(quest);
             }
 
@@ -153,11 +153,12 @@
         function deleteQuest(quest) {
             $log.info("deleteQuest: ", quest);
             for (var i = 0; i < this.createdQuests.length; i++) {
-                if (this.createdQuests[i].remoteId = quest.remoteId) {
+                if (this.createdQuests[i].getRemoteId() == quest.getRemoteId()) {
                     this.createdQuests.splice(i, 1);
+                    break;
                 }
             }
-            if(quest.getRemoteId() > 0 && quest.getRemoteId() == this.currentQuest.getRemoteId()) {
+            if(quest.getRemoteId() > 0 && this.currentQuest && quest.getRemoteId() == this.currentQuest.getRemoteId()) {
                 this.clearCurrentQuest();
             }
 

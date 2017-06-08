@@ -15,7 +15,7 @@
     function QuestFactory($log, $q, AuthenticationService, BackendService, HtmlText, TreePart, DifficultyLevel, SubmitErrors) {
 
         $log = $log.getInstance("Quest", debugging);
-        function Quest() {
+        function Quest(creatorId) {
             this.remoteId = 0;
             this.version = null;
             this.name = "";
@@ -24,7 +24,7 @@
             this.qualityRating = 0;
             this.difficultyRating = 0;
             this.html = null;
-            this.creatorId = -1;
+            this.creatorId = creatorId;
             this.approved = true;
             this.submitted = false;
             this.specialCards = [];
@@ -54,10 +54,12 @@
             upload: upload,
             remove: remove,
 
+
             addReward: addReward,
             getRewards: getRewards,
             clearRewards: clearRewards,
             getRemoteId: getRemoteId,
+            setRemoteId: setRemoteId,
             getVersion: getVersion,
             getCreatorId: getCreatorId,
             getName: getName,
@@ -363,6 +365,10 @@
 
         function getRemoteId() {
             return this.remoteId;
+        }
+
+        function setRemoteId(value) {
+            this.remoteId = value;
         }
 
         function getVersion() {
