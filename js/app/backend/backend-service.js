@@ -257,10 +257,10 @@
             return remoteTask;
         }
 
-        function createRemoteHtml(html) {
+        function createRemoteHtml(html, content) {
             var remoteHtml = new backend_com_wsdl_htmlObject();
 
-            remoteHtml.setHtml(html.getContentHtml());
+            remoteHtml.setHtml(content);
             remoteHtml.setId(html.getRemoteId());
 
             var answers = [];

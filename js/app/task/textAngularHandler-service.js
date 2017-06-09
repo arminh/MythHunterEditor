@@ -17,6 +17,8 @@
             restoreContent: restoreContent,
             prepareContent: prepareContent,
             retrieveCheckedAttributes: retrieveCheckedAttributes,
+            removeCheckedAttributes: removeCheckedAttributes,
+            setCheckedAttributes: setCheckedAttributes,
             removeQuizFeatures: removeQuizFeatures,
             removeInvisibleFeatures: removeInvisibleFeatures,
             enterKeyPressed: enterKeyPressed
@@ -26,6 +28,7 @@
         ////////////////
 
         function restoreContent(content, answers) {
+            //content = restoreTags(content);
             content = restoreVideoTag(content);
             content = removeImageWidth(content);
             return setCheckedAttributes(content, answers);
@@ -41,6 +44,17 @@
             return content;
         }
 
+        function removeCheckedAttributes(content) {
+            content = content.replace(/checked=".*?"/g, "");
+            content = content.replace(/checked/g, "");
+            return content;
+        }
+
+        function restoreTags(content) {
+            content = content.replace(/<div (class=\"(?:radio|checkbox)-group\")/g, "<fieldset $1");
+            return content.replace(/<\/div>/g, "<\/fieldset>");
+        }
+
         function restoreVideoTag(content) {
             var regex = /<a href="(.*?)"><img src="(.*?)".*?\/><\/a>/g;
             var replaceString = '<img class="ta-insert-video" src="$2" ta-insert-video="$1" contenteditable="false" allowfullscreen="true" frameborder="0"\/>';
@@ -53,12 +67,13 @@
 
         function prepareContent(content) {
             content = clearCheckedAttributes(content);
+            //content = replaceTags(content);
             content = replaceVideoTag(content);
-            content = setImageWidth(content);
+            // content = setImageWidth(content);
             return content;
         }
 
-        function retrieveCheckedAttributes(answers) {
+        function retrieveCheckedAttributes(answers, content) {
             var textAngular = $('text-angular#task-editor-quiz div[id^="taTextElement"]');
             var inputElements = textAngular.find("input");
             if(inputElements.length == 0) {
@@ -68,15 +83,30 @@
             for(var i = 0; i < inputElements.length; i++) {
                 if(inputElements[i].id != "") {
                     answers[inputElements[i].id] = inputElements[i].checked;
+                    content = content.replace(/value=".*?"/g, "");
+                    if(inputElements[i].id.match(/textbox/g)) {
+                        var id = inputElements[i].id;
+                        var value = inputElements[i].value;
+                        content = content.replace('id="' + id + '"', 'id="' + id + '" value="' + value + '"');
+                    }
                 }
             }
-            return answers;
+            return {
+                answers: answers,
+                content: content
+            };
         }
 
         function clearCheckedAttributes(content) {
             var checked = new RegExp(' checked=""', "g");
             var checked2 = new RegExp(' checked', "g");
             var content = content.replace(checked,"").replace(checked2,"");
+            return content;
+        }
+
+        function replaceTags(content) {
+            content = content.replace(/<fieldset/g, "<div");
+            content = content.replace(/<\/fieldset>/g, "<\/div>");
             return content;
         }
 
@@ -116,7 +146,7 @@
             var $selected = angular.element(selectedElement);
             var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
 
-            if(tagName == "label" || (tagName == "p" && $selected.find("label").length > 0) || tagName == "fieldset") {
+            if(tagName == "label" || (tagName == "p" && $selected.find("label").length > 0) || tagName == "div" && $selected.find("label").length > 0) {
                 var group;
                 var inputField;
                 var label;
@@ -221,7 +251,7 @@
                 value = el;
             }
 
-            var html = '<p style="text-indent: 20px;"><label style="font-weight: normal"><input' +
+            var html = '<p class="quiz-group-option"><label style="font-weight: normal"><input' +
                 ' type="' + type + '"' +
                  ' id="' + id + '"' +
                 ' name="' + name + '"' +

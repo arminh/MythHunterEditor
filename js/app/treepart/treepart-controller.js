@@ -9,18 +9,21 @@
         .module('treePart')
         .controller('TreePartController', TreePartController);
 
-    TreePartController.$inject = ["$state", "$stateParams", "TreePartService", "MarkerType", "user"];
+    TreePartController.$inject = ["$scope", "$state", "$stateParams", "TreePartService", "MarkerType", "user"];
 
     /* @ngInject */
-    function TreePartController($state, $stateParams, TreePartService, MarkerType, user) {
+    function TreePartController($scope, $state, $stateParams, TreePartService, MarkerType, user) {
         var vm = this;
         vm.types = MarkerType;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
         vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo'],['input','radio','checkbox']]"
 
         vm.keyPressed = keyPressed;
+        vm.contentChanged = contentChanged;
         vm.confirm = confirm;
         vm.cancel = cancel;
+
+       // $scope.$watch("treePartCtrl.content", contentChanged);
 
         activate();
 
@@ -42,6 +45,10 @@
                     $state.go("app.profile");
                 }
             }
+        }
+
+        function contentChanged() {
+            vm.content = TreePartService.contentChanged(vm.task, vm.content);
         }
 
         function keyPressed(evt) {

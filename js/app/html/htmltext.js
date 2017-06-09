@@ -115,8 +115,7 @@
             }
 
             function uploadHtml(result) {
-                var remoteHtml = BackendService.createRemoteHtml(this);
-                remoteHtml.setHtml(result);
+                var remoteHtml = BackendService.createRemoteHtml(this, result);
 
                 if (this.remoteId < 1) {
                     BackendService.addHtml(remoteHtml).then(

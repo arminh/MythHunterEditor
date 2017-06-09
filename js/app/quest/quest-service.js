@@ -32,6 +32,7 @@
             $log.info("finishEditing: ", editQuest);
 
             originalQuest.getHtml().setContent(editQuest.getHtml().getContent());
+            originalQuest.getHtml().change();
             addRewardsToQuest(originalQuest, editQuest.getRewards());
 
             if(editQuest.getName() != originalQuest.getName()) {

@@ -18,12 +18,15 @@
         var service = {
             getContent: getContent,
             getTargetContent: getTargetContent,
+            contentChanged: contentChanged,
             keyPressed: keyPressed,
             finishEditing: finishEditing
         };
         return service;
 
         ////////////////
+
+
 
         function getContent(task) {
             var html = task.getHtml();
@@ -47,6 +50,19 @@
             }
         }
 
+        function contentChanged(task, content) {
+            if(task) {
+                var html = task.getHtml();
+                var answers = {};
+                var result = TextAngularHandler.retrieveCheckedAttributes(answers, content);
+                content = result.content;
+                html.setAnswers(result.answers);
+                content = TextAngularHandler.removeCheckedAttributes(content);
+                content = TextAngularHandler.setCheckedAttributes(content, answers);
+            }
+            return content;
+        }
+
         function finishEditing(editTreePart, originalTreePart, content, targetContent) {
 
             $log.info("finishEditing", editTreePart);
@@ -56,7 +72,9 @@
             originalTask.setName(editTask.getName());
             var answers = {};
             if (editTask.getType() == MarkerType.QUIZ) {
-                answers = TextAngularHandler.retrieveCheckedAttributes(answers);
+                var result = TextAngularHandler.retrieveCheckedAttributes(answers, content);
+                answers = result.answers;
+                content = result.content;
             }
 
             if (editTask.getType() == MarkerType.FIGHT) {

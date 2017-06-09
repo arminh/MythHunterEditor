@@ -24,9 +24,9 @@
 
         $provide.decorator('taOptions', extendTaOptions);
 
-        extendTaOptions.$inject = ["taRegisterTool", "taSelection", "$delegate", "$mdDialog"];
+        extendTaOptions.$inject = ["textAngularManager", "taRegisterTool", "taSelection", "$delegate", "$mdDialog"];
 
-        function extendTaOptions(taRegisterTool, taSelection_, taOptions, $mdDialog) { // $delegate is the taOptions we are decorating
+        function extendTaOptions(textAngularManager, taRegisterTool, taSelection_, taOptions, $mdDialog) { // $delegate is the taOptions we are decorating
             taSelection = taSelection_;
 
             var toolbarQuiz = [
@@ -42,7 +42,9 @@
                 class: "btn btn-primary",
                 tooltiptext: "Input box",
                 action: function () {
-                    createQuizInput($mdDialog, this.$editor());
+                    createQuizInput($mdDialog, this.$editor()).then(function() {
+                        textAngularManager.refreshEditor('task-editor-quiz');
+                    });
                 }
             });
 
@@ -53,7 +55,9 @@
                 action: function (value) {
                     console.log(this.$editor);
                     console.log(this.$editor());
-                    createQuizGroup("radio", $mdDialog, this.$editor());
+                    createQuizGroup("radio", $mdDialog, this.$editor()).then(function() {
+                        textAngularManager.refreshEditor('task-editor-quiz');
+                    });
                 }
             });
 
@@ -62,7 +66,9 @@
                 class: "btn btn-primary",
                 tooltiptext: "Checkbox",
                 action: function (value) {
-                    createQuizGroup("checkbox", $mdDialog, this.$editor());
+                    createQuizGroup("checkbox", $mdDialog, this.$editor()).then(function() {
+                        textAngularManager.refreshEditor('task-editor-quiz');
+                    });
                 }
             });
 
@@ -83,20 +89,23 @@
                 controller: 'QuizInputController',
                 controllerAs: "quizInputCtrl",
                 bindToController: true,
-                multiple: true,
+                multiple: true
             });
 
             promise.then(function(text) {
                 var content = "<input ";
                 content += "id='textbox" + textBoxCounter++ + "' ";
-                content += "class='quiz-input'",
+                content += "class='quiz-input'";
                 content += "type='text' ";
                 content += "value='" + text + "' ";
                 content = content + "/>";
 
 
                 selected.append(angular.element(content));
+                return null;
             });
+
+            return promise;
         }
 
         function createQuizGroup(type, $mdDialog, editor) {
@@ -125,10 +134,11 @@
                     checkboxCounter = 0;
                 }
 
-                addGroup(group)
+                addGroup(group);
+                return null;
             });
 
-
+            return promise;
         }
 
         function addGroup(group) {
@@ -169,10 +179,10 @@
 
             if (el.innerHTML) {
                 content = el.innerHTML;
-                value = el.innerText;
+                // value = el.innerText;
             } else {
                 content = el;
-                value = el;
+                // value = el;
             }
 
             var html = '<p class="quiz-group-option"><label><input' +
@@ -180,7 +190,7 @@
             if (checked) {
                 html += ' checked';
             }
-            html += ' value="' + value + '"/>' + content + '</label></p>';
+            html += '"/>' + content + '</label></p>';
 
             return html;
         }
