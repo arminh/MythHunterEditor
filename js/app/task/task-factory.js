@@ -88,7 +88,7 @@
 
         function init(type) {
             this.html = new HtmlText(this.questName, this.name);
-            if(type == MarkerType.FIGHT || MarkerType.INVISIBLE || MarkerType.QUIZ) {
+            if(type == MarkerType.FIGHT || type == MarkerType.INVISIBLE || type == MarkerType.QUIZ) {
                 this.targetHtml = new HtmlText(this.questName, this.name);
             }
             if(type == MarkerType.FIGHT) {
