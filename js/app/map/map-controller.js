@@ -66,6 +66,8 @@
             MapInteraction.init("mapView");
             $q.when(MapService.getQuest(user), function (quest) {
                 vm.quest = quest;
+                var startMarker = quest.getTreePartRoot().getTask();
+                MapInteraction.setCenter(startMarker.getLon(), startMarker.getLat(), 17);
             });
         }
 

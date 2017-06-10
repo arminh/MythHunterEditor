@@ -62,6 +62,7 @@
 
         function clearCurrentQuest() {
             user.clearCurrentQuest();
+            QuestService.setTreePartId(1);
             vm.currentQuest = null;
         }
 
