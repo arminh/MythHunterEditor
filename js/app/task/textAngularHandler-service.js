@@ -35,8 +35,8 @@
         }
 
         function setCheckedAttributes(content, answers) {
-            angular.forEach(answers, function(val, key) {
-                if(val == true) {
+            angular.forEach(answers, function (val, key) {
+                if (val == true) {
                     content = content.replace('id="' + key + '"', 'id="' + key + '" checked');
                 }
             });
@@ -70,22 +70,20 @@
         function retrieveCheckedAttributes(answers, content) {
             var textAngular = $('text-angular#task-editor-quiz div[id^="taTextElement"]');
             var inputElements = textAngular.find("input");
-            if(inputElements.length == 0) {
+            if (inputElements.length == 0) {
                 return {
                     answers: answers,
                     content: content
                 };
             }
 
-            for(var i = 0; i < inputElements.length; i++) {
-                if(inputElements[i].id != "") {
+            for (var i = 0; i < inputElements.length; i++) {
+                if (inputElements[i].id != "") {
                     answers[inputElements[i].id] = inputElements[i].checked;
                     content = content.replace(/value=".*?"/g, "");
-                    if(inputElements[i].id.match(/textbox/g)) {
-                        var id = inputElements[i].id;
-                        var value = inputElements[i].value;
-                        content = content.replace('id="' + id + '"', 'id="' + id + '" value="' + value + '"');
-                    }
+                    var id = inputElements[i].id;
+                    var value = inputElements[i].value;
+                    content = content.replace('id="' + id + '"', 'id="' + id + '" value="' + value + '"');
                 }
             }
             return {
@@ -97,7 +95,7 @@
         function clearCheckedAttributes(content) {
             var checked = new RegExp(' checked=""', "g");
             var checked2 = new RegExp(' checked', "g");
-            content = content.replace(checked,"").replace(checked2,"");
+            content = content.replace(checked, "").replace(checked2, "");
             return content;
         }
 
@@ -115,7 +113,7 @@
 
         function setImageWidth(content) {
             var regex = /<img(.*)style="width:/;
-            if(!regex.test(content)) {
+            if (!regex.test(content)) {
                 content = content.replace(/<img(.*)\/>/g, "<img$1 style='width:100%'/>");
             }
             return content;
@@ -143,7 +141,7 @@
             var $selected = angular.element(selectedElement);
             var tagName = (selectedElement && selectedElement.tagName && selectedElement.tagName.toLowerCase());
 
-            if(tagName == "label" || (tagName == "p" && $selected.find("label").length > 0) || tagName == "div" && $selected.find("label").length > 0) {
+            if (tagName == "label" || (tagName == "p" && $selected.find("label").length > 0) || tagName == "div" && $selected.find("label").length > 0) {
                 var group;
                 var inputField;
                 var label;
@@ -152,17 +150,17 @@
                 event.preventDefault();
                 event.stopPropagation();
 
-                if(tagName == "label") {
+                if (tagName == "label") {
                     label = $selected;
                     p = $selected.parent();
                     group = $selected.parent().parent();
                     inputField = $selected.find("input");
-                } else if(tagName == "p") {
+                } else if (tagName == "p") {
                     label = $selected.find("label");
                     p = $selected;
                     group = $selected.parent();
                     inputField = $selected.find("input");
-                } else if(tagName == "fieldset") {
+                } else if (tagName == "fieldset") {
                     group = $selected;
                     p = group.find("p").last();
                     label = p.find("label");
@@ -178,13 +176,13 @@
                 //     if (group.children().length === 0) group.remove();
                 //     taSelection.setSelectionToElementStart(newEl[0]);
                 // } else {
-                    var type = getQuizGroupType(group[0]);
-                    var id = type + getGroupId(inputField) + "-" + (getHighestElementId(group) + 1);
-                    var name = inputField.attr("name");
-                    var html = angular.element(newQuizGroupElement("", type, name, id));
+                var type = getQuizGroupType(group[0]);
+                var id = type + getGroupId(inputField) + "-" + (getHighestElementId(group) + 1);
+                var name = inputField.attr("name");
+                var html = angular.element(newQuizGroupElement("", type, name, id));
 
-                    p.after(html);
-                    taSelection.setSelectionToElementEnd(html[0]);
+                p.after(html);
+                taSelection.setSelectionToElementEnd(html[0]);
                 // }
             }
         }
@@ -207,9 +205,9 @@
         function getGroupId(inputField) {
             var name = inputField.attr("name");
 
-            if(name.match(/radio/)) {
+            if (name.match(/radio/)) {
                 return parseInt(name.match(/radio([0-9]*)/)[1]);
-            } else if(name.match(/checkbox/)) {
+            } else if (name.match(/checkbox/)) {
                 return parseInt(name.match(/checkbox([0-9]*)/)[1]);
             }
         }
@@ -218,16 +216,16 @@
             var elements = group.children();
 
             var maxId = -1;
-            for(var i = 0; i < elements.length; i++) {
+            for (var i = 0; i < elements.length; i++) {
                 var p = elements[i];
                 var label = angular.element(p).find("label");
                 var inputField = label.find("input");
 
                 var idName = inputField.attr("id");
                 var id = -1;
-                if(idName.match(/radio/)) {
+                if (idName.match(/radio/)) {
                     id = parseInt(idName.match(/radio[0-9]*-([0-9]*)/)[1]);
-                } else if(idName.match(/checkbox/)) {
+                } else if (idName.match(/checkbox/)) {
                     id = parseInt(idName.match(/checkbox[0-9]*-([0-9]*)/)[1]);
                 }
                 maxId = id > maxId ? id : maxId;
@@ -250,7 +248,7 @@
 
             var html = '<p class="quiz-group-option"><label style="font-weight: normal"><input' +
                 ' type="' + type + '"' +
-                 ' id="' + id + '"' +
+                ' id="' + id + '"' +
                 ' name="' + name + '"' +
                 ' value="' + value + '"/>' +
                 content +

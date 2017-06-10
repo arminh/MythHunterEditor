@@ -56,7 +56,7 @@
                     console.log(this.$editor);
                     console.log(this.$editor());
                     createQuizGroup("radio", $mdDialog, this.$editor()).then(function() {
-                        textAngularManager.refreshEditor('task-editor-quiz');
+                        // textAngularManager.refreshEditor('task-editor-quiz');
                     });
                 }
             });
@@ -179,18 +179,20 @@
 
             if (el.innerHTML) {
                 content = el.innerHTML;
-                // value = el.innerText;
+                value = el.innerText;
             } else {
                 content = el;
-                // value = el;
+                value = el;
             }
 
-            var html = '<p class="quiz-group-option"><label><input' +
-                ' type="' + type + '"' + ' id="' + id + '"' + ' name="' + name + '"';
-            if (checked) {
-                html += ' checked';
-            }
-            html += '"/>' + content + '</label></p>';
+            var html = '<p class="quiz-group-option"><label style="font-weight: normal"><input' +
+                ' type="' + type + '"' +
+                ' id="' + id + '"' +
+                ' name="' + name + '"' +
+                ' checked' +
+                ' value="' + value + '"/>' +
+                content +
+                '</label></p>';
 
             return html;
         }
