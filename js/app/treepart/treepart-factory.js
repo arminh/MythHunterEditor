@@ -25,7 +25,7 @@
             this.questInstanceId = 0;
             this.executedAt = null;
             this.successors = [];
-            this.type = null;
+            this.type = TreePartType.Marker;
             this.highlightedInvisibeMarker = false;
 
             this.questName = questName;
@@ -220,39 +220,35 @@
         }
 
         function upload() {
-            if(this.uploadPromise) {
-                return this.uploadPromise;
-            }
-            $log.info("upload: ", this);
-
-            var deferred = $q.defer();
+            // if(this.uploadPromise) {
+            //     return this.uploadPromise;
+            // }
 
             this.remoteTreePart = BackendService.createRemoteTreePart(this);
 
             var promises = [];
 
-            promises.push(this.task.upload());
+            promises.push($q.when(this.task.upload()));
 
             for (var i = 0; i < this.successors.length; i++) {
-                promises.push(this.successors[i].upload());
+                promises.push($q.when(this.successors[i].upload()));
             }
 
-            $q.all(promises).then(function (results) {
+            return $q.all(promises).then(function (results) {
                 this.remoteTreePart.setMarker(results[0]);
                 this.remoteTreePart.setSuccessors(results.slice(1, results.length));
                 if (this.remoteId < 1 || this.changed) {
-                    BackendService.addTreePart(this.remoteTreePart).then(function (result) {
+                    $log.info("upload: ", this);
+                    return BackendService.addTreePart(this.remoteTreePart).then(function (result) {
                         this.remoteId = result.getId();
                         $log.info("upload_success: ", this.remoteTreePart);
-                        deferred.resolve(result);
+                        return result;
                     }.bind(this));
-                } else{
-                    deferred.resolve(this.remoteTreePart);
+                } else {
+                    return this.remoteTreePart;
                 }
-
             }.bind(this));
-            this.uploadPromise = deferred.promise;
-            return this.uploadPromise;
+            // return this.uploadPromise;
         }
 
         function remove() {

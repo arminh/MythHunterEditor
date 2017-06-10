@@ -57,7 +57,7 @@
                 var result = TextAngularHandler.retrieveCheckedAttributes(answers, content);
                 content = result.content;
                 html.setAnswers(result.answers);
-                content = TextAngularHandler.removeCheckedAttributes(content);
+                content = TextAngularHandler.clearCheckedAttributes(content);
                 content = TextAngularHandler.setCheckedAttributes(content, answers);
             }
             return content;

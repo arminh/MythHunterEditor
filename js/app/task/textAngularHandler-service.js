@@ -17,7 +17,7 @@
             restoreContent: restoreContent,
             prepareContent: prepareContent,
             retrieveCheckedAttributes: retrieveCheckedAttributes,
-            removeCheckedAttributes: removeCheckedAttributes,
+            clearCheckedAttributes: clearCheckedAttributes,
             setCheckedAttributes: setCheckedAttributes,
             removeQuizFeatures: removeQuizFeatures,
             removeInvisibleFeatures: removeInvisibleFeatures,
@@ -41,12 +41,6 @@
                 }
             });
 
-            return content;
-        }
-
-        function removeCheckedAttributes(content) {
-            content = content.replace(/checked=".*?"/g, "");
-            content = content.replace(/checked/g, "");
             return content;
         }
 
@@ -77,7 +71,10 @@
             var textAngular = $('text-angular#task-editor-quiz div[id^="taTextElement"]');
             var inputElements = textAngular.find("input");
             if(inputElements.length == 0) {
-                return answers;
+                return {
+                    answers: answers,
+                    content: content
+                };
             }
 
             for(var i = 0; i < inputElements.length; i++) {
@@ -100,7 +97,7 @@
         function clearCheckedAttributes(content) {
             var checked = new RegExp(' checked=""', "g");
             var checked2 = new RegExp(' checked', "g");
-            var content = content.replace(checked,"").replace(checked2,"");
+            content = content.replace(checked,"").replace(checked2,"");
             return content;
         }
 

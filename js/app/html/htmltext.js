@@ -105,39 +105,36 @@
         }
 
         function upload() {
-            $log.info("upload: ", this);
-            var deffered = $q.defer();
 
             if (this.remoteId >= 1 && this.changed == false) {
-                deffered.resolve(this.remoteId);
+                return this.remoteId;
             } else {
-                this.getEscapedContentHtml().then(uploadHtml.bind(this));
+                $log.info("upload: ", this);
+                return this.getEscapedContentHtml().then(uploadHtml.bind(this));
             }
 
             function uploadHtml(result) {
                 var remoteHtml = BackendService.createRemoteHtml(this, result);
 
                 if (this.remoteId < 1) {
-                    BackendService.addHtml(remoteHtml).then(
+                    return BackendService.addHtml(remoteHtml).then(
                         function (result) {
                             this.remoteId = result.getId();
                             $log.info("upload_success (add): ", this);
-                            deffered.resolve(this.remoteId);
+                            return this.remoteId;
                         }.bind(this),
                         function (error) {
                             $log.error("upload_error: ", this);
-                            deffered.reject(error);
+                            return $q.reject(error);
                         }.bind(this)
                     );
                 } else {
-                    BackendService.updateHtml(remoteHtml).then(function (result) {
+                    return BackendService.updateHtml(remoteHtml).then(function (result) {
                         $log.info("upload_success (update): ", this);
-                        deffered.resolve(this.remoteId);
+                        return this.remoteId;
                     }.bind(this));
                 }
             }
-
-            return deffered.promise;
         }
 
         function remove() {

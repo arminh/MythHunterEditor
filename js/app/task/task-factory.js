@@ -257,25 +257,24 @@
         }
 
         function upload() {
-            $log.info("upload", this);
+            // $log.info("upload", this);
 
-            var deffered = $q.defer();
             this.remoteTask = BackendService.createRemoteTask(this);
 
             var promises = [];
 
-            promises.push(this.html.upload());
+            promises.push($q.when(this.html.upload()));
             if (this.targetHtml) {
-                promises.push(this.targetHtml.upload());
+                promises.push($q.when(this.targetHtml.upload()));
             }
             if(this.enemy){
                 promises.push($q.when(this.enemy.upload()));
             }
 
             if (this.remoteId < 1 || this.changed) {
-                $q.all(promises).then(uploadTask.bind(this));
+                return $q.all(promises).then(uploadTask.bind(this));
             } else {
-                $q.all(promises).then(returnTask.bind(this))
+                return $q.all(promises).then(returnTask.bind(this))
             }
 
             function uploadTask(results) {
@@ -292,10 +291,10 @@
                     return BackendService.updateTask(this.remoteTask).then(function (result) {
                         this.version = result.getVersion();
                         $log.info("upload_success: ", this);
-                        deffered.resolve(result);
+                        return result;
                     }.bind(this), function (error) {
                         alert(error);
-                        deffered.reject(error);
+                        return $q.reject();
                     });
 
                 } else {
@@ -304,17 +303,15 @@
                         this.remoteId = result.getId();
                         this.version = result.getVersion();
                         $log.info("upload_success: ", this);
-                        deffered.resolve(result);
+                        return result;
                     }.bind(this));
                 }
             }
 
             function returnTask() {
                 $log.info("upload_success: ", this);
-                deffered.resolve(this.remoteTask);
+                return this.remoteTask;
             }
-
-            return deffered.promise;
         }
 
         function remove() {

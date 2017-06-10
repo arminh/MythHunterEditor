@@ -18,6 +18,8 @@
         vm.password = "";
 
         vm.login = login;
+        vm.register = register;
+
 
         ////////////////
 
@@ -32,6 +34,10 @@
                     $state.go("app.profile");
                 });
             }
+        }
+
+        function register() {
+            $state.go("app.register");
         }
     }
 

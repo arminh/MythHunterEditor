@@ -259,14 +259,15 @@
         }
 
         function upload() {
-            $log.info("upload: ", this);
+
 
             var promises = [];
 
-            promises.push(this.html.upload());
+            promises.push($q.when(this.html.upload()));
             promises.push(this.treePartRoot.upload());
 
             if (this.remoteId < 1 || this.changed) {
+                // $log.info("upload: ", this);
                 this.remoteQuest = BackendService.createRemoteQuest(this);
 
                 return $q.all(promises).then(function (responses) {
