@@ -80,7 +80,9 @@
         function initFromRemote(remoteDeck, ownedCards) {
             this.name = remoteDeck.getName();
             this.cardIds = remoteDeck.getCardIds();
-            return this.loadCards(ownedCards);
+            return this.loadCards(ownedCards).then(function() {
+                return this;
+            }.bind(this));
         }
 
         function loadCards(ownedCards) {

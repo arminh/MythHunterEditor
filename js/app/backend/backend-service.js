@@ -65,7 +65,8 @@
             uploadImage: uploadImage,
             downloadImage: downloadImage,
             convertImage: convertImage,
-            mapPosition: mapPosition
+            mapPosition: mapPosition,
+            getStandartDeck: getStandartDeck
         };
         return service;
 
@@ -989,6 +990,20 @@
             }, function (error) {
                 $log.error("deleteDeck_fail: ", error);
             }, deckId);
+
+            return deffered.promise;
+        }
+
+        function getStandartDeck(userId) {
+            var deffered = $q.defer();
+
+            $log.info("getStandartDeck: ", userId);
+            backend.getStandartDeck(function (result) {
+                $log.info("getStandartDeck_success: ");
+                deffered.resolve(result);
+            }, function (error) {
+                $log.error("getStandartDeck_fail: ", error);
+            }, userId);
 
             return deffered.promise;
         }

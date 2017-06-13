@@ -36,6 +36,9 @@
                     </div>
                     <div ng-if="treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">
                         <enemy enemy="treePartCtrl.task.enemy"></enemy>
+                        <md-button aria-label="enemyDeck"  class="md-raised" ng-click="treePartCtrl.addDeckToEnemy()">
+                            Add Deck
+                        </md-button>
                     </div>
                 </div>
                 <div>

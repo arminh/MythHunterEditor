@@ -27,7 +27,7 @@
         ////////////////
 
         function activate() {
-            vm.collection = CollectionService.loadCollection(user);
+            vm.collection = CollectionService.loadCollectionCreatedCards(user);
             for (var i = 0; i < vm.rewardIds.length; i++) {
                 vm.collection.selectCreatedCard(vm.rewardIds[i]);
                 vm.selectedCards.push(vm.collection.getCreatedCard(vm.rewardIds[i]));

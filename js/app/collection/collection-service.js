@@ -9,10 +9,10 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "$q", "$mdDialog", "CardService", "DeckService", "Collection", "MIN_DECK_CARDS"];
+    CollectionService.$inject = ["$log", "$q", "$mdDialog", "BackendService", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $mdDialog, CardService, DeckService, Collection, MIN_DECK_CARDS) {
+    function CollectionService($log, $q, $mdDialog, BackendService, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var originalDeck = null;
@@ -21,13 +21,16 @@
         var service = {
             createCollection: createCollection,
             loadCollection: loadCollection,
+            loadCollectionEnemy: loadCollectionEnemy,
+            loadCollectionCreatedCards: loadCollectionCreatedCards,
             createCard: createCard,
             createDeck: createDeck,
             addCardToDeck: addCardToDeck,
             addDroppedCard: addDroppedCard,
             openDeck: openDeck,
             saveDeck: saveDeck,
-            removeDeck: removeDeck
+            removeDeck: removeDeck,
+            getStandartDeck: getStandartDeck
 
         };
         return service;
@@ -41,13 +44,25 @@
             return new Collection(cards, createdCards, decks)
         }
 
-
         function loadCollection(user) {
 
             var collection = user.getCollection();
-            collection.load();
+            collection.load(true, true, true);
             return collection;
         }
+
+        function loadCollectionEnemy(user) {
+
+            var collection = user.getCollection();
+            return collection.load(true, true, false);
+        }
+
+        function loadCollectionCreatedCards(user) {
+            var collection = user.getCollection();
+            collection.load(false, true, false);
+            return collection;
+        }
+
 
         function createCard(user) {
             return CardService.createCard(user);
@@ -66,8 +81,11 @@
             }
         }
 
-        function addDroppedCard(cardId, deck, collection) {
+        function addDroppedCard(cardId, deck, collection, enemy) {
             var card = collection.getCard(cardId);
+            if(!card && enemy) {
+                card = collection.getCreatedCard(cardId);
+            }
             addCardToDeck(card, deck);
         }
 
@@ -158,6 +176,13 @@
                     return $q.reject();
                 });
             }
+        }
+
+        function getStandartDeck(user, collection) {
+            return BackendService.getStandartDeck(user.getId()).then(function(result) {
+                var deck = new Deck();
+                return deck.initFromRemote(result.getReturn(), collection.getCards());
+            });
         }
     }
 

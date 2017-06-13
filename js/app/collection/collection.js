@@ -22,6 +22,9 @@
                         return AuthenticationService.userPromise();
                     }]
                 },
+                params:{
+                    enemy:null
+                },
                 controller: 'CollectionController',
                 controllerAs: 'collectionCtrl'
             });

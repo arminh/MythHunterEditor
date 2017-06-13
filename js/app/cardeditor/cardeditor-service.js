@@ -63,6 +63,7 @@
                     actions.splice(i, 1);
                 }
             }
+            card.setCreatedByUser(true);
             $mdDialog.hide();
         }
 

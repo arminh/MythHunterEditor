@@ -27,6 +27,7 @@
         }
 
         Enemy.prototype = {
+            constructor: Enemy,
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
             loadImage: loadImage,

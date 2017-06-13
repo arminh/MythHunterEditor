@@ -9,10 +9,10 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["CollectionService", "MAX_STARS", "CardType", "user"];
+    CollectionController.$inject = ["CollectionService", "MAX_STARS", "CardType", "user", "$stateParams"];
 
     /* @ngInject */
-    function CollectionController(CollectionService, MAX_STARS, CardType, user) {
+    function CollectionController(CollectionService, MAX_STARS, CardType, user, $stateParams) {
         var vm = this;
 
         vm.user = user;
@@ -21,12 +21,14 @@
         vm.starsEmpty = new Array(MAX_STARS);
         vm.filterStars = -1;
         vm.searchText = "";
+        vm.enemy = null;
 
         vm.collectionShown = true;
         vm.createdCardsShown = false;
         vm.editingDeck = false;
         vm.currentDeck = null;
         vm.droppedCard = {};
+        vm.enemyDeckPromise = null;
 
         vm.createCard = createCard;
         vm.createDeck = createDeck;
@@ -48,7 +50,17 @@
         ////////////////
 
         function activate() {
-            vm.collection = CollectionService.loadCollection(user);
+            if($stateParams.enemy) {
+                vm.enemy = $stateParams.enemy;
+                CollectionService.loadCollectionEnemy(user).then(function(collection) {
+                    vm.collection = collection;
+                    CollectionService.getStandartDeck(user, collection).then(function (deck) {
+                        vm.currentDeck = CollectionService.openDeck(deck);
+                    });
+                });
+            } else {
+                vm.collection = CollectionService.loadCollection(user);
+            }
         }
 
         function starsFilter() {
@@ -63,9 +75,9 @@
 
         function contentFilter() {
             return function (card) {
-                if(vm.searchText == "Spell") {
+                if (vm.searchText == "Spell") {
                     return card.getType() == CardType.SPELL;
-                } else if(vm.searchText == "Monster") {
+                } else if (vm.searchText == "Monster") {
                     return card.getType() == CardType.MONSTER;
                 } else {
                     return card.getName().indexOf(vm.searchText) > -1 || card.getDescription().indexOf(vm.searchText) > -1;
@@ -110,12 +122,17 @@
 
         }
 
-        function addCardToDeck(card) {
-            CollectionService.addCardToDeck(card, vm.currentDeck);
+        function addCardToDeck(card, isCreatedCard) {
+            if(isCreatedCard && vm.enemy) {
+                CollectionService.addCardToDeck(card, vm.currentDeck);
+            } else {
+                CollectionService.addCardToDeck(card, vm.currentDeck);
+            }
+
         }
 
         function cardDropped() {
-            CollectionService.addDroppedCard(vm.droppedCard, vm.currentDeck, vm.collection);
+            CollectionService.addDroppedCard(vm.droppedCard, vm.currentDeck, vm.collection, vm.enemy);
             vm.droppedCard = {};
         }
 
@@ -132,7 +149,7 @@
         }
 
         function cancelDeck() {
-            if(vm.currentDeck.getRemoteId() <= 0) {
+            if (vm.currentDeck.getRemoteId() <= 0) {
                 vm.collection.removeDeck(vm.currentDeck.getId());
             }
             closeDeck();
@@ -148,14 +165,14 @@
         }
 
         function saveDeck(evt) {
-            vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck, vm.collection, evt).then(function() {
+            vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck, vm.collection, evt).then(function () {
                 user.upload();
                 closeDeck();
             });
         }
 
         function removeDeck(deck, evt) {
-            CollectionService.removeDeck(vm.collection, deck, evt).then(function() {
+            CollectionService.removeDeck(vm.collection, deck, evt).then(function () {
                 user.upload();
             });
         }

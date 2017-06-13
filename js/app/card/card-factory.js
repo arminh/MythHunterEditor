@@ -28,6 +28,7 @@
             this.type = CardType.MONSTER;
             this.image = new CardImage();
 
+            this.createdByUser = false;
             this.loadPromise = null;
             this.selected = false;
             this.loaded = false;
@@ -57,13 +58,14 @@
             getActionIds: getActionIds,
             getActions: getActions,
             getVersion: getVersion,
-
             setImage: setImage,
             getLoaded: getLoaded,
             getSelected: getSelected,
             setSelected: setSelected,
             getLoadPromise: getLoadPromise,
-            setLoadPromise: setLoadPromise
+            setLoadPromise: setLoadPromise,
+            getCreatedByUser: getCreatedByUser,
+            setCreatedByUser: setCreatedByUser
         };
 
         return (Card);
@@ -289,6 +291,14 @@
 
         function getVersion() {
             return this.version;
+        }
+
+        function getCreatedByUser() {
+            return this.createdByUser;
+        }
+
+        function setCreatedByUser(value) {
+            this.createdByUser = value;
         }
     }
 

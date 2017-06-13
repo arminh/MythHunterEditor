@@ -44,27 +44,35 @@
 
 
 
-        function load() {
-            return $q.when(ActionService.getActions()).then(loadCards.bind(this));
+        function load(loadCards, loadCreatedCards, loadDecks) {
+            return $q.when(ActionService.getActions()).then(function() {
+                return loadCollection.bind(this)(loadCards, loadCreatedCards, loadDecks);
+            }.bind(this));
         }
 
-        function loadCards() {
-            var cardPromises = [];
+        function loadCollection(loadCards, loadCreatedCards, loadDecks) {
+            var promises = [];
 
             $log.info("loadCards");
-            for (var i = 0; i < this.cards.length; i++) {
-                if (!this.cards[i].getLoaded()) {
-                    var cardPromise = this.cards[i].getFromRemote().then(setActions.bind(this.cards[i]));
-                    cardPromises.push(cardPromise);
+            if(loadCards) {
+                for (var i = 0; i < this.cards.length; i++) {
+                    if (!this.cards[i].getLoaded()) {
+                        var cardPromise = this.cards[i].getFromRemote().then(setActions.bind(this.cards[i]));
+                        promises.push(cardPromise);
+                    }
                 }
             }
 
-            for (var i = 0; i < this.createdCards.length; i++) {
-                if (!this.createdCards[i].getLoaded()) {
-                    var cardPromise = this.createdCards[i].getFromRemote().then(setActions.bind(this.createdCards[i]));
-                    cardPromises.push(cardPromise);
+            if(loadCreatedCards) {
+                for (var i = 0; i < this.createdCards.length; i++) {
+                    if (!this.createdCards[i].getLoaded()) {
+                        this.createdCards[i].setCreatedByUser(true);
+                        var cardPromise = this.createdCards[i].getFromRemote().then(setActions.bind(this.createdCards[i]));
+                        promises.push(cardPromise);
+                    }
                 }
             }
+
 
             function setActions() {
                 var actionIds = this.getActionIds();
@@ -78,15 +86,18 @@
                 }
                 return this;
             }
+            if(loadDecks) {
+                promises.push(loadUserDecks.bind(this)(this.cards));
+            }
 
-            loadDecks.bind(this)(this.cards);
-
-            return $q.all(cardPromises).then(function (results) {
+            $q.all(promises).then(function (results) {
                 $log.info("loadCards_success", results);
-            });
+            }.bind(this));
+
+            return this;
         }
 
-        function loadDecks(ownedCards) {
+        function loadUserDecks(ownedCards) {
             var deckPromises = [];
 
             $log.info("loadDecks");

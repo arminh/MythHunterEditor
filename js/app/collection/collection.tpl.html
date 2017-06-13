@@ -42,17 +42,21 @@
 
             <div ng-show="collectionCtrl.collectionShown" ng-model="card.remoteId"
                  ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter() | orderBy : 'stars'"
-                 ng-dblclick="collectionCtrl.addCardToDeck(card)" class="collection-card-preview-container"
+                 ng-dblclick="collectionCtrl.addCardToDeck(card, false)" class="collection-card-preview-container"
                  ng-class="{'collection-card-movable': card.loaded && collectionCtrl.currentDeck}"
                  jqyoui-draggable="{index: {{$index}}, placeholder:'keep', containment: 'offset'}"
                  data-drag="card.loaded && collectionCtrl.currentDeck"
                  data-jqyoui-options="{revert: 'invalid', helper: 'clone', containment: '#collection-container'}">
                 <card class="collection-card" card="card" edit="false" menu="false"></card>
             </div>
-            <div ng-show="collectionCtrl.createdCardsShown"
+            <div ng-show="collectionCtrl.createdCardsShown" ng-model="card.remoteId"
                  ng-repeat="card in collectionCtrl.collection.createdCards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter() | orderBy : 'stars'"
-                 class="collection-card-preview-container" ng-click="collectionCtrl.showCard(card)">
-                <card class="collection-card" card="card" edit="false" menu="true"></card>
+                 ng-dblclick="collectionCtrl.addCardToDeck(card, true)" class="collection-card-preview-container"
+                 ng-class="{'collection-card-movable': card.loaded && collectionCtrl.currentDeck && collectionCtrl.enemy}"
+                 jqyoui-draggable="{index: {{$index}}, placeholder:'keep', containment: 'offset'}"
+                 data-drag="collectionCtrl.enemy && card.loaded && collectionCtrl.currentDeck"
+                 data-jqyoui-options="{revert: 'invalid', helper: 'clone', containment: '#collection-container'}">
+                <card class="collection-card" card="card" edit="false" menu="!collectionCtrl.enemy"></card>
             </div>
         </div>
 
@@ -60,12 +64,12 @@
     <div flex="20">
         <form name="deckForm" ng-submit="collectionCtrl.saveDeck($event)" class="collection-decks-container" layout="column"
               cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}" >
-            <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck">
+            <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck && !collectionCtrl.enemy">
                 <md-button class="md-raised" ng-click="collectionCtrl.createDeck()" ng-disabled="!collectionCtrl.collection.loaded">
                     <md-label>Create deck</md-label>
                 </md-button>
             </div>
-            <div class="collection-deck-button" ng-if="collectionCtrl.currentDeck">
+            <div class="collection-deck-button" ng-if="collectionCtrl.currentDeck && !collectionCtrl.enemy">
                 <md-button class="md-raised" ng-click="collectionCtrl.cancelDeck()">
                     <md-icon md-svg-src="media/back_icon.svg" class="back-icon"></md-icon>
                     <md-label>Cancel</md-label>
@@ -73,7 +77,7 @@
             </div>
 
             <div ng-if="!collectionCtrl.currentDeck" flex>
-                <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible" class="collection-deck-button-container"
+                <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible && !collectionCtrl.enemy" class="collection-deck-button-container"
                      cg-busy="{promise:deck.loadPromise, message:'Loading deck...'}" layout="row">
                     <div class="collection-deck-button" flex>
                         <md-button class="md-raised md-button-primary" ng-click="collectionCtrl.openDeck(deck)" ng-disabled="!collectionCtrl.collection.loaded">
