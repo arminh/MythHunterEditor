@@ -170,6 +170,14 @@
             toMarker.addLineEnd(line);
         }
 
+        function getLineById(id) {
+            for(var i = 0; i < lines.length; i++) {
+                if(lines[i].id == id) {
+                    return lines[i];
+                }
+            }
+        }
+
         function activateDraw() {
             canvas.on('mouse:down', onMouseDown);
         }
@@ -181,9 +189,17 @@
             if (!obj) {
                 return;
             }
-            var objLeft = obj.left;
-            var objTop = obj.top;
-            canvas.on("mouse:up", onMouseUp);
+
+            if(obj.type == "marker") {
+                var objLeft = obj.left;
+                var objTop = obj.top;
+                canvas.on("mouse:up", onMouseUp);
+            } else if(obj.type == "head") {
+                var line = getLineById(obj.lineId);
+                var startMarker = line.getFromMarker();
+                line.remove();
+                startDrawing(startMarker.getImage(), canvas.getPointer(evt.e));
+            }
 
             function onMouseUp() {
                 canvas.off('mouse:up');
@@ -197,6 +213,7 @@
                     finishDrawing(obj);
                 }
             }
+
         }
 
         function startDrawing(obj, pointer) {

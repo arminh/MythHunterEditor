@@ -260,6 +260,7 @@
                     controller: 'QuestTreeController',
                     controllerAs: "questTree",
                     bindToController: true,
+                    escapeToClose: false,
                     locals: {
                         treeRoot: quest.getTreePartRoot()
                     }

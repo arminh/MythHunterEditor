@@ -37,6 +37,7 @@
             getImage: getImage,
             setStart: setStart,
             setEnd: setEnd,
+            getFromMarker: getFromMarker,
             setFromMarker: setFromMarker,
             setToMarker: setToMarker
         };
@@ -61,7 +62,13 @@
             this.img.type = "line";
             this.img.hasControls = false;
             this.img.hasBorders = false;
-            this.img.set({selectable: false});
+            this.img.hasRotatingPoint = false;
+            this.img.lockMovementX = true;
+            this.img.lockMovementY = true;
+            this.img.lockScalingX  = true;
+            this.img.lockScalingY  = true;
+            this.img.lockRotation = true;
+            this.img.lineId = this.id;
             this.canvas.add(this.img);
 
             this.start = {x: points[0], y: points[1]};
@@ -127,7 +134,17 @@
                 width: 10
             });
 
-            triangle.set({selectable: false});
+            // triangle.set({selectable: false});
+            triangle.hasControls = false;
+            triangle.hasBorders = false;
+            triangle.hasRotatingPoint = false;
+            triangle.type = "head";
+            triangle.lockMovementX = true;
+            triangle.lockMovementY = true;
+            triangle.lockScalingX  = true;
+            triangle.lockScalingY  = true;
+            triangle.lockRotation = true;
+            triangle.lineId = this.id;
             this.head = triangle;
 
             positionArrowHead.bind(this)();
@@ -205,6 +222,10 @@
 
         function setEnd(value) {
             this.end = value;
+        }
+
+        function getFromMarker() {
+            return this.fromMarker;
         }
 
         function setFromMarker(value) {
