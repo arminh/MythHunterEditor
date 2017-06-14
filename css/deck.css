@@ -43,6 +43,12 @@
     padding-left: 75px;
 }
 
+.deck-card-text-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .deck-card-amount {
     float: right;
     padding-right: 5px;

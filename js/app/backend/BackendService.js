@@ -19183,7 +19183,7 @@ function backend_com_wsdl_getRandomEnemiesInRangeResponse_deserialize (cxfjsutil
 //
 function backend_com_wsdl_enemy () {
     this.typeMarker = 'backend_com_wsdl_enemy';
-    this._cardIds = [];
+    this._deckId = 0;
     this._description = null;
     this._id = 0;
     this._imageUrl = null;
@@ -19192,23 +19192,21 @@ function backend_com_wsdl_enemy () {
 }
 
 //
-// accessor is backend_com_wsdl_enemy.prototype.getCardIds
-// element get for cardIds
-// - element type is {http://backend.com/wsdl}longToIntEntry
+// accessor is backend_com_wsdl_enemy.prototype.getDeckId
+// element get for deckId
+// - element type is {http://www.w3.org/2001/XMLSchema}long
 // - required element
-// - array
-// - nillable
 //
-// element set for cardIds
-// setter function is is backend_com_wsdl_enemy.prototype.setCardIds
+// element set for deckId
+// setter function is is backend_com_wsdl_enemy.prototype.setDeckId
 //
-function backend_com_wsdl_enemy_getCardIds() { return this._cardIds;}
+function backend_com_wsdl_enemy_getDeckId() { return this._deckId;}
 
-backend_com_wsdl_enemy.prototype.getCardIds = backend_com_wsdl_enemy_getCardIds;
+backend_com_wsdl_enemy.prototype.getDeckId = backend_com_wsdl_enemy_getDeckId;
 
-function backend_com_wsdl_enemy_setCardIds(value) { this._cardIds = value;}
+function backend_com_wsdl_enemy_setDeckId(value) { this._deckId = value;}
 
-backend_com_wsdl_enemy.prototype.setCardIds = backend_com_wsdl_enemy_setCardIds;
+backend_com_wsdl_enemy.prototype.setDeckId = backend_com_wsdl_enemy_setDeckId;
 //
 // accessor is backend_com_wsdl_enemy.prototype.getDescription
 // element get for description
@@ -19304,15 +19302,9 @@ function backend_com_wsdl_enemy_serialize(cxfjsutils, elementName, extraNamespac
     }
     // block for local variables
     {
-     if (this._cardIds != null) {
-      for (var ax = 0;ax < this._cardIds.length;ax ++) {
-       if (this._cardIds[ax] == null) {
-        xml = xml + '<cardIds xsi:nil=\'true\'/>';
-       } else {
-        xml = xml + this._cardIds[ax].serialize(cxfjsutils, 'cardIds', null);
-       }
-      }
-     }
+     xml = xml + '<deckId>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._deckId);
+     xml = xml + '</deckId>';
     }
     // block for local variables
     {
@@ -19366,21 +19358,16 @@ function backend_com_wsdl_enemy_deserialize (cxfjsutils, element) {
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing cardIds');
-    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'cardIds')) {
-     item = [];
-     do  {
-      var arrayItem = null;
-      var value = null;
-      if (!cxfjsutils.isElementNil(curElement)) {
-       arrayItem = backend_com_wsdl_longToIntEntry_deserialize(cxfjsutils, curElement);
-      }
-      item.push(arrayItem);
-      curElement = cxfjsutils.getNextElementSibling(curElement);
-     }
-       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'cardIds'));
-     newobject.setCardIds(item);
-     var item = null;
+    cxfjsutils.trace('processing deckId');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setDeckId(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing description');
@@ -20035,7 +20022,7 @@ function backend_com_wsdl_updateQuestResponse_deserialize (cxfjsutils, element) 
 //
 function backend_com_wsdl_randomEnemy () {
     this.typeMarker = 'backend_com_wsdl_randomEnemy';
-    this._cardIds = [];
+    this._deckId = 0;
     this._description = null;
     this._id = 0;
     this._imageUrl = null;
@@ -20046,23 +20033,21 @@ function backend_com_wsdl_randomEnemy () {
 }
 
 //
-// accessor is backend_com_wsdl_randomEnemy.prototype.getCardIds
-// element get for cardIds
-// - element type is {http://backend.com/wsdl}longToIntEntry
+// accessor is backend_com_wsdl_randomEnemy.prototype.getDeckId
+// element get for deckId
+// - element type is {http://www.w3.org/2001/XMLSchema}long
 // - required element
-// - array
-// - nillable
 //
-// element set for cardIds
-// setter function is is backend_com_wsdl_randomEnemy.prototype.setCardIds
+// element set for deckId
+// setter function is is backend_com_wsdl_randomEnemy.prototype.setDeckId
 //
-function backend_com_wsdl_randomEnemy_getCardIds() { return this._cardIds;}
+function backend_com_wsdl_randomEnemy_getDeckId() { return this._deckId;}
 
-backend_com_wsdl_randomEnemy.prototype.getCardIds = backend_com_wsdl_randomEnemy_getCardIds;
+backend_com_wsdl_randomEnemy.prototype.getDeckId = backend_com_wsdl_randomEnemy_getDeckId;
 
-function backend_com_wsdl_randomEnemy_setCardIds(value) { this._cardIds = value;}
+function backend_com_wsdl_randomEnemy_setDeckId(value) { this._deckId = value;}
 
-backend_com_wsdl_randomEnemy.prototype.setCardIds = backend_com_wsdl_randomEnemy_setCardIds;
+backend_com_wsdl_randomEnemy.prototype.setDeckId = backend_com_wsdl_randomEnemy_setDeckId;
 //
 // accessor is backend_com_wsdl_randomEnemy.prototype.getDescription
 // element get for description
@@ -20191,15 +20176,9 @@ function backend_com_wsdl_randomEnemy_serialize(cxfjsutils, elementName, extraNa
     }
     // block for local variables
     {
-     if (this._cardIds != null) {
-      for (var ax = 0;ax < this._cardIds.length;ax ++) {
-       if (this._cardIds[ax] == null) {
-        xml = xml + '<cardIds xsi:nil=\'true\'/>';
-       } else {
-        xml = xml + this._cardIds[ax].serialize(cxfjsutils, 'cardIds', null);
-       }
-      }
-     }
+     xml = xml + '<deckId>';
+     xml = xml + cxfjsutils.escapeXmlEntities(this._deckId);
+     xml = xml + '</deckId>';
     }
     // block for local variables
     {
@@ -20273,21 +20252,16 @@ function backend_com_wsdl_randomEnemy_deserialize (cxfjsutils, element) {
     var curElement = cxfjsutils.getFirstElementChild(element);
     var item;
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
-    cxfjsutils.trace('processing cardIds');
-    if (curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'cardIds')) {
-     item = [];
-     do  {
-      var arrayItem = null;
-      var value = null;
-      if (!cxfjsutils.isElementNil(curElement)) {
-       arrayItem = backend_com_wsdl_longToIntEntry_deserialize(cxfjsutils, curElement);
-      }
-      item.push(arrayItem);
-      curElement = cxfjsutils.getNextElementSibling(curElement);
-     }
-       while(curElement != null && cxfjsutils.isNodeNamedNS(curElement, '', 'cardIds'));
-     newobject.setCardIds(item);
-     var item = null;
+    cxfjsutils.trace('processing deckId');
+    var value = null;
+    if (!cxfjsutils.isElementNil(curElement)) {
+     value = cxfjsutils.getNodeText(curElement);
+     item = parseInt(value);
+    }
+    newobject.setDeckId(item);
+    var item = null;
+    if (curElement != null) {
+     curElement = cxfjsutils.getNextElementSibling(curElement);
     }
     cxfjsutils.trace('curElement: ' + cxfjsutils.traceElementName(curElement));
     cxfjsutils.trace('processing description');

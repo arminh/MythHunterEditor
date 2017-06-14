@@ -9,10 +9,10 @@
         .module('treePart')
         .controller('TreePartController', TreePartController);
 
-    TreePartController.$inject = ["$scope", "$state", "$stateParams", "TreePartService", "MarkerType", "user"];
+    TreePartController.$inject = ["$log", "$state", "$stateParams", "TreePartService", "MarkerType", "user"];
 
     /* @ngInject */
-    function TreePartController($scope, $state, $stateParams, TreePartService, MarkerType, user) {
+    function TreePartController($log, $state, $stateParams, TreePartService, MarkerType, user) {
         var vm = this;
         vm.types = MarkerType;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
@@ -50,7 +50,7 @@
 
         function addDeckToEnemy() {
             var enemy = vm.treePart.getTask().getEnemy();
-            $state.go("app.collection", {enemy: enemy});
+            $state.go("app.collection", {enemy: enemy, treePart: vm.treePart});
         }
 
         function contentChanged() {

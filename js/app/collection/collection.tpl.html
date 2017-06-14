@@ -1,7 +1,6 @@
 <div id="collection-container" flex-offset="10" flex="80" layout="row">
-    <div flex="80" layout="column">
+    <div flex="75" layout="column">
         <div class="collection-filter-container" layout="row">
-            <divs>Filters</divs>
             <div ng-repeat="star in collectionCtrl.starsFull track by $index"
                  ng-click="collectionCtrl.filterStarClicked($index+1, true)"
                  class="collection-filter-star-container">
@@ -61,11 +60,13 @@
         </div>
 
     </div>
-    <div flex="20">
-        <form name="deckForm" ng-submit="collectionCtrl.saveDeck($event)" class="collection-decks-container" layout="column"
-              cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}" >
+    <div flex="25">
+        <form name="deckForm" ng-submit="collectionCtrl.saveDeck($event)" class="collection-decks-container"
+              layout="column"
+              cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}">
             <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck && !collectionCtrl.enemy">
-                <md-button class="md-raised" ng-click="collectionCtrl.createDeck()" ng-disabled="!collectionCtrl.collection.loaded">
+                <md-button class="md-raised" ng-click="collectionCtrl.createDeck()"
+                           ng-disabled="!collectionCtrl.collection.loaded">
                     <md-label>Create deck</md-label>
                 </md-button>
             </div>
@@ -77,22 +78,24 @@
             </div>
 
             <div ng-if="!collectionCtrl.currentDeck" flex>
-                <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible && !collectionCtrl.enemy" class="collection-deck-button-container"
-                     cg-busy="{promise:deck.loadPromise, message:'Loading deck...'}" layout="row">
+                <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible && !collectionCtrl.enemy"
+                     class="collection-deck-button-container" layout="row">
                     <div class="collection-deck-button" flex>
-                        <md-button class="md-raised md-button-primary" ng-click="collectionCtrl.openDeck(deck)" ng-disabled="!collectionCtrl.collection.loaded">
+                        <md-button class="md-raised md-button-primary" ng-click="collectionCtrl.openDeck(deck)"
+                                   ng-disabled="!collectionCtrl.collection.loaded">
                             <md-label>{{deck.name}}</md-label>
                         </md-button>
                     </div>
                     <md-icon class="collection-deck-remove" md-svg-src="media/close_icon.svg"
-                             ng-click="collectionCtrl.removeDeck(deck, $event)" ng-disabled="!collectionCtrl.collection.loaded"></md-icon>
+                             ng-click="collectionCtrl.removeDeck(deck, $event)"
+                             ng-disabled="!collectionCtrl.collection.loaded"></md-icon>
                 </div>
             </div>
 
             <div ng-if="collectionCtrl.currentDeck" class="collection-deck-container" flex
                  data-drop="true" jqyoui-droppable="{onDrop: 'collectionCtrl.cardDropped($event)'}"
                  ng-model="collectionCtrl.droppedCard">
-                <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck"></deck>
+                <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck" control="collectionCtrl.deckControl"></deck>
             </div>
 
 

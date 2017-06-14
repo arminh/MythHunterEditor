@@ -25,8 +25,7 @@
             loadCollectionCreatedCards: loadCollectionCreatedCards,
             createCard: createCard,
             createDeck: createDeck,
-            addCardToDeck: addCardToDeck,
-            addDroppedCard: addDroppedCard,
+            getCardById: getCardById,
             openDeck: openDeck,
             saveDeck: saveDeck,
             removeDeck: removeDeck,
@@ -75,18 +74,12 @@
             return deck;
         }
 
-        function addCardToDeck(card, deck) {
-            if (deck && card.getLoaded()) {
-                deck.addCard(card);
-            }
-        }
-
-        function addDroppedCard(cardId, deck, collection, enemy) {
+        function getCardById(cardId, collection, enemy) {
             var card = collection.getCard(cardId);
             if(!card && enemy) {
                 card = collection.getCreatedCard(cardId);
             }
-            addCardToDeck(card, deck);
+            return card;
         }
 
         function openDeck(deck) {
@@ -143,7 +136,7 @@
 
         function finishEditing(currentDeck) {
             originalDeck.setName(currentDeck.getName());
-            originalDeck.setCards(currentDeck.getCards());
+            originalDeck.setCardIds(currentDeck.getCardIds());
             originalDeck.change();
             return originalDeck.upload();
         }

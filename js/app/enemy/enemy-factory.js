@@ -9,10 +9,10 @@
         .module('enemy')
         .factory('Enemy', EnemyFactory);
 
-    EnemyFactory.$inject = ["$log", "$q", "BackendService"];
+    EnemyFactory.$inject = ["$log", "$q", "Deck", "BackendService"];
 
     /* @ngInject */
-    function EnemyFactory($log, $q, BackendService) {
+    function EnemyFactory($log, $q, Deck, BackendService) {
         $log = $log.getInstance("Enemy", debugging);
 
         function Enemy() {
@@ -21,8 +21,8 @@
             this.randomEnemy = false;
             this.name = "";
             this.description = "";
-            this.cardIds = [];
 
+            this.deck = new Deck();
             this.changed = false;
         }
 
@@ -44,7 +44,8 @@
             setName: setName,
             getDescription: getDescription,
             setDescription: setDescription,
-            getCardIds: getCardIds
+            getDeck: getDeck,
+            setDeck: setDeck
         };
 
         return (Enemy);
@@ -78,7 +79,9 @@
             this.randomEnemy = remoteEnemy.getRandomEnemy();
             this.name = remoteEnemy.getName();
             this.description = remoteEnemy.getDescription();
-            this.cardIds = remoteEnemy.getCardIds();
+            this.deck = new Deck();
+            this.deck.setRemoteId(remoteEnemy.getDeckId());
+
             return this.loadImage(remoteEnemy.getImageUrl()).then(function() {
                 $log.info("initFromRemote_success", this);
                 return this;
@@ -103,7 +106,9 @@
             this.randomEnemy = enemyObject.randomEnemy;
             this.name = enemyObject.name;
             this.description = enemyObject.description;
-            this.cardIds = enemyObject.cardIds;
+            this.deck = new Deck();
+            this.deck.initFromObject(enemyObject.deck);
+
             $log.info("initFromObject_success", this);
         }
 
@@ -117,10 +122,13 @@
             if (this.remoteId > 0 && this.changed == false) {
                 return this.remoteId;
             } else {
+                var promises = [];
+                promises.push(uploadImage.bind(this)());
+                promises.push(uploadDeck.bind(this));
                 if (this.remoteId < 1) {
-                    return uploadImage.bind(this)().then(addEnemy.bind(this));
+                    return $q.all(promises).then(addEnemy.bind(this));
                 } else {
-                    return uploadImage.bind(this)().then(updateEnemy.bind(this));
+                    return $q.all(promises).then(updateEnemy.bind(this));
                 }
             }
         }
@@ -128,6 +136,13 @@
         function uploadImage() {
             var imageName = this.name + "_" + Date.now() + "." + this.image.filename.substr(this.image.filename.lastIndexOf('.')+1);
             return BackendService.uploadImage(imageName, this.image.base64);
+        }
+
+        function uploadDeck() {
+            return this.deck.upload().then(function(remoteDeckId) {
+                this.deckId = remoteDeckId;
+                return this.deckId;
+            }.bind(this));
         }
 
         function addEnemy(remoteImageId){
@@ -189,10 +204,13 @@
             this.description = value;
         }
 
-        function getCardIds() {
-            return this.cardIds;
+        function getDeck() {
+            return this.deck;
         }
 
+        function setDeck(value) {
+            this.deck = value;
+        }
     }
 
 })();

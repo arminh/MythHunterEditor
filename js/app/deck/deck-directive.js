@@ -9,15 +9,16 @@
         .module('deck')
         .directive('deck', deck);
 
-    deck.$inject = [];
+    deck.$inject = ["DeckService"];
 
     /* @ngInject */
-    function deck() {
+    function deck(DeckService) {
         var directive = {
             templateUrl: "js/app/deck/deck.tpl.html",
             bindToController: {
                 deck: "=",
-                user: "="
+                user: "=",
+                control: "="
             },
             controller: "DeckController",
             controllerAs: 'deckCtrl',
@@ -28,6 +29,19 @@
         return directive;
 
         function link(scope, element, attrs, vm) {
+
+            var collection  = vm.user.getCollection();
+            var cards = collection.getAllCards();
+            vm.loadCardsPromise = DeckService.loadCards(vm.deck, cards).then(function(result) {
+                vm.cards = result;
+                vm.control.addCard = addCard;
+            });
+
+            function addCard(card) {
+                console.log("AddCard");
+                DeckService.addCardToDeck(card, vm.cards);
+                vm.deck.addCard(card.getRemoteId());
+            }
         }
     }
 

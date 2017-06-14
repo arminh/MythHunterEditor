@@ -26,8 +26,6 @@
 
         ////////////////
 
-
-
         function getContent(task) {
             var html = task.getHtml();
             var content = html.getContent();
@@ -84,6 +82,17 @@
                 originalEnemy.setImage(editEnemy.getImage());
                 originalEnemy.setDescription(editEnemy.getDescription());
                 originalEnemy.change();
+
+                var originalDeck = originalEnemy.getDeck();
+                var editDeck = editEnemy.getDeck();
+                originalDeck.setName(editDeck.getName());
+
+                var originalCards = originalDeck.getCardIds();
+                originalCards.length = 0;
+                var editCards = editDeck.getCardIds();
+                for(var i = 0; i < editCards.length; i++) {
+                    originalCards.push(editCards[i]);
+                }
             }
 
             var originalHtml = originalTask.getHtml();

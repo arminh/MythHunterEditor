@@ -5,7 +5,8 @@
                 <div layout="row" layout-align="center center">
                     <md-input-container flex="50">
                         <label>Task Name</label>
-                        <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus md-select-on-focus>
+                        <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus
+                               md-select-on-focus>
                         <div ng-messages="taskForm.taskName.$error">
                             <div ng-message="required">This is required.</div>
                         </div>
@@ -13,30 +14,59 @@
                 </div>
 
                 <div class="task-content">
-                    <p class="task-modal-label">Task content</p>
+                    <md-label class="description-label">Edit your task content</md-label>
+                    <md-button aria-label="description-hint" class="md-icon-button"
+                               ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ">
+                        <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
+                            Describe your quiz task an challenge the player with multiple choice questions or gap fill exercises.
+                        </md-tooltip>
+                        <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                    </md-button>
+                    <md-button aria-label="description-hint" class="md-icon-button"
+                               ng-if="treePartCtrl.task.getType() != treePartCtrl.types.INVISIBLE">
+                        <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
+                            Describe your search task. This first description should point the player to the location of
+                            the search destination.
+                        </md-tooltip>
+                        <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                    </md-button>
                     <text-angular id="task-editor-quiz"
                                   ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ" name="task-editor-quiz"
-                                  ta-toolbar="{{treePartCtrl.quizToolbar}}" ng-model="treePartCtrl.content" class="task-text"
-                                  ng-keydown="treePartCtrl.keyPressed($event)" ng-click="treePartCtrl.contentChanged()"></text-angular>
-                    {{treePartCtrl.content}}
+                                  ta-toolbar="{{treePartCtrl.quizToolbar}}" ng-model="treePartCtrl.content"
+                                  class="task-text"
+                                  ng-keydown="treePartCtrl.keyPressed($event)"
+                                  ng-click="treePartCtrl.contentChanged()"></text-angular>
                     <text-angular ng-if="treePartCtrl.task.getType() != treePartCtrl.types.QUIZ" name="task-editor"
                                   ta-toolbar="{{treePartCtrl.toolbar}}" ng-model="treePartCtrl.content"
                                   class="task-text"></text-angular>
                     <div ng-if="treePartCtrl.task.getType() != treePartCtrl.types.INFO && treePartCtrl.task.getType() != 'start'">
 
-                        <p ng-if="treePartCtrl.task.getType() == treePartCtrl.types.INVISIBLE" class="task-modal-label">Invisible
-                            task
-                            target content</p>
-                        <p ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ" class="task-modal-label">Quiz task
-                            completed
-                            content</p>
+                        <md-label class="description-label"
+                                  ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ || treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">
+                            Description after completing the task
+                        </md-label>
+                        <md-button aria-label="description-hint" class="md-icon-button">
+                            <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
+                                This description should give player directions to the next task.
+                            </md-tooltip>
+                            <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                        </md-button>
                         <text-angular name="task-target" ta-toolbar="{{treePartCtrl.toolbar}}"
                                       ng-model="treePartCtrl.targetContent"
                                       class="task-text"></text-angular>
                     </div>
+
                     <div ng-if="treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">
+
+                        <md-label class="description-label">Create an enemy</md-label>
+                        <md-button aria-label="description-hint" class="md-icon-button">
+                            <md-tooltip md-direction="top">
+                                Create an enemy with a deck for the player to fight against.
+                            </md-tooltip>
+                            <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                        </md-button>
                         <enemy enemy="treePartCtrl.task.enemy"></enemy>
-                        <md-button aria-label="enemyDeck"  class="md-raised" ng-click="treePartCtrl.addDeckToEnemy()">
+                        <md-button aria-label="enemyDeck" class="md-raised" ng-click="treePartCtrl.addDeckToEnemy()">
                             Add Deck
                         </md-button>
                     </div>
@@ -45,7 +75,7 @@
                     <md-button class="md-raised md-primary" type="submit" md-autofocus>
                         Confirm
                     </md-button>
-                    <md-button class="md-raised" ng-click="treePartCtrl.cancel()" >
+                    <md-button class="md-raised" ng-click="treePartCtrl.cancel()">
                         Cancel
                     </md-button>
                 </div>

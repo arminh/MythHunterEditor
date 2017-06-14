@@ -343,7 +343,7 @@
             remoteEnemy.setRandomEnemy(enemy.getRandomEnemy());
             remoteEnemy.setName(enemy.getName());
             remoteEnemy.setDescription(enemy.getDescription());
-            remoteEnemy.setCardIds(enemy.getCardIds());
+            remoteEnemy.setDeckId(enemy.getDeckId());
 
             return remoteEnemy;
         }
@@ -353,17 +353,7 @@
 
             remoteDeck.setId(deck.getRemoteId());
             remoteDeck.setName(deck.getName());
-
-            var cardIds = [];
-            var cards = deck.getCards();
-            for (var i = 0; i < cards.length; i++) {
-                var entry = new backend_com_wsdl_longToIntEntry();
-                entry.setKey(cards[i].id);
-                entry.setValue(cards[i].amount);
-                cardIds.push(entry);
-
-            }
-            remoteDeck.setCardIds(cardIds);
+            remoteDeck.setCardIds(deck.getCardIds());
 
             return remoteDeck;
         }

@@ -30,6 +30,7 @@
             getDecks: getDecks,
             getCards: getCards,
             getCard: getCard,
+            getAllCards: getAllCards,
             getCreatedDecks: getCreatedDecks,
             getCreatedCards: getCreatedCards,
             getCreatedCard: getCreatedCard,
@@ -141,6 +142,10 @@
                     return this.cards[i];
                 }
             }
+        }
+
+        function getAllCards() {
+            return this.cards.concat(this.createdCards);
         }
 
         function getCreatedDecks() {

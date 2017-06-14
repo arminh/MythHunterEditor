@@ -23,7 +23,8 @@
                     }]
                 },
                 params:{
-                    enemy:null
+                    enemy:null,
+                    treePart: null
                 },
                 controller: 'CollectionController',
                 controllerAs: 'collectionCtrl'

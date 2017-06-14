@@ -20,7 +20,6 @@
             this.remoteId = 0;
             this.name = "";
             this.cardIds = [];
-            this.cards = [];
 
             this.loadPromise = null;
             this.loaded = false;
@@ -32,9 +31,10 @@
         }
 
         Deck.prototype = {
+            constructor: Deck,
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
-            loadCards: loadCards,
+            initFromObject: initFromObject,
             addCard: addCard,
             removeCard: removeCard,
             upload: upload,
@@ -47,8 +47,8 @@
             setRemoteId: setRemoteId,
             getName: getName,
             setName: setName,
-            getCards: getCards,
-            setCards: setCards,
+            getCardIds: getCardIds,
+            setCardIds: setCardIds,
             getLoaded: getLoaded,
             setVisible: setVisible,
             getComplete: getComplete
@@ -67,22 +67,27 @@
             this.amount = amount;
         }
 
-        function getFromRemote(ownedCards) {
+        function getFromRemote() {
             $log.info("getFromRemote", this.remoteId);
             this.loadPromise = BackendService.getDeck(this.remoteId).then(success.bind(this));
             return this.loadPromise;
 
             function success(remoteDeck) {
-                return this.initFromRemote(remoteDeck, ownedCards);
+                return this.initFromRemote(remoteDeck);
             }
         }
 
-        function initFromRemote(remoteDeck, ownedCards) {
+        function initFromRemote(remoteDeck) {
             this.name = remoteDeck.getName();
             this.cardIds = remoteDeck.getCardIds();
-            return this.loadCards(ownedCards).then(function() {
-                return this;
-            }.bind(this));
+            return this;
+        }
+
+        function initFromObject(deckObject) {
+            this.id = deckObject.id;
+            this.remoteId = deckObject.remoteId;
+            this.name = deckObject.name;
+            this.cardIds = deckObject.cardIds;
         }
 
         function loadCards(ownedCards) {
@@ -110,7 +115,7 @@
                 }
 
                 this.loaded = true;
-                this.complete = this.cards.length >= 20;
+                this.complete = countCards(this.cardIds) >= 20;
 
                 $log.info("loadCards_success", this.cards);
                 return this.cards;
@@ -119,18 +124,20 @@
             return this.loadPromise;
         }
 
-        function addCard(card) {
-            $log.info("addCard", card);
-            if (this.cards.length >= MAX_DECK_CARDS) {
+        function addCard(cardId) {
+            $log.info("addCard", cardId);
+            if(countCards(this.cardIds) >= MAX_DECK_CARDS) {
                 $log.info("addCard_fail: Deck full");
                 return;
             }
+            for (var i = 0; i < this.cardIds.length; i++) {
+                if (this.cardIds[i].getKey() == cardId) {
+                    var amount = this.cardIds[i].getValue();
 
-            for (var i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].id == card.getRemoteId()) {
-                    if (this.cards[i].amount < MAX_CARD_IN_DECK) {
-                        this.cards[i].amount++;
-                        $log.info("addCard_success", this.cards[i]);
+                    if (amount < MAX_CARD_IN_DECK) {
+                        this.cardIds[i].setValue(amount + 1);
+                        this.complete = countCards(this.cardIds) >= 20;
+                        $log.info("addCard_success", this.cardIds[i]);
                     } else {
                         $log.info("addCard_fail: Maximum amount of this card in deck reached");
                     }
@@ -138,32 +145,35 @@
                 }
             }
 
-            var deckCard = new DeckCard(card.getRemoteId(), 1);
-            deckCard.card = card;
-            deckCard.style["background-image"] =
-                "url(data:"
-                + card.getImage().getType()
-                + ";base64,"
-                + card.getImage().getImage()
-                + ")";
-            this.cards.push(deckCard);
-            this.complete = this.cards.length >= 20;
-            $log.info("addCard_success", deckCard);
-            console.log(this);
+            var newCardId = new backend_com_wsdl_longToIntEntry();
+            newCardId.setKey(cardId);
+            newCardId.setValue(1);
+
+            this.cardIds.push(newCardId);
+            this.complete = countCards(this.cardIds) >= 20;
+        }
+
+        function countCards(cards) {
+            var count = 0;
+            for(var i = 0; i < cards.length; i++) {
+                count += cards[i].getValue();
+            }
+            return count;
         }
 
         function removeCard(cardId) {
-            for (var i = 0; i < this.cards.length; i++) {
-                if (this.cards[i].id == cardId) {
-                    if (this.cards[i].amount > 1) {
-                        this.cards[i].amount--;
+            for (var i = 0; i < this.cardIds.length; i++) {
+                if (this.cardIds[i].getKey() == cardId) {
+                    var amount = this.cardIds[i].getValue();
+                    if (amount > 1) {
+                        this.cardIds[i].setValue(amount-1);
                     } else {
-                        this.cards.splice(i, 1);
+                        this.cardIds.splice(i, 1);
                     }
+                    this.complete = countCards(this.cardIds) >= 20;
                     break;
                 }
             }
-            this.complete = this.cards.length >= 20;
         }
 
         function upload() {
@@ -180,7 +190,7 @@
 
             return this.loadPromise;
 
-                function uploadSuccess(result) {
+            function uploadSuccess(result) {
                 this.remoteId = result.getId();
                 $log.info("upload_success", result.getId());
                 return result.getId();
@@ -189,7 +199,7 @@
 
         function remove() {
             $log.info("remove", this);
-            this.loadPromise = BackendService.deleteDeck(this.remoteId).then(function() {
+            this.loadPromise = BackendService.deleteDeck(this.remoteId).then(function () {
                 $log.info("remove_success", this.remoteId);
                 return this.remoteId;
             }.bind(this));
@@ -224,12 +234,12 @@
             this.name = value;
         }
 
-        function getCards() {
-            return this.cards;
+        function getCardIds() {
+            return this.cardIds;
         }
 
-        function setCards(value) {
-            this.cards = value;
+        function setCardIds(value) {
+            this.cardIds = value;
         }
 
         function getLoaded() {

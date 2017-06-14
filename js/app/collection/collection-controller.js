@@ -9,10 +9,10 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["CollectionService", "MAX_STARS", "CardType", "user", "$stateParams"];
+    CollectionController.$inject = ["$state", "$mdDialog", "CollectionService", "MAX_STARS", "CardType", "user", "$stateParams"];
 
     /* @ngInject */
-    function CollectionController(CollectionService, MAX_STARS, CardType, user, $stateParams) {
+    function CollectionController($state, $mdDialog, CollectionService, MAX_STARS, CardType, user, $stateParams) {
         var vm = this;
 
         vm.user = user;
@@ -45,6 +45,8 @@
         vm.saveDeck = saveDeck;
         vm.removeDeck = removeDeck;
 
+        vm.previewCard = previewCard;
+
         activate();
 
         ////////////////
@@ -56,6 +58,9 @@
                     vm.collection = collection;
                     CollectionService.getStandartDeck(user, collection).then(function (deck) {
                         vm.currentDeck = CollectionService.openDeck(deck);
+                        vm.deckControl = {
+                            addCard: null
+                        };
                     });
                 });
             } else {
@@ -124,21 +129,29 @@
 
         function addCardToDeck(card, isCreatedCard) {
             if(isCreatedCard && vm.enemy) {
-                CollectionService.addCardToDeck(card, vm.currentDeck);
+                if(card.getLoaded() && vm.deckControl.addCard) {
+                    vm.deckControl.addCard(card);
+                }
             } else {
-                CollectionService.addCardToDeck(card, vm.currentDeck);
+                if(card.getLoaded() && vm.deckControl.addCard) {
+                    vm.deckControl.addCard(card);
+                }
             }
-
         }
 
         function cardDropped() {
-            CollectionService.addDroppedCard(vm.droppedCard, vm.currentDeck, vm.collection, vm.enemy);
+            var card = CollectionService.getCardById(vm.droppedCard, vm.collection, vm.enemy);
+            addCardToDeck(card, false);
             vm.droppedCard = {};
         }
 
         function openDeck(deck) {
 
+            vm.deckControl = {
+                addCard: null
+            };
             vm.currentDeck = CollectionService.openDeck(deck);
+
             var decks = vm.collection.getDecks();
 
             for (var i = 0; i < decks.length; i++) {
@@ -158,6 +171,7 @@
         function closeDeck() {
 
             vm.currentDeck = null;
+            vm.control = null;
             var decks = vm.collection.getDecks();
             for (var i = 0; i < decks.length; i++) {
                 decks[i].setVisible(true);
@@ -165,15 +179,34 @@
         }
 
         function saveDeck(evt) {
-            vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck, vm.collection, evt).then(function () {
-                user.upload();
-                closeDeck();
-            });
+            if(!vm.enemy) {
+                vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck, vm.collection, evt).then(function () {
+                    user.upload();
+                    closeDeck();
+                });
+            } else {
+                vm.enemy.setDeck(vm.currentDeck);
+                $state.go("app.task", { treePart: $stateParams.treePart});
+            }
         }
 
         function removeDeck(deck, evt) {
             CollectionService.removeDeck(vm.collection, deck, evt).then(function () {
                 user.upload();
+            });
+        }
+
+        function previewCard(card, evt) {
+            return $mdDialog.show({
+                templateUrl: 'js/app/card/card-preview/card-preview.tpl.html',
+                controller: 'CardPreviewController',
+                controllerAs: 'cardPreview',
+                bindToController: true,
+                targetEvent: evt,
+                clickOutsideToClose: true,
+                locals: {
+                    card: card
+                }
             });
         }
     }
