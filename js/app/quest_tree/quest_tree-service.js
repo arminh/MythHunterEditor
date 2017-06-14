@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine", "$mdDialog"];
+    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine", "QuestTreeConnector", "$mdDialog"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine, $mdDialog) {
+    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, $mdDialog) {
         $log = $log.getInstance("QuestTreeService", debugging);
         var originalTreeRoot = null;
         var modifiedTreeRoot = null;
@@ -65,6 +65,8 @@
             initDrag();
             initGroups();
 
+            var con = new QuestTreeConnector(canvas);
+            con.add("and", 100, 100);
             return addTreePartMarker(modifiedTreeRoot, null).then(activateDraw);
         }
 
@@ -77,7 +79,7 @@
         }
 
         function initGroups() {
-            canvas.on('selection:created',function(ev){
+            canvas.on('selection:created', function (ev) {
                 ev.target.set({
                     lockScalingX: true,
                     lockScalingY: true,
@@ -171,8 +173,8 @@
         }
 
         function getLineById(id) {
-            for(var i = 0; i < lines.length; i++) {
-                if(lines[i].id == id) {
+            for (var i = 0; i < lines.length; i++) {
+                if (lines[i].id == id) {
                     return lines[i];
                 }
             }
@@ -190,18 +192,20 @@
                 return;
             }
 
-            if(obj.type == "marker") {
+            if (obj.type == "marker") {
                 var objLeft = obj.left;
                 var objTop = obj.top;
-                canvas.on("mouse:up", onMouseUp);
-            } else if(obj.type == "head") {
+                canvas.on("mouse:up", onMouseUpMarker);
+            } else if (obj.type == "connector") {
+                canvas.on("mouse:up", onMouseUpConnector);
+            } else if (obj.type == "head") {
                 var line = getLineById(obj.lineId);
                 var startMarker = line.getFromMarker();
                 line.remove();
                 startDrawing(startMarker.getImage(), canvas.getPointer(evt.e));
             }
 
-            function onMouseUp() {
+            function onMouseUpMarker() {
                 canvas.off('mouse:up');
 
                 if (!drawing) {
@@ -212,6 +216,10 @@
                 } else {
                     finishDrawing(obj);
                 }
+            }
+
+            function onMouseUpConnector() {
+
             }
 
         }
@@ -301,6 +309,9 @@
                     case "marker":
                         obj.marker.move(obj.left, obj.top);
                         break;
+                    case "connector":
+                        obj.connector.move();
+                        break;
                     case "group":
                         var objects = obj.getObjects();
                         for (var i = 0; i < objects.length; i++) {
@@ -320,16 +331,16 @@
             var top = el.top;
             var bottom = top + height;
 
-            if(left < 0) {
+            if (left < 0) {
                 el.left = 0;
             }
-            if(right > canvas.width) {
+            if (right > canvas.width) {
                 el.left = canvas.width - width;
             }
-            if(top < 0) {
+            if (top < 0) {
                 el.top = 0;
             }
-            if(bottom > canvas.height) {
+            if (bottom > canvas.height) {
                 el.top = canvas.height - height;
             }
         }
@@ -343,8 +354,8 @@
 
         function saveTree(evt) {
 
-            for(var i = 0; i < markers.length; i++) {
-                if(markers[i].getId() != 0 && markers[i].getLineEnds().length == 0) {
+            for (var i = 0; i < markers.length; i++) {
+                if (markers[i].getId() != 0 && markers[i].getLineEnds().length == 0) {
                     var alert = $mdDialog.alert()
                         .title('Saving Questline failed')
                         .htmlContent('Not all marker are connected to the tree')
@@ -353,7 +364,7 @@
                         .multiple(true)
                         .ok('Close');
 
-                    return $mdDialog.show(alert).then(function() {
+                    return $mdDialog.show(alert).then(function () {
                         return $q.reject();
                     });
                 }

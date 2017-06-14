@@ -26,6 +26,7 @@
         }
 
         QuestTreeMarker.prototype = {
+            constructor: QuestTreeMarker,
             add: add,
             move: move,
             addLineStart: addLineStart,

@@ -25,6 +25,7 @@
         }
 
         QuestTreeLine.prototype = {
+            constructor: QuestTreeLine,
             draw: draw,
             stopDrawing: stopDrawing,
             position: position,
