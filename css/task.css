@@ -91,6 +91,10 @@
     color: #3288e6;
 }
 
+.task-image {
+    width: 50%;
+}
+
 .active-marker {
     background-color: #bbbbbb;
 }

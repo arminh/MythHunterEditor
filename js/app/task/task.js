@@ -3,7 +3,7 @@
  */
 
 (function () {
-    'use strict'
+    'use strict';
 
     angular
         .module("task", [])
@@ -24,18 +24,71 @@
 
         $provide.decorator('taOptions', extendTaOptions);
 
-        extendTaOptions.$inject = ["textAngularManager", "taRegisterTool", "taSelection", "$delegate", "$mdDialog"];
+        extendTaOptions.$inject = ["textAngularManager", "taRegisterTool", "taSelection", "taTranslations", "taToolFunctions", "$window", "$delegate", "$mdDialog"];
 
-        function extendTaOptions(textAngularManager, taRegisterTool, taSelection_, taOptions, $mdDialog) { // $delegate is the taOptions we are decorating
+        function extendTaOptions(textAngularManager, taRegisterTool, taSelection_ , taTranslations, taToolFunctions, $window, taOptions, $mdDialog) { // $delegate is the taOptions we are decorating
             taSelection = taSelection_;
 
-            var toolbarQuiz = [
-                ['h1', 'h2', 'h3', 'p'],
-                ['bold', 'italics', 'underline','redo', 'undo', 'clear'],
-                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
-                ['insertImage', 'insertLink', 'insertVideo'],
-                ['input', 'radio', 'checkbox']
-            ];
+            taRegisterTool('insertPicture', {
+                iconclass: 'fa fa-picture-o',
+                tooltiptext: taTranslations.insertImage.tooltip,
+                action: function(){
+                    var imageLink;
+                    imageLink = $window.prompt(taTranslations.insertImage.dialogPrompt, 'http://');
+                    if(imageLink && imageLink !== '' && imageLink !== 'http://'){
+                        imageLink = imageLink.replace(/\?.*/, "");
+                        /* istanbul ignore next: don't know how to test this... since it needs a dialogPrompt */
+                        // block javascript here
+                        if (!blockJavascript(imageLink)) {
+                            if (taSelection.getSelectionElement().tagName && taSelection.getSelectionElement().tagName.toLowerCase() === 'a') {
+                                // due to differences in implementation between FireFox and Chrome, we must move the
+                                // insertion point past the <a> element, otherwise FireFox inserts inside the <a>
+                                // With this change, both FireFox and Chrome behave the same way!
+                                taSelection.setSelectionAfterElement(taSelection.getSelectionElement());
+                            }
+                            // In the past we used the simple statement:
+                            //return this.$editor().wrapSelection('insertImage', imageLink, true);
+                            //
+                            // However on Firefox only, when the content is empty this is a problem
+                            // See Issue #1201
+                            // Investigation reveals that Firefox only inserts a <p> only!!!!
+                            // So now we use insertHTML here and all is fine.
+                            // NOTE: this is what 'insertImage' is supposed to do anyway!
+                            var embed = '<img class="task-image" src="' + imageLink + '">';
+                            return this.$editor().wrapSelection('insertHTML', embed, true);
+                        }
+                    }
+                },
+                // onElementSelect: {
+                //     element: 'img',
+                //     action: taToolFunctions.imgOnSelectAction
+                // }
+            });
+
+            /* istanbul ignore next: if it's javascript don't worry - though probably should show some kind of error message */
+            var blockJavascript = function (link) {
+                if (link.toLowerCase().indexOf('javascript')!==-1) {
+                    return true;
+                }
+                return false;
+            };
+
+            // taRegisterTool('insertPicture', {
+            //     iconclass: 'fa fa-picture-o',
+            //     tooltiptext: taTranslations.insertImage.tooltip,
+            //     action: function(){
+            //         var imageLink;
+            //         imageLink = $window.prompt(taTranslations.insertImage.dialogPrompt, 'http://');
+            //         if(imageLink && imageLink !== '' && imageLink !== 'http://'){
+            //             imageLink = imageLink.replace(/\?.*/, "");
+            //             return this.$editor().wrapSelection('insertImage', imageLink, true);
+            //         }
+            //     },
+            //     // onElementSelect: {
+            //     //     element: 'img',
+            //     //     action: taToolFunctions.imgOnSelectAction
+            //     // }
+            // });
 
             taRegisterTool('input', {
                 iconclass: "fa fa-file-text-o inputBox",

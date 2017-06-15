@@ -16,6 +16,7 @@
         var service = {
             restoreContent: restoreContent,
             prepareContent: prepareContent,
+            setImageClass: setImageClass,
             retrieveCheckedAttributes: retrieveCheckedAttributes,
             clearCheckedAttributes: clearCheckedAttributes,
             setCheckedAttributes: setCheckedAttributes,
@@ -30,7 +31,6 @@
         function restoreContent(content, answers) {
             //content = restoreTags(content);
             content = restoreVideoTag(content);
-            content = removeImageWidth(content);
             return setCheckedAttributes(content, answers);
         }
 
@@ -55,13 +55,14 @@
             return content.replace(regex, replaceString);
         }
 
-        function removeImageWidth(content) {
-            return content.replace(/<img(.*?)style=(?:"|').*?(?:"|')/g, "<img$1");
+        function setImageClass(content) {
+            content.replace(/<img(.*?)class=(?:"|').*?(?:"|')(.*?)>/g, "<img$1$2>");
+            return content.replace(/<img/g, '<img class="task-image"');
         }
 
         function prepareContent(content) {
             content = clearCheckedAttributes(content);
-            //content = replaceTags(content);
+            content = setImageClass(content);
             content = replaceVideoTag(content);
             // content = setImageWidth(content);
             return content;
