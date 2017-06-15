@@ -186,7 +186,7 @@
                 });
             } else {
                 vm.enemy.setDeck(vm.currentDeck);
-                $state.go("app.task", { treePart: $stateParams.treePart});
+                $state.go("app.task", { originalTreePart: $stateParams.originalTreePart, treePart: $stateParams.treePart});
             }
         }
 

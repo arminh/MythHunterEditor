@@ -44,7 +44,7 @@
         }
 
         function editTask() {
-            $state.go("app.task", { treePart: vm.treepart });
+            $state.go("app.task", { originalTreePart: vm.treepart, treePart: angular.copy(vm.treepart) });
         }
 
         function deleteTask() {

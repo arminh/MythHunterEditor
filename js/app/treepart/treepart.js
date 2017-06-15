@@ -22,6 +22,7 @@
                     }]
                 },
                 params:{
+                    originalTreePart: null,
                     treePart:null
                 },
                 controller: 'TreePartController',

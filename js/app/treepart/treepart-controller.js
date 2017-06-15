@@ -15,8 +15,8 @@
     function TreePartController($log, $state, $stateParams, TreePartService, MarkerType, user) {
         var vm = this;
         vm.types = MarkerType;
-        vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
-        vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo'],['input','radio','checkbox']]"
+        vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo']]";
+        vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo'],['input','radio','checkbox']]"
 
         vm.addDeckToEnemy = addDeckToEnemy;
         vm.keyPressed = keyPressed;
@@ -32,8 +32,8 @@
 
         function activate() {
             if($stateParams.treePart) {
-                vm.originalTreePart = $stateParams.treePart;
-                vm.treePart = angular.copy($stateParams.treePart);
+                vm.originalTreePart = $stateParams.originalTreePart;
+                vm.treePart = $stateParams.treePart;
                 vm.task = vm.treePart.getTask();
 
                 vm.content = TreePartService.getContent(vm.task);
@@ -50,7 +50,8 @@
 
         function addDeckToEnemy() {
             var enemy = vm.treePart.getTask().getEnemy();
-            $state.go("app.collection", {enemy: enemy, treePart: vm.treePart});
+            TreePartService.saveHtmls(vm.content, vm.targetContent, vm.task);
+            $state.go("app.collection", {enemy: enemy, originalTreePart: vm.originalTreePart, treePart: vm.treePart});
         }
 
         function contentChanged() {

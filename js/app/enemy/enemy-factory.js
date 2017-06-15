@@ -30,7 +30,7 @@
             constructor: Enemy,
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
-            loadImage: loadImage,
+            // loadImage: loadImage,
             initFromObject: initFromObject,
             change: change,
             upload: upload,
@@ -81,23 +81,27 @@
             this.description = remoteEnemy.getDescription();
             this.deck = new Deck();
             this.deck.setRemoteId(remoteEnemy.getDeckId());
-
-            return this.loadImage(remoteEnemy.getImageUrl()).then(function() {
+            return this.deck.getFromRemote().then(function() {
                 $log.info("initFromRemote_success", this);
                 return this;
-            }.bind(this));
+            });
+
+            // return this.loadImage(remoteEnemy.getImageUrl()).then(function() {
+            //     $log.info("initFromRemote_success", this);
+            //     return this;
+            // }.bind(this));
         }
 
-        function loadImage(imageUrl) {
-            $log.info("loadImage", imageUrl);
-            return BackendService.downloadImage(imageUrl).then(success.bind(this));
-
-            function success(result) {
-                this.image = result;
-                $log.info("loadImage_success", this.image);
-                return this.image;
-            }
-        }
+        // function loadImage(imageUrl) {
+        //     $log.info("loadImage", imageUrl);
+        //     return BackendService.downloadImage(imageUrl).then(success.bind(this));
+        //
+        //     function success(result) {
+        //         this.image = result;
+        //         $log.info("loadImage_success", this.image);
+        //         return this.image;
+        //     }
+        // }
 
         function initFromObject(enemyObject) {
             $log.info("initFromObject", enemyObject);
@@ -123,8 +127,8 @@
                 return this.remoteId;
             } else {
                 var promises = [];
-                promises.push(uploadImage.bind(this)());
-                promises.push(uploadDeck.bind(this));
+                // promises.push(uploadImage.bind(this)());
+                promises.push(uploadDeck.bind(this)());
                 if (this.remoteId < 1) {
                     return $q.all(promises).then(addEnemy.bind(this));
                 } else {
@@ -145,8 +149,8 @@
             }.bind(this));
         }
 
-        function addEnemy(remoteImageId){
-            var remoteEnemy = BackendService.createRemoteEnemy(this, remoteImageId);
+        function addEnemy(result){
+            var remoteEnemy = BackendService.createRemoteEnemy(this);
             return BackendService.addEnemy(remoteEnemy).then(
                 function (result) {
                     this.remoteId = result.getId();
