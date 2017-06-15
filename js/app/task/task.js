@@ -31,7 +31,7 @@
 
             var toolbarQuiz = [
                 ['h1', 'h2', 'h3', 'p'],
-                ['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],
+                ['bold', 'italics', 'underline','redo', 'undo', 'clear'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
                 ['insertImage', 'insertLink', 'insertVideo'],
                 ['input', 'radio', 'checkbox']
@@ -56,7 +56,7 @@
                     console.log(this.$editor);
                     console.log(this.$editor());
                     createQuizGroup("radio", $mdDialog, this.$editor()).then(function() {
-                        // textAngularManager.refreshEditor('task-editor-quiz');
+                        textAngularManager.refreshEditor('task-editor-quiz');
                     });
                 }
             });
@@ -188,9 +188,13 @@
             var html = '<p class="quiz-group-option"><label style="font-weight: normal"><input' +
                 ' type="' + type + '"' +
                 ' id="' + id + '"' +
-                ' name="' + name + '"' +
-                ' checked' +
-                ' value="' + value + '"/>' +
+                ' name="' + name + '"';
+
+            if(checked) {
+                html += ' checked';
+            }
+
+            html += ' value="' + value + '"/>' +
                 content +
                 '</label></p>';
 

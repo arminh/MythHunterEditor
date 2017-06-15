@@ -20,7 +20,8 @@
             getTargetContent: getTargetContent,
             contentChanged: contentChanged,
             keyPressed: keyPressed,
-            finishEditing: finishEditing
+            finishEditing: finishEditing,
+            saveHtmls: saveHtmls
         };
         return service;
 
@@ -68,12 +69,8 @@
             var originalTask = originalTreePart.getTask();
 
             originalTask.setName(editTask.getName());
-            var answers = {};
-            if (editTask.getType() == MarkerType.QUIZ) {
-                var result = TextAngularHandler.retrieveCheckedAttributes(answers, content);
-                answers = result.answers;
-                content = result.content;
-            }
+
+            saveHtmls(content, targetContent, originalTask);
 
             if (editTask.getType() == MarkerType.FIGHT) {
                 var editEnemy = editTask.getEnemy();
@@ -94,23 +91,32 @@
                     originalCards.push(editCards[i]);
                 }
             }
-            console.log(originalTreePart);
-
-            var originalHtml = originalTask.getHtml();
-            originalHtml.setContent(TextAngularHandler.prepareContent(content, answers));
-            originalHtml.setAnswers(answers);
-            originalHtml.setTaskTitle(editTask.getName());
-            originalHtml.change();
-
-            var originalTargetHtml = originalTask.getTargetHtml();
-            if (originalTargetHtml) {
-                originalTargetHtml.setContent(TextAngularHandler.prepareContent(targetContent, {}));
-                originalTargetHtml.setTaskTitle(editTask.getName());
-                originalTargetHtml.change();
-            }
 
             originalTask.change();
             $log.info("finishEditing_success: ", originalTreePart);
+        }
+
+        function saveHtmls(content, targetContent, task) {
+
+            var answers = {};
+            if (task.getType() == MarkerType.QUIZ) {
+                var result = TextAngularHandler.retrieveCheckedAttributes(answers, content);
+                answers = result.answers;
+                content = result.content;
+            }
+
+            var originalHtml = task.getHtml();
+            originalHtml.setContent(TextAngularHandler.prepareContent(content, answers));
+            originalHtml.setAnswers(answers);
+            originalHtml.setTaskTitle(task.getName());
+            originalHtml.change();
+
+            var originalTargetHtml = task.getTargetHtml();
+            if (originalTargetHtml) {
+                originalTargetHtml.setContent(TextAngularHandler.prepareContent(targetContent, {}));
+                originalTargetHtml.setTaskTitle(task.getName());
+                originalTargetHtml.change();
+            }
         }
     }
 

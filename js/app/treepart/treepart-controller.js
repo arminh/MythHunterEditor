@@ -15,8 +15,8 @@
     function TreePartController($log, $state, $stateParams, TreePartService, MarkerType, user) {
         var vm = this;
         vm.types = MarkerType;
-        vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
-        vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo'],['input','radio','checkbox']]"
+        vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
+        vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo'],['input','radio','checkbox']]"
 
         vm.addDeckToEnemy = addDeckToEnemy;
         vm.keyPressed = keyPressed;
@@ -50,6 +50,7 @@
 
         function addDeckToEnemy() {
             var enemy = vm.treePart.getTask().getEnemy();
+            TreePartService.saveHtmls(vm.content, vm.targetContent, vm.task);
             $state.go("app.collection", {enemy: enemy, originalTreePart: vm.originalTreePart, treePart: vm.treePart});
         }
 

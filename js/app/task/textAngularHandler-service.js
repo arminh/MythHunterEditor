@@ -76,11 +76,10 @@
                     content: content
                 };
             }
-
+            content = content.replace(/value=".*?"/g, "");
             for (var i = 0; i < inputElements.length; i++) {
                 if (inputElements[i].id != "") {
                     answers[inputElements[i].id] = inputElements[i].checked;
-                    content = content.replace(/value=".*?"/g, "");
                     var id = inputElements[i].id;
                     var value = inputElements[i].value;
                     content = content.replace('id="' + id + '"', 'id="' + id + '" value="' + value + '"');
