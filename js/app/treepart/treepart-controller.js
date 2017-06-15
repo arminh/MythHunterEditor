@@ -32,8 +32,8 @@
 
         function activate() {
             if($stateParams.treePart) {
-                vm.originalTreePart = $stateParams.treePart;
-                vm.treePart = angular.copy($stateParams.treePart);
+                vm.originalTreePart = $stateParams.originalTreePart;
+                vm.treePart = $stateParams.treePart;
                 vm.task = vm.treePart.getTask();
 
                 vm.content = TreePartService.getContent(vm.task);
@@ -50,7 +50,7 @@
 
         function addDeckToEnemy() {
             var enemy = vm.treePart.getTask().getEnemy();
-            $state.go("app.collection", {enemy: enemy, treePart: vm.treePart});
+            $state.go("app.collection", {enemy: enemy, originalTreePart: vm.originalTreePart, treePart: vm.treePart});
         }
 
         function contentChanged() {

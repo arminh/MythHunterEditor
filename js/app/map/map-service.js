@@ -121,7 +121,7 @@
                 function editTreePart() {
                     QuestService.addTreePartToQuest(quest, treePart, true);
                     user.backup();
-                    $state.go("app.task", {treePart: treePart});
+                    $state.go("app.task", { originalTreePart: treePart, treePart: angular.copy(treePart) });
                 }
             }
 

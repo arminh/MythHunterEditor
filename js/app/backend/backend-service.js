@@ -335,15 +335,15 @@
             return remoteCardImage;
         }
 
-        function createRemoteEnemy(enemy, imageUrl) {
+        function createRemoteEnemy(enemy) {
             var remoteEnemy = new backend_com_wsdl_enemy();
 
             remoteEnemy.setId(enemy.getRemoteId());
-            remoteEnemy.setImageUrl(imageUrl);
+            remoteEnemy.setImageUrl("");
             remoteEnemy.setRandomEnemy(enemy.getRandomEnemy());
             remoteEnemy.setName(enemy.getName());
             remoteEnemy.setDescription(enemy.getDescription());
-            remoteEnemy.setDeckId(enemy.getDeckId());
+            remoteEnemy.setDeckId(enemy.getDeck().getRemoteId());
 
             return remoteEnemy;
         }

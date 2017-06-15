@@ -94,6 +94,7 @@
                     originalCards.push(editCards[i]);
                 }
             }
+            console.log(originalTreePart);
 
             var originalHtml = originalTask.getHtml();
             originalHtml.setContent(TextAngularHandler.prepareContent(content, answers));

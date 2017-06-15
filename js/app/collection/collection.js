@@ -24,6 +24,7 @@
                 },
                 params:{
                     enemy:null,
+                    originalTreePart: null,
                     treePart: null
                 },
                 controller: 'CollectionController',

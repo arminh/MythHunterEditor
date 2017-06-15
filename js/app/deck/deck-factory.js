@@ -37,6 +37,7 @@
             initFromObject: initFromObject,
             addCard: addCard,
             removeCard: removeCard,
+            checkCompleteness: checkCompleteness,
             upload: upload,
             change: change,
             remove: remove,
@@ -80,6 +81,7 @@
         function initFromRemote(remoteDeck) {
             this.name = remoteDeck.getName();
             this.cardIds = remoteDeck.getCardIds();
+            this.checkCompleteness();
             return this;
         }
 
@@ -87,11 +89,16 @@
             this.id = deckObject.id;
             this.remoteId = deckObject.remoteId;
             this.name = deckObject.name;
-            this.cardIds = deckObject.cardIds;
+            for (var i = 0; i < deckObject.cardIds.length; i++) {
+                var cardId = new backend_com_wsdl_longToIntEntry();
+                cardId.setKey(deckObject.cardIds[i]._key);
+                cardId.setValue(deckObject.cardIds[i]._value);
+                this.cardIds.push(cardId);
+            }
         }
 
         function loadCards(ownedCards) {
-            $log.info("loadCards", this.cards);
+            $log.info("loadCards", this.cardIds);
             var promises = [];
             for (var i = 0; i < this.cardIds.length; i++) {
                 for (var j = 0; j < ownedCards.length; j++) {
@@ -115,7 +122,6 @@
                 }
 
                 this.loaded = true;
-                this.complete = countCards(this.cardIds) >= 20;
 
                 $log.info("loadCards_success", this.cards);
                 return this.cards;
@@ -136,7 +142,7 @@
 
                     if (amount < MAX_CARD_IN_DECK) {
                         this.cardIds[i].setValue(amount + 1);
-                        this.complete = countCards(this.cardIds) >= 20;
+                        this.checkCompleteness();
                         $log.info("addCard_success", this.cardIds[i]);
                     } else {
                         $log.info("addCard_fail: Maximum amount of this card in deck reached");
@@ -150,7 +156,7 @@
             newCardId.setValue(1);
 
             this.cardIds.push(newCardId);
-            this.complete = countCards(this.cardIds) >= 20;
+
         }
 
         function countCards(cards) {
@@ -170,10 +176,14 @@
                     } else {
                         this.cardIds.splice(i, 1);
                     }
-                    this.complete = countCards(this.cardIds) >= 20;
+                    this.checkCompleteness();
                     break;
                 }
             }
+        }
+
+        function checkCompleteness() {
+            this.complete = countCards(this.cardIds) >= 20;
         }
 
         function upload() {
