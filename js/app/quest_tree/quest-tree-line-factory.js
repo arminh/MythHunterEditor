@@ -20,8 +20,8 @@
             this.start = null;
             this.end = null;
             this.head = null;
-            this.fromMarker = null;
-            this.toMarker = null;
+            this.fromElement = null;
+            this.toElement = null;
         }
 
         QuestTreeLine.prototype = {
@@ -38,9 +38,9 @@
             getImage: getImage,
             setStart: setStart,
             setEnd: setEnd,
-            getFromMarker: getFromMarker,
-            setFromMarker: setFromMarker,
-            setToMarker: setToMarker
+            getFromElement: getFromElement,
+            setFromElement: setFromElement,
+            setToElement: setToElement
         };
 
         return (QuestTreeLine);
@@ -48,8 +48,8 @@
         ////////////////
 
         function draw(points, fromMarker, toMarker) {
-            this.fromMarker = fromMarker;
-            this.toMarker = toMarker;
+            this.fromElement = fromMarker;
+            this.toElement = toMarker;
 
             this.img = new fabric.Line(points, {
                 strokeWidth: 4,
@@ -107,17 +107,17 @@
         }
 
         function remove() {
-            for (var i = 0; i < this.fromMarker.lineStarts.length; i++) {
-                if (this.id = this.fromMarker.lineStarts[i]) {
-                    this.fromMarker.lineStarts.splice(i, 1);
+            for (var i = 0; i < this.fromElement.lineStarts.length; i++) {
+                if (this.id = this.fromElement.lineStarts[i]) {
+                    this.fromElement.lineStarts.splice(i, 1);
                 }
             }
-            for (var i = 0; i < this.toMarker.lineEnds.length; i++) {
-                if (this.id = this.toMarker.lineEnds[i]) {
-                    this.toMarker.lineEnds.splice(i, 1);
+            for (var i = 0; i < this.toElement.lineEnds.length; i++) {
+                if (this.id = this.toElement.lineEnds[i]) {
+                    this.toElement.lineEnds.splice(i, 1);
                 }
             }
-            this.fromMarker.treePart.removeSuccessor(this.toMarker.treePart.getId());
+            this.fromElement.treePart.removeSuccessor(this.toElement.treePart.getId());
             this.canvas.remove(this.img);
             this.canvas.remove(this.head);
         }
@@ -225,16 +225,16 @@
             this.end = value;
         }
 
-        function getFromMarker() {
-            return this.fromMarker;
+        function getFromElement() {
+            return this.fromElement;
         }
 
-        function setFromMarker(value) {
-            this.fromMarker = value;
+        function setFromElement(value) {
+            this.fromElement = value;
         }
 
-        function setToMarker(value) {
-            this.toMarker = value;
+        function setToElement(value) {
+            this.toElement = value;
         }
     }
 

@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine", "QuestTreeConnector", "$mdDialog"];
+    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine", "QuestTreeConnector", "TreePartType", "$mdDialog"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, $mdDialog) {
+    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, TreePartType, $mdDialog) {
         $log = $log.getInstance("QuestTreeService", debugging);
         var originalTreeRoot = null;
         var modifiedTreeRoot = null;
@@ -22,14 +22,14 @@
         var markerPromises = {};
         var lines = [];
 
-        var startMarker = null;
         var drawing = false;
         var line = null;
 
         var xPos = 0;
         var markerId = 0;
-        var curMarkerId = -1;
         var lineId = 0;
+
+        var startElement = null;
 
         var markerImgScale = 0.05;
 
@@ -56,7 +56,6 @@
 
             xPos = 0;
             markerId = 0;
-            curMarkerId = -1;
             lineId = 0;
             canvas = new fabric.Canvas('questTree-canvas', {
                 targetFindTolerance: 15
@@ -158,8 +157,8 @@
 
         function drawLineBetweenMarkers(fromMarker, toMarker) {
             $log.info("Draw line between: " + fromMarker.getTreePart().getId() + " and " + toMarker.getTreePart().getId());
-            var fromAnchor = getAnchorPoint(fromMarker.getImage());
-            var toAnchor = getAnchorPoint(toMarker.getImage());
+            var fromAnchor = fromMarker.getStartPoint();
+            var toAnchor = toMarker.getEndPoint();
             var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
 
             var line = new QuestTreeLine(lineId++, canvas);
@@ -192,15 +191,13 @@
                 return;
             }
 
-            if (obj.type == "marker") {
+            if (obj.type == "marker" || obj.type == "connector") {
                 var objLeft = obj.left;
                 var objTop = obj.top;
                 canvas.on("mouse:up", onMouseUpMarker);
-            } else if (obj.type == "connector") {
-                canvas.on("mouse:up", onMouseUpConnector);
             } else if (obj.type == "head") {
                 var line = getLineById(obj.lineId);
-                var startMarker = line.getFromMarker();
+                var startMarker = line.getFromElement();
                 line.remove();
                 startDrawing(startMarker.getImage(), canvas.getPointer(evt.e));
             }
@@ -217,26 +214,30 @@
                     finishDrawing(obj);
                 }
             }
-
-            function onMouseUpConnector() {
-
-            }
-
         }
 
         function startDrawing(obj, pointer) {
 
-            var anchorPoint = getAnchorPoint(obj);
+            switch(obj.type) {
+                case "marker":
+                    startElement = obj.marker;
+                    break;
+                case "connector":
+                    startElement = obj.connector;
+                    break;
+            }
+
+            var anchorPoint = startElement.getStartPoint();
             var anchorLeft = anchorPoint.left;
             var anchorTop = anchorPoint.top;
             var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
 
-            curMarkerId = obj.marker.getId();
-            startMarker = obj.marker;
 
             line = new QuestTreeLine(lineId++, canvas);
             line.draw(points, null, null);
-            line.position();
+            if(startElement.getType() == TreePartType.Marker) {
+                line.position();
+            }
 
             canvas.on('mouse:move', onMouseMove);
             drawing = true;
@@ -245,16 +246,28 @@
         function onMouseMove(evt) {
             var pointer = canvas.getPointer(evt.e);
             line.setEnd({x: pointer.x, y: pointer.y});
-            line.position();
+            if(startElement.getType() == TreePartType.Marker) {
+                line.position();
+            }
             line.getImage().set({x2: pointer.x, y2: pointer.y});
             canvas.renderAll();
         }
 
         function finishDrawing(obj) {
-            if (obj.marker.getId() == curMarkerId ||
-                obj.marker.getId() == 0 ||
-                obj.marker.getTreePart().hasAncestor(startMarker.getTreePart().getId()) ||
-                startMarker.getTreePart().hasSuccessor(obj.marker.getTreePart().getId())) {
+            var endElement;
+            switch(obj.type) {
+                case "marker":
+                    endElement = obj.marker;
+                    break;
+                case "connector":
+                    endElement = obj.connector;
+                    break;
+            }
+
+            if (endElement.getId() == startElement.getId() ||
+                endElement.getId() == 0 ||
+                endElement.getTreePart().hasAncestor(startElement.getTreePart().getId()) ||
+                startElement.getTreePart().hasSuccessor(endElement.getTreePart().getId())) {
 
                 $log.warn("Loop detected!");
                 stopDrawing();
@@ -263,20 +276,22 @@
 
             canvas.off('mouse:move');
 
-            var anchorPoint = getAnchorPoint(obj);
+            var anchorPoint = endElement.getEndPoint();
             var anchorLeft = anchorPoint.left;
             var anchorTop = anchorPoint.top;
 
             line.setEnd({x: anchorLeft, y: anchorTop});
-            line.setFromMarker(startMarker);
-            line.setToMarker(obj.marker);
-            line.position();
+            line.setFromElement(startElement);
+            line.setToElement(endElement);
+            if(startElement.getType() == TreePartType.Marker) {
+                line.position();
+            }
             line.drawArrowHead();
             lines.push(line);
 
-            startMarker.addLineStart(line);
-            startMarker.getTreePart().addSuccessor(obj.marker.getTreePart());
-            obj.marker.addLineEnd(line);
+            startElement.addLineStart(line);
+            startElement.getTreePart().addSuccessor(endElement.getTreePart());
+            endElement.addLineEnd(line);
 
             canvas.renderAll();
             drawing = false;
@@ -342,13 +357,6 @@
             }
             if (bottom > canvas.height) {
                 el.top = canvas.height - height;
-            }
-        }
-
-        function getAnchorPoint(obj) {
-            return {
-                left: obj.left + (obj.width / 2) * obj.scaleX,
-                top: obj.top + (obj.height / 2) * obj.scaleY
             }
         }
 

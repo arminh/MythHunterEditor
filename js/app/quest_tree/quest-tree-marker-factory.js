@@ -9,14 +9,15 @@
         .module('questTree')
         .factory('QuestTreeMarker', QuestTreeMarkerFactory);
 
-    QuestTreeMarkerFactory.$inject = ["$q", "TaskService"];
+    QuestTreeMarkerFactory.$inject = ["$q", "TaskService", "TreePartType"];
 
     /* @ngInject */
-    function QuestTreeMarkerFactory($q, TaskService) {
+    function QuestTreeMarkerFactory($q, TaskService, TreePartType) {
 
         function QuestTreeMarker(treePart, id, canvas, imgScale) {
             this.treePart = treePart;
             this.id = id;
+            var type = TreePartType.Marker;
             this.canvas = canvas;
             this.imgScale = imgScale;
             this.img = null;
@@ -29,12 +30,15 @@
             constructor: QuestTreeMarker,
             add: add,
             move: move,
+            getStartPoint: getAnchorPoint,
+            getEndPoint: getAnchorPoint,
             addLineStart: addLineStart,
             addLineEnd: addLineEnd,
 
             getId: getId,
             getLineEnds: getLineEnds,
             getTreePart: getTreePart,
+            getType: getType,
             getImage: getImage
         };
 
@@ -124,6 +128,13 @@
             label.set("left", anchorLeft - label.width / 2);
         }
 
+        function getAnchorPoint() {
+            return {
+                left: this.img.left + (this.img.width / 2) * this.img.scaleX,
+                top: this.img.top + (this.img.height / 2) * this.img.scaleY
+            }
+        }
+
         function addLineStart(line) {
             this.lineStarts.push(line);
         }
@@ -142,6 +153,10 @@
 
         function getTreePart() {
             return this.treePart;
+        }
+
+        function getType() {
+            return this.type;
         }
 
         function getImage() {

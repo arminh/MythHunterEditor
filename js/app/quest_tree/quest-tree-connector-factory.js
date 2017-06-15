@@ -9,12 +9,13 @@
         .module('questTree')
         .factory('QuestTreeConnector', QuestTreeConnectorFactory);
 
-    QuestTreeConnectorFactory.$inject = ["QuestTreeConnectorSlot"];
+    QuestTreeConnectorFactory.$inject = ["QuestTreeConnectorSlot", "TreePartType"];
 
     /* @ngInject */
-    function QuestTreeConnectorFactory(QuestTreeConnectorSlot) {
+    function QuestTreeConnectorFactory(QuestTreeConnectorSlot, TreePartType) {
 
         function QuestTreeConnector(canvas) {
+            this.type = TreePartType.And;
             this.canvas = canvas;
             this.img = null;
             this.inSlots = [];
@@ -28,6 +29,8 @@
             drawInSlot: drawInSlot,
             drawOutSlot: drawOutSlot,
             move: move,
+
+            getType: getType
         };
 
         return (QuestTreeConnector);
@@ -88,6 +91,18 @@
                 this.inSlots[i].move(this.img.left, this.img.top + 10 + 15 * i);
             }
             this.outSlot.move(this.img.left + this.img.width, this.img.top + this.img.height / 2 - 5);
+        }
+
+        function getStartPoint() {
+
+        }
+
+        function getEndPoint() {
+
+        }
+
+        function getType() {
+            return this.type;
         }
     }
 
