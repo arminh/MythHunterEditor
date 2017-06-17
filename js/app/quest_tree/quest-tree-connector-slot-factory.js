@@ -14,15 +14,21 @@
     /* @ngInject */
     function QuestTreeConnectorSlotFactory() {
 
-        function QuestTreeConnectorSlot(canvas) {
+        function QuestTreeConnectorSlot(canvas, type) {
+            this.type = type;
             this.canvas = canvas;
             this.img = null;
+            this.line = null;
         }
 
         QuestTreeConnectorSlot.prototype = {
             constructor: QuestTreeConnectorSlot,
             add: add,
-            move: move
+            move: move,
+            getAnchorPoint: getAnchorPoint,
+
+            getLine: getLine,
+            setLine: setLine
         };
 
         return (QuestTreeConnectorSlot);
@@ -60,6 +66,41 @@
         function move(x, y) {
             this.img.left = x -3;
             this.img.top = y;
+
+            if(this.line) {
+                var anchor = this.getAnchorPoint();
+                if(this.type == "in") {
+                    this.line.setEnd({x: anchor.left, y: anchor.top}) ;
+                } else if(this.type == "out") {
+                    this.line.setStart({x: anchor.left, y: anchor.top}) ;
+                }
+                this.line.position();
+                this.line.removeArrowHead();
+                this.line.drawArrowHead();
+            }
+        }
+
+        function getAnchorPoint() {
+            if(this.type == "in") {
+                return {
+                    top: this.img.top + this.img.height / 2,
+                    left: this.img.left
+                }
+            } else if(this.type == "out") {
+                return {
+                    top: this.img.top + this.img.height / 2,
+                    left: this.img.left + this.img.width
+                }
+            }
+
+        }
+
+        function getLine() {
+            return this.line;
+        }
+
+        function setLine(line) {
+            this.line = line;
         }
     }
 

@@ -9,13 +9,14 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine", "QuestTreeConnector", "TreePartType", "$mdDialog"];
+    QuestTreeService.$inject = ["$log", "$q", "QuestService", "QuestTreeMarker", "QuestTreeLine", "QuestTreeConnector", "TreePartType", "$mdDialog"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, TreePartType, $mdDialog) {
+    function QuestTreeService($log, $q, QuestService, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, TreePartType, $mdDialog) {
         $log = $log.getInstance("QuestTreeService", debugging);
         var originalTreeRoot = null;
         var modifiedTreeRoot = null;
+        var quest = null;
 
         var canvas = null;
         var markers = [];
@@ -30,11 +31,23 @@
         var lineId = 0;
 
         var startElement = null;
+        var connectorDragging = null;
+        var selectedLine = null;
 
         var markerImgScale = 0.05;
+        var positionAnd = {
+            top: 10,
+            left: 10
+        };
+        var positionOr = {
+            top: 10,
+            left: 80
+        };
 
         var service = {
             init: init,
+            createTreePartAnd: createTreePartAnd,
+            createTreePartOr: createTreePartOr,
             activateDraw: activateDraw,
             deactivateDraw: deactivateDraw,
             escapeKeyPressed: escapeKeyPressed,
@@ -45,9 +58,10 @@
 
         ////////////////
 
-        function init(treeRoot) {
-            originalTreeRoot = treeRoot;
-            modifiedTreeRoot = angular.copy(treeRoot);
+        function init(userQuest) {
+            originalTreeRoot = userQuest.getTreePartRoot();
+            modifiedTreeRoot = angular.copy(userQuest.getTreePartRoot());
+            quest = userQuest;
             markers = [];
             markerPromises = {};
             lines = [];
@@ -62,11 +76,31 @@
             });
             initRightClick();
             initDrag();
+            initSelect();
             initGroups();
+            initConnectors();
 
-            var con = new QuestTreeConnector(canvas);
-            con.add("and", 100, 100);
             return addTreePartMarker(modifiedTreeRoot, null).then(activateDraw);
+        }
+
+        function createTreePartAnd(x, y) {
+            var treePartAnd = quest.createTreePartConnector(TreePartType.And);
+            var treePartId = QuestService.getTreePartId();
+            treePartAnd.setId(treePartId);
+            QuestService.setTreePartId(treePartId + 1);
+            var con = new QuestTreeConnector(treePartAnd, treePartId, canvas);
+            con.add(TreePartType.And, x, y);
+            return con;
+        }
+
+        function createTreePartOr(x, y) {
+            var treePartOr = quest.createTreePartConnector(TreePartType.Or);
+            var treePartId = QuestService.getTreePartId();
+            treePartOr.setId(treePartId);
+            QuestService.setTreePartId(treePartId + 1);
+            var con = new QuestTreeConnector(treePartOr, treePartId, canvas);
+            con.add(TreePartType.Or, x, y);
+            return con;
         }
 
         function escapeKeyPressed() {
@@ -74,7 +108,11 @@
         }
 
         function deleteKeyPressed() {
-
+            console.log("Remove line: ", selectedLine);
+            if (selectedLine) {
+                selectedLine.remove();
+                selectedLine = null;
+            }
         }
 
         function initGroups() {
@@ -85,6 +123,84 @@
                     lockRotation: true
                 });
             });
+        }
+
+        function initConnectors() {
+            addConnector(positionAnd.left, positionAnd.top, TreePartType.And);
+            addConnector(positionOr.left, positionOr.top, TreePartType.Or);
+        }
+
+        function addConnector(x, y, type) {
+            var rect = new fabric.Rect({
+                fill: 'white',
+                stroke: 'black',
+                left: x,
+                top: y,
+                width: 40,
+                height: 75,
+                // originX: 'center',
+                // originY: 'center',
+                perPixelTargetFind: true
+            });
+
+            rect.type = type;
+            rect.hasControls = false;
+            rect.hasBorders = false;
+            rect.hasRotatingPoint = false;
+            rect.lockMovementX = true;
+            rect.lockMovementY = true;
+            rect.lockScalingX = true;
+            rect.lockScalingY = true;
+            rect.lockRotation = true;
+            // rect.selectable = false;
+            canvas.add(rect);
+
+            var markerLabel = new fabric.Text(type, {
+                fontFamily: 'Arial',
+                fontSize: 12,
+                left: 100,
+                top: 100
+            });
+            canvas.add(markerLabel).renderAll();
+            markerLabel.hasControls = false;
+            markerLabel.hasBorders = false;
+            markerLabel.set({selectable: false})
+            markerLabel.set("top", rect.top + rect.height / 2 - markerLabel.height / 2);
+            markerLabel.set("left", rect.left + rect.width / 2 - markerLabel.width / 2);
+
+            for (var i = 0; i < 4; i++) {
+                addSlot(rect.left, rect.top + 10 + 15 * i);
+            }
+            addSlot(rect.left + rect.width, rect.top + rect.height / 2 - 5);
+            return rect;
+        }
+
+        function addSlot(x, y) {
+            var slot = new fabric.Rect({
+                fill: 'black',
+                stroke: 'black',
+                left: x - 3,
+                top: y,
+                width: 6,
+                height: 10,
+                // originX: 'center',
+                // originY: 'center',
+                perPixelTargetFind: true
+            });
+
+            slot.type = "slot";
+            slot.hasControls = false;
+            slot.hasBorders = false;
+            slot.hasRotatingPoint = false;
+            slot.lockMovementX = true;
+            slot.lockMovementY = true;
+            slot.lockScalingX = true;
+            slot.lockScalingY = true;
+            slot.lockRotation = true;
+            slot.selectable = false;
+            canvas.add(slot);
+
+            return slot;
         }
 
         function initRightClick() {
@@ -167,8 +283,8 @@
             line.drawArrowHead();
             lines.push(line);
 
-            fromMarker.addLineStart(line);
-            toMarker.addLineEnd(line);
+            fromMarker.addOutLine(line);
+            toMarker.addInLine(line);
         }
 
         function getLineById(id) {
@@ -180,7 +296,12 @@
         }
 
         function activateDraw() {
+            canvas.off('mouse:up');
             canvas.on('mouse:down', onMouseDown);
+        }
+
+        function deactivateDraw() {
+            canvas.off('mouse:down');
         }
 
         function onMouseDown(evt) {
@@ -194,15 +315,26 @@
             if (obj.type == "marker" || obj.type == "connector") {
                 var objLeft = obj.left;
                 var objTop = obj.top;
-                canvas.on("mouse:up", onMouseUpMarker);
+                canvas.on("mouse:up", onMouseUp);
             } else if (obj.type == "head") {
                 var line = getLineById(obj.lineId);
-                var startMarker = line.getFromElement();
+                var lineStartElement = line.getFromElement();
                 line.remove();
-                startDrawing(startMarker.getImage(), canvas.getPointer(evt.e));
+                startDrawing(lineStartElement.getImage(), canvas.getPointer(evt.e));
+            } else if (!drawing && obj.type == TreePartType.And) {
+                deactivateDraw();
+                connectorDragging = createTreePartAnd(positionAnd.left + 10, positionAnd.top + 10);
+                canvas.on('mouse:move', moveConnector);
+                canvas.on('mouse:up', addPlaceConnectorEvent);
+            } else if (!drawing && obj.type == TreePartType.Or) {
+                deactivateDraw();
+                connectorDragging = createTreePartOr(positionOr.left + 10, positionOr.top + 10);
+                canvas.on('mouse:move', moveConnector);
+                canvas.on('mouse:up', addPlaceConnectorEvent);
             }
 
-            function onMouseUpMarker() {
+            function onMouseUp() {
+
                 canvas.off('mouse:up');
 
                 if (!drawing) {
@@ -216,9 +348,26 @@
             }
         }
 
+        function addPlaceConnectorEvent() {
+            console.log("Mouse down");
+
+            canvas.off('mouse:up');
+            canvas.on('mouse:down', placeConnector);
+        }
+
+        function placeConnector() {
+            if (connectorDragging) {
+                connectorDragging.getImage().setCoords();
+                connectorDragging = null;
+                canvas.off('mouse:move');
+                canvas.off('mouse:down');
+                canvas.on('mouse:up', activateDraw);
+            }
+        }
+
         function startDrawing(obj, pointer) {
 
-            switch(obj.type) {
+            switch (obj.type) {
                 case "marker":
                     startElement = obj.marker;
                     break;
@@ -234,28 +383,37 @@
 
 
             line = new QuestTreeLine(lineId++, canvas);
-            line.draw(points, null, null);
-            if(startElement.getType() == TreePartType.Marker) {
-                line.position();
-            }
+            line.draw(points, startElement, null);
+            line.position();
 
-            canvas.on('mouse:move', onMouseMove);
             drawing = true;
+            canvas.on('mouse:move', onMouseMove);
         }
 
         function onMouseMove(evt) {
             var pointer = canvas.getPointer(evt.e);
             line.setEnd({x: pointer.x, y: pointer.y});
-            if(startElement.getType() == TreePartType.Marker) {
+            if (startElement.getType() == TreePartType.Marker) {
                 line.position();
             }
             line.getImage().set({x2: pointer.x, y2: pointer.y});
             canvas.renderAll();
         }
 
+        function moveConnector(evt) {
+            var pointer = canvas.getPointer(evt.e);
+            var img = connectorDragging.getImage();
+            img.set("top", pointer.y);
+            img.set("left", pointer.x);
+            connectorDragging.move();
+            canvas.renderAll();
+        }
+
+
+
         function finishDrawing(obj) {
             var endElement;
-            switch(obj.type) {
+            switch (obj.type) {
                 case "marker":
                     endElement = obj.marker;
                     break;
@@ -264,12 +422,7 @@
                     break;
             }
 
-            if (endElement.getId() == startElement.getId() ||
-                endElement.getId() == 0 ||
-                endElement.getTreePart().hasAncestor(startElement.getTreePart().getId()) ||
-                startElement.getTreePart().hasSuccessor(endElement.getTreePart().getId())) {
-
-                $log.warn("Loop detected!");
+            if (!isConnectionAllowed(startElement, endElement)) {
                 stopDrawing();
                 return;
             }
@@ -283,33 +436,47 @@
             line.setEnd({x: anchorLeft, y: anchorTop});
             line.setFromElement(startElement);
             line.setToElement(endElement);
-            if(startElement.getType() == TreePartType.Marker) {
-                line.position();
-            }
-            line.drawArrowHead();
             lines.push(line);
 
-            startElement.addLineStart(line);
+            startElement.addOutLine(line);
             startElement.getTreePart().addSuccessor(endElement.getTreePart());
-            endElement.addLineEnd(line);
+            endElement.addInLine(line);
+            line.position();
+            line.drawArrowHead();
 
             canvas.renderAll();
             drawing = false;
         }
 
+        function isConnectionAllowed(startElement, endElement) {
+            if (endElement.getType() == startElement.getType() && endElement.getId() == startElement.getId()) {
+                $log.warn("Line Start and End are the same!");
+                return false;
+            } else if (endElement.getId() == 0) {
+                $log.warn("Connecting to start marker not allowed");
+                return false;
+            } else if (endElement.getTreePart().hasAncestor(startElement.getTreePart().getId())) {
+                $log.warn("Loop detected!");
+                return false;
+            } else if (startElement.getTreePart().hasSuccessor(endElement.getTreePart().getId())) {
+                $log.warn("There already exits a connection between these markers");
+                return false;
+            } else if (startElement.getId() == 0 && (endElement.getType() == TreePartType.And || endElement.getType() == TreePartType.Or)) {
+                $log.warn("Start marker can only be connected to other markers");
+                return false;
+            }
+            return true;
+        }
+
         function stopDrawing() {
             console.log("stopDrawing");
             if (drawing) {
+
                 drawing = false;
                 canvas.off('mouse:move');
                 line.stopDrawing();
+                startElement = null;
             }
-
-        }
-
-        function deactivateDraw() {
-            canvas.off('mouse:down');
-            canvas.off('mouse:move');
         }
 
         function initDrag() {
@@ -336,6 +503,16 @@
                         }
                 }
             });
+        }
+
+        function initSelect() {
+            canvas.on('object:selected', objectSelected);
+
+            function objectSelected(obj) {
+                if (obj.target.type == "line") {
+                    selectedLine = getLineById(obj.target.lineId);
+                }
+            }
         }
 
         function checkDragBounds(el) {

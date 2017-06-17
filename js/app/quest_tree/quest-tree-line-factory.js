@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeLine', QuestTreeLineFactory);
 
-    QuestTreeLineFactory.$inject = [];
+    QuestTreeLineFactory.$inject = ["TreePartType"];
 
     /* @ngInject */
-    function QuestTreeLineFactory() {
+    function QuestTreeLineFactory(TreePartType) {
         function QuestTreeLine(id, canvas) {
             this.canvas = canvas;
             this.id = id;
@@ -28,6 +28,8 @@
             constructor: QuestTreeLine,
             draw: draw,
             stopDrawing: stopDrawing,
+            allowSelection: allowSelection,
+            preventSelection: preventSelection,
             position: position,
             isHit: isHit,
             remove: remove,
@@ -35,6 +37,7 @@
             getArrowHead: getArrowHead,
             removeArrowHead: removeArrowHead,
 
+            getId: getId,
             getImage: getImage,
             setStart: setStart,
             setEnd: setEnd,
@@ -62,7 +65,7 @@
 
             this.img.type = "line";
             this.img.hasControls = false;
-            this.img.hasBorders = false;
+            // this.img.hasBorders = false;
             this.img.hasRotatingPoint = false;
             this.img.lockMovementX = true;
             this.img.lockMovementY = true;
@@ -78,11 +81,31 @@
             return this;
         }
 
-        function stopDrawing() {
+        function stopDrawing(fromElementId) {
             this.img.remove();
         }
 
+        //For repositioning
+        function preventSelection() {
+            this.img.set({selectable: false});
+            if(this.head) {
+                this.head.set({selectable: false});
+            }
+        }
+
+        function allowSelection() {
+            this.img.set({selectable: true});
+            if(this.head) {
+                this.head.set({selectable: true});
+            }
+        }
+
         function position() {
+            var x1 = 0;
+            var y1 = 0;
+            var x2 = 0;
+            var y2 = 0;
+
             var vy = (this.end.y - this.start.y);
             var vx = (this.end.x - this.start.x);
 
@@ -91,13 +114,25 @@
             vy = vy / len;
             vx = vx / len;
 
-            var x1 = this.start.x + vx * 20;
-            var y1 = this.start.y + vy * 20;
 
-            var x2 = this.end.x - vx * 20;
-            var y2 = this.end.y - vy * 20;
+            if(this.fromElement && this.fromElement.getType() == TreePartType.Marker) {
+                x1 = this.start.x + vx * 20;
+                y1 = this.start.y + vy * 20;
+            } else {
+                x1 = this.start.x;
+                y1 = this.start.y;
+            }
+
+            if(this.toElement && this.toElement.getType() == TreePartType.Marker) {
+                x2 = this.end.x - vx * 20;
+                y2 = this.end.y - vy * 20;
+            } else {
+                x2 = this.end.x;
+                y2 = this.end.y;
+            }
 
             this.img.set({x1: x1, y1: y1, x2: x2, y2: y2});
+            // this.allowSelection();
         }
 
         function isHit(pointer) {
@@ -107,17 +142,9 @@
         }
 
         function remove() {
-            for (var i = 0; i < this.fromElement.lineStarts.length; i++) {
-                if (this.id = this.fromElement.lineStarts[i]) {
-                    this.fromElement.lineStarts.splice(i, 1);
-                }
-            }
-            for (var i = 0; i < this.toElement.lineEnds.length; i++) {
-                if (this.id = this.toElement.lineEnds[i]) {
-                    this.toElement.lineEnds.splice(i, 1);
-                }
-            }
-            this.fromElement.treePart.removeSuccessor(this.toElement.treePart.getId());
+            this.fromElement.removeOutLine(this);
+            this.toElement.removeInLine(this);
+            this.fromElement.getTreePart().removeSuccessor(this.toElement.treePart.getId());
             this.canvas.remove(this.img);
             this.canvas.remove(this.head);
         }
@@ -135,9 +162,8 @@
                 width: 10
             });
 
-            // triangle.set({selectable: false});
             triangle.hasControls = false;
-            triangle.hasBorders = false;
+            // triangle.hasBorders = false;
             triangle.hasRotatingPoint = false;
             triangle.type = "head";
             triangle.lockMovementX = true;
@@ -211,6 +237,10 @@
 
         function containsPoint(object, point) {
             return !this.canvas.isTargetTransparent(object, point.x, point.y);
+        }
+
+        function getId() {
+            return this.id;
         }
 
         function getImage() {

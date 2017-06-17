@@ -27,7 +27,12 @@
         ////////////////
 
         function init() {
-            QuestTreeService.init(vm.treeRoot);
+            QuestTreeService.init(vm.quest);
+            // createTreePartAnd();
+        }
+
+        function createTreePartAnd() {
+            QuestTreeService.createTreePartAnd();
         }
 
         function confirm(evt) {

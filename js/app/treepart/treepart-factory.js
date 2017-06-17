@@ -15,7 +15,7 @@
     function TreePartFactory($log, $q, BackendService, TreePartType, QuestService, Task) {
         $log = $log.getInstance("TreePart", debugging);
 
-        function TreePart(questName) {
+        function TreePart(type, questName) {
             this.remoteId = 0;
             this.version = 0;
             this.finished = false;
@@ -25,7 +25,7 @@
             this.questInstanceId = 0;
             this.executedAt = null;
             this.successors = [];
-            this.type = TreePartType.Marker;
+            this.type = type;
             this.highlightedInvisibeMarker = false;
 
             this.questName = questName;
@@ -37,7 +37,7 @@
 
         TreePart.prototype = {
             constructor: TreePart,
-            init: init,
+            initTask: initTask,
             initFromObject: initFromObject,
             getFromRemote: getFromRemote,
             initFromRemote: initFromRemote,
@@ -71,7 +71,7 @@
 
         ////////////////
 
-        function init(taskType) {
+        function initTask(taskType) {
             this.task = new Task(this.questName);
             this.task.init(taskType);
         }

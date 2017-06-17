@@ -114,7 +114,7 @@
                 promise.then(success);
 
                 function success(result) {
-                    treePart = quest.createTreePart(result.type);
+                    treePart = quest.createTreePartMarker(result.type);
                     drawMarker(treePart.getTask()).then(editTreePart);
                 }
 
@@ -262,7 +262,7 @@
                     bindToController: true,
                     escapeToClose: false,
                     locals: {
-                        treeRoot: quest.getTreePartRoot()
+                        quest: quest
                     }
                 });
             }

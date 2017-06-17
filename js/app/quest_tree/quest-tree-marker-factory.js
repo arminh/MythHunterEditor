@@ -17,13 +17,13 @@
         function QuestTreeMarker(treePart, id, canvas, imgScale) {
             this.treePart = treePart;
             this.id = id;
-            var type = TreePartType.Marker;
+            this.type = TreePartType.Marker;
             this.canvas = canvas;
             this.imgScale = imgScale;
             this.img = null;
             this.label = null;
-            this.lineStarts = [];
-            this.lineEnds = [];
+            this.outLines = [];
+            this.inLines = [];
         }
 
         QuestTreeMarker.prototype = {
@@ -32,11 +32,14 @@
             move: move,
             getStartPoint: getAnchorPoint,
             getEndPoint: getAnchorPoint,
-            addLineStart: addLineStart,
-            addLineEnd: addLineEnd,
+            addOutLine: addOutLine,
+            removeOutLine: removeOutLine,
+            addInLine: addInLine,
+            removeInLine: removeInLine,
 
             getId: getId,
-            getLineEnds: getLineEnds,
+            getInLines: getInLines,
+            getOutLines: getOutLines,
             getTreePart: getTreePart,
             getType: getType,
             getImage: getImage
@@ -74,21 +77,21 @@
             var anchorLeft;
             var anchorTop;
 
-            if (this.lineStarts && this.lineEnds) {
-                for (var i = 0; i < this.lineStarts.length; i++) {
-                    var line = this.lineStarts[i];
+            if (this.outLines && this.inLines) {
+                for (var i = 0; i < this.outLines.length; i++) {
+                    var line = this.outLines[i];
 
                     anchorLeft = left + (this.img.width / 2) * this.img.scaleX;
                     anchorTop = top + (this.img.height / 2) * this.img.scaleY;
-                    line.setStart({x: anchorLeft, y: anchorTop});
+                    line.setStart({x: anchorLeft, y: anchorTop}) ;
                     line.position();
 
                     line.removeArrowHead();
                     line.drawArrowHead();
                 }
 
-                for (var i = 0; i < this.lineEnds.length; i++) {
-                    var line = this.lineEnds[i];
+                for (var i = 0; i < this.inLines.length; i++) {
+                    var line = this.inLines[i];
 
                     anchorLeft = left + (this.img.width / 2) * this.img.scaleX;
                     anchorTop = top + (this.img.height / 2) * this.img.scaleY;
@@ -135,16 +138,36 @@
             }
         }
 
-        function addLineStart(line) {
-            this.lineStarts.push(line);
+        function addOutLine(line) {
+            this.outLines.push(line);
         }
 
-        function addLineEnd(line) {
-            this.lineEnds.push(line);
+        function removeOutLine(line) {
+            for (var i = 0; i < this.outLines.length; i++) {
+                if (line.getId() == this.outLines[i].getId()) {
+                    this.outLines.splice(i, 1);
+                }
+            }
         }
 
-        function getLineEnds() {
-            return this.lineEnds;
+        function addInLine(line) {
+            this.inLines.push(line);
+        }
+
+        function removeInLine(line) {
+            for (var i = 0; i < this.inLines.length; i++) {
+                if (line.getId() == this.inLines[i].getId()) {
+                    this.inLines.splice(i, 1);
+                }
+            }
+        }
+
+        function getInLines() {
+            return this.inLines;
+        }
+
+        function getOutLines() {
+            return this.outLines;
         }
 
         function getId() {

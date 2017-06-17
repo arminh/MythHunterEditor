@@ -9,10 +9,10 @@
         .module('quest')
         .factory('Quest', QuestFactory);
 
-    QuestFactory.$inject = ["$log", "$q", "AuthenticationService", "BackendService", "HtmlText", "TreePart", "DifficultyLevel", "SubmitErrors"];
+    QuestFactory.$inject = ["$log", "$q", "AuthenticationService", "BackendService", "HtmlText", "TreePart", "TreePartType", "DifficultyLevel", "SubmitErrors"];
 
     /* @ngInject */
-    function QuestFactory($log, $q, AuthenticationService, BackendService, HtmlText, TreePart, DifficultyLevel, SubmitErrors) {
+    function QuestFactory($log, $q, AuthenticationService, BackendService, HtmlText, TreePart, TreePartType, DifficultyLevel, SubmitErrors) {
 
         $log = $log.getInstance("Quest", debugging);
         function Quest(creatorId) {
@@ -43,7 +43,8 @@
             initFromRemote: initFromRemote,
             load: load,
             change: change,
-            createTreePart: createTreePart,
+            createTreePartMarker: createTreePartMarker,
+            createTreePartConnector: createTreePartConnector,
             addTreePart: addTreePart,
             addTreePartToTree: addTreePartToTree,
             deleteTreePart: deleteTreePart,
@@ -179,9 +180,14 @@
             }.bind(this));
         }
 
-        function createTreePart(markerType) {
-            var treePart = new TreePart(this.name);
-            treePart.init(markerType);
+        function createTreePartMarker(markerType) {
+            var treePart = new TreePart(TreePartType.Marker, this.name);
+            treePart.initTask(markerType);
+            return treePart;
+        }
+
+        function createTreePartConnector(type) {
+            var treePart = new TreePart(type, this.name);
             return treePart;
         }
 
