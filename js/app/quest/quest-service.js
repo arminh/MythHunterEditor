@@ -78,6 +78,7 @@
             if(addToTree) {
                 quest.addTreePartToTree(treePart);
             }
+            console.log(treePart);
             quest.addTreePart(treePart);
         }
 

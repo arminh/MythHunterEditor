@@ -9,10 +9,10 @@
         .module('profile')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ["$log", "$q", "$state", "$mdDialog", "user"];
+    ProfileController.$inject = ["$log", "$q", "$state", "$mdDialog", "QuestService", "user"];
 
     /* @ngInject */
-    function ProfileController($log, $q, $state, $mdDialog, user) {
+    function ProfileController($log, $q, $state, $mdDialog, QuestService, user) {
         var vm = this;
         vm.user = user;
         vm.currentQuest = null;

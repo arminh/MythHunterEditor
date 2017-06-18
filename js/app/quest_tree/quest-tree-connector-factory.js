@@ -14,7 +14,7 @@
     /* @ngInject */
     function QuestTreeConnectorFactory(QuestTreeConnectorSlot, TreePartType) {
 
-        function QuestTreeConnector(treePart, id, canvas) {
+        function QuestTreeConnector(type, treePart, id, canvas) {
             this.treePart = treePart;
             this.id = id;
             this.type = null;
@@ -35,9 +35,12 @@
             positionLabel: positionLabel,
             move: move,
             addOutLine: addOutLine,
-            removeOutLine: removeOutLine,
             addInLine: addInLine,
+            getOutLines: getOutLines,
             removeInLine: removeInLine,
+            removeOutLine: removeOutLine,
+            getNumInLines: getNumInLines,
+            getNumOutLines: getNumOutLines,
 
             getType: getType,
             getId: getId,
@@ -106,8 +109,6 @@
             this.label = new fabric.Text(this.type, {
                 fontFamily: 'Arial',
                 fontSize: 12,
-                left: 100,
-                top: 100
             });
             this.canvas.add(this.label).renderAll();
             this.label.hasControls = false;
@@ -119,6 +120,7 @@
         function positionLabel() {
             this.label.set("top", this.img.top + this.img.height/2 - this.label.height/2);
             this.label.set("left", this.img.left + this.img.width/2 - this.label.width/2);
+            this.canvas.renderAll();
         }
 
         function move() {
@@ -127,6 +129,31 @@
             }
             this.outSlot.move(this.img.left + this.img.width, this.img.top + this.img.height / 2 - 5);
             this.positionLabel();
+        }
+
+        function getNumInLines() {
+            var numLines = 0;
+
+            for(var i = 0; i < this.inSlots.length; i++) {
+                var inSlot = this.inSlots[i];
+                if(inSlot.getLine()) {
+                    numLines++;
+                }
+            }
+
+            return numLines;
+        }
+
+        function getOutLines() {
+            if(this.outSlot.getLine()) {
+                return [this.outSlot.getLine()];
+            } else {
+                return [];
+            }
+        }
+
+        function getNumOutLines() {
+            return this.outSlot.getLine() ? 1 : 0;
         }
 
         function getType() {
@@ -155,16 +182,15 @@
 
         function addOutLine(line) {
             this.outSlot.setLine(line);
-        }
-
-        function removeOutLine() {
-            this.outLine = null;
+            this.treePart.change();
         }
 
         function addInLine(line) {
             for(var i = 0; i < this.inSlots.length; i++) {
                 if(!this.inSlots[i].getLine()) {
                     this.inSlots[i].setLine(line);
+                    this.treePart.change();
+
                     break;
                 }
             }
@@ -174,9 +200,15 @@
             for(var i = 0; i < this.inSlots.length; i++) {
                 if(this.inSlots[i].getLine().getId() == line.getId()) {
                     this.inSlots[i].setLine(null);
+                    this.treePart.change();
                     break;
                 }
             }
+        }
+
+        function removeOutLine() {
+            this.outSlot.setLine(null);
+            this.treePart.change();
         }
 
         function getImage() {

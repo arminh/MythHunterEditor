@@ -79,7 +79,7 @@
         function initFromObject(treePartObject, quest, isRoot) {
             $log.info("initFromObject: ", treePartObject);
 
-            if (!isRoot) {
+            if (!isRoot && treePartObject.type == TreePartType.Marker) {
                 quest.addTreePart(this);
             }
 
@@ -96,14 +96,16 @@
             this.highlightedInvisibeMarker = treePartObject.highlightedInvisibeMarker;
             this.questName = quest.getName();
 
-            this.task = new Task(quest.getName());
-            this.task.initFromObject(treePartObject.task);
+            if(treePartObject.type == TreePartType.Marker) {
+                this.task = new Task(quest.getName());
+                this.task.initFromObject(treePartObject.task);
+            }
 
             for (var i = 0; i < treePartObject.successors.length; i++) {
                 var successorObject = treePartObject.successors[i];
                 var treePart = quest.getTreePart(successorObject.id);
                 if(!treePart) {
-                    treePart = new TreePart(quest.getName());
+                    treePart = new TreePart(treePartObject.type, quest.getName());
                     treePart.initFromObject(treePartObject.successors[i], quest, false);
                 }
 
@@ -151,21 +153,25 @@
             this.questInstanceId = remoteTreePart.getQuestInstanceId();
             this.highlightedInvisibeMarker = remoteTreePart.getHighlightedInvisibeMarker();
 
-            this.task = new Task(quest.getName());
-            this.task.setRemoteId(remoteTreePart.getMarker().getId());
 
             var promises = [];
-            promises.push(this.task.getFromRemote());
+            if(this.type == TreePartType.Marker) {
+                this.task = new Task(quest.getName());
+                this.task.setRemoteId(remoteTreePart.getMarker().getId());
+                promises.push(this.task.getFromRemote());
+            }
 
             var successors = remoteTreePart.getSuccessors();
             for (var i = 0; i < successors.length; i++) {
                 var successorId = successors[i].getId();
                 var treePart = quest.getTreePartByRemoteId(successorId);
                 if(!treePart) {
-                    treePart = new TreePart(quest.getName());
+                    treePart = new TreePart(successors[i].getType(), quest.getName());
                     treePart.setRemoteId(successorId);
-                    QuestService.addTreePartToQuest(quest, treePart);
                     promises.push(treePart.getFromRemote(quest, false));
+                    if(treePart.getType() == TreePartType.Marker) {
+                        QuestService.addTreePartToQuest(quest, treePart);
+                    }
                 }
                 this.successors.push(treePart);
             }
@@ -220,23 +226,32 @@
         }
 
         function upload() {
-            // if(this.uploadPromise) {
-            //     return this.uploadPromise;
-            // }
+            if(this.uploadPromise) {
+                return this.uploadPromise;
+            }
 
             this.remoteTreePart = BackendService.createRemoteTreePart(this);
 
             var promises = [];
 
-            promises.push($q.when(this.task.upload()));
+            if(this.type == TreePartType.Marker) {
+                promises.push($q.when(this.task.upload()));
+            }
 
             for (var i = 0; i < this.successors.length; i++) {
                 promises.push($q.when(this.successors[i].upload()));
             }
 
-            return $q.all(promises).then(function (results) {
-                this.remoteTreePart.setMarker(results[0]);
-                this.remoteTreePart.setSuccessors(results.slice(1, results.length));
+            this.uploadPromise = $q.all(promises).then(function (results) {
+                var successors = [];
+                if(this.type == TreePartType.Marker) {
+                    this.remoteTreePart.setMarker(results[0]);
+                    successors = results.slice(1, results.length);
+                } else {
+                    successors = results;
+                }
+
+                this.remoteTreePart.setSuccessors(successors);
                 if (this.remoteId < 1 || this.changed) {
                     $log.info("upload: ", this);
                     return BackendService.addTreePart(this.remoteTreePart).then(function (result) {
@@ -248,7 +263,7 @@
                     return this.remoteTreePart;
                 }
             }.bind(this));
-            // return this.uploadPromise;
+            return this.uploadPromise;
         }
 
         function remove() {

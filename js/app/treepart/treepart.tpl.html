@@ -5,8 +5,7 @@
                 <div layout="row" layout-align="center center">
                     <md-input-container flex="50">
                         <label>Task Name</label>
-                        <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus
-                               md-select-on-focus>
+                        <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus>
                         <div ng-messages="taskForm.taskName.$error">
                             <div ng-message="required">This is required.</div>
                         </div>
@@ -72,7 +71,7 @@
                     </div>
                 </div>
                 <div>
-                    <md-button class="md-raised md-primary" type="submit" md-autofocus>
+                    <md-button class="md-raised md-primary" type="submit">
                         Confirm
                     </md-button>
                     <md-button class="md-raised" ng-click="treePartCtrl.cancel()">

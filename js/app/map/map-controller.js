@@ -117,7 +117,8 @@
         }
 
         function editQuestTree() {
-            MapService.editQuestTree();
+            $state.go("app.storyline", {quest: vm.quest});
+            // MapService.editQuestTree();
         }
 
         function addQuestReward() {

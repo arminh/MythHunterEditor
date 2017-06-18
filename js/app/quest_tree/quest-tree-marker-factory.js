@@ -84,7 +84,7 @@
                     anchorLeft = left + (this.img.width / 2) * this.img.scaleX;
                     anchorTop = top + (this.img.height / 2) * this.img.scaleY;
                     line.setStart({x: anchorLeft, y: anchorTop}) ;
-                    line.position();
+                    line.position(true);
 
                     line.removeArrowHead();
                     line.drawArrowHead();
@@ -96,7 +96,7 @@
                     anchorLeft = left + (this.img.width / 2) * this.img.scaleX;
                     anchorTop = top + (this.img.height / 2) * this.img.scaleY;
                     line.setEnd({x: anchorLeft, y: anchorTop});
-                    line.position();
+                    line.position(true);
 
                     line.removeArrowHead();
                     line.drawArrowHead();
@@ -140,24 +140,30 @@
 
         function addOutLine(line) {
             this.outLines.push(line);
+            this.treePart.change();
         }
 
         function removeOutLine(line) {
             for (var i = 0; i < this.outLines.length; i++) {
                 if (line.getId() == this.outLines[i].getId()) {
                     this.outLines.splice(i, 1);
+                    this.treePart.change();
+                    break;
                 }
             }
         }
 
         function addInLine(line) {
             this.inLines.push(line);
+            this.treePart.change();
         }
 
         function removeInLine(line) {
             for (var i = 0; i < this.inLines.length; i++) {
                 if (line.getId() == this.inLines[i].getId()) {
                     this.inLines.splice(i, 1);
+                    this.treePart.change();
+                    break;
                 }
             }
         }

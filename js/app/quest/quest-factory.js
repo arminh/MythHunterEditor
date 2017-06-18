@@ -9,7 +9,7 @@
         .module('quest')
         .factory('Quest', QuestFactory);
 
-    QuestFactory.$inject = ["$log", "$q", "AuthenticationService", "BackendService", "HtmlText", "TreePart", "TreePartType", "DifficultyLevel", "SubmitErrors"];
+    QuestFactory.$inject = ["$log", "$q", "AuthenticationService", "BackendService", "HtmlText",  "TreePart", "TreePartType", "DifficultyLevel", "SubmitErrors"];
 
     /* @ngInject */
     function QuestFactory($log, $q, AuthenticationService, BackendService, HtmlText, TreePart, TreePartType, DifficultyLevel, SubmitErrors) {
@@ -68,6 +68,7 @@
             getDescription: getDescription,
             getHtml: getHtml,
             getTreePartRoot: getTreePartRoot,
+            setTreePartRoot: setTreePartRoot,
             getTreeParts: getTreeParts,
             getSubmitted: getSubmitted,
             setSubmitted: setSubmitted,
@@ -87,8 +88,8 @@
         function init(name) {
             this.name = name;
 
-            this.treePartRoot = new TreePart(name);
-            this.treePartRoot.init("start");
+            this.treePartRoot = new TreePart(TreePartType.Marker, name);
+            this.treePartRoot.initTask("start");
 
             this.html = new HtmlText(name, "");
         }
@@ -112,7 +113,7 @@
             this.html = new HtmlText(questObject.name, "");
             this.html.initFromObject(questObject.html);
 
-            this.treePartRoot = new TreePart(this.name);
+            this.treePartRoot = new TreePart(TreePartType.Marker, this.name);
             this.treePartRoot.initFromObject(questObject.treePartRoot, this, true);
 
 
@@ -156,7 +157,7 @@
             this.html = new HtmlText(remoteQuest.getName(), "");
             this.html.setRemoteId(remoteQuest.getHtmlId());
 
-            this.treePartRoot = new TreePart(this.name);
+            this.treePartRoot = new TreePart(TreePartType.Marker, this.name);
             this.treePartRoot.setRemoteId(remoteQuest.getTreeRootId());
 
             $log.info("initFromRemote_success: ", this);
@@ -192,6 +193,10 @@
         }
 
         function addTreePart(treePart) {
+            if(treePart.getType() == TreePartType.And) {
+                $log.error("And added");
+            }
+            console.log(treePart)
             this.treeParts.push(treePart);
         }
 
@@ -406,6 +411,10 @@
 
         function getTreePartRoot() {
             return this.treePartRoot;
+        }
+
+        function setTreePartRoot(value) {
+            this.treePartRoot = value;
         }
 
         function getTreeParts() {

@@ -20,7 +20,9 @@
 
         var canvas = null;
         var markers = [];
+        var connectors = [];
         var markerPromises = {};
+        var connectorPromises = {};
         var lines = [];
 
         var drawing = false;
@@ -46,8 +48,6 @@
 
         var service = {
             init: init,
-            createTreePartAnd: createTreePartAnd,
-            createTreePartOr: createTreePartOr,
             activateDraw: activateDraw,
             deactivateDraw: deactivateDraw,
             escapeKeyPressed: escapeKeyPressed,
@@ -63,6 +63,7 @@
             modifiedTreeRoot = angular.copy(userQuest.getTreePartRoot());
             quest = userQuest;
             markers = [];
+            connectors = [];
             markerPromises = {};
             lines = [];
             drawing = false;
@@ -71,36 +72,22 @@
             xPos = 0;
             markerId = 0;
             lineId = 0;
+            startElement = null;
+            connectorDragging = null;
+            selectedLine = null;
+
             canvas = new fabric.Canvas('questTree-canvas', {
-                targetFindTolerance: 15
+                targetFindTolerance: 10
             });
+            var domCanvas = document.getElementById("questTree-canvas");
+
             initRightClick();
             initDrag();
             initSelect();
             initGroups();
             initConnectors();
 
-            return addTreePartMarker(modifiedTreeRoot, null).then(activateDraw);
-        }
-
-        function createTreePartAnd(x, y) {
-            var treePartAnd = quest.createTreePartConnector(TreePartType.And);
-            var treePartId = QuestService.getTreePartId();
-            treePartAnd.setId(treePartId);
-            QuestService.setTreePartId(treePartId + 1);
-            var con = new QuestTreeConnector(treePartAnd, treePartId, canvas);
-            con.add(TreePartType.And, x, y);
-            return con;
-        }
-
-        function createTreePartOr(x, y) {
-            var treePartOr = quest.createTreePartConnector(TreePartType.Or);
-            var treePartId = QuestService.getTreePartId();
-            treePartOr.setId(treePartId);
-            QuestService.setTreePartId(treePartId + 1);
-            var con = new QuestTreeConnector(treePartOr, treePartId, canvas);
-            con.add(TreePartType.Or, x, y);
-            return con;
+            return $q.when(addTreePart(modifiedTreeRoot, null)).then(activateDraw);
         }
 
         function escapeKeyPressed() {
@@ -213,6 +200,7 @@
                 ],
                 beforeOpen: function (e, ui) {
                     var pointer = canvas.getPointer(e.originalEvent);
+
                     var lineHit = false;
                     for (var i = 0; i < lines.length; i++) {
                         if (lines[i].isHit(pointer)) {
@@ -234,20 +222,30 @@
             });
         }
 
-        function addTreePartMarker(treePart, parentMarker) {
+        function addTreePart(treePart, parentQuestTreePart) {
 
-            return addMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 150, 200).then(drawLineFromParent);
+            if(treePart.getType() == TreePartType.Marker) {
+                return createMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 150, 200).then(drawLineFromParent);
+            } else {
+                var connector = createConnector(treePart, treePart.getType(), xPos += 150, 200);
+                return drawLineFromParent(connector);
+            }
 
-            function drawLineFromParent(marker) {
-                markers.push(marker);
-                if (parentMarker) {
-                    drawLineBetweenMarkers(parentMarker, marker);
+            function drawLineFromParent(questTreePart) {
+                if(questTreePart.getType() == TreePartType.Marker) {
+                    markers.push(questTreePart);
+                } else {
+                    connectors.push(questTreePart);
                 }
-                return addSuccessors(treePart, marker);
+
+                if (parentQuestTreePart) {
+                    drawLineBetweenTreeParts(parentQuestTreePart, questTreePart);
+                }
+                return addSuccessors(treePart, questTreePart);
             }
         }
 
-        function addMarker(treePart, type, label, x, y) {
+        function createMarker(treePart, type, label, x, y) {
 
             var treePartId = treePart.getId();
             if (markerPromises[treePartId]) {
@@ -260,31 +258,58 @@
             }
         }
 
-        function addSuccessors(treePart, parentMarker) {
-            var promises = [];
-
-            var successors = treePart.getSuccessors();
-            for (var i = 0; i < successors.length; i++) {
-                promises.push(addTreePartMarker(successors[i], parentMarker));
+        function createConnector(treePart, type, x, y) {
+            var treePartId = -1;
+            if(!treePart) {
+                treePart = quest.createTreePartConnector(type);
+                treePartId = QuestService.getTreePartId();
+                treePart.setId(treePartId);
+                QuestService.setTreePartId(treePartId + 1);
+            } else {
+                treePartId = treePart.getId();
             }
-
-            return $q.all(promises);
+            if(connectorPromises[treePartId]) {
+                return connectorPromises[treePartId];
+            } else {
+                var con = new QuestTreeConnector(type, treePart, treePartId, canvas);
+                con.add(type, x, y);
+                connectorPromises[treePartId] = con;
+                return con;
+            }
         }
 
-        function drawLineBetweenMarkers(fromMarker, toMarker) {
-            $log.info("Draw line between: " + fromMarker.getTreePart().getId() + " and " + toMarker.getTreePart().getId());
-            var fromAnchor = fromMarker.getStartPoint();
-            var toAnchor = toMarker.getEndPoint();
+        function drawLineBetweenTreeParts(fromQuestTreePart, toQuestTreePart) {
+            var outLines = fromQuestTreePart.getOutLines();
+            for(var i = 0; i < outLines.length; i++) {
+                if(outLines[i].getToElement().getId() == toQuestTreePart.getId()) {
+                    return;
+                }
+            }
+
+            $log.info("Draw line between: " + fromQuestTreePart.getTreePart().getId() + " and " + toQuestTreePart.getTreePart().getId());
+            var fromAnchor = fromQuestTreePart.getStartPoint();
+            var toAnchor = toQuestTreePart.getEndPoint();
             var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
 
             var line = new QuestTreeLine(lineId++, canvas);
-            line.draw(points, fromMarker, toMarker);
+            line.draw(points, fromQuestTreePart, toQuestTreePart);
             line.position();
             line.drawArrowHead();
             lines.push(line);
 
-            fromMarker.addOutLine(line);
-            toMarker.addInLine(line);
+            fromQuestTreePart.addOutLine(line);
+            toQuestTreePart.addInLine(line);
+        }
+
+        function addSuccessors(treePart, parentQuestTreePart) {
+            var promises = [];
+
+            var successors = treePart.getSuccessors();
+            for (var i = 0; i < successors.length; i++) {
+                promises.push($q.when(addTreePart(successors[i], parentQuestTreePart)));
+            }
+
+            return $q.all(promises);
         }
 
         function getLineById(id) {
@@ -323,12 +348,14 @@
                 startDrawing(lineStartElement.getImage(), canvas.getPointer(evt.e));
             } else if (!drawing && obj.type == TreePartType.And) {
                 deactivateDraw();
-                connectorDragging = createTreePartAnd(positionAnd.left + 10, positionAnd.top + 10);
+                connectorDragging = createConnector(null, TreePartType.And, positionAnd.left + 10, positionAnd.top + 10);
+                connectors.push(connectorDragging);
                 canvas.on('mouse:move', moveConnector);
                 canvas.on('mouse:up', addPlaceConnectorEvent);
             } else if (!drawing && obj.type == TreePartType.Or) {
                 deactivateDraw();
-                connectorDragging = createTreePartOr(positionOr.left + 10, positionOr.top + 10);
+                connectorDragging = createConnector(null, TreePartType.Or, positionOr.left + 10, positionOr.top + 10);
+                connectors.push(connectorDragging);
                 canvas.on('mouse:move', moveConnector);
                 canvas.on('mouse:up', addPlaceConnectorEvent);
             }
@@ -441,11 +468,12 @@
             startElement.addOutLine(line);
             startElement.getTreePart().addSuccessor(endElement.getTreePart());
             endElement.addInLine(line);
-            line.position();
+            line.position(true);
             line.drawArrowHead();
 
             canvas.renderAll();
             drawing = false;
+            console.log(modifiedTreeRoot);
         }
 
         function isConnectionAllowed(startElement, endElement) {
@@ -469,9 +497,7 @@
         }
 
         function stopDrawing() {
-            console.log("stopDrawing");
             if (drawing) {
-
                 drawing = false;
                 canvas.off('mouse:move');
                 line.stopDrawing();
@@ -540,13 +566,12 @@
         function saveTree(evt) {
 
             for (var i = 0; i < markers.length; i++) {
-                if (markers[i].getId() != 0 && markers[i].getLineEnds().length == 0) {
+                if (markers[i].getId() != 0 && markers[i].getInLines().length == 0) {
                     var alert = $mdDialog.alert()
                         .title('Saving Questline failed')
                         .htmlContent('Not all marker are connected to the tree')
                         .ariaLabel('Save Questline')
                         .targetEvent(evt)
-                        .multiple(true)
                         .ok('Close');
 
                     return $mdDialog.show(alert).then(function () {
@@ -555,7 +580,20 @@
                 }
             }
 
-            $mdDialog.cancel();
+            for (var i = 0; i < connectors.length; i++) {
+                if(connectors[i].getNumOutLines() < 1) {
+                    $log.warn("And/Or output no connected to tree");
+                    return $q.reject();
+                } else if(connectors[i].getNumInLines() == 0) {
+                    $log.warn("Nothing connected to And/Or input");
+                    return $q.reject();
+                } else if(connectors[i].getNumInLines() == 1) {
+
+                }
+            }
+            quest.setTreePartRoot(modifiedTreeRoot);
+            return null;
+
         }
     }
 

@@ -74,7 +74,7 @@
                 } else if(this.type == "out") {
                     this.line.setStart({x: anchor.left, y: anchor.top}) ;
                 }
-                this.line.position();
+                this.line.position(true);
                 this.line.removeArrowHead();
                 this.line.drawArrowHead();
             }

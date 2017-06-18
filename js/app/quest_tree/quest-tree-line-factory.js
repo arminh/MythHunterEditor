@@ -43,6 +43,7 @@
             setEnd: setEnd,
             getFromElement: getFromElement,
             setFromElement: setFromElement,
+            getToElement: getToElement,
             setToElement: setToElement
         };
 
@@ -100,7 +101,7 @@
             }
         }
 
-        function position() {
+        function position(setCoordinates) {
             var x1 = 0;
             var y1 = 0;
             var x2 = 0;
@@ -132,6 +133,9 @@
             }
 
             this.img.set({x1: x1, y1: y1, x2: x2, y2: y2});
+            if(setCoordinates) {
+                this.img.setCoords();
+            }
             // this.allowSelection();
         }
 
@@ -261,6 +265,10 @@
 
         function setFromElement(value) {
             this.fromElement = value;
+        }
+
+        function getToElement() {
+            return this.toElement;
         }
 
         function setToElement(value) {

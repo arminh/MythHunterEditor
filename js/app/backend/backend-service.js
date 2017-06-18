@@ -174,8 +174,10 @@
             remoteUser.setTaskCount(user.getTaskCount());
             remoteUser.setAnsweredQuestionsCount(user.getAnsweredQuestionsCount());
             remoteUser.setFoundLocationsCount(user.getFoundLocationsCount());
-            remoteUser.setWonFightsCount(user.getWonFightsCount());
-            remoteUser.setStartedFightsCount(user.getStartedFightsCount());
+            remoteUser.setWonFightsCount(0);
+            remoteUser.setStartedFightsCount(0);
+            // remoteUser.setWonFightsCount(user.getWonFightsCount());
+            // remoteUser.setStartedFightsCount(user.getStartedFightsCount());
             remoteUser.setMoney(user.getMoney());
             remoteUser.setKmWalked(user.getKmWalked());
             remoteUser.setCardIds(user.getCardIds());
@@ -283,7 +285,9 @@
             remoteTreePart.setId(treePart.getRemoteId());
             remoteTreePart.setVersion(treePart.getVersion());
             remoteTreePart.setType(treePart.getType());
-            remoteTreePart.setMarker(createRemoteTask(treePart.getTask()));
+            if(treePart.getTask()) {
+                remoteTreePart.setMarker(createRemoteTask(treePart.getTask()));
+            }
             remoteTreePart.setFinished(treePart.getFinished());
             remoteTreePart.setOpened(treePart.getOpened());
             remoteTreePart.setActive(treePart.getActive());
