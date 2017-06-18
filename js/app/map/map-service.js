@@ -48,10 +48,12 @@
                 quest = user.createQuest();
                 quest.init("New Quest");
                 quest.setLoaded(true);
+                drawing = true;
                 return drawMarker(quest.getTreePartRoot().getTask()).then(addQuestToUser);
             }
 
             function addQuestToUser() {
+                drawing = false;
                 user.setCurrentQuest(quest);
                 editQuest(quest, true);
                 return quest;
@@ -114,11 +116,13 @@
                 promise.then(success);
 
                 function success(result) {
+                    drawing = true;
                     treePart = quest.createTreePartMarker(result.type);
                     drawMarker(treePart.getTask()).then(editTreePart);
                 }
 
                 function editTreePart() {
+                    drawing = false;
                     QuestService.addTreePartToQuest(quest, treePart, true);
                     user.backup();
                     $state.go("app.task", { originalTreePart: treePart, treePart: angular.copy(treePart) });
