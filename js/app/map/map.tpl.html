@@ -8,7 +8,7 @@
             </md-button>
 
             <md-autocomplete id="toolbar-search"
-                             placeholder="Find location ..."
+                             placeholder="{{'TEXT_LOCATION_PLACEHOLDER' | translate}}"
                              md-selected-item="selectedItem"
                              md-search-text="searchText"
                              md-items="item in map.searchLocation(searchText)"
@@ -16,7 +16,7 @@
                              md-autoselect="true" md-selected-item-change="map.gotoLocation(selectedItem)" flex>
                 <span md-highlight-text="searchText">{{item.display_name}}</span>
                 <md-not-found>
-                    No matches found.
+                    {{'TEXT_NO_RESULTS' | translate }}
                 </md-not-found>
             </md-autocomplete>
 
@@ -35,31 +35,31 @@
                         <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Save" flex="3">
                             <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
                         </md-button>
-                        <md-label>Save quest</md-label>
+                        <md-label>{{'LABEL_SAVE_QUEST' | translate}}</md-label>
                     </md-menu-item>
                     <md-menu-item ng-click="map.editQuest(evt)">
                         <md-button ng-disabled="map.drawing()" aria-label="edit" class="md-icon-button" flex="3">
                             <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
                         </md-button>
-                        <md-label>Edit quest content</md-label>
+                        <md-label>{{'LABEL_EDIT_QUEST' | translate}}</md-label>
                     </md-menu-item>
                     <md-menu-item ng-click="map.cancelQuest(evt)">
                         <md-button ng-disabled="map.drawing()" aria-label="delete" class="md-icon-button" flex="3">
                             <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
                         </md-button>
-                        <md-label>Cancel editing</md-label>
+                        <md-label>{{'LABEL_CANCEL_EDITING' | translate}}</md-label>
                     </md-menu-item>
                     <md-menu-item ng-click="map.editQuestTree()">
                         <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex">
                             <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
                         </md-button>
-                        <md-label>Edit storyline</md-label>
+                        <md-label>{{'LABEL_EDIT_STORYLINE' | translate}}</md-label>
                     </md-menu-item>
                     <md-menu-item ng-click="map.addQuestReward()">
                         <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex">
                             <md-icon md-svg-icon="media/reward_icon.svg"></md-icon>
                         </md-button>
-                        <md-label>Add quest reward</md-label>
+                        <md-label>{{'LABEL_ADD_REWARD' | translate}}</md-label>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
@@ -78,7 +78,7 @@
         <div class="map-task-add">
             <md-button class="md-icon-button map-task-icon" ng-click="map.addTreePart(map.quest, $event)">
                 <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
-                    Add task
+                    {{'TOOLTIP_ADD_TASK' | translate}}
                 </md-tooltip>
                 <md-icon md-svg-icon="media/add_task_icon.svg"></md-icon>
             </md-button>

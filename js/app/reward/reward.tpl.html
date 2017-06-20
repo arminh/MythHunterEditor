@@ -13,13 +13,13 @@
             <img src="media/add_icon.svg"/>
         </div>
 
-        <md-tooltip md-direction="top">Create new card</md-tooltip>
+        <md-tooltip md-direction="top">{{'TOOLTIP_CREATE_CARD' | translate}}</md-tooltip>
     </md-button>
     <card ng-if="card" class="collection-card" card="card" image="card.image" edit="false" menu="false"></card>
 </div>
 
 <div style="text-align: center">
     <md-button class="md-raised" ng-click="reward.openCollection()" ng-if="reward.numCollectionCards > 0">
-        Choose from Collection
+        {{'BUTTON_CHOOSE_FROM_COLLECTION' | translate}}
     </md-button>
 </div>

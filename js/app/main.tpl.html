@@ -2,13 +2,13 @@
             md-selected-nav-item="main.state"
             nav-bar-aria-label="navigation links">
     <md-nav-item ng-if="user" hide-xs hide-sm md-nav-sref="app.profile" name="/profile">
-        Profile
+        {{'NAVBAR_PROFILE' | translate}}
     </md-nav-item>
     <md-nav-item ng-if="user" hide-xs hide-sm md-nav-sref="app.map" name="/map">
-        Quest creator
+        {{'NAVBAR_MAP' | translate}}
     </md-nav-item>
     <md-nav-item ng-if="user" hide-xs hide-sm md-nav-sref="app.collection" name="/collection">
-        Collection
+        {{'NAVBAR_COLLECTION' | translate}}
     </md-nav-item>
     <!--<md-nav-item md-nav-sref="app.card" name="/card">-->
     <!--Card Collection-->
@@ -36,7 +36,7 @@
             <md-menu-item>
                 <md-button ng-click="main.logout()">
                     <md-icon md-svg-icon="media/logout_icon.svg"></md-icon>
-                    Logout
+                    <md-label>{{'LABEL_LOGOUT' | translate}}</md-label>
                 </md-button>
             </md-menu-item>
         </md-menu-content>
@@ -52,7 +52,7 @@
         <md-menu-content ng-mouseleave="$mdMenu.close()">
             <md-menu-item>
                 <md-button ui-sref="app.profile" ng-click="main.toggleSidenav()" aria-label="Do something">
-                    Profile
+                    {{'NAVBAR_PROFILE' | translate}}
                 </md-button>
             </md-menu-item>
             <!--<md-menu-item>-->

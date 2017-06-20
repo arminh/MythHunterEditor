@@ -9,10 +9,10 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "$q", "$mdDialog", "BackendService", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS"];
+    CollectionService.$inject = ["$log", "$q", "$mdDialog", "$translate", "BackendService", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $mdDialog, BackendService, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS) {
+    function CollectionService($log, $q, $mdDialog, $translate, BackendService, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var originalDeck = null;
@@ -93,23 +93,23 @@
 
                 if(otherCompleteDeckExists(collection, currentDeck)) {
                     var confirm = $mdDialog.confirm()
-                        .title('Saving incomplete deck')
-                        .htmlContent('Your deck does not contain the minimum number of cards (' + MIN_DECK_CARDS + ').<br>Are you sure you want to save?')
+                        .title($translate.instant('TITLE_SAVING_INCOMPLETE_DECK'))
+                        .htmlContent($translate.instant('TEXT_NOT_ENOUGH_CARDS') + ' (' + MIN_DECK_CARDS + ').<br>' + $translate.instant('TEXT_NOT_ENOUGH_CARDS_SAVE'))
                         .ariaLabel('Save deck')
                         .targetEvent(evt)
-                        .ok('Confirm')
-                        .cancel('Cancel');
+                        .ok($translate.instant('BUTTON_OK'))
+                        .cancel($translate.instant('BUTTON_CANCEL'));
 
                     return $mdDialog.show(confirm).then(function() {
                         return finishEditing(currentDeck);
                     });
                 } else {
                     var alert = $mdDialog.alert()
-                        .title('Saving deck failed')
-                        .htmlContent('Your deck does not contain the minimum number of cards (' + MIN_DECK_CARDS + ').<br>You must have at least one complete deck.')
+                        .title($translate.instant('TITLE_SAVING_DECK_FAILED'))
+                        .htmlContent($translate.instant('TEXT_NOT_ENOUGH_CARDS') + ' (' + MIN_DECK_CARDS + ').<br>' + $translate.instant('TEXT_NOT_ENOUGH_CARDS_ERROR'))
                         .ariaLabel('Save deck')
                         .targetEvent(evt)
-                        .ok('Close');
+                        .ok($translate.instant('BUTTON_CLOSE'));
 
                     return $mdDialog.show(alert).then(function() {
                         return $q.reject();

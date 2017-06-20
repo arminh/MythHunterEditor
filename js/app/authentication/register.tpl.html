@@ -3,29 +3,29 @@
 <div id="register-container" layout="row" layout-align="center center" layout-fill="layout-fill">
     <div class="loginBox md-whiteframe-z1" layout="column">
         <md-toolbar>
-            <h2 class="md-toolbar-tools"><span>Register</span></h2>
+            <h2 class="md-toolbar-tools"><span>{{'TITLE_REGISTER' | translate}}</span></h2>
         </md-toolbar>
         <form name="form" ng-submit="register.register()">
             <md-content class="md-padding" layout="column">
                 <md-input-container>
-                    <label>Forename</label>
+                    <label>{{'LABEL_FORENAME' | translate}}</label>
                     <input ng-model="register.forename"/>
                 </md-input-container>
                 <md-input-container>
-                    <label>Surename</label>
+                    <label>{{'LABEL_SURNAME' | translate}}</label>
                     <input ng-model="register.surename"/>
                 </md-input-container>
                 <md-input-container>
-                    <label>Username</label>
+                    <label>{{'LABEL_USERNAME' | translate}}</label>
                     <input ng-model="register.username"/>
                 </md-input-container>
                 <md-input-container>
-                    <label>Password</label>
+                    <label>{{'LABEL_PASSWORD' | translate}}</label>
                     <input type="password" ng-model="register.password"/>
                 </md-input-container>
                 <div layout="row" layout-align="center center" style="padding-top:20px">
-                    <md-button href="#/login" md-no-ink="md-no-ink">Login</md-button>
-                    <md-button class="md-raised md-primary" type="submit">Register</md-button>
+                    <md-button href="#/login" md-no-ink="md-no-ink">{{'BUTTON_LOGIN' | translate}}</md-button>
+                    <md-button class="md-raised md-primary" type="submit">{{'BUTTON_REGISTER' | translate}}</md-button>
                 </div>
             </md-content>
         </form>

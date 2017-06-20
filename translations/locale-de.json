@@ -1,0 +1,18 @@
+{
+  "NAVBAR_PROFILE": "Profile",
+  "NAVBAR_MAP": "Quest Creator",
+  "NAVBAR_COLLECTION": "Collection",
+
+  "TITLE_PROFILE": "Profile",
+  "TEXT_GREETING": "Hello <b>{{username}}</b>!",
+  "LABEL_STATISTICS": "Statistics",
+  "LABEL_CREATED_QUESTS": "Created Quests",
+  "BUTTON_CREATE_QUEST": "New Quest",
+  "LABEL_COLLECTION_QUESTS": "Card Collection",
+  "BUTTON_SHOW_COLLECTION": "Show Collection",
+  "TEXT_CREATED_QUESTS": "You created <b>{{numCreatedQuests}}</b> Quests",
+  "TEXT_FINISHED_QUESTS": "You finished <b>{{numFinishedQuests}}</b> Quests",
+
+  "TEXT_LOCATION_PLACEHOLDER": "Ort finden ...",
+  "TEXT_NO_RESULTS" : "No matches found."
+}

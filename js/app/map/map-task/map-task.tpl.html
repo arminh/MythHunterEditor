@@ -3,7 +3,7 @@
         <div class="md-toolbar-tools" flex>
         <img aria-label="icon" class="map-task-icon"
              ng-src="{{mapTask.task == null && '' || mapTask.task.type == 'FIGHT'  && 'media/fight_marker.png' || mapTask.task.type == 'QUIZ'  && 'media/quiz_marker.png' || mapTask.task.type == 'INFO'  && 'media/info_marker.png' || mapTask.task.type == 'INVISIBLE'  && 'media/invisible_marker.png' || mapTask.task.type == 'start' && 'media/start_marker.png'}}">
-        <input class="map-task-input" type="text" placeholder="Enter task name ..." value="mapTask.task.name"
+        <input class="map-task-input" type="text" placeholder="{{'TEXT_TASK_NAME_PLACEHOLDER' | translate}}" value="mapTask.task.name"
                ng-model="mapTask.task.name"/>
         <span flex></span>
         <md-menu>
@@ -17,25 +17,25 @@
                                ng-class="{disabled: mapTask.task.getType() == 'start'}">
                         <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
                     </md-button>
-                    <md-label>Delete</md-label>
+                    <md-label>{{'LABEL_DELETE' | translate}}</md-label>
                 </md-menu-item>
                 <md-menu-item ng-click="mapTask.editTask()">
                     <md-button aria-label="edit" class="md-icon-button map-task-edit">
                         <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
                     </md-button>
-                    <md-label>Edit</md-label>
+                    <md-label>{{'LABEL_EDIT' | translate}}</md-label>
                 </md-menu-item>
                 <md-menu-item ng-click="mapTask.previewHtml($event)">
                     <md-button aria-label="preview" class="md-icon-button map-task-edit">
                         <md-icon md-svg-icon="media/preview_icon.svg"></md-icon>
                     </md-button>
-                    <md-label>Preview</md-label>
+                    <md-label>{{'LABEL_PREVIEW' | translate}}</md-label>
                 </md-menu-item>
                 <md-menu-item ng-click="mapTask.focusMarker()">
                     <md-button aria-label="focus" class="md-icon-button map-task-edit">
                         <md-icon md-svg-icon="media/location_icon.svg"></md-icon>
                     </md-button>
-                    <md-label>Focus</md-label>
+                    <md-label>{{'LABEL_FOCUS' | translate}}</md-label>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>

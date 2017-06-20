@@ -17,6 +17,7 @@
         'ui.sortable',
         'ngDragDrop',
         'cgBusy',
+        'pascalprecht.translate',
         'naif.base64',
         'textAngular',
         'authentication',

@@ -33,9 +33,9 @@ var debugging = true;
 
     ////////////////
 
-    config.$inject = ["$stateProvider", "$urlRouterProvider"];
+    config.$inject = ["$stateProvider", "$urlRouterProvider", "$translateProvider"];
 
-    function config($stateProvider, $urlRouterProvider) {
+    function config($stateProvider, $urlRouterProvider, $translateProvider) {
         $urlRouterProvider.otherwise('/profile');
         $stateProvider
             .state('app', {
@@ -46,6 +46,16 @@ var debugging = true;
                 abstract: true,
                 resolve: {}
             });
+
+        $translateProvider.fallbackLanguage('en');
+        $translateProvider.preferredLanguage('en');
+
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'translations/locale-',
+            suffix: '.json'
+        });
+
+        // $translateProvider.forceAsyncReload(true);
     }
 
     run.$inject = ["$rootScope", "$location", "$cookies", "$modalStack", "AuthenticationService", "User"];

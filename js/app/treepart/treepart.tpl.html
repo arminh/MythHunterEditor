@@ -4,29 +4,28 @@
             <div class="md-dialog-content">
                 <div layout="row" layout-align="center center">
                     <md-input-container flex="50">
-                        <label>Task Name</label>
+                        <label>{{'LABEL_TASK_NAME' | translate}}</label>
                         <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus
                                md-select-on-focus>
                         <div ng-messages="taskForm.taskName.$error">
-                            <div ng-message="required">This is required.</div>
+                            <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                         </div>
                     </md-input-container>
                 </div>
 
                 <div class="task-content">
-                    <md-label class="description-label">Edit your task content</md-label>
+                    <md-label class="description-label">{{'LABEL_TASK_CONTENT' | translate}}</md-label>
                     <md-button aria-label="description-hint" class="md-icon-button"
                                ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ">
                         <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
-                            Describe your quiz task an challenge the player with multiple choice questions or gap fill exercises.
+                            {{'TOOLTIP_QUIZ_CONTENT' | translate}}
                         </md-tooltip>
                         <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                     </md-button>
                     <md-button aria-label="description-hint" class="md-icon-button"
                                ng-if="treePartCtrl.task.getType() != treePartCtrl.types.INVISIBLE">
                         <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
-                            Describe your search task. This first description should point the player to the location of
-                            the search destination.
+                            {{'TOOLTIP_INVISIBLE_CONTENT' | translate}}
                         </md-tooltip>
                         <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                     </md-button>
@@ -43,11 +42,11 @@
 
                         <md-label class="description-label"
                                   ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ || treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">
-                            Description after completing the task
+                            {{'LABEL_TASK_COMPLETE_CONTENT' | translate}}
                         </md-label>
                         <md-button aria-label="description-hint" class="md-icon-button">
                             <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
-                                This description should give player directions to the next task.
+                                {{'TOOLTIP_TASK_COMPLETE_CONTENT' | translate}}
                             </md-tooltip>
                             <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                         </md-button>
@@ -58,25 +57,25 @@
 
                     <div ng-if="treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">
 
-                        <md-label class="description-label">Create an enemy</md-label>
+                        <md-label class="description-label">{{'LABEL_ENEMY' | translate}}</md-label>
                         <md-button aria-label="description-hint" class="md-icon-button">
                             <md-tooltip md-direction="top">
-                                Create an enemy with a deck for the player to fight against.
+                                {{'TOOLTIP_ENEMY' | translate}}
                             </md-tooltip>
                             <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                         </md-button>
                         <enemy enemy="treePartCtrl.task.enemy"></enemy>
                         <md-button aria-label="enemyDeck" class="md-raised" ng-click="treePartCtrl.addDeckToEnemy()">
-                            Add Deck
+                            {{'BUTTON_ENEMY_DECK' | translate}}
                         </md-button>
                     </div>
                 </div>
                 <div>
                     <md-button class="md-raised md-primary" type="submit" md-autofocus>
-                        Confirm
+                        {{'BUTTON_CONFIRM' | translate}}
                     </md-button>
                     <md-button class="md-raised" ng-click="treePartCtrl.cancel()">
-                        Cancel
+                        {{'BUTTON_CANCEL' | translate}}
                     </md-button>
                 </div>
             </div>

@@ -5,21 +5,21 @@
         <div class="loginBox md-whiteframe-z1" layout="column">
 
             <md-toolbar>
-                <h2 class="md-toolbar-tools"><span>Login</span></h2>
+                <h2 class="md-toolbar-tools"><span>{{'TITLE_LOGIN' | translate}}</span></h2>
             </md-toolbar>
             <form ng-submit="login.login()">
                 <md-content class="md-padding" layout="column">
                     <md-input-container>
-                        <label>Username</label>
+                        <label>{{'LABEL_USERNAME' | translate}}</label>
                         <input type="text" ng-model="login.username"/>
                     </md-input-container>
                     <md-input-container>
-                        <label>Password</label>
+                        <label>{{'LABEL_PASSWORD' | translate}}</label>
                         <input type="password" ng-model="login.password"/>
                     </md-input-container>
                     <div layout="row" layout-align="center center" style="padding-top:20px">
-                        <md-button type="submit" class="md-raised md-primary">Login</md-button>
-                        <md-button ng-click="login.register()" md-no-ink="md-no-ink">Register</md-button>
+                        <md-button type="submit" class="md-raised md-primary">{{'BUTTON_LOGIN' | translate}}</md-button>
+                        <md-button ng-click="login.register()" md-no-ink="md-no-ink">{{'BUTTON_REGISTER' | translate}}</md-button>
                     </div>
                 </md-content>
             </form>

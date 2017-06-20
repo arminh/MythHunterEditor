@@ -2,7 +2,7 @@
     <form name="rewardForm" ng-cloak ng-submit="rewardDialog.confirm()">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Reward</h2>
+                <h2>{{'TITLE_REWARD' | translate}}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="rewardDialog.cancel()">
                     <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
@@ -12,7 +12,9 @@
 
         <md-dialog-content>
             <div class="md-dialog-content">
-                <div class="card-reward-instruction"><md-label><b>Add up to {{reward.maxCards}} cards as quest reward</b></md-label></div>
+                <div class="card-reward-instruction"><md-label>
+                    <b translate="TEXT_REWARD_CARDS" translate-values="{maxCards: rewardDialog.maxCards}"></b>
+                </md-label></div>
 
                 <reward reward-ids="rewardDialog.rewardIds" max-cards="rewardDialog.maxCards" user="rewardDialog.user"></reward>
             </div>
@@ -21,10 +23,10 @@
         <md-dialog-actions layout="row">
             <span flex></span>
             <md-button type="submit" class="md-raised md-primary">
-                OK
+                {{'BUTTON_CONFIRM' | translate}}
             </md-button>
             <md-button class="md-raised" ng-click="rewardDialog.cancel()">
-                Cancel
+                {{'BUTTON_CANCEL' | translate}}
             </md-button>
         </md-dialog-actions>
     </form>

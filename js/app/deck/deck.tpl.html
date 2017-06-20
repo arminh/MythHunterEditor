@@ -1,10 +1,10 @@
-<div class="deck-container" cg-busy="{promise:deckCtrl.loadCardsPromise, message:'Loading cards...', minDuration: 1000}">
+<div class="deck-container" cg-busy="{promise:deckCtrl.loadCardsPromise, message:{{'LABEL_CARDS_LOADING' | translate}}, minDuration: 1000}">
     <div class="deck-header">
         <md-input-container>
-            <label>Deck name</label>
+            <label>{{'LABEL_DECK_NAME' | translate}}</label>
             <input required name="deckName" ng-model="deckCtrl.deck.name" class="deck-name">
             <div ng-messages="deckForm.deckName.$error">
-                <div ng-message="required">This is required.</div>
+                <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
             </div>
         </md-input-container>
     </div>

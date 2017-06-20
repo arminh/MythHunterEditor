@@ -2,7 +2,7 @@
     <form name="cardEditor" ng-cloak ng-submit="cardeditor.confirm()">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Create Card</h2>
+                <h2>{{'TITLE_CREATE_CARD' | translate}}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cardeditor.cancel()">
                     <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
@@ -19,20 +19,28 @@
 
 
                             <md-input-container>
-                                <label>Name</label>
+                                <label>{{'LABEL_EDITOR_NAME' | translate}}</label>
                                 <input type="text" name="name" required md-no-asterisk maxlength="25"
                                        ng-model="cardeditor.card.name" md-autofocus/>
                                 <div ng-messages="cardEditor.name.$error">
-                                    <div ng-message="required">Name is required</div>
+                                    <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                                 </div>
                             </md-input-container>
 
+                            <md-input-container style="width: 100%">
+                                <label>{{'LABEL_EDITOR_DESCRIPTION' | translate}}</label>
+                                <textarea class="textarea-noresize" maxlength="150"
+                                          ng-model="cardeditor.card.description"
+                                          ng-change="cardeditor.calculateStarCount()"></textarea>
+                            </md-input-container>
+
+
                             <div class="cardeditor-stars-container">
                                 <div class="label-with-hint-small">
-                                    <span>Star cost</span>
+                                    <span>{{'LABEL_EDITOR_STARS' | translate}}</span>
                                     <md-tooltip md-direction="top">
-                                        The stats attack and lifeforce, as well as the action, cost stars.<br>
-                                        You have 10 stars available.
+                                        {{'TOOLTIP_EDITOR_STARS_1' | translate}}<br>
+                                        {{'TOOLTIP_EDITOR_STARS_2' | translate}}
                                     </md-tooltip>
                                     <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                                 </div>
@@ -58,16 +66,16 @@
                                     </div>
                                 </div>
                                 <div class="cardeditor-stars-error" ng-show="cardeditor.showStarsError">
-                                    Too many stars. Edit action or lower attack / lifeforce.
+                                    {{'ERROR_EDITOR_STARS' | translate}}
                                 </div>
                             </div>
 
 
                             <md-slider-container>
                                 <div class="label-with-hint-small">
-                                    <span>Attack</span>
+                                    <span>{{'LABEL_EDITOR_ATTACK' | translate}}</span>
                                     <md-tooltip md-direction="top">
-                                        Determines how much damage your monster can do in physical combat.
+                                        {{'TOOLTIP_EDITOR_ATTACK' | translate}}
                                     </md-tooltip>
                                     <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                                 </div>
@@ -87,10 +95,10 @@
 
                             <md-slider-container>
                                 <div class="label-with-hint-small">
-                                    <span>Lifeforce</span>
+                                    <span>{{'LABEL_EDITOR_LIFEFORCE' | translate}}</span>
                                     <md-tooltip md-direction="top">
-                                        Determines the amount of physical damage your monster can take<br>
-                                        and the number of attacks it can perform before it faints.
+                                        {{'TOOLTIP_EDITOR_LIFEFORCE_1' | translate}}<br>
+                                        {{'TOOLTIP_EDITOR_LIFEFORCE_2' | translate}}
                                     </md-tooltip>
                                     <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                                 </div>
@@ -106,14 +114,8 @@
                                            ng-change="cardeditor.calculateStarCount()"/>
                                 </md-input-container>
                             </md-slider-container>
-                            <md-input-container style="width: 100%">
-                                <label>Description</label>
-                                <textarea class="textarea-noresize" maxlength="150"
-                                          ng-model="cardeditor.card.description"
-                                          ng-change="cardeditor.calculateStarCount()"></textarea>
-                            </md-input-container>
 
-                            <md-select placeholder="Action" ng-model="cardeditor.card.actions[0]"
+                            <md-select placeholder="{{'TEXT_ACTION_PLACEHOLDER' | translate}}" ng-model="cardeditor.card.actions[0]"
                                        ng-change="cardeditor.calculateStarCount()">
                                 <md-option ng-value="null"></md-option>
                                 <md-option ng-value="action"
@@ -124,10 +126,10 @@
                             <div>
                                 <label for="card-image-input" required class="md-button md-raised"
                                        required="cardeditor.image.base64">
-                                    Choose Card Image
+                                    {{'BUTTON_CHOOSE_CARD_IMAGE' | translate}}
                                 </label>
                                 <span class="cardeditor-stars-error" ng-if="cardeditor.showImageRequiredError">
-                                        Image is required
+                                        {{'ERROR_IMAGE_REQUIRED' | translate}}
                                     </span>
                             </div>
                             <md-input-container>
@@ -146,10 +148,10 @@
         <md-dialog-actions layout="row">
             <span flex></span>
             <md-button type="submit" class="md-raised md-primary">
-                OK
+                {{'BUTTON_CONFIRM' | translate}}
             </md-button>
             <md-button class="md-raised" ng-click="cardeditor.cancel()">
-                Cancel
+                {{'BUTTON_CANCEL' | translate}}
             </md-button>
         </md-dialog-actions>
     </form>

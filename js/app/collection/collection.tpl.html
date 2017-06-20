@@ -20,8 +20,8 @@
             </md-input-container>
             <span flex></span>
             <md-tabs style="width: 350px" md-selected="selectedIndex">
-                <md-tab label="Collection" name="collection" ng-click="collectionCtrl.showCollection()"></md-tab>
-                <md-tab label="Created cards" name="created" ng-click="collectionCtrl.showCreatedCards()"></md-tab>
+                <md-tab label="{{'LABEL_COLLECTION' | translate}}" name="collection" ng-click="collectionCtrl.showCollection()"></md-tab>
+                <md-tab label="{{'LABEL_CREATED_CARDS' | translate}}" name="created" ng-click="collectionCtrl.showCreatedCards()"></md-tab>
             </md-tabs>
         </div>
 
@@ -35,7 +35,7 @@
                         <img src="media/add_icon.svg"/>
                     </div>
 
-                    <md-tooltip md-direction="top">Create new card</md-tooltip>
+                    <md-tooltip md-direction="top">{{'TOOLTIP_CREATE_CARD' | translate}}</md-tooltip>
                 </md-button>
             </div>
 
@@ -67,13 +67,13 @@
             <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck && !collectionCtrl.enemy">
                 <md-button class="md-raised" ng-click="collectionCtrl.createDeck()"
                            ng-disabled="!collectionCtrl.collection.loaded">
-                    <md-label>Create deck</md-label>
+                    <md-label>{{'LABEL_CREATE_DECK' | translate}}</md-label>
                 </md-button>
             </div>
             <div class="collection-deck-button" ng-if="collectionCtrl.currentDeck && !collectionCtrl.enemy">
                 <md-button class="md-raised" ng-click="collectionCtrl.cancelDeck()">
                     <md-icon md-svg-src="media/back_icon.svg" class="back-icon"></md-icon>
-                    <md-label>Cancel</md-label>
+                    <md-label>{{'BUTTON_CANCEL' | translate}}</md-label>
                 </md-button>
             </div>
 
@@ -101,7 +101,7 @@
 
             <div ng-if="collectionCtrl.currentDeck" class="collection-deck-button">
                 <md-button type="submit" class="md-raised">
-                    <md-label>Save deck</md-label>
+                    <md-label>{{'LABEL_SAVE_DECK' | translate}}</md-label>
                 </md-button>
             </div>
         </form>

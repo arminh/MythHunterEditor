@@ -3,19 +3,18 @@
         <div layout-padding>
             <div layout="row" >
                 <md-input-container flex>
-                    <label>Quest name</label>
+                    <label>{{'LABEL_QUEST_NAME' | translate}}</label>
                     <input required name="questName" ng-model="questCtrl.quest.name" class="task-info" autofocus md-select-on-focus>
                     <div ng-messages="questForm.questName.$error">
-                        <div ng-message="required">This is required.</div>
+                        <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                     </div>
                 </md-input-container>
             </div>
             <div flex>
-                <md-label class="description-label">Enter a quest description</md-label>
+                <md-label class="description-label">{{'LABEL_QUEST_DESCRIPTION' | translate}}</md-label>
                 <md-button aria-label="description-hint" class="md-icon-button">
                     <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
-                        Here you can enter an overall description of the quest that players can see before activating the quest <br>
-                        Use this description to set up your story an convince players to start your quest.
+                        {{'TOOLTIP_QUEST_DESCRIPTION_1' | translate}}<br>{{'TOOLTIP_QUEST_DESCRIPTION_2' | translate}}
                     </md-tooltip>
                     <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                 </md-button>
@@ -23,13 +22,13 @@
                 <text-angular ta-toolbar="{{questCtrl.toolbar}}" ng-model="questCtrl.quest.html.content"
                               id="quest-text" ng-focus="questCtrl.showQuestDescriptionTooltip()"></text-angular>
                 <md-checkbox ng-if="questCtrl.editStartMarker" ng-model="questCtrl.sameDescription" aria-label="separateDescription">
-                    <md-label class="description-label">Use same description for quest and first task</md-label>
+                    <md-label class="description-label">{{'LABEL_SAME_DESCRIPTION' | translate}}</md-label>
                 </md-checkbox>
                 <md-button ng-if="questCtrl.editStartMarker"  aria-label="description-hint" class="md-icon-button">
                     <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
-                        Here you can enter a description for the start task you just placed on the map.<br>
-                        It should give player directions to the first real task.<br>
-                        If you are lazy just check the box and use the quest description also for the start task  ;-)
+                        {{'TOOLTIP_START_TASK_DESCRIPTION_1' | translate}}<br>
+                        {{'TOOLTIP_START_TASK_DESCRIPTION_2' | translate}}<br>
+                        {{'TOOLTIP_START_TASK_DESCRIPTION_3' | translate}}
                     </md-tooltip>
                     <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                 </md-button>
@@ -38,12 +37,14 @@
             </div>
             <div>
                 <div class="card-reward-instruction">
-                    <md-label class="description-label">Add up to {{questCtrl.maxCards}} cards as quest reward</md-label>
+                    <md-label class="description-label">
+                        <span translate="LABEL_QUEST_REWARDS" translate-values="{maxCards: questCtrl.maxCards }"></span>
+                    </md-label>
                     <md-button aria-label="description-hint" class="md-icon-button">
                         <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
-                            Reward your players for completing your incredible quest!<br>
-                            Add up to {{questCtrl.maxCards}} from your collection or create new cards.<br>
-                            These cards are added to the player's collection... if they are lucky.
+                            {{'TOOLTIP_QUEST_REWARD_1' | translate}}<br>
+                            <span translate="TOOLTIP_QUEST_REWARD_2" translate-values="{maxCards: questCtrl.maxCards }"></span><br>
+                            {{'TOOLTIP_QUEST_REWARD_3' | translate}}
                         </md-tooltip>
                         <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                     </md-button>
@@ -54,10 +55,10 @@
             </div>
             <div>
                 <md-button class="md-raised md-primary" type="submit">
-                    Confirm
+                    {{'BUTTON_CONFIRM' | translate}}
                 </md-button>
                 <md-button class="md-raised" ng-click="questCtrl.cancel()" >
-                    Cancel
+                    {{'BUTTON_CANCEL' | translate}}
                 </md-button>
             </div>
         </div>
