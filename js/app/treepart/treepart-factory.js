@@ -171,6 +171,10 @@
                     promises.push(treePart.getFromRemote(quest, false));
                     if(treePart.getType() == TreePartType.Marker) {
                         QuestService.addTreePartToQuest(quest, treePart);
+                    } else {
+                        var treePartId = QuestService.getTreePartId();
+                        treePart.setId(treePartId);
+                        QuestService.setTreePartId(treePartId + 1);
                     }
                 }
                 this.successors.push(treePart);

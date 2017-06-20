@@ -225,9 +225,9 @@
         function addTreePart(treePart, parentQuestTreePart) {
 
             if(treePart.getType() == TreePartType.Marker) {
-                return createMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 150, 200).then(drawLineFromParent);
+                return createMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 50, 200).then(drawLineFromParent);
             } else {
-                var connector = createConnector(treePart, treePart.getType(), xPos += 150, 200);
+                var connector = createConnector(treePart, treePart.getType(), xPos += 50, 200);
                 return drawLineFromParent(connector);
             }
 
