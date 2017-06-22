@@ -14,6 +14,12 @@
     /* @ngInject */
     function QuestTreeService($log, $q, QuestService, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, TreePartType, $mdDialog) {
         $log = $log.getInstance("QuestTreeService", debugging);
+        var canvasWidth = 960;
+        var xPos = 50;
+        var xOffset = 70;
+        var yPos = 200;
+        var yOffset = 100;
+
         var originalTreeRoot = null;
         var modifiedTreeRoot = null;
         var quest = null;
@@ -28,7 +34,6 @@
         var drawing = false;
         var line = null;
 
-        var xPos = 0;
         var markerId = 0;
         var lineId = 0;
 
@@ -70,7 +75,8 @@
             drawing = false;
             line = null;
 
-            xPos = 0;
+            xPos = 50;
+            yPos = 200;
             markerId = 0;
             lineId = 0;
             startElement = null;
@@ -225,7 +231,7 @@
 
         function addTreePart(treePart, parentQuestTreePart) {
 
-            if(treePart.getType() == TreePartType.Marker) {
+            if (treePart.getType() == TreePartType.Marker) {
                 return createMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), treePart.getPositionX(), treePart.getPositionY()).then(drawLineFromParent);
             } else {
                 var connector = createConnector(treePart, treePart.getType(), treePart.getPositionX(), treePart.getPositionY());
@@ -233,11 +239,6 @@
             }
 
             function drawLineFromParent(questTreePart) {
-                if(questTreePart.getType() == TreePartType.Marker) {
-                    markers.push(questTreePart);
-                } else {
-                    connectors.push(questTreePart);
-                }
 
                 if (parentQuestTreePart) {
                     drawLineBetweenTreeParts(parentQuestTreePart, questTreePart);
@@ -248,12 +249,23 @@
 
         function createMarker(treePart, type, label, x, y) {
 
+            if (!quest.getComplex() && x == 0 && y == 0) {
+                if (xPos + xOffset < canvasWidth) {
+                    x = xPos += xOffset;
+                    y = yPos;
+                } else {
+                    x = xPos = 0;
+                    y = yPos += yOffset;
+                }
+            }
+
             var treePartId = treePart.getId();
             if (markerPromises[treePartId]) {
                 return markerPromises[treePartId];
             } else {
                 var marker = new QuestTreeMarker(treePart, markerId++, canvas, markerImgScale);
                 var promise = marker.add(type, x, y, label);
+                markers.push(marker);
                 markerPromises[treePartId] = promise;
                 return promise;
             }
@@ -261,7 +273,7 @@
 
         function createConnector(treePart, type, x, y) {
             var treePartId = -1;
-            if(!treePart) {
+            if (!treePart) {
                 treePart = quest.createTreePartConnector(type);
                 treePartId = QuestService.getTreePartId();
                 treePart.setId(treePartId);
@@ -269,11 +281,12 @@
             } else {
                 treePartId = treePart.getId();
             }
-            if(connectorPromises[treePartId]) {
+            if (connectorPromises[treePartId]) {
                 return connectorPromises[treePartId];
             } else {
                 var con = new QuestTreeConnector(type, treePart, treePartId, canvas);
                 con.add(type, x, y);
+                connectors.push(con);
                 connectorPromises[treePartId] = con;
                 return con;
             }
@@ -281,8 +294,8 @@
 
         function drawLineBetweenTreeParts(fromQuestTreePart, toQuestTreePart) {
             var outLines = fromQuestTreePart.getOutLines();
-            for(var i = 0; i < outLines.length; i++) {
-                if(outLines[i].getToElement().getId() == toQuestTreePart.getId()) {
+            for (var i = 0; i < outLines.length; i++) {
+                if (outLines[i].getToElement().getId() == toQuestTreePart.getId()) {
                     return;
                 }
             }
@@ -338,7 +351,7 @@
                 return;
             }
 
-            if (obj.type == "marker" || obj.type == "connector") {
+            if (obj.type == "marker" || obj.type == "connector" || obj.type == "slot") {
                 var objLeft = obj.left;
                 var objTop = obj.top;
                 canvas.on("mouse:up", onMouseUp);
@@ -414,6 +427,10 @@
             line.draw(points, startElement, null);
             line.position();
 
+            showConnectorCircles();
+            showMarkerCircles();
+
+
             drawing = true;
             canvas.on('mouse:move', onMouseMove);
         }
@@ -438,9 +455,9 @@
         }
 
 
-
         function finishDrawing(obj) {
             var endElement;
+            var endSlot = null;
             switch (obj.type) {
                 case "marker":
                     endElement = obj.marker;
@@ -448,6 +465,11 @@
                 case "connector":
                     endElement = obj.connector;
                     break;
+                case "slot":
+                    endElement = obj.slot.connector;
+                    endSlot = obj.slot;
+                    break;
+
             }
 
             if (!isConnectionAllowed(startElement, endElement)) {
@@ -457,7 +479,14 @@
 
             canvas.off('mouse:move');
 
-            var anchorPoint = endElement.getEndPoint();
+            var anchorPoint;
+
+            if (endSlot) {
+                anchorPoint = endSlot.getAnchorPoint();
+            } else {
+                anchorPoint = endElement.getEndPoint();
+            }
+
             var anchorLeft = anchorPoint.left;
             var anchorTop = anchorPoint.top;
 
@@ -468,13 +497,47 @@
 
             startElement.addOutLine(line);
             startElement.getTreePart().addSuccessor(endElement.getTreePart());
-            endElement.addInLine(line);
+            if (endSlot) {
+                endSlot.setLine(line);
+            } else {
+                endElement.addInLine(line);
+            }
             line.position(true);
             line.drawArrowHead();
 
             canvas.renderAll();
             drawing = false;
+            hideConnectorCircles();
+            hideMarkerCircles();
             console.log(modifiedTreeRoot);
+        }
+
+        function showConnectorCircles() {
+            for (var i = 0; i < connectors.length; i++) {
+                if (isConnectionAllowed(startElement, connectors[i])) {
+                    connectors[i].showSlotCircles();
+                }
+            }
+        }
+
+        function showMarkerCircles() {
+            for (var i = 0; i < markers.length; i++) {
+                if (isConnectionAllowed(startElement, markers[i])) {
+                    markers[i].showCircle();
+                }
+            }
+        }
+
+        function hideConnectorCircles() {
+            for (var i = 0; i < connectors.length; i++) {
+                connectors[i].hideSlotCircles();
+            }
+        }
+
+        function hideMarkerCircles() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].hideCircle();
+            }
         }
 
         function isConnectionAllowed(startElement, endElement) {
@@ -503,6 +566,8 @@
                 canvas.off('mouse:move');
                 line.stopDrawing();
                 startElement = null;
+                hideConnectorCircles();
+                hideMarkerCircles();
             }
         }
 
@@ -582,13 +647,13 @@
             }
 
             for (var i = 0; i < connectors.length; i++) {
-                if(connectors[i].getNumOutLines() < 1) {
+                if (connectors[i].getNumOutLines() < 1) {
                     $log.warn("And/Or output no connected to tree");
                     return $q.reject();
-                } else if(connectors[i].getNumInLines() == 0) {
+                } else if (connectors[i].getNumInLines() == 0) {
                     $log.warn("Nothing connected to And/Or input");
                     return $q.reject();
-                } else if(connectors[i].getNumInLines() == 1) {
+                } else if (connectors[i].getNumInLines() == 1) {
 
                 }
             }
@@ -596,11 +661,11 @@
             for (var i = 0; i < markers.length; i++) {
                 var treePart = markers[i].getTreePart();
                 var image = markers[i].getImage();
-                if(treePart.getPositionX() != Math.floor(image.left)) {
+                if (treePart.getPositionX() != Math.floor(image.left)) {
                     treePart.setPositionX(Math.floor(image.left));
                     treePart.change();
                 }
-                if(treePart.getPositionY() != Math.floor(image.top)) {
+                if (treePart.getPositionY() != Math.floor(image.top)) {
                     treePart.setPositionY(Math.floor(image.top));
                     treePart.change();
                 }
@@ -608,11 +673,11 @@
             for (var i = 0; i < connectors.length; i++) {
                 var treePart = connectors[i].getTreePart();
                 var image = connectors[i].getImage();
-                if(treePart.getPositionX() != Math.floor(image.left)) {
+                if (treePart.getPositionX() != Math.floor(image.left)) {
                     treePart.setPositionX(Math.floor(image.left));
                     treePart.change();
                 }
-                if(treePart.getPositionY() != Math.floor(image.top)) {
+                if (treePart.getPositionY() != Math.floor(image.top)) {
                     treePart.setPositionY(Math.floor(image.top));
                     treePart.change();
                 }

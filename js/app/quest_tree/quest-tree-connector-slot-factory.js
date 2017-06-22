@@ -14,11 +14,13 @@
     /* @ngInject */
     function QuestTreeConnectorSlotFactory() {
 
-        function QuestTreeConnectorSlot(canvas, type) {
+        function QuestTreeConnectorSlot(canvas, connector, type) {
             this.type = type;
             this.canvas = canvas;
             this.img = null;
+            this.circle = null;
             this.line = null;
+            this.connector = connector;
         }
 
         QuestTreeConnectorSlot.prototype = {
@@ -26,6 +28,8 @@
             add: add,
             move: move,
             getAnchorPoint: getAnchorPoint,
+            showCircle: showCircle,
+            hideCircle: hideCircle,
 
             getLine: getLine,
             setLine: setLine
@@ -49,6 +53,7 @@
             });
 
             this.img.type = "slot";
+            this.img.slot = this;
             this.img.hasControls = false;
             this.img.hasBorders = false;
             this.img.hasRotatingPoint = false;
@@ -60,13 +65,38 @@
             this.img.lineId = this.id;
             this.canvas.add(this.img);
 
+            this.circle = new fabric.Circle({
+                radius: 7,
+                fill: '',
+                top: y+5,
+                left: x,
+                stroke: 'blue',
+                strokeWidth: 2,
+                originX: 'center',
+                originY: 'center'
+            });
+
+            this.circle.type = "slot";
+            this.circle.slot = this;
+            this.circle.hasControls = false;
+            this.circle.hasBorders = false;
+            this.circle.hasRotatingPoint = false;
+            this.circle.lockMovementX = true;
+            this.circle.lockMovementY = true;
+            this.circle.lockScalingX  = true;
+            this.circle.lockScalingY  = true;
+            this.circle.lockRotation = true;
+
             return this;
         }
 
         function move(x, y) {
             this.img.left = x -3;
             this.img.top = y;
-
+            this.img.setCoords();
+            this.circle.top = y + 5;
+            this.circle.left = x;
+            this.circle.setCoords();
             if(this.line) {
                 var anchor = this.getAnchorPoint();
                 if(this.type == "in") {
@@ -92,7 +122,16 @@
                     left: this.img.left + this.img.width
                 }
             }
+        }
 
+        function showCircle() {
+            if(!this.line) {
+                this.canvas.add(this.circle);
+            }
+        }
+
+        function hideCircle() {
+            this.canvas.remove(this.circle);
         }
 
         function getLine() {

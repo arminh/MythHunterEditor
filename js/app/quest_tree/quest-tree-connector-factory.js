@@ -34,6 +34,8 @@
             drawLabel: drawLabel,
             positionLabel: positionLabel,
             move: move,
+            showSlotCircles: showSlotCircles,
+            hideSlotCircles: hideSlotCircles,
             addOutLine: addOutLine,
             addInLine: addInLine,
             getOutLines: getOutLines,
@@ -94,13 +96,13 @@
         }
 
         function drawInSlot() {
-            var slot = new QuestTreeConnectorSlot(this.canvas, "in");
+            var slot = new QuestTreeConnectorSlot(this.canvas, this, "in");
             slot.add(this.img.left, this.img.top + 10 + 15 * this.inSlots.length);
             this.inSlots.push(slot);
         }
 
         function drawOutSlot() {
-            var slot = new QuestTreeConnectorSlot(this.canvas, "out");
+            var slot = new QuestTreeConnectorSlot(this.canvas, this, "out");
             slot.add(this.img.left + this.img.width, this.img.top + this.img.height / 2 - 5);
             this.outSlot = slot;
         }
@@ -166,6 +168,18 @@
 
         function getTreePart() {
             return this.treePart;
+        }
+
+        function showSlotCircles() {
+            for(var i = 0; i < this.inSlots.length; i++) {
+                this.inSlots[i].showCircle();
+            }
+        }
+
+        function hideSlotCircles() {
+            for(var i = 0; i < this.inSlots.length; i++) {
+                this.inSlots[i].hideCircle();
+            }
         }
 
         function getStartPoint() {

@@ -36,6 +36,9 @@
             removeOutLine: removeOutLine,
             addInLine: addInLine,
             removeInLine: removeInLine,
+            addCircle: addCircle,
+            showCircle: showCircle,
+            hideCircle: hideCircle,
 
             getId: getId,
             getInLines: getInLines,
@@ -67,10 +70,37 @@
 
                 this.img = markerImage;
                 this.label = markerLabel;
+                this.circle = this.addCircle();
                 deffered.resolve(this);
             }
 
             return deffered.promise;
+        }
+
+        function addCircle() {
+            var circle = new fabric.Circle({
+                radius: 7,
+                fill: '',
+                top: this.img.top + this.img.height * this.img.scaleY,
+                left: this.img.left + this.img.width / 2 * this.img.scaleX,
+                stroke: 'blue',
+                strokeWidth: 2,
+                originX: 'center',
+                originY: 'center'
+            });
+
+            circle.type = "marker";
+            circle.marker = this;
+            circle.hasControls = false;
+            circle.hasBorders = false;
+            circle.hasRotatingPoint = false;
+            circle.lockMovementX = true;
+            circle.lockMovementY = true;
+            circle.lockScalingX = true;
+            circle.lockScalingY = true;
+            circle.lockRotation = true;
+
+            return circle;
         }
 
         function move(left, top) {
@@ -83,7 +113,7 @@
 
                     anchorLeft = left + (this.img.width / 2) * this.img.scaleX;
                     anchorTop = top + (this.img.height / 2) * this.img.scaleY;
-                    line.setStart({x: anchorLeft, y: anchorTop}) ;
+                    line.setStart({x: anchorLeft, y: anchorTop});
                     line.position(true);
 
                     line.removeArrowHead();
@@ -106,6 +136,10 @@
             if (this.label) {
                 positionLabel(this.label, top, left + (this.img.width * this.imgScale) / 2)
             }
+
+            this.circle.top = this.img.top + this.img.height * this.img.scaleY;
+            this.circle.left = this.img.left + this.img.width / 2 * this.img.scaleX;
+            this.circle.setCoords();
         }
 
         function addMarkerLabel(text, anchorTop, anchorLeft) {
@@ -190,6 +224,14 @@
 
         function getImage() {
             return this.img;
+        }
+
+        function showCircle() {
+            this.canvas.add(this.circle);
+        }
+
+        function hideCircle() {
+            this.canvas.remove(this.circle);
         }
     }
 
