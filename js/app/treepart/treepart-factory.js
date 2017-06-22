@@ -27,6 +27,8 @@
             this.successors = [];
             this.type = type;
             this.highlightedInvisibeMarker = false;
+            this.positionX = 0;
+            this.positionY = 0;
 
             this.questName = questName;
             this.loaded = false;
@@ -64,7 +66,11 @@
             getOpened: getOpened,
             getQuestInstanceId: getQuestInstanceId,
             getExecutedAt: getExecutedAt,
-            getHighlightedInvisibleMarker: getHighlightedInvisibleMarker
+            getHighlightedInvisibleMarker: getHighlightedInvisibleMarker,
+            getPositionX: getPositionX,
+            setPositionX: setPositionX,
+            getPositionY: getPositionY,
+            setPositionY: setPositionY
         };
 
         return (TreePart);
@@ -94,6 +100,8 @@
             this.executedAt = treePartObject.executedAt;
             this.questInstanceId = treePartObject.questInstanceId;
             this.highlightedInvisibeMarker = treePartObject.highlightedInvisibeMarker;
+            this.positionX = treePartObject.positionX;
+            this.positionY = treePartObject.positionY;
             this.questName = quest.getName();
 
             if(treePartObject.type == TreePartType.Marker) {
@@ -152,6 +160,8 @@
             this.executedAt = remoteTreePart.getExecutedAt();
             this.questInstanceId = remoteTreePart.getQuestInstanceId();
             this.highlightedInvisibeMarker = remoteTreePart.getHighlightedInvisibeMarker();
+            this.positionX = remoteTreePart.getPosition().getX();
+            this.positionY = remoteTreePart.getPosition().getY();
 
 
             var promises = [];
@@ -339,6 +349,21 @@
             return this.highlightedInvisibeMarker;
         }
 
+        function getPositionX() {
+            return this.positionX;
+        }
+
+        function setPositionX(value) {
+            this.positionX = value;
+        }
+
+        function getPositionY() {
+            return this.positionY;
+        }
+
+        function setPositionY(value) {
+            this.positionY = value;
+        }
     }
 
 })();

@@ -65,6 +65,7 @@
             markers = [];
             connectors = [];
             markerPromises = {};
+            connectorPromises = {};
             lines = [];
             drawing = false;
             line = null;
@@ -225,9 +226,9 @@
         function addTreePart(treePart, parentQuestTreePart) {
 
             if(treePart.getType() == TreePartType.Marker) {
-                return createMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 50, 200).then(drawLineFromParent);
+                return createMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), treePart.getPositionX(), treePart.getPositionY()).then(drawLineFromParent);
             } else {
-                var connector = createConnector(treePart, treePart.getType(), xPos += 50, 200);
+                var connector = createConnector(treePart, treePart.getType(), treePart.getPositionX(), treePart.getPositionY());
                 return drawLineFromParent(connector);
             }
 
@@ -589,6 +590,31 @@
                     return $q.reject();
                 } else if(connectors[i].getNumInLines() == 1) {
 
+                }
+            }
+
+            for (var i = 0; i < markers.length; i++) {
+                var treePart = markers[i].getTreePart();
+                var image = markers[i].getImage();
+                if(treePart.getPositionX() != Math.floor(image.left)) {
+                    treePart.setPositionX(Math.floor(image.left));
+                    treePart.change();
+                }
+                if(treePart.getPositionY() != Math.floor(image.top)) {
+                    treePart.setPositionY(Math.floor(image.top));
+                    treePart.change();
+                }
+            }
+            for (var i = 0; i < connectors.length; i++) {
+                var treePart = connectors[i].getTreePart();
+                var image = connectors[i].getImage();
+                if(treePart.getPositionX() != Math.floor(image.left)) {
+                    treePart.setPositionX(Math.floor(image.left));
+                    treePart.change();
+                }
+                if(treePart.getPositionY() != Math.floor(image.top)) {
+                    treePart.setPositionY(Math.floor(image.top));
+                    treePart.change();
                 }
             }
             quest.setTreePartRoot(modifiedTreeRoot);

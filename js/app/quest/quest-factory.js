@@ -30,6 +30,7 @@
             this.specialCards = [];
 
             this.loaded = false;
+            this.complex = false;
             this.treeParts = [];
             this.treePartRoot = null;
             this.treePartsToDelete = [];
@@ -79,6 +80,8 @@
             getDifficulty: getDifficulty,
             getDifficultyRating: getDifficultyRating,
             getQualityRating: getQualityRating,
+            getComplex: getComplex,
+            setComplex: setComplex
         };
 
         return (Quest);
@@ -174,6 +177,18 @@
             return $q.all(promises).then(function () {
                 this.treePartRoot.getTask().setType("start");
                 this.loaded = true;
+                for(var i = 0; i < this.treeParts.length; i++) {
+                    var successors = this.treeParts[i].getSuccessors();
+                    if(successors.length > 1) {
+                        this.complex = true;
+                    }
+                    for(var j = 0; j < successors.length; j++) {
+                        if(successors[j].getType() == TreePartType.And || successors[j].getType() == TreePartType.Or ) {
+                            this.complex = true;
+                        }
+                    }
+
+                }
                 AuthenticationService.getUser().backup();
 
                 $log.info("load_success: ", this);
@@ -455,6 +470,14 @@
 
         function getDifficultyRating() {
             return this.difficultyRating;
+        }
+
+        function getComplex() {
+            return this.complex;
+        }
+
+        function setComplex(value) {
+            this.complex = value;
         }
     }
 

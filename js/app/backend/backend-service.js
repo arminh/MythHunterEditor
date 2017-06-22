@@ -294,7 +294,10 @@
             remoteTreePart.setQuestInstanceId(treePart.getQuestInstanceId());
             remoteTreePart.setExecutedAt(treePart.getExecutedAt());
             remoteTreePart.setHighlightedInvisibeMarker(treePart.getHighlightedInvisibleMarker());
-
+            var position = new backend_com_wsdl_position();
+            position.setX(treePart.getPositionX());
+            position.setY(treePart.getPositionY());
+            remoteTreePart.setPosition(position);
 
             return remoteTreePart;
         }

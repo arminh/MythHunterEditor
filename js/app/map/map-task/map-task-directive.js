@@ -23,5 +23,6 @@
 
         function link(scope, element, attrs, vm) {
             vm.task = vm.treepart.getTask();
+            vm.complex = vm.quest.getComplex();
         }
 })();

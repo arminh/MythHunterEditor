@@ -40,10 +40,11 @@
             cancel: ".fixed, input",
             disabled: false,
             start: function (e, ui) {
-                ui.placeholder.height(ui.item.height());
-                var draggedMarkerId = ui.item.sortable.model.task.markerId;
+                if(!vm.quest.getComplex()) {
+                    ui.placeholder.height(ui.item.height());
+                    var draggedMarkerId = ui.item.sortable.model.task.markerId;
+                }
                 MapInteraction.flashMarker(draggedMarkerId);
-
             },
             update: function (e, ui) {
                 vm.quest.change();
