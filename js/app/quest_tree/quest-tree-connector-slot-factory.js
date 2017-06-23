@@ -29,6 +29,7 @@
             move: move,
             getAnchorPoint: getAnchorPoint,
             showCircle: showCircle,
+            showErrorCircle: showErrorCircle,
             hideCircle: hideCircle,
 
             getLine: getLine,
@@ -117,6 +118,7 @@
                     left: this.img.left
                 }
             } else if(this.type == "out") {
+                this.hideCircle();
                 return {
                     top: this.img.top + this.img.height / 2,
                     left: this.img.left + this.img.width
@@ -125,9 +127,21 @@
         }
 
         function showCircle() {
+
             if(!this.line) {
+                this.hideCircle();
+                this.circle.stroke = 'blue';
                 this.canvas.add(this.circle);
             }
+        }
+
+        function showErrorCircle() {
+            if(!this.line) {
+                this.hideCircle();
+                this.circle.stroke = 'red';
+                this.canvas.add(this.circle);
+            }
+
         }
 
         function hideCircle() {

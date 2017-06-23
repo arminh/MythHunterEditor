@@ -39,6 +39,7 @@
             addCircle: addCircle,
             showCircle: showCircle,
             hideCircle: hideCircle,
+            showErrorCircle: showErrorCircle,
 
             getId: getId,
             getInLines: getInLines,
@@ -227,11 +228,19 @@
         }
 
         function showCircle() {
+            this.hideCircle();
+            this.circle.stroke = 'blue';
             this.canvas.add(this.circle);
         }
 
         function hideCircle() {
             this.canvas.remove(this.circle);
+        }
+
+        function showErrorCircle() {
+            this.hideCircle();
+            this.circle.stroke = 'red';
+            this.canvas.add(this.circle);
         }
     }
 

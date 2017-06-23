@@ -35,6 +35,7 @@
             positionLabel: positionLabel,
             move: move,
             showSlotCircles: showSlotCircles,
+            showSlotErrorCircles: showSlotErrorCircles,
             hideSlotCircles: hideSlotCircles,
             addOutLine: addOutLine,
             addInLine: addInLine,
@@ -173,6 +174,16 @@
         function showSlotCircles() {
             for(var i = 0; i < this.inSlots.length; i++) {
                 this.inSlots[i].showCircle();
+            }
+        }
+
+        function showSlotErrorCircles(type) {
+            if(type == "out") {
+                this.outSlot.showErrorCircle();
+            } else {
+                for(var i = 0; i < this.inSlots.length; i++) {
+                    this.inSlots[i].showErrorCircle();
+                }
             }
         }
 

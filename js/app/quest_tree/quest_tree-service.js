@@ -44,11 +44,11 @@
         var markerImgScale = 0.05;
         var positionAnd = {
             top: 10,
-            left: 10
+            left: 830
         };
         var positionOr = {
             top: 10,
-            left: 80
+            left: 900
         };
 
         var service = {
@@ -120,8 +120,32 @@
         }
 
         function initConnectors() {
+            var rect = new fabric.Rect({
+                fill: '',
+                stroke: 'black',
+                left: 800,
+                top: 0,
+                width: 159,
+                height: 100,
+                // originX: 'center',
+                // originY: 'center',
+                perPixelTargetFind: true
+            });
+
+            rect.hasControls = false;
+            rect.hasBorders = false;
+            rect.hasRotatingPoint = false;
+            rect.lockMovementX = true;
+            rect.lockMovementY = true;
+            rect.lockScalingX = true;
+            rect.lockScalingY = true;
+            rect.lockRotation = true;
+            rect.selectable = false;
+            canvas.add(rect);
+
             addConnector(positionAnd.left, positionAnd.top, TreePartType.And);
             addConnector(positionOr.left, positionOr.top, TreePartType.Or);
+
         }
 
         function addConnector(x, y, type) {
@@ -363,13 +387,11 @@
             } else if (!drawing && obj.type == TreePartType.And) {
                 deactivateDraw();
                 connectorDragging = createConnector(null, TreePartType.And, positionAnd.left + 10, positionAnd.top + 10);
-                connectors.push(connectorDragging);
                 canvas.on('mouse:move', moveConnector);
                 canvas.on('mouse:up', addPlaceConnectorEvent);
             } else if (!drawing && obj.type == TreePartType.Or) {
                 deactivateDraw();
                 connectorDragging = createConnector(null, TreePartType.Or, positionOr.left + 10, positionOr.top + 10);
-                connectors.push(connectorDragging);
                 canvas.on('mouse:move', moveConnector);
                 canvas.on('mouse:up', addPlaceConnectorEvent);
             }
@@ -633,6 +655,7 @@
 
             for (var i = 0; i < markers.length; i++) {
                 if (markers[i].getId() != 0 && markers[i].getInLines().length == 0) {
+                    markers[i].showErrorCircle();
                     var alert = $mdDialog.alert()
                         .title('Saving Questline failed')
                         .htmlContent('Not all marker are connected to the tree')
@@ -646,16 +669,23 @@
                 }
             }
 
+            var error = false;
             for (var i = 0; i < connectors.length; i++) {
                 if (connectors[i].getNumOutLines() < 1) {
                     $log.warn("And/Or output no connected to tree");
-                    return $q.reject();
-                } else if (connectors[i].getNumInLines() == 0) {
-                    $log.warn("Nothing connected to And/Or input");
-                    return $q.reject();
-                } else if (connectors[i].getNumInLines() == 1) {
-
+                    connectors[i].showSlotErrorCircles("out");
+                    error = true;
                 }
+
+                if (connectors[i].getNumInLines() == 0) {
+                    $log.warn("Nothing connected to And/Or input");
+                    connectors[i].showSlotErrorCircles("in");
+                    error = true;
+                }
+            }
+
+            if(error) {
+                return $q.reject();
             }
 
             for (var i = 0; i < markers.length; i++) {
