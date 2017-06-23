@@ -104,8 +104,28 @@
         function deleteKeyPressed() {
             console.log("Remove line: ", selectedLine);
             if (selectedLine) {
-                selectedLine.remove();
+                removeLine(selectedLine);
                 selectedLine = null;
+            }
+        }
+
+        function removeLine(line) {
+            line.remove();
+            for(var i = 0; i < lines.length; i++) {
+                if(lines[i].getId() == line.getId()) {
+                    lines.splice(i, 1);
+                    return;
+                }
+            }
+        }
+
+        function removeConnector(connector) {
+            connector.remove();
+            for(var i = 0; i < connectors.length; i++) {
+                if(connectors[i].getId() == connector.getId()) {
+                    connectors.splice(i, 1);
+                    return;
+                }
             }
         }
 
@@ -223,6 +243,7 @@
 
         function initRightClick() {
             var lineSelected = null;
+            var connectorSelected = null;
 
             $(document).contextmenu({
                 delegate: ".upper-canvas",
@@ -231,22 +252,36 @@
                 ],
                 beforeOpen: function (e, ui) {
                     var pointer = canvas.getPointer(e.originalEvent);
+                    var obj = canvas.getActiveObject();
 
-                    var lineHit = false;
+                    var elementHit = false;
                     for (var i = 0; i < lines.length; i++) {
                         if (lines[i].isHit(pointer)) {
-                            lineHit = true;
+                            elementHit = true;
                             lineSelected = lines[i];
                         }
                     }
-                    if (!lineHit) {
+                    for (var i = 0; i < connectors.length; i++) {
+                        if (connectors[i].isHit(pointer)) {
+                            elementHit = true;
+                            connectorSelected = connectors[i];
+                        }
+                    }
+
+                    if (!elementHit) {
                         e.preventDefault();
                     }
                 },
                 select: function (e, ui) {
                     switch (ui.cmd) {
                         case "remove":
-                            lineSelected.remove();
+                            if(lineSelected) {
+                                removeLine(lineSelected);
+                                lineSelected = null;
+                            } else if(connectorSelected) {
+                                removeConnector(connectorSelected);
+                                connectorSelected = null;
+                            }
                             break;
                     }
                 }
@@ -382,7 +417,7 @@
             } else if (obj.type == "head") {
                 var line = getLineById(obj.lineId);
                 var lineStartElement = line.getFromElement();
-                line.remove();
+                removeLine(line);
                 startDrawing(lineStartElement.getImage(), canvas.getPointer(evt.e));
             } else if (!drawing && obj.type == TreePartType.And) {
                 deactivateDraw();

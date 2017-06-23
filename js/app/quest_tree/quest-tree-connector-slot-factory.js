@@ -31,6 +31,7 @@
             showCircle: showCircle,
             showErrorCircle: showErrorCircle,
             hideCircle: hideCircle,
+            remove: remove,
 
             getLine: getLine,
             setLine: setLine
@@ -146,6 +147,14 @@
 
         function hideCircle() {
             this.canvas.remove(this.circle);
+        }
+
+        function remove() {
+            this.hideCircle();
+            this.canvas.remove(this.img);
+            if(this.line) {
+                this.line.remove();
+            }
         }
 
         function getLine() {

@@ -44,6 +44,8 @@
             removeOutLine: removeOutLine,
             getNumInLines: getNumInLines,
             getNumOutLines: getNumOutLines,
+            isHit: isHit,
+            remove: remove,
 
             getType: getType,
             getId: getId,
@@ -223,7 +225,7 @@
 
         function removeInLine(line) {
             for(var i = 0; i < this.inSlots.length; i++) {
-                if(this.inSlots[i].getLine().getId() == line.getId()) {
+                if(this.inSlots[i].getLine() && this.inSlots[i].getLine().getId() == line.getId()) {
                     this.inSlots[i].setLine(null);
                     this.treePart.change();
                     break;
@@ -234,6 +236,25 @@
         function removeOutLine() {
             this.outSlot.setLine(null);
             this.treePart.change();
+        }
+
+        function isHit(pointer) {
+            if (containsPoint.bind(this)(this.img, pointer)) {
+                return true;
+            }
+        }
+
+        function containsPoint(object, point) {
+            return !this.canvas.isTargetTransparent(object, point.x, point.y);
+        }
+
+        function remove() {
+            this.canvas.remove(this.img);
+            this.canvas.remove(this.label);
+            for(var i = 0; i < this.inSlots.length; i++) {
+                this.inSlots[i].remove()
+            }
+            this.outSlot.remove();
         }
 
         function getImage() {
