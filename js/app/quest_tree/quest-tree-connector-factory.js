@@ -9,10 +9,13 @@
         .module('questTree')
         .factory('QuestTreeConnector', QuestTreeConnectorFactory);
 
-    QuestTreeConnectorFactory.$inject = ["QuestTreeConnectorSlot", "TreePartType"];
+    QuestTreeConnectorFactory.$inject = ["QuestTreeConnectorSlot"];
 
     /* @ngInject */
-    function QuestTreeConnectorFactory(QuestTreeConnectorSlot, TreePartType) {
+    function QuestTreeConnectorFactory(QuestTreeConnectorSlot) {
+
+        var CONNECTOR_Z_INDEX = 5;
+        var CONNECTOR_LABEL_INDEX = 6;
 
         function QuestTreeConnector(type, treePart, id, canvas) {
             this.treePart = treePart;
@@ -76,6 +79,7 @@
             this.img.type = "connector";
             this.img.hasControls = false;
             this.img.hasBorders = false;
+
             // this.img.hasRotatingPoint = false;
             // this.img.lockMovementX = true;
             // this.img.lockMovementY = true;
@@ -84,6 +88,7 @@
             // this.img.lockRotation = true;
             this.img.connector = this;
             this.canvas.add(this.img);
+            this.img.moveTo(CONNECTOR_Z_INDEX);
 
             this.drawSlots();
             this.drawLabel();
@@ -119,6 +124,7 @@
             this.label.hasControls = false;
             this.label.hasBorders = false;
             this.label.set({selectable: false});
+            this.label.moveTo(CONNECTOR_LABEL_INDEX);
             this.positionLabel();
         }
 

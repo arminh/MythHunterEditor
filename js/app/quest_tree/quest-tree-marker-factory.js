@@ -13,6 +13,7 @@
 
     /* @ngInject */
     function QuestTreeMarkerFactory($q, TaskService, TreePartType) {
+        var MARKER_Z_INDEX = 10;
 
         function QuestTreeMarker(treePart, id, canvas, imgScale) {
             this.treePart = treePart;
@@ -67,6 +68,7 @@
                 this.canvas.add(markerImage).renderAll();
                 markerImage.hasControls = false;
                 markerImage.hasBorders = false;
+                markerImage.moveTo(MARKER_Z_INDEX);
                 markerImage.marker = this;
 
                 this.img = markerImage;
@@ -157,6 +159,7 @@
             markerLabel.hasControls = false;
             markerLabel.hasBorders = false;
             markerLabel.set({selectable: false});
+            markerLabel.moveTo(MARKER_Z_INDEX);
 
             return markerLabel;
         }
@@ -231,6 +234,7 @@
             this.hideCircle();
             this.circle.stroke = 'blue';
             this.canvas.add(this.circle);
+            this.circle.moveTo(MARKER_Z_INDEX);
         }
 
         function hideCircle() {
@@ -241,6 +245,7 @@
             this.hideCircle();
             this.circle.stroke = 'red';
             this.canvas.add(this.circle);
+            this.circle.moveTo(MARKER_Z_INDEX);
         }
     }
 

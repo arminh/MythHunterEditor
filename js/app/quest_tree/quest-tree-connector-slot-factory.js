@@ -13,6 +13,7 @@
 
     /* @ngInject */
     function QuestTreeConnectorSlotFactory() {
+        var SLOT_T_INDEX = 6;
 
         function QuestTreeConnectorSlot(canvas, connector, type) {
             this.type = type;
@@ -66,6 +67,7 @@
             this.img.lockRotation = true;
             this.img.lineId = this.id;
             this.canvas.add(this.img);
+            this.img.moveTo(SLOT_T_INDEX);
 
             this.circle = new fabric.Circle({
                 radius: 7,
@@ -133,6 +135,7 @@
                 this.hideCircle();
                 this.circle.stroke = 'blue';
                 this.canvas.add(this.circle);
+                this.circle.moveTo(SLOT_T_INDEX);
             }
         }
 
@@ -141,6 +144,7 @@
                 this.hideCircle();
                 this.circle.stroke = 'red';
                 this.canvas.add(this.circle);
+                this.circle.moveTo(SLOT_T_INDEX);
             }
 
         }

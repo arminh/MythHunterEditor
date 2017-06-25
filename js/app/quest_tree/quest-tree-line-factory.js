@@ -13,6 +13,8 @@
 
     /* @ngInject */
     function QuestTreeLineFactory(TreePartType) {
+        var LINE_Z_INDEX = 20;
+
         function QuestTreeLine(id, canvas) {
             this.canvas = canvas;
             this.id = id;
@@ -75,6 +77,7 @@
             this.img.lockRotation = true;
             this.img.lineId = this.id;
             this.canvas.add(this.img);
+            this.img.moveTo(LINE_Z_INDEX);
 
             this.start = {x: points[0], y: points[1]};
             this.end = {x: points[2], y: points[3]};
@@ -180,6 +183,7 @@
 
             positionArrowHead.bind(this)();
             this.canvas.add(triangle);
+            triangle.moveTo(LINE_Z_INDEX);
         }
 
         function positionArrowHead() {
