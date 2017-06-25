@@ -32,12 +32,13 @@
     <span type="number" min="0" max="10" class="card-input defence-val"
           readonly="readonly">{{cardCtrl.card.life}}</span>
 
-    <span ng-if="cardCtrl.card.actions[0] && cardCtrl.card.actions[0].descriptions[1]._value != ''"
-          class="card-input card-attack"
-          readonly="readonly"><b>{{cardCtrl.card.actions[0].names[1]._value}}: </b>{{cardCtrl.card.actions[0].descriptions[1]._value}}</span>
 
     <span class="card-input card-text" placeholder="Enter card text ..."
           readonly="readonly">{{cardCtrl.card.description}}</span>
+
+    <span ng-if="cardCtrl.card.actions[0] && cardCtrl.card.actions[0].descriptions[1]._value != ''"
+          class="card-input card-attack"
+          readonly="readonly"><b>{{cardCtrl.card.actions[0].names[1]._value}}: </b>{{cardCtrl.card.actions[0].descriptions[1]._value}}</span>
 
     <div class="card-control-menu" ng-show="cardCtrl.menu && cardCtrl.showMenu">
         <md-button aria-label="edit" class="md-icon-button" ng-click="cardCtrl.editCard()">
