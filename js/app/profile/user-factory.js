@@ -170,7 +170,6 @@
         }
 
         function uploadQuest() {
-
             return this.currentQuest.upload().then(function(result) {
                 var id = containsQuest(this, result.remoteId);
                 if(id == -1)  {
@@ -209,6 +208,9 @@
         }
 
         function clearCurrentQuest() {
+            if(this.currentQuest) {
+                this.currentQuest.setEditing(false);
+            }
             this.currentQuest = null;
             $rootScope.currentQuest = null;
             delete $localStorage.currentQuest;

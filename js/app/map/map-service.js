@@ -3,104 +3,73 @@
  */
 
 (function () {
-    'use strict';
+        'use strict';
 
-    angular
-        .module('map')
-        .factory('MapService', mapService);
+        angular
+            .module('map')
+            .factory('MapService', mapService);
 
-    mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "DefaultConfig", "MapInteractionService", "QuestService", "MarkerType", "TaskService"];
+        mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "DefaultConfig", "MapInteractionService", "QuestService", "MarkerType", "TaskService"];
 
-    /* @ngInject */
-    function mapService($log, $q, $state, $http, $mdDialog, DefaultConfig, MapInteraction, QuestService, MarkerType, TaskService) {
+        /* @ngInject */
+        function mapService($log, $q, $state, $http, $mdDialog, DefaultConfig, MapInteraction, QuestService, MarkerType, TaskService) {
 
-        $log = $log.getInstance("MapService", debugging);
+            $log = $log.getInstance("MapService", debugging);
 
-        var quest = null;
-        var drawing = false;
+            var quest = null;
+            var drawing = false;
 
-        var currentPosition = null;
+            var currentPosition = null;
 
-        var service = {
-            getQuest: getQuest,
-            editQuest: editQuest,
-            saveQuest: saveQuest,
-            addTreePart: addTreePart,
-            markerChanged: markerChanged,
-            getCurrentPosition: getCurrentPosition,
-            searchLocation: searchLocation,
-            getDrawing: getDrawing,
-            editQuestTree: editQuestTree,
-            addQuestReward: addQuestReward
-        };
-        return service;
+            var service = {
+                getQuest: getQuest,
+                editQuest: editQuest,
+                saveQuest: saveQuest,
+                addTreePart: addTreePart,
+                markerChanged: markerChanged,
+                getCurrentPosition: getCurrentPosition,
+                searchLocation: searchLocation,
+                getDrawing: getDrawing,
+                editQuestTree: editQuestTree,
+                addQuestReward: addQuestReward
+            };
+            return service;
 
-        ////////////////
+            ////////////////
 
-        function getQuest(user) {
-            $log.info("getQuest");
-            quest = user.getCurrentQuest();
+            function getQuest(user) {
+                $log.info("getQuest");
+                quest = user.getCurrentQuest();
 
-            if (quest) {
-                addMarkers(quest);
-                return quest;
-            } else {
-                quest = user.createQuest();
-                quest.init("New Quest");
-                quest.setLoaded(true);
-                drawing = true;
-                return drawMarker(quest.getTreePartRoot().getTask()).then(addQuestToUser);
-            }
-
-            function addQuestToUser() {
-                drawing = false;
-                user.setCurrentQuest(quest);
-                editQuest(quest, true);
-                return quest;
-            }
-        }
-
-
-        function editQuest(quest, editStartMarker) {
-            $state.go("app.quest", {
-                quest: quest,
-                editStartMarker: editStartMarker
-            });
-        }
-
-        function saveQuest(user, quest) {
-            var errorDialog = $mdDialog.alert({
-                templateUrl: "js/app/map/upload-confirmation/upload-confirmation-dialogue.tpl.html",
-                bindToController: true,
-                controller: "UploadConfirmationController",
-                controllerAs: "uploadConfirmation",
-                locals: {
-                    quest: quest
-                }
-            });
-
-            return $mdDialog
-                .show(errorDialog).then(uploadQuest);
-
-            function uploadQuest(submit) {
-                var errors = null;
-                if (submit) {
-                    quest.setSubmitted(true);
-                    errors = quest.check();
-                    if (!errors.getErroneous()) {
-                        return user.uploadQuest().then(function () {
-                            $state.go("app.profile");
-                        });
-                    } else {
-                        errors.showErrorDialog(true);
-                        return $q.reject();
-                    }
+                if (quest) {
+                    addMarkers(quest);
+                    return quest;
                 } else {
-                    return user.uploadQuest().then(function () {
-                        $state.go("app.profile");
-                    });
+                    quest = user.createQuest();
+                    quest.init("New Quest");
+                    quest.setLoaded(true);
+                    drawing = true;
+                    return drawMarker(quest.getTreePartRoot().getTask()).then(addQuestToUser);
+                }
+
+                function addQuestToUser() {
+                    drawing = false;
+                    user.setCurrentQuest(quest);
+                    editQuest(quest, true);
+                    return quest;
                 }
             }
+
+
+            function editQuest(quest, editStartMarker) {
+                $state.go("app.quest", {
+                    quest: quest,
+                    editStartMarker: editStartMarker
+                });
+            }
+
+            function saveQuest(user, quest) {
+                return QuestService.saveQuest(user, quest);
             }
 
             function addTreePart(user, quest, evt) {
@@ -125,7 +94,7 @@
                     drawing = false;
                     QuestService.addTreePartToQuest(quest, treePart, true);
                     user.backup();
-                    $state.go("app.task", { originalTreePart: treePart, treePart: angular.copy(treePart) });
+                    $state.go("app.task", {originalTreePart: treePart, treePart: angular.copy(treePart)});
                 }
             }
 
@@ -294,7 +263,5 @@
             }
         }
 
-    }
-
-    )();
+    })();
 

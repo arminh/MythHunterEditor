@@ -19,9 +19,11 @@
 
         vm.newQuest = newQuest;
         vm.editQuest = editQuest;
-        vm.editQuestCurrentQuest = editQuestCurrentQuest;
+        vm.editCurrentQuest = editCurrentQuest;
+        vm.saveCurrentQuest = saveCurrentQuest;
         vm.clearCurrentQuest = clearCurrentQuest;
         vm.deleteQuest = deleteQuest;
+        vm.deleteCurrentQuest = deleteCurrentQuest;
         vm.showCollection = showCollection;
 
         activate();
@@ -44,12 +46,17 @@
         function editQuest(quest) {
             $q.when(loadQuest(quest)).then(function() {
                 user.setCurrentQuest(quest);
+                quest.setEditing(true);
                 $state.go("app.map");
             });
         }
 
-        function editQuestCurrentQuest() {
+        function editCurrentQuest() {
             $state.go("app.map");
+        }
+
+        function saveCurrentQuest() {
+            vm.saveQuestPromise = QuestService.saveQuest(user, vm.currentQuest);
         }
 
         function loadQuest(quest) {
@@ -78,6 +85,20 @@
 
             $mdDialog.show(confirm).then(function() {
                 user.deleteQuest(quest);
+            });
+        }
+
+        function deleteCurrentQuest(evt) {
+            var confirm = $mdDialog.confirm()
+                .title('Delete quest in development')
+                .htmlContent('Are you sure you want to the quest you are editing? All changes will be lost.')
+                .ariaLabel('Delete quest')
+                .targetEvent(evt)
+                .ok('Confirm')
+                .cancel('Cancel');
+
+            $mdDialog.show(confirm).then(function() {
+                clearCurrentQuest();
             });
         }
     }

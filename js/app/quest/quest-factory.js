@@ -30,6 +30,7 @@
             this.specialCards = [];
 
             this.loaded = false;
+            this.editing = false;
             this.complex = false;
             this.treeParts = [];
             this.treePartRoot = null;
@@ -81,7 +82,9 @@
             getDifficultyRating: getDifficultyRating,
             getQualityRating: getQualityRating,
             getComplex: getComplex,
-            setComplex: setComplex
+            setComplex: setComplex,
+            getEditing: getEditing,
+            setEditing: setEditing
         };
 
         return (Quest);
@@ -478,6 +481,14 @@
 
         function setComplex(value) {
             this.complex = value;
+        }
+
+        function getEditing() {
+            return this.editing;
+        }
+
+        function setEditing(value) {
+            this.editing = value;
         }
     }
 

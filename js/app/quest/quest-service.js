@@ -9,10 +9,10 @@
         .module('quest')
         .factory('QuestService', QuestService);
 
-    QuestService.$inject = ["$log"];
+    QuestService.$inject = ["$log", "$state", "$q", "$mdDialog"];
 
     /* @ngInject */
-    function QuestService($log) {
+    function QuestService($log, $state, $q, $mdDialog) {
         $log = $log.getInstance("QuestService", debugging);
 
         var treePartId = 1;
@@ -20,6 +20,7 @@
             finishEditing: finishEditing,
             addTreePartToQuest: addTreePartToQuest,
             addRewardsToQuest: addRewardsToQuest,
+            saveQuest: saveQuest,
 
             getTreePartId: getTreePartId,
             setTreePartId: setTreePartId
@@ -110,6 +111,41 @@
             quest.clearRewards();
             for (var i = 0; i < newRewards.length; i++) {
                 quest.addReward(newRewards[i]);
+            }
+        }
+
+        function saveQuest(user, quest) {
+            var errorDialog = $mdDialog.alert({
+                templateUrl: "js/app/map/upload-confirmation/upload-confirmation-dialogue.tpl.html",
+                bindToController: true,
+                controller: "UploadConfirmationController",
+                controllerAs: "uploadConfirmation",
+                locals: {
+                    quest: quest
+                }
+            });
+
+            return $mdDialog
+                .show(errorDialog).then(uploadQuest);
+
+            function uploadQuest(submit) {
+                var errors = null;
+                if (submit) {
+                    quest.setSubmitted(true);
+                    errors = quest.check();
+                    if (!errors.getErroneous()) {
+                        return user.uploadQuest().then(function () {
+                            $state.go("app.profile");
+                        });
+                    } else {
+                        errors.showErrorDialog(true);
+                        return $q.reject();
+                    }
+                } else {
+                    return user.uploadQuest().then(function () {
+                        $state.go("app.profile");
+                    });
+                }
             }
         }
     }

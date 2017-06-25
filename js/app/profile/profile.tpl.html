@@ -10,21 +10,20 @@
             <div ng-if="profile.user.getCurrentQuest()">
                 <h3>Quest in Development</h3>
                 <table class="profile-quest-table">
-                    <tr class="odd-profile-quest">
-                        <td width="50%" class="profile-quest-col">
+                    <tr class="odd-profile-quest" layout="row"  cg-busy="{promise:profile.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" >
+                        <td class="profile-quest-col" flex="100">
                             <a href=""
-                               ng-click="profile.editQuestCurrentQuest()">{{profile.currentQuest.name}}</a>
+                               ng-click="profile.editCurrentQuest()">{{profile.currentQuest.name}}</a>
                         </td>
-                        <td width="20%" class="profile-quest-col">
-                            {{profile.currentQuest.startTask.lon | number:4}}, {{profile.currentQuest.startTask.lat |
-                            number:4}}
-                        </td>
-                        <td width="15%" class="profile-quest-col">
-                            {{profile.currentQuest.tasks.length}} Tasks
-                        </td>
-                        <td width="5%" class="profile-quest-col">
+                        <td width="70px" class="profile-quest-col">
                             <md-button aria-label="delete" class="md-icon-button"
-                                       ng-click="profile.clearCurrentQuest()">
+                                       ng-click="profile.saveCurrentQuest($event)">
+                                <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
+                            </md-button>
+                        </td>
+                        <td width="70px" class="profile-quest-col">
+                            <md-button aria-label="delete" class="md-icon-button"
+                                       ng-click="profile.deleteCurrentQuest($event)">
                                 <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
                             </md-button>
                         </td>
@@ -37,17 +36,11 @@
             <div id="created-quests-container">
                 <table class="profile-quest-table">
                     <tr ng-repeat="quest in profile.user.createdQuests" ng-class-odd="'odd-profile-quest'"
-                        ng-class-even="'even-profile-quest'">
-                        <td width="55%" class="profile-quest-col">
+                        ng-class-even="'even-profile-quest'" ng-if="!quest.getEditing()" layout="row">
+                        <td width="55%" class="profile-quest-col" flex="100">
                             <a href="" ng-click="profile.editQuest(quest)">{{quest.name}}</a>
                         </td>
-                        <td width="25%" class="profile-quest-col">
-                            {{quest.startTask.lon | number:4}}, {{quest.startTask.lat | number:4}}
-                        </td>
-                        <td width="15%" class="profile-quest-col">
-                            {{quest.tasks.length}} Tasks
-                        </td>
-                        <td width="5%" class="profile-quest-col">
+                        <td width="70px" class="profile-quest-col">
                             <md-button aria-label="delete" class="md-icon-button" ng-click="profile.deleteQuest($event, quest)">
                                 <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
                             </md-button>

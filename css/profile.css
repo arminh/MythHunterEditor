@@ -39,3 +39,7 @@
     border: #f9f9f9 solid;
     padding: 10px;
 }
+
+.profile-quest-col > a {
+    line-height: 40px;
+}
