@@ -9,10 +9,10 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "$q", "$mdDialog", "BackendService", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS"];
+    CollectionService.$inject = ["$log", "$q", "$mdDialog", "BackendService", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS", "MAX_DECK_CARDS"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $mdDialog, BackendService, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS) {
+    function CollectionService($log, $q, $mdDialog, BackendService, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS, MAX_DECK_CARDS) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var originalDeck = null;
@@ -116,6 +116,17 @@
                     });
                 }
 
+            } else if(currentDeck.getToManyCards()) {
+                var alert = $mdDialog.alert()
+                    .title('Saving deck failed')
+                    .htmlContent('Your deck exceeds the maximum number of cards (' + MAX_DECK_CARDS + ')')
+                    .ariaLabel('Save deck')
+                    .targetEvent(evt)
+                    .ok('Close');
+
+                return $mdDialog.show(alert).then(function() {
+                    return $q.reject();
+                });
             } else {
                 return finishEditing(currentDeck);
             }

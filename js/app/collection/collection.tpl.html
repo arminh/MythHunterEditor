@@ -65,7 +65,7 @@
               layout="column"
               cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}">
             <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck && !collectionCtrl.enemy">
-                <md-button class="md-raised" ng-click="collectionCtrl.createDeck()"
+                <md-button class="md-raised md-primary" ng-click="collectionCtrl.createDeck()"
                            ng-disabled="!collectionCtrl.collection.loaded">
                     <md-label>Create deck</md-label>
                 </md-button>

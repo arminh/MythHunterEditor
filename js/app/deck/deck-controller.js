@@ -9,11 +9,13 @@
         .module('deck')
         .controller('DeckController', DeckController);
 
-    DeckController.$inject = [];
+    DeckController.$inject = ["MAX_DECK_CARDS", "MIN_DECK_CARDS"];
 
     /* @ngInject */
-    function DeckController() {
+    function DeckController(MAX_DECK_CARDS, MIN_DECK_CARDS) {
         var vm = this;
+        vm.maxCards = MAX_DECK_CARDS;
+        vm.minCards = MIN_DECK_CARDS;
 
         vm.removeCard = removeCard;
         ////////////////
