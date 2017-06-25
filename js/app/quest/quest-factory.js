@@ -45,6 +45,7 @@
             initFromRemote: initFromRemote,
             load: load,
             change: change,
+            checkComplexity: checkComplexity,
             createTreePartMarker: createTreePartMarker,
             createTreePartConnector: createTreePartConnector,
             addTreePart: addTreePart,
@@ -72,6 +73,7 @@
             getTreePartRoot: getTreePartRoot,
             setTreePartRoot: setTreePartRoot,
             getTreeParts: getTreeParts,
+            setTreeParts: setTreeParts,
             getSubmitted: getSubmitted,
             setSubmitted: setSubmitted,
             getApproved: getApproved,
@@ -180,23 +182,27 @@
             return $q.all(promises).then(function () {
                 this.treePartRoot.getTask().setType("start");
                 this.loaded = true;
-                for(var i = 0; i < this.treeParts.length; i++) {
-                    var successors = this.treeParts[i].getSuccessors();
-                    if(successors.length > 1) {
-                        this.complex = true;
-                    }
-                    for(var j = 0; j < successors.length; j++) {
-                        if(successors[j].getType() == TreePartType.And || successors[j].getType() == TreePartType.Or ) {
-                            this.complex = true;
-                        }
-                    }
-
-                }
+                this.checkComplexity();
                 AuthenticationService.getUser().backup();
 
                 $log.info("load_success: ", this);
                 return this;
             }.bind(this));
+        }
+
+        function checkComplexity() {
+            for(var i = 0; i < this.treeParts.length; i++) {
+                var successors = this.treeParts[i].getSuccessors();
+                if(successors.length > 1) {
+                    this.complex = true;
+                }
+                for(var j = 0; j < successors.length; j++) {
+                    if(successors[j].getType() == TreePartType.And || successors[j].getType() == TreePartType.Or ) {
+                        this.complex = true;
+                    }
+                }
+
+            }
         }
 
         function createTreePartMarker(markerType) {
@@ -437,6 +443,10 @@
 
         function getTreeParts() {
             return this.treeParts;
+        }
+
+        function setTreeParts(value) {
+            this.treeParts = value;
         }
 
         function getSubmitted() {

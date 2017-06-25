@@ -688,7 +688,12 @@
 
         function saveTree(evt) {
 
+            var treeParts = [];
             for (var i = 0; i < markers.length; i++) {
+                if(markers[i].getId() != 0) {
+                    treeParts.push(markers[i].getTreePart());
+                }
+
                 if (markers[i].getId() != 0 && markers[i].getInLines().length == 0) {
                     markers[i].showErrorCircle();
                     var alert = $mdDialog.alert()
@@ -748,6 +753,8 @@
                 }
             }
             quest.setTreePartRoot(modifiedTreeRoot);
+            quest.setTreeParts(treeParts);
+            quest.checkComplexity();
             return null;
 
         }

@@ -2,7 +2,7 @@
     <md-toolbar class="map-task-toolbar">
         <div class="md-toolbar-tools" flex>
             <div class="map-swap-icon">
-                <img src="media/swap_icon.svg" ng-if="mapTask.task.type != 'start'"/>
+                <img src="media/swap_icon.svg" ng-if="mapTask.task.type != 'start' && !mapTask.complex"/>
             </div>
             <img aria-label="icon" class="map-task-icon"
                  ng-src="{{mapTask.task == null && '' || mapTask.task.type == 'FIGHT'  && 'media/fight_marker.png' || mapTask.task.type == 'QUIZ'  && 'media/quiz_marker.png' || mapTask.task.type == 'INFO'  && 'media/info_marker.png' || mapTask.task.type == 'INVISIBLE'  && 'media/invisible_marker.png' || mapTask.task.type == 'start' && 'media/start_marker.png'}}">

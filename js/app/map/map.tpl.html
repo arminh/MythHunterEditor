@@ -71,7 +71,7 @@
         <map-task ng-if="map.quest.treePartRoot" treepart="map.quest.treePartRoot" quest="map.quest"></map-task>
 
         <div id="map-task-list" ui-sortable="map.sortableOptions" ng-model="map.quest.treeParts">
-            <div ng-repeat="treePart in map.quest.treeParts">
+            <div ng-repeat="treePart in map.quest.treeParts" ng-class="{'fixed': map.quest.getComplex()}">
                 <map-task treepart="treePart" quest="map.quest"></map-task>
             </div>
         </div>
