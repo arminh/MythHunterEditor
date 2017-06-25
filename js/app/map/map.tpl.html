@@ -76,11 +76,12 @@
             </div>
         </div>
         <div class="map-task-add">
-            <md-button class="md-icon-button map-task-icon" ng-click="map.addTreePart(map.quest, $event)">
+            <md-button class="map-task-add-button" ng-click="map.addTreePart(map.quest, $event)">
                 <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
                     Add task
                 </md-tooltip>
-                <md-icon md-svg-icon="media/add_task_icon.svg"></md-icon>
+                <md-icon md-svg-icon="media/add_task_icon.svg" class="map-task-add-icon"></md-icon>
+                <md-label>Add task</md-label>
             </md-button>
         </div>
     </div>
