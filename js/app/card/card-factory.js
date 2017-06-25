@@ -29,6 +29,7 @@
             this.image = new CardImage();
 
             this.createdByUser = false;
+            this.amount = 0;
             this.loadPromise = null;
             this.selected = false;
             this.loaded = false;
@@ -65,7 +66,9 @@
             getLoadPromise: getLoadPromise,
             setLoadPromise: setLoadPromise,
             getCreatedByUser: getCreatedByUser,
-            setCreatedByUser: setCreatedByUser
+            setCreatedByUser: setCreatedByUser,
+            getAmount: getAmount,
+            setAmount: setAmount
         };
 
         return (Card);
@@ -300,6 +303,15 @@
         function setCreatedByUser(value) {
             this.createdByUser = value;
         }
+
+        function getAmount() {
+            return this.amount;
+        }
+
+        function setAmount(value) {
+            this.amount = value;
+        }
+
     }
 
 })();

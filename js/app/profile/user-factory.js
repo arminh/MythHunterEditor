@@ -113,6 +113,7 @@
             for(var i = 0; i < remoteCardIds.length; i++) {
                 var card = new Card();
                 card.setRemoteId(remoteCardIds[i].getKey());
+                card.setAmount(remoteCardIds[i].getValue());
                 this.cards.push(card);
             }
 

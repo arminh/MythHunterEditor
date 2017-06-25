@@ -38,6 +38,7 @@
             initFromObject: initFromObject,
             addCard: addCard,
             removeCard: removeCard,
+            countCard: countCard,
             countCards: countCards,
             checkCompleteness: checkCompleteness,
             upload: upload,
@@ -160,7 +161,14 @@
 
             this.cardIds.push(newCardId);
             this.cardCount++;
+        }
 
+        function countCard(cardId) {
+            for (var i = 0; i < this.cardIds.length; i++) {
+                if (this.cardIds[i].getKey() == cardId) {
+                    return this.cardIds[i].getValue();
+                }
+            }
         }
 
         function countCards() {
