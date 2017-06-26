@@ -30,9 +30,22 @@ a#content {
 }
 
 /*****************TOOLBAR*****************/
-#toolbar {
+
+#quest-toolbar {
     position: absolute;
-    top: 90px;
+    top: 60px;
+    left: 10px;
+    right: 30px;
+    width: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px #888888;
+    min-height: 50px;
+}
+
+#location-search {
+    position: absolute;
+    top: 130px;
     left: 10px;
     right: 30px;
     width: 400px;
@@ -68,7 +81,7 @@ a#content {
 
 #map-tasks {
     position: absolute;
-    top: 160px;
+    top: 200px;
     left: 10px;
     width: 400px;
     border-radius: 10px;

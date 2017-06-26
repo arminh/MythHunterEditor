@@ -1,7 +1,33 @@
 <div ng-class="{'not-clickable': map.interactionDisabled}" flex>
     <div id="mapView" layout="colum"></div>
 
-    <md-toolbar id="toolbar" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" flex>
+    <md-toolbar id="quest-toolbar" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" flex>
+        <div class="md-toolbar-tools" flex>
+            <md-button ng-disabled="map.drawing()" ng-click="map.editQuest(evt)" aria-label="edit" class="md-icon-button">
+                <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">Edit Quest</md-tooltip>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" ng-click="map.editQuestTree()" class="md-icon-button" aria-label="Complex">
+                <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">Complex Storyline</md-tooltip>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" ng-click="map.addQuestReward()" class="md-icon-button" aria-label="Complex">
+                <md-icon md-svg-icon="media/reward_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">Add Quest Reward</md-tooltip>
+            </md-button>
+            <span flex></span>
+            <md-button ng-disabled="map.drawing()" ng-click="map.cancelQuest(evt)" aria-label="delete" class="md-icon-button">
+                <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">Cancel editing</md-tooltip>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" ng-click="map.saveQuest()" class="md-icon-button" aria-label="Save" >
+                <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">Save quest</md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar id="location-search" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" flex>
         <div class="md-toolbar-tools" flex>
             <md-button class="md-icon-button" aria-label="Settings" ng-click="map.toggleQuestline()">
                 <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
@@ -25,44 +51,44 @@
                        ng-click="map.searchAndGotoLocation(searchText)" flex="3">
                 <md-icon md-svg-icon="media/search_icon.svg"></md-icon>
             </md-button>
-            <md-menu>
-                <md-button aria-label="Open quest menu" class="md-icon-button" ng-disabled="map.drawing()"
-                           ng-click="$mdOpenMenu($event)">
-                    <md-icon md-svg-icon="media/more_icon.svg"></md-icon>
-                </md-button>
-                <md-menu-content width="2">
-                    <md-menu-item ng-click="map.saveQuest()">
-                        <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Save" flex="3">
-                            <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>Save quest</md-label>
-                    </md-menu-item>
-                    <md-menu-item ng-click="map.editQuest(evt)">
-                        <md-button ng-disabled="map.drawing()" aria-label="edit" class="md-icon-button" flex="3">
-                            <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>Edit quest content</md-label>
-                    </md-menu-item>
-                    <md-menu-item ng-click="map.cancelQuest(evt)">
-                        <md-button ng-disabled="map.drawing()" aria-label="delete" class="md-icon-button" flex="3">
-                            <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>Cancel editing</md-label>
-                    </md-menu-item>
-                    <md-menu-item ng-click="map.editQuestTree()">
-                        <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex">
-                            <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>Edit storyline</md-label>
-                    </md-menu-item>
-                    <md-menu-item ng-click="map.addQuestReward()">
-                        <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex">
-                            <md-icon md-svg-icon="media/reward_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>Add quest reward</md-label>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
+            <!--<md-menu>-->
+                <!--<md-button aria-label="Open quest menu" class="md-icon-button" ng-disabled="map.drawing()"-->
+                           <!--ng-click="$mdOpenMenu($event)">-->
+                    <!--<md-icon md-svg-icon="media/more_icon.svg"></md-icon>-->
+                <!--</md-button>-->
+                <!--<md-menu-content width="2">-->
+                    <!--<md-menu-item ng-click="map.saveQuest()">-->
+                        <!--<md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Save" flex="3">-->
+                            <!--<md-icon md-svg-icon="media/save_icon.svg"></md-icon>-->
+                        <!--</md-button>-->
+                        <!--<md-label>Save quest</md-label>-->
+                    <!--</md-menu-item>-->
+                    <!--<md-menu-item ng-click="map.editQuest(evt)">-->
+                        <!--<md-button ng-disabled="map.drawing()" aria-label="edit" class="md-icon-button" flex="3">-->
+                            <!--<md-icon md-svg-icon="media/edit_icon.svg"></md-icon>-->
+                        <!--</md-button>-->
+                        <!--<md-label>Edit quest content</md-label>-->
+                    <!--</md-menu-item>-->
+                    <!--<md-menu-item ng-click="map.cancelQuest(evt)">-->
+                        <!--<md-button ng-disabled="map.drawing()" aria-label="delete" class="md-icon-button" flex="3">-->
+                            <!--<md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>-->
+                        <!--</md-button>-->
+                        <!--<md-label>Cancel editing</md-label>-->
+                    <!--</md-menu-item>-->
+                    <!--<md-menu-item ng-click="map.editQuestTree()">-->
+                        <!--<md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex">-->
+                            <!--<md-icon md-svg-icon="media/complex_icon.svg"></md-icon>-->
+                        <!--</md-button>-->
+                        <!--<md-label>Edit storyline</md-label>-->
+                    <!--</md-menu-item>-->
+                    <!--<md-menu-item ng-click="map.addQuestReward()">-->
+                        <!--<md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex">-->
+                            <!--<md-icon md-svg-icon="media/reward_icon.svg"></md-icon>-->
+                        <!--</md-button>-->
+                        <!--<md-label>Add quest reward</md-label>-->
+                    <!--</md-menu-item>-->
+                <!--</md-menu-content>-->
+            <!--</md-menu>-->
         </div>
     </md-toolbar>
 
