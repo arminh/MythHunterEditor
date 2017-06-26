@@ -83,8 +83,11 @@
         }
 
         function openDeck(deck) {
-            originalDeck = deck;
-            return angular.copy(deck);
+            return showCreateDeckDialog().then(function() {
+                originalDeck = deck;
+                return angular.copy(deck);
+            });
+
         }
 
         function showCreateDeckDialog() {

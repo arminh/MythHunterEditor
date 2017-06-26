@@ -32,6 +32,7 @@
         vm.cancelQuest = cancelQuest;
         vm.editQuestTree = editQuestTree;
         vm.addQuestReward = addQuestReward;
+        vm.showTutorial = showCreateQuestDialog;
 
         $scope.$on('markerChanged', MapService.markerChanged);
 
@@ -60,6 +61,14 @@
         activate();
 
         ////////////////
+
+        function showCreateQuestDialog() {
+            return $mdDialog.show({
+                templateUrl: 'js/app/profile/create-quest-dialog/create-quest-dialog.tpl.html',
+                controller: 'CreateQuestDialogController',
+                controllerAs: "createQuest"
+            });
+        }
 
         function activate() {
             MapInteraction.init("mapView");

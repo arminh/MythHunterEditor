@@ -15,6 +15,10 @@
                 <md-icon md-svg-icon="media/reward_icon.svg"></md-icon>
                 <md-tooltip md-direction="top">{{'LABEL_ADD_REWARD' | translate}}</md-tooltip>
             </md-button>
+            <md-button ng-click="map.showTutorial()()" class="md-icon-button" aria-label="Complex">
+                <md-icon md-svg-icon="media/info_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">Show tutorial</md-tooltip>
+            </md-button>
             <span flex></span>
             <md-button ng-disabled="map.drawing()" ng-click="map.cancelQuest(evt)" aria-label="delete" class="md-icon-button">
                 <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>

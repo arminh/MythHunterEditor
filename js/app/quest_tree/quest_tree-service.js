@@ -523,8 +523,11 @@
                     endElement = obj.connector;
                     break;
                 case "slot":
-                    endElement = obj.slot.connector;
-                    endSlot = obj.slot;
+                    if(obj.slot.getType() != "out") {
+                        endElement = obj.slot.connector;
+                        endSlot = obj.slot;
+                    }
+
                     break;
 
             }

@@ -59,7 +59,9 @@
                 vm.enemy = $stateParams.enemy;
                 CollectionService.loadCollectionEnemy(user).then(function(collection) {
                     vm.collection = collection;
-                    vm.currentDeck = CollectionService.openDeck(vm.enemy.getDeck());
+                    CollectionService.openDeck(vm.enemy.getDeck()).then(function(result) {
+                        vm.currentDeck = result;
+                    });
                     vm.deckControl = {
                         addCard: null
                     };
@@ -124,9 +126,7 @@
             // vm.collection.decks.length = 0;
             // user.upload();
             var deck = CollectionService.createDeck(vm.collection);
-            CollectionService.showCreateDeckDialog().then(function() {
-                openDeck(deck);
-            });
+            openDeck(deck);
 
 
         }
@@ -167,18 +167,22 @@
 
         function openDeck(deck) {
 
-            vm.deckControl = {
-                addCard: null
-            };
-            vm.currentDeck = CollectionService.openDeck(deck);
 
-            var decks = vm.collection.getDecks();
+            CollectionService.openDeck(deck).then(function(result) {
+                vm.currentDeck = result;
+                vm.deckControl = {
+                    addCard: null
+                };
+                var decks = vm.collection.getDecks();
 
-            for (var i = 0; i < decks.length; i++) {
-                decks[i].setVisible(false);
-            }
+                for (var i = 0; i < decks.length; i++) {
+                    decks[i].setVisible(false);
+                }
 
-            vm.currentDeck.setVisible(true);
+                vm.currentDeck.setVisible(true);
+            });
+
+
         }
 
         function cancelDeck() {

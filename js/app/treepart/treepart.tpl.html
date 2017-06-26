@@ -64,9 +64,8 @@
                             <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                         </md-button>
                         <enemy enemy="treePartCtrl.task.enemy"></enemy>
-                        <md-button aria-label="enemyDeck" class="md-raised" ng-click="treePartCtrl.addDeckToEnemy()">
-                            {{'BUTTON_ENEMY_DECK' | translate}}
-                        </md-button>
+
+                        <md-label class="description-label">Edit enemy deck</md-label>
                         <div class="task-deck-button" flex>
                             <md-button class="md-raised md-button-primary" ng-click="treePartCtrl.editEnemyDeck()">
                                 <md-label>{{treePartCtrl.task.enemy.deck.name}}</md-label>
