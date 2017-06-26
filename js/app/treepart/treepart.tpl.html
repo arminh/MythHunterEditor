@@ -15,19 +15,34 @@
                 <div class="task-content">
                     <md-label class="description-label">{{'LABEL_TASK_CONTENT' | translate}}</md-label>
                     <md-button aria-label="description-hint" class="md-icon-button"
-                               ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ">
-                        <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
+                               ng-if="treePartCtrl.task.getType() == 'QUIZ'">
+                        <md-tooltip md-direction="top">
                             {{'TOOLTIP_QUIZ_CONTENT' | translate}}
                         </md-tooltip>
                         <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                     </md-button>
                     <md-button aria-label="description-hint" class="md-icon-button"
-                               ng-if="treePartCtrl.task.getType() != treePartCtrl.types.INVISIBLE">
-                        <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
+                               ng-if="treePartCtrl.task.getType() == 'INVISIBLE'">
+                        <md-tooltip md-direction="top">
                             {{'TOOLTIP_INVISIBLE_CONTENT' | translate}}
                         </md-tooltip>
                         <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                     </md-button>
+                    <md-button aria-label="description-hint" class="md-icon-button"
+                               ng-if="treePartCtrl.task.getType() == 'FIGHT'">
+                        <md-tooltip md-direction="top">
+                            {{'TOOLTIP_FIGHT_CONTENT' | translate}}
+                        </md-tooltip>
+                        <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                    </md-button>
+                    <md-button aria-label="description-hint" class="md-icon-button"
+                               ng-if="treePartCtrl.task.getType() == 'INFO'">
+                        <md-tooltip md-direction="top">
+                            {{'TOOLTIP_INFO_CONTENT' | translate}}
+                        </md-tooltip>
+                        <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                    </md-button>
+
                     <text-angular id="task-editor-quiz"
                                   ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ" name="task-editor-quiz"
                                   ta-toolbar="{{treePartCtrl.quizToolbar}}" ng-model="treePartCtrl.content"

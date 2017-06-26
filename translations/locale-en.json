@@ -67,6 +67,8 @@
   "TOOLTIP_TASK_COMPLETE_CONTENT": "This description should give player directions to the next task.",
   "TOOLTIP_QUIZ_CONTENT": "Describe your quiz task an challenge the player with multiple choice questions or gap fill exercises.",
   "TOOLTIP_INVISIBLE_CONTENT": " Describe your search task. This first description should point the player to the location of the search destination.",
+  "TOOLTIP_FIGHT_CONTENT": "Describe your fight task, set the stage for your fight",
+  "TOOLTIP_INFO_CONTENT": "Convey some information to the player",
   "LABEL_ENEMY": "Create an enemy",
   "TOOLTIP_ENEMY": "Create an enemy with a deck for the player to fight against.",
   "BUTTON_ENEMY_DECK": "Add Deck",

@@ -66,6 +66,8 @@
   "LABEL_TASK_COMPLETE_CONTENT": "Inhalt nach Abschluss der Station",
   "TOOLTIP_TASK_COMPLETE_CONTENT": "Diese Beschreibung soll die Spieler zur nächsten Station leiten",
   "TOOLTIP_QUIZ_CONTENT": "Beschreibe deine Rätsel-Station und füge Multiple-Choice-Fragen und Lückentexte hinzu",
+  "TOOLTIP_FIGHT_CONTENT": "Beschreibe deine Kampf-Station und den Gegner mit dem es der Spieler zu tun hat",
+  "TOOLTIP_INFO_CONTENT": "Teile den Spielern nützliche Informationen mit",
   "TOOLTIP_INVISIBLE_CONTENT": " Beschreibe die Station. Diese erste Beschreibung soll die Spieler zum Ziel der Suche leiten.",
   "LABEL_ENEMY": "Gegner erstellen",
   "TOOLTIP_ENEMY": "Erstelle einen Gegner mitsammt Kartendeck für die Spieler",
