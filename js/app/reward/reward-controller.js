@@ -38,7 +38,9 @@
         function createCard(index){
             RewardService.createCard(vm.user).then(function(card) {
                 vm.cards[index] = card;
-                vm.rewardIds.push(card.getRemoteId());
+                card.getLoadPromise().then(function() {
+                    vm.rewardIds.push(card.getRemoteId());
+                })
             });
         }
 
