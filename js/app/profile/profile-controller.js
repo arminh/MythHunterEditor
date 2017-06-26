@@ -44,6 +44,17 @@
         }
 
         function editQuest(quest) {
+            if(vm.currentQuest) {
+                editDifferentQuest().then(function() {
+                    loadMap(quest);
+                })
+            } else {
+                loadMap(quest);
+            }
+
+        }
+
+        function loadMap(quest) {
             $q.when(loadQuest(quest)).then(function() {
                 user.setCurrentQuest(quest);
                 quest.setEditing(true);
@@ -100,6 +111,18 @@
             $mdDialog.show(confirm).then(function() {
                 clearCurrentQuest();
             });
+        }
+
+        function editDifferentQuest(evt) {
+            var confirm = $mdDialog.confirm()
+                .title('Edit different quest')
+                .htmlContent('Are you sure you want to edit a different quest? All changes to your current quest will be lost.')
+                .ariaLabel('Delete quest')
+                .targetEvent(evt)
+                .ok('Confirm')
+                .cancel('Cancel');
+
+            return $mdDialog.show(confirm);
         }
     }
 
