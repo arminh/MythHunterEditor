@@ -43,3 +43,15 @@
 .profile-quest-col > a {
     line-height: 40px;
 }
+
+.profile-new-quest-container {
+    font-size: 16px;
+}
+
+.profile-new-quest-container ul {
+    list-style-type: none;
+}
+
+.profile-new-quest-container p {
+    line-height: 25px;
+}

@@ -38,7 +38,17 @@
             $state.go("app.collection");
         }
 
-        function newQuest() {
+        function newQuest(evt) {
+            if(vm.currentQuest) {
+                editDifferentQuest(evt).then(function() {
+                    showCreateQuestDialog().then(gotoMap);
+                });
+            } else {
+                showCreateQuestDialog().then(gotoMap);
+            }
+        }
+
+        function gotoMap() {
             user.clearCurrentQuest();
             $state.go("app.map");
         }
@@ -82,6 +92,14 @@
             user.clearCurrentQuest();
             QuestService.setTreePartId(1);
             vm.currentQuest = null;
+        }
+
+        function showCreateQuestDialog() {
+            return $mdDialog.show({
+                templateUrl: 'js/app/profile/create-quest-dialog/create-quest-dialog.tpl.html',
+                controller: 'CreateQuestDialogController',
+                controllerAs: "createQuest"
+            });
         }
 
         function deleteQuest(evt, quest) {
