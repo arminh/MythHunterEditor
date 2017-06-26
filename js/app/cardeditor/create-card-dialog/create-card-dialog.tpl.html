@@ -1,21 +1,21 @@
 <md-dialog aria-label="Create task">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>New card</h2>
+            <h2>{{'TITLE_TUT_NEW_CARD' | translate}}</h2>
         </div>
     </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content">
             <div class="profile-new-quest-container">
-                <p>You are about to create a new card. Here are some tips:</p>
-                <p>If you are unsure what to do these buttons <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
-                    provide you with helpful information:</p>
+                <p>{{'TEXT_TUT_CREATE_CARD' | translate}}</p>
+                <p><span translate="TEXT_TUT_HELP_1"></span> <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                    <span translate="TEXT_TUT_HELP_2"></span></p>
                 <ol>
                     <li>
-                        Start by giving your card a <b>name</b> and a short <b>description</b>.
+                        <span translate="TEXT_TUT_CARD_NAME"></span>
                     </li>
                     <li>
-                        Upload an <b>image</b> for you card
+                        <span translate="TEXT_TUT_CARD_IMAGE"></span>
                     </li>
                     <li>
                         <b>{{'LABEL_EDITOR_ATTACK' | translate}}</b>: {{'TOOLTIP_EDITOR_ATTACK' | translate}}
@@ -26,7 +26,7 @@
                         {{'TOOLTIP_EDITOR_LIFEFORCE_2' | translate}}
                     </li>
                     <li>
-                        <b>Action </b>: You can choose between multiple abilities to give to your card
+                        <span translate="TEXT_TUT_CARD_ACTION"></span>
                     </li>
                     <li>
                         <b>{{'LABEL_EDITOR_STARS' | translate}}</b> <img width="15px" src="media/star_full.png"/>:
@@ -35,7 +35,7 @@
                     </li>
 
                 </ol>
-                <p>Now you should be prepared to create a new card. <b>Have fun</b>!</p>
+                <p><span translate="TEXT_TUT_CARD_END"></span></p>
             </div>
 
             <!--<md-icon md-svg-icon="media/save_icon.svg"></md-icon>-->
@@ -44,7 +44,7 @@
     <md-dialog-actions layout="row">
         <span flex></span>
         <md-button class="md-raised" ng-click="createCard.confirm()">
-            READY
+            {{'BUTTON_READY' | translate}}
         </md-button>
     </md-dialog-actions>
 </md-dialog>

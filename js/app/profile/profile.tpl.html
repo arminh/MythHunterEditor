@@ -10,7 +10,7 @@
             <div ng-if="profile.user.getCurrentQuest()">
                 <h3>Quest in Development</h3>
                 <table class="profile-quest-table">
-                    <tr class="odd-profile-quest" layout="row"  cg-busy="{promise:profile.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" >
+                    <tr class="odd-profile-quest" layout="row"  cg-busy="{promise:profile.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}" >
                         <td class="profile-quest-col" flex="100">
                             <a href=""
                                ng-click="profile.editCurrentQuest()">{{profile.currentQuest.name}}</a>

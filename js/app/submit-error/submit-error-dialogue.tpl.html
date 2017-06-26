@@ -6,7 +6,7 @@
                     <div ng-repeat="questError in submitErrors.errors.questErrors">
                         <b>Your <a ng-click="submitErrors.editQuest(questError.quest)">quest</a> is missing:</b>
                         <ul>
-                            <li ng-if="questError.nameMissing">Name</li>
+                            <li ng-if="questError.nameMissing">{{'TEXT_NAME' | translate}}</li>
                         </ul>
 
                     </div>
@@ -15,8 +15,8 @@
                     <div ng-repeat="taskError in submitErrors.errors.taskErrors">
                         <b>Your <a ng-click="submitErrors.editTask(taskError.treePart)">task</a> is missing:</b>
                         <ul>
-                            <li ng-if="taskError.nameMissing">Name</li>
-                            <li ng-if="taskError.enemyMissing">Enemy</li>
+                            <li ng-if="taskError.nameMissing">{{'TEXT_NAME' | translate}}</li>
+                            <li ng-if="taskError.enemyMissing">{{'TEXT_ENEMY' | translate}}</li>
                         </ul>
 
                     </div>
@@ -26,7 +26,7 @@
 
         <md-dialog-actions layout="row">
             <md-button ng-click="submitErrors.close()" md-autofocus>
-                OK
+                {{'BUTTON_OK' | translate}}
             </md-button>
         </md-dialog-actions>
     </form>

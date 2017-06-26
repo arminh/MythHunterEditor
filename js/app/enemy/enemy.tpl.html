@@ -6,7 +6,7 @@
                     <input type="text" name="name" required maxlength="20" class="task-info"
                            ng-model="enemyCtrl.enemy.name"/>
                     <div ng-messages="enemyForm.name.$error">
-                        <div ng-message="required">Name is required</div>
+                        <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                     </div>
                 </md-input-container>
             </div>
@@ -16,9 +16,9 @@
                     <label>Description</label>
                     <textarea name="description" md-maxlength="70" class="enemy-description"
                               ng-model="enemyCtrl.enemy.description"></textarea>
-                    <div ng-messages="enemyForm.description.$error" ng-show="enemyForm.description.$error['md-maxlength']">
-                        <div ng-message="md-maxlength">That's too long!</div>
-                    </div>
+                    <!--<div ng-messages="enemyForm.description.$error" ng-show="enemyForm.description.$error['md-maxlength']">-->
+                        <!--<div ng-message="md-maxlength">That's too long!</div>-->
+                    <!--</div>-->
                 </md-input-container>
             </div>
 

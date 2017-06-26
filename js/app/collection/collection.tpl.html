@@ -20,8 +20,10 @@
             </md-input-container>
             <span flex></span>
             <md-tabs style="width: 350px" md-selected="selectedIndex">
-                <md-tab label="{{'LABEL_COLLECTION' | translate}}" name="collection" ng-click="collectionCtrl.showCollection()"></md-tab>
-                <md-tab label="{{'LABEL_CREATED_CARDS' | translate}}" name="created" ng-click="collectionCtrl.showCreatedCards()"></md-tab>
+                <md-tab label="{{'LABEL_COLLECTION' | translate}}" name="collection"
+                        ng-click="collectionCtrl.showCollection()"></md-tab>
+                <md-tab label="{{'LABEL_CREATED_CARDS' | translate}}" name="created"
+                        ng-click="collectionCtrl.showCreatedCards()"></md-tab>
             </md-tabs>
         </div>
 
@@ -49,8 +51,10 @@
                 <card class="collection-card" card="card" edit="false" menu="false"></card>
                 <div class="collection-card-lock-container" ng-if="collectionCtrl.cardLocked(card)">
                     <div class="collection-card-lock-backdrop"></div>
-                    <img class="collection-card-lock" src="media/lock_icon.svg" />
-                    <md-tooltip md-direction="top">You can't have more than {{collectionCtrl.maxSingleCard}} of this card in your deck.</md-tooltip>
+                    <img class="collection-card-lock" src="media/lock_icon.svg"/>
+                    <md-tooltip md-direction="top">
+                        <span translate="TOOLTIP_CARDS_PER_DECK" translate-values="{maxSingleCard: collectionCtrl.maxSingleCard}"></span>
+                    </md-tooltip>
                 </div>
             </div>
             <div ng-show="collectionCtrl.createdCardsShown" ng-model="card.remoteId"
@@ -100,7 +104,8 @@
             <div ng-if="collectionCtrl.currentDeck" class="collection-deck-container" flex
                  data-drop="true" jqyoui-droppable="{onDrop: 'collectionCtrl.cardDropped($event)'}"
                  ng-model="collectionCtrl.droppedCard">
-                <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck" control="collectionCtrl.deckControl"></deck>
+                <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck"
+                      control="collectionCtrl.deckControl"></deck>
             </div>
 
 

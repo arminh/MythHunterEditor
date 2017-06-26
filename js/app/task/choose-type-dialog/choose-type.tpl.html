@@ -1,7 +1,7 @@
 <md-dialog aria-label="Create task">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Choose task type</h2>
+            <h2>{{'TITLE_CHOOSE_TASK_TYPE' | translate}}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="chooseTypeDialog.cancel()">
                 <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
@@ -17,6 +17,10 @@
                            aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle">
                     <img class="tasl-type-icon" ng-src="{{chooseTypeDialog.getMarkerIconSrc(type)}}"/>
                     <p class="task-type-label">{{type}}</p>
+                    <md-tooltip ng-if="type == 'INFO'">{{'TOOLTIP_MARKER_INFO' | translate}}</md-tooltip>
+                    <md-tooltip ng-if="type == 'QUIZ'">{{'TOOLTIP_MARKER_QUIZ' | translate}}</md-tooltip>
+                    <md-tooltip ng-if="type == 'INVISIBLE'">{{'TOOLTIP_MARKER_SEARCH' | translate}}</md-tooltip>
+                    <md-tooltip ng-if="type == 'FIGHT'">{{'TOOLTIP_MARKER_FIGHT' | translate}}</md-tooltip>
                 </md-button>
             </div>
         </div>

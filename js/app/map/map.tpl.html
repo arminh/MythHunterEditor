@@ -1,7 +1,7 @@
 <div ng-class="{'not-clickable': map.interactionDisabled}" flex>
     <div id="mapView" layout="colum"></div>
 
-    <md-toolbar id="quest-toolbar" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" flex>
+    <md-toolbar id="quest-toolbar" cg-busy="{promise:map.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}" flex>
         <div class="md-toolbar-tools" flex>
             <md-button ng-disabled="map.drawing()" ng-click="map.editQuest(evt)" aria-label="edit" class="md-icon-button">
                 <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
@@ -17,7 +17,7 @@
             <!--</md-button>-->
             <md-button ng-click="map.showTutorial()()" class="md-icon-button" aria-label="Complex">
                 <md-icon md-svg-icon="media/info_icon.svg"></md-icon>
-                <md-tooltip md-direction="top">Show tutorial</md-tooltip>
+                <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>
             </md-button>
             <span flex></span>
             <md-button ng-disabled="map.drawing()" ng-click="map.cancelQuest(evt)" aria-label="delete" class="md-icon-button">
@@ -31,7 +31,7 @@
         </div>
     </md-toolbar>
 
-    <md-toolbar id="location-search" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" flex>
+    <md-toolbar id="location-search" flex>
         <div class="md-toolbar-tools" flex>
             <md-button class="md-icon-button" aria-label="Settings" ng-click="map.toggleQuestline()">
                 <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
@@ -73,7 +73,7 @@
                     {{'TOOLTIP_ADD_TASK' | translate}}
                 </md-tooltip>
                 <md-icon md-svg-icon="media/add_task_icon.svg" class="map-task-add-icon"></md-icon>
-                <md-label>Add task</md-label>
+                <md-label>{{'LABEL_ADD_TASK' | translate}}</md-label>
             </md-button>
         </div>
     </div>
