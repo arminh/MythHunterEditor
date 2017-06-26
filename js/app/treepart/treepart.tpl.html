@@ -65,9 +65,18 @@
                             <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                         </md-button>
                         <enemy enemy="treePartCtrl.task.enemy"></enemy>
-                        <md-button aria-label="enemyDeck" class="md-raised" ng-click="treePartCtrl.addDeckToEnemy()">
-                            Add Deck
+                        <md-label class="description-label">Edit the enemy's deck</md-label>
+                        <md-button aria-label="description-hint" class="md-icon-button">
+                            <md-tooltip md-direction="top">
+                                Edit the deck the enemy uses in battle or use the provided standard deck.
+                            </md-tooltip>
+                            <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                         </md-button>
+                        <div class="task-deck-button" flex>
+                            <md-button class="md-raised md-button-primary" ng-click="treePartCtrl.editEnemyDeck()">
+                                <md-label>{{treePartCtrl.task.enemy.deck.name}}</md-label>
+                            </md-button>
+                        </div>
                     </div>
                 </div>
                 <div>

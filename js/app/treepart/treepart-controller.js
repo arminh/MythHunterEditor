@@ -17,8 +17,9 @@
         vm.types = MarkerType;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo']]";
         vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo'],['input','radio','checkbox']]"
+        vm.enemyDeckPromise = null;
 
-        vm.addDeckToEnemy = addDeckToEnemy;
+        vm.editEnemyDeck = editEnemyDeck;
         vm.keyPressed = keyPressed;
         vm.contentChanged = contentChanged;
         vm.confirm = confirm;
@@ -39,6 +40,11 @@
                 vm.content = TreePartService.getContent(vm.task);
                 vm.targetContent = TreePartService.getTargetContent(vm.task);
 
+                if(vm.task.getType() == MarkerType.FIGHT) {
+                    var enemy = vm.task.getEnemy();
+                    vm.enemyDeckPromise = enemy.loadStandardDeck(user, user.getCollection());
+                }
+
             } else {
                 if(user.getCurrentQuest()) {
                     $state.go("app.map");
@@ -48,10 +54,12 @@
             }
         }
 
-        function addDeckToEnemy() {
-            var enemy = vm.treePart.getTask().getEnemy();
+        function editEnemyDeck() {
+
             TreePartService.saveHtmls(vm.content, vm.targetContent, vm.task);
-            $state.go("app.collection", {enemy: enemy, originalTreePart: vm.originalTreePart, treePart: vm.treePart});
+            vm.enemyDeckPromise.then(function () {
+                $state.go("app.collection", {enemy: vm.task.getEnemy(), originalTreePart: vm.originalTreePart, treePart: vm.treePart});
+            });
         }
 
         function contentChanged() {

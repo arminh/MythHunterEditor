@@ -9,10 +9,10 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "$q", "$mdDialog", "BackendService", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS", "MAX_DECK_CARDS"];
+    CollectionService.$inject = ["$log", "$q", "$mdDialog", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS", "MAX_DECK_CARDS"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $mdDialog, BackendService, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS, MAX_DECK_CARDS) {
+    function CollectionService($log, $q, $mdDialog, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS, MAX_DECK_CARDS) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var originalDeck = null;
@@ -29,7 +29,6 @@
             openDeck: openDeck,
             saveDeck: saveDeck,
             removeDeck: removeDeck,
-            getStandartDeck: getStandartDeck
 
         };
         return service;
@@ -180,13 +179,6 @@
                     return $q.reject();
                 });
             }
-        }
-
-        function getStandartDeck(user, collection) {
-            return BackendService.getStandartDeck(user.getId()).then(function(result) {
-                var deck = new Deck();
-                return deck.initFromRemote(result.getReturn(), collection.getCards());
-            });
         }
     }
 

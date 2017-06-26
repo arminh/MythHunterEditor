@@ -59,12 +59,10 @@
                 vm.enemy = $stateParams.enemy;
                 CollectionService.loadCollectionEnemy(user).then(function(collection) {
                     vm.collection = collection;
-                    CollectionService.getStandartDeck(user, collection).then(function (deck) {
-                        vm.currentDeck = CollectionService.openDeck(deck);
-                        vm.deckControl = {
-                            addCard: null
-                        };
-                    });
+                    vm.currentDeck = CollectionService.openDeck(vm.enemy.getDeck());
+                    vm.deckControl = {
+                        addCard: null
+                    };
                 });
             } else {
                 vm.collection = CollectionService.loadCollection(user);
