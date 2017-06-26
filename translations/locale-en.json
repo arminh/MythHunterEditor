@@ -24,8 +24,8 @@
   "BUTTON_CREATE_QUEST": "New Quest",
   "LABEL_COLLECTION_QUESTS": "Card Collection",
   "BUTTON_SHOW_COLLECTION": "Show Collection",
-  "TEXT_UPDATE_QUEST": "Do you want to update your existing quest <b>{{questName}}?</b>",
-  "TEXT_ADD_QUEST": "Do you want to add your quest <b>{{questName}}?</b>",
+  "TEXT_UPDATE_QUEST": "Do you want to update your existing quest <b>{{questName}}</b>?",
+  "TEXT_ADD_QUEST": "Do you want to add your quest <b>{{questName}}</b>?",
   "TEXT_QUEST_APPROVAL": "Submit quest for approval?",
   "TEXT_SAVING_QUEST": "'Saving Quest...'",
   "TEXT_CREATED_QUESTS": "You created <b>{{numCreatedQuests}}</b> Quests",
@@ -92,7 +92,7 @@
   "ERROR_IMAGE_REQUIRED": "Image is required",
   "LABEL_CREATE_DECK": "Create deck",
   "LABEL_SAVE_DECK": "Save deck",
-  "LABEL_COLLECTION": "Collection",
+  "LABEL_COLLECTION": "Card Collection",
   "LABEL_CREATED_CARDS": "Created Cards",
   "LABEL_DECK_NAME": "Deck name",
   "LABEL_CARDS_LOADING": "'Loading cards ...'",
@@ -155,5 +155,14 @@
   "TEXT_TUT_REMOVE_CARD": "<b>Removing cards</b>: Remove cards by double clicking on the small preview in the deck area",
   "TEXT_TUT_CARD_COUNT": "<b>Card counter</b>: The small area on the bottom of the deck indicates how many cards are in your deck.<br>You can have between 20 and 30 cards:",
   "TEXT_TUT_SAVE_DECK": "<p><b>Save deck</b>: When you are ready, save your deck.</p>",
-  "TEXT_TUT_DECK_END": "Now you should be prepared to create a new deck. <b>Have fun</b>!"
+  "TEXT_TUT_DECK_END": "Now you should be prepared to create a new deck. <b>Have fun</b>!",
+  "TITLE_CURRENT_QUEST": "Quest in Development",
+  "ERROR_QUIZ_OPTIONS": "The quiz must at least have two options.",
+  "ERROR_QUIZ": "Creating Quiz failed",
+  "ERROR_QUESTLINE": "Saving Questline failed",
+  "ERROR_QUESTLINE_MARKER_CONNECTION": "Not all marker are connected to the tree",
+  "ERROR_DECK": "Saving deck failed",
+  "ERROR_DECK_MAX_CARDS": "Your deck exceeds the maximum number of cards",
+  "ERROR_DECK_DELETE": "Deleting deck failed"
+
 }

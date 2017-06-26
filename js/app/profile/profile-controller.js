@@ -106,7 +106,7 @@
 
             var confirm = $mdDialog.confirm()
                 .title('Delete quest')
-                .htmlContent('Are you sure you want to delete Quest <b>' + quest.getName() + '</b> ?')
+                .htmlContent('Are you sure you want to delete the Quest?')
                 .ariaLabel('Delete quest')
                 .targetEvent(evt)
                 .ok('Confirm')

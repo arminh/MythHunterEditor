@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "QuestService", "QuestTreeMarker", "QuestTreeLine", "QuestTreeConnector", "TreePartType", "$mdDialog"];
+    QuestTreeService.$inject = ["$log", "$q", "$translate", "QuestService", "QuestTreeMarker", "QuestTreeLine", "QuestTreeConnector", "TreePartType", "$mdDialog"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, QuestService, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, TreePartType, $mdDialog) {
+    function QuestTreeService($log, $q, $translate, QuestService, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, TreePartType, $mdDialog) {
         $log = $log.getInstance("QuestTreeService", debugging);
         var canvasWidth = 960;
         var xPos = 50;
@@ -700,11 +700,11 @@
                 if (markers[i].getId() != 0 && markers[i].getInLines().length == 0) {
                     markers[i].showErrorCircle();
                     var alert = $mdDialog.alert()
-                        .title('Saving Questline failed')
-                        .htmlContent('Not all marker are connected to the tree')
+                        .title($translate.instant('ERROR_QUESTLINE'))
+                        .htmlContent($translate.instant('ERROR_QUESTLINE_MARKER_CONNECTION'))
                         .ariaLabel('Save Questline')
                         .targetEvent(evt)
-                        .ok('Close');
+                        .ok($translate.instant('BUTTON_CLOSE'));
 
                     return $mdDialog.show(alert).then(function () {
                         return $q.reject();

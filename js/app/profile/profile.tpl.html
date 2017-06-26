@@ -8,7 +8,7 @@
     <div layout="column" layout-gt-sm="row" >
         <div flex-gt-sm="60" flex-order="1" flex-order-gt-sm="0">
             <div ng-if="profile.user.getCurrentQuest()">
-                <h3>Quest in Development</h3>
+                <h3>{{'TITLE_CURRENT_QUEST' | translate}}</h3>
                 <table class="profile-quest-table">
                     <tr class="odd-profile-quest" layout="row"  cg-busy="{promise:profile.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}" >
                         <td class="profile-quest-col" flex="100">
@@ -31,7 +31,7 @@
                 </table>
                 <hr>
             </div>
-            <h3>{{LABEL_CREATED_QUESTS}}</h3>
+            <h3>{{'LABEL_CREATED_QUESTS' | translate}}</h3>
             <hr>
             <div id="created-quests-container">
                 <table class="profile-quest-table">

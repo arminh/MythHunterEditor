@@ -129,8 +129,8 @@
 
             } else if(currentDeck.getToManyCards()) {
                 var alert = $mdDialog.alert()
-                    .title('Saving deck failed')
-                    .htmlContent('Your deck exceeds the maximum number of cards (' + MAX_DECK_CARDS + ')')
+                    .title($translate.instant('ERROR_DECK'))
+                    .htmlContent($translate.instant('ERROR_DECK_MAX_CARDS') + ' (' + MAX_DECK_CARDS + ')')
                     .ariaLabel('Save deck')
                     .targetEvent(evt)
                     .ok('Close');

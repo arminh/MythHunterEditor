@@ -9,10 +9,10 @@
         .module('task')
         .controller('QuizGroupController', QuizGroupController);
 
-    QuizGroupController.$inject = ["QuizGroup", "$mdDialog"];
+    QuizGroupController.$inject = ["QuizGroup", "$mdDialog", "$translate"];
 
     /* @ngInject */
-    function QuizGroupController(QuizGroup, $mdDialog) {
+    function QuizGroupController(QuizGroup, $mdDialog, $translate) {
         var vm = this;
         vm.selected = 0;
 
@@ -40,8 +40,8 @@
         function confirm(evt) {
             if(vm.group.getOptions().length < 2) {
                 var alert = $mdDialog.alert()
-                    .title('Creating Quiz failed')
-                    .htmlContent('The quiz must at least have two options.')
+                    .title($translate.instant('ERROR_QUIZ'))
+                    .htmlContent($translate.instant('ERROR_QUIZ_OPTIONS'))
                     .ariaLabel('Create quiz')
                     .targetEvent(evt)
                     .multiple(true)
