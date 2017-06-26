@@ -92,6 +92,7 @@
 
             taRegisterTool('input', {
                 iconclass: "fa fa-file-text-o inputBox",
+                buttontext: " Gap fill",
                 class: "btn btn-primary",
                 tooltiptext: "Input box",
                 action: function () {
@@ -103,6 +104,7 @@
 
             taRegisterTool('radio', {
                 iconclass: "fa fa-dot-circle-o radioBtn",
+                buttontext: " Multiple Choice",
                 class: "btn btn-primary",
                 tooltiptext: "Radio button",
                 action: function (value) {
@@ -116,6 +118,7 @@
 
             taRegisterTool('checkbox', {
                 iconclass: "fa fa-check-square-o checkBox",
+                buttontext: " Multiple Choice",
                 class: "btn btn-primary",
                 tooltiptext: "Checkbox",
                 action: function (value) {

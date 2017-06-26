@@ -27,6 +27,7 @@
             this.visible = true;
             this.changed = false;
             this.complete = false;
+            this.cardCount = 0;
             this.droppedCard = {};
         }
 
@@ -37,6 +38,8 @@
             initFromObject: initFromObject,
             addCard: addCard,
             removeCard: removeCard,
+            countCard: countCard,
+            countCards: countCards,
             checkCompleteness: checkCompleteness,
             upload: upload,
             change: change,
@@ -52,7 +55,9 @@
             setCardIds: setCardIds,
             getLoaded: getLoaded,
             setVisible: setVisible,
-            getComplete: getComplete
+            getComplete: getComplete,
+            getToManyCards: getToManyCards,
+            getCardCount: getCardCount
         };
 
         return (Deck);
@@ -81,6 +86,7 @@
         function initFromRemote(remoteDeck) {
             this.name = remoteDeck.getName();
             this.cardIds = remoteDeck.getCardIds();
+            this.cardCount = this.countCards();
             this.checkCompleteness();
             return this;
         }
@@ -89,6 +95,7 @@
             this.id = deckObject.id;
             this.remoteId = deckObject.remoteId;
             this.name = deckObject.name;
+            this.cardCount = deckObject.cardCount;
             for (var i = 0; i < deckObject.cardIds.length; i++) {
                 var cardId = new backend_com_wsdl_longToIntEntry();
                 cardId.setKey(deckObject.cardIds[i]._key);
@@ -132,10 +139,6 @@
 
         function addCard(cardId) {
             $log.info("addCard", cardId);
-            if(countCards(this.cardIds) >= MAX_DECK_CARDS) {
-                $log.info("addCard_fail: Deck full");
-                return;
-            }
             for (var i = 0; i < this.cardIds.length; i++) {
                 if (this.cardIds[i].getKey() == cardId) {
                     var amount = this.cardIds[i].getValue();
@@ -143,6 +146,7 @@
                     if (amount < MAX_CARD_IN_DECK) {
                         this.cardIds[i].setValue(amount + 1);
                         this.checkCompleteness();
+                        this.cardCount++;
                         $log.info("addCard_success", this.cardIds[i]);
                     } else {
                         $log.info("addCard_fail: Maximum amount of this card in deck reached");
@@ -156,13 +160,21 @@
             newCardId.setValue(1);
 
             this.cardIds.push(newCardId);
-
+            this.cardCount++;
         }
 
-        function countCards(cards) {
+        function countCard(cardId) {
+            for (var i = 0; i < this.cardIds.length; i++) {
+                if (this.cardIds[i].getKey() == cardId) {
+                    return this.cardIds[i].getValue();
+                }
+            }
+        }
+
+        function countCards() {
             var count = 0;
-            for(var i = 0; i < cards.length; i++) {
-                count += cards[i].getValue();
+            for(var i = 0; i < this.cardIds.length; i++) {
+                count += this.cardIds[i].getValue();
             }
             return count;
         }
@@ -176,6 +188,7 @@
                     } else {
                         this.cardIds.splice(i, 1);
                     }
+                    this.cardCount--;
                     this.checkCompleteness();
                     break;
                 }
@@ -183,7 +196,7 @@
         }
 
         function checkCompleteness() {
-            this.complete = countCards(this.cardIds) >= 20;
+            this.complete = this.countCards() >= 20;
         }
 
         function upload() {
@@ -262,6 +275,14 @@
 
         function getComplete() {
             return this.complete;
+        }
+
+        function getToManyCards() {
+            return this.countCards() > MAX_DECK_CARDS;
+        }
+
+        function getCardCount() {
+            return this.cardCount;
         }
     }
 

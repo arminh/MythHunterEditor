@@ -9,10 +9,10 @@
         .module('quest')
         .factory('Quest', QuestFactory);
 
-    QuestFactory.$inject = ["$log", "$q", "AuthenticationService", "BackendService", "HtmlText", "TreePart", "DifficultyLevel", "SubmitErrors"];
+    QuestFactory.$inject = ["$log", "$q", "AuthenticationService", "BackendService", "HtmlText",  "TreePart", "TreePartType", "DifficultyLevel", "SubmitErrors"];
 
     /* @ngInject */
-    function QuestFactory($log, $q, AuthenticationService, BackendService, HtmlText, TreePart, DifficultyLevel, SubmitErrors) {
+    function QuestFactory($log, $q, AuthenticationService, BackendService, HtmlText, TreePart, TreePartType, DifficultyLevel, SubmitErrors) {
 
         $log = $log.getInstance("Quest", debugging);
         function Quest(creatorId) {
@@ -30,6 +30,8 @@
             this.specialCards = [];
 
             this.loaded = false;
+            this.editing = false;
+            this.complex = false;
             this.treeParts = [];
             this.treePartRoot = null;
             this.treePartsToDelete = [];
@@ -43,7 +45,9 @@
             initFromRemote: initFromRemote,
             load: load,
             change: change,
-            createTreePart: createTreePart,
+            checkComplexity: checkComplexity,
+            createTreePartMarker: createTreePartMarker,
+            createTreePartConnector: createTreePartConnector,
             addTreePart: addTreePart,
             addTreePartToTree: addTreePartToTree,
             deleteTreePart: deleteTreePart,
@@ -67,7 +71,9 @@
             getDescription: getDescription,
             getHtml: getHtml,
             getTreePartRoot: getTreePartRoot,
+            setTreePartRoot: setTreePartRoot,
             getTreeParts: getTreeParts,
+            setTreeParts: setTreeParts,
             getSubmitted: getSubmitted,
             setSubmitted: setSubmitted,
             getApproved: getApproved,
@@ -77,6 +83,10 @@
             getDifficulty: getDifficulty,
             getDifficultyRating: getDifficultyRating,
             getQualityRating: getQualityRating,
+            getComplex: getComplex,
+            setComplex: setComplex,
+            getEditing: getEditing,
+            setEditing: setEditing
         };
 
         return (Quest);
@@ -86,8 +96,8 @@
         function init(name) {
             this.name = name;
 
-            this.treePartRoot = new TreePart(name);
-            this.treePartRoot.init("start");
+            this.treePartRoot = new TreePart(TreePartType.Marker, name);
+            this.treePartRoot.initTask("start");
 
             this.html = new HtmlText(name, "");
         }
@@ -111,7 +121,7 @@
             this.html = new HtmlText(questObject.name, "");
             this.html.initFromObject(questObject.html);
 
-            this.treePartRoot = new TreePart(this.name);
+            this.treePartRoot = new TreePart(TreePartType.Marker, this.name);
             this.treePartRoot.initFromObject(questObject.treePartRoot, this, true);
 
 
@@ -155,7 +165,7 @@
             this.html = new HtmlText(remoteQuest.getName(), "");
             this.html.setRemoteId(remoteQuest.getHtmlId());
 
-            this.treePartRoot = new TreePart(this.name);
+            this.treePartRoot = new TreePart(TreePartType.Marker, this.name);
             this.treePartRoot.setRemoteId(remoteQuest.getTreeRootId());
 
             $log.info("initFromRemote_success: ", this);
@@ -172,6 +182,7 @@
             return $q.all(promises).then(function () {
                 this.treePartRoot.getTask().setType("start");
                 this.loaded = true;
+                this.checkComplexity();
                 AuthenticationService.getUser().backup();
 
                 $log.info("load_success: ", this);
@@ -179,13 +190,37 @@
             }.bind(this));
         }
 
-        function createTreePart(markerType) {
-            var treePart = new TreePart(this.name);
-            treePart.init(markerType);
+        function checkComplexity() {
+            for(var i = 0; i < this.treeParts.length; i++) {
+                var successors = this.treeParts[i].getSuccessors();
+                if(successors.length > 1) {
+                    this.complex = true;
+                }
+                for(var j = 0; j < successors.length; j++) {
+                    if(successors[j].getType() == TreePartType.And || successors[j].getType() == TreePartType.Or ) {
+                        this.complex = true;
+                    }
+                }
+
+            }
+        }
+
+        function createTreePartMarker(markerType) {
+            var treePart = new TreePart(TreePartType.Marker, this.name);
+            treePart.initTask(markerType);
+            return treePart;
+        }
+
+        function createTreePartConnector(type) {
+            var treePart = new TreePart(type, this.name);
             return treePart;
         }
 
         function addTreePart(treePart) {
+            if(treePart.getType() == TreePartType.And) {
+                $log.error("And added");
+            }
+            console.log(treePart)
             this.treeParts.push(treePart);
         }
 
@@ -402,8 +437,16 @@
             return this.treePartRoot;
         }
 
+        function setTreePartRoot(value) {
+            this.treePartRoot = value;
+        }
+
         function getTreeParts() {
             return this.treeParts;
+        }
+
+        function setTreeParts(value) {
+            this.treeParts = value;
         }
 
         function getSubmitted() {
@@ -440,6 +483,22 @@
 
         function getDifficultyRating() {
             return this.difficultyRating;
+        }
+
+        function getComplex() {
+            return this.complex;
+        }
+
+        function setComplex(value) {
+            this.complex = value;
+        }
+
+        function getEditing() {
+            return this.editing;
+        }
+
+        function setEditing(value) {
+            this.editing = value;
         }
     }
 

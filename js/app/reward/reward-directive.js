@@ -32,7 +32,7 @@
 
             vm.cards =  new Array(vm.maxCards);
             var collection = vm.user.getCollection();
-            vm.numCollectionCards = collection.getCards().length;
+            vm.numCollectionCards = collection.getCreatedCards().length;
             for(var i = 0; i < vm.rewardIds.length; i++) {
                 vm.cards[i] = collection.getCreatedCard(vm.rewardIds[i]);
                 vm.cardIndex++;

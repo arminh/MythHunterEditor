@@ -99,6 +99,10 @@
     background-color: #bbbbbb;
 }
 
+.task-deck-button {
+    margin-bottom: 20px;
+}
+
 /*****************MARKER*****************/
 #markerSelectorBox {
     position: absolute;

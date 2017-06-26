@@ -5,8 +5,7 @@
                 <div layout="row" layout-align="center center">
                     <md-input-container flex="50">
                         <label>{{'LABEL_TASK_NAME' | translate}}</label>
-                        <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus
-                               md-select-on-focus>
+                        <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus>
                         <div ng-messages="taskForm.taskName.$error">
                             <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                         </div>
@@ -68,10 +67,15 @@
                         <md-button aria-label="enemyDeck" class="md-raised" ng-click="treePartCtrl.addDeckToEnemy()">
                             {{'BUTTON_ENEMY_DECK' | translate}}
                         </md-button>
+                        <div class="task-deck-button" flex>
+                            <md-button class="md-raised md-button-primary" ng-click="treePartCtrl.editEnemyDeck()">
+                                <md-label>{{treePartCtrl.task.enemy.deck.name}}</md-label>
+                            </md-button>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <md-button class="md-raised md-primary" type="submit" md-autofocus>
+                    <md-button class="md-raised md-primary" type="submit">
                         {{'BUTTON_CONFIRM' | translate}}
                     </md-button>
                     <md-button class="md-raised" ng-click="treePartCtrl.cancel()">

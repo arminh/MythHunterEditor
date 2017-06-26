@@ -9,10 +9,10 @@
         .module('questTree')
         .controller('QuestTreeController', QuestTreeController);
 
-    QuestTreeController.$inject = ["$scope", 'QuestTreeService', "$mdDialog", "$timeout"];
+    QuestTreeController.$inject = ["$scope", "$state", "$q", 'QuestTreeService', "$stateParams", "$timeout", "user"];
 
     /* @ngInject */
-    function QuestTreeController($scope, QuestTreeService, $mdDialog, $timeout) {
+    function QuestTreeController($scope, $state, $q, QuestTreeService, $stateParams, $timeout, user) {
         var vm = this;
         vm.drawing = false;
 
@@ -27,15 +27,28 @@
         ////////////////
 
         function init() {
-            QuestTreeService.init(vm.treeRoot);
+            if($stateParams.quest) {
+                QuestTreeService.init($stateParams.quest);
+            } else {
+                $state.go("app.map");
+            }
+
+            // createTreePartAnd();
+        }
+
+        function createTreePartAnd() {
+            QuestTreeService.createTreePartAnd();
         }
 
         function confirm(evt) {
-            QuestTreeService.saveTree(evt);
+            $q.when(QuestTreeService.saveTree(evt)).then(function() {
+                user.backup();
+                $state.go("app.map");
+            });
         }
 
         function cancel() {
-            $mdDialog.cancel();
+            $state.go("app.map");
         }
     }
 

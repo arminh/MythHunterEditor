@@ -1,4 +1,4 @@
-<div class="deck-container" cg-busy="{promise:deckCtrl.loadCardsPromise, message:{{'LABEL_CARDS_LOADING' | translate}}, minDuration: 1000}">
+<div class="deck-container" layout="column">
     <div class="deck-header">
         <md-input-container>
             <label>{{'LABEL_DECK_NAME' | translate}}</label>
@@ -8,8 +8,17 @@
             </div>
         </md-input-container>
     </div>
-    <div ng-repeat="deckCard in deckCtrl.cards | orderBy : 'card.stars'" class="deck-card" ng-dblclick="deckCtrl.removeCard(deckCard)">
-        <div class="deck-card-background" ng-style="deckCard.style"></div>
-        <div class="deck-card-text"><span class="deck-card-text-name">{{deckCard.card.getName()}}</span><span class="deck-card-amount" ng-if="deckCard.amount > 1">{{deckCard.amount}}</span></div>
+    <div class="deck-cards-container"
+         cg-busy="{promise:deckCtrl.loadCardsPromise, message:{{'LABEL_CARDS_LOADING' | translate}}, minDuration: 1000}">
+        <div ng-repeat="deckCard in deckCtrl.cards | orderBy : 'card.stars'" class="deck-card"
+             ng-dblclick="deckCtrl.removeCard(deckCard)">
+            <div class="deck-card-background" ng-style="deckCard.style"></div>
+            <div class="deck-card-text"><span class="deck-card-text-name">{{deckCard.card.getName()}}</span><span
+                    class="deck-card-amount" ng-if="deckCard.amount > 1">{{deckCard.amount}}</span></div>
+        </div>
+    </div>
+    <div class="deck-card-count"
+         ng-class="{'deck-card-count-warning': deckCtrl.deck.getCardCount() < deckCtrl.minCards, 'deck-card-count-error': deckCtrl.deck.countCards() > deckCtrl.maxCards}">
+        {{deckCtrl.deck.getCardCount()}} / {{deckCtrl.maxCards}}
     </div>
 </div>

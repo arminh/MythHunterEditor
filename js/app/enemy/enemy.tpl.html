@@ -1,10 +1,9 @@
 <div id="enemy-container">
-    <form name="enemyForm" ng-submit="enemyCtrl.confirm()">
         <div layout="column">
             <div layout="row">
                 <md-input-container flex="50">
                     <label>Name</label>
-                    <input type="text" name="name" required md-no-asterisk maxlength="10" class="task-info"
+                    <input type="text" name="name" required maxlength="20" class="task-info"
                            ng-model="enemyCtrl.enemy.name"/>
                     <div ng-messages="enemyForm.name.$error">
                         <div ng-message="required">Name is required</div>
@@ -15,7 +14,7 @@
             <div layout="row">
                 <md-input-container flex="50">
                     <label>Description</label>
-                    <textarea name="description" md-maxlength="150" class="enemy-description"
+                    <textarea name="description" md-maxlength="70" class="enemy-description"
                               ng-model="enemyCtrl.enemy.description"></textarea>
                     <div ng-messages="enemyForm.description.$error" ng-show="enemyForm.description.$error['md-maxlength']">
                         <div ng-message="md-maxlength">That's too long!</div>
@@ -46,10 +45,9 @@
                 <!--</div>-->
 
             <!--</div>-->
-            <div>
-                Deck {{enemyCtrl.enemy.deck.name}}
-            </div>
+            <!--<div>-->
+                <!--Deck {{enemyCtrl.enemy.deck.name}}-->
+            <!--</div>-->
 
         </div>
-    </form>
 </div>

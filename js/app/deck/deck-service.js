@@ -73,9 +73,6 @@
         }
 
         function addCardToDeck(card, cards) {
-            if(countCards(cards) >= MAX_DECK_CARDS) {
-                return;
-            }
 
             for(var i = 0; i < cards.length; i++) {
                 if(cards[i].id == card.getRemoteId()) {

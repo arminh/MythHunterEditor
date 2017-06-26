@@ -9,19 +9,21 @@
         .module('profile')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ["$log", "$q", "$state", "$mdDialog", "user"];
+    ProfileController.$inject = ["$log", "$q", "$state", "$mdDialog", "QuestService", "user"];
 
     /* @ngInject */
-    function ProfileController($log, $q, $state, $mdDialog, user) {
+    function ProfileController($log, $q, $state, $mdDialog, QuestService, user) {
         var vm = this;
         vm.user = user;
         vm.currentQuest = null;
 
         vm.newQuest = newQuest;
         vm.editQuest = editQuest;
-        vm.editQuestCurrentQuest = editQuestCurrentQuest;
+        vm.editCurrentQuest = editCurrentQuest;
+        vm.saveCurrentQuest = saveCurrentQuest;
         vm.clearCurrentQuest = clearCurrentQuest;
         vm.deleteQuest = deleteQuest;
+        vm.deleteCurrentQuest = deleteCurrentQuest;
         vm.showCollection = showCollection;
 
         activate();
@@ -36,20 +38,46 @@
             $state.go("app.collection");
         }
 
-        function newQuest() {
+        function newQuest(evt) {
+            if(vm.currentQuest) {
+                editDifferentQuest(evt).then(function() {
+                    showCreateQuestDialog().then(gotoMap);
+                });
+            } else {
+                showCreateQuestDialog().then(gotoMap);
+            }
+        }
+
+        function gotoMap() {
             user.clearCurrentQuest();
             $state.go("app.map");
         }
 
         function editQuest(quest) {
+            if(vm.currentQuest) {
+                editDifferentQuest().then(function() {
+                    loadMap(quest);
+                })
+            } else {
+                loadMap(quest);
+            }
+
+        }
+
+        function loadMap(quest) {
             $q.when(loadQuest(quest)).then(function() {
                 user.setCurrentQuest(quest);
+                quest.setEditing(true);
                 $state.go("app.map");
             });
         }
 
-        function editQuestCurrentQuest() {
+        function editCurrentQuest() {
             $state.go("app.map");
+        }
+
+        function saveCurrentQuest() {
+            vm.saveQuestPromise = QuestService.saveQuest(user, vm.currentQuest);
         }
 
         function loadQuest(quest) {
@@ -66,6 +94,14 @@
             vm.currentQuest = null;
         }
 
+        function showCreateQuestDialog() {
+            return $mdDialog.show({
+                templateUrl: 'js/app/profile/create-quest-dialog/create-quest-dialog.tpl.html',
+                controller: 'CreateQuestDialogController',
+                controllerAs: "createQuest"
+            });
+        }
+
         function deleteQuest(evt, quest) {
 
             var confirm = $mdDialog.confirm()
@@ -79,6 +115,32 @@
             $mdDialog.show(confirm).then(function() {
                 user.deleteQuest(quest);
             });
+        }
+
+        function deleteCurrentQuest(evt) {
+            var confirm = $mdDialog.confirm()
+                .title('Delete quest in development')
+                .htmlContent('Are you sure you want to the quest you are editing? All changes will be lost.')
+                .ariaLabel('Delete quest')
+                .targetEvent(evt)
+                .ok('Confirm')
+                .cancel('Cancel');
+
+            $mdDialog.show(confirm).then(function() {
+                clearCurrentQuest();
+            });
+        }
+
+        function editDifferentQuest(evt) {
+            var confirm = $mdDialog.confirm()
+                .title('Edit different quest')
+                .htmlContent('Are you sure you want to edit a different quest? All changes to your current quest will be lost.')
+                .ariaLabel('Delete quest')
+                .targetEvent(evt)
+                .ok('Confirm')
+                .cancel('Cancel');
+
+            return $mdDialog.show(confirm);
         }
     }
 

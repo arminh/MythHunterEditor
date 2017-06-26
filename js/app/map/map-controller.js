@@ -43,7 +43,6 @@
                 ui.placeholder.height(ui.item.height());
                 var draggedMarkerId = ui.item.sortable.model.task.markerId;
                 MapInteraction.flashMarker(draggedMarkerId);
-
             },
             update: function (e, ui) {
                 vm.quest.change();
@@ -117,7 +116,8 @@
         }
 
         function editQuestTree() {
-            MapService.editQuestTree();
+            $state.go("app.storyline", {quest: vm.quest});
+            // MapService.editQuestTree();
         }
 
         function addQuestReward() {

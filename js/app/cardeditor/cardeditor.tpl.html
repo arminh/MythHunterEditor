@@ -10,10 +10,26 @@
             </div>
         </md-toolbar>
         <md-dialog-content>
-            <div class="md-dialog-content">
+
+            <div class="md-dialog-content cardeditor-content">
                 <div layout="column" layout-gt-sm="row">
 
                     <card card="cardeditor.card" edit="true" menu="false"></card>
+                    <div class="cardeditor-card-image-button" ng-if="!cardeditor.image.base64">
+                        <label for="card-image-input" required class="md-button md-raised"
+                               required="cardeditor.image.base64">
+                            {{'BUTTON_CHOOSE_CARD_IMAGE' | translate}}
+                        </label>
+                        <div class="cardeditor-stars-error" ng-if="cardeditor.showImageRequiredError">
+                            {{'ERROR_IMAGE_REQUIRED' | translate}}
+                        </div>
+                    </div>
+                    <md-input-container>
+                        <input name="image" type="file" id="card-image-input"
+                               ng-model='cardeditor.image'
+                               class="ng-hide"
+                               on-after-validate="cardeditor.cardImageChanged" base-sixty-four-input/>
+                    </md-input-container>
                     <div>
                         <md-content class="card-settings-content">
 
@@ -33,42 +49,6 @@
                                           ng-model="cardeditor.card.description"
                                           ng-change="cardeditor.calculateStarCount()"></textarea>
                             </md-input-container>
-
-
-                            <div class="cardeditor-stars-container">
-                                <div class="label-with-hint-small">
-                                    <span>{{'LABEL_EDITOR_STARS' | translate}}</span>
-                                    <md-tooltip md-direction="top">
-                                        {{'TOOLTIP_EDITOR_STARS_1' | translate}}<br>
-                                        {{'TOOLTIP_EDITOR_STARS_2' | translate}}
-                                    </md-tooltip>
-                                    <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
-                                </div>
-
-                                <div layout="row">
-                                    <div ng-repeat="star in cardeditor.starsFull track by $index"
-                                         class="cardeditor-star-container">
-                                        <img src="media/star_full.png" class="cardeditor-star"/>
-                                        <div class="cardeditor-star-label"><span>{{$index+1}}</span></div>
-                                    </div>
-                                    <div ng-repeat="star in cardeditor.starsEmpty track by $index"
-                                         class="cardeditor-star-container">
-                                        <img src="media/star_empty.png" class="cardeditor-star"/>
-                                        <div class="cardeditor-star-label"><span>{{$index + cardeditor.starsFull.length + 1}}</span>
-                                        </div>
-                                    </div>
-                                    <div ng-repeat="star in cardeditor.starsRed track by $index"
-                                         class="cardeditor-star-container">
-                                        <img src="media/star_full_red.png" class="cardeditor-star"/>
-                                        <div class="cardeditor-star-label">
-                                            <span>{{cardeditor.maxStars + $index + 1}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="cardeditor-stars-error" ng-show="cardeditor.showStarsError">
-                                    {{'ERROR_EDITOR_STARS' | translate}}
-                                </div>
-                            </div>
 
 
                             <md-slider-container>
@@ -123,21 +103,48 @@
                                     {{action.names[1]._value}} ({{action.starCosts}})
                                 </md-option>
                             </md-select>
-                            <div>
+
+                            <div class="cardeditor-stars-container">
+                                <div class="label-with-hint-small">
+                                    <span>{{'LABEL_EDITOR_STARS' | translate}}</span>
+                                    <md-tooltip md-direction="top">
+                                        {{'TOOLTIP_EDITOR_STARS_1' | translate}}<br>
+                                        {{'TOOLTIP_EDITOR_STARS_2' | translate}}
+                                    </md-tooltip>
+                                    <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                                </div>
+
+                                <div layout="row">
+                                    <div ng-repeat="star in cardeditor.starsFull track by $index"
+                                         class="cardeditor-star-container">
+                                        <img src="media/star_full.png" class="cardeditor-star"/>
+                                        <div class="cardeditor-star-label"><span>{{$index+1}}</span></div>
+                                    </div>
+                                    <div ng-repeat="star in cardeditor.starsEmpty track by $index"
+                                         class="cardeditor-star-container">
+                                        <img src="media/star_empty.png" class="cardeditor-star"/>
+                                        <div class="cardeditor-star-label"><span>{{$index + cardeditor.starsFull.length + 1}}</span>
+                                        </div>
+                                    </div>
+                                    <div ng-repeat="star in cardeditor.starsRed track by $index"
+                                         class="cardeditor-star-container">
+                                        <img src="media/star_full_red.png" class="cardeditor-star"/>
+                                        <div class="cardeditor-star-label">
+                                            <span>{{cardeditor.maxStars + $index + 1}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cardeditor-stars-error" ng-show="cardeditor.showStarsError">
+                                    {{'ERROR_EDITOR_STARS' | translate}}
+                                </div>
+                            </div>
+
+                            <div ng-if="cardeditor.image.base64">
                                 <label for="card-image-input" required class="md-button md-raised"
                                        required="cardeditor.image.base64">
-                                    {{'BUTTON_CHOOSE_CARD_IMAGE' | translate}}
+                                    Edit card image
                                 </label>
-                                <span class="cardeditor-stars-error" ng-if="cardeditor.showImageRequiredError">
-                                        {{'ERROR_IMAGE_REQUIRED' | translate}}
-                                    </span>
                             </div>
-                            <md-input-container>
-                                <input name="image" type="file" id="card-image-input"
-                                       ng-model='cardeditor.image'
-                                       class="ng-hide"
-                                       on-after-validate="cardeditor.cardImageChanged" base-sixty-four-input/>
-                            </md-input-container>
 
                         </md-content>
                     </div>

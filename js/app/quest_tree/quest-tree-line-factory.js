@@ -9,10 +9,12 @@
         .module('questTree')
         .factory('QuestTreeLine', QuestTreeLineFactory);
 
-    QuestTreeLineFactory.$inject = [];
+    QuestTreeLineFactory.$inject = ["TreePartType"];
 
     /* @ngInject */
-    function QuestTreeLineFactory() {
+    function QuestTreeLineFactory(TreePartType) {
+        var LINE_Z_INDEX = 20;
+
         function QuestTreeLine(id, canvas) {
             this.canvas = canvas;
             this.id = id;
@@ -20,13 +22,16 @@
             this.start = null;
             this.end = null;
             this.head = null;
-            this.fromMarker = null;
-            this.toMarker = null;
+            this.fromElement = null;
+            this.toElement = null;
         }
 
         QuestTreeLine.prototype = {
+            constructor: QuestTreeLine,
             draw: draw,
             stopDrawing: stopDrawing,
+            allowSelection: allowSelection,
+            preventSelection: preventSelection,
             position: position,
             isHit: isHit,
             remove: remove,
@@ -34,11 +39,14 @@
             getArrowHead: getArrowHead,
             removeArrowHead: removeArrowHead,
 
+            getId: getId,
             getImage: getImage,
             setStart: setStart,
             setEnd: setEnd,
-            setFromMarker: setFromMarker,
-            setToMarker: setToMarker
+            getFromElement: getFromElement,
+            setFromElement: setFromElement,
+            getToElement: getToElement,
+            setToElement: setToElement
         };
 
         return (QuestTreeLine);
@@ -46,8 +54,8 @@
         ////////////////
 
         function draw(points, fromMarker, toMarker) {
-            this.fromMarker = fromMarker;
-            this.toMarker = toMarker;
+            this.fromElement = fromMarker;
+            this.toElement = toMarker;
 
             this.img = new fabric.Line(points, {
                 strokeWidth: 4,
@@ -60,9 +68,16 @@
 
             this.img.type = "line";
             this.img.hasControls = false;
-            this.img.hasBorders = false;
-            this.img.set({selectable: false});
+            // this.img.hasBorders = false;
+            this.img.hasRotatingPoint = false;
+            this.img.lockMovementX = true;
+            this.img.lockMovementY = true;
+            this.img.lockScalingX  = true;
+            this.img.lockScalingY  = true;
+            this.img.lockRotation = true;
+            this.img.lineId = this.id;
             this.canvas.add(this.img);
+            this.img.moveTo(LINE_Z_INDEX);
 
             this.start = {x: points[0], y: points[1]};
             this.end = {x: points[2], y: points[3]};
@@ -70,11 +85,31 @@
             return this;
         }
 
-        function stopDrawing() {
+        function stopDrawing(fromElementId) {
             this.img.remove();
         }
 
-        function position() {
+        //For repositioning
+        function preventSelection() {
+            this.img.set({selectable: false});
+            if(this.head) {
+                this.head.set({selectable: false});
+            }
+        }
+
+        function allowSelection() {
+            this.img.set({selectable: true});
+            if(this.head) {
+                this.head.set({selectable: true});
+            }
+        }
+
+        function position(setCoordinates) {
+            var x1 = 0;
+            var y1 = 0;
+            var x2 = 0;
+            var y2 = 0;
+
             var vy = (this.end.y - this.start.y);
             var vx = (this.end.x - this.start.x);
 
@@ -83,13 +118,28 @@
             vy = vy / len;
             vx = vx / len;
 
-            var x1 = this.start.x + vx * 20;
-            var y1 = this.start.y + vy * 20;
 
-            var x2 = this.end.x - vx * 20;
-            var y2 = this.end.y - vy * 20;
+            if(this.fromElement && this.fromElement.getType() == TreePartType.Marker) {
+                x1 = this.start.x + vx * 20;
+                y1 = this.start.y + vy * 20;
+            } else {
+                x1 = this.start.x;
+                y1 = this.start.y;
+            }
+
+            if(this.toElement && this.toElement.getType() == TreePartType.Marker) {
+                x2 = this.end.x - vx * 20;
+                y2 = this.end.y - vy * 20;
+            } else {
+                x2 = this.end.x;
+                y2 = this.end.y;
+            }
 
             this.img.set({x1: x1, y1: y1, x2: x2, y2: y2});
+            if(setCoordinates) {
+                this.img.setCoords();
+            }
+            // this.allowSelection();
         }
 
         function isHit(pointer) {
@@ -99,17 +149,9 @@
         }
 
         function remove() {
-            for (var i = 0; i < this.fromMarker.lineStarts.length; i++) {
-                if (this.id = this.fromMarker.lineStarts[i]) {
-                    this.fromMarker.lineStarts.splice(i, 1);
-                }
-            }
-            for (var i = 0; i < this.toMarker.lineEnds.length; i++) {
-                if (this.id = this.toMarker.lineEnds[i]) {
-                    this.toMarker.lineEnds.splice(i, 1);
-                }
-            }
-            this.fromMarker.treePart.removeSuccessor(this.toMarker.treePart.getId());
+            this.fromElement.removeOutLine(this);
+            this.toElement.removeInLine(this);
+            this.fromElement.getTreePart().removeSuccessor(this.toElement.treePart.getId());
             this.canvas.remove(this.img);
             this.canvas.remove(this.head);
         }
@@ -127,11 +169,21 @@
                 width: 10
             });
 
-            triangle.set({selectable: false});
+            triangle.hasControls = false;
+            // triangle.hasBorders = false;
+            triangle.hasRotatingPoint = false;
+            triangle.type = "head";
+            triangle.lockMovementX = true;
+            triangle.lockMovementY = true;
+            triangle.lockScalingX  = true;
+            triangle.lockScalingY  = true;
+            triangle.lockRotation = true;
+            triangle.lineId = this.id;
             this.head = triangle;
 
             positionArrowHead.bind(this)();
             this.canvas.add(triangle);
+            triangle.moveTo(LINE_Z_INDEX);
         }
 
         function positionArrowHead() {
@@ -195,6 +247,10 @@
             return !this.canvas.isTargetTransparent(object, point.x, point.y);
         }
 
+        function getId() {
+            return this.id;
+        }
+
         function getImage() {
             return this.img;
         }
@@ -207,12 +263,20 @@
             this.end = value;
         }
 
-        function setFromMarker(value) {
-            this.fromMarker = value;
+        function getFromElement() {
+            return this.fromElement;
         }
 
-        function setToMarker(value) {
-            this.toMarker = value;
+        function setFromElement(value) {
+            this.fromElement = value;
+        }
+
+        function getToElement() {
+            return this.toElement;
+        }
+
+        function setToElement(value) {
+            this.toElement = value;
         }
     }
 

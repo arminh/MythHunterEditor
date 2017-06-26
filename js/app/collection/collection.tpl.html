@@ -44,9 +44,14 @@
                  ng-dblclick="collectionCtrl.addCardToDeck(card, false)" class="collection-card-preview-container"
                  ng-class="{'collection-card-movable': card.loaded && collectionCtrl.currentDeck}"
                  jqyoui-draggable="{index: {{$index}}, placeholder:'keep', containment: 'offset'}"
-                 data-drag="card.loaded && collectionCtrl.currentDeck"
+                 data-drag="card.loaded && collectionCtrl.currentDeck && !collectionCtrl.cardLocked(card)"
                  data-jqyoui-options="{revert: 'invalid', helper: 'clone', containment: '#collection-container'}">
                 <card class="collection-card" card="card" edit="false" menu="false"></card>
+                <div class="collection-card-lock-container" ng-if="collectionCtrl.cardLocked(card)">
+                    <div class="collection-card-lock-backdrop"></div>
+                    <img class="collection-card-lock" src="media/lock_icon.svg" />
+                    <md-tooltip md-direction="top">You can't have more than {{collectionCtrl.maxSingleCard}} of this card in your deck.</md-tooltip>
+                </div>
             </div>
             <div ng-show="collectionCtrl.createdCardsShown" ng-model="card.remoteId"
                  ng-repeat="card in collectionCtrl.collection.createdCards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter() | orderBy : 'stars'"
@@ -65,7 +70,7 @@
               layout="column"
               cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}">
             <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck && !collectionCtrl.enemy">
-                <md-button class="md-raised" ng-click="collectionCtrl.createDeck()"
+                <md-button class="md-raised md-primary" ng-click="collectionCtrl.createDeck()"
                            ng-disabled="!collectionCtrl.collection.loaded">
                     <md-label>{{'LABEL_CREATE_DECK' | translate}}</md-label>
                 </md-button>

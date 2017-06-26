@@ -4,15 +4,19 @@
 
 .deck-header {
     height: 60px;
-    line-height: 50px;
     width: 100%;
     text-align: center;
     background-color: rgb(250,250,250);
-    padding: 5px;
+    padding: 15px;
 }
 
 .deck-name {
     text-align: center;
+}
+
+.deck-cards-container {
+    height: 100%;
+    overflow: auto;
 }
 
 .deck-card {
@@ -65,6 +69,21 @@
     background-repeat: no-repeat;
     background-position: center left;
     background-size: 70px auto;
+}
+
+.deck-card-count {
+    position: relative;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+}
+.deck-card-count-warning {
+    background-color: #fff609;
+}
+
+.deck-card-count-error {
+    background-color: #ff0000;
 }
 
 

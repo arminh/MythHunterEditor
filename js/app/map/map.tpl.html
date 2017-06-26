@@ -1,7 +1,33 @@
 <div ng-class="{'not-clickable': map.interactionDisabled}" flex>
     <div id="mapView" layout="colum"></div>
 
-    <md-toolbar id="toolbar" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" flex>
+    <md-toolbar id="quest-toolbar" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" flex>
+        <div class="md-toolbar-tools" flex>
+            <md-button ng-disabled="map.drawing()" ng-click="map.editQuest(evt)" aria-label="edit" class="md-icon-button">
+                <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'LABEL_EDIT_QUEST' | translate}}</md-tooltip>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" ng-click="map.editQuestTree()" class="md-icon-button" aria-label="Complex">
+                <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'LABEL_EDIT_STORYLINE' | translate}}</md-tooltip>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" ng-click="map.addQuestReward()" class="md-icon-button" aria-label="Complex">
+                <md-icon md-svg-icon="media/reward_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'LABEL_ADD_REWARD' | translate}}</md-tooltip>
+            </md-button>
+            <span flex></span>
+            <md-button ng-disabled="map.drawing()" ng-click="map.cancelQuest(evt)" aria-label="delete" class="md-icon-button">
+                <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'LABEL_CANCEL_EDITING' | translate}}</md-tooltip>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" ng-click="map.saveQuest()" class="md-icon-button" aria-label="Save" >
+                <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'LABEL_SAVE_QUEST' | translate}}</md-tooltip>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar id="location-search" cg-busy="{promise:map.saveQuestPromise, message:'Saving Quest...', minDuration:1000}" flex>
         <div class="md-toolbar-tools" flex>
             <md-button class="md-icon-button" aria-label="Settings" ng-click="map.toggleQuestline()">
                 <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
@@ -25,44 +51,6 @@
                        ng-click="map.searchAndGotoLocation(searchText)" flex="3">
                 <md-icon md-svg-icon="media/search_icon.svg"></md-icon>
             </md-button>
-            <md-menu>
-                <md-button aria-label="Open quest menu" class="md-icon-button"
-                           ng-click="$mdOpenMenu($event)">
-                    <md-icon md-svg-icon="media/more_icon.svg"></md-icon>
-                </md-button>
-                <md-menu-content width="2">
-                    <md-menu-item ng-click="map.saveQuest()">
-                        <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Save" flex="3">
-                            <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>{{'LABEL_SAVE_QUEST' | translate}}</md-label>
-                    </md-menu-item>
-                    <md-menu-item ng-click="map.editQuest(evt)">
-                        <md-button ng-disabled="map.drawing()" aria-label="edit" class="md-icon-button" flex="3">
-                            <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>{{'LABEL_EDIT_QUEST' | translate}}</md-label>
-                    </md-menu-item>
-                    <md-menu-item ng-click="map.cancelQuest(evt)">
-                        <md-button ng-disabled="map.drawing()" aria-label="delete" class="md-icon-button" flex="3">
-                            <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>{{'LABEL_CANCEL_EDITING' | translate}}</md-label>
-                    </md-menu-item>
-                    <md-menu-item ng-click="map.editQuestTree()">
-                        <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex">
-                            <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>{{'LABEL_EDIT_STORYLINE' | translate}}</md-label>
-                    </md-menu-item>
-                    <md-menu-item ng-click="map.addQuestReward()">
-                        <md-button ng-disabled="map.drawing()" class="md-icon-button" aria-label="Complex">
-                            <md-icon md-svg-icon="media/reward_icon.svg"></md-icon>
-                        </md-button>
-                        <md-label>{{'LABEL_ADD_REWARD' | translate}}</md-label>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
         </div>
     </md-toolbar>
 
@@ -71,16 +59,17 @@
         <map-task ng-if="map.quest.treePartRoot" treepart="map.quest.treePartRoot" quest="map.quest"></map-task>
 
         <div id="map-task-list" ui-sortable="map.sortableOptions" ng-model="map.quest.treeParts">
-            <div ng-repeat="treePart in map.quest.treeParts">
+            <div ng-repeat="treePart in map.quest.treeParts" ng-class="{'fixed': map.quest.getComplex()}">
                 <map-task treepart="treePart" quest="map.quest"></map-task>
             </div>
         </div>
         <div class="map-task-add">
-            <md-button class="md-icon-button map-task-icon" ng-click="map.addTreePart(map.quest, $event)">
+            <md-button class="map-task-add-button" ng-click="map.addTreePart(map.quest, $event)">
                 <md-tooltip style="z-index:1000" class="button-tooltip" md-direction="bottom">
                     {{'TOOLTIP_ADD_TASK' | translate}}
                 </md-tooltip>
-                <md-icon md-svg-icon="media/add_task_icon.svg"></md-icon>
+                <md-icon md-svg-icon="media/add_task_icon.svg" class="map-task-add-icon"></md-icon>
+                <md-label>Add task</md-label>
             </md-button>
         </div>
     </div>

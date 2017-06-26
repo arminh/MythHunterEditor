@@ -1,0 +1,110 @@
+<md-dialog aria-label="Create task">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>New Quest</h2>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div class="profile-new-quest-container">
+                <h4><b>Quest</b></h4>
+                <p>You are about to create a new scavenger hunt. Here are some tips for creating your quest:</p>
+                <p>First you will be taken to the map interface where you have to place your first marker:</p>
+                <ul>
+                    <li>
+                        <img src="media/start_marker.png" width="13px" style="margin-right: 10px"/>
+                        <b>Start task</b>: This marker defines the location where the players can find your quest in the
+                        world.
+                    </li>
+                </ul>
+                <p><b>Important tools:</b></p>
+                <ul>
+                    <li>
+                        <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
+                        <b>Save the quest</b>: Saves your changes
+                    </li>
+                    <li>
+                        <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
+                        <b>Cancel editing</b>: Dismisses your changes
+                    </li>
+                    <li>
+                        <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                        <b>Edit quest</b>: Edit the quest's content
+                    </li>
+                    <li>
+                        <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
+                        <b>Edit storyline</b>: Edit the storyline to create advanced quests.
+                    </li>
+                    <li>
+                        <md-icon md-svg-icon="media/reward_icon.svg"></md-icon>
+                        <b>Add rewards</b>: Add rewards the user can win after completing the quest
+                    </li>
+                </ul>
+                </ul>
+
+                </ul>
+
+                <h4><b>Tasks</b></h4>
+                <p>Now add some more tasks to your quest by clicking
+                    <md-icon md-svg-icon="media/add_task_icon.svg"></md-icon>
+                    :
+                </p>
+                <ul>
+                    <li>
+                        <img src="media/info_marker.png" width="13px" style="margin-right: 10px"/>
+                        <b>Information task</b>: This marker is used to convey useful information to the user
+                    </li>
+                    <li>
+                        <img src="media/quiz_marker.png" width="13px" style="margin-right: 10px"/>
+                        <b>Quiz task</b>: This marker challenges the user with multiple choice and gap-fill tasks
+                    </li>
+                    <li>
+                        <img src="media/invisible_marker.png" width="13px" style="margin-right: 10px"/>
+                        <b>Search task</b>: The user has to find a hidden marker
+                    </li>
+                    <li>
+                        <img src="media/fight_marker.png" width="13px" style="margin-right: 10px"/>
+                        <b>Fight task</b>: The user has to fight an enemy in a trading card game
+                    </li>
+                </ul>
+                <p>
+                    For simple linear quests you can change the order of the tasks by dragging them up or down
+                    <md-icon md-svg-icon="media/swap_icon.svg"></md-icon>.
+                </p>
+                <p>
+                    More options for each task are available in the task menu next to each task
+                    <md-icon md-svg-icon="media/more_icon.svg"></md-icon>:
+                </p>
+
+                <ul>
+                    <li>
+                        <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
+                        <b>Delete</b>: Remove the task from the quest
+                    </li>
+                    <li>
+                        <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                        <b>Edit</b>: Edit the task's content
+                    </li>
+                    <li>
+                        <md-icon md-svg-icon="media/preview_icon.svg"></md-icon>
+                        <b>Preview</b>: Gives you an idea of how the task will look in the app
+                    </li>
+                    <li>
+                        <md-icon md-svg-icon="media/location_icon.svg"></md-icon>
+                        <b>Focus</b>: Focus the task's marker on the map
+                    </li>
+                </ul>
+                <p>Now you should be prepared to create your scavenger hunt. <b>Have fun</b>!</p>
+
+            </div>
+
+            <!--<md-icon md-svg-icon="media/save_icon.svg"></md-icon>-->
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button class="md-raised" ng-click="createQuest.confirm()">
+            READY
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

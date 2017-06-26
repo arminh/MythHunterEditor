@@ -34,6 +34,7 @@
             initFromObject: initFromObject,
             change: change,
             upload: upload,
+            loadStandardDeck: loadStandardDeck,
 
             getRemoteId: getRemoteId,
             setRemoteId: setRemoteId,
@@ -140,6 +141,13 @@
         function uploadImage() {
             var imageName = this.name + "_" + Date.now() + "." + this.image.filename.substr(this.image.filename.lastIndexOf('.')+1);
             return BackendService.uploadImage(imageName, this.image.base64);
+        }
+
+        function loadStandardDeck(user, collection) {
+            return BackendService.getStandartDeck(user.getId()).then(function(result) {
+                this.deck = new Deck();
+                return this.deck.initFromRemote(result.getReturn(), collection.getCards());
+            }.bind(this));
         }
 
         function uploadDeck() {

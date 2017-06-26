@@ -21,6 +21,11 @@
     -moz-transform: scale(0.7);
 }
 
+.collection-card-disabled {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
 .collection-card-movable {
     cursor: move;
 }
@@ -110,7 +115,6 @@
 
 .collection-deck-container {
     height: 100%;
-    overflow: auto;
 }
 
 .collection-deck-button-container {
@@ -139,4 +143,35 @@
 
 .collection-deck-remove:focus {
     outline: 0;
+}
+
+.collection-card-lock-container {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    position:absolute;
+}
+
+.collection-card-lock-backdrop {
+    background-color: #fff;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+}
+
+.collection-card-lock {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.collection-card-placeholder {
+    zoom: 0.7;
+    border: 5px solid transparent;
+    width:236px;
+}
+
+.collection-card-placeholder-image {
+    width: 100%;
 }

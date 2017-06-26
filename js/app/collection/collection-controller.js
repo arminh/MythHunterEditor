@@ -9,10 +9,10 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["$state", "$mdDialog", "CollectionService", "MAX_STARS", "CardType", "user", "$stateParams"];
+    CollectionController.$inject = ["$state", "$mdDialog", "CollectionService", "MAX_STARS", "MAX_CARD_IN_DECK", "CardType", "user", "$stateParams"];
 
     /* @ngInject */
-    function CollectionController($state, $mdDialog, CollectionService, MAX_STARS, CardType, user, $stateParams) {
+    function CollectionController($state, $mdDialog, CollectionService, MAX_STARS, MAX_CARD_IN_DECK, CardType, user, $stateParams) {
         var vm = this;
 
         vm.user = user;
@@ -22,6 +22,7 @@
         vm.filterStars = -1;
         vm.searchText = "";
         vm.enemy = null;
+        vm.maxSingleCard = MAX_CARD_IN_DECK;
 
         vm.collectionShown = true;
         vm.createdCardsShown = false;
@@ -40,6 +41,8 @@
         vm.showCollection = showCollection;
         vm.cardDropped = cardDropped;
 
+        vm.cardLocked = cardLocked;
+        vm.cardAvailable = cardAvailable;
         vm.openDeck = openDeck;
         vm.cancelDeck = cancelDeck;
         vm.saveDeck = saveDeck;
@@ -56,12 +59,10 @@
                 vm.enemy = $stateParams.enemy;
                 CollectionService.loadCollectionEnemy(user).then(function(collection) {
                     vm.collection = collection;
-                    CollectionService.getStandartDeck(user, collection).then(function (deck) {
-                        vm.currentDeck = CollectionService.openDeck(deck);
-                        vm.deckControl = {
-                            addCard: null
-                        };
-                    });
+                    vm.currentDeck = CollectionService.openDeck(vm.enemy.getDeck());
+                    vm.deckControl = {
+                        addCard: null
+                    };
                 });
             } else {
                 vm.collection = CollectionService.loadCollection(user);
@@ -143,6 +144,22 @@
             var card = CollectionService.getCardById(vm.droppedCard, vm.collection, vm.enemy);
             addCardToDeck(card, false);
             vm.droppedCard = {};
+        }
+
+        function cardLocked(card) {
+            if(vm.currentDeck) {
+                return vm.currentDeck.countCard(card.getRemoteId()) >= MAX_CARD_IN_DECK;
+            } else {
+                return false;
+            }
+        }
+
+        function cardAvailable(card) {
+            if(vm.currentDeck) {
+                return vm.currentDeck.countCard(card.getRemoteId()) < card.getAmount();
+            } else {
+                return true;
+            }
         }
 
         function openDeck(deck) {

@@ -9,29 +9,47 @@
         .module('questTree')
         .factory('QuestTreeService', QuestTreeService);
 
-    QuestTreeService.$inject = ["$log", "$q", "QuestTreeMarker", "QuestTreeLine", "$mdDialog"];
+    QuestTreeService.$inject = ["$log", "$q", "QuestService", "QuestTreeMarker", "QuestTreeLine", "QuestTreeConnector", "TreePartType", "$mdDialog"];
 
     /* @ngInject */
-    function QuestTreeService($log, $q, QuestTreeMarker, QuestTreeLine, $mdDialog) {
+    function QuestTreeService($log, $q, QuestService, QuestTreeMarker, QuestTreeLine, QuestTreeConnector, TreePartType, $mdDialog) {
         $log = $log.getInstance("QuestTreeService", debugging);
+        var canvasWidth = 960;
+        var xPos = 50;
+        var xOffset = 70;
+        var yPos = 200;
+        var yOffset = 100;
+
         var originalTreeRoot = null;
         var modifiedTreeRoot = null;
+        var quest = null;
 
         var canvas = null;
         var markers = [];
+        var connectors = [];
         var markerPromises = {};
+        var connectorPromises = {};
         var lines = [];
 
-        var startMarker = null;
         var drawing = false;
         var line = null;
 
-        var xPos = 0;
         var markerId = 0;
-        var curMarkerId = -1;
         var lineId = 0;
 
+        var startElement = null;
+        var connectorDragging = null;
+        var selectedLine = null;
+
         var markerImgScale = 0.05;
+        var positionAnd = {
+            top: 10,
+            left: 830
+        };
+        var positionOr = {
+            top: 10,
+            left: 900
+        };
 
         var service = {
             init: init,
@@ -45,27 +63,38 @@
 
         ////////////////
 
-        function init(treeRoot) {
-            originalTreeRoot = treeRoot;
-            modifiedTreeRoot = angular.copy(treeRoot);
+        function init(userQuest) {
+            originalTreeRoot = userQuest.getTreePartRoot();
+            modifiedTreeRoot = angular.copy(userQuest.getTreePartRoot());
+            quest = userQuest;
             markers = [];
+            connectors = [];
             markerPromises = {};
+            connectorPromises = {};
             lines = [];
             drawing = false;
             line = null;
 
-            xPos = 0;
+            xPos = 50;
+            yPos = 200;
             markerId = 0;
-            curMarkerId = -1;
             lineId = 0;
+            startElement = null;
+            connectorDragging = null;
+            selectedLine = null;
+
             canvas = new fabric.Canvas('questTree-canvas', {
-                targetFindTolerance: 15
+                targetFindTolerance: 10
             });
+            var domCanvas = document.getElementById("questTree-canvas");
+
             initRightClick();
             initDrag();
+            initSelect();
             initGroups();
+            initConnectors();
 
-            return addTreePartMarker(modifiedTreeRoot, null).then(activateDraw);
+            return $q.when(addTreePart(modifiedTreeRoot, null)).then(activateDraw);
         }
 
         function escapeKeyPressed() {
@@ -73,11 +102,35 @@
         }
 
         function deleteKeyPressed() {
+            console.log("Remove line: ", selectedLine);
+            if (selectedLine) {
+                removeLine(selectedLine);
+                selectedLine = null;
+            }
+        }
 
+        function removeLine(line) {
+            line.remove();
+            for(var i = 0; i < lines.length; i++) {
+                if(lines[i].getId() == line.getId()) {
+                    lines.splice(i, 1);
+                    return;
+                }
+            }
+        }
+
+        function removeConnector(connector) {
+            connector.remove();
+            for(var i = 0; i < connectors.length; i++) {
+                if(connectors[i].getId() == connector.getId()) {
+                    connectors.splice(i, 1);
+                    return;
+                }
+            }
         }
 
         function initGroups() {
-            canvas.on('selection:created',function(ev){
+            canvas.on('selection:created', function (ev) {
                 ev.target.set({
                     lockScalingX: true,
                     lockScalingY: true,
@@ -86,8 +139,111 @@
             });
         }
 
+        function initConnectors() {
+            var rect = new fabric.Rect({
+                fill: '',
+                stroke: 'black',
+                left: 800,
+                top: 0,
+                width: 159,
+                height: 100,
+                // originX: 'center',
+                // originY: 'center',
+                perPixelTargetFind: true
+            });
+
+            rect.hasControls = false;
+            rect.hasBorders = false;
+            rect.hasRotatingPoint = false;
+            rect.lockMovementX = true;
+            rect.lockMovementY = true;
+            rect.lockScalingX = true;
+            rect.lockScalingY = true;
+            rect.lockRotation = true;
+            rect.selectable = false;
+            canvas.add(rect);
+
+            addConnector(positionAnd.left, positionAnd.top, TreePartType.And);
+            addConnector(positionOr.left, positionOr.top, TreePartType.Or);
+
+        }
+
+        function addConnector(x, y, type) {
+            var rect = new fabric.Rect({
+                fill: 'white',
+                stroke: 'black',
+                left: x,
+                top: y,
+                width: 40,
+                height: 75,
+                // originX: 'center',
+                // originY: 'center',
+                perPixelTargetFind: true
+            });
+
+            rect.type = type;
+            rect.hasControls = false;
+            rect.hasBorders = false;
+            rect.hasRotatingPoint = false;
+            rect.lockMovementX = true;
+            rect.lockMovementY = true;
+            rect.lockScalingX = true;
+            rect.lockScalingY = true;
+            rect.lockRotation = true;
+            // rect.selectable = false;
+            canvas.add(rect);
+
+            var markerLabel = new fabric.Text(type, {
+                fontFamily: 'Arial',
+                fontSize: 12,
+                left: 100,
+                top: 100
+            });
+            canvas.add(markerLabel).renderAll();
+            markerLabel.hasControls = false;
+            markerLabel.hasBorders = false;
+            markerLabel.set({selectable: false})
+            markerLabel.set("top", rect.top + rect.height / 2 - markerLabel.height / 2);
+            markerLabel.set("left", rect.left + rect.width / 2 - markerLabel.width / 2);
+
+            for (var i = 0; i < 4; i++) {
+                addSlot(rect.left, rect.top + 10 + 15 * i);
+            }
+            addSlot(rect.left + rect.width, rect.top + rect.height / 2 - 5);
+            return rect;
+        }
+
+        function addSlot(x, y) {
+            var slot = new fabric.Rect({
+                fill: 'black',
+                stroke: 'black',
+                left: x - 3,
+                top: y,
+                width: 6,
+                height: 10,
+                // originX: 'center',
+                // originY: 'center',
+                perPixelTargetFind: true
+            });
+
+            slot.type = "slot";
+            slot.hasControls = false;
+            slot.hasBorders = false;
+            slot.hasRotatingPoint = false;
+            slot.lockMovementX = true;
+            slot.lockMovementY = true;
+            slot.lockScalingX = true;
+            slot.lockScalingY = true;
+            slot.lockRotation = true;
+            slot.selectable = false;
+            canvas.add(slot);
+
+            return slot;
+        }
+
         function initRightClick() {
             var lineSelected = null;
+            var connectorSelected = null;
 
             $(document).contextmenu({
                 delegate: ".upper-canvas",
@@ -96,41 +252,71 @@
                 ],
                 beforeOpen: function (e, ui) {
                     var pointer = canvas.getPointer(e.originalEvent);
-                    var lineHit = false;
+                    var obj = canvas.getActiveObject();
+
+                    var elementHit = false;
                     for (var i = 0; i < lines.length; i++) {
                         if (lines[i].isHit(pointer)) {
-                            lineHit = true;
+                            elementHit = true;
                             lineSelected = lines[i];
                         }
                     }
-                    if (!lineHit) {
+                    for (var i = 0; i < connectors.length; i++) {
+                        if (connectors[i].isHit(pointer)) {
+                            elementHit = true;
+                            connectorSelected = connectors[i];
+                        }
+                    }
+
+                    if (!elementHit) {
                         e.preventDefault();
                     }
                 },
                 select: function (e, ui) {
                     switch (ui.cmd) {
                         case "remove":
-                            lineSelected.remove();
+                            if(lineSelected) {
+                                removeLine(lineSelected);
+                                lineSelected = null;
+                            } else if(connectorSelected) {
+                                removeConnector(connectorSelected);
+                                connectorSelected = null;
+                            }
                             break;
                     }
                 }
             });
         }
 
-        function addTreePartMarker(treePart, parentMarker) {
+        function addTreePart(treePart, parentQuestTreePart) {
 
-            return addMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), xPos += 150, 200).then(drawLineFromParent);
+            if (treePart.getType() == TreePartType.Marker) {
+                return createMarker(treePart, treePart.getTask().getType(), treePart.getTask().getName(), treePart.getPositionX(), treePart.getPositionY()).then(drawLineFromParent);
+            } else {
+                var connector = createConnector(treePart, treePart.getType(), treePart.getPositionX(), treePart.getPositionY());
+                return drawLineFromParent(connector);
+            }
 
-            function drawLineFromParent(marker) {
-                markers.push(marker);
-                if (parentMarker) {
-                    drawLineBetweenMarkers(parentMarker, marker);
+            function drawLineFromParent(questTreePart) {
+
+                if (parentQuestTreePart) {
+                    drawLineBetweenTreeParts(parentQuestTreePart, questTreePart);
                 }
-                return addSuccessors(treePart, marker);
+                return addSuccessors(treePart, questTreePart);
             }
         }
 
-        function addMarker(treePart, type, label, x, y) {
+        function createMarker(treePart, type, label, x, y) {
+
+            if (!quest.getComplex() && x == 0 && y == 0) {
+                if (xPos + xOffset < canvasWidth) {
+                    x = xPos += xOffset;
+                    y = yPos;
+                } else {
+                    x = xPos = 0;
+                    y = yPos += yOffset;
+                }
+            }
 
             var treePartId = treePart.getId();
             if (markerPromises[treePartId]) {
@@ -138,40 +324,82 @@
             } else {
                 var marker = new QuestTreeMarker(treePart, markerId++, canvas, markerImgScale);
                 var promise = marker.add(type, x, y, label);
+                markers.push(marker);
                 markerPromises[treePartId] = promise;
                 return promise;
             }
         }
 
-        function addSuccessors(treePart, parentMarker) {
+        function createConnector(treePart, type, x, y) {
+            var treePartId = -1;
+            if (!treePart) {
+                treePart = quest.createTreePartConnector(type);
+                treePartId = QuestService.getTreePartId();
+                treePart.setId(treePartId);
+                QuestService.setTreePartId(treePartId + 1);
+            } else {
+                treePartId = treePart.getId();
+            }
+            if (connectorPromises[treePartId]) {
+                return connectorPromises[treePartId];
+            } else {
+                var con = new QuestTreeConnector(type, treePart, treePartId, canvas);
+                con.add(type, x, y);
+                connectors.push(con);
+                connectorPromises[treePartId] = con;
+                return con;
+            }
+        }
+
+        function drawLineBetweenTreeParts(fromQuestTreePart, toQuestTreePart) {
+            var outLines = fromQuestTreePart.getOutLines();
+            for (var i = 0; i < outLines.length; i++) {
+                if (outLines[i].getToElement().getId() == toQuestTreePart.getId()) {
+                    return;
+                }
+            }
+
+            $log.info("Draw line between: " + fromQuestTreePart.getTreePart().getId() + " and " + toQuestTreePart.getTreePart().getId());
+            var fromAnchor = fromQuestTreePart.getStartPoint();
+            var toAnchor = toQuestTreePart.getEndPoint();
+            var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
+
+            var line = new QuestTreeLine(lineId++, canvas);
+            line.draw(points, fromQuestTreePart, toQuestTreePart);
+            line.position();
+            line.drawArrowHead();
+            lines.push(line);
+
+            fromQuestTreePart.addOutLine(line);
+            toQuestTreePart.addInLine(line);
+        }
+
+        function addSuccessors(treePart, parentQuestTreePart) {
             var promises = [];
 
             var successors = treePart.getSuccessors();
             for (var i = 0; i < successors.length; i++) {
-                promises.push(addTreePartMarker(successors[i], parentMarker));
+                promises.push($q.when(addTreePart(successors[i], parentQuestTreePart)));
             }
 
             return $q.all(promises);
         }
 
-        function drawLineBetweenMarkers(fromMarker, toMarker) {
-            $log.info("Draw line between: " + fromMarker.getTreePart().getId() + " and " + toMarker.getTreePart().getId());
-            var fromAnchor = getAnchorPoint(fromMarker.getImage());
-            var toAnchor = getAnchorPoint(toMarker.getImage());
-            var points = [fromAnchor.left, fromAnchor.top, toAnchor.left, toAnchor.top];
-
-            var line = new QuestTreeLine(lineId++, canvas);
-            line.draw(points, fromMarker, toMarker);
-            line.position();
-            line.drawArrowHead();
-            lines.push(line);
-
-            fromMarker.addLineStart(line);
-            toMarker.addLineEnd(line);
+        function getLineById(id) {
+            for (var i = 0; i < lines.length; i++) {
+                if (lines[i].id == id) {
+                    return lines[i];
+                }
+            }
         }
 
         function activateDraw() {
+            canvas.off('mouse:up');
             canvas.on('mouse:down', onMouseDown);
+        }
+
+        function deactivateDraw() {
+            canvas.off('mouse:down');
         }
 
         function onMouseDown(evt) {
@@ -181,11 +409,30 @@
             if (!obj) {
                 return;
             }
-            var objLeft = obj.left;
-            var objTop = obj.top;
-            canvas.on("mouse:up", onMouseUp);
+
+            if (obj.type == "marker" || obj.type == "connector" || obj.type == "slot") {
+                var objLeft = obj.left;
+                var objTop = obj.top;
+                canvas.on("mouse:up", onMouseUp);
+            } else if (obj.type == "head") {
+                var line = getLineById(obj.lineId);
+                var lineStartElement = line.getFromElement();
+                removeLine(line);
+                startDrawing(lineStartElement.getImage(), canvas.getPointer(evt.e));
+            } else if (!drawing && obj.type == TreePartType.And) {
+                deactivateDraw();
+                connectorDragging = createConnector(null, TreePartType.And, positionAnd.left + 10, positionAnd.top + 10);
+                canvas.on('mouse:move', moveConnector);
+                canvas.on('mouse:up', addPlaceConnectorEvent);
+            } else if (!drawing && obj.type == TreePartType.Or) {
+                deactivateDraw();
+                connectorDragging = createConnector(null, TreePartType.Or, positionOr.left + 10, positionOr.top + 10);
+                canvas.on('mouse:move', moveConnector);
+                canvas.on('mouse:up', addPlaceConnectorEvent);
+            }
 
             function onMouseUp() {
+
                 canvas.off('mouse:up');
 
                 if (!drawing) {
@@ -199,77 +446,186 @@
             }
         }
 
+        function addPlaceConnectorEvent() {
+            console.log("Mouse down");
+
+            canvas.off('mouse:up');
+            canvas.on('mouse:down', placeConnector);
+        }
+
+        function placeConnector() {
+            if (connectorDragging) {
+                connectorDragging.getImage().setCoords();
+                connectorDragging = null;
+                canvas.off('mouse:move');
+                canvas.off('mouse:down');
+                canvas.on('mouse:up', activateDraw);
+            }
+        }
+
         function startDrawing(obj, pointer) {
 
-            var anchorPoint = getAnchorPoint(obj);
+            switch (obj.type) {
+                case "marker":
+                    startElement = obj.marker;
+                    break;
+                case "connector":
+                    startElement = obj.connector;
+                    break;
+            }
+
+            var anchorPoint = startElement.getStartPoint();
             var anchorLeft = anchorPoint.left;
             var anchorTop = anchorPoint.top;
             var points = [anchorLeft, anchorTop, pointer.x, pointer.y];
 
-            curMarkerId = obj.marker.getId();
-            startMarker = obj.marker;
 
             line = new QuestTreeLine(lineId++, canvas);
-            line.draw(points, null, null);
+            line.draw(points, startElement, null);
             line.position();
 
-            canvas.on('mouse:move', onMouseMove);
+            showConnectorCircles();
+            showMarkerCircles();
+
+
             drawing = true;
+            canvas.on('mouse:move', onMouseMove);
         }
 
         function onMouseMove(evt) {
             var pointer = canvas.getPointer(evt.e);
             line.setEnd({x: pointer.x, y: pointer.y});
-            line.position();
+            if (startElement.getType() == TreePartType.Marker) {
+                line.position();
+            }
             line.getImage().set({x2: pointer.x, y2: pointer.y});
             canvas.renderAll();
         }
 
-        function finishDrawing(obj) {
-            if (obj.marker.getId() == curMarkerId ||
-                obj.marker.getId() == 0 ||
-                obj.marker.getTreePart().hasAncestor(startMarker.getTreePart().getId()) ||
-                startMarker.getTreePart().hasSuccessor(obj.marker.getTreePart().getId())) {
+        function moveConnector(evt) {
+            var pointer = canvas.getPointer(evt.e);
+            var img = connectorDragging.getImage();
+            img.set("top", pointer.y);
+            img.set("left", pointer.x);
+            connectorDragging.move();
+            canvas.renderAll();
+        }
 
-                $log.warn("Loop detected!");
+
+        function finishDrawing(obj) {
+            var endElement;
+            var endSlot = null;
+            switch (obj.type) {
+                case "marker":
+                    endElement = obj.marker;
+                    break;
+                case "connector":
+                    endElement = obj.connector;
+                    break;
+                case "slot":
+                    endElement = obj.slot.connector;
+                    endSlot = obj.slot;
+                    break;
+
+            }
+
+            if (!isConnectionAllowed(startElement, endElement)) {
                 stopDrawing();
                 return;
             }
 
             canvas.off('mouse:move');
 
-            var anchorPoint = getAnchorPoint(obj);
+            var anchorPoint;
+
+            if (endSlot) {
+                anchorPoint = endSlot.getAnchorPoint();
+            } else {
+                anchorPoint = endElement.getEndPoint();
+            }
+
             var anchorLeft = anchorPoint.left;
             var anchorTop = anchorPoint.top;
 
             line.setEnd({x: anchorLeft, y: anchorTop});
-            line.setFromMarker(startMarker);
-            line.setToMarker(obj.marker);
-            line.position();
-            line.drawArrowHead();
+            line.setFromElement(startElement);
+            line.setToElement(endElement);
             lines.push(line);
 
-            startMarker.addLineStart(line);
-            startMarker.getTreePart().addSuccessor(obj.marker.getTreePart());
-            obj.marker.addLineEnd(line);
+            startElement.addOutLine(line);
+            startElement.getTreePart().addSuccessor(endElement.getTreePart());
+            if (endSlot) {
+                endSlot.setLine(line);
+            } else {
+                endElement.addInLine(line);
+            }
+            line.position(true);
+            line.drawArrowHead();
 
             canvas.renderAll();
             drawing = false;
+            hideConnectorCircles();
+            hideMarkerCircles();
+            console.log(modifiedTreeRoot);
+        }
+
+        function showConnectorCircles() {
+            for (var i = 0; i < connectors.length; i++) {
+                if (isConnectionAllowed(startElement, connectors[i])) {
+                    connectors[i].showSlotCircles();
+                }
+            }
+        }
+
+        function showMarkerCircles() {
+            for (var i = 0; i < markers.length; i++) {
+                if (isConnectionAllowed(startElement, markers[i])) {
+                    markers[i].showCircle();
+                }
+            }
+        }
+
+        function hideConnectorCircles() {
+            for (var i = 0; i < connectors.length; i++) {
+                connectors[i].hideSlotCircles();
+            }
+        }
+
+        function hideMarkerCircles() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].hideCircle();
+            }
+        }
+
+        function isConnectionAllowed(startElement, endElement) {
+            if (endElement.getType() == startElement.getType() && endElement.getId() == startElement.getId()) {
+                $log.warn("Line Start and End are the same!");
+                return false;
+            } else if (endElement.getId() == 0) {
+                $log.warn("Connecting to start marker not allowed");
+                return false;
+            } else if (endElement.getTreePart().hasAncestor(startElement.getTreePart().getId())) {
+                $log.warn("Loop detected!");
+                return false;
+            } else if (startElement.getTreePart().hasSuccessor(endElement.getTreePart().getId())) {
+                $log.warn("There already exits a connection between these markers");
+                return false;
+            } else if (startElement.getId() == 0 && (endElement.getType() == TreePartType.And || endElement.getType() == TreePartType.Or)) {
+                $log.warn("Start marker can only be connected to other markers");
+                return false;
+            }
+            return true;
         }
 
         function stopDrawing() {
-            console.log("stopDrawing");
             if (drawing) {
                 drawing = false;
                 canvas.off('mouse:move');
                 line.stopDrawing();
+                startElement = null;
+                hideConnectorCircles();
+                hideMarkerCircles();
             }
-
-        }
-
-        function deactivateDraw() {
-            canvas.off('mouse:down');
-            canvas.off('mouse:move');
         }
 
         function initDrag() {
@@ -284,6 +640,9 @@
                     case "marker":
                         obj.marker.move(obj.left, obj.top);
                         break;
+                    case "connector":
+                        obj.connector.move();
+                        break;
                     case "group":
                         var objects = obj.getObjects();
                         for (var i = 0; i < objects.length; i++) {
@@ -295,6 +654,16 @@
             });
         }
 
+        function initSelect() {
+            canvas.on('object:selected', objectSelected);
+
+            function objectSelected(obj) {
+                if (obj.target.type == "line") {
+                    selectedLine = getLineById(obj.target.lineId);
+                }
+            }
+        }
+
         function checkDragBounds(el) {
             var width = el.getBoundingRectWidth();
             var height = el.getBoundingRectHeight();
@@ -303,46 +672,91 @@
             var top = el.top;
             var bottom = top + height;
 
-            if(left < 0) {
+            if (left < 0) {
                 el.left = 0;
             }
-            if(right > canvas.width) {
+            if (right > canvas.width) {
                 el.left = canvas.width - width;
             }
-            if(top < 0) {
+            if (top < 0) {
                 el.top = 0;
             }
-            if(bottom > canvas.height) {
+            if (bottom > canvas.height) {
                 el.top = canvas.height - height;
-            }
-        }
-
-        function getAnchorPoint(obj) {
-            return {
-                left: obj.left + (obj.width / 2) * obj.scaleX,
-                top: obj.top + (obj.height / 2) * obj.scaleY
             }
         }
 
         function saveTree(evt) {
 
-            for(var i = 0; i < markers.length; i++) {
-                if(markers[i].getId() != 0 && markers[i].getLineEnds().length == 0) {
+            var treeParts = [];
+            for (var i = 0; i < markers.length; i++) {
+                if(markers[i].getId() != 0) {
+                    treeParts.push(markers[i].getTreePart());
+                }
+
+                if (markers[i].getId() != 0 && markers[i].getInLines().length == 0) {
+                    markers[i].showErrorCircle();
                     var alert = $mdDialog.alert()
                         .title('Saving Questline failed')
                         .htmlContent('Not all marker are connected to the tree')
                         .ariaLabel('Save Questline')
                         .targetEvent(evt)
-                        .multiple(true)
                         .ok('Close');
 
-                    return $mdDialog.show(alert).then(function() {
+                    return $mdDialog.show(alert).then(function () {
                         return $q.reject();
                     });
                 }
             }
 
-            $mdDialog.cancel();
+            var error = false;
+            for (var i = 0; i < connectors.length; i++) {
+                if (connectors[i].getNumOutLines() < 1) {
+                    $log.warn("And/Or output no connected to tree");
+                    connectors[i].showSlotErrorCircles("out");
+                    error = true;
+                }
+
+                if (connectors[i].getNumInLines() == 0) {
+                    $log.warn("Nothing connected to And/Or input");
+                    connectors[i].showSlotErrorCircles("in");
+                    error = true;
+                }
+            }
+
+            if(error) {
+                return $q.reject();
+            }
+
+            for (var i = 0; i < markers.length; i++) {
+                var treePart = markers[i].getTreePart();
+                var image = markers[i].getImage();
+                if (treePart.getPositionX() != Math.floor(image.left)) {
+                    treePart.setPositionX(Math.floor(image.left));
+                    treePart.change();
+                }
+                if (treePart.getPositionY() != Math.floor(image.top)) {
+                    treePart.setPositionY(Math.floor(image.top));
+                    treePart.change();
+                }
+            }
+            for (var i = 0; i < connectors.length; i++) {
+                var treePart = connectors[i].getTreePart();
+                var image = connectors[i].getImage();
+                if (treePart.getPositionX() != Math.floor(image.left)) {
+                    treePart.setPositionX(Math.floor(image.left));
+                    treePart.change();
+                }
+                if (treePart.getPositionY() != Math.floor(image.top)) {
+                    treePart.setPositionY(Math.floor(image.top));
+                    treePart.change();
+                }
+            }
+            quest.setTreePartRoot(modifiedTreeRoot);
+            quest.setTreeParts(treeParts);
+            quest.checkComplexity();
+            return null;
+
         }
     }
 

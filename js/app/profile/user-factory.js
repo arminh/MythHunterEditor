@@ -113,6 +113,7 @@
             for(var i = 0; i < remoteCardIds.length; i++) {
                 var card = new Card();
                 card.setRemoteId(remoteCardIds[i].getKey());
+                card.setAmount(remoteCardIds[i].getValue());
                 this.cards.push(card);
             }
 
@@ -169,7 +170,6 @@
         }
 
         function uploadQuest() {
-
             return this.currentQuest.upload().then(function(result) {
                 var id = containsQuest(this, result.remoteId);
                 if(id == -1)  {
@@ -208,6 +208,9 @@
         }
 
         function clearCurrentQuest() {
+            if(this.currentQuest) {
+                this.currentQuest.setEditing(false);
+            }
             this.currentQuest = null;
             $rootScope.currentQuest = null;
             delete $localStorage.currentQuest;
