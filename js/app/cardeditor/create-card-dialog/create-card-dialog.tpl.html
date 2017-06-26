@@ -1,0 +1,48 @@
+<md-dialog aria-label="Create task">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>New card</h2>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div class="profile-new-quest-container">
+                <p>You are about to create a new card. Here are some tips:</p>
+                <ol>
+                    <li>
+                        Start by giving your card a <b>name</b> and a short <b>description</b>.
+                    </li>
+                    <li>
+                        Upload an <b>image</b> for you card
+                    </li>
+                    <li>
+                        <b>{{'LABEL_EDITOR_ATTACK' | translate}}</b>: {{'TOOLTIP_EDITOR_ATTACK' | translate}}
+                    </li>
+                    <li>
+                        <b>{{'LABEL_EDITOR_LIFEFORCE' | translate}}</b>: {{'TOOLTIP_EDITOR_LIFEFORCE_1' |
+                        translate}}<br>
+                        {{'TOOLTIP_EDITOR_LIFEFORCE_2' | translate}}
+                    </li>
+                    <li>
+                        <b>Action </b>: You can choose between multiple abilities to give to your card
+                    </li>
+                    <li>
+                        <b>{{'LABEL_EDITOR_STARS' | translate}}</b> <img width="15px" src="media/star_full.png"/>:
+                        {{'TOOLTIP_EDITOR_STARS_1' | translate}}<br>
+                        {{'TOOLTIP_EDITOR_STARS_2' | translate}}
+                    </li>
+
+                </ol>
+                <p>Now you should be prepared to create a new card. <b>Have fun</b>!</p>
+            </div>
+
+            <!--<md-icon md-svg-icon="media/save_icon.svg"></md-icon>-->
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button class="md-raised" ng-click="createCard.confirm()">
+            READY
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

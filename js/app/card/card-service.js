@@ -80,20 +80,22 @@
         function createCard(user) {
             $log.info("createCard");
 
-            var card = new Card();
-            return openCardCreatorDialog(card).then(createFinished, createCanceled);
+            return showCreateCardDialog().then(function () {
+                var card = new Card();
+                return openCardCreatorDialog(card).then(createFinished, createCanceled);
 
-            function createFinished(){
-                user.addCreatedCard(card);
-                card.upload().then(function() {
-                    user.upload();
-                });
-                return card;
-            }
+                function createFinished(){
+                    user.addCreatedCard(card);
+                    card.upload().then(function() {
+                        user.upload();
+                    });
+                    return card;
+                }
 
-            function createCanceled() {
-                return null;
-            }
+                function createCanceled() {
+                    return null;
+                }
+            })
         }
 
         function editCard(card) {
@@ -113,6 +115,14 @@
                 var editCardImage = editCard.getImage();
                 cardImage.setOriginalImage(editCardImage.getOriginalImage());
             }
+        }
+
+        function showCreateCardDialog() {
+            return $mdDialog.show({
+                templateUrl: 'js/app/cardeditor/create-card-dialog/create-card-dialog.tpl.html',
+                controller: 'CreateCardDialogController',
+                controllerAs: "createCard"
+            });
         }
 
         function openCardCreatorDialog(card) {
