@@ -25,6 +25,7 @@
             loadCollectionCreatedCards: loadCollectionCreatedCards,
             createCard: createCard,
             createDeck: createDeck,
+            showCreateDeckDialog: showCreateDeckDialog,
             getCardById: getCardById,
             openDeck: openDeck,
             saveDeck: saveDeck,
@@ -84,6 +85,14 @@
         function openDeck(deck) {
             originalDeck = deck;
             return angular.copy(deck);
+        }
+
+        function showCreateDeckDialog() {
+            return $mdDialog.show({
+                templateUrl: 'js/app/deck/create-deck-dialog/create-deck-dialog.tpl.html',
+                controller: 'CreateDeckDialogController',
+                controllerAs: "createDeck"
+            });
         }
 
         function saveDeck(currentDeck, collection, evt) {

@@ -124,7 +124,10 @@
             // vm.collection.decks.length = 0;
             // user.upload();
             var deck = CollectionService.createDeck(vm.collection);
-            openDeck(deck);
+            CollectionService.showCreateDeckDialog().then(function() {
+                openDeck(deck);
+            });
+
 
         }
 

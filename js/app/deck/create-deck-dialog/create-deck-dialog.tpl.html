@@ -1,0 +1,51 @@
+<md-dialog aria-label="Create task">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>New card</h2>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div style="font-size: 16px">
+                <p>You are about to create a new deck. Here are some tips:</p>
+                <ul>
+                    <li>
+                        <p>Begin with giving your deck a <b>name</b>.</p>
+                    </li>
+                    <li>
+                        <p><b>Adding cards</b>: Add cards to your deck by <b>dragging</b> them to the free deck area on the right or<br>
+                        just <b>double-clicking</b> on them. You see small version of the card appear in the deck area:<br>
+                        <img src="media/deck_card.jpg" height="35px"><br>
+                        The number at the right of the card indicates how many of them are already in your deck.<br>
+                            The maximum number of one card is 2.
+                        </p>
+
+                    </li>
+                    <li>
+                        <p><b>Removing cards</b>: Remove cards by double clicking on the small preview in the deck area</p>
+                    </li>
+                    <li>
+                        <p><b>Card counter</b>: The small area on the bottom of the deck indicates how many cards are in your deck.<br>
+                            You can have between 20 and 30 cards:<br>
+                            <img src="media/deck_card_count.jpg" height="25px">
+                        </p>
+                    </li>
+                    <li>
+                        <p><b>Save deck</b>: When you are ready, save your deck.</p>
+                    </li>
+                </ul>
+                <p></p>
+
+                <p>Now you should be prepared to create a new deck. <b>Have fun</b>!</p>
+            </div>
+
+            <!--<md-icon md-svg-icon="media/save_icon.svg"></md-icon>-->
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button class="md-raised" ng-click="createDeck.confirm()">
+            READY
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
