@@ -80,7 +80,7 @@
                         </md-button>
                         <enemy enemy="treePartCtrl.task.enemy"></enemy>
 
-                        <md-label class="description-label">Edit enemy deck</md-label>
+                        <md-label class="description-label">{{'BUTTON_EDIT_ENEMY_DECK' | translate}}</md-label>
                         <div class="task-deck-button" flex>
                             <md-button class="md-raised md-button-primary" ng-click="treePartCtrl.editEnemyDeck()">
                                 <md-label>{{treePartCtrl.task.enemy.deck.name}}</md-label>
@@ -90,7 +90,7 @@
                 </div>
                 <div>
                     <md-button class="md-raised md-primary" type="submit">
-                        {{'BUTTON_CONFIRM' | translate}}
+                        {{'BUTTON_FINISH_TASK' | translate}}
                     </md-button>
                     <md-button class="md-raised" ng-click="treePartCtrl.cancel()">
                         {{'BUTTON_CANCEL' | translate}}

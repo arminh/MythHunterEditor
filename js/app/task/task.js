@@ -104,7 +104,7 @@
 
             taRegisterTool('radio', {
                 iconclass: "fa fa-dot-circle-o radioBtn",
-                buttontext: " Multiple Choice",
+                buttontext: " Single Choice",
                 class: "btn btn-primary",
                 tooltiptext: "Radio button",
                 action: function (value) {

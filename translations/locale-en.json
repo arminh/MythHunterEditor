@@ -5,6 +5,7 @@
   "BUTTON_CANCEL": "Cancel",
   "BUTTON_CLOSE": "Close",
   "BUTTON_READY": "Ready",
+  "BUTTON_FINISH_TASK": "Finish task",
   "TITLE_REGISTER": "Register",
   "LABEL_FORENAME": "Forename",
   "LABEL_SURNAME": "Surname",
@@ -165,6 +166,11 @@
   "ERROR_QUESTLINE_MARKER_CONNECTION": "Not all marker are connected to the tree",
   "ERROR_DECK": "Saving deck failed",
   "ERROR_DECK_MAX_CARDS": "Your deck exceeds the maximum number of cards",
-  "ERROR_DECK_DELETE": "Deleting deck failed"
+  "ERROR_DECK_DELETE": "Deleting deck failed",
+  "BUTTON_EDIT_ENEMY_DECK": "Edit enemy deck",
+  "LABEL_MARKER_INFO": "Info",
+  "LABEL_MARKER_QUIZ": "Quiz",
+  "LABEL_MARKER_SEARCH": "Search",
+  "LABEL_MARKER_FIGHT": "Fight"
 
 }

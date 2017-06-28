@@ -5,6 +5,7 @@
   "BUTTON_CANCEL": "Abbrechen",
   "BUTTON_CLOSE": "Schließen",
   "BUTTON_READY": "Fertig",
+  "BUTTON_FINISH_TASK": "Station abschließen",
   "TITLE_REGISTER": "Registrieren",
   "LABEL_FORENAME": "Vorname",
   "LABEL_SURNAME": "Nachname",
@@ -165,7 +166,11 @@
   "ERROR_QUESTLINE_MARKER_CONNECTION": "Nicht alle Marker verbunden",
   "ERROR_DECK": "Kartendeck speichern fehlgeschlagen",
   "ERROR_DECK_MAX_CARDS": "Dein Kartendeck übershcreitet die maximale Kartenanzahl",
-  "ERROR_DECK_DELETE": "Kartendeck löschen fehgschlagen"
-
+  "ERROR_DECK_DELETE": "Kartendeck löschen fehgschlagen",
+  "BUTTON_EDIT_ENEMY_DECK": "Deck des Gegners bearbeiten",
+  "LABEL_MARKER_INFO": "Information",
+  "LABEL_MARKER_QUIZ": "Rätsel",
+  "LABEL_MARKER_SEARCH": "Suche",
+  "LABEL_MARKER_FIGHT": "Kampf"
 
 }

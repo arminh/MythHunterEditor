@@ -16,7 +16,11 @@
                            ng-click="chooseTypeDialog.typeChosen(type)"
                            aria-label="{{type}}" class="choose-marker-btn" ng-style="markerBtnStyle">
                     <img class="tasl-type-icon" ng-src="{{chooseTypeDialog.getMarkerIconSrc(type)}}"/>
-                    <p class="task-type-label">{{type}}</p>
+                    <p class="task-type-label"ng-if="type == 'INFO'">{{'LABEL_MARKER_INFO' | translate}}</p>
+                    <p class="task-type-label"ng-if="type == 'QUIZ'">{{'LABEL_MARKER_QUIZ' | translate}}</p>
+                    <p class="task-type-label"ng-if="type == 'INVISIBLE'">{{'LABEL_MARKER_SEARCH' | translate}}</p>
+                    <p class="task-type-label"ng-if="type == 'FIGHT'">{{'LABEL_MARKER_FIGHT' | translate}}</p>
+
                     <md-tooltip ng-if="type == 'INFO'">{{'TOOLTIP_MARKER_INFO' | translate}}</md-tooltip>
                     <md-tooltip ng-if="type == 'QUIZ'">{{'TOOLTIP_MARKER_QUIZ' | translate}}</md-tooltip>
                     <md-tooltip ng-if="type == 'INVISIBLE'">{{'TOOLTIP_MARKER_SEARCH' | translate}}</md-tooltip>
