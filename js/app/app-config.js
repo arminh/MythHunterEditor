@@ -48,7 +48,7 @@ var debugging = true;
             });
 
         $translateProvider.fallbackLanguage('en');
-        $translateProvider.preferredLanguage('de');
+        $translateProvider.preferredLanguage('en');
 
         $translateProvider.useStaticFilesLoader({
             prefix: 'translations/locale-',

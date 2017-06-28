@@ -83,9 +83,9 @@
                 timeout: DefaultConfig.defaultTimeout,
                 maximumAge: DefaultConfig.defaultMaximumAge
             };
-            if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(successHandler, errorHandler, options);
-            }
+            // if(navigator.geolocation) {
+            //     navigator.geolocation.getCurrentPosition(successHandler, errorHandler, options);
+            // }
 
 
             function successHandler(position) {

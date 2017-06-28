@@ -34,6 +34,7 @@
             this.scaledTop = 0;
             this.scaledLeft = 0;
             this.aspectRatio = 1;
+            this.loadPromise = null;
         }
 
         CardImage.prototype = {
@@ -120,14 +121,18 @@
         }
 
         function loadOriginalImage() {
+            if(this.loadPromise) {
+                return this.loadPromise;
+            }
             $log.info("getOriginalImage", this.originalImageSrc);
-            return BackendService.downloadImage(this.originalImageSrc).then(success.bind(this));
+            this.loadPromise = BackendService.downloadImage(this.originalImageSrc).then(success.bind(this));
 
             function success(result) {
                 this.originalImage = result;
                 $log.info("getOriginalImage_success", this.originalImageSrc);
                 return this.originalImage;
             }
+            return this.loadPromise;
         }
 
         function upload(name) {

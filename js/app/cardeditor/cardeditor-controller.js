@@ -37,6 +37,11 @@
         ////////////////
 
         function activate() {
+            vm.card.getImage().loadOriginalImage().then(function(result) {
+                vm.image.base64 = result;
+                vm.image.type = vm.card.getImage().getType();
+            });
+
             CardEditorService.getMonsterActions().then(function (actions) {
                 vm.actions = actions;
                 vm.actionMinStars = CardEditorService.getMinStarCost();
@@ -86,7 +91,7 @@
         function confirm() {
             var valid = true;
 
-            if(!vm.image.filename) {
+            if(!vm.image.base64) {
                 vm.showImageRequiredError = true;
                 valid = false;
             } else {
