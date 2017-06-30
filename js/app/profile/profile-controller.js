@@ -9,10 +9,10 @@
         .module('profile')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ["$log", "$q", "$state", "$mdDialog", "QuestService", "user"];
+    ProfileController.$inject = ["$log", "$q", "$state", "$translate", "$mdDialog", "QuestService", "user"];
 
     /* @ngInject */
-    function ProfileController($log, $q, $state, $mdDialog, QuestService, user) {
+    function ProfileController($log, $q, $state, $translate, $mdDialog, QuestService, user) {
         var vm = this;
         vm.user = user;
         vm.currentQuest = null;
@@ -105,12 +105,12 @@
         function deleteQuest(evt, quest) {
 
             var confirm = $mdDialog.confirm()
-                .title('Delete quest')
-                .htmlContent('Are you sure you want to delete the Quest?')
+                .title($translate.instant("TITLE_DELETE_QUEST"))
+                .htmlContent($translate.instant("TEXT_DELETE_QUEST"))
                 .ariaLabel('Delete quest')
                 .targetEvent(evt)
-                .ok('Confirm')
-                .cancel('Cancel');
+                .ok($translate.instant("BUTTON_CONFIRM"))
+                .cancel($translate.instant("BUTTON_CANCEL"));
 
             $mdDialog.show(confirm).then(function() {
                 user.deleteQuest(quest);
@@ -119,12 +119,12 @@
 
         function deleteCurrentQuest(evt) {
             var confirm = $mdDialog.confirm()
-                .title('Delete quest in development')
-                .htmlContent('Are you sure you want to the quest you are editing? All changes will be lost.')
+                .title('TITLE_DELETE_QUEST_DEV')
+                .htmlContent('TEXT_DELETE_QUEST_DEV')
                 .ariaLabel('Delete quest')
                 .targetEvent(evt)
-                .ok('Confirm')
-                .cancel('Cancel');
+                .ok($translate.instant("BUTTON_CONFIRM"))
+                .cancel($translate.instant("BUTTON_CANCEL"));
 
             $mdDialog.show(confirm).then(function() {
                 clearCurrentQuest();

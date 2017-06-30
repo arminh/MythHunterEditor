@@ -179,6 +179,12 @@
   "ERROR_QUIZ_NUM_ANSWERS": "Eine Aufgabe muss zumindest zwei Antwortmöglichkeiten haben!",
   "TEXT_MISSING": "fehlt:",
   "TEXT_QUEST": "Aufgabe",
-  "TEXT_TASK": "Station"
+  "TEXT_TASK": "Station",
+  "TITLE_DELETE_QUEST": "Aufgabe löschen",
+  "TEXT_DELETE_QUEST": "Bist du sicher, dass du die Aufgabe löschen willst?",
+  "TITLE_DELETE_QUEST_DEV": "Aufgabe in Bearbeitung löschen",
+  "TEXT_DELETE_QUEST_DEV": "Möchtest du die Aufgabe löschen, die du aktuell bearbeitest? Alle Änderungen gehen verloren.",
+  "TITLE_DELETE_TASK": "Station löschen",
+  "TEXT_DELETE_TASK": "Bist du sicher, dass du die Station löschen willst?"
 
 }

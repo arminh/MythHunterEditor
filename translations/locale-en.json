@@ -179,6 +179,11 @@
   "ERROR_QUIZ_NUM_ANSWERS": "An exercise must have at least two options!",
   "TEXT_MISSING": "is missing:",
   "TEXT_QUEST": "Quest",
-  "TEXT_TASK": "Task"
-
+  "TEXT_TASK": "Task",
+  "TITLE_DELETE_QUEST": "Delete quest",
+  "TEXT_DELETE_QUEST": "Are you sure you want to delete the Quest?",
+  "TITLE_DELETE_QUEST_DEV": "Delete quest in development",
+  "TEXT_DELETE_QUEST_DEV": "Are you sure you want to the quest you are editing? All changes will be lost.",
+  "TITLE_DELETE_TASK": "Delete task",
+  "TEXT_DELETE_TASK": "Are you sure you want to delete the task?"
 }

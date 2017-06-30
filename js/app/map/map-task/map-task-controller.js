@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapTaskController', MapTaskController);
 
-    MapTaskController.$inject = ["$scope", "$state", "MapInteractionService"];
+    MapTaskController.$inject = ["$scope", "$mdDialog", "$state", "$translate", "MapInteractionService"];
 
     /* @ngInject */
-    function MapTaskController($scope, $state, MapInteraction) {
+    function MapTaskController($scope, $mdDialog, $state, $translate, MapInteraction) {
 
         var vm = this;
         vm.task = null;
@@ -47,12 +47,23 @@
             $state.go("app.task", { originalTreePart: vm.treepart, treePart: angular.copy(vm.treepart) });
         }
 
-        function deleteTask() {
-            vm.quest.deleteTreePart(vm.treepart);
-            MapInteraction.removeMarker(vm.task.getMarkerId());
-            if(vm.task.getTargetMarkerId() > -1) {
-                MapInteraction.removeMarker(vm.task.getTargetMarkerId());
-            }
+        function deleteTask(evt) {
+            var confirm = $mdDialog.confirm()
+                .title($translate.instant("TITLE_DELETE_TASK"))
+                .htmlContent($translate.instant("TEXT_DELETE_TASK"))
+                .ariaLabel('Delete task')
+                .targetEvent(evt)
+                .ok($translate.instant("BUTTON_CONFIRM"))
+                .cancel($translate.instant("BUTTON_CANCEL"));
+
+            $mdDialog.show(confirm).then(function() {
+                vm.quest.deleteTreePart(vm.treepart);
+                MapInteraction.removeMarker(vm.task.getMarkerId());
+                if(vm.task.getTargetMarkerId() > -1) {
+                    MapInteraction.removeMarker(vm.task.getTargetMarkerId());
+                }
+            });
+
         }
 
         function previewHtml(evt) {

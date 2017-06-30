@@ -15,7 +15,7 @@
                     <md-icon md-svg-icon="media/more_icon.svg"></md-icon>
                 </md-button>
                 <md-menu-content width="2">
-                    <md-menu-item ng-click="mapTask.deleteTask()" ng-if="mapTask.task.getType() != 'start'">
+                    <md-menu-item ng-click="mapTask.deleteTask($event)" ng-if="mapTask.task.getType() != 'start'">
                         <md-button aria-label="delete" class="md-icon-button map-task-edit"
                                    ng-class="{disabled: mapTask.task.getType() == 'start'}">
                             <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
