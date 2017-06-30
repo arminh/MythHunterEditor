@@ -19,7 +19,7 @@
                         <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                     </div>
                 </md-input-container>
-                <md-radio-group ng-model="quizGroupCtrl.selected" ng-if="quizGroupCtrl.group.type == 'radio'">
+                <md-radio-group ng-model="quizGroupCtrl.selected" ng-if="quizGroupCtrl.group.type == 'radio'" ng-required="true">
 
                     <div ng-repeat="option in quizGroupCtrl.group.options" layout="row">
                         <md-radio-button class="quiz-group-option-selector" ng-model="option.selected"

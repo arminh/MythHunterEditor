@@ -112,6 +112,7 @@
   "TEXT_NOT_ENOUGH_CARDS_ERROR": "Du musst zumindest ein komplettes Kartendeck haben.",
   "TEXT_NAME": "Name",
   "TEXT_ENEMY": "Gegner",
+  "TEXT_EXERCISE": "Aufgabe",
   "TITLE_CHOOSE_TASK_TYPE": "Art der Station auswählen",
   "TOOLTIP_MARKER_INFO": "Informations-Station: Dieser Marker wird verwendet um den Spielern nützliche Informationen mitzuteilen",
   "TOOLTIP_MARKER_QUIZ": "Rätsel-Station: Dieser Marker stellt die Spieler vor Multiple-Choice-Fragen und Lückentext-Übungen",
@@ -160,7 +161,8 @@
   "TEXT_TUT_SAVE_DECK": "<p><b>Kartendeck speichern</b>: Wenn du fertig bist speichere dein Kartendeck ab</p>",
   "TEXT_TUT_DECK_END": "Nun solltest du bereit sein ein Kartendeck zu erstellen. <b>Viel Spaß</b>!",
   "TITLE_CURRENT_QUEST": "Aktuelle Aufgabe",
-  "ERROR_QUIZ_OPTIONS": "The quiz must at least have two options.",
+  "ERROR_QUIZ_OPTIONS": "Das Quiz muss zumindest zwei Antwortmöglichkeiten haben.",
+  "ERROR_QUIZ_SELECTED": "Bitte wähle eine Option als richtige Antwort aus.",
   "ERROR_QUIZ": "Erstellen des Rätsels fehlgeschlagen",
   "ERROR_QUESTLINE": "Speichern der kopmplexen Aufgabe fehlgeschlagen",
   "ERROR_QUESTLINE_MARKER_CONNECTION": "Nicht alle Marker verbunden",
@@ -171,6 +173,12 @@
   "LABEL_MARKER_INFO": "Information",
   "LABEL_MARKER_QUIZ": "Rätsel",
   "LABEL_MARKER_SEARCH": "Suche",
-  "LABEL_MARKER_FIGHT": "Kampf"
+  "LABEL_MARKER_FIGHT": "Kampf",
+  "TITLE_ERROR_SAVE_QUIZ": "Speichern des Rätsels fehlgeschlagen",
+  "ERROR_QUIZ_EXERCISES": "Ein Rätsel muss zumindest eine Aufgabe beinhalten!",
+  "ERROR_QUIZ_NUM_ANSWERS": "Eine Aufgabe muss zumindest zwei Antwortmöglichkeiten haben!",
+  "TEXT_MISSING": "fehlt:",
+  "TEXT_QUEST": "Aufgabe",
+  "TEXT_TASK": "Station"
 
 }

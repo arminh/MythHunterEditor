@@ -112,6 +112,7 @@
   "TEXT_NOT_ENOUGH_CARDS_ERROR": "You must have at least one complete deck.",
   "TEXT_NAME": "Name",
   "TEXT_ENEMY": "Enemy",
+  "TEXT_EXERCISE": "Exercise",
   "TITLE_CHOOSE_TASK_TYPE": "Chose task type",
   "TOOLTIP_MARKER_INFO": "Information task: This marker is used to convey useful information to the user",
   "TOOLTIP_MARKER_QUIZ": "Quiz task: This marker challenges the user with multiple choice and gap-fill tasks",
@@ -161,6 +162,7 @@
   "TEXT_TUT_DECK_END": "Now you should be prepared to create a new deck. <b>Have fun</b>!",
   "TITLE_CURRENT_QUEST": "Quest in Development",
   "ERROR_QUIZ_OPTIONS": "The quiz must at least have two options.",
+  "ERROR_QUIZ_SELECTED": "Please select one option as the correct answers",
   "ERROR_QUIZ": "Creating Quiz failed",
   "ERROR_QUESTLINE": "Saving Questline failed",
   "ERROR_QUESTLINE_MARKER_CONNECTION": "Not all marker are connected to the tree",
@@ -171,6 +173,12 @@
   "LABEL_MARKER_INFO": "Info",
   "LABEL_MARKER_QUIZ": "Quiz",
   "LABEL_MARKER_SEARCH": "Search",
-  "LABEL_MARKER_FIGHT": "Fight"
+  "LABEL_MARKER_FIGHT": "Fight",
+  "TITLE_ERROR_SAVE_QUIZ": "Saving quiz failed",
+  "ERROR_QUIZ_EXERCISES": "A Quiz task has to have at least one exercise!",
+  "ERROR_QUIZ_NUM_ANSWERS": "An exercise must have at least two options!",
+  "TEXT_MISSING": "is missing:",
+  "TEXT_QUEST": "Quest",
+  "TEXT_TASK": "Task"
 
 }

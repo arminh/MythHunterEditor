@@ -36,7 +36,8 @@
         function editTask(treePart) {
             $mdDialog.hide();
             $state.go("app.task", {
-                treePart: treePart
+                originalTreePart: treePart,
+                treePart: angular.copy(treePart)
             });
         }
 

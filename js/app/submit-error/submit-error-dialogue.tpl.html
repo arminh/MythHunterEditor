@@ -4,7 +4,7 @@
             <div class="md-dialog-content">
                 <div class="quest-errors" ng-if="submitErrors.errors.questErrors.length > 0">
                     <div ng-repeat="questError in submitErrors.errors.questErrors">
-                        <b>Your <a ng-click="submitErrors.editQuest(questError.quest)">quest</a> is missing:</b>
+                        <b><a ng-click="submitErrors.editQuest(questError.quest)">{{'TEXT_QUEST' | translate}}</a> {{'TEXT_MISSING' | translate}}</b>
                         <ul>
                             <li ng-if="questError.nameMissing">{{'TEXT_NAME' | translate}}</li>
                         </ul>
@@ -13,10 +13,11 @@
                 </div>
                 <div class="task-errors" ng-if="submitErrors.errors.taskErrors.length > 0">
                     <div ng-repeat="taskError in submitErrors.errors.taskErrors">
-                        <b>Your <a ng-click="submitErrors.editTask(taskError.treePart)">task</a> is missing:</b>
+                        <b><a ng-click="submitErrors.editTask(taskError.treePart)">{{'TEXT_TASK' | translate}}</a> {{'TEXT_MISSING' | translate}}</b>
                         <ul>
                             <li ng-if="taskError.nameMissing">{{'TEXT_NAME' | translate}}</li>
                             <li ng-if="taskError.enemyMissing">{{'TEXT_ENEMY' | translate}}</li>
+                            <li ng-if="taskError.exerciseMissing">{{'TEXT_EXERCISE' | translate}}</li>
                         </ul>
 
                     </div>

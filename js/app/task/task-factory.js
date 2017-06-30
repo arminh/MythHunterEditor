@@ -250,9 +250,10 @@
         function check(treePart, errors) {
             var nameMissing = (this.name == "");
             var enemyMissing = (this.type == MarkerType.FIGHT && this.enemy == null);
+            var exerciseMissing = (this.type == MarkerType.QUIZ && $.isEmptyObject(this.html.getAnswers()));
 
-            if(nameMissing || enemyMissing) {
-                errors.addTaskError(treePart, nameMissing, enemyMissing);
+            if(nameMissing || enemyMissing || exerciseMissing) {
+                errors.addTaskError(treePart, nameMissing, enemyMissing, exerciseMissing);
             }
         }
 

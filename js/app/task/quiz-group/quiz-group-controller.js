@@ -14,7 +14,7 @@
     /* @ngInject */
     function QuizGroupController(QuizGroup, $mdDialog, $translate) {
         var vm = this;
-        vm.selected = 0;
+        vm.selected = -1;
 
         vm.addOption = addOption;
         vm.removeOption = removeOption;
@@ -48,6 +48,17 @@
                     .ok('Close');
 
                 $mdDialog.show(alert);
+            } else if(vm.selected < 0){
+                var alert = $mdDialog.alert()
+                    .title($translate.instant('ERROR_QUIZ'))
+                    .htmlContent($translate.instant('ERROR_QUIZ_SELECTED'))
+                    .ariaLabel('Create quiz')
+                    .targetEvent(evt)
+                    .multiple(true)
+                    .ok('Close');
+
+                $mdDialog.show(alert);
+
             } else {
                 if(vm.type == "radio") {
                     vm.group.options[vm.selected].selected = true;

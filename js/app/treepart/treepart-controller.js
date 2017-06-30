@@ -71,9 +71,10 @@
         }
 
         function confirm() {
-            TreePartService.finishEditing(vm.treePart, vm.originalTreePart, vm.content, vm.targetContent);
-            user.backup();
-            $state.go("app.map");
+            TreePartService.finishEditing(vm.treePart, vm.originalTreePart, vm.content, vm.targetContent).then(function() {
+                user.backup();
+                $state.go("app.map");
+            });
         }
 
         function cancel() {

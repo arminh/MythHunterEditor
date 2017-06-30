@@ -9,10 +9,10 @@
         .module('treePart')
         .factory('TreePartService', TreePartService);
 
-    TreePartService.$inject = ["$log", "TextAngularHandler", "MarkerType"];
+    TreePartService.$inject = ["$log", "$q", "$mdDialog", "$translate", "TextAngularHandler", "MarkerType"];
 
     /* @ngInject */
-    function TreePartService($log, TextAngularHandler, MarkerType) {
+    function TreePartService($log, $q, $mdDialog, $translate, TextAngularHandler, MarkerType) {
         $log = $log.getInstance("TreePartService", debugging);
 
         var service = {
@@ -50,7 +50,7 @@
         }
 
         function contentChanged(task, content) {
-            if(task) {
+            if (task) {
                 var html = task.getHtml();
                 var answers = {};
                 var result = TextAngularHandler.retrieveCheckedAttributes(answers, content);
@@ -71,30 +71,32 @@
 
             originalTask.setName(editTask.getName());
 
-            saveHtmls(content, targetContent, originalTask);
+            return $q.when(saveHtmls(content, targetContent, originalTask)).then(function () {
+                if (editTask.getType() == MarkerType.FIGHT) {
+                    var editEnemy = editTask.getEnemy();
+                    var originalEnemy = originalTask.getEnemy();
+                    originalEnemy.setName(editEnemy.getName());
+                    originalEnemy.setImage(editEnemy.getImage());
+                    originalEnemy.setDescription(editEnemy.getDescription());
+                    originalEnemy.change();
 
-            if (editTask.getType() == MarkerType.FIGHT) {
-                var editEnemy = editTask.getEnemy();
-                var originalEnemy = originalTask.getEnemy();
-                originalEnemy.setName(editEnemy.getName());
-                originalEnemy.setImage(editEnemy.getImage());
-                originalEnemy.setDescription(editEnemy.getDescription());
-                originalEnemy.change();
+                    var originalDeck = originalEnemy.getDeck();
+                    var editDeck = editEnemy.getDeck();
+                    originalDeck.setName(editDeck.getName());
 
-                var originalDeck = originalEnemy.getDeck();
-                var editDeck = editEnemy.getDeck();
-                originalDeck.setName(editDeck.getName());
-
-                var originalCards = originalDeck.getCardIds();
-                originalCards.length = 0;
-                var editCards = editDeck.getCardIds();
-                for(var i = 0; i < editCards.length; i++) {
-                    originalCards.push(editCards[i]);
+                    var originalCards = originalDeck.getCardIds();
+                    originalCards.length = 0;
+                    var editCards = editDeck.getCardIds();
+                    for (var i = 0; i < editCards.length; i++) {
+                        originalCards.push(editCards[i]);
+                    }
                 }
-            }
 
-            originalTask.change();
-            $log.info("finishEditing_success: ", originalTreePart);
+                originalTask.change();
+                $log.info("finishEditing_success: ", originalTreePart);
+            });
+
+
         }
 
         function saveHtmls(content, targetContent, task) {
@@ -102,6 +104,27 @@
             var answers = {};
             if (task.getType() == MarkerType.QUIZ) {
                 var result = TextAngularHandler.retrieveCheckedAttributes(answers, content);
+                if ($.isEmptyObject(result.answers)) {
+                    var alert = $mdDialog.alert()
+                        .title($translate.instant('TITLE_ERROR_SAVE_QUIZ'))
+                        .htmlContent($translate.instant('ERROR_QUIZ_EXERCISES'))
+                        .ariaLabel('Save Quiz')
+                        .ok($translate.instant('BUTTON_CLOSE'));
+
+                    return $mdDialog.show(alert).then(function () {
+                        return $q.reject();
+                    });
+                } else if (!checkNumAnswers(result.answers)) {
+                    var alert = $mdDialog.alert()
+                        .title($translate.instant('TITLE_ERROR_SAVE_QUIZ'))
+                        .htmlContent($translate.instant('ERROR_QUIZ_NUM_ANSWERS'))
+                        .ariaLabel('Save Quiz')
+                        .ok($translate.instant('BUTTON_CLOSE'));
+
+                    return $mdDialog.show(alert).then(function () {
+                        return $q.reject();
+                    });
+                }
                 answers = result.answers;
                 content = result.content;
             }
@@ -118,6 +141,53 @@
                 originalTargetHtml.setTaskTitle(task.getName());
                 originalTargetHtml.change();
             }
+        }
+
+        function checkNumAnswers(answers) {
+            var numKey = 0;
+            var curGroup = "";
+
+            for (var key in answers) {
+                var matchesCheckbox = key.match(/(checkbox.+?)-/);
+                if(matchesCheckbox) {
+                    if(numKey == 0) {
+                        curGroup = matchesCheckbox[1];
+                        numKey++;
+                    } else if(numKey == 1) {
+                        if(curGroup != matchesCheckbox[1]) {
+                            return false;
+                        } else {
+                            numKey++;
+                        }
+                    } else {
+                        if(curGroup != matchesCheckbox[1]) {
+                            numKey = 1;
+                            curGroup = matchesCheckbox[1];
+                        }
+                    }
+                }
+
+                var matchesRadio = key.match(/(radio.+?)-/);
+                if(matchesRadio) {
+                    if(numKey == 0) {
+                        curGroup = matchesRadio[1];
+                        numKey++;
+                    } else if(numKey == 1) {
+                        if(curGroup != matchesRadio[1]) {
+                            return false;
+                        } else {
+                            numKey++;
+                        }
+                    } else {
+                        if(curGroup != matchesRadio[1]) {
+                            numKey = 1;
+                            curGroup = matchesRadio[1];
+                        }
+                    }
+                }
+            }
+
+            return (numKey > 1);
         }
     }
 
