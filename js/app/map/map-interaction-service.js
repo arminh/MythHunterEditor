@@ -148,11 +148,13 @@
             if(markerGeometry.lineStart) {
                 var lineGeometry = markerGeometry.lineStart.getGeometry();
                 lineGeometry.setCoordinates([markerGeometry.getCoordinates(), lineGeometry.getLastCoordinate()]);
+                markerGeometry.lineStart.setStyle(styleFunction(markerGeometry.lineStart));
             }
 
             if(markerGeometry.lineEnd) {
                 lineGeometry = markerGeometry.lineEnd.getGeometry();
                 lineGeometry.setCoordinates([lineGeometry.getFirstCoordinate(), markerGeometry.getCoordinates()]);
+                markerGeometry.lineEnd.setStyle(styleFunction(markerGeometry.lineEnd));
             }
         }
 
@@ -163,6 +165,37 @@
             source.addFeature(marker);
             return initMarker(marker, iconSrc);
         }
+
+        function styleFunction(feature) {
+            var geometry = feature.getGeometry();
+            var styles = [
+                // linestring
+                new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        width: 5, color: 'rgba(255, 0, 0, 1)',
+                        lineDash: [.1, 5] //or other combinations
+                    })
+                })
+            ];
+
+            geometry.forEachSegment(function(start, end) {
+                var dx = end[0] - start[0];
+                var dy = end[1] - start[1];
+                var rotation = Math.atan2(dy, dx);
+                // arrows
+                styles.push(new ol.style.Style({
+                    geometry: new ol.geom.Point(end),
+                    image: new ol.style.Icon({
+                        src: 'media/arrow.png',
+                        anchor: [0.75, 0.5],
+                        rotateWithView: true,
+                        rotation: -rotation
+                    })
+                }));
+            });
+
+            return styles;
+        };
 
         function addLine(startMarkerId, endMarkerId) {
             var startGeomtery = getMarkerById(startMarkerId).getGeometry();
@@ -175,15 +208,15 @@
                 geometry: new ol.geom.LineString([startCoords, endCoords])
             });
 
-            var style = new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    width: 5, color: 'rgba(255, 0, 0, 1)',
-                    lineDash: [.1, 5] //or other combinations
-                }),
-                zIndex: 2
-            });
+            // var style = new ol.style.Style({
+            //     stroke: new ol.style.Stroke({
+            //         width: 5, color: 'rgba(255, 0, 0, 1)',
+            //         lineDash: [.1, 5] //or other combinations
+            //     }),
+            //     zIndex: 2
+            // });
 
-            line.setStyle(style);
+            line.setStyle(styleFunction(line));
 
             startGeomtery.lineStart = line;
             endGeometry.lineEnd = line;
@@ -311,7 +344,7 @@
             draw.on('drawend', drawEnd);
 
             function drawEnd(evt) {
-                evt.feature.setStyle(style);
+                evt.feature.setStyle(styleFunction(evt.feature));
                 map.removeInteraction(draw);
                 deffered.resolve(evt.feature);
             }
