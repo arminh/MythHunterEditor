@@ -22,7 +22,7 @@
   "TEXT_GREETING": "Hallo <b>{{username}}</b>!",
   "LABEL_STATISTICS": "Statistiken",
   "LABEL_CREATED_QUESTS": "Erstellte Aufgaben",
-  "BUTTON_CREATE_QUEST": "Neue Aufgabe",
+  "BUTTON_NEW_QUEST": "Neue Aufgabe",
   "LABEL_COLLECTION_QUESTS": "Kartensammlung",
   "BUTTON_SHOW_COLLECTION": "Zeige Kartensammlung",
   "TEXT_UPDATE_QUEST": "Willst du deine aktuelle Aufgabe <b>{{questName}}</b> aktualisieren?",
@@ -37,6 +37,7 @@
   "LABEL_EDIT_QUEST" : "Aufgabe bearbeiten",
   "LABEL_CANCEL_EDITING": "Bearbeitung abbrechen",
   "LABEL_EDIT_STORYLINE": "Stationen Reihenfolge bearbeiten",
+  "LABEL_SHOW_INSTRUCTIONS": "Anleitung anzeigen",
   "LABEL_SHOW_TUTORIAL": "Tutorial anzeigen",
   "LABEL_ADD_REWARD": "Belohnung hinzufügen",
   "LABEL_ADD_TASK": "Station hinzufügen",
@@ -144,6 +145,7 @@
   "TEXT_TUT_TASK_EDIT": "<b>Bearbeiten</b>: Ermöglicht die Bearbeitung der Station",
   "TEXT_TUT_TASK_PREVIEW": "<b>Vorschau</b>: Zeigt wie die Station in der App aussehen wird",
   "TEXT_TUT_TASK_FOCUS": "<b>Fokusieren</b>: Fokusiert den Marker auf der Karte",
+  "TEXT_TUT_QUEST_TUTORIAL": "Wenn du willst, kannst du die Aufgabe mithilfe einer Anleitung erstellen.",
   "TEXT_TUT_QUEST_END": "Nun solltest du bereit dazu sein eine Schnitzeljagd zu erstellen. <b>Viel Spaß</b>!",
   "TITLE_TUT_NEW_CARD": "Neue Karte",
   "TEXT_TUT_CREATE_CARD": "Du willst gerade eine neue Karte erstellen. Hier ein paar Tipps:",
@@ -186,5 +188,6 @@
   "TEXT_DELETE_QUEST_DEV": "Möchtest du die Aufgabe löschen, die du aktuell bearbeitest? Alle Änderungen gehen verloren.",
   "TITLE_DELETE_TASK": "Station löschen",
   "TEXT_DELETE_TASK": "Bist du sicher, dass du die Station löschen willst?",
-  "TEXT_FIRST_TASK": "Erste Station"
+  "TEXT_FIRST_TASK": "Erste Station",
+  "LABEL_QUEST_TUTORIAL": "Anleitung verwenden"
 }

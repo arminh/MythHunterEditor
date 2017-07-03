@@ -9,16 +9,17 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "$q", "$mdDialog", "MapInteractionService", "MapService", "user"];
+    MapController.$inject = ["$scope", "$state", "$stateParams", "$q", "$mdDialog", "$translate", "MapInteractionService", "MapService", "user"];
 
     /* @ngInject */
-    function MapController($scope, $state, $q, $mdDialog, MapInteraction, MapService, user) {
+    function MapController($scope, $state, $stateParams, $q, $mdDialog, $translate, MapInteraction, MapService, user) {
         var vm = this;
 
         vm.quest = null;
         vm.showQuestline = true;
         vm.saveQuestPromise = null;
         vm.interactionDisabled = false;
+        vm.tutorialAutoStart = false;
 
         vm.addTreePart = addTreePart;
         vm.drawing = MapService.getDrawing;
@@ -32,7 +33,11 @@
         vm.cancelQuest = cancelQuest;
         vm.editQuestTree = editQuestTree;
         vm.addQuestReward = addQuestReward;
-        vm.showTutorial = showCreateQuestDialog;
+        vm.showInstructions = showCreateQuestDialog;
+        vm.showTutorial = showTutorial;
+
+        vm.introStep = introStep;
+        vm.exitIntro = exitIntro;
 
         $scope.$on('markerChanged', MapService.markerChanged);
 
@@ -58,25 +63,79 @@
             //containment: "#map-quests"
         };
 
+        vm.introOptions = {
+            steps:[
+                {
+                    intro: "This tutorial gives you an overview of the most important interface elements."
+                },
+                {
+                    element: document.querySelector('#add-task'),
+                    intro: "Add additional task to your quest."
+                },
+                {
+                    element: document.querySelector('#map-task'),
+                    intro: "Open the menu on the right to show additional options for a task. Drag a task up or down to change its position in the quest."
+                },
+                {
+                    element: document.querySelector('#edit-quest'),
+                    intro: "Edit the contents (name, description, reward) of your quest."
+                },
+                {
+                    element: document.querySelector('#edit-storyline'),
+                    intro: "Use the graphical interface to build complex quests."
+                },
+                {
+                    element: document.querySelector('#show-instructions'),
+                    intro: "Show the instructions for creating a quest."
+                },
+                {
+                    element: document.querySelector('#cancel-quest'),
+                    intro: "Cancel editing and dismiss all changes you made to your quest."
+                },
+                {
+                    element: document.querySelector('#save-quest'),
+                    intro: "Save the changes you made to your quest."
+                }
+            ],
+            showStepNumbers: false,
+            showBullets: true,
+            exitOnOverlayClick: true,
+            exitOnEsc:true,
+            hidePrev: true
+        };
+
         activate();
 
         ////////////////
 
-        function showCreateQuestDialog() {
-            return $mdDialog.show({
-                templateUrl: 'js/app/profile/create-quest-dialog/create-quest-dialog.tpl.html',
-                controller: 'CreateQuestDialogController',
-                controllerAs: "createQuest"
-            });
-        }
-
         function activate() {
             MapInteraction.init("mapView");
-            $q.when(MapService.getQuest(user), function (quest) {
-                vm.quest = quest;
-                var startMarker = quest.getTreePartRoot().getTask();
+            loadQuest();
+
+        }
+
+        function loadQuest() {
+            vm.quest = user.getCurrentQuest();
+            vm.tutorialAutoStart = $stateParams.tutorial && vm.quest != null;
+            if (vm.quest) {
+                MapService.addMarkers(vm.quest);
+                var startMarker = vm.quest.getTreePartRoot().getTask();
                 MapInteraction.setCenter(startMarker.getLon(), startMarker.getLat(), 17);
-            });
+            } else {
+                if($stateParams.tutorial) {
+                    var alert = $mdDialog.alert()
+                        .title('Place Start Marker')
+                        .htmlContent("You are now on the map interface with the first marker in hand. <br> Place the marker where you want players to find your quest")
+                        .ariaLabel('Place start')
+                        .ok($translate.instant('BUTTON_OK'));
+
+                    $mdDialog.show(alert).then(function() {
+                        MapService.createQuest(user, $stateParams.tutorial);
+                    });
+                } else {
+                    MapService.createQuest(user, $stateParams.tutorial);
+                }
+            }
         }
 
         function addTreePart(quest, evt) {
@@ -99,6 +158,22 @@
 
         function searchAndGotoLocation(query) {
             gotoLocation(searchLocation(query)[0]);
+        }
+
+        function showCreateQuestDialog() {
+            return $mdDialog.show({
+                templateUrl: 'js/app/profile/create-quest-dialog/create-quest-dialog.tpl.html',
+                controller: 'CreateQuestDialogController',
+                controllerAs: "createQuest",
+                bindToController: true,
+                locals: {
+                    chooseTutorial: false
+                }
+            });
+        }
+
+        function showTutorial() {
+            vm.startIntro();
         }
 
         function editQuest() {
@@ -131,6 +206,16 @@
 
         function addQuestReward() {
             MapService.addQuestReward(user);
+        }
+
+        function introStep(nextStep) {
+            console.log("Intro step");
+            return false;
+
+        }
+
+        function exitIntro() {
+            vm.tutorial = false;
         }
     }
 

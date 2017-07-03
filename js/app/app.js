@@ -19,6 +19,7 @@
         'cgBusy',
         'pascalprecht.translate',
         'naif.base64',
+        'angular-intro',
         'textAngular',
         'authentication',
         'profile',

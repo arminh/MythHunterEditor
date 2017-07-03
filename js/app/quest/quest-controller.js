@@ -55,11 +55,11 @@
         function confirm() {
             QuestService.finishEditing(vm.quest, vm.originalQuest, vm.separateDescription, vm.editStartMarker);
             user.backup();
-            $state.go("app.map");
+            $state.go("app.map", { tutorial: $stateParams.tutorial });
         }
 
         function cancel() {
-            $state.go("app.map");
+            $state.go("app.map", { tutorial: $stateParams.tutorial });
         }
     }
 

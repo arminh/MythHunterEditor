@@ -99,7 +99,11 @@
                         <span translate="TEXT_TUT_TASK_FOCUS"></span>
                     </li>
                 </ul>
+
+                <p ng-if="createQuest.chooseTutorial"><span translate="TEXT_TUT_QUEST_TUTORIAL"></span></p>
                 <p><span translate="TEXT_TUT_QUEST_END"></span></p>
+
+
 
             </div>
 
@@ -108,6 +112,9 @@
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <span flex></span>
+        <md-checkbox class="instruction-use" ng-if="createQuest.chooseTutorial" ng-model="createQuest.tutorial" aria-label="separateDescription">
+            <md-label class="description-label">{{'LABEL_QUEST_TUTORIAL' | translate}}</md-label>
+        </md-checkbox>
         <md-button class="md-raised" ng-click="createQuest.confirm()">
             <span translate="BUTTON_READY"></span>
         </md-button>

@@ -9,10 +9,10 @@
             .module('map')
             .factory('MapService', mapService);
 
-        mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "DefaultConfig", "MapInteractionService", "QuestService", "MarkerType", "TaskService"];
+        mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "$translate", "DefaultConfig", "MapInteractionService", "QuestService", "MarkerType", "TaskService"];
 
         /* @ngInject */
-        function mapService($log, $q, $state, $http, $mdDialog, DefaultConfig, MapInteraction, QuestService, MarkerType, TaskService) {
+        function mapService($log, $q, $state, $http, $mdDialog, $translate, DefaultConfig, MapInteraction, QuestService, MarkerType, TaskService) {
 
             $log = $log.getInstance("MapService", debugging);
 
@@ -22,10 +22,11 @@
             var currentPosition = null;
 
             var service = {
-                getQuest: getQuest,
+                createQuest: createQuest,
                 editQuest: editQuest,
                 saveQuest: saveQuest,
                 addTreePart: addTreePart,
+                addMarkers: addMarkers,
                 markerChanged: markerChanged,
                 getCurrentPosition: getCurrentPosition,
                 searchLocation: searchLocation,
@@ -37,34 +38,27 @@
 
             ////////////////
 
-            function getQuest(user) {
-                $log.info("getQuest");
-                quest = user.getCurrentQuest();
-
-                if (quest) {
-                    addMarkers(quest);
-                    return quest;
-                } else {
-                    quest = user.createQuest();
-                    quest.init("New Quest");
-                    quest.setLoaded(true);
-                    drawing = true;
-                    return drawMarker(quest.getTreePartRoot().getTask()).then(addQuestToUser);
-                }
+            function createQuest(user, tutorial) {
+                $log.info("createQuest");
+                quest = user.createQuest();
+                quest.init("New Quest");
+                quest.setLoaded(true);
+                drawing = true;
+                return drawMarker(quest.getTreePartRoot().getTask()).then(addQuestToUser);
 
                 function addQuestToUser() {
                     drawing = false;
                     user.setCurrentQuest(quest);
-                    editQuest(quest, true);
+                    editQuest(quest, true, tutorial);
                     return quest;
                 }
             }
 
-
-            function editQuest(quest, editStartMarker) {
+            function editQuest(quest, editStartMarker, tutorial) {
                 $state.go("app.quest", {
                     quest: quest,
-                    editStartMarker: editStartMarker
+                    editStartMarker: editStartMarker,
+                    tutorial: tutorial
                 });
             }
 

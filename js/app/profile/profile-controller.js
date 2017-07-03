@@ -48,9 +48,9 @@
             }
         }
 
-        function gotoMap() {
+        function gotoMap(withTutorial) {
             user.clearCurrentQuest();
-            $state.go("app.map");
+            $state.go("app.map", {tutorial: withTutorial});
         }
 
         function editQuest(quest) {
@@ -98,7 +98,11 @@
             return $mdDialog.show({
                 templateUrl: 'js/app/profile/create-quest-dialog/create-quest-dialog.tpl.html',
                 controller: 'CreateQuestDialogController',
-                controllerAs: "createQuest"
+                controllerAs: "createQuest",
+                bindToController: true,
+                locals: {
+                    chooseTutorial: true
+                }
             });
         }
 

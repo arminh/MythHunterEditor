@@ -22,7 +22,7 @@
   "TEXT_GREETING": "Hello <b>{{username}}</b>!",
   "LABEL_STATISTICS": "Statistics",
   "LABEL_CREATED_QUESTS": "Created Quests",
-  "BUTTON_CREATE_QUEST": "New Quest",
+  "BUTTON_NEW_QUEST": "New Quest",
   "LABEL_COLLECTION_QUESTS": "Card Collection",
   "BUTTON_SHOW_COLLECTION": "Show Collection",
   "TEXT_UPDATE_QUEST": "Do you want to update your existing quest <b>{{questName}}</b>?",
@@ -37,6 +37,7 @@
   "LABEL_EDIT_QUEST" : "Edit quest",
   "LABEL_CANCEL_EDITING": "Cancel editing",
   "LABEL_EDIT_STORYLINE": "Edit storyline",
+  "LABEL_SHOW_INSTRUCTIONS": "Show instructions",
   "LABEL_SHOW_TUTORIAL": "Show tutorial",
   "LABEL_ADD_REWARD": "Add quest reward",
   "LABEL_ADD_TASK": "Add task",
@@ -144,6 +145,7 @@
   "TEXT_TUT_TASK_EDIT": "<b>Edit</b>: Edit the task's content",
   "TEXT_TUT_TASK_PREVIEW": "<b>Preview</b>: Gives you an idea of how the task will look in the app",
   "TEXT_TUT_TASK_FOCUS": "<b>Focus</b>: Focus the task's marker on the map",
+  "TEXT_TUT_QUEST_TUTORIAL": "If you want you can start the quest creation with a step by step tutorial.",
   "TEXT_TUT_QUEST_END": "Now you should be prepared to create your scavenger hunt. <b>Have fun</b>!",
   "TITLE_TUT_NEW_CARD": "New card",
   "TEXT_TUT_CREATE_CARD": "You are about to create a new card. Here are some tips:",
@@ -186,5 +188,6 @@
   "TEXT_DELETE_QUEST_DEV": "Are you sure you want to the quest you are editing? All changes will be lost.",
   "TITLE_DELETE_TASK": "Delete task",
   "TEXT_DELETE_TASK": "Are you sure you want to delete the task?",
-  "TEXT_FIRST_TASK": "First task"
+  "TEXT_FIRST_TASK": "First task",
+  "LABEL_QUEST_TUTORIAL": "Use tutorial"
 }

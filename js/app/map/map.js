@@ -21,6 +21,9 @@
                         return AuthenticationService.userPromise();
                     }]
                 },
+                params: {
+                    tutorial: false
+                },
                 controller: 'MapController',
                 controllerAs: 'map'
             });
