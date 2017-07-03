@@ -1,6 +1,7 @@
 <div id="quest-container" layout="column" ng-cloak flex-offset-gt-sm="10" flex-gt-sm="80" flex="100" layout-padding>
     <form name="questForm" ng-submit="questCtrl.confirm()">
         <div layout-padding>
+            <h3 ng-if="questCtrl.editStartMarker">{{'TEXT_QUEST' | translate}}</h3>
             <div layout="row" >
                 <md-input-container flex>
                     <label>{{'LABEL_QUEST_NAME' | translate}}</label>
@@ -21,10 +22,22 @@
 
                 <text-angular ta-toolbar="{{questCtrl.toolbar}}" ng-model="questCtrl.quest.html.content"
                               id="quest-text" ng-focus="questCtrl.showQuestDescriptionTooltip()"></text-angular>
-                <md-checkbox ng-if="questCtrl.editStartMarker" ng-model="questCtrl.sameDescription" aria-label="separateDescription">
+                </div>
+            <div ng-if="questCtrl.editStartMarker"  flex>
+                <h3>{{'TEXT_FIRST_TASK' | translate}}</h3>
+                <div layout="row" >
+                    <md-input-container flex>
+                        <label>{{'LABEL_TASK_NAME' | translate}}</label>
+                        <input required name="taskName" ng-model="questCtrl.quest.treePartRoot.name" class="task-info">
+                        <div ng-messages="questForm.taskName.$error">
+                            <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-checkbox ng-model="questCtrl.sameDescription" aria-label="separateDescription">
                     <md-label class="description-label">{{'LABEL_SAME_DESCRIPTION' | translate}}</md-label>
                 </md-checkbox>
-                <md-button ng-if="questCtrl.editStartMarker"  aria-label="description-hint" class="md-icon-button">
+                <md-button  aria-label="description-hint" class="md-icon-button">
                     <md-tooltip md-visble="questCtrl.questDescriptionTooltipVisible" md-direction="top">
                         {{'TOOLTIP_START_TASK_DESCRIPTION_1' | translate}}<br>
                         {{'TOOLTIP_START_TASK_DESCRIPTION_2' | translate}}<br>
@@ -32,7 +45,7 @@
                     </md-tooltip>
                     <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                 </md-button>
-                <text-angular ng-if="questCtrl.editStartMarker" ta-toolbar="{{questCtrl.toolbar}}" ng-show="!questCtrl.sameDescription"
+                <text-angular ta-toolbar="{{questCtrl.toolbar}}" ng-show="!questCtrl.sameDescription"
                               ng-model="questCtrl.quest.treePartRoot.task.html.content" id="task-text"></text-angular>
             </div>
             <div>

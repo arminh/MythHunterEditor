@@ -185,6 +185,6 @@
   "TITLE_DELETE_QUEST_DEV": "Aufgabe in Bearbeitung löschen",
   "TEXT_DELETE_QUEST_DEV": "Möchtest du die Aufgabe löschen, die du aktuell bearbeitest? Alle Änderungen gehen verloren.",
   "TITLE_DELETE_TASK": "Station löschen",
-  "TEXT_DELETE_TASK": "Bist du sicher, dass du die Station löschen willst?"
-
+  "TEXT_DELETE_TASK": "Bist du sicher, dass du die Station löschen willst?",
+  "TEXT_FIRST_TASK": "Erste Station"
 }

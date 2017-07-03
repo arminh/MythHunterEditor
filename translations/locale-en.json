@@ -185,5 +185,6 @@
   "TITLE_DELETE_QUEST_DEV": "Delete quest in development",
   "TEXT_DELETE_QUEST_DEV": "Are you sure you want to the quest you are editing? All changes will be lost.",
   "TITLE_DELETE_TASK": "Delete task",
-  "TEXT_DELETE_TASK": "Are you sure you want to delete the task?"
+  "TEXT_DELETE_TASK": "Are you sure you want to delete the task?",
+  "TEXT_FIRST_TASK": "First task"
 }
