@@ -9,10 +9,10 @@
         .module('quest')
         .controller('QuestController', QuestController);
 
-    QuestController.$inject = ["$state", "$stateParams", "QuestService", "user", "REWARD_MAX_CARDS"];
+    QuestController.$inject = ["$timeout", "$state", "$stateParams", "$translate", "QuestService", "user", "REWARD_MAX_CARDS"];
 
     /* @ngInject */
-    function QuestController($state, $stateParams, QuestService, user, REWARD_MAX_CARDS) {
+    function QuestController($timeout, $state, $stateParams, $translate, QuestService, user, REWARD_MAX_CARDS) {
 
         var vm = this;
         vm.user = user;
@@ -20,10 +20,54 @@
         vm.questContent = "";
         vm.taskContent = "";
         vm.sameDescription = false;
-        vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertImage','insertLink', 'insertVideo']]";
+        vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo']]";
         vm.maxCards = REWARD_MAX_CARDS;
 
+        $timeout(function() {
+            vm.tutorialAutoStart = $stateParams.tutorial;
+        });
+        vm.introOptions = {
+            steps:[
+                {
+                    element: document.querySelector('#quest-name'),
+                    intro: "Enter a name for your quest."
+                },
+                {
+                    element: document.querySelector('#quest-description'),
+                    intro: $translate.instant("TOOLTIP_QUEST_DESCRIPTION_1") + $translate.instant("TOOLTIP_QUEST_DESCRIPTION_2")
+                },
+                {
+                    element: document.querySelector('#task-name'),
+                    intro: "Enter a name for your start task."
+                },
+                {
+                    element: document.querySelector('#same-description'),
+                    intro: "Choose if your first task has the same description as your quest or not"
+                },
+                {
+                    element: document.querySelector('#task-description'),
+                    intro: $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_1") + " "
+                    + $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_2")
+                    + $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_3")
+                },
+                {
+                    element: document.querySelector('#quest-reward'),
+                    intro: $translate.instant("TOOLTIP_QUEST_REWARD_1") + $translate.instant("TOOLTIP_QUEST_REWARD_2")
+                },
+                {
+                    element: document.querySelector('#quest-confirm'),
+                    intro: "If you are finished editing the quest and the first marker press this button."
+                }
+            ],
+            showStepNumbers: false,
+            showBullets: true,
+            exitOnOverlayClick: true,
+            exitOnEsc:true,
+            hidePrev: true
+        };
+
         vm.showQuestDescriptionTooltip = showQuestDescriptionTooltip;
+        vm.showTutorial = showTutorial;
         vm.confirm = confirm;
         vm.cancel = cancel;
 
@@ -50,6 +94,10 @@
 
         function showQuestDescriptionTooltip() {
             vm.questDescriptionTooltipVisible = true;
+        }
+
+        function showTutorial() {
+            vm.startIntro();
         }
 
         function confirm() {
