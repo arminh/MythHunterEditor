@@ -9,10 +9,10 @@
         .module('card')
         .controller('CardEditorController', CardEditorController);
 
-    CardEditorController.$inject = ["CardEditorService", "MAX_STARS"];
+    CardEditorController.$inject = ["CardEditorService", "MAX_STARS", "$translate", "$timeout", "ngIntroService"];
 
     /* @ngInject */
-    function CardEditorController(CardEditorService, MAX_STARS) {
+    function CardEditorController(CardEditorService, MAX_STARS, $translate, $timeout, ngIntroService) {
 
         var vm = this;
         vm.image = {};
@@ -23,7 +23,54 @@
         vm.showImageRequiredError = false;
         vm.showStarsError = false;
         vm.descriptionTooltipVisible = false;
+        vm.tutorialAutoStart = vm.tutorial;
 
+        $timeout(function() {
+            vm.introOptions = {
+                steps:[
+                    {
+                        element: document.querySelector('#card-name'),
+                        intro: "Enter a name for your card."
+                    },
+                    {
+                        element: document.querySelector('#card-description'),
+                        intro: "Enter a description for your card."
+                    },
+                    {
+                        element: document.querySelector('#card-image'),
+                        intro: $translate.instant("TOOLTIP_EDITOR_ATTACK")
+                    },
+                    {
+                        element: document.querySelector('#card-attack'),
+                        intro: $translate.instant("TOOLTIP_EDITOR_ATTACK")
+                    },
+                    {
+                        element: document.querySelector('#card-lifeforce'),
+                        intro: $translate.instant("TOOLTIP_EDITOR_LIFEFORCE_1") + $translate.instant("TOOLTIP_EDITOR_LIFEFORCE_2")
+                    },
+                    {
+                        element: document.querySelector('#card-action'),
+                        intro: "Choose between several actions for your card"
+                    },
+                    {
+                        element: document.querySelector('#card-stars'),
+                        intro: $translate.instant("TOOLTIP_EDITOR_STARS_1") + $translate.instant("TOOLTIP_EDITOR_STARS_2")
+                    },
+                    {
+                        element: document.querySelector('#card-confirm'),
+                        intro: "If you are finished editing the card press this button."
+                    }
+                ],
+                showStepNumbers: false,
+                showBullets: true,
+                exitOnOverlayClick: true,
+                exitOnEsc:true,
+                hidePrev: true
+            };
+        });
+
+
+        vm.showTutorial = showTutorial;
         vm.calculateStarCount = calculateStarCount;
         vm.statMaxLife = statMaxLife;
         vm.isActionAffordable = isActionAffordable;
@@ -47,6 +94,11 @@
                 vm.actionMinStars = CardEditorService.getMinStarCost();
             });
             calculateStarCount();
+        }
+        
+        function showTutorial() {
+            ngIntroService.clear();
+            vm.startIntro();
         }
 
         function isActionAffordable(action) {

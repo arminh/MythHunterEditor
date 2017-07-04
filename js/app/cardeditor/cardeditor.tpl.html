@@ -1,8 +1,15 @@
-<md-dialog aria-label="Create task">
+<md-dialog aria-label="Create task" ng-intro-options="cardeditor.introOptions" ng-intro-method="cardeditor.startIntro"
+           ng-intro-autostart="cardeditor.tutorialAutoStart">
     <form name="cardEditor" ng-cloak ng-submit="cardeditor.confirm()">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>{{'TITLE_CREATE_CARD' | translate}}</h2>
+                <h2>
+                    {{'TITLE_CREATE_CARD' | translate}}
+                    <md-button ng-click="cardeditor.showTutorial()" class="md-icon-button" aria-label="Complex">
+                        <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
+                        <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>
+                    </md-button>
+                </h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cardeditor.cancel()">
                     <md-icon md-svg-icon="media/close_icon.svg"></md-icon>
@@ -13,17 +20,19 @@
 
             <div class="md-dialog-content cardeditor-content">
                 <div layout="column" layout-gt-sm="row">
-
-                    <card card="cardeditor.card" edit="true" menu="false"></card>
-                    <div class="cardeditor-card-image-button" ng-if="!cardeditor.image.base64">
-                        <label for="card-image-input" required class="md-button md-raised"
-                               required="cardeditor.image.base64">
-                            {{'BUTTON_CHOOSE_CARD_IMAGE' | translate}}
-                        </label>
-                        <div class="cardeditor-stars-error" ng-if="cardeditor.showImageRequiredError">
-                            {{'ERROR_IMAGE_REQUIRED' | translate}}
+                    <div class="cardeditor-card-container">
+                        <card card="cardeditor.card" edit="true" menu="false"></card>
+                        <div class="cardeditor-card-image-button" ng-if="!cardeditor.image.base64" id="card-image">
+                            <label for="card-image-input" required class="md-button md-raised"
+                                   required="cardeditor.image.base64">
+                                {{'BUTTON_CHOOSE_CARD_IMAGE' | translate}}
+                            </label>
+                            <div class="cardeditor-stars-error" ng-if="cardeditor.showImageRequiredError">
+                                {{'ERROR_IMAGE_REQUIRED' | translate}}
+                            </div>
                         </div>
                     </div>
+
                     <md-input-container>
                         <input name="image" type="file" id="card-image-input"
                                ng-model='cardeditor.image'
@@ -33,17 +42,19 @@
                     <div>
                         <md-content class="card-settings-content">
 
+                            <div id="card-name">
+                                <md-input-container>
+                                    <label>{{'LABEL_EDITOR_NAME' | translate}}</label>
+                                    <input type="text" name="name" required md-no-asterisk maxlength="25"
+                                           ng-model="cardeditor.card.name" md-autofocus/>
+                                    <div ng-messages="cardEditor.name.$error">
+                                        <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
 
-                            <md-input-container>
-                                <label>{{'LABEL_EDITOR_NAME' | translate}}</label>
-                                <input type="text" name="name" required md-no-asterisk maxlength="25"
-                                       ng-model="cardeditor.card.name" md-autofocus/>
-                                <div ng-messages="cardEditor.name.$error">
-                                    <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
-                                </div>
-                            </md-input-container>
 
-                            <md-input-container style="width: 100%">
+                            <md-input-container id="card-description" style="width: 100%">
                                 <label>{{'LABEL_EDITOR_DESCRIPTION' | translate}}</label>
                                 <textarea class="textarea-noresize" maxlength="150"
                                           ng-model="cardeditor.card.description"
@@ -51,7 +62,7 @@
                             </md-input-container>
 
 
-                            <md-slider-container>
+                            <md-slider-container id="card-attack">
                                 <div class="label-with-hint-small">
                                     <span>{{'LABEL_EDITOR_ATTACK' | translate}}</span>
                                     <md-tooltip md-direction="top">
@@ -73,7 +84,7 @@
                                 </md-input-container>
                             </md-slider-container>
 
-                            <md-slider-container>
+                            <md-slider-container id="card-lifeforce">
                                 <div class="label-with-hint-small">
                                     <span>{{'LABEL_EDITOR_LIFEFORCE' | translate}}</span>
                                     <md-tooltip md-direction="top">
@@ -95,7 +106,7 @@
                                 </md-input-container>
                             </md-slider-container>
 
-                            <md-select placeholder="{{'TEXT_ACTION_PLACEHOLDER' | translate}}" ng-model="cardeditor.card.actions[0]"
+                            <md-select id="card-action" placeholder="{{'TEXT_ACTION_PLACEHOLDER' | translate}}" ng-model="cardeditor.card.actions[0]"
                                        ng-change="cardeditor.calculateStarCount()">
                                 <md-option ng-value="null"></md-option>
                                 <md-option ng-value="action"
@@ -104,7 +115,7 @@
                                 </md-option>
                             </md-select>
 
-                            <div class="cardeditor-stars-container">
+                            <div class="cardeditor-stars-container" id="card-stars">
                                 <div class="label-with-hint-small">
                                     <span>{{'LABEL_EDITOR_STARS' | translate}}</span>
                                     <md-tooltip md-direction="top">
@@ -154,7 +165,7 @@
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <span flex></span>
-            <md-button type="submit" class="md-raised md-primary">
+            <md-button type="submit" class="md-raised md-primary" id="card-confirm">
                 {{'BUTTON_CONFIRM' | translate}}
             </md-button>
             <md-button class="md-raised" ng-click="cardeditor.cancel()">

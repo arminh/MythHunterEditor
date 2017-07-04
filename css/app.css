@@ -140,18 +140,18 @@ input[type='file'] {
     height: auto;
 }
 
-.introjs-helperLayer  {
-    z-index: 58 !important;
-}
+/*.introjs-helperLayer  {*/
+    /*z-index: 58 !important;*/
+/*}*/
 
-.introjs-overlay {
-    z-index: 57 !important;
-}
+/*.introjs-overlay {*/
+    /*z-index: 57 !important;*/
+/*}*/
 
-.introjs-tooltipReferenceLayer {
-    z-index: 60 !important;
-}
+/*.introjs-tooltipReferenceLayer {*/
+    /*z-index: 60 !important;*/
+/*}*/
 
-.introjs-showElement, tr.introjs-showElement>td, tr.introjs-showElement>th {
-    z-index: 59 !important;
-}
+/*.introjs-showElement, tr.introjs-showElement>td, tr.introjs-showElement>th {*/
+    /*z-index: 59 !important;*/
+/*}*/

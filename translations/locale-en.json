@@ -81,7 +81,7 @@
   "TITLE_CREATE_CARD": "Create Card",
   "LABEL_EDITOR_NAME": "Name",
   "LABEL_EDITOR_STARS": "Star cost",
-  "TOOLTIP_EDITOR_STARS_1": "The stats attack and lifeforce, as well as the action, cost stars.",
+  "TOOLTIP_EDITOR_STARS_1": "The stats attack and lifeforce, as well as the action, cost stars. ",
   "TOOLTIP_EDITOR_STARS_2": "You have 10 stars available.",
   "ERROR_EDITOR_STARS": "Too many stars. Edit action or lower attack / lifeforce.",
   "LABEL_EDITOR_ATTACK": "Attack",

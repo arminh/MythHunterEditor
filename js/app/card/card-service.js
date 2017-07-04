@@ -9,10 +9,10 @@
         .module('card')
         .factory('CardService', CardService);
 
-    CardService.$inject = ["$log", "$q", "$mdDialog", "Card"];
+    CardService.$inject = ["$log", "$mdDialog", "Card", "CreationTutorialFlags"];
 
     /* @ngInject */
-    function CardService($log, $q, $mdDialog, Card) {
+    function CardService($log, $mdDialog, Card, CreationTutorialFlags) {
         $log = $log.getInstance("CardService", debugging);
 
         var maskWidth = 214;
@@ -82,9 +82,10 @@
 
             return showCreateCardDialog().then(function () {
                 var card = new Card();
-                return openCardCreatorDialog(card).then(createFinished, createCanceled);
+                return openCardCreatorDialog(user, card).then(createFinished, createCanceled);
 
                 function createFinished(){
+                    user.setCreationTutorialFlag(CreationTutorialFlags.CARD);
                     user.addCreatedCard(card);
                     card.upload().then(function() {
                         user.upload();
@@ -125,7 +126,7 @@
             });
         }
 
-        function openCardCreatorDialog(card) {
+        function openCardCreatorDialog(user, card) {
             return $mdDialog.show({
                 templateUrl: 'js/app/cardeditor/cardeditor.tpl.html',
                 controller: 'CardEditorController',
@@ -133,7 +134,8 @@
                 bindToController: true,
                 multiple: true,
                 locals: {
-                    card: card
+                    card: card,
+                    tutorial: !user.getCreationTutorialFlag(CreationTutorialFlags.CARD)
                 }
             });
         }

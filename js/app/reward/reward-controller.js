@@ -9,10 +9,10 @@
         .module('reward')
         .controller('RewardController', RewardController);
 
-    RewardController.$inject = ["RewardService"];
+    RewardController.$inject = ["RewardService", "ngIntroService"];
 
     /* @ngInject */
-    function RewardController(RewardService) {
+    function RewardController(RewardService, ngIntroService) {
         var vm = this;
         vm.cardIndex = 0;
 
@@ -36,6 +36,7 @@
         }
 
         function createCard(index){
+            ngIntroService.clear();
             RewardService.createCard(vm.user).then(function(card) {
                 vm.cards[index] = card;
                 card.getLoadPromise().then(function() {

@@ -81,7 +81,7 @@
   "TITLE_CREATE_CARD": "Karte erstellen",
   "LABEL_EDITOR_NAME": "Name",
   "LABEL_EDITOR_STARS": "Sternkosten",
-  "TOOLTIP_EDITOR_STARS_1": "Die Werte Attacke und Lebenskraft sowie die Aktionen benötigen Sterne",
+  "TOOLTIP_EDITOR_STARS_1": "Die Werte Attacke und Lebenskraft sowie die Aktionen benötigen Sterne. ",
   "TOOLTIP_EDITOR_STARS_2": "Du hast 10 Sterne zur Verfügung.",
   "ERROR_EDITOR_STARS": "Zu viele Sterne. Bearbeite die Aktion oder verringere Attacke / Lebenskraft",
   "LABEL_EDITOR_ATTACK": "Attacke",
