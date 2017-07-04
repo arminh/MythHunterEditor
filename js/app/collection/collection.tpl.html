@@ -1,6 +1,17 @@
-<div id="collection-container" flex-offset="10" flex="80" layout="row">
+<div id="collection-container" flex-offset="10" flex="80" layout="row" ng-intro-options="collectionCtrl.introOptions"
+     ng-intro-method="collectionCtrl.startIntro">
     <div flex="75" layout="column">
         <div class="collection-filter-container" layout="row">
+            <md-tabs md-selected="selectedIndex" flex>
+                <md-tab label="{{'LABEL_COLLECTION' | translate}}" name="collection"
+                        ng-click="collectionCtrl.showCollection()"></md-tab>
+                <md-tab label="{{'LABEL_CREATED_CARDS' | translate}}" name="created"
+                        ng-click="collectionCtrl.showCreatedCards()"></md-tab>
+            </md-tabs>
+            <md-input-container class="collection-filter-content">
+                <label>Filter</label>
+                <input type="text" name="name" ng-model="collectionCtrl.searchText"/>
+            </md-input-container>
             <div ng-repeat="star in collectionCtrl.starsFull track by $index"
                  ng-click="collectionCtrl.filterStarClicked($index+1, true)"
                  class="collection-filter-star-container">
@@ -14,17 +25,6 @@
                 <div class="collection-filter-star-label"><span>{{$index + collectionCtrl.starsFull.length + 1}}</span>
                 </div>
             </div>
-            <md-input-container class="collection-filter-content">
-                <label>Filter</label>
-                <input type="text" name="name" ng-model="collectionCtrl.searchText"/>
-            </md-input-container>
-            <span flex></span>
-            <md-tabs style="width: 350px" md-selected="selectedIndex">
-                <md-tab label="{{'LABEL_COLLECTION' | translate}}" name="collection"
-                        ng-click="collectionCtrl.showCollection()"></md-tab>
-                <md-tab label="{{'LABEL_CREATED_CARDS' | translate}}" name="created"
-                        ng-click="collectionCtrl.showCreatedCards()"></md-tab>
-            </md-tabs>
         </div>
 
         <div class="collection-cards-preview" flex>
@@ -41,7 +41,7 @@
                 </md-button>
             </div>
 
-            <div ng-show="collectionCtrl.collectionShown" ng-model="card.remoteId"
+            <div ng-show="collectionCtrl.collectionShown" ng-model="card.remoteId" id="collection-cards"
                  ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter() | orderBy : 'stars'"
                  ng-dblclick="collectionCtrl.addCardToDeck(card, false)" class="collection-card-preview-container"
                  ng-class="{'collection-card-movable': card.loaded && collectionCtrl.currentDeck}"
@@ -75,14 +75,18 @@
               cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}">
             <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck && !collectionCtrl.enemy">
                 <md-button class="md-raised md-primary" ng-click="collectionCtrl.createDeck()"
-                           ng-disabled="!collectionCtrl.collection.loaded">
+                           >
                     <md-label>{{'LABEL_CREATE_DECK' | translate}}</md-label>
                 </md-button>
             </div>
-            <div class="collection-deck-button" ng-if="collectionCtrl.currentDeck && !collectionCtrl.enemy">
+            <div class="collection-deck-button" layout="row" ng-if="collectionCtrl.currentDeck && !collectionCtrl.enemy">
                 <md-button class="md-raised" ng-click="collectionCtrl.cancelDeck()">
                     <md-icon md-svg-src="media/back_icon.svg" class="back-icon"></md-icon>
                     <md-label>{{'BUTTON_CANCEL' | translate}}</md-label>
+                </md-button>
+                <md-button ng-click="collectionCtrl.showTutorial()" class="md-raised md-icon-button" aria-label="Complex">
+                    <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
+                    <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>
                 </md-button>
             </div>
 
@@ -101,7 +105,7 @@
                 </div>
             </div>
 
-            <div ng-if="collectionCtrl.currentDeck" class="collection-deck-container" flex
+            <div ng-show="collectionCtrl.currentDeck" class="collection-deck-container" flex
                  data-drop="true" jqyoui-droppable="{onDrop: 'collectionCtrl.cardDropped($event)'}"
                  ng-model="collectionCtrl.droppedCard">
                 <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck"
@@ -109,7 +113,7 @@
             </div>
 
 
-            <div ng-if="collectionCtrl.currentDeck" class="collection-deck-button">
+            <div ng-show="collectionCtrl.currentDeck" class="collection-deck-button" id="save-deck">
                 <md-button type="submit" class="md-raised">
                     <md-label>{{'LABEL_SAVE_DECK' | translate}}</md-label>
                 </md-button>

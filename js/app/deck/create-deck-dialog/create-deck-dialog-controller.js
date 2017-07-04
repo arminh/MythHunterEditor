@@ -19,7 +19,7 @@
         ////////////////
 
         function confirm() {
-            $mdDialog.hide();
+            $mdDialog.hide(vm.tutorial);
         }
     }
 

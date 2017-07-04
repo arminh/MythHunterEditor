@@ -9,10 +9,10 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "$q", "$mdDialog", "$translate", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS", "MAX_DECK_CARDS"];
+    CollectionService.$inject = ["$log", "$q", "$mdDialog", "$translate", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS", "MAX_DECK_CARDS", "CreationTutorialFlags"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $mdDialog, $translate, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS, MAX_DECK_CARDS) {
+    function CollectionService($log, $q, $mdDialog, $translate, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS, MAX_DECK_CARDS, CreationTutorialFlags) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var originalDeck = null;
@@ -37,7 +37,7 @@
         ////////////////
 
         function createCollection(cards, createdCards, decks) {
-            for(var i = 0; i < decks.length; i++) {
+            for (var i = 0; i < decks.length; i++) {
                 decks[i].setId(deckCount++);
             }
             return new Collection(cards, createdCards, decks)
@@ -76,33 +76,35 @@
 
         function getCardById(cardId, collection, enemy) {
             var card = collection.getCard(cardId);
-            if(!card && enemy) {
+            if (!card && enemy) {
                 card = collection.getCreatedCard(cardId);
             }
             return card;
         }
 
         function openDeck(deck) {
-            return showCreateDeckDialog().then(function() {
-                originalDeck = deck;
-                return angular.copy(deck);
-            });
+            originalDeck = deck;
+            return angular.copy(deck);
 
         }
 
-        function showCreateDeckDialog() {
+        function showCreateDeckDialog(user) {
             return $mdDialog.show({
                 templateUrl: 'js/app/deck/create-deck-dialog/create-deck-dialog.tpl.html',
                 controller: 'CreateDeckDialogController',
-                controllerAs: "createDeck"
+                controllerAs: "createDeck",
+                bindToController: true,
+                locals: {
+                    tutorial: !user.getCreationTutorialFlag(CreationTutorialFlags.DECK)
+                }
             });
         }
 
         function saveDeck(currentDeck, collection, evt) {
 
-            if(!currentDeck.getComplete()) {
+            if (!currentDeck.getComplete()) {
 
-                if(otherCompleteDeckExists(collection, currentDeck)) {
+                if (otherCompleteDeckExists(collection, currentDeck)) {
                     var confirm = $mdDialog.confirm()
                         .title($translate.instant('TITLE_SAVING_INCOMPLETE_DECK'))
                         .htmlContent($translate.instant('TEXT_NOT_ENOUGH_CARDS') + ' (' + MIN_DECK_CARDS + ').<br>' + $translate.instant('TEXT_NOT_ENOUGH_CARDS_SAVE'))
@@ -111,7 +113,7 @@
                         .ok($translate.instant('BUTTON_OK'))
                         .cancel($translate.instant('BUTTON_CANCEL'));
 
-                    return $mdDialog.show(confirm).then(function() {
+                    return $mdDialog.show(confirm).then(function () {
                         return finishEditing(currentDeck);
                     });
                 } else {
@@ -122,12 +124,12 @@
                         .targetEvent(evt)
                         .ok($translate.instant('BUTTON_CLOSE'));
 
-                    return $mdDialog.show(alert).then(function() {
+                    return $mdDialog.show(alert).then(function () {
                         return $q.reject();
                     });
                 }
 
-            } else if(currentDeck.getToManyCards()) {
+            } else if (currentDeck.getToManyCards()) {
                 var alert = $mdDialog.alert()
                     .title($translate.instant('ERROR_DECK'))
                     .htmlContent($translate.instant('ERROR_DECK_MAX_CARDS') + ' (' + MAX_DECK_CARDS + ')')
@@ -135,7 +137,7 @@
                     .targetEvent(evt)
                     .ok('Close');
 
-                return $mdDialog.show(alert).then(function() {
+                return $mdDialog.show(alert).then(function () {
                     return $q.reject();
                 });
             } else {
@@ -147,8 +149,8 @@
         function otherCompleteDeckExists(collection, deck) {
             var completeDeckExists = false;
             var decks = collection.getDecks();
-            for(var i = 0; i < decks.length; i++) {
-                if(decks[i].getComplete() && decks[i].getRemoteId() != deck.getRemoteId()) {
+            for (var i = 0; i < decks.length; i++) {
+                if (decks[i].getComplete() && decks[i].getRemoteId() != deck.getRemoteId()) {
                     completeDeckExists = true;
                 }
             }
@@ -164,7 +166,7 @@
         }
 
         function removeDeck(collection, deck, evt) {
-            if(otherCompleteDeckExists(collection, deck)) {
+            if (otherCompleteDeckExists(collection, deck)) {
                 var confirm = $mdDialog.confirm()
                     .title('Delete deck')
                     .htmlContent('Are you sure you want to delete your Deck <b>' + deck.getName() + '</b> ?')
@@ -173,7 +175,7 @@
                     .ok('Confirm')
                     .cancel('Cancel');
 
-                return $mdDialog.show(confirm).then(function() {
+                return $mdDialog.show(confirm).then(function () {
                     return deck.remove().then(function () {
                         collection.removeDeck(deck.getId());
                         return deck.getId();
@@ -187,7 +189,7 @@
                     .targetEvent(evt)
                     .ok('Close');
 
-                return $mdDialog.show(alert).then(function() {
+                return $mdDialog.show(alert).then(function () {
                     return $q.reject();
                 });
             }

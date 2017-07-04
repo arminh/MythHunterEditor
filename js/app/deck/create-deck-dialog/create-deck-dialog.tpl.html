@@ -42,6 +42,9 @@
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <span flex></span>
+        <md-checkbox class="instruction-use" ng-model="createDeck.tutorial" aria-label="separateDescription">
+            <md-label class="description-label">{{'LABEL_TUTORIAL' | translate}}</md-label>
+        </md-checkbox>
         <md-button class="md-raised" ng-click="createDeck.confirm()">
             {{'BUTTON_READY' | translate}}
         </md-button>

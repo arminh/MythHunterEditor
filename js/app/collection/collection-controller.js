@@ -9,10 +9,10 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["$state", "$mdDialog", "CollectionService", "MAX_STARS", "MAX_CARD_IN_DECK", "CardType", "user", "$stateParams"];
+    CollectionController.$inject = ["$state", "$mdDialog", "$timeout", "$translate", "CollectionService", "MAX_STARS", "MAX_CARD_IN_DECK", "CardType", "user", "$stateParams", "CreationTutorialFlags"];
 
     /* @ngInject */
-    function CollectionController($state, $mdDialog, CollectionService, MAX_STARS, MAX_CARD_IN_DECK, CardType, user, $stateParams) {
+    function CollectionController($state, $mdDialog, $timeout, $translate, CollectionService, MAX_STARS, MAX_CARD_IN_DECK, CardType, user, $stateParams, CreationTutorialFlags) {
         var vm = this;
 
         vm.user = user;
@@ -40,6 +40,7 @@
         vm.showCreatedCards = showCreatedCards;
         vm.showCollection = showCollection;
         vm.cardDropped = cardDropped;
+        vm.showTutorial = showTutorial;
 
         vm.cardLocked = cardLocked;
         vm.cardAvailable = cardAvailable;
@@ -55,11 +56,11 @@
         ////////////////
 
         function activate() {
-            if($stateParams.enemy) {
+            if ($stateParams.enemy) {
                 vm.enemy = $stateParams.enemy;
-                CollectionService.loadCollectionEnemy(user).then(function(collection) {
+                CollectionService.loadCollectionEnemy(user).then(function (collection) {
                     vm.collection = collection;
-                    CollectionService.openDeck(vm.enemy.getDeck()).then(function(result) {
+                    CollectionService.openDeck(vm.enemy.getDeck()).then(function (result) {
                         vm.currentDeck = result;
                     });
                     vm.deckControl = {
@@ -123,21 +124,54 @@
         }
 
         function createDeck() {
-            // vm.collection.decks.length = 0;
-            // user.upload();
             var deck = CollectionService.createDeck(vm.collection);
-            openDeck(deck);
-
+            CollectionService.showCreateDeckDialog(user).then(function (tutorial) {
+                openDeck(deck);
+                if(tutorial) {
+                    $timeout(function() {
+                        vm.introOptions = {
+                            steps: [
+                                {
+                                    element: document.querySelector('#deck-name'),
+                                    intro: "Enter a name for your deck."
+                                },
+                                {
+                                    element: document.querySelector('#collection-cards'),
+                                    intro: "Double click a card to add it to your deck."
+                                },
+                                {
+                                    element: document.querySelector('#deck-content'),
+                                    intro: "Double click a card preview to remove it from your deck"
+                                },
+                                {
+                                    element: document.querySelector('#card-count'),
+                                    intro: "You can have between 20 and 30 cards in your deck"
+                                },
+                                {
+                                    element: document.querySelector('#save-deck'),
+                                    intro: "If you are finished editing the deck press this button."
+                                }
+                            ],
+                            showStepNumbers: false,
+                            showBullets: true,
+                            exitOnOverlayClick: true,
+                            exitOnEsc: true,
+                            hidePrev: true
+                        };
+                        vm.startIntro();
+                    });
+                }
+            });
 
         }
 
         function addCardToDeck(card, isCreatedCard) {
-            if(isCreatedCard && vm.enemy) {
-                if(card.getLoaded() && vm.deckControl.addCard) {
+            if (isCreatedCard && vm.enemy) {
+                if (card.getLoaded() && vm.deckControl.addCard) {
                     vm.deckControl.addCard(card);
                 }
             } else {
-                if(card.getLoaded() && vm.deckControl.addCard) {
+                if (card.getLoaded() && vm.deckControl.addCard) {
                     vm.deckControl.addCard(card);
                 }
             }
@@ -150,7 +184,7 @@
         }
 
         function cardLocked(card) {
-            if(vm.currentDeck) {
+            if (vm.currentDeck) {
                 return vm.currentDeck.countCard(card.getRemoteId()) >= MAX_CARD_IN_DECK;
             } else {
                 return false;
@@ -158,7 +192,7 @@
         }
 
         function cardAvailable(card) {
-            if(vm.currentDeck) {
+            if (vm.currentDeck) {
                 return vm.currentDeck.countCard(card.getRemoteId()) < card.getAmount();
             } else {
                 return true;
@@ -167,22 +201,17 @@
 
         function openDeck(deck) {
 
+            vm.currentDeck = CollectionService.openDeck(deck);
+            vm.deckControl = {
+                addCard: null
+            };
+            var decks = vm.collection.getDecks();
 
-            CollectionService.openDeck(deck).then(function(result) {
-                vm.currentDeck = result;
-                vm.deckControl = {
-                    addCard: null
-                };
-                var decks = vm.collection.getDecks();
+            for (var i = 0; i < decks.length; i++) {
+                decks[i].setVisible(false);
+            }
 
-                for (var i = 0; i < decks.length; i++) {
-                    decks[i].setVisible(false);
-                }
-
-                vm.currentDeck.setVisible(true);
-            });
-
-
+            vm.currentDeck.setVisible(true);
         }
 
         function cancelDeck() {
@@ -203,14 +232,18 @@
         }
 
         function saveDeck(evt) {
-            if(!vm.enemy) {
+            if (!vm.enemy) {
                 vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck, vm.collection, evt).then(function () {
+                    user.setCreationTutorialFlag(CreationTutorialFlags.DECK);
                     user.upload();
                     closeDeck();
                 });
             } else {
                 vm.enemy.setDeck(vm.currentDeck);
-                $state.go("app.task", { originalTreePart: $stateParams.originalTreePart, treePart: $stateParams.treePart});
+                $state.go("app.task", {
+                    originalTreePart: $stateParams.originalTreePart,
+                    treePart: $stateParams.treePart
+                });
             }
         }
 
@@ -232,6 +265,10 @@
                     card: card
                 }
             });
+        }
+
+        function showTutorial() {
+            vm.startIntro();
         }
     }
 

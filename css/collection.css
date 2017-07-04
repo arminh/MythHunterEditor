@@ -71,7 +71,8 @@
 }
 
 .collection-filter-content {
-    margin-left: 10px;
+    margin-right: 20px;
+    width: 250px;
 }
 
 .collection-filter-content > .md-errors-spacer {

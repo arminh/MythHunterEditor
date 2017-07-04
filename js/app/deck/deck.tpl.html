@@ -1,5 +1,5 @@
 <div class="deck-container" layout="column">
-    <div class="deck-header">
+    <div class="deck-header" id="deck-name">
         <md-input-container>
             <label>{{'LABEL_DECK_NAME' | translate}}</label>
             <input required name="deckName" ng-model="deckCtrl.deck.name" class="deck-name">
@@ -8,7 +8,7 @@
             </div>
         </md-input-container>
     </div>
-    <div class="deck-cards-container"
+    <div class="deck-cards-container" id="deck-content"
          cg-busy="{promise:deckCtrl.loadCardsPromise, message:{{'LABEL_CARDS_LOADING' | translate}}, minDuration: 1000}">
         <div ng-repeat="deckCard in deckCtrl.cards | orderBy : 'card.stars'" class="deck-card"
              ng-dblclick="deckCtrl.removeCard(deckCard)">
@@ -17,7 +17,7 @@
                     class="deck-card-amount" ng-if="deckCard.amount > 1">{{deckCard.amount}}</span></div>
         </div>
     </div>
-    <div class="deck-card-count"
+    <div class="deck-card-count" id="card-count"
          ng-class="{'deck-card-count-warning': deckCtrl.deck.getCardCount() < deckCtrl.minCards, 'deck-card-count-error': deckCtrl.deck.countCards() > deckCtrl.maxCards}">
         {{deckCtrl.deck.getCardCount()}} / {{deckCtrl.maxCards}}
     </div>
