@@ -25,5 +25,10 @@
         .constant("CardType", {
             MONSTER: "MONSTER",
             SPELL: "SPELL"
+        })
+        .constant("CreationTutorialFlags", {
+            QUEST: "quest",
+            CARD: "card",
+            DECK: "deck"
         });
 })();

@@ -9,10 +9,10 @@
         .module('profile')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ["$log", "$q", "$state", "$translate", "$mdDialog", "QuestService", "user"];
+    ProfileController.$inject = ["$log", "$q", "$state", "$translate", "$mdDialog", "QuestService", "user", "CreationTutorialFlags"];
 
     /* @ngInject */
-    function ProfileController($log, $q, $state, $translate, $mdDialog, QuestService, user) {
+    function ProfileController($log, $q, $state, $translate, $mdDialog, QuestService, user, CreationTutorialFlags) {
         var vm = this;
         vm.user = user;
         vm.currentQuest = null;
@@ -101,7 +101,8 @@
                 controllerAs: "createQuest",
                 bindToController: true,
                 locals: {
-                    chooseTutorial: true
+                    chooseTutorial: true,
+                    tutorial: !user.getCreationTutorialFlag(CreationTutorialFlags.QUEST)
                 }
             });
         }

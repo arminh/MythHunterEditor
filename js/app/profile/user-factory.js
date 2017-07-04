@@ -33,6 +33,11 @@
             this.cards = [];
             this.createdCards = [];
             this.tutorialPlayed = false;
+            this.creationTutorialFlags = {
+                card: false,
+                deck: false,
+                quest: false
+            };
 
             this.currentQuest = null;
             this.collection = null;
@@ -69,7 +74,10 @@
             getKmWalked: getKmWalked,
             getCardIds: getCardIds,
             getCollection: getCollection,
-            getTutorialPlayed: getTutorialPlayed
+            getTutorialPlayed: getTutorialPlayed,
+            getCreationTutorialFlags: getCreationTutorialFlags,
+            getCreationTutorialFlag: getCreationTutorialFlag,
+            setCreationTutorialFlag: setCreationTutorialFlag
         };
 
         return (User);
@@ -94,6 +102,16 @@
             this.kmWalked = remoteUser.getKmWalked();
             this.cardIds = remoteUser.getCardIds();
             this.tutorialPlayed = remoteUser.getTutorialPlayed();
+
+            var flagString = remoteUser.getCreationTutorialFlags();
+            var flags = flagString.split("|");
+
+            if(flags.length > 1) {
+                for(var i = 0; i < flags.length; i++) {
+                    var key = flags[i].split(':')[0];
+                    this.creationTutorialFlags[key] = flags[i].split(':')[1] != '0';
+                }
+            }
 
             var remoteQuests = remoteUser.getCreatedQuestIds();
             for(var i = 0; i < remoteQuests.length; i++) {
@@ -319,6 +337,27 @@
 
         function getTutorialPlayed() {
             return this.tutorialPlayed;
+        }
+
+        function getCreationTutorialFlags() {
+            var flags = [];
+            for(var key in this.creationTutorialFlags) {
+                var flag = key + ':' + (this.creationTutorialFlags[key] ? 1 : 0);
+                flags.push(flag);
+            }
+            return flags.join("|");
+        }
+
+        function setCreationTutorialFlag(key) {
+            if(!this.creationTutorialFlags[key]) {
+                this.creationTutorialFlags[key] = true;
+                this.upload();
+            }
+
+        }
+
+        function getCreationTutorialFlag(key) {
+            return this.creationTutorialFlags[key];
         }
     }
 

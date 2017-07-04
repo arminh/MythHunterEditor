@@ -182,6 +182,7 @@
             remoteUser.setKmWalked(user.getKmWalked());
             remoteUser.setCardIds(user.getCardIds());
             remoteUser.setTutorialPlayed(user.getTutorialPlayed());
+            remoteUser.setCreationTutorialFlags(user.getCreationTutorialFlags());
 
             var createdQuestIds = [];
             var createdCardIds = [];

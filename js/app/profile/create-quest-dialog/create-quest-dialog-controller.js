@@ -14,7 +14,6 @@
     /* @ngInject */
     function CreateQuestDialogController($mdDialog) {
         var vm = this;
-        vm.tutorial = false;
 
         vm.confirm = confirm;
         ////////////////
