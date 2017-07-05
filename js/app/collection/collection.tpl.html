@@ -75,7 +75,7 @@
               cg-busy="{promise:collectionCtrl.saveDeckPromise, message:'Saving deck...'}">
             <div class="collection-deck-button" ng-if="!collectionCtrl.currentDeck && !collectionCtrl.enemy">
                 <md-button class="md-raised md-primary" ng-click="collectionCtrl.createDeck()"
-                           >
+                           ng-disabled="!collectionCtrl.collection.loaded">
                     <md-label>{{'LABEL_CREATE_DECK' | translate}}</md-label>
                 </md-button>
             </div>
@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-            <div ng-show="collectionCtrl.currentDeck" class="collection-deck-container" flex
+            <div ng-if="collectionCtrl.currentDeck" class="collection-deck-container" flex
                  data-drop="true" jqyoui-droppable="{onDrop: 'collectionCtrl.cardDropped($event)'}"
                  ng-model="collectionCtrl.droppedCard">
                 <deck user="collectionCtrl.user" deck="collectionCtrl.currentDeck"

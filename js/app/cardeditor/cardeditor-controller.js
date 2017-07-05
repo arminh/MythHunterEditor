@@ -84,6 +84,7 @@
         ////////////////
 
         function activate() {
+            if(vm.card.getImage().getOriginalImageSrc() != "")
             vm.card.getImage().loadOriginalImage().then(function(result) {
                 vm.image.base64 = result;
                 vm.image.type = vm.card.getImage().getType();

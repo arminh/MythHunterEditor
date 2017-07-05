@@ -9,10 +9,10 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["$state", "$mdDialog", "$timeout", "$translate", "CollectionService", "MAX_STARS", "MAX_CARD_IN_DECK", "CardType", "user", "$stateParams", "CreationTutorialFlags"];
+    CollectionController.$inject = ["$state", "$mdDialog", "$timeout", "$translate", "CollectionService", "MAX_STARS", "MAX_CARD_IN_DECK", "CardType", "user", "$stateParams", "ngIntroService", "CreationTutorialFlags"];
 
     /* @ngInject */
-    function CollectionController($state, $mdDialog, $timeout, $translate, CollectionService, MAX_STARS, MAX_CARD_IN_DECK, CardType, user, $stateParams, CreationTutorialFlags) {
+    function CollectionController($state, $mdDialog, $timeout, $translate, CollectionService, MAX_STARS, MAX_CARD_IN_DECK, CardType, user, $stateParams, ngIntroService, CreationTutorialFlags) {
         var vm = this;
 
         vm.user = user;
@@ -127,40 +127,44 @@
             var deck = CollectionService.createDeck(vm.collection);
             CollectionService.showCreateDeckDialog(user).then(function (tutorial) {
                 openDeck(deck);
-                if(tutorial) {
-                    $timeout(function() {
-                        vm.introOptions = {
-                            steps: [
-                                {
-                                    element: document.querySelector('#deck-name'),
-                                    intro: "Enter a name for your deck."
-                                },
-                                {
-                                    element: document.querySelector('#collection-cards'),
-                                    intro: "Double click a card to add it to your deck."
-                                },
-                                {
-                                    element: document.querySelector('#deck-content'),
-                                    intro: "Double click a card preview to remove it from your deck"
-                                },
-                                {
-                                    element: document.querySelector('#card-count'),
-                                    intro: "You can have between 20 and 30 cards in your deck"
-                                },
-                                {
-                                    element: document.querySelector('#save-deck'),
-                                    intro: "If you are finished editing the deck press this button."
-                                }
-                            ],
-                            showStepNumbers: false,
-                            showBullets: true,
-                            exitOnOverlayClick: true,
-                            exitOnEsc: true,
-                            hidePrev: true
-                        };
-                        vm.startIntro();
-                    });
-                }
+
+                $timeout(function () {
+                    ngIntroService.clear();
+                    vm.introOptions = {
+                        steps: [
+                            {
+                                element: document.querySelector('#deck-name'),
+                                intro: "Enter a name for your deck."
+                            },
+                            {
+                                element: document.querySelector('#collection-cards'),
+                                intro: "Double click a card to add it to your deck."
+                            },
+                            {
+                                element: document.querySelector('#deck-content'),
+                                intro: "Double click a card preview to remove it from your deck"
+                            },
+                            {
+                                element: document.querySelector('#card-count'),
+                                intro: "You can have between 20 and 30 cards in your deck"
+                            },
+                            {
+                                element: document.querySelector('#save-deck'),
+                                intro: "If you are finished editing the deck press this button."
+                            }
+                        ],
+                        showStepNumbers: false,
+                        showBullets: true,
+                        exitOnOverlayClick: true,
+                        exitOnEsc: true,
+                        hidePrev: true
+                    };
+                    if (tutorial) {
+                        $timeout(function () {
+                            vm.startIntro();
+                        });
+                    }
+                });
             });
 
         }
@@ -200,11 +204,11 @@
         }
 
         function openDeck(deck) {
-
-            vm.currentDeck = CollectionService.openDeck(deck);
             vm.deckControl = {
                 addCard: null
             };
+            vm.currentDeck = CollectionService.openDeck(deck);
+
             var decks = vm.collection.getDecks();
 
             for (var i = 0; i < decks.length; i++) {
@@ -232,6 +236,8 @@
         }
 
         function saveDeck(evt) {
+            user.setCreationTutorialFlag(CreationTutorialFlags.DECK);
+            ngIntroService.clear();
             if (!vm.enemy) {
                 vm.saveDeckPromise = CollectionService.saveDeck(vm.currentDeck, vm.collection, evt).then(function () {
                     user.setCreationTutorialFlag(CreationTutorialFlags.DECK);

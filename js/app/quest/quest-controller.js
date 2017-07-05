@@ -23,9 +23,7 @@
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo']]";
         vm.maxCards = REWARD_MAX_CARDS;
 
-
         vm.tutorialAutoStart = $stateParams.tutorial;
-
         $timeout(function () {
             vm.introOptions = {
                 steps: [
