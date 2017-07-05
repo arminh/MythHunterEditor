@@ -48,7 +48,7 @@
                     .ok('Close');
 
                 $mdDialog.show(alert);
-            } else if(vm.selected < 0){
+            } else if(vm.type == "radio" && vm.selected < 0){
                 var alert = $mdDialog.alert()
                     .title($translate.instant('ERROR_QUIZ'))
                     .htmlContent($translate.instant('ERROR_QUIZ_SELECTED'))

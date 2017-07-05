@@ -68,18 +68,29 @@
             return content;
         }
 
+        function hasGapFill(content) {
+            var textAngular = $('text-angular#task-editor-quiz div[id^="taTextElement"]');
+            var inputElements = textAngular.find("input");
+        }
+
         function retrieveCheckedAttributes(answers, content) {
+            var hasGapFill = false;
+
             var textAngular = $('text-angular#task-editor-quiz div[id^="taTextElement"]');
             var inputElements = textAngular.find("input");
             if (inputElements.length == 0) {
                 return {
                     answers: answers,
+                    hasGapFill: hasGapFill,
                     content: content
                 };
             }
             content = content.replace(/value=".*?"/g, "");
             for (var i = 0; i < inputElements.length; i++) {
                 if (inputElements[i].id != "") {
+                    if(inputElements[i].id.match(/textBox/)) {
+                        hasGapFill = true;
+                    }
                     answers[inputElements[i].id] = inputElements[i].checked;
                     var id = inputElements[i].id;
                     var value = inputElements[i].value;
@@ -88,6 +99,7 @@
             }
             return {
                 answers: answers,
+                hasGapFill: hasGapFill,
                 content: content
             };
         }

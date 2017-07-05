@@ -114,7 +114,7 @@
                     return $mdDialog.show(alert).then(function () {
                         return $q.reject();
                     });
-                } else if (!checkNumAnswers(result.answers)) {
+                } else if (!checkNumAnswers(result.answers) || result.hasGapFill) {
                     var alert = $mdDialog.alert()
                         .title($translate.instant('TITLE_ERROR_SAVE_QUIZ'))
                         .htmlContent($translate.instant('ERROR_QUIZ_NUM_ANSWERS'))
@@ -145,9 +145,13 @@
 
         function checkNumAnswers(answers) {
             var numKey = 0;
+            var hasGapFill = false;
             var curGroup = "";
 
             for (var key in answers) {
+                if(key.match(/textbox/)) {
+                    hasGapFill = true;
+                }
                 var matchesCheckbox = key.match(/(checkbox.+?)-/);
                 if(matchesCheckbox) {
                     if(numKey == 0) {
@@ -187,7 +191,7 @@
                 }
             }
 
-            return (numKey > 1);
+            return (hasGapFill || numKey > 1);
         }
     }
 
