@@ -9,14 +9,16 @@
         .module('map')
         .factory('MapInteractionService', MapInteractionService);
 
-    MapInteractionService.$inject = ["$log", "$rootScope", "$q", 'DefaultConfig'];
+    MapInteractionService.$inject = ["$log", "$rootScope", "$q", 'DefaultConfig', "BackendService"];
 
     /* @ngInject */
-    function MapInteractionService($log, $rootScope, $q, DefaultConfig) {
+    function MapInteractionService($log, $rootScope, $q, DefaultConfig, BackendService) {
 
         $log = $log.getInstance("MapInteractionService", debugging);
 
         var map = null;
+        var centerLon = -1;
+        var centerLat = -1;
         var source;
         var features = [];
 
@@ -362,6 +364,11 @@
         }
 
         function setCenter(lon, lat, zoom) {
+            centerLon = lon;
+            centerLat = lat;
+            BackendService.getQuestsInRange(centerLon, centerLat, 1000).then(function(result) {
+                console.log(result);
+            });
             map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'));
             map.getView().setZoom(zoom);
         }

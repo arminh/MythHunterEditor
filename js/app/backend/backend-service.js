@@ -66,7 +66,9 @@
             downloadImage: downloadImage,
             convertImage: convertImage,
             mapPosition: mapPosition,
-            getStandartDeck: getStandartDeck
+            getStandartDeck: getStandartDeck,
+            getQuestsInRange: getQuestsInRange
+
         };
         return service;
 
@@ -1002,6 +1004,20 @@
             }, function (error) {
                 $log.error("getStandartDeck_fail: ", error);
             }, userId);
+
+            return deffered.promise;
+        }
+
+        function getQuestsInRange(lon, lat, range) {
+            var deffered = $q.defer();
+
+            $log.info("getQuestsInRange: ");
+            backend.getQuestsInRange(function(result) {
+                $log.info("getQuestsInRange_success: ");
+                deffered.resolve(result);
+            }, function(error) {
+                $log.error("getQuestsInRange_fail: ", error);
+            }, mapPosition(lon, lat), range, []);
 
             return deffered.promise;
         }
