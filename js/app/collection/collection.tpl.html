@@ -79,14 +79,18 @@
                     <md-label>{{'LABEL_CREATE_DECK' | translate}}</md-label>
                 </md-button>
             </div>
-            <div class="collection-deck-button" layout="row" ng-if="collectionCtrl.currentDeck && !collectionCtrl.enemy">
-                <md-button class="md-raised" ng-click="collectionCtrl.cancelDeck()">
+            <div class="collection-deck-buttons" layout="row" ng-if="collectionCtrl.currentDeck && !collectionCtrl.enemy">
+                <md-button class="md-raised" ng-click="collectionCtrl.cancelDeck()" flex>
                     <md-icon md-svg-src="media/back_icon.svg" class="back-icon"></md-icon>
                     <md-label>{{'BUTTON_CANCEL' | translate}}</md-label>
                 </md-button>
                 <md-button ng-click="collectionCtrl.showTutorial()" class="md-raised md-icon-button" aria-label="Complex">
                     <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
                     <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>
+                </md-button>
+                <md-button ng-click="collectionCtrl.clearCurrentDeck()" class="md-raised md-icon-button" aria-label="Clear">
+                    <md-icon md-svg-icon="media/clear_icon.svg"></md-icon>
+                    <md-tooltip md-direction="top">{{'BUTTON_CLEAR_DECK' | translate}}</md-tooltip>
                 </md-button>
             </div>
 

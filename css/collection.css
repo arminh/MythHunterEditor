@@ -135,6 +135,12 @@
     border-radius: 5px;
 }
 
+.collection-deck-buttons > .md-button  {
+    margin: 0;
+    height: 50px;
+    border-radius: 5px;
+}
+
 .collection-deck-remove {
     user-select: none;
     position: absolute;

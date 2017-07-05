@@ -189,5 +189,6 @@
   "TITLE_DELETE_TASK": "Delete task",
   "TEXT_DELETE_TASK": "Are you sure you want to delete the task?",
   "TEXT_FIRST_TASK": "First task",
-  "LABEL_TUTORIAL": "Use tutorial"
+  "LABEL_TUTORIAL": "Use tutorial",
+  "BUTTON_CLEAR_DECK": "Clear deck"
 }

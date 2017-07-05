@@ -34,6 +34,7 @@
         vm.createCard = createCard;
         vm.createDeck = createDeck;
         vm.addCardToDeck = addCardToDeck;
+        vm.clearCurrentDeck = clearCurrentDeck;
         vm.starsFilter = starsFilter;
         vm.contentFilter = contentFilter;
         vm.filterStarClicked = filterStarClicked;
@@ -64,7 +65,8 @@
                         vm.currentDeck = result;
                     });
                     vm.deckControl = {
-                        addCard: null
+                        addCard: null,
+                        clearDeck: null
                     };
                 });
             } else {
@@ -169,6 +171,10 @@
 
         }
 
+        function clearCurrentDeck() {
+            vm.deckControl.clearDeck();
+        }
+
         function addCardToDeck(card, isCreatedCard) {
             if (isCreatedCard && vm.enemy) {
                 if (card.getLoaded() && vm.deckControl.addCard) {
@@ -205,7 +211,8 @@
 
         function openDeck(deck) {
             vm.deckControl = {
-                addCard: null
+                addCard: null,
+                clearDeck: null
             };
             vm.currentDeck = CollectionService.openDeck(deck);
 

@@ -35,12 +35,18 @@
             vm.loadCardsPromise = DeckService.loadCards(vm.deck, cards).then(function(result) {
                 vm.cards = result;
                 vm.control.addCard = addCard;
+                vm.control.clearDeck = clearDeck;
             });
 
             function addCard(card) {
                 console.log("AddCard");
                 DeckService.addCardToDeck(card, vm.cards);
                 vm.deck.addCard(card.getRemoteId());
+            }
+
+            function clearDeck() {
+                vm.cards.length = 0;
+                vm.deck.clearCards();
             }
         }
     }
