@@ -7,38 +7,38 @@
 
     angular
         .module('questTree')
-        .factory('QuestTreeConnectorSlot', QuestTreeConnectorSlotFactory);
+        .factory('QuestTreeConnectorOutSlot', QuestTreeConnectorOutSlotFactory);
 
-    QuestTreeConnectorSlotFactory.$inject = [];
+    QuestTreeConnectorOutSlotFactory.$inject = [];
 
     /* @ngInject */
-    function QuestTreeConnectorSlotFactory() {
+    function QuestTreeConnectorOutSlotFactory() {
         var SLOT_T_INDEX = 6;
 
-        function QuestTreeConnectorSlot(canvas, connector, type) {
-            this.type = type;
+        function QuestTreeConnectorOutSlot(canvas, connector) {
+            this.type = "out";
             this.canvas = canvas;
             this.img = null;
             this.circle = null;
-            this.line = null;
+            this.lines = [];
             this.connector = connector;
         }
 
-        QuestTreeConnectorSlot.prototype = {
-            constructor: QuestTreeConnectorSlot,
+        QuestTreeConnectorOutSlot.prototype = {
+            constructor: QuestTreeConnectorOutSlot,
             add: add,
             move: move,
             getAnchorPoint: getAnchorPoint,
-            showCircle: showCircle,
             showErrorCircle: showErrorCircle,
             hideCircle: hideCircle,
             remove: remove,
 
-            getLine: getLine,
-            setLine: setLine
+            getLines: getLines,
+            addLine: addLine,
+            removeLine: removeLine
         };
 
-        return (QuestTreeConnectorSlot);
+        return (QuestTreeConnectorOutSlot);
 
         ////////////////
 
@@ -101,16 +101,12 @@
             this.circle.top = y + 5;
             this.circle.left = x;
             this.circle.setCoords();
-            if(this.line) {
+            for(var i = 0; i < this.lines.length; i++) {
                 var anchor = this.getAnchorPoint();
-                if(this.type == "in") {
-                    this.line.setEnd({x: anchor.left, y: anchor.top}) ;
-                } else if(this.type == "out") {
-                    this.line.setStart({x: anchor.left, y: anchor.top}) ;
-                }
-                this.line.position(true);
-                this.line.removeArrowHead();
-                this.line.drawArrowHead();
+                this.lines[i].setStart({x: anchor.left, y: anchor.top}) ;
+                this.lines[i].position(true);
+                this.lines[i].removeArrowHead();
+                this.lines[i].drawArrowHead();
             }
         }
 
@@ -126,16 +122,6 @@
                     top: this.img.top + this.img.height / 2,
                     left: this.img.left + this.img.width
                 }
-            }
-        }
-
-        function showCircle() {
-
-            if(!this.line) {
-                this.hideCircle();
-                this.circle.stroke = 'blue';
-                this.canvas.add(this.circle);
-                this.circle.moveTo(SLOT_T_INDEX);
             }
         }
 
@@ -156,17 +142,26 @@
         function remove() {
             this.hideCircle();
             this.canvas.remove(this.img);
-            if(this.line) {
-                this.line.remove();
+            for(var i = 0; i < this.lines.length; i++) {
+                this.lines[i].remove();
             }
         }
 
-        function getLine() {
-            return this.line;
+        function getLines() {
+            return this.lines;
         }
 
-        function setLine(line) {
-            this.line = line;
+        function addLine(line) {
+            this.lines.push(line);
+        }
+
+        function removeLine(line) {
+            for(var i = 0; i < this.lines.length; i++) {
+                if(this.lines[i].getId() == line.getId()) {
+                    this.lines.splice(i, 1);
+                    break;
+                }
+            }
         }
     }
 

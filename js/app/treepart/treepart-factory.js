@@ -27,8 +27,8 @@
             this.successors = [];
             this.type = type;
             this.highlightedInvisibeMarker = false;
-            this.positionX = 0;
-            this.positionY = 0;
+            this.positionX = 10;
+            this.positionY = 10;
 
             this.questName = questName;
             this.loaded = false;
@@ -45,6 +45,7 @@
             initFromRemote: initFromRemote,
             addSuccessor: addSuccessor,
             removeSuccessor: removeSuccessor,
+            removeTreePart: removeTreePart,
             hasSuccessor: hasSuccessor,
             hasAncestor: hasAncestor,
             check: check,
@@ -104,7 +105,7 @@
             this.positionY = treePartObject.positionY;
             this.questName = quest.getName();
 
-            if(treePartObject.type == TreePartType.Marker) {
+            if (treePartObject.type == TreePartType.Marker) {
                 this.task = new Task(quest.getName());
                 this.task.initFromObject(treePartObject.task);
             }
@@ -112,7 +113,7 @@
             for (var i = 0; i < treePartObject.successors.length; i++) {
                 var successorObject = treePartObject.successors[i];
                 var treePart = quest.getTreePart(successorObject.id);
-                if(!treePart) {
+                if (!treePart) {
                     treePart = new TreePart(treePartObject.type, quest.getName());
                     treePart.initFromObject(treePartObject.successors[i], quest, false);
                 }
@@ -128,9 +129,9 @@
             return BackendService.getTreePart(this.remoteId).then(success.bind(this), fail.bind(this));
 
             function success(remoteTreePart) {
-                if(remoteTreePart) {
+                if (remoteTreePart) {
 
-                    return this.initFromRemote(remoteTreePart, quest).then(function() {
+                    return this.initFromRemote(remoteTreePart, quest).then(function () {
                         this.loaded = true;
                         $log.info("getFromRemote_success: ", this.remoteId);
                         return this;
@@ -165,7 +166,7 @@
 
 
             var promises = [];
-            if(this.type == TreePartType.Marker) {
+            if (this.type == TreePartType.Marker) {
                 this.task = new Task(quest.getName());
                 this.task.setRemoteId(remoteTreePart.getMarker().getId());
                 promises.push(this.task.getFromRemote());
@@ -175,11 +176,11 @@
             for (var i = 0; i < successors.length; i++) {
                 var successorId = successors[i].getId();
                 var treePart = quest.getTreePartByRemoteId(successorId);
-                if(!treePart) {
+                if (!treePart) {
                     treePart = new TreePart(successors[i].getType(), quest.getName());
                     treePart.setRemoteId(successorId);
                     promises.push(treePart.getFromRemote(quest, false));
-                    if(treePart.getType() == TreePartType.Marker) {
+                    if (treePart.getType() == TreePartType.Marker) {
                         QuestService.addTreePartToQuest(quest, treePart);
                     } else {
                         var treePartId = QuestService.getTreePartId();
@@ -190,7 +191,7 @@
                 this.successors.push(treePart);
             }
 
-            return $q.all(promises).then(function() {
+            return $q.all(promises).then(function () {
                 $log.info("initFromRemote_success: ", this);
                 return this;
             }.bind(this))
@@ -201,16 +202,61 @@
         }
 
         function removeSuccessor(treePartId) {
-            for(var i = 0; i < this.successors.length; i++) {
-                if(this.successors[i].getId() == treePartId) {
+            for (var i = 0; i < this.successors.length; i++) {
+                if (this.successors[i].getId() == treePartId) {
                     this.successors.splice(i, 1);
                 }
 
             }
         }
 
+        function removeTreePart(treePartId) {
+            for (var i = 0; i < this.successors.length; i++) {
+                if (this.successors[i].getId() == treePartId) {
+                    var deleteTreePart = this.successors[i];
+                    this.successors.splice(i, 1);
+                    $log.info("=================================================================");
+                    $log.info("remove successor of : ", this.getTask().getName());
+                    var successors = deleteTreePart.getSuccessors();
+                    $log.info("removed treeParts successors : ", successors);
+
+                    var cachedConnectors = [];
+                    for (var j = 0; j < successors.length; j++) {
+                        if (successors[j].getType() == TreePartType.And || successors[j].getType() == TreePartType.Or) {
+                            cachedConnectors.push(successors[j]);
+                        } else {
+                            $log.info("Add successors to TreePart: ");
+                            this.successors.push(successors[j]);
+                        }
+                    }
+
+                    for(var j = 0; j < cachedConnectors.length; j++) {
+                        $log.info("removed treeParts successor AND/OR: ", cachedConnectors[j]);
+                        if (this.id == 0) {
+                            if(!this.hasAncestor(cachedConnectors[j].getId())) {
+                                var connectorSuccessors = cachedConnectors[j].getSuccessors();
+                                $log.info("And/Or as no more incoming lines: ");
+                                for (var k = 0; k < connectorSuccessors.length; k++) {
+                                    $log.info("Add And/Or successors to Root: ");
+                                    this.successors.push(connectorSuccessors[k]);
+                                }
+                            }
+
+                        } else {
+                            $log.info("Add And/Or successors to TreePart: ");
+                            this.successors.push(cachedConnectors[j]);
+                        }
+                    }
+                }
+            }
+
+            for (var i = 0; i < this.successors.length; i++) {
+                this.successors[i].removeTreePart(treePartId);
+            }
+        }
+
         function hasSuccessor(treePartId) {
-            for(var i = 0; i < this.successors.length; i++) {
+            for (var i = 0; i < this.successors.length; i++) {
                 if (this.successors[i].getId() == treePartId) {
                     return true;
                 }
@@ -219,11 +265,11 @@
 
         function hasAncestor(treePartId) {
             var found = false;
-            for(var i = 0; i < this.successors.length; i++) {
-                if(this.successors[i].getId() == treePartId) {
+            for (var i = 0; i < this.successors.length; i++) {
+                if (this.successors[i].getId() == treePartId) {
                     return true;
                 } else {
-                    if(this.successors[i].hasAncestor(treePartId)) {
+                    if (this.successors[i].hasAncestor(treePartId)) {
                         found = true;
                     }
                 }
@@ -240,7 +286,7 @@
         }
 
         function upload() {
-            if(this.uploadPromise) {
+            if (this.uploadPromise) {
                 return this.uploadPromise;
             }
 
@@ -248,7 +294,7 @@
 
             var promises = [];
 
-            if(this.type == TreePartType.Marker) {
+            if (this.type == TreePartType.Marker) {
                 promises.push($q.when(this.task.upload()));
             }
 
@@ -258,7 +304,7 @@
 
             this.uploadPromise = $q.all(promises).then(function (results) {
                 var successors = [];
-                if(this.type == TreePartType.Marker) {
+                if (this.type == TreePartType.Marker) {
                     this.remoteTreePart.setMarker(results[0]);
                     successors = results.slice(1, results.length);
                 } else {

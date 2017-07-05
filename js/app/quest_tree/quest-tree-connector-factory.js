@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeConnector', QuestTreeConnectorFactory);
 
-    QuestTreeConnectorFactory.$inject = ["QuestTreeConnectorSlot"];
+    QuestTreeConnectorFactory.$inject = ["QuestTreeConnectorInSlot", "QuestTreeConnectorOutSlot"];
 
     /* @ngInject */
-    function QuestTreeConnectorFactory(QuestTreeConnectorSlot) {
+    function QuestTreeConnectorFactory(QuestTreeConnectorInSlot, QuestTreeConnectorOutSlot) {
 
         var CONNECTOR_Z_INDEX = 5;
         var CONNECTOR_LABEL_INDEX = 6;
@@ -46,7 +46,6 @@
             removeInLine: removeInLine,
             removeOutLine: removeOutLine,
             getNumInLines: getNumInLines,
-            getNumOutLines: getNumOutLines,
             isHit: isHit,
             remove: remove,
 
@@ -104,13 +103,13 @@
         }
 
         function drawInSlot() {
-            var slot = new QuestTreeConnectorSlot(this.canvas, this, "in");
+            var slot = new QuestTreeConnectorInSlot(this.canvas, this);
             slot.add(this.img.left, this.img.top + 10 + 15 * this.inSlots.length);
             this.inSlots.push(slot);
         }
 
         function drawOutSlot() {
-            var slot = new QuestTreeConnectorSlot(this.canvas, this, "out");
+            var slot = new QuestTreeConnectorOutSlot(this.canvas, this);
             slot.add(this.img.left + this.img.width, this.img.top + this.img.height / 2 - 5);
             this.outSlot = slot;
         }
@@ -156,15 +155,7 @@
         }
 
         function getOutLines() {
-            if(this.outSlot.getLine()) {
-                return [this.outSlot.getLine()];
-            } else {
-                return [];
-            }
-        }
-
-        function getNumOutLines() {
-            return this.outSlot.getLine() ? 1 : 0;
+            return this.outSlot.getLines();
         }
 
         function getType() {
@@ -214,8 +205,9 @@
         }
 
         function addOutLine(line) {
-            this.outSlot.setLine(line);
-            this.treePart.change();
+                this.outSlot.addLine(line);
+                this.treePart.change();
+
         }
 
         function addInLine(line) {
@@ -239,8 +231,8 @@
             }
         }
 
-        function removeOutLine() {
-            this.outSlot.setLine(null);
+        function removeOutLine(line) {
+            this.outSlot.removeLine(line);
             this.treePart.change();
         }
 

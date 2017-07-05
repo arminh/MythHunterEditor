@@ -251,7 +251,8 @@
                 }
             }
 
-            this.rewireTree(this.treePartRoot, this.treeParts);
+            // this.rewireTree(this.treePartRoot, treePart.getId());
+            this.treePartRoot.removeTreePart(treePart.getId());
             $log.info("deleteTreePart_success: ", this.treeParts);
 
             this.change();
@@ -367,6 +368,7 @@
 
         function rewireTree(treePartRoot, treeParts) {
             $log.info("rewireTree: ", treePartRoot);
+
             treePartRoot.successors = [];
             if (treeParts.length == 0) {
                 return;

@@ -714,7 +714,7 @@
 
             var error = false;
             for (var i = 0; i < connectors.length; i++) {
-                if (connectors[i].getNumOutLines() < 1) {
+                if (connectors[i].getOutLines().length < 1) {
                     $log.warn("And/Or output no connected to tree");
                     connectors[i].showSlotErrorCircles("out");
                     error = true;
