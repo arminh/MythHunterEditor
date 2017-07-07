@@ -123,13 +123,7 @@
                 MapInteraction.setCenter(startMarker.getLon(), startMarker.getLat(), 17);
             } else {
                 if($stateParams.tutorial) {
-                    var alert = $mdDialog.alert()
-                        .title('Place Start Marker')
-                        .htmlContent("You are now on the map interface with the first marker in hand. <br> Place the marker where you want players to find your quest")
-                        .ariaLabel('Place start')
-                        .ok($translate.instant('BUTTON_OK'));
-
-                    $mdDialog.show(alert).then(function() {
+                    MapService.showMarkerTutorial("start").then(function() {
                         MapService.createQuest(user, $stateParams.tutorial);
                     });
                 } else {
@@ -139,7 +133,7 @@
         }
 
         function addTreePart(quest, evt) {
-            MapService.addTreePart(user, quest, evt);
+            MapService.addTreePart(user, quest, $stateParams.tutorial, evt);
         }
 
         function toggleQuestline() {

@@ -36,7 +36,10 @@
             this.creationTutorialFlags = {
                 card: false,
                 deck: false,
-                quest: false
+                quest: false,
+                quiz: false,
+                search: false,
+                fight: false
             };
 
             this.currentQuest = null;

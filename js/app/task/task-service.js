@@ -9,17 +9,18 @@
         .module('task')
         .factory('TaskService', TaskService);
 
-    TaskService.$inject = ["$log", "$mdDialog", "MarkerType"];
+    TaskService.$inject = ["$log", "$mdDialog", "$translate", "MarkerType"];
 
     /* @ngInject */
-    function TaskService($log, $mdDialog, MarkerType) {
+    function TaskService($log, $mdDialog, $translate, MarkerType) {
 
         $log = $log.getInstance("TaskService", debugging);
 
         var service = {
             showPreview: showPreview,
             getMarkerSrc: getMarkerSrc,
-            getFightTpl: getFightTpl
+            getFightTpl: getFightTpl,
+            showCreationTutorial: showCreationTutorial
         };
         return service;
 
@@ -58,6 +59,38 @@
 
         function getFightTpl(lon, lat) {
             return "<div><p>lon: " + lon + "</p><p>lat: " + lat + "</p></div>";
+        }
+
+        function showCreationTutorial(type, invisibleTarget) {
+            var title = "";
+            var content = "";
+
+            switch (type) {
+                case "start": {
+                    title = "Place StartMarker";
+                    content = "You are now on the map interface with the first marker in hand. <br> Place the marker where you want players to find your quest";
+                    break;
+                }
+                case MarkerType.INVISIBLE: {
+                    if(!invisibleTarget) {
+                        title = "Place search start marker";
+                        content = "Place the first of two markers for the search task on the map.<br>It marks the location of the start of the search.";
+                        break;
+                    } else {
+                        title = "Place search target marker";
+                        content = "Place the second marker at the destination of your search task.";
+                        break;
+                    }
+                }
+            }
+
+            var alert = $mdDialog.alert()
+                .title(title)
+                .htmlContent(content)
+                .ariaLabel('Place start')
+                .ok($translate.instant('BUTTON_OK'));
+
+            return $mdDialog.show(alert);
         }
     }
 

@@ -29,6 +29,9 @@
         .constant("CreationTutorialFlags", {
             QUEST: "quest",
             CARD: "card",
-            DECK: "deck"
+            DECK: "deck",
+            QUIZ: "quiz",
+            FIGHT: "fight",
+            SEARCH: "search"
         });
 })();

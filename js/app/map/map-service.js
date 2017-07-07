@@ -9,10 +9,10 @@
             .module('map')
             .factory('MapService', mapService);
 
-        mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "$translate", "DefaultConfig", "MapInteractionService", "QuestService", "MarkerType", "TaskService"];
+        mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "$translate", "DefaultConfig", "MapInteractionService", "QuestService", "MarkerType", "TaskService", "CreationTutorialFlags"];
 
         /* @ngInject */
-        function mapService($log, $q, $state, $http, $mdDialog, $translate, DefaultConfig, MapInteraction, QuestService, MarkerType, TaskService) {
+        function mapService($log, $q, $state, $http, $mdDialog, $translate, DefaultConfig, MapInteraction, QuestService, MarkerType, TaskService, CreationTutorialFlags) {
 
             $log = $log.getInstance("MapService", debugging);
 
@@ -32,7 +32,8 @@
                 searchLocation: searchLocation,
                 getDrawing: getDrawing,
                 editQuestTree: editQuestTree,
-                addQuestReward: addQuestReward
+                addQuestReward: addQuestReward,
+                showMarkerTutorial: showMarkerTutorial
             };
             return service;
 
@@ -44,7 +45,7 @@
                 quest.init("New Quest");
                 quest.setLoaded(true);
                 drawing = true;
-                return drawMarker(quest.getTreePartRoot().getTask()).then(addQuestToUser);
+                return drawMarker(quest.getTreePartRoot().getTask(), user).then(addQuestToUser);
 
                 function addQuestToUser() {
                     drawing = false;
@@ -81,7 +82,7 @@
                 function success(result) {
                     drawing = true;
                     treePart = quest.createTreePartMarker(result.type);
-                    drawMarker(treePart.getTask()).then(editTreePart);
+                    drawMarker(treePart.getTask(), user).then(editTreePart);
                 }
 
                 function editTreePart() {
@@ -92,7 +93,7 @@
                 }
             }
 
-            function drawMarker(task) {
+            function drawMarker(task, user) {
                 var deffered = $q.defer();
                 var promises = [];
 
@@ -100,6 +101,15 @@
                     return MapInteraction.drawMarker(TaskService.getMarkerSrc(task.getType())).then(initMarker);
 
                 } else {
+                    if(task.getType() == MarkerType.INVISIBLE && !user.getCreationTutorialFlag(CreationTutorialFlags.SEARCH)) {
+                        TaskService.showCreationTutorial(task.getType(), false).then(drawSearchStart);
+                    } else {
+                        drawSearchStart();
+                    }
+
+                }
+
+                function drawSearchStart() {
                     promises.push(MapInteraction.drawMarker(TaskService.getMarkerSrc(MarkerType.INVISIBLE)).then(initAndDraw));
                     promises.push(MapInteraction.drawLine());
                 }
@@ -115,9 +125,18 @@
                     task.setMarkerId(markerId);
                     task.initFromMarker(marker);
 
+                    if(!user.getCreationTutorialFlag(CreationTutorialFlags.SEARCH)) {
+                        TaskService.showCreationTutorial(task.getType(), true).then(drawSearchDestination);
+                    } else {
+                        drawSearchDestination();
+                    }
+
+                    return marker;
+                }
+
+                function drawSearchDestination() {
                     promises.push(MapInteraction.drawMarker("media/target_marker.png").then(initTarget));
                     $q.all(promises).then(drawFinished);
-                    return marker;
                 }
 
                 function initTarget(markerId) {
@@ -133,6 +152,8 @@
                     var line = results[1];
                     marker.getGeometry().lineStart = line;
                     targetMarker.getGeometry().lineEnd = line;
+                    user.setCreationTutorialFlag(CreationTutorialFlags.SEARCH);
+                    user.upload();
                     deffered.resolve();
                 }
 
@@ -254,6 +275,10 @@
                     QuestService.addRewardsToQuest(quest, result.rewards);
 
                 });
+            }
+
+            function showMarkerTutorial(type) {
+                return TaskService.showCreationTutorial(type, false);
             }
         }
 
