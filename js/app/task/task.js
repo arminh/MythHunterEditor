@@ -93,7 +93,7 @@
             taRegisterTool('input', {
                 iconclass: "fa fa-file-text-o inputBox",
                 buttontext: " Gap fill",
-                class: "btn btn-primary",
+                class: "btn btn-primary task-input",
                 tooltiptext: "Input box",
                 action: function () {
                     createQuizInput($mdDialog, this.$editor()).then(function() {
@@ -105,7 +105,7 @@
             taRegisterTool('radio', {
                 iconclass: "fa fa-dot-circle-o radioBtn",
                 buttontext: " Single Choice",
-                class: "btn btn-primary",
+                class: "btn btn-primary task-radio",
                 tooltiptext: "Radio button",
                 action: function (value) {
                     console.log(this.$editor);
@@ -119,7 +119,7 @@
             taRegisterTool('checkbox', {
                 iconclass: "fa fa-check-square-o checkBox",
                 buttontext: " Multiple Choice",
-                class: "btn btn-primary",
+                class: "btn btn-primary task-checkbox",
                 tooltiptext: "Checkbox",
                 action: function (value) {
                     createQuizGroup("checkbox", $mdDialog, this.$editor()).then(function() {

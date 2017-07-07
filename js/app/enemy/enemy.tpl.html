@@ -1,7 +1,7 @@
 <div id="enemy-container">
         <div layout="column">
             <div layout="row">
-                <md-input-container flex="50">
+                <md-input-container flex="50" id="enemy-name">
                     <label>Name</label>
                     <input type="text" name="name" required maxlength="20" class="task-info"
                            ng-model="enemyCtrl.enemy.name"/>
@@ -12,42 +12,13 @@
             </div>
 
             <div layout="row">
-                <md-input-container flex="50">
+                <md-input-container flex="50" id="enemy-description">
                     <label>{{'LABEL_EDITOR_DESCRIPTION' | translate}}</label>
                     <textarea name="description" md-maxlength="70" class="enemy-description"
                               ng-model="enemyCtrl.enemy.description"></textarea>
-                    <!--<div ng-messages="enemyForm.description.$error" ng-show="enemyForm.description.$error['md-maxlength']">-->
-                        <!--<div ng-message="md-maxlength">That's too long!</div>-->
-                    <!--</div>-->
                 </md-input-container>
             </div>
 
-            <!--<div layout="column">-->
-
-                <!--<div flex="50">-->
-                    <!--<img ng-if="enemyCtrl.enemy.image" class="enemy-image"-->
-                         <!--data-ng-src="data:{{enemyCtrl.enemy.image.filetype}};base64, {{enemyCtrl.enemy.image.base64}}"/>-->
-                <!--</div>-->
-                <!--<div>-->
-                    <!--<label for="enemy-image-input" required class="md-button md-raised"-->
-                           <!--required="enemyCtrl.enemy.image.base64">-->
-                        <!--Choose Card Image-->
-                    <!--</label>-->
-                    <!--<md-input-container>-->
-                        <!--<input name="image" type="file" id="enemy-image-input"-->
-                               <!--ng-model='enemyCtrl.enemy.image'-->
-                               <!--class="ng-hide"-->
-                               <!--on-after-validate="enemyCtrl.enemyImageChanged" base-sixty-four-input/>-->
-                        <!--<div ng-messages="enemyForm.image.$error">-->
-                            <!--<div ng-message="required">Image is required</div>-->
-                        <!--</div>-->
-                    <!--</md-input-container>-->
-                <!--</div>-->
-
-            <!--</div>-->
-            <!--<div>-->
-                <!--Deck {{enemyCtrl.enemy.deck.name}}-->
-            <!--</div>-->
 
         </div>
 </div>

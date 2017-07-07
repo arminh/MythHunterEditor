@@ -133,6 +133,7 @@
                 controllerAs: "cardeditor",
                 bindToController: true,
                 multiple: true,
+                hasBackdrop: false,
                 locals: {
                     card: card,
                     tutorial: !user.getCreationTutorialFlag(CreationTutorialFlags.CARD)

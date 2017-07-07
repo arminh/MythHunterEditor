@@ -1,9 +1,10 @@
-<div id="task-container" layout="column" ng-cloak flex-offset-gt-sm="10" flex-gt-sm="80" flex="100" layout-padding>
+<div id="task-container" layout="column" ng-cloak flex-offset-gt-sm="10" flex-gt-sm="80" flex="100" layout-padding
+     ng-intro-options="treePartCtrl.introOptions" ng-intro-method="treePartCtrl.startIntro" ng-intro-autostart="treePartCtrl.tutorialAutoStart">
     <form name="taskForm" ng-cloak ng-submit="treePartCtrl.confirm()">
         <div layout-padding>
             <div class="md-dialog-content">
                 <div layout="row" layout-align="center center">
-                    <md-input-container flex="50">
+                    <md-input-container flex="50" id="task-name">
                         <label>{{'LABEL_TASK_NAME' | translate}}</label>
                         <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus>
                         <div ng-messages="taskForm.taskName.$error">
@@ -13,6 +14,13 @@
                 </div>
 
                 <div class="task-content">
+                    <md-button aria-label="description-hint" class="md-icon-button" ng-click="treePartCtrl.showTutorial()"
+                               ng-if="treePartCtrl.task.getType() == 'QUIZ' || treePartCtrl.task.getType() == 'FIGHT'">
+                        <md-tooltip md-direction="top">
+                            {{'TOOLTIP_QUIZ_CONTENT' | translate}}
+                        </md-tooltip>
+                        <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
+                    </md-button>
                     <md-label class="description-label">{{'LABEL_TASK_CONTENT' | translate}}</md-label>
                     <md-button aria-label="description-hint" class="md-icon-button"
                                ng-if="treePartCtrl.task.getType() == 'QUIZ'">
@@ -43,15 +51,18 @@
                         <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                     </md-button>
 
-                    <text-angular id="task-editor-quiz"
-                                  ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ" name="task-editor-quiz"
-                                  ta-toolbar="{{treePartCtrl.quizToolbar}}" ng-model="treePartCtrl.content"
-                                  class="task-text"
-                                  ng-keydown="treePartCtrl.keyPressed($event)"
-                                  ng-click="treePartCtrl.contentChanged()"></text-angular>
-                    <text-angular ng-if="treePartCtrl.task.getType() != treePartCtrl.types.QUIZ" name="task-editor"
-                                  ta-toolbar="{{treePartCtrl.toolbar}}" ng-model="treePartCtrl.content"
-                                  class="task-text"></text-angular>
+                    <div id="task-content">
+                        <text-angular id="task-editor-quiz"
+                                      ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ" name="task-editor-quiz"
+                                      ta-toolbar="{{treePartCtrl.quizToolbar}}" ng-model="treePartCtrl.content"
+                                      class="task-text"
+                                      ng-keydown="treePartCtrl.keyPressed($event)"
+                                      ng-click="treePartCtrl.contentChanged()"></text-angular>
+                        <text-angular ng-if="treePartCtrl.task.getType() != treePartCtrl.types.QUIZ" name="task-editor"
+                                      ta-toolbar="{{treePartCtrl.toolbar}}" ng-model="treePartCtrl.content"
+                                      class="task-text"></text-angular>
+                    </div>
+
                     <div ng-if="treePartCtrl.task.getType() != treePartCtrl.types.INFO && treePartCtrl.task.getType() != 'start'">
 
                         <md-label class="description-label"
@@ -64,9 +75,12 @@
                             </md-tooltip>
                             <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                         </md-button>
-                        <text-angular name="task-target" ta-toolbar="{{treePartCtrl.toolbar}}"
-                                      ng-model="treePartCtrl.targetContent"
-                                      class="task-text"></text-angular>
+                        <div id="task-complete-content">
+                            <text-angular name="task-target" ta-toolbar="{{treePartCtrl.toolbar}}"
+                                          ng-model="treePartCtrl.targetContent"
+                                          class="task-text"></text-angular>
+                        </div>
+
                     </div>
 
                     <div ng-if="treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">
@@ -82,14 +96,14 @@
 
                         <md-label class="description-label">{{'BUTTON_EDIT_ENEMY_DECK' | translate}}</md-label>
                         <div class="task-deck-button" flex>
-                            <md-button class="md-raised md-button-primary" ng-click="treePartCtrl.editEnemyDeck()">
+                            <md-button class="md-raised md-button-primary" ng-click="treePartCtrl.editEnemyDeck()" id="enemy-deck">
                                 <md-label>{{treePartCtrl.task.enemy.deck.name}}</md-label>
                             </md-button>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <md-button class="md-raised md-primary" type="submit">
+                    <md-button class="md-raised md-primary" type="submit" id="task-confirm">
                         {{'BUTTON_FINISH_TASK' | translate}}
                     </md-button>
                     <md-button class="md-raised" ng-click="treePartCtrl.cancel()">
