@@ -9,10 +9,10 @@
         .module('collection')
         .factory('CollectionService', CollectionService);
 
-    CollectionService.$inject = ["$log", "$q", "$mdDialog", "$translate", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS", "MAX_DECK_CARDS", "CreationTutorialFlags"];
+    CollectionService.$inject = ["$log", "$q", "$mdDialog", "$translate", "BackendService", "CardService", "DeckService", "Collection", "Deck", "MIN_DECK_CARDS", "MAX_DECK_CARDS", "CreationTutorialFlags"];
 
     /* @ngInject */
-    function CollectionService($log, $q, $mdDialog, $translate, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS, MAX_DECK_CARDS, CreationTutorialFlags) {
+    function CollectionService($log, $q, $mdDialog, $translate, BackendService, CardService, DeckService, Collection, Deck, MIN_DECK_CARDS, MAX_DECK_CARDS, CreationTutorialFlags) {
         $log = $log.getInstance("CollectionService", debugging);
 
         var originalDeck = null;
@@ -64,7 +64,17 @@
 
 
         function createCard(user) {
-            return CardService.createCard(user);
+            return CardService.createCard(user).then(function(card) {
+                if(card) {
+                    BackendService.abortCardRequests();
+                    return card.getLoadPromise().then(function() {
+                        loadCollection(user);
+                        return card;
+                    })
+                } else {
+                    return card;
+                }
+            });
         }
 
         function createDeck(collection) {

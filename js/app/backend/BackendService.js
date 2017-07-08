@@ -24637,7 +24637,7 @@ function backend_com_wsdl_getCardImage_op(successCallback, errorCallback, arg0) 
     var requestHeaders = [];
     requestHeaders['SOAPAction'] = '';
     this.jsutils.trace('synchronous = ' + this.synchronous);
-    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+    return this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
 }
 
 backend_com_wsdl_IBackend.prototype.getCardImage = backend_com_wsdl_getCardImage_op;
@@ -24987,7 +24987,7 @@ function backend_com_wsdl_getCard_op(successCallback, errorCallback, arg0) {
     var requestHeaders = [];
     requestHeaders['SOAPAction'] = '';
     this.jsutils.trace('synchronous = ' + this.synchronous);
-    this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
+    return this.client.request(this.url, xml, null, this.synchronous, requestHeaders);
 }
 
 backend_com_wsdl_IBackend.prototype.getCard = backend_com_wsdl_getCard_op;

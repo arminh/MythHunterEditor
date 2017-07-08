@@ -16,6 +16,7 @@
 
         var backend = new backend_com_wsdl_IBackend();
         backend.url = "http://mythhunter.ddns.net:18080/Backend/webservices/Backend?wsdl";
+        var cardRequests = [];
         // backend.url = "http://192.168.1.238:8080/Backend/webservices/Backend?wsdl";
         $log = $log.getInstance("Backend", debugging);
 
@@ -38,6 +39,7 @@
             getTreePart: getTreePart,
             getCard: getCard,
             getCardImage: getCardImage,
+            abortCardRequests: abortCardRequests,
             getAllActionsOfCardType: getAllActionsOfCardType,
             getEnemy: getEnemy,
             getDeck: getDeck,
@@ -510,7 +512,9 @@
             var deffered = $q.defer();
 
             $log.info("getCardImage: id =", cardImageId);
-            backend.getCardImage(function (result) {
+
+            //return request in backend.getCardImage after wsdl creation
+            var request = backend.getCardImage(function (result) {
                 if (result.getReturn()) {
                     $log.info("getCardImage_success (id = " + cardImageId + ")", result.getReturn());
                     deffered.resolve(result.getReturn());
@@ -524,7 +528,20 @@
                 deffered.reject(error);
             }, cardImageId);
 
+            deffered.request = request;
+            deffered.abort = function() {
+                this.reject();
+                this.request.abort();
+            };
+            cardRequests.push(deffered);
+
             return deffered.promise;
+        }
+
+        function abortCardRequests() {
+            for(var i = 0; i < cardRequests.length; i++) {
+                cardRequests[i].abort();
+            }
         }
 
         function getAllActionsOfCardType(type) {

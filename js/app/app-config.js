@@ -58,28 +58,21 @@ var debugging = true;
         // $translateProvider.forceAsyncReload(true);
     }
 
-    run.$inject = ["$rootScope", "$location", "$cookies", "$modalStack", "AuthenticationService", "User"];
+    run.$inject = ["$rootScope", "$location", "$cookies", "AuthenticationService", "User"];
 
-    function run($rootScope, $location, $cookies, $modalStack, AuthenticationService, User) {
+    function run($rootScope, $location, $cookies, AuthenticationService, User) {
         var credentials = $cookies.getObject("credentials");
         AuthenticationService.setCredentials(credentials);
 
-        $rootScope.$on('$locationChangeSuccess', locationChangeSuccess);
         $rootScope.$on('$locationChangeStart', locationChangeStart);
 
-        function locationChangeSuccess() {
+        function locationChangeStart(param1, param2) {
+
             var path = $location.path();
 
-            if (path != "/quest") {
-                $modalStack.dismissAll();
-            }
-        }
 
-        function locationChangeStart() {
             var user = AuthenticationService.getUser();
             var credentials = AuthenticationService.getCredentials();
-
-            var path = $location.path();
 
             if (!user && credentials) {
                 AuthenticationService.login(credentials.username, credentials.password).then(loginSuccess, loginFail);

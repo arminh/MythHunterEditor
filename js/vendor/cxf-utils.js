@@ -766,6 +766,7 @@ function org_apache_cxf_client_request(url, requestXML, method, sync, headers)
 	}
 
 	this.req.send(dataToSend);
+	return this.req;
 }
 
 CxfApacheOrgClient.prototype.request = org_apache_cxf_client_request;

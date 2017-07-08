@@ -144,6 +144,7 @@
         }
 
         function loadStandardDeck(user, collection) {
+            BackendService.abortCardRequests();
             return BackendService.getStandartDeck(user.getId()).then(function(result) {
                 this.deck = new Deck();
                 return this.deck.initFromRemote(result.getReturn(), collection.getCards());

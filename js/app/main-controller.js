@@ -9,10 +9,10 @@
         .module('app')
         .controller('MainController', MainController);
 
-    MainController.$inject = ["$rootScope", "$state", "$transitions", "$mdSidenav", "AuthenticationService"];
+    MainController.$inject = ["$rootScope", "$state", "$transitions", "$mdSidenav", "AuthenticationService", "BackendService"];
 
     /* @ngInject */
-    function MainController($rootScope, $state, $transitions, $mdSidenav, AuthenticationService) {
+    function MainController($rootScope, $state, $transitions, $mdSidenav, AuthenticationService, BackendService) {
         var vm = this;
 
         vm.login = login;
@@ -29,6 +29,7 @@
 
         function logout() {
             AuthenticationService.logout();
+            BackendService.abortCardRequests();
             $state.go("app.login");
         }
 

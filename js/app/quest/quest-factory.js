@@ -174,6 +174,7 @@
 
         function load() {
             $log.info("load: ", this);
+            BackendService.abortCardRequests();
 
             var promises = [];
             promises.push(this.html.getFromRemote());
@@ -296,7 +297,7 @@
 
         function upload() {
 
-
+            BackendService.abortCardRequests();
             var promises = [];
 
             promises.push($q.when(this.html.upload()));
