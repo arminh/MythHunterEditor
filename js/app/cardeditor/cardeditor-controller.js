@@ -30,11 +30,11 @@
                 steps:[
                     {
                         element: document.querySelector('#card-name'),
-                        intro: "Enter a name for your card."
+                        intro: $translate.instant("TUT_CARD_NAME")
                     },
                     {
                         element: document.querySelector('#card-description'),
-                        intro: "Enter a description for your card."
+                        intro: $translate.instant("TUT_CARD_DESC")
                     },
                     {
                         element: document.querySelector('#card-image'),
@@ -50,7 +50,7 @@
                     },
                     {
                         element: document.querySelector('#card-action'),
-                        intro: "Choose between several actions for your card"
+                        intro: $translate.instant("TUT_CARD_ACTIONS")
                     },
                     {
                         element: document.querySelector('#card-stars'),
@@ -58,7 +58,7 @@
                     },
                     {
                         element: document.querySelector('#card-confirm'),
-                        intro: "If you are finished editing the card press this button."
+                        intro: $translate.instant("TUT_CARD_FINISHED")
                     }
                 ],
                 showStepNumbers: false,

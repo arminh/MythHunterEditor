@@ -101,10 +101,6 @@
         }
 
         function clearCurrentQuest() {
-            var currentQuestId = vm.currentQuest.getRemoteId();
-            if(currentQuestId > 0) {
-                user.clearEditing(currentQuestId)
-            }
             user.clearCurrentQuest();
             QuestService.setTreePartId(1);
             vm.currentQuest = null;
@@ -154,12 +150,12 @@
 
         function editDifferentQuest(evt) {
             var confirm = $mdDialog.confirm()
-                .title('Edit different quest')
-                .htmlContent('Are you sure you want to edit a different quest? All changes to your current quest will be lost.')
+                .title($translate.instant("TITLE_EDIT_DIFFERENT_QUEST"))
+                .htmlContent($translate.instant("TEXT_EDIT_DIFFERENT_QUEST"))
                 .ariaLabel('Delete quest')
                 .targetEvent(evt)
-                .ok('Confirm')
-                .cancel('Cancel');
+                .ok($translate.instant("BUTTON_CONFIRM"))
+                .cancel($translate.instant("BUTTON_CANCEL"));
 
             return $mdDialog.show(confirm);
         }

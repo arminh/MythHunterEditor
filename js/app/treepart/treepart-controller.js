@@ -62,7 +62,7 @@
                         steps: [
                             {
                                 element: document.querySelector('#task-name'),
-                                intro: "Enter a name for your task."
+                                intro: $translate.instant("TUT_TASK_NAME")
                             }
 
                         ],
@@ -77,23 +77,23 @@
                         var quizSteps =  [
                             {
                                 element: document.querySelector('.task-input'),
-                                intro: "Add input boxes for players to fill in"
+                                intro: $translate.instant("TUT_TASK_INPUT")
                             },
                             {
                                 element: document.querySelector('.task-radio'),
-                                intro: "Add single choice exercises with only one correct answer"
+                                intro: $translate.instant("TUT_TASK_SINGLE_CHOICE")
                             },
                             {
                                 element: document.querySelector('.task-checkbox'),
-                                intro: "Add multiple choice exercises with multiple or no correct answer"
+                                intro: $translate.instant("TUT_TASK_MULTIPLE_CHOICE")
                             },
                             {
                                 element: document.querySelector('#task-content'),
-                                intro: "Click in the textbox to focus it and add some quiz exercises for the player to solve"
+                                intro: $translate.instant("TUT_TASK_QUIZ_CONTENT")
                             },
                             {
                                 element: document.querySelector('#task-complete-content'),
-                                intro: "Congratulate the user for finishing your quiz and lead them to the next task"
+                                intro: $translate.instant("TUT_TASK_QUIZ_COMPLETE_CONTENT")
                             }
                         ];
                         introOptions.steps = introOptions.steps.concat(quizSteps);
@@ -101,23 +101,23 @@
                         var fightSteps =  [
                             {
                                 element: document.querySelector('#task-content'),
-                                intro: "Enter an introduction for your fight."
+                                intro: $translate.instant("TUT_TASK_FIGHT_CONTENT")
                             },
                             {
                                 element: document.querySelector('#task-complete-content'),
-                                intro: "Enter a description that is shown after the fight"
+                                intro: $translate.instant("TUT_TASK_FIGHT_COMPLETE_CONTENT")
                             },
                             {
                                 element: document.querySelector('#enemy-name'),
-                                intro: "Enter a name for the enemy"
+                                intro: $translate.instant("TUT_TASK_ENEMY_NAME")
                             },
                             {
                                 element: document.querySelector('#enemy-description'),
-                                intro: "Enter a description for the enemy"
+                                intro: $translate.instant("TUT_TASK_ENEMY_DESC")
                             },
                             {
                                 element: document.querySelector('#enemy-deck'),
-                                intro: "Click for editing the enemy deck"
+                                intro: $translate.instant("TUT_TASK_ENEMY_DECK")
                             }
                         ];
                         introOptions.steps =introOptions.steps.concat(fightSteps);
@@ -126,7 +126,7 @@
                     introOptions.steps.push(
                         {
                             element: document.querySelector('#task-confirm'),
-                            intro: "If you are finished editing the quest and the first marker press this button."
+                            intro: $translate.instant("TUT_TASK_FINISHED")
                         }
                     );
 

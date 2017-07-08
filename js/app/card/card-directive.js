@@ -35,12 +35,5 @@
         }
     }
 
-    // ControllerName.$inject = ['Card'];
-    //
-    // /* @ngInject */
-    // function ControllerName(Card) {
-    //
-    // }
-
 })();
 

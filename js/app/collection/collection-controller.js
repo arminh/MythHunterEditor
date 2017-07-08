@@ -186,23 +186,23 @@
                     steps: [
                         {
                             element: document.querySelector('#deck-name'),
-                            intro: "Enter a name for your deck."
+                            intro: $translate.instant("TUT_DECK_NAME")
                         },
                         {
                             element: document.querySelector('#collection-cards'),
-                            intro: "Double click a card to add it to your deck."
+                            intro: $translate.instant("TUT_DECK_CARDS")
                         },
                         {
                             element: document.querySelector('#deck-content'),
-                            intro: "Double click a card preview to remove it from your deck"
+                            intro: $translate.instant("TUT_DECK_REMOVE_CARD")
                         },
                         {
                             element: document.querySelector('#card-count'),
-                            intro: "You can have between 20 and 30 cards in your deck"
+                            intro: $translate.instant("TUT_DECK_NUM_CARDS")
                         },
                         {
                             element: document.querySelector('#save-deck'),
-                            intro: "If you are finished editing the deck press this button."
+                            intro: $translate.instant("TUT_DECK_FINISHED")
                         }
                     ],
                     showStepNumbers: false,

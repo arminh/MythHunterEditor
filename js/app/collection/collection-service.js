@@ -178,12 +178,12 @@
         function removeDeck(collection, deck, evt) {
             if (otherCompleteDeckExists(collection, deck)) {
                 var confirm = $mdDialog.confirm()
-                    .title('Delete deck')
-                    .htmlContent('Are you sure you want to delete your Deck <b>' + deck.getName() + '</b> ?')
+                    .title($translate.instant("TITLE_DELETE_DECK"))
+                    .htmlContent($translate.instant("TEXT_DELETE_DECK"))
                     .ariaLabel('Delete deck')
                     .targetEvent(evt)
-                    .ok('Confirm')
-                    .cancel('Cancel');
+                    .ok($translate.instant("BUTTON_CONFIRM"))
+                    .cancel($translate.instant("BUTTON_CANCEL"));
 
                 return $mdDialog.show(confirm).then(function () {
                     return deck.remove().then(function () {
@@ -193,11 +193,11 @@
                 });
             } else {
                 var alert = $mdDialog.alert()
-                    .title('Deleting deck failed')
-                    .htmlContent('You must have at least one complete deck.')
+                    .title($translate.instant("ERROR_DECK_DELETE"))
+                    .htmlContent($translate.instant("ERROR_DELETE_DECK_ONE_COMPLETE"))
                     .ariaLabel('Delete deck')
                     .targetEvent(evt)
-                    .ok('Close');
+                    .ok($translate.instant("BUTTON_OK"));
 
                 return $mdDialog.show(alert).then(function () {
                     return $q.reject();

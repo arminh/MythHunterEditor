@@ -92,7 +92,6 @@
 
             function successHandler(position) {
                 setCenter(position.coords.longitude, position.coords.latitude, 17);
-                //addMarker(position.coords.longitude, position.coords.latitude, "fight", "Current location", "media/fight_marker.png");
             }
 
             function errorHandler(error) {
@@ -209,14 +208,6 @@
             var line = new ol.Feature({
                 geometry: new ol.geom.LineString([startCoords, endCoords])
             });
-
-            // var style = new ol.style.Style({
-            //     stroke: new ol.style.Stroke({
-            //         width: 5, color: 'rgba(255, 0, 0, 1)',
-            //         lineDash: [.1, 5] //or other combinations
-            //     }),
-            //     zIndex: 2
-            // });
 
             line.setStyle(styleFunction(line));
 
@@ -352,15 +343,6 @@
             }
 
             return deffered.promise;
-        }
-
-        function toggleRemove() {
-            if (removeInteraction) {
-                removeInteraction = false;
-            } else {
-                removeInteraction = true;
-                removeDraw();
-            }
         }
 
         function setCenter(lon, lat, zoom) {

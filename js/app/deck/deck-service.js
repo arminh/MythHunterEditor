@@ -94,14 +94,6 @@
             cards.push(deckCard);
             $log.info("addCard_success", deckCard);
         }
-
-        function countCards(cards) {
-            var count = 0;
-            for(var i = 0; i < cards.length; i++) {
-                count += cards[i].amount;
-            }
-            return count;
-        }
     }
 
 })();

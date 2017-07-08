@@ -36,7 +36,6 @@
         vm.showInstructions = showCreateQuestDialog;
         vm.showTutorial = showTutorial;
 
-        vm.introStep = introStep;
         vm.exitIntro = exitIntro;
 
         $scope.$on('markerChanged', MapService.markerChanged);
@@ -66,35 +65,35 @@
         vm.introOptions = {
             steps:[
                 {
-                    intro: "This tutorial gives you an overview of the most important interface elements."
+                    intro: $translate.instant("TUT_MAP_START")
                 },
                 {
                     element: document.querySelector('#add-task'),
-                    intro: "Add additional task to your quest."
+                    intro: $translate.instant("TUT_MAP_ADD_TASK")
                 },
                 {
                     element: document.querySelector('#map-task'),
-                    intro: "Open the menu on the right to show additional options for a task. Drag a task up or down to change its position in the quest."
+                    intro: $translate.instant("TUT_MAP_TASK")
                 },
                 {
                     element: document.querySelector('#edit-quest'),
-                    intro: "Edit the contents (name, description, reward) of your quest."
+                    intro: $translate.instant("TUT_MAP_EDIT_QUEST")
                 },
                 {
                     element: document.querySelector('#edit-storyline'),
-                    intro: "Use the graphical interface to build complex quests."
+                    intro: $translate.instant("TUT_MAP_COMPLEX")
                 },
                 {
                     element: document.querySelector('#show-instructions'),
-                    intro: "Show the instructions for creating a quest."
+                    intro: $translate.instant("TUT_MAP_INSTRUCTIONS")
                 },
                 {
                     element: document.querySelector('#cancel-quest'),
-                    intro: "Cancel editing and dismiss all changes you made to your quest."
+                    intro: $translate.instant("TUT_MAP_CANCEL_QUEST")
                 },
                 {
                     element: document.querySelector('#save-quest'),
-                    intro: "Save the changes you made to your quest."
+                    intro: $translate.instant("TUT_MAP_SAVE_QUEST")
                 }
             ],
             showStepNumbers: false,
@@ -189,24 +188,28 @@
             }
         }
 
-        function cancelQuest() {
-            user.clearCurrentQuest();
-            $state.go("app.profile");
+        function cancelQuest(evt) {
+            var confirm = $mdDialog.confirm()
+                .title($translate.instant('TITLE_DELETE_QUEST_DEV'))
+                .htmlContent($translate.instant('TEXT_DELETE_QUEST_DEV'))
+                .ariaLabel('Delete quest')
+                .targetEvent(evt)
+                .ok($translate.instant("BUTTON_CONFIRM"))
+                .cancel($translate.instant("BUTTON_CANCEL"));
+
+            return $mdDialog.show(confirm).then(function() {
+                user.clearCurrentQuest();
+                $state.go("app.profile");
+            });
+
         }
 
         function editQuestTree() {
             $state.go("app.storyline", {quest: vm.quest});
-            // MapService.editQuestTree();
         }
 
         function addQuestReward() {
             MapService.addQuestReward(user);
-        }
-
-        function introStep(nextStep) {
-            console.log("Intro step");
-            return false;
-
         }
 
         function exitIntro() {

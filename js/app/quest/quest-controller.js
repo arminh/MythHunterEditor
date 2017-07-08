@@ -29,7 +29,7 @@
                 steps: [
                     {
                         element: document.querySelector('#quest-name'),
-                        intro: "Enter a name for your quest."
+                        intro: $translate.instant("TUT_QUEST_NAME")
                     },
                     {
                         element: document.querySelector('#quest-description'),
@@ -37,11 +37,11 @@
                     },
                     {
                         element: document.querySelector('#task-name'),
-                        intro: "Enter a name for your start task."
+                        intro: $translate.instant("TUT_QUEST_TASK_NAME")
                     },
                     {
                         element: document.querySelector('#same-description'),
-                        intro: "Choose if your first task has the same description as your quest or not"
+                        intro: $translate.instant("TUT_QUEST_SAME_DESC")
                     },
                     {
                         element: document.querySelector('#task-description'),
@@ -55,7 +55,7 @@
                     },
                     {
                         element: document.querySelector('#quest-confirm'),
-                        intro: "If you are finished editing the quest and the first marker press this button."
+                        intro: $translate.instant("TUT_QUEST_FINISHED")
                     }
                 ],
                 showStepNumbers: false,
