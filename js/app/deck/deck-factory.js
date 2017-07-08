@@ -22,9 +22,9 @@
             this.cardIds = [];
 
             this.loadPromise = null;
+            this.loadCardsPromise = null;
             this.loaded = false;
             this.open = false;
-            this.visible = true;
             this.changed = false;
             this.complete = false;
             this.cardCount = 0;
@@ -55,24 +55,16 @@
             getCardIds: getCardIds,
             setCardIds: setCardIds,
             getLoaded: getLoaded,
-            setVisible: setVisible,
             getComplete: getComplete,
             getToManyCards: getToManyCards,
-            getCardCount: getCardCount
+            getCardCount: getCardCount,
+            getLoadCardsPromise: getLoadCardsPromise,
+            setLoadCardsPromise: setLoadCardsPromise
         };
 
         return (Deck);
 
         ////////////////
-
-        function DeckCard(id, amount) {
-            this.id = id;
-            this.card = null;
-            this.style = {
-                "background-image": "none"
-            };
-            this.amount = amount;
-        }
 
         function getFromRemote() {
             $log.info("getFromRemote", this.remoteId);
@@ -85,10 +77,12 @@
         }
 
         function initFromRemote(remoteDeck) {
+            $log.info("initFromRemote", remoteDeck);
             this.name = remoteDeck.getName();
             this.cardIds = remoteDeck.getCardIds();
             this.cardCount = this.countCards();
             this.checkCompleteness();
+            $log.info("initFromRemote_success", this);
             return this;
         }
 
@@ -103,39 +97,6 @@
                 cardId.setValue(deckObject.cardIds[i]._value);
                 this.cardIds.push(cardId);
             }
-        }
-
-        function loadCards(ownedCards) {
-            $log.info("loadCards", this.cardIds);
-            var promises = [];
-            for (var i = 0; i < this.cardIds.length; i++) {
-                for (var j = 0; j < ownedCards.length; j++) {
-                    if (ownedCards[j].getRemoteId() == this.cardIds[i].getKey()) {
-                        promises.push(ownedCards[j].getLoadPromise());
-                    }
-                }
-            }
-
-            this.loadPromise = $q.all(promises).then(function (cards) {
-                for (var j = 0; j < cards.length; j++) {
-                    var deckCard = new DeckCard(this.cardIds[j].getKey(), this.cardIds[j].getValue());
-                    deckCard.card = cards[j];
-                    deckCard.style["background-image"] =
-                        "url(data:"
-                        + cards[j].getImage().getType()
-                        + ";base64,"
-                        + cards[j].getImage().getImage()
-                        + ")";
-                    this.cards.push(deckCard);
-                }
-
-                this.loaded = true;
-
-                $log.info("loadCards_success", this.cards);
-                return this.cards;
-            }.bind(this));
-
-            return this.loadPromise;
         }
 
         function addCard(cardId) {
@@ -275,10 +236,6 @@
             return this.loaded;
         }
 
-        function setVisible(value) {
-            this.visible = value;
-        }
-
         function getComplete() {
             return this.complete;
         }
@@ -289,6 +246,14 @@
 
         function getCardCount() {
             return this.cardCount;
+        }
+
+        function getLoadCardsPromise() {
+            return this.loadCardsPromise;
+        }
+
+        function setLoadCardsPromise(value) {
+            this.loadCardsPromise = value;
         }
     }
 

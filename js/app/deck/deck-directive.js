@@ -37,6 +37,7 @@
                 vm.control.addCard = addCard;
                 vm.control.clearDeck = clearDeck;
             });
+            vm.deck.setLoadCardsPromise(vm.loadCardsPromise);
 
             function addCard(card) {
                 console.log("AddCard");

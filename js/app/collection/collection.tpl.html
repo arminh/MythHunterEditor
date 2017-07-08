@@ -1,5 +1,5 @@
 <div id="collection-container" flex-offset="10" flex="80" layout="row" ng-intro-options="collectionCtrl.introOptions"
-     ng-intro-method="collectionCtrl.startIntro">
+     ng-intro-method="collectionCtrl.startIntro" ng-intro-autostart="collectionCtrl.tutorialAutoStart">>
     <div flex="75" layout="column">
         <div class="collection-filter-container" layout="row">
             <md-tabs md-selected="selectedIndex" flex>
@@ -79,7 +79,7 @@
                     <md-label>{{'LABEL_CREATE_DECK' | translate}}</md-label>
                 </md-button>
             </div>
-            <div class="collection-deck-buttons" layout="row" ng-if="collectionCtrl.currentDeck && !collectionCtrl.enemy">
+            <div class="collection-deck-buttons" layout="row" ng-if="collectionCtrl.currentDeck">
                 <md-button class="md-raised" ng-click="collectionCtrl.cancelDeck()" flex>
                     <md-icon md-svg-src="media/back_icon.svg" class="back-icon"></md-icon>
                     <md-label>{{'BUTTON_CANCEL' | translate}}</md-label>
@@ -95,7 +95,7 @@
             </div>
 
             <div ng-if="!collectionCtrl.currentDeck" flex>
-                <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="deck.visible && !collectionCtrl.enemy"
+                <div ng-repeat="deck in collectionCtrl.collection.decks" ng-if="!collectionCtrl.enemy"
                      class="collection-deck-button-container" layout="row">
                     <div class="collection-deck-button" flex>
                         <md-button class="md-raised md-button-primary" ng-click="collectionCtrl.openDeck(deck)"

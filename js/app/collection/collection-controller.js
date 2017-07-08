@@ -61,13 +61,7 @@
                 vm.enemy = $stateParams.enemy;
                 CollectionService.loadCollectionEnemy(user).then(function (collection) {
                     vm.collection = collection;
-                    CollectionService.openDeck(vm.enemy.getDeck()).then(function (result) {
-                        vm.currentDeck = result;
-                    });
-                    vm.deckControl = {
-                        addCard: null,
-                        clearDeck: null
-                    };
+                    showOpenDeckDialog(vm.enemy.getDeck());
                 });
             } else {
                 vm.collection = CollectionService.loadCollection(user);
@@ -127,48 +121,18 @@
 
         function createDeck() {
             var deck = CollectionService.createDeck(vm.collection);
-            CollectionService.showCreateDeckDialog(user).then(function (tutorial) {
-                openDeck(deck);
+            showOpenDeckDialog(deck);
 
-                $timeout(function () {
-                    ngIntroService.clear();
-                    vm.introOptions = {
-                        steps: [
-                            {
-                                element: document.querySelector('#deck-name'),
-                                intro: "Enter a name for your deck."
-                            },
-                            {
-                                element: document.querySelector('#collection-cards'),
-                                intro: "Double click a card to add it to your deck."
-                            },
-                            {
-                                element: document.querySelector('#deck-content'),
-                                intro: "Double click a card preview to remove it from your deck"
-                            },
-                            {
-                                element: document.querySelector('#card-count'),
-                                intro: "You can have between 20 and 30 cards in your deck"
-                            },
-                            {
-                                element: document.querySelector('#save-deck'),
-                                intro: "If you are finished editing the deck press this button."
-                            }
-                        ],
-                        showStepNumbers: false,
-                        showBullets: true,
-                        exitOnOverlayClick: true,
-                        exitOnEsc: true,
-                        hidePrev: true
-                    };
-                    if (tutorial) {
-                        $timeout(function () {
-                            vm.startIntro();
-                        });
+        }
+
+        function showOpenDeckDialog(deck) {
+            CollectionService.showCreateDeckDialog(user).then(function (tutorial) {
+                openDeck(deck).then(function() {
+                    if(tutorial) {
+                        $timeout(vm.startIntro);
                     }
                 });
             });
-
         }
 
         function clearCurrentDeck() {
@@ -216,20 +180,55 @@
             };
             vm.currentDeck = CollectionService.openDeck(deck);
 
-            var decks = vm.collection.getDecks();
-
-            for (var i = 0; i < decks.length; i++) {
-                decks[i].setVisible(false);
-            }
-
-            vm.currentDeck.setVisible(true);
+            return $timeout(function () {
+                ngIntroService.clear();
+                vm.introOptions = {
+                    steps: [
+                        {
+                            element: document.querySelector('#deck-name'),
+                            intro: "Enter a name for your deck."
+                        },
+                        {
+                            element: document.querySelector('#collection-cards'),
+                            intro: "Double click a card to add it to your deck."
+                        },
+                        {
+                            element: document.querySelector('#deck-content'),
+                            intro: "Double click a card preview to remove it from your deck"
+                        },
+                        {
+                            element: document.querySelector('#card-count'),
+                            intro: "You can have between 20 and 30 cards in your deck"
+                        },
+                        {
+                            element: document.querySelector('#save-deck'),
+                            intro: "If you are finished editing the deck press this button."
+                        }
+                    ],
+                    showStepNumbers: false,
+                    showBullets: true,
+                    exitOnOverlayClick: true,
+                    exitOnEsc: true,
+                    hidePrev: true
+                };
+                return deck.getLoadCardsPromise();
+            });
         }
 
         function cancelDeck() {
-            if (vm.currentDeck.getRemoteId() <= 0) {
-                vm.collection.removeDeck(vm.currentDeck.getId());
+            if (!vm.enemy) {
+                if (vm.currentDeck.getRemoteId() <= 0) {
+                    vm.collection.removeDeck(vm.currentDeck.getId());
+                }
+                closeDeck();
+            } else {
+                vm.enemy.setDeck(vm.currentDeck);
+                $state.go("app.task", {
+                    originalTreePart: $stateParams.originalTreePart,
+                    treePart: $stateParams.treePart
+                });
             }
-            closeDeck();
+
         }
 
         function closeDeck() {
