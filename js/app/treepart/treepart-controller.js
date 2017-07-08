@@ -52,6 +52,7 @@
                 } else {
                     $state.go("app.profile");
                 }
+                return;
             }
 
             if((vm.task.getType() == MarkerType.QUIZ && !user.getCreationTutorialFlag(CreationTutorialFlags.QUIZ))

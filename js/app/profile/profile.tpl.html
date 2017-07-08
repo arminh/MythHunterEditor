@@ -1,30 +1,40 @@
-<div id="profile-container" ng-show="profile.user"  flex-offset-gt-sm="10" flex-gt-sm="80" flex="100" layout-padding>
+<div id="profile-container" ng-show="profile.user" flex-offset-gt-sm="10" flex-gt-sm="80" flex="100" layout-padding>
     <div>
         <div>
             <h1>{{'TITLE_PROFILE' | translate}}</h1>
         </div>
     </div>
 
-    <div layout="column" layout-gt-sm="row" >
+    <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="60" flex-order="1" flex-order-gt-sm="0">
             <div ng-if="profile.user.getCurrentQuest()">
                 <h3>{{'TITLE_CURRENT_QUEST' | translate}}</h3>
                 <table class="profile-quest-table">
-                    <tr class="odd-profile-quest" layout="row"  cg-busy="{promise:profile.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}" >
+                    <tr class="odd-profile-quest" layout="row"
+                        cg-busy="{promise:profile.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}">
                         <td class="profile-quest-col" flex="100">
                             <a href=""
                                ng-click="profile.editCurrentQuest()">{{profile.currentQuest.name}}</a>
                         </td>
                         <td width="70px" class="profile-quest-col">
+                            <md-button ng-disabled="map.drawing()" ng-click="profile.editCurrentQuest()" aria-label="edit"
+                                       class="md-icon-button" id="edit-quest">
+                                <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                                <md-tooltip md-direction="top">{{'LABEL_EDIT_QUEST' | translate}}</md-tooltip>
+                            </md-button>
+                        </td>
+                        <td width="70px" class="profile-quest-col">
                             <md-button aria-label="delete" class="md-icon-button"
                                        ng-click="profile.saveCurrentQuest($event)">
                                 <md-icon md-svg-icon="media/save_icon.svg"></md-icon>
+                                <md-tooltip md-direction="top">{{'LABEL_SAVE_QUEST' | translate}}</md-tooltip>
                             </md-button>
                         </td>
                         <td width="70px" class="profile-quest-col">
                             <md-button aria-label="delete" class="md-icon-button"
                                        ng-click="profile.deleteCurrentQuest($event)">
-                                <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
+                                <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>
+                                <md-tooltip md-direction="top">{{'LABEL_CANCEL_EDITING' | translate}}</md-tooltip>
                             </md-button>
                         </td>
                     </tr>
@@ -41,15 +51,24 @@
                             <a href="" ng-click="profile.editQuest(quest)">{{quest.name}}</a>
                         </td>
                         <td width="70px" class="profile-quest-col">
-                            <md-button aria-label="delete" class="md-icon-button" ng-click="profile.deleteQuest($event, quest)">
+                            <md-button ng-disabled="map.drawing()" ng-click="profile.editQuest(quest)" aria-label="edit"
+                                       class="md-icon-button" id="edit-quest">
+                                <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                                <md-tooltip md-direction="top">{{'LABEL_EDIT_QUEST' | translate}}</md-tooltip>
+                            </md-button>
+                        </td>
+                        <td width="70px" class="profile-quest-col">
+                            <md-button aria-label="delete" class="md-icon-button"
+                                       ng-click="profile.deleteQuest($event, quest)">
                                 <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
+                                <md-tooltip md-direction="top">{{'LABEL_DELETE_QUEST' | translate}}</md-tooltip>
                             </md-button>
                         </td>
                     </tr>
                 </table>
             </div>
 
-            <md-button aria-label="delete"  class="md-raised" ng-click="profile.newQuest($event)">
+            <md-button aria-label="delete" class="md-raised" ng-click="profile.newQuest($event)">
                 {{'BUTTON_NEW_QUEST' | translate}}
             </md-button>
             <hr>
@@ -57,18 +76,18 @@
             <h3>{{'BUTTON_SHOW_COLLECTION' | translate}}</h3>
             <hr>
 
-            <md-button aria-label="delete"  class="md-raised" ng-click="profile.showCollection()">
+            <md-button aria-label="delete" class="md-raised" ng-click="profile.showCollection()">
                 {{'BUTTON_SHOW_COLLECTION' | translate}}
             </md-button>
         </div>
         <div id="profile-data-container" flex-gt-sm="40" flex-order="0" flex-order-gt-sm="-1">
             <h3 translate="TEXT_GREETING"
-               translate-values="{username: profile.user.name }"></h3>
+                translate-values="{username: profile.user.name }"></h3>
             <img src="media/profile_picture.png" width="50%"/>
             <hr>
             <h4>{{'LABEL_STATISTICS' | translate}}</h4>
             <p translate="TEXT_CREATED_QUESTS"
-                 translate-values="{numCreatedQuests: profile.user.createdQuests.length }"></p>
+               translate-values="{numCreatedQuests: profile.user.createdQuests.length }"></p>
             <p translate="TEXT_FINISHED_QUESTS"
                translate-values="{numFinishedQuests: 0 }"></p>
             <hr>

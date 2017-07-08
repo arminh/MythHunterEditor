@@ -33,6 +33,7 @@
   "TEXT_FINISHED_QUESTS": "Du hast <b>{{numFinishedQuests}}</b> Aufgaben abgeschlossen",
   "TEXT_LOCATION_PLACEHOLDER": "Finde Ort ...",
   "TEXT_NO_RESULTS": "Keine Suchergebnisse.",
+  "LABEL_DELETE_QUEST": "Quest löschen",
   "LABEL_SAVE_QUEST": "Aufgabe speichern",
   "LABEL_EDIT_QUEST" : "Aufgabe bearbeiten",
   "LABEL_CANCEL_EDITING": "Bearbeitung abbrechen",

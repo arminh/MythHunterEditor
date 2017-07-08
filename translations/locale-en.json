@@ -33,6 +33,7 @@
   "TEXT_FINISHED_QUESTS": "You finished <b>{{numFinishedQuests}}</b> Quests",
   "TEXT_LOCATION_PLACEHOLDER": "Find location ...",
   "TEXT_NO_RESULTS": "No matches found.",
+  "LABEL_DELETE_QUEST": "Delete quest",
   "LABEL_SAVE_QUEST": "Save quest",
   "LABEL_EDIT_QUEST" : "Edit quest",
   "LABEL_CANCEL_EDITING": "Cancel editing",

@@ -190,6 +190,7 @@
         }
 
         function cancelQuest() {
+            user.clearCurrentQuest();
             $state.go("app.profile");
         }
 

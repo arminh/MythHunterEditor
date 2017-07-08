@@ -308,7 +308,7 @@
 
         function createMarker(treePart, type, label, x, y) {
 
-            if (!quest.getComplex() && x == 0 && y == 0) {
+            if (!quest.getComplex()) {
                 if (xPos + xOffset < canvasWidth) {
                     x = xPos += xOffset;
                     y = yPos;

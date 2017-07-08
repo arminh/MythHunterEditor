@@ -66,7 +66,7 @@ var debugging = true;
 
         $rootScope.$on('$locationChangeStart', locationChangeStart);
 
-        function locationChangeStart(param1, param2) {
+        function locationChangeStart() {
 
             var path = $location.path();
 

@@ -80,7 +80,9 @@
             getTutorialPlayed: getTutorialPlayed,
             getCreationTutorialFlags: getCreationTutorialFlags,
             getCreationTutorialFlag: getCreationTutorialFlag,
-            setCreationTutorialFlag: setCreationTutorialFlag
+            setCreationTutorialFlag: setCreationTutorialFlag,
+            setEditing: setEditing,
+            clearEditing: clearEditing
         };
 
         return (User);
@@ -230,7 +232,10 @@
 
         function clearCurrentQuest() {
             if(this.currentQuest) {
-                this.currentQuest.setEditing(false);
+                var currentQuestId = this.currentQuest.getRemoteId();
+                if(currentQuestId > 0) {
+                    this.clearEditing(currentQuestId);
+                }
             }
             this.currentQuest = null;
             $rootScope.currentQuest = null;
@@ -238,6 +243,22 @@
             delete $localStorage.treePartId;
 
             $log.info("clearCurrentQuest");
+        }
+
+        function setEditing(currentQuestId) {
+            for(var i = 0; i < this.createdQuests.length; i++) {
+                if(this.createdQuests[i].getRemoteId() == currentQuestId){
+                    this.createdQuests[i].setEditing(true);
+                }
+            }
+        }
+
+        function clearEditing(currentQuestId) {
+            for(var i = 0; i < this.createdQuests.length; i++) {
+                if(this.createdQuests[i].getRemoteId() == currentQuestId){
+                    this.createdQuests[i].setEditing(false);
+                }
+            }
         }
 
         function addCreatedCard(card) {

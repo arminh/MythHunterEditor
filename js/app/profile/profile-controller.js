@@ -32,6 +32,13 @@
 
         function activate() {
             vm.currentQuest = user.getCurrentQuest();
+            if(vm.currentQuest) {
+                var currentQuestId = vm.currentQuest.getRemoteId();
+                if(currentQuestId > 0) {
+                    user.setEditing(currentQuestId);
+                }
+            }
+
         }
 
         function showCollection() {
@@ -55,7 +62,12 @@
 
         function editQuest(quest) {
             if(vm.currentQuest) {
+
                 editDifferentQuest().then(function() {
+                    var currentQuestId = vm.currentQuest.getRemoteId();
+                    if(currentQuestId > 0) {
+                        user.clearEditing(currentQuestId)
+                    }
                     loadMap(quest);
                 })
             } else {
@@ -66,8 +78,8 @@
 
         function loadMap(quest) {
             $q.when(loadQuest(quest)).then(function() {
-                user.setCurrentQuest(quest);
                 quest.setEditing(true);
+                user.setCurrentQuest(angular.copy(quest));
                 $state.go("app.map");
             });
         }
@@ -89,6 +101,10 @@
         }
 
         function clearCurrentQuest() {
+            var currentQuestId = vm.currentQuest.getRemoteId();
+            if(currentQuestId > 0) {
+                user.clearEditing(currentQuestId)
+            }
             user.clearCurrentQuest();
             QuestService.setTreePartId(1);
             vm.currentQuest = null;
@@ -124,8 +140,8 @@
 
         function deleteCurrentQuest(evt) {
             var confirm = $mdDialog.confirm()
-                .title('TITLE_DELETE_QUEST_DEV')
-                .htmlContent('TEXT_DELETE_QUEST_DEV')
+                .title($translate.instant('TITLE_DELETE_QUEST_DEV'))
+                .htmlContent($translate.instant('TEXT_DELETE_QUEST_DEV'))
                 .ariaLabel('Delete quest')
                 .targetEvent(evt)
                 .ok($translate.instant("BUTTON_CONFIRM"))
