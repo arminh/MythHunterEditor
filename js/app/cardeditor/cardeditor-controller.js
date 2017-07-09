@@ -38,7 +38,7 @@
                     },
                     {
                         element: document.querySelector('#card-image'),
-                        intro: $translate.instant("TOOLTIP_EDITOR_ATTACK")
+                        intro: $translate.instant("TOOLTIP_EDITOR_IMAGE")
                     },
                     {
                         element: document.querySelector('#card-attack'),

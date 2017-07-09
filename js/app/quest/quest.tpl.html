@@ -41,7 +41,7 @@
                 <div layout="row">
                     <md-input-container id="task-name" flex>
                         <label>{{'LABEL_TASK_NAME' | translate}}</label>
-                        <input required name="taskName" ng-model="questCtrl.quest.treePartRoot.name" class="task-info">
+                        <input required name="taskName" ng-model="questCtrl.quest.treePartRoot.task.name" class="task-info">
                         <div ng-messages="questForm.taskName.$error">
                             <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                         </div>

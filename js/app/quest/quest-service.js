@@ -29,7 +29,7 @@
 
         ////////////////
 
-        function finishEditing(editQuest, originalQuest, separateDescription, editStartMarker) {
+        function finishEditing(editQuest, originalQuest, sameDescription, editStartMarker) {
             $log.info("finishEditing: ", editQuest);
 
             originalQuest.getHtml().setContent(editQuest.getHtml().getContent());
@@ -60,14 +60,19 @@
 
             if(editStartMarker) {
                 var startTask = originalQuest.getTreePartRoot().getTask();
-                startTask.setName(editQuest.getName());
+                var editStartTask = editQuest.getTreePartRoot().getTask();
+
+                startTask.setName(editStartTask.getName());
                 startTask.setFixed(true);
 
                 var startHtml = startTask.getHtml();
-                startHtml.setTaskTitle(editQuest.getName());
-                if(!separateDescription) {
+                startHtml.setTaskTitle(editStartTask.getName());
+                if(sameDescription) {
                     startHtml.setContent(editQuest.getHtml().getContent());
+                } else {
+                    startHtml.setContent(editStartTask.getHtml().getContent())
                 }
+                startTask.change();
             }
 
             originalQuest.change();

@@ -101,7 +101,7 @@
         }
 
         function confirm() {
-            QuestService.finishEditing(vm.quest, vm.originalQuest, vm.separateDescription, vm.editStartMarker);
+            QuestService.finishEditing(vm.quest, vm.originalQuest, vm.sameDescription, vm.editStartMarker);
             user.setCreationTutorialFlag(CreationTutorialFlags.QUEST);
             user.backup();
             $state.go("app.map", {tutorial: $stateParams.tutorial});

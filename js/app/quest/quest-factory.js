@@ -218,10 +218,6 @@
         }
 
         function addTreePart(treePart) {
-            if(treePart.getType() == TreePartType.And) {
-                $log.error("And added");
-            }
-            console.log(treePart)
             this.treeParts.push(treePart);
         }
 

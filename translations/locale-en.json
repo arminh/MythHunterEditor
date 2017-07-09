@@ -85,10 +85,11 @@
   "TOOLTIP_EDITOR_STARS_1": "The stats attack and lifeforce, as well as the action, cost stars. ",
   "TOOLTIP_EDITOR_STARS_2": "You have 10 stars available.",
   "ERROR_EDITOR_STARS": "Too many stars. Edit action or lower attack / lifeforce.",
+  "TOOLTIP_EDITOR_IMAGE": "Upload an image for your card",
   "LABEL_EDITOR_ATTACK": "Attack",
   "TOOLTIP_EDITOR_ATTACK": "Determines how much damage your monster can do in physical combat.",
   "LABEL_EDITOR_LIFEFORCE": "Lifeforce",
-  "TOOLTIP_EDITOR_LIFEFORCE_1": "Determines the amount of physical damage your monster can take",
+  "TOOLTIP_EDITOR_LIFEFORCE_1": "Determines the amount of physical damage your monster can take ",
   "TOOLTIP_EDITOR_LIFEFORCE_2": "and the number of attacks it can perform before it faints.",
   "LABEL_EDITOR_DESCRIPTION": "Description",
   "TEXT_ACTION_PLACEHOLDER": "Action",
@@ -171,6 +172,8 @@
   "ERROR_QUIZ": "Creating Quiz failed",
   "ERROR_QUESTLINE": "Saving Questline failed",
   "ERROR_QUESTLINE_MARKER_CONNECTION": "Not all marker are connected to the tree",
+  "ERROR_QUESTLINE_AND_OR_OUTPUT": "Output of Or/And not connected to the tree",
+  "ERROR_QUESTLINE_AND_OR_INPUT": "Input of And/Or not connected to the tree",
   "ERROR_DECK": "Saving deck failed",
   "ERROR_DECK_MAX_CARDS": "Your deck exceeds the maximum number of cards",
   "ERROR_DECK_DELETE": "Deleting deck failed",
@@ -235,5 +238,7 @@
   "TUT_MAP_SEARCH_MARKER_TITLE": "Place search start marker",
   "TUT_MAP_SEARCH_MARKER_TEXT": "Place the first of two markers for the search task on the map.<br>It marks the location of the start of the search.",
   "TUT_MAP_SEARCH_MARKER_DEST_TITLE": "Place search target marker",
-  "TUT_MAP_SEARCH_MARKER_DEST_TEXT": "Place the second marker at the destination of your search task."
+  "TUT_MAP_SEARCH_MARKER_DEST_TEXT": "Place the second marker at the destination of your search task.",
+  "LABEL_AND": "And",
+  "LABEL_OR": "Or"
 }
