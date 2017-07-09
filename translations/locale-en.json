@@ -229,5 +229,11 @@
   "TUT_CARD_NAME": "Enter a name for your card.",
   "TUT_CARD_DESC": "Enter a description for your card.",
   "TUT_CARD_ACTIONS": "Choose between several actions for your card",
-  "TUT_CARD_FINISHED": "If you are finished editing the card press this button."
+  "TUT_CARD_FINISHED": "If you are finished editing the card press this button.",
+  "TUT_MAP_START_MARKER_TITLE": "Place StartMarker",
+  "TUT_MAP_START_MARKER_TEXT": "You are now on the map interface with the first marker in hand.<br>Place the marker where you want players to find your quest",
+  "TUT_MAP_SEARCH_MARKER_TITLE": "Place search start marker",
+  "TUT_MAP_SEARCH_MARKER_TEXT": "Place the first of two markers for the search task on the map.<br>It marks the location of the start of the search.",
+  "TUT_MAP_SEARCH_MARKER_DEST_TITLE": "Place search target marker",
+  "TUT_MAP_SEARCH_MARKER_DEST_TEXT": "Place the second marker at the destination of your search task."
 }

@@ -67,18 +67,18 @@
 
             switch (type) {
                 case "start": {
-                    title = "Place StartMarker";
-                    content = "You are now on the map interface with the first marker in hand. <br> Place the marker where you want players to find your quest";
+                    title = $translate.instant("TUT_MAP_START_MARKER_TITLE");
+                    content = $translate.instant("TUT_MAP_START_MARKER_TEXT");
                     break;
                 }
                 case MarkerType.INVISIBLE: {
                     if(!invisibleTarget) {
-                        title = "Place search start marker";
-                        content = "Place the first of two markers for the search task on the map.<br>It marks the location of the start of the search.";
+                        title = $translate.instant("TUT_MAP_SEARCH_MARKER_TITLE");
+                        content = $translate.instant("TUT_MAP_SEARCH_MARKER_TEXT");
                         break;
                     } else {
-                        title = "Place search target marker";
-                        content = "Place the second marker at the destination of your search task.";
+                        title = $translate.instant("TUT_MAP_SEARCH_MARKER_DEST_TITLE");
+                        content =  $translate.instant("TUT_MAP_SEARCH_MARKER_DEST_TEXT");
                         break;
                     }
                 }

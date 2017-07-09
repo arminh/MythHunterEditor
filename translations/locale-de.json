@@ -229,5 +229,11 @@
   "TUT_CARD_NAME": "Gib einen Namen für die Karte ein.",
   "TUT_CARD_DESC": "Gib eine Beshcreibung für die Karte ein.",
   "TUT_CARD_ACTIONS": "Wähle eine Aktion für die Karte aus.",
-  "TUT_CARD_FINISHED": "Wenn du die Beabeitung des Kartendecks abgeschlossen hast, drücke diesen Button."
+  "TUT_CARD_FINISHED": "Wenn du die Beabeitung des Kartendecks abgeschlossen hast, drücke diesen Button.",
+  "TUT_MAP_START_MARKER_TITLE": "Platziere ersten Marker",
+  "TUT_MAP_START_MARKER_TEXT": "Du befindest dich nun auf der Karte mit dem ersten Marker in der Hand. <br> Platziere den Marker dort wo die Spieler die AUfgabe in der Welt finden sollen.",
+  "TUT_MAP_SEARCH_MARKER_TITLE": "Platziere Start der Suche",
+  "TUT_MAP_SEARCH_MARKER_TEXT": "Platziere den ersten von zwei Markern auf der Karte.<br>Hier beginnt die Suche.",
+  "TUT_MAP_SEARCH_MARKER_DEST_TITLE": "Platziere Ziel der Suche",
+  "TUT_MAP_SEARCH_MARKER_DEST_TEXT": "Platziere den zweiten Marker auf der Karte.<br>Hier endet die Suche."
 }
