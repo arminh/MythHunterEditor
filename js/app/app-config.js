@@ -48,7 +48,25 @@ var debugging = true;
             });
 
         $translateProvider.fallbackLanguage('en');
-        $translateProvider.preferredLanguage('de');
+        var lang = "de";
+        var browserLang = "";
+
+        if(navigator.languages) {
+            browserLang = navigator.languages[0];
+        } else {
+            browserLang = navigator.userLanguage;
+        }
+        switch(browserLang) {
+            case "de-DE":
+            case "de-AT":
+                lang = "de";
+                break;
+            case "en-US":
+            case "en-GB":
+                lang = "en";
+        }
+
+        $translateProvider.preferredLanguage(lang);
 
         $translateProvider.useStaticFilesLoader({
             prefix: 'translations/locale-',

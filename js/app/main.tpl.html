@@ -24,6 +24,13 @@
     </md-button>
     <span flex></span>
 
+    <md-input-container>
+        <label>State</label>
+        <md-select ng-model="main.language" ng-change="main.changeLanguage()">
+            <md-option value="de"><img src="media/german-flag-small.png" height="20px" width="30px"/> DE</md-option>
+            <md-option value="en"><img src="media/british-flag-small.png" height="20px" width="30px"/> EN</md-option>
+        </md-select>
+    </md-input-container>
     <md-button aria-label="Profile" class="md-icon-button" style="text-transform: none;">
         <a ui-sref="app.profile">{{user.name}}</a>
     </md-button>
