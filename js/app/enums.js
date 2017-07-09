@@ -32,6 +32,7 @@
             DECK: "deck",
             QUIZ: "quiz",
             FIGHT: "fight",
-            SEARCH: "search"
+            SEARCH: "search",
+            STORYLINE: "storyline"
         });
 })();

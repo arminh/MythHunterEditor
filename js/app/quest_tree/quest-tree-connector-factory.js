@@ -9,10 +9,10 @@
         .module('questTree')
         .factory('QuestTreeConnector', QuestTreeConnectorFactory);
 
-    QuestTreeConnectorFactory.$inject = ["QuestTreeConnectorInSlot", "QuestTreeConnectorOutSlot"];
+    QuestTreeConnectorFactory.$inject = ["$translate", "TreePartType", "QuestTreeConnectorInSlot", "QuestTreeConnectorOutSlot"];
 
     /* @ngInject */
-    function QuestTreeConnectorFactory(QuestTreeConnectorInSlot, QuestTreeConnectorOutSlot) {
+    function QuestTreeConnectorFactory($translate, TreePartType, QuestTreeConnectorInSlot, QuestTreeConnectorOutSlot) {
 
         var CONNECTOR_Z_INDEX = 5;
         var CONNECTOR_LABEL_INDEX = 6;
@@ -115,7 +115,17 @@
         }
 
         function drawLabel() {
-            this.label = new fabric.Text(this.type, {
+            var label = "";
+            switch(this.type) {
+                case TreePartType.And:
+                    label = $translate.instant("LABEL_AND");
+                    break;
+                case TreePartType.Or:
+                    label = $translate.instant("LABEL_OR");
+                    break;
+            }
+
+            this.label = new fabric.Text(label, {
                 fontFamily: 'Arial',
                 fontSize: 12,
             });

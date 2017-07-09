@@ -1,0 +1,40 @@
+<md-dialog aria-label="Create task">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2><span translate="TITLE_TUT_EDIT_STORYLINE"></span></h2>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h4><b><span translate="TITLE_TUT_STORYLINE"></span></b></h4>
+            <p translate="TEXT_TUT_EDIT_STORYLINE_DESC"></p>
+            <p><b translate="TITLE_TUT_STORYLINE_CONNECTORS"></b></p>
+            <p translate="TEXT_TUT_STORYLINE_CONNECTORS"></p>
+            <p><img src="media/storyline-connectors.png" width="150px"/></p>
+            <p translate="TEXT_TUT_STORYLINE_DRAW"></p>
+            <p translate="TEXT_TUT_STORYLINE_REMOVE"></p>
+            <br>
+            <p><b translate="TITLE_TUT_STORYLINE_IMPLICIT_OR"></b></p>
+            <p translate="TEXT_TUT_STORYLINE_IMPLICIT_OR"></p>
+            <p><img src="media/storyline-implicit-or.png" width="250px"/></p>
+            <p><b translate="TITLE_TUT_STORYLINE_AND"></b></p>
+            <p translate="TEXT_TUT_STORYLINE_AND"></p>
+            <p><img src="media/storyline-and.png" width="250px"/></p>
+
+            <p translate="TEXT_TUT_STORYLINE_WARN"></p>
+            <p translate="TEXT_TUT_STORYLINE_END"></p>
+
+
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-checkbox class="instruction-use" ng-if="editStoryline.chooseTutorial" ng-model="editStoryline.tutorial"
+                     aria-label="separateDescription">
+            <md-label class="description-label">{{'LABEL_TUTORIAL' | translate}}</md-label>
+        </md-checkbox>
+        <md-button class="md-raised" ng-click="editStoryline.confirm()">
+            <span translate="BUTTON_READY"></span>
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

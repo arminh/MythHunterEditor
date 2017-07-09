@@ -240,5 +240,19 @@
   "TUT_MAP_SEARCH_MARKER_DEST_TITLE": "Place search target marker",
   "TUT_MAP_SEARCH_MARKER_DEST_TEXT": "Place the second marker at the destination of your search task.",
   "LABEL_AND": "And",
-  "LABEL_OR": "Or"
+  "LABEL_OR": "Or",
+  "TITLE_TUT_EDIT_STORYLINE": "Edit storyline",
+  "TITLE_TUT_STORYLINE": "Storyline",
+  "TEXT_TUT_EDIT_STORYLINE": "You are about to edit the quest's storyline. Here are some tips:",
+  "TEXT_TUT_EDIT_STORYLINE_DESC": "Until now the quest is linear, that means all tasks are completed one after another.<br>This graphical editor allows you to create more complex quests that have multiple parallel paths.",
+  "TITLE_TUT_STORYLINE_IMPLICIT_OR": "Or-Connection",
+  "TITLE_TUT_STORYLINE_CONNECTORS": "Toolbox",
+  "TEXT_TUT_STORYLINE_CONNECTORS": "Use the connectors in the toolbox to create a complex quest. Click on the toolbox items to create a new connector.",
+  "TEXT_TUT_STORYLINE_DRAW": "<b>Add</b> a new line by clicking on a marker or connector",
+  "TEXT_TUT_STORYLINE_REMOVE": "<b>Remove</b> elements by right-clicking them (markers can not be removed here)",
+  "TEXT_TUT_STORYLINE_IMPLICIT_OR": "If you want the player to be able to choose between two paths to get to the next task, connect the markers like this:",
+  "TITLE_TUT_STORYLINE_AND": "And-Connection",
+  "TEXT_TUT_STORYLINE_AND": "If you want the players to complete multiple tasks before they can advance to the next one, connect them like this using the And-Connector from the toolbox:",
+  "TEXT_TUT_STORYLINE_WARN": "<b>Warning: </b> After making a quest complex, the order of the tasks can not be changed in the map interface anymore.",
+  "TEXT_TUT_STORYLINE_END": "Now you are ready to create a complex quest. Be as creative as you want creating your storyline."
 }

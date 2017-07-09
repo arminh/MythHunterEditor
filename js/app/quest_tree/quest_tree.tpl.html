@@ -1,5 +1,13 @@
 <div layout="column" ng-cloak flex-offset-gt-sm="10" flex-gt-sm="80" flex="100" layout-padding>
 
+    <div>
+        <md-button ng-click="questTree.showInstructions()" aria-label="Complex">
+            <md-label>Anleitung:</md-label>
+            <md-icon md-svg-icon="media/info_icon.svg"></md-icon>
+
+            <md-tooltip md-direction="top">{{'LABEL_SHOW_INSTRUCTIONS' | translate}}</md-tooltip>
+        </md-button>
+    </div>
     <div id="questTreeContainer" layout="column" keypress-events>
         <canvas id="questTree-canvas" width="960px" height="500px"></canvas>
     </div>

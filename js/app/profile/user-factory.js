@@ -39,7 +39,8 @@
                 quest: false,
                 quiz: false,
                 search: false,
-                fight: false
+                fight: false,
+                storyline: false
             };
 
             this.currentQuest = null;
@@ -280,7 +281,12 @@
             if($localStorage.currentQuest) {
                 var quest = new Quest();
                 quest.initFromObject($localStorage.currentQuest);
-                QuestService.setTreePartId($localStorage.treePartId);
+                if($localStorage.treePartId) {
+                    QuestService.setTreePartId($localStorage.treePartId);
+                } else {
+                    QuestService.setTreePartId(1);
+                }
+
                 return quest;
             } else {
                 return null;

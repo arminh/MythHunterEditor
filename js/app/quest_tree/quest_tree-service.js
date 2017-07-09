@@ -193,7 +193,17 @@
             // rect.selectable = false;
             canvas.add(rect);
 
-            var markerLabel = new fabric.Text(type, {
+            var label = "";
+            switch(type) {
+                case TreePartType.And:
+                    label = $translate.instant("LABEL_AND");
+                    break;
+                case TreePartType.Or:
+                    label = $translate.instant("LABEL_OR");
+                    break;
+            }
+
+            var markerLabel = new fabric.Text(label, {
                 fontFamily: 'Arial',
                 fontSize: 12,
                 left: 100,
@@ -472,6 +482,8 @@
                 case "connector":
                     startElement = obj.connector;
                     break;
+                case "slot":
+                    startElement = obj.slot.connector;
             }
 
             var anchorPoint = startElement.getStartPoint();
@@ -692,6 +704,8 @@
         function saveTree(evt) {
 
             var treeParts = [];
+
+            var markerError = false;
             for (var i = 0; i < markers.length; i++) {
                 if(markers[i].getId() != 0) {
                     treeParts.push(markers[i].getTreePart());
@@ -699,36 +713,29 @@
 
                 if (markers[i].getId() != 0 && markers[i].getInLines().length == 0) {
                     markers[i].showErrorCircle();
-                    var alert = $mdDialog.alert()
-                        .title($translate.instant('ERROR_QUESTLINE'))
-                        .htmlContent($translate.instant('ERROR_QUESTLINE_MARKER_CONNECTION'))
-                        .ariaLabel('Save Questline')
-                        .targetEvent(evt)
-                        .ok($translate.instant('BUTTON_CLOSE'));
-
-                    return $mdDialog.show(alert).then(function () {
-                        return $q.reject();
-                    });
+                    markerError = true;
                 }
             }
 
-            var error = false;
+            if(markerError) {
+                alertError(evt, "ERROR_QUESTLINE", "ERROR_QUESTLINE_MARKER_CONNECTION");
+                return $q.reject();
+            }
+
             for (var i = 0; i < connectors.length; i++) {
                 if (connectors[i].getOutLines().length < 1) {
                     $log.warn("And/Or output no connected to tree");
+                    alertError(evt, "ERROR_QUESTLINE", "ERROR_QUESTLINE_AND_OR_OUTPUT");
                     connectors[i].showSlotErrorCircles("out");
-                    error = true;
+                    return $q.reject();
                 }
 
                 if (connectors[i].getNumInLines() == 0) {
                     $log.warn("Nothing connected to And/Or input");
+                    alertError(evt, "ERROR_QUESTLINE", "ERROR_QUESTLINE_AND_OR_INPUT");
                     connectors[i].showSlotErrorCircles("in");
-                    error = true;
+                    return $q.reject();
                 }
-            }
-
-            if(error) {
-                return $q.reject();
             }
 
             for (var i = 0; i < markers.length; i++) {
@@ -760,6 +767,17 @@
             quest.checkComplexity();
             return null;
 
+        }
+
+        function alertError(evt, title, content) {
+            var alert = $mdDialog.alert()
+                .title($translate.instant(title))
+                .htmlContent($translate.instant(content))
+                .ariaLabel('Save Questline')
+                .targetEvent(evt)
+                .ok($translate.instant('BUTTON_CLOSE'));
+
+            return $mdDialog.show(alert);
         }
     }
 

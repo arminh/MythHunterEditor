@@ -112,6 +112,7 @@
             this.remoteId = questObject.remoteId;
             this.version = questObject.version;
             this.loaded = questObject.loaded;
+            this.complex = questObject.complex;
 
             this.specialCards = questObject.specialCards;
             this.diffulty = questObject.diffulty;

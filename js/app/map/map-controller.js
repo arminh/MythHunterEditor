@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "$stateParams", "$q", "$mdDialog", "$translate", "MapInteractionService", "MapService", "user"];
+    MapController.$inject = ["$scope", "$state", "$stateParams", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user"];
 
     /* @ngInject */
-    function MapController($scope, $state, $stateParams, $q, $mdDialog, $translate, MapInteraction, MapService, user) {
+    function MapController($scope, $state, $stateParams, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user) {
         var vm = this;
 
         vm.quest = null;
@@ -165,6 +165,18 @@
             });
         }
 
+        function showEditStorylineDialog() {
+            return $mdDialog.show({
+                templateUrl: 'js/app/quest_tree/edit-storyline-dialog/edit-storyline-dialog.tpl.html',
+                controller: 'EditStorylineDialogController',
+                controllerAs: "editStoryline",
+                bindToController: true,
+                locals: {
+                    chooseTutorial: false
+                }
+            });
+        }
+
         function showTutorial() {
             vm.startIntro();
         }
@@ -205,7 +217,15 @@
         }
 
         function editQuestTree() {
-            $state.go("app.storyline", {quest: vm.quest});
+            if(user.getCreationTutorialFlag(CreationTutorialFlags.STORYLINE)) {
+                $state.go("app.storyline", {quest: vm.quest});
+            } else {
+                showEditStorylineDialog().then(function() {
+                    user.setCreationTutorialFlag(CreationTutorialFlags.STORYLINE);
+                    user.upload();
+                    $state.go("app.storyline", {quest: vm.quest});
+                });
+            }
         }
 
         function addQuestReward() {

@@ -9,13 +9,14 @@
         .module('questTree')
         .controller('QuestTreeController', QuestTreeController);
 
-    QuestTreeController.$inject = ["$scope", "$state", "$q", 'QuestTreeService', "$stateParams", "$timeout", "user"];
+    QuestTreeController.$inject = ["$scope", "$state", "$q", 'QuestTreeService', "$stateParams", "$timeout", "$mdDialog", "user"];
 
     /* @ngInject */
-    function QuestTreeController($scope, $state, $q, QuestTreeService, $stateParams, $timeout, user) {
+    function QuestTreeController($scope, $state, $q, QuestTreeService, $stateParams, $timeout, $mdDialog, user) {
         var vm = this;
         vm.drawing = false;
 
+        vm.showInstructions = showInstructions;
         vm.confirm = confirm;
         vm.cancel = cancel;
 
@@ -32,12 +33,18 @@
             } else {
                 $state.go("app.map");
             }
-
-            // createTreePartAnd();
         }
 
-        function createTreePartAnd() {
-            QuestTreeService.createTreePartAnd();
+        function showInstructions() {
+            return $mdDialog.show({
+                templateUrl: 'js/app/quest_tree/edit-storyline-dialog/edit-storyline-dialog.tpl.html',
+                controller: 'EditStorylineDialogController',
+                controllerAs: "editStoryline",
+                bindToController: true,
+                locals: {
+                    chooseTutorial: false
+                }
+            });
         }
 
         function confirm(evt) {

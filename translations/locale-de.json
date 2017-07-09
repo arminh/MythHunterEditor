@@ -240,5 +240,19 @@
   "TUT_MAP_SEARCH_MARKER_DEST_TITLE": "Platziere Ziel der Suche",
   "TUT_MAP_SEARCH_MARKER_DEST_TEXT": "Platziere die zweite Markierung auf der Karte.<br>Hier endet die Suche.",
   "LABEL_AND": "Und",
-  "LABEL_OR": "Oder"
+  "LABEL_OR": "Oder",
+  "TITLE_TUT_EDIT_STORYLINE": "Handlungsstrang bearbeiten",
+  "TITLE_TUT_STORYLINE": "Handlungsstrang",
+  "TEXT_TUT_EDIT_STORYLINE": "Du bist dabei den Handlungsstrang deiner Aufgabe zu bearbeiten. Hier ein paar Tipps:",
+  "TEXT_TUT_EDIT_STORYLINE_DESC": "Bis jetzt is deine Aufgabe linear, das heißt die Stationen werden eine nach der anderen fertiggestellt.<br>Dieser graphische Editor ermöglicht es dir komplexe Aufgaben mit mehreren parallelen Pfade zu erstellen.",
+  "TITLE_TUT_STORYLINE_IMPLICIT_OR": "Oder- Verknüpfung",
+  "TITLE_TUT_STORYLINE_CONNECTORS": "Werkzeug-Palette",
+  "TEXT_TUT_STORYLINE_CONNECTORS": "Verwende die Verknüpfungen in der Werkzeug-Palette um eine komplexe Aufgabe zu erstellen. Klicke auf ein Werkzeug um eine neue Verknüpfung zu erstellen.",
+  "TEXT_TUT_STORYLINE_DRAW": "<b>Füge</b> eine neue Linie <b>hinzu</b> indem du auf eine Markierung oder eine Verknüpfung klickst.",
+  "TEXT_TUT_STORYLINE_REMOVE": "<b>Entferne</b> Elemente mit einem Rechtsklick (Markierungen können hier nicht entfernt werden).",
+  "TEXT_TUT_STORYLINE_IMPLICIT_OR": "Wenn der Spieler sich zwischen zwei Pfaden entscheiden können soll, verbinde die Markierungen folgendermaßen:",
+  "TITLE_TUT_STORYLINE_AND": "Und-Verknüpfung",
+  "TEXT_TUT_STORYLINE_AND": "Wenn du willst, dass die Spieler mehrere Stationen abschließen um zu einer weiteren zu kommen, verbinde sie folgendermaßen mit der Und-Verknüpfung aus der Werkzeug-Palette:",
+  "TEXT_TUT_STORYLINE_WARN": "<b>Achtung: </b> Bei einem komplexen Aufgabe können die Stationen in der Kartenansicht nicht mehr verschoben werden.",
+  "TEXT_TUT_STORYLINE_END": "Nun bist du bereit eine komplexe Aufgabe zu erstellen. Sei so kreativ wie du willst bei der Erstellung des Handlungsstrangs."
 }
