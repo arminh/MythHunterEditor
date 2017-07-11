@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "$stateParams", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user"];
+    MapController.$inject = ["$scope", "$state", "$stateParams", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user", "ngIntroService"];
 
     /* @ngInject */
-    function MapController($scope, $state, $stateParams, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user) {
+    function MapController($scope, $state, $stateParams, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user, ngIntroService) {
         var vm = this;
 
         vm.quest = null;
@@ -68,14 +68,6 @@
                     intro: $translate.instant("TUT_MAP_START")
                 },
                 {
-                    element: document.querySelector('#add-task'),
-                    intro: $translate.instant("TUT_MAP_ADD_TASK")
-                },
-                {
-                    element: document.querySelector('#map-task'),
-                    intro: $translate.instant("TUT_MAP_TASK")
-                },
-                {
                     element: document.querySelector('#edit-quest'),
                     intro: $translate.instant("TUT_MAP_EDIT_QUEST")
                 },
@@ -94,6 +86,14 @@
                 {
                     element: document.querySelector('#save-quest'),
                     intro: $translate.instant("TUT_MAP_SAVE_QUEST")
+                },
+                {
+                    element: document.querySelector('#map-task'),
+                    intro: $translate.instant("TUT_MAP_TASK")
+                },
+                {
+                    element: document.querySelector('#add-task'),
+                    intro: $translate.instant("TUT_MAP_ADD_TASK")
                 }
             ],
             showStepNumbers: false,
@@ -132,7 +132,8 @@
         }
 
         function addTreePart(quest, evt) {
-            MapService.addTreePart(user, quest, $stateParams.tutorial, evt);
+            ngIntroService.clear();
+            MapService.addTreePart(user, quest, evt);
         }
 
         function toggleQuestline() {
