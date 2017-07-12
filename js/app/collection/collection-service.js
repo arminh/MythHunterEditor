@@ -92,9 +92,11 @@
             return card;
         }
 
-        function openDeck(deck) {
+        function openDeck(deck, ownedCards) {
             originalDeck = deck;
-            return angular.copy(deck);
+            var editDeck = angular.copy(deck);
+            editDeck.setLoadCardsPromise(DeckService.loadCards(deck, ownedCards));
+            return editDeck;
 
         }
 

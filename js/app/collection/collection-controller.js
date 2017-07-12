@@ -9,10 +9,10 @@
         .module('collection')
         .controller('CollectionController', CollectionController);
 
-    CollectionController.$inject = ["$state", "$mdDialog", "$timeout", "$translate", "CollectionService", "MAX_STARS", "MAX_CARD_IN_DECK", "CardType", "user", "$stateParams", "ngIntroService", "CreationTutorialFlags"];
+    CollectionController.$inject = ["$state", "$mdDialog", "$timeout", "$translate", "CollectionService", "DeckService", "MAX_STARS", "MAX_CARD_IN_DECK", "CardType", "user", "$stateParams", "ngIntroService", "CreationTutorialFlags"];
 
     /* @ngInject */
-    function CollectionController($state, $mdDialog, $timeout, $translate, CollectionService, MAX_STARS, MAX_CARD_IN_DECK, CardType, user, $stateParams, ngIntroService, CreationTutorialFlags) {
+    function CollectionController($state, $mdDialog, $timeout, $translate, CollectionService, DeckService, MAX_STARS, MAX_CARD_IN_DECK, CardType, user, $stateParams, ngIntroService, CreationTutorialFlags) {
         var vm = this;
 
         vm.user = user;
@@ -61,7 +61,9 @@
                 vm.enemy = $stateParams.enemy;
                 CollectionService.loadCollectionEnemy(user).then(function (collection) {
                     vm.collection = collection;
-                    showOpenDeckDialog(vm.enemy.getDeck());
+                    var deck = vm.enemy.getDeck();
+                    // deck.setLoadCardsPromise(DeckService.loadCards(deck, collection.getCards()));
+                    showOpenDeckDialog(deck);
                 });
             } else {
                 vm.collection = CollectionService.loadCollection(user);
@@ -129,6 +131,7 @@
             CollectionService.showCreateDeckDialog(user).then(function (tutorial) {
                 openDeck(deck).then(function() {
                     if(tutorial) {
+                        console.log("start intro");
                         $timeout(vm.startIntro);
                     }
                 });
@@ -178,9 +181,11 @@
                 addCard: null,
                 clearDeck: null
             };
-            vm.currentDeck = CollectionService.openDeck(deck);
+            console.log("openingDeck");
+            vm.currentDeck = CollectionService.openDeck(deck, vm.collection.getCards());
 
             return $timeout(function () {
+                console.log("init intro");
                 ngIntroService.clear();
                 vm.introOptions = {
                     steps: [
@@ -211,7 +216,7 @@
                     exitOnEsc: true,
                     hidePrev: true
                 };
-                return deck.getLoadCardsPromise();
+               return vm.currentDeck.getLoadCardsPromise();
             });
         }
 

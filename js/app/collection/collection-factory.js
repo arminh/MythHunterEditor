@@ -9,10 +9,10 @@
         .module('collection')
         .factory('Collection', CollectionFactory);
 
-    CollectionFactory.$inject = ["$q", "$log", "ActionService"];
+    CollectionFactory.$inject = ["$q", "$log", "ActionService", "DeckService"];
 
     /* @ngInject */
-    function CollectionFactory($q, $log, ActionService) {
+    function CollectionFactory($q, $log, ActionService, DeckService) {
         $log = $log.getInstance("Collection", debugging);
         function Collection(cards, createdCards, decks) {
             this.cards = cards;
