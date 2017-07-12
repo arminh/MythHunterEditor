@@ -129,8 +129,8 @@
 
         function showOpenDeckDialog(deck) {
             CollectionService.showCreateDeckDialog(user).then(function (tutorial) {
-                openDeck(deck).then(function() {
-                    if(tutorial) {
+                openDeck(deck).then(function () {
+                    if (tutorial) {
                         console.log("start intro");
                         $timeout(vm.startIntro);
                     }
@@ -184,40 +184,45 @@
             console.log("openingDeck");
             vm.currentDeck = CollectionService.openDeck(deck, vm.collection.getCards());
 
-            return $timeout(function () {
-                console.log("init intro");
-                ngIntroService.clear();
-                vm.introOptions = {
-                    steps: [
-                        {
-                            element: document.querySelector('#deck-name'),
-                            intro: $translate.instant("TUT_DECK_NAME")
-                        },
-                        {
-                            element: document.querySelector('#collection-cards'),
-                            intro: $translate.instant("TUT_DECK_CARDS")
-                        },
-                        {
-                            element: document.querySelector('#deck-content'),
-                            intro: $translate.instant("TUT_DECK_REMOVE_CARD")
-                        },
-                        {
-                            element: document.querySelector('#card-count'),
-                            intro: $translate.instant("TUT_DECK_NUM_CARDS")
-                        },
-                        {
-                            element: document.querySelector('#save-deck'),
-                            intro: $translate.instant("TUT_DECK_FINISHED")
-                        }
-                    ],
-                    showStepNumbers: false,
-                    showBullets: true,
-                    exitOnOverlayClick: true,
-                    exitOnEsc: true,
-                    hidePrev: true
-                };
-               return vm.currentDeck.getLoadCardsPromise();
+
+            return vm.currentDeck.getLoadCardsPromise().then(function () {
+
+                return $timeout(function () {
+                    console.log("init intro");
+                    ngIntroService.clear();
+                    vm.introOptions = {
+                        steps: [
+                            {
+                                element: document.querySelector('#deck-name'),
+                                intro: $translate.instant("TUT_DECK_NAME")
+                            },
+                            {
+                                element: document.querySelector('#collection-cards'),
+                                intro: $translate.instant("TUT_DECK_CARDS")
+                            },
+                            {
+                                element: document.querySelector('#deck-content'),
+                                intro: $translate.instant("TUT_DECK_REMOVE_CARD")
+                            },
+                            {
+                                element: document.querySelector('#card-count'),
+                                intro: $translate.instant("TUT_DECK_NUM_CARDS")
+                            },
+                            {
+                                element: document.querySelector('#save-deck'),
+                                intro: $translate.instant("TUT_DECK_FINISHED")
+                            }
+                        ],
+                        showStepNumbers: false,
+                        showBullets: true,
+                        exitOnOverlayClick: true,
+                        exitOnEsc: true,
+                        hidePrev: true
+                    };
+
+                });
             });
+
         }
 
         function cancelDeck() {
