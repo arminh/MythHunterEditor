@@ -22,16 +22,42 @@
         var taSelection = null;
         var selected = null;
 
+        $provide.decorator('taTranslations', extendTaTranslation);
+
+        extendTaTranslation.inject = ["$delegate", "$translate"];
+
+        function extendTaTranslation($delegate) {
+            $delegate.heading.tooltip = "{{'TOOLTIP_H' | translate}}";
+            $delegate.redo.tooltip = "{{'TOOLTIP_REDO' | translate}}";
+            $delegate.undo.tooltip = "{{'TOOLTIP_UNDO' | translate}}";
+            $delegate.justifyLeft.tooltip = "{{'TOOLTIP_ALIGN_LEFT' | translate}}";
+            $delegate.justifyCenter.tooltip = "{{'TOOLTIP_ALIGN_CENTER' | translate}}";
+            $delegate.justifyRight.tooltip = "{{'TOOLTIP_ALIGN_RIGHT' | translate}}";
+            $delegate.bold.tooltip = "{{'TOOLTIP_B' | translate}}";
+            $delegate.italic.tooltip = "{{'TOOLTIP_I' | translate}}";
+            $delegate.underline.tooltip = "{{'TOOLTIP_U' | translate}}";
+            $delegate.insertLink.tooltip = "{{'TOOLTIP_LINK' | translate}}";
+            // $delegate.insertLink.dialogPrompt = "{{'TOOLTIP_LINK_DIALOG' | translate}}";
+            $delegate.insertVideo.tooltip = "{{'TOOLTIP_VIDEO' | translate}}";
+            // $delegate.insertVideo.dialogPrompt = "{{'TOOLTIP_VIDEO_PROMPT' | translate}}";
+            $delegate.insertImage.tooltip = "{{'TOOLTIP_IMAGE' | translate}}";
+            // $delegate.insertImage.dialogPrompt = "{{'TOOLTIP_IMAGE_DIALOG' | translate}}";
+            $delegate.indent.tooltip = "{{'TOOLTIP_INCREASE_INDENT' | translate}}";
+            $delegate.outdent.tooltip = "{{'TOOLTIP_DECREASE_INDENT' | translate}}";
+            $delegate.clear.tooltip = "{{'TOOLTIP_CLEAR' | translate}}";
+            return $delegate;
+        }
+
         $provide.decorator('taOptions', extendTaOptions);
 
-        extendTaOptions.$inject = ["textAngularManager", "taRegisterTool", "taSelection", "taTranslations", "taToolFunctions", "$window", "$delegate", "$mdDialog"];
+        extendTaOptions.$inject = ["textAngularManager", "taRegisterTool", "taSelection", "taTranslations", "taToolFunctions", "$window", "$delegate", "$mdDialog", "$translate"];
 
-        function extendTaOptions(textAngularManager, taRegisterTool, taSelection_ , taTranslations, taToolFunctions, $window, taOptions, $mdDialog) { // $delegate is the taOptions we are decorating
+        function extendTaOptions(textAngularManager, taRegisterTool, taSelection_ , taTranslations, taToolFunctions, $window, taOptions, $mdDialog, $translate) { // $delegate is the taOptions we are decorating
             taSelection = taSelection_;
 
             taRegisterTool('insertPicture', {
                 iconclass: 'fa fa-picture-o',
-                tooltiptext: taTranslations.insertImage.tooltip,
+                tooltiptext: "{{'TOOLTIP_IMAGE' | translate}}",
                 action: function(){
                     var imageLink;
                     imageLink = $window.prompt(taTranslations.insertImage.dialogPrompt, 'http://');
@@ -92,9 +118,9 @@
 
             taRegisterTool('input', {
                 iconclass: "fa fa-file-text-o inputBox",
-                buttontext: " Gap fill",
+                buttontext: " Gap-fill",
                 class: "btn btn-primary task-input",
-                tooltiptext: "Input box",
+                tooltiptext: "{{'TOOLTIP_INPUT' | translate}}",
                 action: function () {
                     createQuizInput($mdDialog, this.$editor()).then(function() {
                         textAngularManager.refreshEditor('task-editor-quiz');
@@ -106,7 +132,7 @@
                 iconclass: "fa fa-dot-circle-o radioBtn",
                 buttontext: " Single Choice",
                 class: "btn btn-primary task-radio",
-                tooltiptext: "Radio button",
+                tooltiptext: "{{'TOOLTIP_RADIO_BUTTON' | translate}}",
                 action: function (value) {
                     console.log(this.$editor);
                     console.log(this.$editor());
@@ -120,7 +146,7 @@
                 iconclass: "fa fa-check-square-o checkBox",
                 buttontext: " Multiple Choice",
                 class: "btn btn-primary task-checkbox",
-                tooltiptext: "Checkbox",
+                tooltiptext: "{{'TOOLTIP_CHECKBOX' | translate}}",
                 action: function (value) {
                     createQuizGroup("checkbox", $mdDialog, this.$editor()).then(function() {
                         textAngularManager.refreshEditor('task-editor-quiz');

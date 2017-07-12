@@ -3,6 +3,15 @@
     <form name="taskForm" ng-cloak ng-submit="treePartCtrl.confirm()">
         <div layout-padding>
             <div class="md-dialog-content">
+                <div ng-if="treePartCtrl.task.getType() == 'QUIZ' || treePartCtrl.task.getType() == 'FIGHT'">
+                    <h3>
+                        {{'TEXT_TASK' | translate}}
+                        <md-button ng-click="treePartCtrl.showTutorial()" class="md-icon-button" aria-label="Complex">
+                            <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
+                            <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>
+                        </md-button>
+                    </h3>
+                </div>
                 <div layout="row" layout-align="center center">
                     <md-input-container flex="50" id="task-name">
                         <label>{{'LABEL_TASK_NAME' | translate}}</label>
@@ -14,13 +23,6 @@
                 </div>
 
                 <div class="task-content">
-                    <md-button aria-label="description-hint" class="md-icon-button" ng-click="treePartCtrl.showTutorial()"
-                               ng-if="treePartCtrl.task.getType() == 'QUIZ' || treePartCtrl.task.getType() == 'FIGHT'">
-                        <md-tooltip md-direction="top">
-                            {{'TOOLTIP_QUIZ_CONTENT' | translate}}
-                        </md-tooltip>
-                        <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
-                    </md-button>
                     <md-label class="description-label">{{'LABEL_TASK_CONTENT' | translate}}</md-label>
                     <md-button aria-label="description-hint" class="md-icon-button"
                                ng-if="treePartCtrl.task.getType() == 'QUIZ'">

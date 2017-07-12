@@ -19,6 +19,9 @@
                         <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                     </div>
                 </md-input-container>
+
+                <p ng-if="quizGroupCtrl.group.type == 'checkbox'">Add options to the quiz and check the <b>correct answers</b> using the checkboxes (<img src="media/checkbox.png" height="23"/>).</p>
+                <p ng-if="quizGroupCtrl.group.type == 'radio'">Add options to the quiz and check the <b>correct answer</b> using the radio button (<img src="media/radio-button.png" height="23"/>)</p>
                 <md-radio-group ng-model="quizGroupCtrl.selected" ng-if="quizGroupCtrl.group.type == 'radio'" ng-required="true">
 
                     <div ng-repeat="option in quizGroupCtrl.group.options" layout="row">

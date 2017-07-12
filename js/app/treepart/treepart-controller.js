@@ -22,7 +22,7 @@
         vm.editEnemyDeck = editEnemyDeck;
         vm.keyPressed = keyPressed;
         vm.contentChanged = contentChanged;
-        vm.showTutorial = showTutorial,
+        vm.showTutorial = showTutorial;
         vm.confirm = confirm;
         vm.cancel = cancel;
 
@@ -55,8 +55,7 @@
                 return;
             }
 
-            if((vm.task.getType() == MarkerType.QUIZ && !user.getCreationTutorialFlag(CreationTutorialFlags.QUIZ))
-                || (vm.task.getType() == MarkerType.FIGHT && !user.getCreationTutorialFlag(CreationTutorialFlags.FIGHT))) {
+            if(vm.task.getType() == MarkerType.QUIZ || vm.task.getType() == MarkerType.FIGHT) {
                 $timeout(function () {
                     var introOptions = {
                         steps: [
@@ -132,7 +131,10 @@
 
                     vm.introOptions = introOptions;
                     $timeout(function() {
-                        vm.startIntro();
+                        if((vm.task.getType() == MarkerType.QUIZ && !user.getCreationTutorialFlag(CreationTutorialFlags.QUIZ))
+                            || (vm.task.getType() == MarkerType.FIGHT && !user.getCreationTutorialFlag(CreationTutorialFlags.FIGHT))) {
+                            vm.startIntro();
+                        }
                     });
 
                 });
