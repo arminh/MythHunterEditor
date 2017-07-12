@@ -30,11 +30,14 @@
 
         function link(scope, element, attrs, vm) {
 
-            vm.loadCardsPromise = vm.deck.getLoadCardsPromise().then(function(result) {
+            var collection  = vm.user.getCollection();
+            var cards = collection.getAllCards();
+            vm.loadCardsPromise = DeckService.loadCards(vm.deck, cards).then(function(result) {
                 vm.cards = result;
                 vm.control.addCard = addCard;
                 vm.control.clearDeck = clearDeck;
             });
+            vm.deck.setLoadCardsPromise(vm.loadCardsPromise);
 
             function addCard(card) {
                 console.log("AddCard");

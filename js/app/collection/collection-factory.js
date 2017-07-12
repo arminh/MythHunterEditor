@@ -9,10 +9,10 @@
         .module('collection')
         .factory('Collection', CollectionFactory);
 
-    CollectionFactory.$inject = ["$q", "$log", "ActionService", "DeckService"];
+    CollectionFactory.$inject = ["$q", "$log", "ActionService"];
 
     /* @ngInject */
-    function CollectionFactory($q, $log, ActionService, DeckService) {
+    function CollectionFactory($q, $log, ActionService) {
         $log = $log.getInstance("Collection", debugging);
         function Collection(cards, createdCards, decks) {
             this.cards = cards;
@@ -104,9 +104,7 @@
             $log.info("loadDecks");
             for (var i = 0; i < this.decks.length; i++) {
                 if (!this.decks[i].getLoaded()) {
-                    var deckPromise = this.decks[i].getFromRemote(ownedCards).then(function(deck) {
-                        deck.setLoadCardsPromise(DeckService.loadCards(deck, ownedCards));
-                    });
+                    var deckPromise = this.decks[i].getFromRemote(ownedCards);
                     deckPromises.push(deckPromise);
                 }
             }
