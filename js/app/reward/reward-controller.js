@@ -9,10 +9,11 @@
         .module('reward')
         .controller('RewardController', RewardController);
 
-    RewardController.$inject = ["RewardService", "ngIntroService"];
+    RewardController.$inject = ["$log", "RewardService", "ngIntroService"];
 
     /* @ngInject */
-    function RewardController(RewardService, ngIntroService) {
+    function RewardController($log, RewardService, ngIntroService) {
+        $log = $log = $log.getInstance("RewardController", debugging);
         var vm = this;
         vm.cardIndex = 0;
 
@@ -42,6 +43,8 @@
                 card.getLoadPromise().then(function() {
                     vm.rewardIds.push(card.getRemoteId());
                 })
+            }, function() {
+                $log.info("createCard canceled")
             });
         }
 

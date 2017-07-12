@@ -9,10 +9,10 @@
         .module('card')
         .factory('CardService', CardService);
 
-    CardService.$inject = ["$log", "$mdDialog", "Card", "CreationTutorialFlags"];
+    CardService.$inject = ["$log", "$q", "$mdDialog", "Card", "CreationTutorialFlags"];
 
     /* @ngInject */
-    function CardService($log, $mdDialog, Card, CreationTutorialFlags) {
+    function CardService($log, $q, $mdDialog, Card, CreationTutorialFlags) {
         $log = $log.getInstance("CardService", debugging);
 
         var maskWidth = 214;
@@ -82,7 +82,8 @@
 
             return showCreateCardDialog().then(function () {
                 var card = new Card();
-                return openCardCreatorDialog(user, card).then(createFinished, createCanceled);
+                var tutorial = !user.getCreationTutorialFlag(CreationTutorialFlags.CARD);
+                return openCardCreatorDialog(card, tutorial).then(createFinished, createCanceled);
 
                 function createFinished(){
                     user.setCreationTutorialFlag(CreationTutorialFlags.CARD);
@@ -94,7 +95,7 @@
                 }
 
                 function createCanceled() {
-                    return null;
+                    return $q.reject();
                 }
             })
         }
@@ -103,7 +104,7 @@
             $log.info("createCard");
 
             var editCard = angular.copy(card);
-            return openCardCreatorDialog(editCard).then(updateCard, cacheOriginalImage);
+            return openCardCreatorDialog(editCard, false).then(updateCard, cacheOriginalImage);
 
             function updateCard() {
                 card.updateFromCard(editCard);
@@ -126,7 +127,7 @@
             });
         }
 
-        function openCardCreatorDialog(user, card) {
+        function openCardCreatorDialog(card, tutorial) {
             return $mdDialog.show({
                 templateUrl: 'js/app/cardeditor/cardeditor.tpl.html',
                 controller: 'CardEditorController',
@@ -136,7 +137,7 @@
                 hasBackdrop: false,
                 locals: {
                     card: card,
-                    tutorial: !user.getCreationTutorialFlag(CreationTutorialFlags.CARD)
+                    tutorial: tutorial
                 }
             });
         }
