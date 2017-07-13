@@ -35,7 +35,8 @@
 
             getLines: getLines,
             addLine: addLine,
-            removeLine: removeLine
+            removeLine: removeLine,
+            getType: getType
         };
 
         return (QuestTreeConnectorOutSlot);
@@ -162,6 +163,10 @@
                     break;
                 }
             }
+        }
+
+        function getType() {
+            return this.type;
         }
     }
 

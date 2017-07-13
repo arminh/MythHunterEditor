@@ -35,7 +35,8 @@
             remove: remove,
 
             getLine: getLine,
-            setLine: setLine
+            setLine: setLine,
+            getType: getType
         };
 
         return (QuestTreeConnectorInSlot);
@@ -155,6 +156,10 @@
 
         function setLine(line) {
             this.line = line;
+        }
+
+        function getType() {
+            return this.type;
         }
     }
 
