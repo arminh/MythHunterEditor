@@ -283,5 +283,8 @@
   "BUTTON_NEXT": "Weiter",
   "BUTTON_PREV": "Zurück",
   "BUTTON_SKIP": "Überspringen",
-  "BUTTON_DONE": "Fertig"
+  "BUTTON_DONE": "Fertig",
+  "TEXT_CHECKBOXES": "Füge dem Quiz zusätzliche Antwortmöglichkeiten hinzu und wähle die <br><b>richtigen Antworten</b> aus, indem du auf die Kontrollkästchen klickst:",
+  "TEXT_RADIO_BUTTONS": "Füge dem Quiz zusätzliche Antwortmöglichkeiten hinzu und wähle die <br><b>richtigen Antwort</b> aus, indem du auf einen Radioknopf klickst:",
+  "TOOLTIP_REMOVE_OPTION": "Option entfernen"
 }

@@ -11,7 +11,7 @@
         </md-toolbar>
         <md-dialog-content class="quiz-group-dialog-content">
             <div class="md-dialog-content">
-                <md-input-container>
+                <md-input-container style="width: 100%">
                     <label>{{'LABEL_QUIZ_QUESTION' | translate}}</label>
                     <input type="text" name="name" required maxlength="100"
                            ng-model="quizGroupCtrl.group.question" md-autofocus/>
@@ -20,8 +20,8 @@
                     </div>
                 </md-input-container>
 
-                <p ng-if="quizGroupCtrl.group.type == 'checkbox'">Add options to the quiz and check the <b>correct answers</b> using the checkboxes (<img src="media/checkbox.png" height="23"/>).</p>
-                <p ng-if="quizGroupCtrl.group.type == 'radio'">Add options to the quiz and check the <b>correct answer</b> using the radio button (<img src="media/radio-button.png" height="23"/>)</p>
+                <p ng-if="quizGroupCtrl.group.type == 'checkbox'"><span translate="TEXT_CHECKBOXES"></span> (<img src="media/checkbox-empty.png" height="23"/> &rarr; <img src="media/checkbox.png" height="23"/>).</p>
+                <p ng-if="quizGroupCtrl.group.type == 'radio'"><span translate="TEXT_RADIO_BUTTONS"></span> (<img src="media/radio-button-empty.png" height="23"/> &rarr; <img src="media/radio-button.png" height="23"/>)</p>
                 <md-radio-group ng-model="quizGroupCtrl.selected" ng-if="quizGroupCtrl.group.type == 'radio'" ng-required="true">
 
                     <div ng-repeat="option in quizGroupCtrl.group.options" layout="row">
@@ -33,6 +33,9 @@
                                    ng-model="option.text"/>
                         </md-input-container>
                         <md-button class="md-icon-button" ng-click="quizGroupCtrl.removeOption($index)">
+                            <md-tooltip md-direction="top">
+                                {{'TOOLTIP_REMOVE_OPTION' | translate}}
+                            </md-tooltip>
                             <md-icon md-svg-icon="media/delete_icon.svg"></md-icon>
                         </md-button>
                     </div>

@@ -283,5 +283,8 @@
   "BUTTON_NEXT": "Next",
   "BUTTON_PREV": "Prev",
   "BUTTON_SKIP": "Skip",
-  "BUTTON_DONE": "Done"
+  "BUTTON_DONE": "Done",
+  "TEXT_CHECKBOXES": "Add options to the quiz and check the <b>correct answers</b> by clicking on the checkboxes:",
+  "TEXT_RADIO_BUTTONS": "Add options to the quiz and check the <b>correct answers</b> by clicking on the radio buttons:",
+  "TOOLTIP_REMOVE_OPTION": "Remove option"
 }
