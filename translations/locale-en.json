@@ -279,5 +279,9 @@
   "TEXT_RADIO_BUTTON'": "Single choice",
   "TOOLTIP_RADIO_BUTTON": "Exercise with one correct solution",
   "TEXT_CHECKBOX": "Multiple choice",
-  "TOOLTIP_CHECKBOX": "Exercise with multiple correct solutions"
+  "TOOLTIP_CHECKBOX": "Exercise with multiple correct solutions",
+  "BUTTON_NEXT": "Next",
+  "BUTTON_PREV": "Prev",
+  "BUTTON_SKIP": "Skip",
+  "BUTTON_DONE": "Done"
 }

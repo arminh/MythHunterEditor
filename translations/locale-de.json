@@ -279,5 +279,9 @@
   "TEXT_RADIO_BUTTON'": "Single choice",
   "TOOLTIP_RADIO_BUTTON": "Übung mit einer richtigen Lösung",
   "TEXT_CHECKBOX": "Multiple choice",
-  "TOOLTIP_CHECKBOX": "Übung mit mehreren richtigen Lösungen"
+  "TOOLTIP_CHECKBOX": "Übung mit mehreren richtigen Lösungen",
+  "BUTTON_NEXT": "Weiter",
+  "BUTTON_PREV": "Zurück",
+  "BUTTON_SKIP": "Überspringen",
+  "BUTTON_DONE": "Fertig"
 }

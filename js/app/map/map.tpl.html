@@ -6,16 +6,7 @@
                 cg-busy="{promise:map.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}"
                 flex>
         <div class="md-toolbar-tools" flex>
-            <md-button ng-disabled="map.drawing()" ng-click="map.editQuest(evt)" aria-label="edit"
-                       class="md-icon-button" id="edit-quest">
-                <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
-                <md-tooltip md-direction="top">{{'LABEL_EDIT_QUEST' | translate}}</md-tooltip>
-            </md-button>
-            <md-button ng-disabled="map.drawing()" ng-click="map.editQuestTree()" class="md-icon-button"
-                       aria-label="Complex" id="edit-storyline">
-                <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
-                <md-tooltip md-direction="top">{{'LABEL_EDIT_STORYLINE' | translate}}</md-tooltip>
-            </md-button>
+
             <!--<md-button ng-disabled="map.drawing()" ng-click="map.addQuestReward()" class="md-icon-button" aria-label="Complex">-->
             <!--<md-icon md-svg-icon="media/reward_icon.svg"></md-icon>-->
             <!--<md-tooltip md-direction="top">{{'LABEL_ADD_REWARD' | translate}}</md-tooltip>-->
@@ -30,6 +21,16 @@
                 <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>
             </md-button>
             <span flex></span>
+            <md-button ng-disabled="map.drawing()" ng-click="map.editQuestTree()" class="md-icon-button"
+                       aria-label="Complex" id="edit-storyline">
+                <md-icon md-svg-icon="media/complex_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'LABEL_EDIT_STORYLINE' | translate}}</md-tooltip>
+            </md-button>
+            <md-button ng-disabled="map.drawing()" ng-click="map.editQuest(evt)" aria-label="edit"
+                       class="md-icon-button" id="edit-quest">
+                <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'LABEL_EDIT_QUEST' | translate}}</md-tooltip>
+            </md-button>
             <md-button ng-disabled="map.drawing()" ng-click="map.cancelQuest(evt)" aria-label="delete"
                        class="md-icon-button" id="cancel-quest">
                 <md-icon md-svg-icon="media/cancel_icon.svg"></md-icon>

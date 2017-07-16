@@ -63,7 +63,7 @@
         };
 
         vm.introOptions = {
-            steps:[
+            steps: [
                 {
                     intro: $translate.instant("TUT_MAP_START")
                 },
@@ -98,8 +98,8 @@
             ],
             showStepNumbers: false,
             showBullets: true,
-            exitOnOverlayClick: true,
-            exitOnEsc:true,
+            exitOnOverlayClick: false,
+            exitOnEsc: true,
             hidePrev: true
         };
 
@@ -121,8 +121,8 @@
                 var startMarker = vm.quest.getTreePartRoot().getTask();
                 MapInteraction.setCenter(startMarker.getLon(), startMarker.getLat(), 17);
             } else {
-                if($stateParams.tutorial) {
-                    MapService.showMarkerTutorial("start").then(function() {
+                if ($stateParams.tutorial) {
+                    MapService.showMarkerTutorial("start").then(function () {
                         MapService.createQuest(user, $stateParams.tutorial);
                     });
                 } else {
@@ -210,7 +210,7 @@
                 .ok($translate.instant("BUTTON_CONFIRM"))
                 .cancel($translate.instant("BUTTON_CANCEL"));
 
-            return $mdDialog.show(confirm).then(function() {
+            return $mdDialog.show(confirm).then(function () {
                 user.clearCurrentQuest();
                 $state.go("app.profile");
             });
@@ -218,15 +218,12 @@
         }
 
         function editQuestTree() {
-            if(user.getCreationTutorialFlag(CreationTutorialFlags.STORYLINE)) {
+
+            showEditStorylineDialog().then(function () {
+                user.setCreationTutorialFlag(CreationTutorialFlags.STORYLINE);
+                user.upload();
                 $state.go("app.storyline", {quest: vm.quest});
-            } else {
-                showEditStorylineDialog().then(function() {
-                    user.setCreationTutorialFlag(CreationTutorialFlags.STORYLINE);
-                    user.upload();
-                    $state.go("app.storyline", {quest: vm.quest});
-                });
-            }
+            });
         }
 
         function addQuestReward() {

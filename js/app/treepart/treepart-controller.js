@@ -67,7 +67,7 @@
                         ],
                         showStepNumbers: false,
                         showBullets: true,
-                        exitOnOverlayClick: true,
+                        exitOnOverlayClick: false,
                         exitOnEsc: true,
                         hidePrev: true
                     };
