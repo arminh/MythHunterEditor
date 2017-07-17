@@ -244,7 +244,7 @@
   "TITLE_TUT_EDIT_STORYLINE": "Edit storyline",
   "TITLE_TUT_STORYLINE": "Storyline",
   "TEXT_TUT_EDIT_STORYLINE": "You are about to edit the quest's storyline. Here are some tips:",
-  "TEXT_TUT_EDIT_STORYLINE_DESC": "Until now the quest is linear, that means all tasks are completed one after another.<br>This graphical editor allows you to create more complex quests that have multiple parallel paths.",
+  "TEXT_TUT_EDIT_STORYLINE_DESC": "Until now the quest is linear, that means all tasks are completed one after another.<br>This graphical editor allows you to create more complex quests that have multiple parallel paths.<br>You can drag and drop all elements around freely.",
   "TITLE_TUT_STORYLINE_IMPLICIT_OR": "Or-Connection",
   "TITLE_TUT_STORYLINE_CONNECTORS": "Toolbox",
   "TEXT_TUT_STORYLINE_CONNECTORS": "Use the connectors in the toolbox to create a complex quest. Click on the toolbox items to create a new connector.",

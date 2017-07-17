@@ -646,9 +646,6 @@
         function initDrag() {
             canvas.on('object:moving', function (evt) {
                 var obj = evt.target;
-                if (drawing) {
-                    return;
-                }
 
                 checkDragBounds(obj);
                 switch (obj.get('type')) {
