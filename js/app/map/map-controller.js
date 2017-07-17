@@ -37,10 +37,12 @@
         vm.showInstructions = showCreateQuestDialog;
         vm.showTutorial = showTutorial;
         vm.showPlaceMarkerInfo = showPlaceMarkerInfo;
+        vm.mouseDown = mouseDown;
 
         vm.exitIntro = exitIntro;
 
         $scope.$on('markerChanged', MapService.markerChanged);
+        $scope.$on("keypress:27", escapeKeyPressed);
 
         vm.sortableOptions = {
             axis: 'y',
@@ -111,6 +113,7 @@
         ////////////////
 
         function activate() {
+            MapService.init();
             MapInteraction.init("mapView");
             focusSearchInput();
             loadQuest();
@@ -211,6 +214,18 @@
 
                 return $mdDialog.show(alert);
             }
+        }
+
+        function mouseDown(evt) {
+            if(evt.which == 3) {
+                evt.preventDefault();
+                MapService.cancelTreePart();
+            }
+        }
+
+        function escapeKeyPressed() {
+            MapService.cancelTreePart();
+            $scope.$apply();
         }
 
         function editQuest() {

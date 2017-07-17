@@ -59,6 +59,9 @@
 
         function init(container) {
 
+            if(drawInteraction) {
+                stopDrawing();
+            }
             var title = new ol.layer.Tile({source: new ol.source.OSM()});
             source = new ol.source.Vector({});
             var vector = new ol.layer.Vector({source: source});

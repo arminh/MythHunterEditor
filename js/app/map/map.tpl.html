@@ -1,6 +1,6 @@
-<div ng-class="{'not-clickable': map.interactionDisabled}" ng-intro-options="map.introOptions"
+<div ng-class="{'not-clickable': map.interactionDisabled}" ng-intro-options="map.introOptions" keypress-events
      ng-intro-method="map.startIntro" ng-intro-autostart="map.tutorialAutoStart">
-    <div id="mapView" layout="column"></div>
+    <div id="mapView" layout="column"  ng-mousedown="map.mouseDown($event)" oncontextmenu="return false"></div>
 
     <md-toolbar id="quest-toolbar"
                 cg-busy="{promise:map.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}"
@@ -49,7 +49,7 @@
                 <md-icon md-svg-icon="media/menu_icon.svg"></md-icon>
             </md-button>
 
-            <md-autocomplete id="toolbar-search"
+            <md-autocomplete id="toolbar-search" ng-focus="map.searchFocused" md-input-id="toolbar-search-input"
                              placeholder="{{'TEXT_LOCATION_PLACEHOLDER' | translate}}"
                              md-selected-item="selectedItem"
                              md-search-text="searchText"

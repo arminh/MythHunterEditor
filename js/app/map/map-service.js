@@ -22,10 +22,12 @@
             var currentPosition = null;
 
             var service = {
+                init: init,
                 createQuest: createQuest,
                 editQuest: editQuest,
                 saveQuest: saveQuest,
                 addTreePart: addTreePart,
+                cancelTreePart: cancelTreePart,
                 addMarkers: addMarkers,
                 markerChanged: markerChanged,
                 getCurrentPosition: getCurrentPosition,
@@ -38,6 +40,12 @@
             return service;
 
             ////////////////
+
+            function init() {
+                quest = null;
+                drawing = false;
+                currentPosition = null;
+            }
 
             function createQuest(user, tutorial) {
                 $log.info("createQuest");
@@ -65,6 +73,11 @@
 
             function saveQuest(user, quest) {
                 return QuestService.saveQuest(user, quest);
+            }
+
+            function cancelTreePart() {
+                drawing = false;
+                MapInteraction.stopDrawing();
             }
 
             function addTreePart(user, quest, evt) {
