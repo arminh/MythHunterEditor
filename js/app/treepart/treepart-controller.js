@@ -84,7 +84,11 @@
                         showBullets: true,
                         exitOnOverlayClick: false,
                         exitOnEsc: true,
-                        hidePrev: true
+                        hidePrev: true,
+                        nextLabel: $translate.instant("BUTTON_NEXT"),
+                        prevLabel: $translate.instant("BUTTON_PREV"),
+                        skipLabel: $translate.instant("BUTTON_SKIP"),
+                        doneLabel: $translate.instant("BUTTON_DONE")
                     };
 
                     if(vm.task.getType() == MarkerType.QUIZ) {
