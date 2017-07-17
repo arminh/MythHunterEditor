@@ -23,7 +23,8 @@
                 },
                 params:{
                     originalTreePart: null,
-                    treePart:null
+                    treePart:null,
+                    tutorial: false
                 },
                 controller: 'TreePartController',
                 controllerAs: 'treePartCtrl'

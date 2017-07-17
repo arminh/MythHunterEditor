@@ -48,16 +48,23 @@
         function newQuest(evt) {
             if(vm.currentQuest) {
                 editDifferentQuest(evt).then(function() {
-                    showCreateQuestDialog().then(gotoMap);
+                    showCreateQuestDialog().then(createQuest);
                 });
             } else {
-                showCreateQuestDialog().then(gotoMap);
+                showCreateQuestDialog().then(createQuest);
             }
         }
 
-        function gotoMap(withTutorial) {
+        function createQuest(withTutorial) {
             user.clearCurrentQuest();
-            $state.go("app.map", {tutorial: withTutorial});
+            var quest = user.createQuest();
+            quest.init("New Quest");
+            quest.setLoaded(true);
+            $state.go("app.quest", {
+                quest: quest,
+                edit: false,
+                tutorial: withTutorial
+            });
         }
 
         function editQuest(quest) {

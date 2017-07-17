@@ -27,14 +27,14 @@
         vm.confirm = confirm;
         vm.cancel = cancel;
 
-       // $scope.$watch("treePartCtrl.content", contentChanged);
+        // $scope.$watch("treePartCtrl.content", contentChanged);
 
         activate();
 
         ////////////////
 
         function activate() {
-            if($stateParams.treePart) {
+            if ($stateParams.treePart) {
                 vm.originalTreePart = $stateParams.originalTreePart;
                 vm.treePart = $stateParams.treePart;
                 vm.task = vm.treePart.getTask();
@@ -42,7 +42,7 @@
                 vm.content = TreePartService.getContent(vm.task);
                 vm.targetContent = TreePartService.getTargetContent(vm.task);
 
-                switch(vm.task.getType()) {
+                switch (vm.task.getType()) {
                     case MarkerType.INFO:
                         vm.taskTypeText = $translate.instant("TITLE_INFO");
                         break;
@@ -62,7 +62,7 @@
                 }
 
             } else {
-                if(user.getCurrentQuest()) {
+                if (user.getCurrentQuest()) {
                     $state.go("app.map");
                 } else {
                     $state.go("app.profile");
@@ -70,7 +70,7 @@
                 return;
             }
 
-            if(vm.task.getType() == MarkerType.QUIZ || vm.task.getType() == MarkerType.FIGHT) {
+            if (vm.task.getType() == "start" || vm.task.getType() == MarkerType.QUIZ || vm.task.getType() == MarkerType.FIGHT) {
                 $timeout(function () {
                     var introOptions = {
                         steps: [
@@ -91,8 +91,19 @@
                         doneLabel: $translate.instant("BUTTON_DONE")
                     };
 
-                    if(vm.task.getType() == MarkerType.QUIZ) {
-                        var quizSteps =  [
+                    if (vm.task.getType() == "start") {
+                        var startSteps = [
+                            {
+                                element: document.querySelector('#task-content'),
+                                intro: $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_1") + " "
+                                + $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_2")
+                            }
+                        ];
+                        introOptions.steps = introOptions.steps.concat(startSteps);
+                    }
+
+                    if (vm.task.getType() == MarkerType.QUIZ) {
+                        var quizSteps = [
                             {
                                 element: document.querySelector('.task-input'),
                                 intro: $translate.instant("TUT_TASK_INPUT")
@@ -115,8 +126,8 @@
                             }
                         ];
                         introOptions.steps = introOptions.steps.concat(quizSteps);
-                    } else if(vm.task.getType() == MarkerType.FIGHT) {
-                        var fightSteps =  [
+                    } else if (vm.task.getType() == MarkerType.FIGHT) {
+                        var fightSteps = [
                             {
                                 element: document.querySelector('#task-content'),
                                 intro: $translate.instant("TUT_TASK_FIGHT_CONTENT")
@@ -138,7 +149,7 @@
                                 intro: $translate.instant("TUT_TASK_ENEMY_DECK")
                             }
                         ];
-                        introOptions.steps =introOptions.steps.concat(fightSteps);
+                        introOptions.steps = introOptions.steps.concat(fightSteps);
                     }
 
                     introOptions.steps.push(
@@ -149,8 +160,9 @@
                     );
 
                     vm.introOptions = introOptions;
-                    $timeout(function() {
-                        if((vm.task.getType() == MarkerType.QUIZ && !user.getCreationTutorialFlag(CreationTutorialFlags.QUIZ))
+                    $timeout(function () {
+                        if (vm.task.getType() == "start" && $stateParams.tutorial
+                            || (vm.task.getType() == MarkerType.QUIZ && !user.getCreationTutorialFlag(CreationTutorialFlags.QUIZ))
                             || (vm.task.getType() == MarkerType.FIGHT && !user.getCreationTutorialFlag(CreationTutorialFlags.FIGHT))) {
                             vm.startIntro();
                         }
@@ -164,7 +176,11 @@
 
             TreePartService.saveHtmls(vm.content, vm.targetContent, vm.task);
             vm.enemyDeckPromise.then(function () {
-                $state.go("app.collection", {enemy: vm.task.getEnemy(), originalTreePart: vm.originalTreePart, treePart: vm.treePart});
+                $state.go("app.collection", {
+                    enemy: vm.task.getEnemy(),
+                    originalTreePart: vm.originalTreePart,
+                    treePart: vm.treePart
+                });
             });
         }
 
@@ -181,14 +197,14 @@
         }
 
         function confirm() {
-            TreePartService.finishEditing(vm.treePart, vm.originalTreePart, vm.content, vm.targetContent).then(function() {
-                if(vm.task.getType() == MarkerType.QUIZ) {
+            TreePartService.finishEditing(vm.treePart, vm.originalTreePart, vm.content, vm.targetContent).then(function () {
+                if (vm.task.getType() == MarkerType.QUIZ) {
                     user.setCreationTutorialFlag(CreationTutorialFlags.QUIZ);
-                } else if(vm.task.getType() == MarkerType.FIGHT) {
+                } else if (vm.task.getType() == MarkerType.FIGHT) {
                     user.setCreationTutorialFlag(CreationTutorialFlags.FIGHT);
                 }
                 user.backup();
-                $state.go("app.map");
+                $state.go("app.map", {tutorial: $stateParams.tutorial});
             });
         }
 

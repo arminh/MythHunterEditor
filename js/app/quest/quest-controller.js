@@ -16,14 +16,10 @@
 
         var vm = this;
         vm.user = user;
-        vm.editStartMarker = false;
         vm.questContent = "";
-        vm.taskContent = "";
-        vm.sameDescription = false;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo']]";
         vm.maxCards = REWARD_MAX_CARDS;
 
-        vm.tutorialAutoStart = $stateParams.tutorial;
         $timeout(function () {
             vm.introOptions = {
                 steps: [
@@ -34,20 +30,6 @@
                     {
                         element: document.querySelector('#quest-description'),
                         intro: $translate.instant("TOOLTIP_QUEST_DESCRIPTION_1") + $translate.instant("TOOLTIP_QUEST_DESCRIPTION_2")
-                    },
-                    {
-                        element: document.querySelector('#task-name'),
-                        intro: $translate.instant("TUT_QUEST_TASK_NAME")
-                    },
-                    {
-                        element: document.querySelector('#same-description'),
-                        intro: $translate.instant("TUT_QUEST_SAME_DESC")
-                    },
-                    {
-                        element: document.querySelector('#task-description'),
-                        intro: $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_1") + " "
-                        + $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_2")
-                        + $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_3")
                     },
                     {
                         element: document.querySelector('#quest-reward'),
@@ -68,6 +50,12 @@
                 skipLabel: $translate.instant("BUTTON_SKIP"),
                 doneLabel: $translate.instant("BUTTON_DONE")
             };
+        }).then(function () {
+            $timeout(function() {
+                if($stateParams.tutorial) {
+                    vm.startIntro();
+                }
+            })
         });
 
         vm.showQuestDescriptionTooltip = showQuestDescriptionTooltip;
@@ -90,10 +78,6 @@
                     $state.go("app.profile");
                 }
             }
-
-            if ($stateParams.editStartMarker) {
-                vm.editStartMarker = $stateParams.editStartMarker;
-            }
         }
 
         function showQuestDescriptionTooltip() {
@@ -105,14 +89,23 @@
         }
 
         function confirm() {
-            QuestService.finishEditing(vm.quest, vm.originalQuest, vm.sameDescription, vm.editStartMarker);
+            if(!$stateParams.edit) {
+                user.setCurrentQuest(vm.quest);
+            }
+            QuestService.finishEditing(vm.quest, vm.originalQuest);
             user.setCreationTutorialFlag(CreationTutorialFlags.QUEST);
             user.backup();
             $state.go("app.map", {tutorial: $stateParams.tutorial});
+
         }
 
         function cancel() {
-            $state.go("app.map", {tutorial: $stateParams.tutorial});
+            if($stateParams.edit) {
+                $state.go("app.map", {tutorial: $stateParams.tutorial});
+            } else {
+                $state.go("app.profile");
+            }
+
         }
     }
 

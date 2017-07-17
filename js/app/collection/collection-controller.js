@@ -42,6 +42,7 @@
         vm.showCollection = showCollection;
         vm.cardDropped = cardDropped;
         vm.showTutorial = showTutorial;
+        vm.showInstructions = showInstructions,
 
         vm.cardLocked = cardLocked;
         vm.cardAvailable = cardAvailable;
@@ -128,7 +129,7 @@
         }
 
         function showOpenDeckDialog(deck) {
-            CollectionService.showCreateDeckDialog(user).then(function (tutorial) {
+            CollectionService.showCreateDeckDialog(user, true).then(function (tutorial) {
                 openDeck(deck).then(function () {
                     if (tutorial) {
                         console.log("start intro");
@@ -296,6 +297,12 @@
         function showTutorial() {
             vm.startIntro();
         }
+
+        function showInstructions() {
+
+            CollectionService.showCreateDeckDialog(user, false);
+        }
+
     }
 
 })();

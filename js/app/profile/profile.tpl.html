@@ -23,7 +23,7 @@
                                 <md-tooltip md-direction="top">{{'LABEL_EDIT_QUEST' | translate}}</md-tooltip>
                             </md-button>
                         </td>
-                        <td width="70px" class="profile-quest-col">
+                        <td width="70px" class="profile-quest-col" ng-if="profile.currentQuest.treePartRoot">
                             <md-button aria-label="delete" class="md-icon-button"
                                        ng-click="profile.saveCurrentQuest($event)">
                                 <md-icon md-svg-icon="media/save_icon.svg"></md-icon>

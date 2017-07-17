@@ -29,7 +29,7 @@
 
         ////////////////
 
-        function finishEditing(editQuest, originalQuest, sameDescription, editStartMarker) {
+        function finishEditing(editQuest, originalQuest) {
             $log.info("finishEditing: ", editQuest);
 
             originalQuest.getHtml().setContent(editQuest.getHtml().getContent());
@@ -39,11 +39,14 @@
             if(editQuest.getName() != originalQuest.getName()) {
                 originalQuest.setName(editQuest.getName());
 
-                var startTask = originalQuest.getTreePartRoot().getTask();
-                startTask.setQuestName(editQuest.getName());
+                var treePartRoot = originalQuest.getTreePartRoot();
+                if(treePartRoot) {
+                    var startTask = originalQuest.getTreePartRoot().getTask();
+                    startTask.setQuestName(editQuest.getName());
 
-                var startHtml = startTask.getHtml();
-                startHtml.setQuestTitle(editQuest.getName());
+                    var startHtml = startTask.getHtml();
+                    startHtml.setQuestTitle(editQuest.getName());
+                }
 
                 var treeParts = originalQuest.getTreeParts();
 
@@ -56,23 +59,6 @@
                     html.setQuestTitle(editQuest.getName());
                     html.change();
                 }
-            }
-
-            if(editStartMarker) {
-                var startTask = originalQuest.getTreePartRoot().getTask();
-                var editStartTask = editQuest.getTreePartRoot().getTask();
-
-                startTask.setName(editStartTask.getName());
-                startTask.setFixed(true);
-
-                var startHtml = startTask.getHtml();
-                startHtml.setTaskTitle(editStartTask.getName());
-                if(sameDescription) {
-                    startHtml.setContent(editQuest.getHtml().getContent());
-                } else {
-                    startHtml.setContent(editStartTask.getHtml().getContent())
-                }
-                startTask.change();
             }
 
             originalQuest.change();

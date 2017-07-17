@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$window", "$scope", "$state", "$stateParams", "$timeout", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user", "ngIntroService"];
+    MapController.$inject = ["$scope", "$state", "$stateParams", "$timeout", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user", "ngIntroService"];
 
     /* @ngInject */
-    function MapController($window, $scope, $state, $stateParams, $timeout, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user, ngIntroService) {
+    function MapController($scope, $state, $stateParams, $timeout, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user, ngIntroService) {
         var vm = this;
 
         vm.quest = null;
@@ -34,7 +34,7 @@
         vm.cancelQuest = cancelQuest;
         vm.editQuestTree = editQuestTree;
         vm.addQuestReward = addQuestReward;
-        vm.showInstructions = showCreateQuestDialog;
+        vm.showInstructions = showInstructions;
         vm.showTutorial = showTutorial;
         vm.showPlaceMarkerInfo = showPlaceMarkerInfo;
         vm.mouseDown = mouseDown;
@@ -66,62 +66,64 @@
             //containment: "#map-quests"
         };
 
-        vm.introOptions = {
-            steps: [
-                {
-                    element: document.querySelector('#show-instructions'),
-                    intro: $translate.instant("TUT_MAP_INSTRUCTIONS")
-                },
-                {
-                    element: document.querySelector('#show-tutorial'),
-                    intro: $translate.instant("TUT_MAP_TUTORIAL")
-                },
-                {
-                    element: document.querySelector('#edit-storyline'),
-                    intro: $translate.instant("TUT_MAP_COMPLEX")
-                },
-                {
-                    element: document.querySelector('#edit-quest'),
-                    intro: $translate.instant("TUT_MAP_EDIT_QUEST")
-                },
-                {
-                    element: document.querySelector('#cancel-quest'),
-                    intro: $translate.instant("TUT_MAP_CANCEL_QUEST")
-                },
-                {
-                    element: document.querySelector('#save-quest'),
-                    intro: $translate.instant("TUT_MAP_SAVE_QUEST")
-                },
-                {
-                    element: document.querySelector('#map-task'),
-                    intro: $translate.instant("TUT_MAP_TASK")
-                },
-                {
-                    element: document.querySelector('#add-task'),
-                    intro: $translate.instant("TUT_MAP_ADD_TASK")
-                }
-            ],
-            showStepNumbers: false,
-            showBullets: true,
-            exitOnOverlayClick: false,
-            exitOnEsc: true,
-            hidePrev: true,
-            nextLabel: $translate.instant("BUTTON_NEXT"),
-            prevLabel: $translate.instant("BUTTON_PREV"),
-            skipLabel: $translate.instant("BUTTON_SKIP"),
-            doneLabel: $translate.instant("BUTTON_DONE")
-        };
-
         activate();
 
         ////////////////
 
         function activate() {
-            MapService.init();
             MapInteraction.init("mapView");
             focusSearchInput();
             loadQuest();
+        }
 
+        function initIntro() {
+            return $timeout(function() {
+                vm.introOptions = {
+                    steps: [
+                        {
+                            element: document.querySelector('#show-instructions'),
+                            intro: $translate.instant("TUT_MAP_INSTRUCTIONS")
+                        },
+                        {
+                            element: document.querySelector('#show-tutorial'),
+                            intro: $translate.instant("TUT_MAP_TUTORIAL")
+                        },
+                        {
+                            element: document.querySelector('#edit-storyline'),
+                            intro: $translate.instant("TUT_MAP_COMPLEX")
+                        },
+                        {
+                            element: document.querySelector('#edit-quest'),
+                            intro: $translate.instant("TUT_MAP_EDIT_QUEST")
+                        },
+                        {
+                            element: document.querySelector('#cancel-quest'),
+                            intro: $translate.instant("TUT_MAP_CANCEL_QUEST")
+                        },
+                        {
+                            element: document.querySelector('#save-quest'),
+                            intro: $translate.instant("TUT_MAP_SAVE_QUEST")
+                        },
+                        {
+                            element: document.querySelector('#map-task'),
+                            intro: $translate.instant("TUT_MAP_TASK")
+                        },
+                        {
+                            element: document.querySelector('#add-task'),
+                            intro: $translate.instant("TUT_MAP_ADD_TASK")
+                        }
+                    ],
+                    showStepNumbers: false,
+                    showBullets: true,
+                    exitOnOverlayClick: false,
+                    exitOnEsc: true,
+                    hidePrev: true,
+                    nextLabel: $translate.instant("BUTTON_NEXT"),
+                    prevLabel: $translate.instant("BUTTON_PREV"),
+                    skipLabel: $translate.instant("BUTTON_SKIP"),
+                    doneLabel: $translate.instant("BUTTON_DONE")
+                };
+            });
         }
 
         function focusSearchInput() {
@@ -132,19 +134,28 @@
 
         function loadQuest() {
             vm.quest = user.getCurrentQuest();
-            vm.tutorialAutoStart = $stateParams.tutorial && vm.quest != null;
-            if (vm.quest) {
+            MapService.init(vm.quest);
+            var treePartRoot = vm.quest.getTreePartRoot();
+            if (treePartRoot) {
                 MapService.addMarkers(vm.quest);
-                var startMarker = vm.quest.getTreePartRoot().getTask();
+                var startMarker = treePartRoot.getTask();
                 MapInteraction.setCenter(startMarker.getLon(), startMarker.getLat(), 17);
+                initIntro().then(function() {
+                    $timeout(function() {
+                        if($stateParams.tutorial) {
+                            vm.startIntro();
+                        }
+                    })
+                });
             } else {
                 MapInteraction.centerOnCurrentLocation();
+
                 if ($stateParams.tutorial) {
                     MapService.showMarkerTutorial("start").then(function () {
-                        MapService.createQuest(user, $stateParams.tutorial);
+                        MapService.drawStartMarker(user);
                     });
                 } else {
-                    MapService.createQuest(user, $stateParams.tutorial);
+                    MapService.drawStartMarker(user);
                 }
             }
         }
@@ -176,11 +187,9 @@
             } else {
                 focusSearchInput();
             }
-
-
         }
 
-        function showCreateQuestDialog() {
+        function showInstructions() {
             return $mdDialog.show({
                 templateUrl: 'js/app/quest/create-quest-dialog/create-quest-dialog.tpl.html',
                 controller: 'CreateQuestDialogController',

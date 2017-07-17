@@ -83,7 +83,11 @@
                 <md-button class="md-raised" ng-click="collectionCtrl.cancelDeck()" flex>
                     <md-icon md-svg-src="media/back_icon.svg" class="back-icon"></md-icon>
                     <md-label>{{'BUTTON_CANCEL' | translate}}</md-label>
-                </md-button>
+                </md-button><md-button ng-click="collectionCtrl.showInstructions()" class="md-raised md-icon-button" aria-label="Complex">
+                <md-icon md-svg-icon="media/info_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'LABEL_SHOW_INSTRUCTIONS' | translate}}</md-tooltip>
+            </md-button>
+
                 <md-button ng-click="collectionCtrl.showTutorial()" class="md-raised md-icon-button" aria-label="Complex">
                     <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
                     <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>

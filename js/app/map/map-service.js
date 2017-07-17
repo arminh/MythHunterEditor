@@ -23,7 +23,7 @@
 
             var service = {
                 init: init,
-                createQuest: createQuest,
+                drawStartMarker: drawStartMarker,
                 editQuest: editQuest,
                 saveQuest: saveQuest,
                 addTreePart: addTreePart,
@@ -41,36 +41,33 @@
 
             ////////////////
 
-            function init() {
-                quest = null;
+            function init(currentQuest) {
+                quest = currentQuest;
                 drawing = false;
                 currentPosition = null;
             }
 
-            function createQuest(user, tutorial) {
-                $log.info("createQuest");
-                quest = user.createQuest();
-                quest.init("New Quest");
-                quest.setLoaded(true);
+            function drawStartMarker(user) {
                 drawing = true;
-                return drawMarker(quest.getTreePartRoot().getTask(), user).then(addQuestToUser);
+                var treePartRoot = quest.createTreePartMarker("start");
+                return drawMarker(treePartRoot.getTask(), user).then(editStartMarker);
 
-                function addQuestToUser() {
+                function editStartMarker() {
+                    quest.setTreePartRoot(treePartRoot);
                     drawing = false;
-                    user.setCurrentQuest(quest);
-                    editQuest(quest, true, tutorial);
-                    return quest;
+                    $timeout(function() {
+                        $state.go("app.task", {originalTreePart: treePartRoot, treePart: angular.copy(treePartRoot), tutorial: true});
+                    }, 2000);
+
                 }
             }
 
-            function editQuest(quest, editStartMarker, tutorial) {
-                $timeout(function() {
+            function editQuest(quest, tutorial) {
                     $state.go("app.quest", {
                         quest: quest,
-                        editStartMarker: editStartMarker,
+                        edit: true,
                         tutorial: tutorial
                     });
-                }, 2000);
 
             }
 

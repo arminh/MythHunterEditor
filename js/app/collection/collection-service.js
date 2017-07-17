@@ -100,14 +100,15 @@
 
         }
 
-        function showCreateDeckDialog(user) {
+        function showCreateDeckDialog(user, chooseTutorial) {
             return $mdDialog.show({
                 templateUrl: 'js/app/deck/create-deck-dialog/create-deck-dialog.tpl.html',
                 controller: 'CreateDeckDialogController',
                 controllerAs: "createDeck",
                 bindToController: true,
                 locals: {
-                    tutorial: !user.getCreationTutorialFlag(CreationTutorialFlags.DECK)
+                    tutorial: !user.getCreationTutorialFlag(CreationTutorialFlags.DECK),
+                    chooseTutorial: chooseTutorial
                 }
             });
         }

@@ -1,8 +1,8 @@
 <div ng-class="{'not-clickable': map.interactionDisabled}" ng-intro-options="map.introOptions" keypress-events
-     ng-intro-method="map.startIntro" ng-intro-autostart="map.tutorialAutoStart">
+     ng-intro-method="map.startIntro">
     <div id="mapView" layout="column"  ng-mousedown="map.mouseDown($event)" oncontextmenu="return false"></div>
 
-    <md-toolbar id="quest-toolbar"
+    <md-toolbar id="quest-toolbar" ng-if="map.quest"
                 cg-busy="{promise:map.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}"
                 flex>
         <div class="md-toolbar-tools" ng-click="map.showPlaceMarkerInfo()" flex>
@@ -16,7 +16,8 @@
                 <md-icon md-svg-icon="media/info_icon.svg"></md-icon>
                 <md-tooltip md-direction="top">{{'LABEL_SHOW_INSTRUCTIONS' | translate}}</md-tooltip>
             </md-button>
-            <md-button ng-disabled="map.drawing()" ng-click="map.showTutorial()" class="md-icon-button" aria-label="Complex">
+            <md-button ng-disabled="map.drawing()" ng-click="map.showTutorial()" class="md-icon-button" aria-label="Complex"
+                id="show-tutorial">
                 <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
                 <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>
             </md-button>
@@ -71,7 +72,7 @@
     </md-toolbar>
 
 
-    <div id="map-tasks" ng-hide="map.drawing() || !map.showQuestline">
+    <div id="map-tasks" ng-hide="map.drawing() || !map.showQuestline" ng-if="map.quest">
         <div id="map-task">
             <map-task ng-if="map.quest.treePartRoot" treepart="map.quest.treePartRoot" quest="map.quest"></map-task>
         </div>

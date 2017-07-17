@@ -95,10 +95,6 @@
 
         function init(name) {
             this.name = name;
-
-            this.treePartRoot = new TreePart(TreePartType.Marker, name);
-            this.treePartRoot.initTask("start");
-
             this.html = new HtmlText(name, "");
         }
 
@@ -122,9 +118,10 @@
             this.html = new HtmlText(questObject.name, "");
             this.html.initFromObject(questObject.html);
 
-            this.treePartRoot = new TreePart(TreePartType.Marker, this.name);
-            this.treePartRoot.initFromObject(questObject.treePartRoot, this, true);
-
+            if(questObject.treePartRoot) {
+                this.treePartRoot = new TreePart(TreePartType.Marker, this.name);
+                this.treePartRoot.initFromObject(questObject.treePartRoot, this, true);
+            }
 
             $log.info("initFromObject_success: ", this);
         }

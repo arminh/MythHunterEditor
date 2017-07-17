@@ -22,7 +22,7 @@
                 },
                 params:{
                     quest:null,
-                    editStartMarker: null,
+                    edit: false,
                     tutorial: false
                 },
                 controller: 'QuestController',
