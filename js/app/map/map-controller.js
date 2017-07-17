@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "$stateParams", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user", "ngIntroService"];
+    MapController.$inject = ["$scope", "$state", "$stateParams", "$timeout", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user", "ngIntroService"];
 
     /* @ngInject */
-    function MapController($scope, $state, $stateParams, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user, ngIntroService) {
+    function MapController($scope, $state, $stateParams, $timeout, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user, ngIntroService) {
         var vm = this;
 
         vm.quest = null;
@@ -23,6 +23,7 @@
 
         vm.addTreePart = addTreePart;
         vm.drawing = MapService.getDrawing;
+        vm.searchFocused = true;
 
         vm.toggleQuestline = toggleQuestline;
         vm.searchLocation = searchLocation;
@@ -111,8 +112,15 @@
 
         function activate() {
             MapInteraction.init("mapView");
+            focusSearchInput();
             loadQuest();
 
+        }
+
+        function focusSearchInput() {
+            $timeout(function () {
+                document.querySelector('#toolbar-search-input').focus();
+            });
         }
 
         function loadQuest() {
@@ -123,6 +131,7 @@
                 var startMarker = vm.quest.getTreePartRoot().getTask();
                 MapInteraction.setCenter(startMarker.getLon(), startMarker.getLat(), 17);
             } else {
+                MapInteraction.centerOnCurrentLocation();
                 if ($stateParams.tutorial) {
                     MapService.showMarkerTutorial("start").then(function () {
                         MapService.createQuest(user, $stateParams.tutorial);
@@ -153,7 +162,15 @@
         }
 
         function searchAndGotoLocation(query) {
-            gotoLocation(searchLocation(query)[0]);
+            if (query != "") {
+                searchLocation(query).then(function (result) {
+                    gotoLocation(result[0]);
+                });
+            } else {
+                focusSearchInput();
+            }
+
+
         }
 
         function showCreateQuestDialog() {
@@ -185,7 +202,7 @@
         }
 
         function showPlaceMarkerInfo() {
-            if(MapService.getDrawing()) {
+            if (MapService.getDrawing()) {
                 var alert = $mdDialog.alert()
                     .title($translate.instant('TITLE_PLACE_MARKER'))
                     .htmlContent($translate.instant('ERROR_PLACE_MARKER'))

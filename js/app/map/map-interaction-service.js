@@ -39,6 +39,7 @@
         var service = {
             init: init,
             setCenter: setCenter,
+            centerOnCurrentLocation: centerOnCurrentLocation,
             addMarker: addMarker,
             addLine: addLine,
             setMarkerStyle: setMarkerStyle,
@@ -74,20 +75,18 @@
                 target: container
             });
 
-            activateClick();
-            initGeolocation();
-        }
+            activateClick();}
 
-        function initGeolocation() {
+        function centerOnCurrentLocation() {
 
             var options = {
                 enableHighAccuracy: DefaultConfig.defaultEnableHighAccuracy,
                 timeout: DefaultConfig.defaultTimeout,
                 maximumAge: DefaultConfig.defaultMaximumAge
             };
-            // if(navigator.geolocation) {
-            //     navigator.geolocation.getCurrentPosition(successHandler, errorHandler, options);
-            // }
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successHandler, errorHandler, options);
+            }
 
 
             function successHandler(position) {
