@@ -18,6 +18,7 @@
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo']]";
         vm.quizToolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo'],['input','radio','checkbox']]"
         vm.enemyDeckPromise = null;
+        vm.taskTypeText = "";
 
         vm.editEnemyDeck = editEnemyDeck;
         vm.keyPressed = keyPressed;
@@ -41,9 +42,23 @@
                 vm.content = TreePartService.getContent(vm.task);
                 vm.targetContent = TreePartService.getTargetContent(vm.task);
 
-                if(vm.task.getType() == MarkerType.FIGHT) {
-                    var enemy = vm.task.getEnemy();
-                    vm.enemyDeckPromise = enemy.loadStandardDeck(user, user.getCollection());
+                switch(vm.task.getType()) {
+                    case MarkerType.INFO:
+                        vm.taskTypeText = $translate.instant("TITLE_INFO");
+                        break;
+                    case MarkerType.QUIZ:
+                        vm.taskTypeText = $translate.instant("TITLE_QUIZ");
+                        break;
+                    case MarkerType.SEARCH:
+                        vm.taskTypeText = $translate.instant("TITLE_SEARCH");
+                        break;
+                    case MarkerType.FIGHT:
+                        vm.taskTypeText = $translate.instant("TITLE_FIGHT");
+                        var enemy = vm.task.getEnemy();
+                        vm.enemyDeckPromise = enemy.loadStandardDeck(user, user.getCollection());
+                        break;
+                    default:
+                        vm.taskTypeText = $translate.instant("TITLE_FIRST");
                 }
 
             } else {

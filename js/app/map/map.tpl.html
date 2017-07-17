@@ -5,7 +5,7 @@
     <md-toolbar id="quest-toolbar"
                 cg-busy="{promise:map.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}"
                 flex>
-        <div class="md-toolbar-tools" flex>
+        <div class="md-toolbar-tools" ng-click="map.showPlaceMarkerInfo()" flex>
 
             <!--<md-button ng-disabled="map.drawing()" ng-click="map.addQuestReward()" class="md-icon-button" aria-label="Complex">-->
             <!--<md-icon md-svg-icon="media/reward_icon.svg"></md-icon>-->

@@ -108,7 +108,7 @@
 
         function showCreateQuestDialog() {
             return $mdDialog.show({
-                templateUrl: 'js/app/profile/create-quest-dialog/create-quest-dialog.tpl.html',
+                templateUrl: 'js/app/quest/create-quest-dialog/create-quest-dialog.tpl.html',
                 controller: 'CreateQuestDialogController',
                 controllerAs: "createQuest",
                 bindToController: true,

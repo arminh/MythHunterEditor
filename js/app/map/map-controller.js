@@ -35,6 +35,7 @@
         vm.addQuestReward = addQuestReward;
         vm.showInstructions = showCreateQuestDialog;
         vm.showTutorial = showTutorial;
+        vm.showPlaceMarkerInfo = showPlaceMarkerInfo;
 
         vm.exitIntro = exitIntro;
 
@@ -65,19 +66,20 @@
         vm.introOptions = {
             steps: [
                 {
-                    intro: $translate.instant("TUT_MAP_START")
+                    element: document.querySelector('#show-instructions'),
+                    intro: $translate.instant("TUT_MAP_INSTRUCTIONS")
                 },
                 {
-                    element: document.querySelector('#edit-quest'),
-                    intro: $translate.instant("TUT_MAP_EDIT_QUEST")
+                    element: document.querySelector('#show-tutorial'),
+                    intro: $translate.instant("TUT_MAP_TUTORIAL")
                 },
                 {
                     element: document.querySelector('#edit-storyline'),
                     intro: $translate.instant("TUT_MAP_COMPLEX")
                 },
                 {
-                    element: document.querySelector('#show-instructions'),
-                    intro: $translate.instant("TUT_MAP_INSTRUCTIONS")
+                    element: document.querySelector('#edit-quest'),
+                    intro: $translate.instant("TUT_MAP_EDIT_QUEST")
                 },
                 {
                     element: document.querySelector('#cancel-quest'),
@@ -156,7 +158,7 @@
 
         function showCreateQuestDialog() {
             return $mdDialog.show({
-                templateUrl: 'js/app/profile/create-quest-dialog/create-quest-dialog.tpl.html',
+                templateUrl: 'js/app/quest/create-quest-dialog/create-quest-dialog.tpl.html',
                 controller: 'CreateQuestDialogController',
                 controllerAs: "createQuest",
                 bindToController: true,
@@ -180,6 +182,18 @@
 
         function showTutorial() {
             vm.startIntro();
+        }
+
+        function showPlaceMarkerInfo() {
+            if(MapService.getDrawing()) {
+                var alert = $mdDialog.alert()
+                    .title($translate.instant('TITLE_PLACE_MARKER'))
+                    .htmlContent($translate.instant('ERROR_PLACE_MARKER'))
+                    .ariaLabel('Save Quiz')
+                    .ok($translate.instant('BUTTON_CLOSE'));
+
+                return $mdDialog.show(alert);
+            }
         }
 
         function editQuest() {

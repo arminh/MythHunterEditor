@@ -132,7 +132,8 @@
   "TITLE_TUT_QUEST": "Quest",
   "TEXT_TUT_CREATE_QUEST": "You are about to create a new scavenger hunt. Here are some tips for creating your quest:",
   "TEXT_TUT_HELP_1": "If you are unsure what to do these buttons",
-  "TEXT_TUT_HELP_2": "provide you with helpful information:",
+  "TEXT_TUT_HELP_2": "provide you with <b>helpful information</b>:",
+  "TEXT_TUT_TUTORIAL_BUTTON": "If you want to be guided through the quest creation <b>step by step</b> press this button:",
   "TEXT_TUT_FIRST": "First you will be taken to the map interface where you have to place your first marker:",
   "TEXT_TUT_TOOLS": "<b>Important tools:</b>",
   "TEXT_TUT_SAVE_QUEST": "<b>Save the quest</b>: Saves your changes",
@@ -200,7 +201,7 @@
   "TEXT_FIRST_TASK": "First task",
   "LABEL_TUTORIAL": "Use tutorial",
   "BUTTON_CLEAR_DECK": "Clear deck",
-  "TUT_MAP_START": "This tutorial gives you an overview of the most important interface elements.",
+  "TUT_MAP_TUTORIAL": "Restart this tutorial at any time",
   "TUT_MAP_ADD_TASK": "Add an additional task to your quest.",
   "TUT_MAP_TASK": "Open the menu on the right to show additional options for a task. Drag a task up or down to change its position in the quest.",
   "TUT_MAP_EDIT_QUEST": "Edit the content (name, description, reward) of your quest.",
@@ -286,5 +287,12 @@
   "BUTTON_DONE": "Done",
   "TEXT_CHECKBOXES": "Add options to the quiz and check the <b>correct answers</b> by clicking on the checkboxes:",
   "TEXT_RADIO_BUTTONS": "Add options to the quiz and check the <b>correct answers</b> by clicking on the radio buttons:",
-  "TOOLTIP_REMOVE_OPTION": "Remove option"
+  "TOOLTIP_REMOVE_OPTION": "Remove option",
+  "TITLE_INFO": "Information",
+  "TITLE_QUIZ": "Quiz",
+  "TITLE_FIGHT": "Fight",
+  "TITLE_SEARCH": "Search",
+  "TITLE_FIRST": "First",
+  "TITLE_PLACE_MARKER": "Interaction disabled",
+  "ERROR_PLACE_MARKER": "Place the current marker on the map before you can continue"
 }

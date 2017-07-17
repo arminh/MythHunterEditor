@@ -14,9 +14,9 @@
             </div>
 
             <div layout="row" >
-                <md-input-container id="quest-name" flex>
+                <md-input-container id="quest-name">
                     <label>{{'LABEL_QUEST_NAME' | translate}}</label>
-                    <input required name="questName" ng-model="questCtrl.quest.name" class="task-info" autofocus md-select-on-focus>
+                    <input required name="questName" ng-model="questCtrl.quest.name" autofocus md-select-on-focus>
                     <div ng-messages="questForm.questName.$error">
                         <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                     </div>

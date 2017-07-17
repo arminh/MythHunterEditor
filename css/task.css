@@ -2,28 +2,12 @@
     width: 100%;
 }
 
-#task-text {
-
-}
-
-.modal-lg {
-    width: 1100px;
-}
-
-.modal-header {
-    text-align: center;
-}
-
-.modal-backdrop {
-    bottom: 0;
+#task-name {
+    width: 400px;
 }
 
 .error {
     color: red;
-}
-
-.task-info {
-    text-align: center;
 }
 
 .task-info-input {

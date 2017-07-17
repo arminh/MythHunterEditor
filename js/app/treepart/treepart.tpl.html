@@ -5,17 +5,18 @@
             <div class="md-dialog-content">
                 <div ng-if="treePartCtrl.task.getType() == 'QUIZ' || treePartCtrl.task.getType() == 'FIGHT'">
                     <h3>
-                        {{'TEXT_TASK' | translate}}
+                        {{treePartCtrl.taskTypeText}} {{'TEXT_TASK' | translate}}
                         <md-button ng-click="treePartCtrl.showTutorial()" class="md-icon-button" aria-label="Complex">
                             <md-icon md-svg-icon="media/tutorial_icon.svg"></md-icon>
                             <md-tooltip md-direction="top">{{'LABEL_SHOW_TUTORIAL' | translate}}</md-tooltip>
                         </md-button>
                     </h3>
+                    <br>
                 </div>
-                <div layout="row" layout-align="center center">
+                <div layout="row">
                     <md-input-container flex="50" id="task-name">
                         <label>{{'LABEL_TASK_NAME' | translate}}</label>
-                        <input required name="taskName" ng-model="treePartCtrl.task.name" class="task-info" autofocus>
+                        <input required name="taskName" ng-model="treePartCtrl.task.name" autofocus>
                         <div ng-messages="taskForm.taskName.$error">
                             <div ng-message="required">{{'MESSAGE_REQUIRED' | translate}}</div>
                         </div>
