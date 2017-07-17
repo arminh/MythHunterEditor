@@ -9,12 +9,13 @@
         .module('quest')
         .controller('QuestController', QuestController);
 
-    QuestController.$inject = ["$timeout", "$state", "$stateParams", "$translate", "QuestService", "user", "REWARD_MAX_CARDS", "CreationTutorialFlags"];
+    QuestController.$inject = ["$timeout", "$state", "$stateParams", "$translate", "QuestService", "user", "REWARD_MAX_CARDS", "CreationTutorialFlags", "textAngularManager"];
 
     /* @ngInject */
-    function QuestController($timeout, $state, $stateParams, $translate, QuestService, user, REWARD_MAX_CARDS, CreationTutorialFlags) {
+    function QuestController($timeout, $state, $stateParams, $translate, QuestService, user, REWARD_MAX_CARDS, CreationTutorialFlags, textAngularManager) {
 
         var vm = this;
+
         vm.user = user;
         vm.questContent = "";
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo']]";
@@ -51,8 +52,8 @@
                 doneLabel: $translate.instant("BUTTON_DONE")
             };
         }).then(function () {
-            $timeout(function() {
-                if($stateParams.tutorial) {
+            $timeout(function () {
+                if ($stateParams.tutorial) {
                     vm.startIntro();
                 }
             })
@@ -60,6 +61,7 @@
 
         vm.showQuestDescriptionTooltip = showQuestDescriptionTooltip;
         vm.showTutorial = showTutorial;
+        vm.focusContent = focusContent;
         vm.confirm = confirm;
         vm.cancel = cancel;
 
@@ -88,8 +90,16 @@
             vm.startIntro();
         }
 
+        function focusContent() {
+            var editorScope = textAngularManager.retrieveEditor('quest-content').scope;
+
+            $timeout(function () {
+                editorScope.displayElements.text.trigger('focus');
+            });
+        }
+
         function confirm() {
-            if(!$stateParams.edit) {
+            if (!$stateParams.edit) {
                 user.setCurrentQuest(vm.quest);
             }
             QuestService.finishEditing(vm.quest, vm.originalQuest);
@@ -100,7 +110,7 @@
         }
 
         function cancel() {
-            if($stateParams.edit) {
+            if ($stateParams.edit) {
                 $state.go("app.map", {tutorial: $stateParams.tutorial});
             } else {
                 $state.go("app.profile");

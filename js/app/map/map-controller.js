@@ -152,10 +152,10 @@
 
                 if ($stateParams.tutorial) {
                     MapService.showMarkerTutorial("start").then(function () {
-                        MapService.drawStartMarker(user);
+                        MapService.drawStartMarker(user, $stateParams.tutorial);
                     });
                 } else {
-                    MapService.drawStartMarker(user);
+                    MapService.drawStartMarker(user, $stateParams.tutorial);
                 }
             }
         }

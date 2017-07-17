@@ -9,10 +9,10 @@
         .module('treePart')
         .controller('TreePartController', TreePartController);
 
-    TreePartController.$inject = ["$log", "$state", "$stateParams", "$timeout", "$translate", "CreationTutorialFlags", "TreePartService", "MarkerType", "user"];
+    TreePartController.$inject = ["$log", "$state", "$stateParams", "$timeout", "$translate", "CreationTutorialFlags", "TreePartService", "MarkerType", "textAngularManager", "user"];
 
     /* @ngInject */
-    function TreePartController($log, $state, $stateParams, $timeout, $translate, CreationTutorialFlags, TreePartService, MarkerType, user) {
+    function TreePartController($log, $state, $stateParams, $timeout, $translate, CreationTutorialFlags, TreePartService, MarkerType, textAngularManager, user) {
         var vm = this;
         vm.types = MarkerType;
         vm.toolbar = "[['h1', 'h2', 'h3', 'p'],['bold', 'italics', 'underline', 'redo', 'undo', 'clear'],['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],['insertPicture','insertLink', 'insertVideo']]";
@@ -24,6 +24,7 @@
         vm.keyPressed = keyPressed;
         vm.contentChanged = contentChanged;
         vm.showTutorial = showTutorial;
+        vm.focusContent = focusContent;
         vm.confirm = confirm;
         vm.cancel = cancel;
 
@@ -190,6 +191,26 @@
 
         function showTutorial() {
             vm.startIntro();
+        }
+
+        function focusContent(target) {
+            var editorScope = null;
+
+            if(!target) {
+                if(vm.task.getType() == MarkerType.QUIZ) {
+                    editorScope = textAngularManager.retrieveEditor('task-editor-quiz').scope;
+                } else {
+                    editorScope = textAngularManager.retrieveEditor('task-editor').scope;
+                }
+            } else {
+                editorScope = textAngularManager.retrieveEditor('task-target').scope;
+            }
+
+
+            $timeout(function(){
+                editorScope.displayElements.text.trigger('focus');
+            });
+
         }
 
         function keyPressed(evt) {

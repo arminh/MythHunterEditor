@@ -55,7 +55,7 @@
                         <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                     </md-button>
 
-                    <div id="task-content">
+                    <div id="task-content"  ng-mouseover="treePartCtrl.focusContent(false)">
                         <text-angular id="task-editor-quiz"
                                       ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ" name="task-editor-quiz"
                                       ta-toolbar="{{treePartCtrl.quizToolbar}}" ng-model="treePartCtrl.content"
@@ -67,7 +67,8 @@
                                       class="task-text"></text-angular>
                     </div>
 
-                    <div ng-if="treePartCtrl.task.getType() != treePartCtrl.types.INFO && treePartCtrl.task.getType() != 'start'">
+                    <div ng-if="treePartCtrl.task.getType() != treePartCtrl.types.INFO && treePartCtrl.task.getType() != 'start'"
+                         ng-mouseover="treePartCtrl.focusContent(true)">
 
                         <md-label class="description-label">
                             {{'LABEL_TASK_COMPLETE_CONTENT' | translate}}

@@ -31,8 +31,8 @@
                     </md-tooltip>
                     <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
                 </md-button>
-                <div id="quest-description">
-                    <text-angular id="quest-text" ta-toolbar="{{questCtrl.toolbar}}"
+                <div id="quest-description" ng-mouseover="questCtrl.focusContent()">
+                    <text-angular id="quest-text" name="quest-content" ta-toolbar="{{questCtrl.toolbar}}"
                                   ng-model="questCtrl.quest.html.content"
                                   ng-focus="questCtrl.showQuestDescriptionTooltip()"></text-angular>
                 </div>

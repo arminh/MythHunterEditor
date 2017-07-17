@@ -47,16 +47,16 @@
                 currentPosition = null;
             }
 
-            function drawStartMarker(user) {
+            function drawStartMarker(user, tutorial) {
                 drawing = true;
                 var treePartRoot = quest.createTreePartMarker("start");
                 return drawMarker(treePartRoot.getTask(), user).then(editStartMarker);
 
                 function editStartMarker() {
                     quest.setTreePartRoot(treePartRoot);
-                    drawing = false;
                     $timeout(function() {
-                        $state.go("app.task", {originalTreePart: treePartRoot, treePart: angular.copy(treePartRoot), tutorial: true});
+                        drawing = false;
+                        $state.go("app.task", {originalTreePart: treePartRoot, treePart: angular.copy(treePartRoot), tutorial: tutorial});
                     }, 2000);
 
                 }
