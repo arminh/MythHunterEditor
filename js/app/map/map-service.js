@@ -99,10 +99,10 @@
                 }
 
                 function editTreePart(markerId) {
-                    drawing = false;
                     QuestService.addTreePartToQuest(quest, treePart, true);
                     user.backup();
                     $timeout(function() {
+                        drawing = false;
                         $state.go("app.task", {originalTreePart: treePart, treePart: angular.copy(treePart)});
                     }, 2000);
 

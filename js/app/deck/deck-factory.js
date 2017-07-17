@@ -15,12 +15,13 @@
     function DeckFactory($log, $q, BackendService, MAX_CARD_IN_DECK, MAX_DECK_CARDS) {
         $log = $log.getInstance("Deck", debugging);
 
-        function Deck() {
+        function Deck(isDefault) {
             this.id = -1;
             this.remoteId = 0;
             this.name = "";
             this.cardIds = [];
 
+            this.isDefault = isDefault;
             this.loadPromise = null;
             this.loadCardsPromise = null;
             this.loaded = false;
@@ -59,7 +60,8 @@
             getToManyCards: getToManyCards,
             getCardCount: getCardCount,
             getLoadCardsPromise: getLoadCardsPromise,
-            setLoadCardsPromise: setLoadCardsPromise
+            setLoadCardsPromise: setLoadCardsPromise,
+            getIsDefault: getIsDefault
         };
 
         return (Deck);
@@ -90,13 +92,14 @@
             this.id = deckObject.id;
             this.remoteId = deckObject.remoteId;
             this.name = deckObject.name;
-            this.cardCount = deckObject.cardCount;
+            this.isDefault = deckObject.isDefault;
             for (var i = 0; i < deckObject.cardIds.length; i++) {
                 var cardId = new backend_com_wsdl_longToIntEntry();
                 cardId.setKey(deckObject.cardIds[i]._key);
                 cardId.setValue(deckObject.cardIds[i]._value);
                 this.cardIds.push(cardId);
             }
+            this.cardCount = this.countCards();
         }
 
         function addCard(cardId) {
@@ -108,7 +111,7 @@
                     if (amount < MAX_CARD_IN_DECK) {
                         this.cardIds[i].setValue(amount + 1);
                         this.checkCompleteness();
-                        this.cardCount++;
+                        this.cardCount = this.countCards();
                         $log.info("addCard_success", this.cardIds[i]);
                     } else {
                         $log.info("addCard_fail: Maximum amount of this card in deck reached");
@@ -155,7 +158,7 @@
                     } else {
                         this.cardIds.splice(i, 1);
                     }
-                    this.cardCount--;
+                    this.cardCount = this.countCards();
                     this.checkCompleteness();
                     break;
                 }
@@ -254,6 +257,10 @@
 
         function setLoadCardsPromise(value) {
             this.loadCardsPromise = value;
+        }
+
+        function getIsDefault() {
+            return this.isDefault;
         }
     }
 

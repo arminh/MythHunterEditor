@@ -82,13 +82,16 @@
 
                     var originalDeck = originalEnemy.getDeck();
                     var editDeck = editEnemy.getDeck();
-                    originalDeck.setName(editDeck.getName());
-
-                    var originalCards = originalDeck.getCardIds();
-                    originalCards.length = 0;
-                    var editCards = editDeck.getCardIds();
-                    for (var i = 0; i < editCards.length; i++) {
-                        originalCards.push(editCards[i]);
+                    if(originalDeck) {
+                        originalDeck.setName(editDeck.getName());
+                        var originalCards = originalDeck.getCardIds();
+                        originalCards.length = 0;
+                        var editCards = editDeck.getCardIds();
+                        for (var i = 0; i < editCards.length; i++) {
+                            originalCards.push(editCards[i]);
+                        }
+                    } else {
+                        originalEnemy.setDeck(editDeck);
                     }
                 }
 

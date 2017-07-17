@@ -56,7 +56,11 @@
                     case MarkerType.FIGHT:
                         vm.taskTypeText = $translate.instant("TITLE_FIGHT");
                         var enemy = vm.task.getEnemy();
-                        vm.enemyDeckPromise = enemy.loadStandardDeck(user, user.getCollection());
+                        var enemyDeck = enemy.getDeck();
+                        if(!enemyDeck) {
+                            vm.enemyDeckPromise = enemy.loadStandardDeck(user, user.getCollection());
+                        }
+
                         break;
                     default:
                         vm.taskTypeText = $translate.instant("TITLE_FIRST");
@@ -176,12 +180,21 @@
         function editEnemyDeck() {
 
             TreePartService.saveHtmls(vm.content, vm.targetContent, vm.task);
-            vm.enemyDeckPromise.then(function () {
-                $state.go("app.collection", {
-                    enemy: vm.task.getEnemy(),
-                    originalTreePart: vm.originalTreePart,
-                    treePart: vm.treePart
+            if(vm.enemyDeckPromise) {
+                vm.enemyDeckPromise.then(function () {
+                    gotoCollection();
                 });
+            } else {
+                gotoCollection();
+            }
+
+        }
+
+        function gotoCollection() {
+            $state.go("app.collection", {
+                enemy: vm.task.getEnemy(),
+                originalTreePart: vm.originalTreePart,
+                treePart: vm.treePart
             });
         }
 

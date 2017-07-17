@@ -62,8 +62,16 @@
                 vm.enemy = $stateParams.enemy;
                 CollectionService.loadCollectionEnemy(user).then(function (collection) {
                     vm.collection = collection;
-                    var deck = vm.enemy.getDeck();
-                    // deck.setLoadCardsPromise(DeckService.loadCards(deck, collection.getCards()));
+                    var enemyDeck = vm.enemy.getDeck();
+                    var deck = null;
+                    if(enemyDeck.getIsDefault()) {
+                        deck = DeckService.createDeck();
+                    } else {
+                        deck = angular.copy(enemyDeck);
+                        deck.setLoadCardsPromise(DeckService.loadCards(deck, collection.getCards()));
+                    }
+
+                    //
                     showOpenDeckDialog(deck);
                 });
             } else {
@@ -237,7 +245,6 @@
                 }
                 closeDeck();
             } else {
-                vm.enemy.setDeck(vm.currentDeck);
                 $state.go("app.task", {
                     originalTreePart: $stateParams.originalTreePart,
                     treePart: $stateParams.treePart

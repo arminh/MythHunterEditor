@@ -14,7 +14,7 @@
              ng-dblclick="deckCtrl.removeCard(deckCard)">
             <div class="deck-card-background" ng-style="deckCard.style"></div>
             <div class="deck-card-text"><span class="deck-card-text-name">{{deckCard.card.getName()}}</span><span
-                    class="deck-card-amount" ng-if="deckCard.amount > 1">{{deckCard.amount}}</span></div>
+                    class="deck-card-amount">{{deckCard.amount}}</span></div>
         </div>
     </div>
     <div class="deck-card-count" id="card-count"

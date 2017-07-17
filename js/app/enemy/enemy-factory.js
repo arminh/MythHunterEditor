@@ -22,7 +22,7 @@
             this.name = "";
             this.description = "";
 
-            this.deck = new Deck();
+            this.deck = null;
             this.changed = false;
         }
 
@@ -111,8 +111,10 @@
             this.randomEnemy = enemyObject.randomEnemy;
             this.name = enemyObject.name;
             this.description = enemyObject.description;
-            this.deck = new Deck();
-            this.deck.initFromObject(enemyObject.deck);
+            if(enemyObject.deck) {
+                this.deck = new Deck();
+                this.deck.initFromObject(enemyObject.deck);
+            }
 
             $log.info("initFromObject_success", this);
         }
@@ -146,7 +148,7 @@
         function loadStandardDeck(user, collection) {
             BackendService.abortCardRequests();
             return BackendService.getStandartDeck(user.getId()).then(function(result) {
-                this.deck = new Deck();
+                this.deck = new Deck(true);
                 return this.deck.initFromRemote(result.getReturn(), collection.getCards());
             }.bind(this));
         }
