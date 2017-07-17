@@ -131,6 +131,7 @@
   "TITLE_TUT_NEW_QUEST": "Neue Aufgabe",
   "TITLE_TUT_QUEST": "Aufgabe",
   "TEXT_TUT_CREATE_QUEST": "Du willst gerade eine neue Aufgabe erstellen. Hier sind ein paar Tipps dafür:",
+  "TEXT_TUT_BUTTON_READY": "Lies die Hilfe genau durch. Wenn du bereit bist, klick auf <b>\"FERTIG\"</b>",
   "TEXT_TUT_HELP_1": "Wenn du nicht sicher bist was du tun sollst, versorgen dich diese Buttons",
   "TEXT_TUT_HELP_2": "mit <b>nützlichen Informationen</b>:",
   "TEXT_TUT_TUTORIAL_BUTTON": "Wenn du <b>Schritt für Schritt</b> durch die Erstellung der Aufgabe geführt werden willst, drücke diesen Button:",

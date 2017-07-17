@@ -2,11 +2,9 @@ a#content {
 }
 
 #mapView {
-    position: relative;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
 }
 
 .ol-zoom {
@@ -97,6 +95,7 @@ a#content {
     #map-tasks {
         width: 330px;
     }
+
     #toolbar {
         width: 330px;
     }
@@ -145,7 +144,7 @@ a#content {
     box-shadow: inset 0px -5px 5px #888888;
 }
 
-.map-task-add-button{
+.map-task-add-button {
     width: 100%;
     height: 34px;
     text-align: left;

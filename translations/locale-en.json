@@ -131,6 +131,7 @@
   "TITLE_TUT_NEW_QUEST": "New Quest",
   "TITLE_TUT_QUEST": "Quest",
   "TEXT_TUT_CREATE_QUEST": "You are about to create a new scavenger hunt. Here are some tips for creating your quest:",
+  "TEXT_TUT_BUTTON_READY": "Read these instructions carefully. If you are done click on <b>\"READY\"</b>",
   "TEXT_TUT_HELP_1": "If you are unsure what to do these buttons",
   "TEXT_TUT_HELP_2": "provide you with <b>helpful information</b>:",
   "TEXT_TUT_TUTORIAL_BUTTON": "If you want to be guided through the quest creation <b>step by step</b> press this button:",

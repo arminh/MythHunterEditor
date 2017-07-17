@@ -9,10 +9,10 @@
         .module('map')
         .controller('MapController', MapController);
 
-    MapController.$inject = ["$scope", "$state", "$stateParams", "$timeout", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user", "ngIntroService"];
+    MapController.$inject = ["$window", "$scope", "$state", "$stateParams", "$timeout", "$mdDialog", "$translate", "MapInteractionService", "MapService", "CreationTutorialFlags", "user", "ngIntroService"];
 
     /* @ngInject */
-    function MapController($scope, $state, $stateParams, $timeout, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user, ngIntroService) {
+    function MapController($window, $scope, $state, $stateParams, $timeout, $mdDialog, $translate, MapInteraction, MapService, CreationTutorialFlags, user, ngIntroService) {
         var vm = this;
 
         vm.quest = null;
@@ -221,7 +221,7 @@
         }
 
         function mouseDown(evt) {
-            if(evt.which == 3) {
+            if(evt.which == 3 && vm.quest) {
                 evt.preventDefault();
                 MapService.cancelTreePart();
             }
