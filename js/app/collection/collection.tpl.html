@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="collection-cards-preview" flex>
+        <div class="collection-cards-preview"  id="collection-cards" flex>
             <div class="collection-card-add" ng-if="collectionCtrl.createdCardsShown">
                 <md-button class="md-raised" ng-click="collectionCtrl.createCard()">
                     <div style="position:relative; height: 280px; width:165px;">
@@ -41,7 +41,7 @@
                 </md-button>
             </div>
 
-            <div ng-show="collectionCtrl.collectionShown" ng-model="card.remoteId" id="collection-cards"
+            <div ng-show="collectionCtrl.collectionShown" ng-model="card.remoteId"
                  ng-repeat="card in collectionCtrl.collection.cards | filter: collectionCtrl.starsFilter() | filter:collectionCtrl.contentFilter() | orderBy : 'stars'"
                  ng-dblclick="collectionCtrl.addCardToDeck(card, false)" class="collection-card-preview-container"
                  ng-class="{'collection-card-movable': card.loaded && collectionCtrl.currentDeck}"

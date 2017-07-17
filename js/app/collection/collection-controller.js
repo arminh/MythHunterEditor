@@ -207,7 +207,8 @@
                             },
                             {
                                 element: document.querySelector('#collection-cards'),
-                                intro: $translate.instant("TUT_DECK_CARDS")
+                                intro: $translate.instant("TUT_DECK_CARDS"),
+                                position: 'right'
                             },
                             {
                                 element: document.querySelector('#deck-content'),
