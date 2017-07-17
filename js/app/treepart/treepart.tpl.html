@@ -68,8 +68,7 @@
 
                     <div ng-if="treePartCtrl.task.getType() != treePartCtrl.types.INFO && treePartCtrl.task.getType() != 'start'">
 
-                        <md-label class="description-label"
-                                  ng-if="treePartCtrl.task.getType() == treePartCtrl.types.QUIZ || treePartCtrl.task.getType() == treePartCtrl.types.FIGHT">
+                        <md-label class="description-label">
                             {{'LABEL_TASK_COMPLETE_CONTENT' | translate}}
                         </md-label>
                         <md-button aria-label="description-hint" class="md-icon-button">

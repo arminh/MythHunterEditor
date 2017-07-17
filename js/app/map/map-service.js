@@ -9,10 +9,10 @@
             .module('map')
             .factory('MapService', mapService);
 
-        mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "$translate", "DefaultConfig", "MapInteractionService", "QuestService", "MarkerType", "TaskService", "CreationTutorialFlags"];
+        mapService.$inject = ["$log", "$q", "$state", "$http", "$mdDialog", "$timeout", "DefaultConfig", "MapInteractionService", "QuestService", "MarkerType", "TaskService", "CreationTutorialFlags"];
 
         /* @ngInject */
-        function mapService($log, $q, $state, $http, $mdDialog, $translate, DefaultConfig, MapInteraction, QuestService, MarkerType, TaskService, CreationTutorialFlags) {
+        function mapService($log, $q, $state, $http, $mdDialog, $timeout, DefaultConfig, MapInteraction, QuestService, MarkerType, TaskService, CreationTutorialFlags) {
 
             $log = $log.getInstance("MapService", debugging);
 
@@ -64,11 +64,14 @@
             }
 
             function editQuest(quest, editStartMarker, tutorial) {
-                $state.go("app.quest", {
-                    quest: quest,
-                    editStartMarker: editStartMarker,
-                    tutorial: tutorial
-                });
+                $timeout(function() {
+                    $state.go("app.quest", {
+                        quest: quest,
+                        editStartMarker: editStartMarker,
+                        tutorial: tutorial
+                    });
+                }, 2000);
+
             }
 
             function saveQuest(user, quest) {
@@ -80,7 +83,7 @@
                 MapInteraction.stopDrawing();
             }
 
-            function addTreePart(user, quest, evt) {
+            function  addTreePart(user, quest, evt) {
                 var treePart = null;
 
                 var promise = $mdDialog.show({
@@ -98,11 +101,14 @@
                     drawMarker(treePart.getTask(), user).then(editTreePart);
                 }
 
-                function editTreePart() {
+                function editTreePart(markerId) {
                     drawing = false;
                     QuestService.addTreePartToQuest(quest, treePart, true);
                     user.backup();
-                    $state.go("app.task", {originalTreePart: treePart, treePart: angular.copy(treePart)});
+                    $timeout(function() {
+                        $state.go("app.task", {originalTreePart: treePart, treePart: angular.copy(treePart)});
+                    }, 2000);
+
                 }
             }
 

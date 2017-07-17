@@ -300,6 +300,7 @@
             function drawEnd(evt) {
                 removeDraw();
                 var markerId = initMarker(evt.feature, iconSrc);
+                flashMarker(markerId);
                 deferred.resolve(markerId);
             }
 
