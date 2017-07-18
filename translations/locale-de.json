@@ -294,6 +294,7 @@
   "TITLE_SEARCH": "Such",
   "TITLE_FIRST": "Erste",
   "TITLE_PLACE_MARKER": "Interaktion deaktiviert",
-  "ERROR_PLACE_MARKER": "Platziere die aktuelle Markierung auf der Karte um fortzufahren"
+  "ERROR_PLACE_MARKER": "Platziere die aktuelle Markierung auf der Karte um fortzufahren",
+  "TEXT_PRINT_INSTRUCTIONS": "Anleitungen ausdrucken"
 
 }

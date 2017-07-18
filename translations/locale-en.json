@@ -294,5 +294,6 @@
   "TITLE_SEARCH": "Search",
   "TITLE_FIRST": "First",
   "TITLE_PLACE_MARKER": "Interaction disabled",
-  "ERROR_PLACE_MARKER": "Place the current marker on the map before you can continue"
+  "ERROR_PLACE_MARKER": "Place the current marker on the map before you can continue",
+  "TEXT_PRINT_INSTRUCTIONS": "Print instructions"
 }

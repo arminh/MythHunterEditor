@@ -4,9 +4,9 @@
             <h1>{{'TITLE_PROFILE' | translate}}</h1>
         </div>
     </div>
-
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="60" flex-order="1" flex-order-gt-sm="0">
+
             <div ng-if="profile.user.getCurrentQuest()">
                 <h3>{{'TITLE_CURRENT_QUEST' | translate}}</h3>
                 <table class="profile-quest-table">
@@ -17,7 +17,8 @@
                                ng-click="profile.editCurrentQuest()">{{profile.currentQuest.name}}</a>
                         </td>
                         <td width="70px" class="profile-quest-col">
-                            <md-button ng-disabled="map.drawing()" ng-click="profile.editCurrentQuest()" aria-label="edit"
+                            <md-button ng-disabled="map.drawing()" ng-click="profile.editCurrentQuest()"
+                                       aria-label="edit"
                                        class="md-icon-button" id="edit-quest">
                                 <md-icon md-svg-icon="media/edit_icon.svg"></md-icon>
                                 <md-tooltip md-direction="top">{{'LABEL_EDIT_QUEST' | translate}}</md-tooltip>
@@ -68,6 +69,12 @@
                 </table>
             </div>
 
+            <h3>{{'BUTTON_NEW_QUEST' | translate}}
+            </h3>
+            <h4><md-button aria-label="delete" href="print/instructions.pdf" target="_blank">
+                <md-label>{{'TEXT_PRINT_INSTRUCTIONS' | translate}}</md-label>
+                <md-icon md-svg-icon="media/print_icon.svg"></md-icon>
+            </md-button></h4>
             <md-button aria-label="delete" class="md-raised" ng-click="profile.newQuest($event)">
                 {{'BUTTON_NEW_QUEST' | translate}}
             </md-button>
