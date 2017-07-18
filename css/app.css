@@ -112,6 +112,17 @@ input[type='file'] {
     line-height: 24px;
 }
 
+.label-with-hint-normal {
+    font-family: Roboto, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.label-with-hint-normal > md-icon, .label-with-hint-normal > md-icon > svg {
+    height: 18px;
+    width: 18px;
+}
+
 .label-with-hint-small {
     max-width: 85px !important;
     width: 85px;
