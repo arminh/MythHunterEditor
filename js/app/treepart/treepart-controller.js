@@ -238,12 +238,22 @@
                     user.setCreationTutorialFlag(CreationTutorialFlags.FIGHT);
                 }
                 user.backup();
-                $state.go("app.map", {tutorial: $stateParams.tutorial});
+                if(vm.task.getLon() == 0 && vm.task.getLat() == 0) {
+                    $state.go("app.map", {tutorial: $stateParams.tutorial, treePart: vm.originalTreePart});
+                } else {
+                    $state.go("app.map", {tutorial: $stateParams.tutorial});
+                }
+
             });
         }
 
         function cancel() {
-            $state.go("app.map");
+            if(user.getCurrentQuest().getTreePartRoot()) {
+                $state.go("app.map");
+            } else {
+                $state.go("app.profile");
+            }
+
         }
     }
 

@@ -41,6 +41,7 @@
                         intro: $translate.instant("TUT_QUEST_FINISHED")
                     }
                 ],
+                keyboardNavigation: false,
                 showStepNumbers: false,
                 showBullets: true,
                 exitOnOverlayClick: false,
@@ -70,6 +71,7 @@
         ////////////////
 
         function activate() {
+            vm.edit = $stateParams.edit;
             if ($stateParams.quest) {
                 vm.originalQuest = $stateParams.quest;
                 vm.quest = angular.copy($stateParams.quest);
@@ -99,18 +101,24 @@
         }
 
         function confirm() {
-            if (!$stateParams.edit) {
-                user.setCurrentQuest(vm.quest);
-            }
             QuestService.finishEditing(vm.quest, vm.originalQuest);
             user.setCreationTutorialFlag(CreationTutorialFlags.QUEST);
-            user.backup();
-            $state.go("app.map", {tutorial: $stateParams.tutorial});
+
+            if (!vm.edit) {
+                user.setCurrentQuest(vm.quest);
+                user.backup();
+                var treePartRoot = vm.originalQuest.createTreePartMarker("start");
+                $state.go("app.task", {originalTreePart: treePartRoot, treePart: angular.copy(treePartRoot), tutorial: $stateParams.tutorial});
+            } else {
+                user.backup();
+                $state.go("app.map", {tutorial: $stateParams.tutorial});
+            }
+
 
         }
 
         function cancel() {
-            if ($stateParams.edit) {
+            if (vm.edit) {
                 $state.go("app.map", {tutorial: $stateParams.tutorial});
             } else {
                 $state.go("app.profile");

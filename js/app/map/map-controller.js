@@ -74,6 +74,18 @@
             MapInteraction.init("mapView");
             focusSearchInput();
             loadQuest();
+            if($stateParams.treePart) {
+                if ($stateParams.tutorial && $stateParams.treePart.getTask().getType() == "start") {
+                    MapService.showMarkerTutorial("start").then(function () {
+                        MapService.placeTreePartMarker($stateParams.treePart, user, vm.quest);
+                    });
+                } else {
+                    MapService.placeTreePartMarker($stateParams.treePart, user, vm.quest);
+                }
+            } else if(!vm.quest.getTreePartRoot()) {
+                var treePartRoot = vm.quest.createTreePartMarker("start");
+                $state.go("app.task", {originalTreePart: treePartRoot, treePart: angular.copy(treePartRoot), tutorial: $stateParams.tutorial});
+            }
         }
 
         function initIntro() {
@@ -128,7 +140,10 @@
 
         function focusSearchInput() {
             $timeout(function () {
-                document.querySelector('#toolbar-search-input').focus();
+                if(document.querySelector('#toolbar-search-input')) {
+                    document.querySelector('#toolbar-search-input').focus();
+                }
+
             });
         }
 
@@ -149,20 +164,12 @@
                 });
             } else {
                 MapInteraction.centerOnCurrentLocation();
-
-                if ($stateParams.tutorial) {
-                    MapService.showMarkerTutorial("start").then(function () {
-                        MapService.drawStartMarker(user, $stateParams.tutorial);
-                    });
-                } else {
-                    MapService.drawStartMarker(user, $stateParams.tutorial);
-                }
             }
         }
 
         function addTreePart(quest, evt) {
             ngIntroService.clear();
-            MapService.addTreePart(user, quest, evt);
+            MapService.addTreePart(quest, evt);
         }
 
         function toggleQuestline() {

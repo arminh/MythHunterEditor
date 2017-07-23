@@ -22,7 +22,8 @@
                     }]
                 },
                 params: {
-                    tutorial: false
+                    tutorial: false,
+                    treePart: null
                 },
                 controller: 'MapController',
                 controllerAs: 'map'

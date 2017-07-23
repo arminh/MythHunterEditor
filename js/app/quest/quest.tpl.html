@@ -59,9 +59,15 @@
                 </div>
             </div>
             <div>
-                <md-button class="md-raised md-primary" type="submit" id="quest-confirm">
-                    {{'BUTTON_CONFIRM' | translate}}
-                </md-button>
+                <span>
+                    <md-button  id="quest-confirm" ng-if="!questCtrl.edit" class="md-raised md-primary" type="submit">
+                        {{'BUTTON_QUEST_START_TASK' | translate}}
+                    </md-button>
+                    <md-button  id="quest-confirm" ng-if="questCtrl.edit" class="md-raised md-primary" type="submit">
+                        {{'BUTTON_CONFIRM' | translate}}
+                    </md-button>
+                </span>
+
                 <md-button class="md-raised" ng-click="questCtrl.cancel()">
                     {{'BUTTON_CANCEL' | translate}}
                 </md-button>

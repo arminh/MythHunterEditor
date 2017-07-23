@@ -23,7 +23,7 @@
 
             var service = {
                 init: init,
-                drawStartMarker: drawStartMarker,
+                placeTreePartMarker: placeTreePartMarker,
                 editQuest: editQuest,
                 saveQuest: saveQuest,
                 addTreePart: addTreePart,
@@ -47,20 +47,7 @@
                 currentPosition = null;
             }
 
-            function drawStartMarker(user, tutorial) {
-                drawing = true;
-                var treePartRoot = quest.createTreePartMarker("start");
-                return drawMarker(treePartRoot.getTask(), user).then(editStartMarker);
 
-                function editStartMarker() {
-                    quest.setTreePartRoot(treePartRoot);
-                    $timeout(function() {
-                        drawing = false;
-                        $state.go("app.task", {originalTreePart: treePartRoot, treePart: angular.copy(treePartRoot), tutorial: tutorial});
-                    }, 2000);
-
-                }
-            }
 
             function editQuest(quest, tutorial) {
                     $state.go("app.quest", {
@@ -80,7 +67,7 @@
                 MapInteraction.stopDrawing();
             }
 
-            function  addTreePart(user, quest, evt) {
+            function addTreePart(quest, evt) {
                 var treePart = null;
 
                 var promise = $mdDialog.show({
@@ -95,19 +82,27 @@
                 function success(result) {
                     drawing = true;
                     treePart = quest.createTreePartMarker(result.type);
-                    drawMarker(treePart.getTask(), user).then(editTreePart);
-                }
-
-                function editTreePart(markerId) {
-                    QuestService.addTreePartToQuest(quest, treePart, true);
-                    user.backup();
-                    $timeout(function() {
-                        drawing = false;
-                        $state.go("app.task", {originalTreePart: treePart, treePart: angular.copy(treePart)});
-                    }, 2000);
-
+                    $state.go("app.task", {originalTreePart: treePart, treePart: angular.copy(treePart)});
                 }
             }
+
+            function placeTreePartMarker(treePart, user, quest) {
+                drawing = true;
+                drawMarker(treePart.getTask(), user).then(addTreePartToQuest);
+
+                function addTreePartToQuest() {
+                    if(treePart.getTask().getType() == "start") {
+                        quest.setTreePartRoot(treePart);
+                        user.setCurrentQuest(quest);
+                    } else {
+                        QuestService.addTreePartToQuest(quest, treePart, true);
+                    }
+
+                    user.backup();
+                    drawing = false;
+                }
+            }
+
 
             function drawMarker(task, user) {
                 var deffered = $q.defer();
