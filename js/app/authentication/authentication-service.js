@@ -9,10 +9,10 @@
         .module('authentication')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ["$log", "$q", "$cookies", "$rootScope", "BackendService"];
+    AuthenticationService.$inject = ["$log", "$translate", "$q", "$cookies", "$rootScope", "BackendService"];
 
     /* @ngInject */
-    function AuthenticationService($log, $q, $cookies, $rootScope, BackendService) {
+    function AuthenticationService($log, $translate, $q, $cookies, $rootScope, BackendService) {
 
         var user = null;
         var credentials = null;
@@ -51,7 +51,7 @@
             }
 
             function loginFail(error) {
-                alert("Wrong username or password");
+                alert($translate.instant("WRONG_CREDENTIALS"));
                 $log.info('login_fail: "' + username + '" (' + error + ')');
                 clear();
                 return $q.reject(error);
@@ -68,7 +68,7 @@
             }
 
             function registerFail(error) {
-                alert("Register failed!");
+                alert($translate.instant("REGISTER_FAIL"));
                 $log.info('register_fail: "' + username + '" (' + error + ')');
                 return $q.reject(error);
             }

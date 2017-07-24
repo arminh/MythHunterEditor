@@ -61,6 +61,7 @@
                         intro: $translate.instant("TUT_CARD_FINISHED")
                     }
                 ],
+                keyboardNavigation: false,
                 showStepNumbers: false,
                 showBullets: true,
                 exitOnOverlayClick: false,

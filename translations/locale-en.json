@@ -1,4 +1,6 @@
 {
+  "WRONG_CREDENTIALS": "Wrong username or password",
+  "REGISTER_FAIL": "Register failed!",
   "MESSAGE_REQUIRED": "This is required.",
   "BUTTON_CONFIRM": "Confirm",
   "BUTTON_OK": "OK",
@@ -184,7 +186,7 @@
   "LABEL_MARKER_SEARCH": "Search",
   "LABEL_MARKER_FIGHT": "Fight",
   "TITLE_ERROR_SAVE_QUIZ": "Saving quiz failed",
-  "ERROR_QUIZ_EXERCISES": "A Quiz task has to have at least one exercise!",
+  "ERROR_QUIZ_EXERCISES": "A Quiz task has to have at least one quiz exercise!",
   "ERROR_QUIZ_NUM_ANSWERS": "An exercise must have at least two options!",
   "TEXT_MISSING": "is missing:",
   "TEXT_QUEST": "Quest",
@@ -287,7 +289,7 @@
   "BUTTON_SKIP": "Skip",
   "BUTTON_DONE": "Done",
   "TEXT_CHECKBOXES": "Add options to the quiz and check the <b>correct answers</b> by clicking on the checkboxes:",
-  "TEXT_RADIO_BUTTONS": "Add options to the quiz and check the <b>correct answers</b> by clicking on the radio buttons:",
+  "TEXT_RADIO_BUTTONS": "Add options to the quiz and check the <b>correct answer</b> by clicking on the radio buttons:",
   "TOOLTIP_REMOVE_OPTION": "Remove option",
   "TITLE_INFO": "Information",
   "TITLE_QUIZ": "Quiz",
@@ -296,5 +298,9 @@
   "TITLE_FIRST": "First",
   "TITLE_PLACE_MARKER": "Interaction disabled",
   "ERROR_PLACE_MARKER": "Place the current marker on the map before you can continue",
-  "TEXT_PRINT_INSTRUCTIONS": "Print instructions"
+  "TEXT_PRINT_INSTRUCTIONS": "Print instructions",
+  "TEXT_STARS_PER_POINT": "star per point",
+  "TEXT_STARS": "stars",
+  "REMOVE": "Remove",
+  "CLEAR_FILTER": "Clear filter"
 }

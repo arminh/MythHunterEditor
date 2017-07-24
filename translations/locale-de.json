@@ -1,4 +1,6 @@
 {
+  "WRONG_CREDENTIALS": "Falscher Benutzername oder Passwort",
+  "REGISTER_FAIL": "Registrieren fehlgeschlagen!",
   "MESSAGE_REQUIRED": "Zwingend erforderlich.",
   "BUTTON_CONFIRM": "Bestätigen",
   "BUTTON_OK": "OK",
@@ -184,7 +186,7 @@
   "LABEL_MARKER_SEARCH": "Suche",
   "LABEL_MARKER_FIGHT": "Kampf",
   "TITLE_ERROR_SAVE_QUIZ": "Speichern des Rätsels fehlgeschlagen",
-  "ERROR_QUIZ_EXERCISES": "Ein Rätsel muss zumindest eine Aufgabe beinhalten!",
+  "ERROR_QUIZ_EXERCISES": "Ein Rätsel Station muss zumindest ein Rätsel beinhalten!",
   "ERROR_QUIZ_NUM_ANSWERS": "Eine Aufgabe muss zumindest zwei Antwortmöglichkeiten haben!",
   "TEXT_MISSING": "fehlt:",
   "TEXT_QUEST": "Aufgabe",
@@ -287,7 +289,7 @@
   "BUTTON_SKIP": "Überspringen",
   "BUTTON_DONE": "Fertig",
   "TEXT_CHECKBOXES": "Füge dem Quiz zusätzliche Antwortmöglichkeiten hinzu und wähle die <br><b>richtigen Antworten</b> aus, indem du auf die Kontrollkästchen klickst:",
-  "TEXT_RADIO_BUTTONS": "Füge dem Quiz zusätzliche Antwortmöglichkeiten hinzu und wähle die <br><b>richtigen Antwort</b> aus, indem du auf einen Radioknopf klickst:",
+  "TEXT_RADIO_BUTTONS": "Füge dem Quiz zusätzliche Antwortmöglichkeiten hinzu und wähle die <br><b>richtige Antwort</b> aus, indem du auf einen Radioknopf klickst:",
   "TOOLTIP_REMOVE_OPTION": "Option entfernen",
   "TITLE_INFO": "Informations",
   "TITLE_QUIZ": "Rätsel",
@@ -296,6 +298,9 @@
   "TITLE_FIRST": "Erste",
   "TITLE_PLACE_MARKER": "Interaktion deaktiviert",
   "ERROR_PLACE_MARKER": "Platziere die aktuelle Markierung auf der Karte um fortzufahren",
-  "TEXT_PRINT_INSTRUCTIONS": "Anleitungen ausdrucken"
-
+  "TEXT_PRINT_INSTRUCTIONS": "Anleitungen ausdrucken",
+  "TEXT_STARS_PER_POINT": "Stern pro Punkt",
+  "TEXT_STARS": "Sterne",
+  "REMOVE": "Löschen",
+  "CLEAR_FILTER": "Filter zurücksetzen"
 }

@@ -85,6 +85,7 @@
                             }
 
                         ],
+                        keyboardNavigation: false,
                         showStepNumbers: false,
                         showBullets: true,
                         exitOnOverlayClick: false,

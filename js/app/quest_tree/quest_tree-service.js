@@ -258,7 +258,7 @@
             $(document).contextmenu({
                 delegate: ".upper-canvas",
                 menu: [
-                    {title: "Remove", cmd: "remove", uiIcon: "ui-icon-trash"},
+                    {title: $translate.instant("REMOVE"), cmd: "remove", uiIcon: "ui-icon-trash"},
                 ],
                 beforeOpen: function (e, ui) {
                     var pointer = canvas.getPointer(e.originalEvent);

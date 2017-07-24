@@ -125,6 +125,7 @@
                             intro: $translate.instant("TUT_MAP_ADD_TASK")
                         }
                     ],
+                    keyboardNavigation: false,
                     showStepNumbers: false,
                     showBullets: true,
                     exitOnOverlayClick: false,
@@ -182,7 +183,7 @@
 
         function gotoLocation(location) {
             if (location) {
-                MapInteraction.setCenter(parseFloat(location.lon), parseFloat(location.lat), 17);
+                MapInteraction.setCenter(parseFloat(location.lon), parseFloat(location.lat), 19);
             }
         }
 

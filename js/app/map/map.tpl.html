@@ -1,6 +1,6 @@
 <div ng-class="{'not-clickable': map.interactionDisabled}" ng-intro-options="map.introOptions" keypress-events
      ng-intro-method="map.startIntro">
-    <div id="mapView" layout="column"  ng-mousedown="map.mouseDown($event)" oncontextmenu="return false"></div>
+    <div id="mapView" layout="column"  ng-mousedown="map.mouseDown($event)"></div>
 
     <md-toolbar id="quest-toolbar" ng-if="map.quest"
                 cg-busy="{promise:map.saveQuestPromise, message:{{'TEXT_SAVING_QUEST' | translate}}, minDuration:1000}"

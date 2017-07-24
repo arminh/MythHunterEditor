@@ -25,6 +25,10 @@
                 <div class="collection-filter-star-label"><span>{{$index + collectionCtrl.starsFull.length + 1}}</span>
                 </div>
             </div>
+            <md-button ng-click="collectionCtrl.clearFilterStars()" class="md-icon-button collection-filter-clear" aria-label="Clear">
+                <md-icon md-svg-icon="media/clear_icon.svg"></md-icon>
+                <md-tooltip md-direction="top">{{'CLEAR_FILTER' | translate}}</md-tooltip>
+            </md-button>
         </div>
 
         <div class="collection-cards-preview"  id="collection-cards" flex>

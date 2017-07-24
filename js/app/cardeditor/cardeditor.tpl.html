@@ -61,15 +61,14 @@
                                           ng-change="cardeditor.calculateStarCount()"></textarea>
                             </md-input-container>
 
-
+                            <div class="label-with-hint-small">
+                                <span>{{'LABEL_EDITOR_ATTACK' | translate}} (1/2 {{'TEXT_STARS_PER_POINT' | translate}})</span>
+                                <md-tooltip md-direction="top">
+                                    {{'TOOLTIP_EDITOR_ATTACK' | translate}}
+                                </md-tooltip>
+                                <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                            </div>
                             <md-slider-container id="card-attack">
-                                <div class="label-with-hint-small">
-                                    <span>{{'LABEL_EDITOR_ATTACK' | translate}}</span>
-                                    <md-tooltip md-direction="top">
-                                        {{'TOOLTIP_EDITOR_ATTACK' | translate}}
-                                    </md-tooltip>
-                                    <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
-                                </div>
                                 <md-slider class="md-primary" name="attack" md-discrete
                                            ng-model="cardeditor.card.attack"
                                            min="0"
@@ -84,15 +83,15 @@
                                 </md-input-container>
                             </md-slider-container>
 
+                            <div class="label-with-hint-small">
+                                <span>{{'LABEL_EDITOR_LIFEFORCE' | translate}} (1/2 {{'TEXT_STARS_PER_POINT' | translate}})</span>
+                                <md-tooltip md-direction="top">
+                                    {{'TOOLTIP_EDITOR_LIFEFORCE_1' | translate}}<br>
+                                    {{'TOOLTIP_EDITOR_LIFEFORCE_2' | translate}}
+                                </md-tooltip>
+                                <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
+                            </div>
                             <md-slider-container id="card-lifeforce">
-                                <div class="label-with-hint-small">
-                                    <span>{{'LABEL_EDITOR_LIFEFORCE' | translate}}</span>
-                                    <md-tooltip md-direction="top">
-                                        {{'TOOLTIP_EDITOR_LIFEFORCE_1' | translate}}<br>
-                                        {{'TOOLTIP_EDITOR_LIFEFORCE_2' | translate}}
-                                    </md-tooltip>
-                                    <md-icon md-svg-icon="media/help_icon.svg"></md-icon>
-                                </div>
                                 <md-slider class="md-primary" aria-label="life-slider" md-discrete
                                            ng-model="cardeditor.card.life"
                                            min="1" max="10" step="1"
@@ -111,7 +110,7 @@
                                 <md-option ng-value="null"></md-option>
                                 <md-option ng-value="action"
                                            ng-repeat="action in cardeditor.actions | orderBy:'starCosts'">
-                                    {{action.names[1]._value}} ({{action.starCosts}})
+                                    {{action.names[1]._value}} ({{action.starCosts}} {{'TEXT_STARS' | translate}})
                                 </md-option>
                             </md-select>
 

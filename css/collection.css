@@ -60,6 +60,9 @@
 
 .collection-filter-star-container {
     display: inline-block;
+    height:30px;
+    margin-bottom: auto;
+    margin-top: auto;
     position: relative;
     text-align: center;
     -webkit-user-select: none;
@@ -68,6 +71,11 @@
     -o-user-select: none;
     user-select: none;
     outline: none;
+}
+
+.collection-filter-clear {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
 }
 
 .collection-filter-content {

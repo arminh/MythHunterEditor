@@ -38,11 +38,12 @@
         vm.starsFilter = starsFilter;
         vm.contentFilter = contentFilter;
         vm.filterStarClicked = filterStarClicked;
+        vm.clearFilterStars = clearFilterStars;
         vm.showCreatedCards = showCreatedCards;
         vm.showCollection = showCollection;
         vm.cardDropped = cardDropped;
         vm.showTutorial = showTutorial;
-        vm.showInstructions = showInstructions,
+        vm.showInstructions = showInstructions;
 
         vm.cardLocked = cardLocked;
         vm.cardAvailable = cardAvailable;
@@ -106,14 +107,18 @@
                 filterStars += vm.starsFull.length;
             }
             if (filterStars == vm.filterStars) {
-                vm.filterStars = -1;
-                vm.starsFull = new Array(0);
-                vm.starsEmpty = new Array(MAX_STARS);
+                clearFilterStars();
             } else {
                 vm.filterStars = filterStars;
                 vm.starsFull = new Array(filterStars);
                 vm.starsEmpty = new Array(MAX_STARS - filterStars);
             }
+        }
+
+        function clearFilterStars() {
+            vm.filterStars = -1;
+            vm.starsFull = new Array(0);
+            vm.starsEmpty = new Array(MAX_STARS);
         }
 
         function showCollection() {
@@ -223,6 +228,7 @@
                                 intro: $translate.instant("TUT_DECK_FINISHED")
                             }
                         ],
+                        keyboardNavigation: false,
                         showStepNumbers: false,
                         showBullets: true,
                         exitOnOverlayClick: false,
