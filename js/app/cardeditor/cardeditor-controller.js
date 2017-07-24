@@ -30,35 +30,43 @@
                 steps:[
                     {
                         element: document.querySelector('#card-name'),
-                        intro: $translate.instant("TUT_CARD_NAME")
+                        intro: $translate.instant("TUT_CARD_NAME"),
+                        position: "right"
                     },
                     {
                         element: document.querySelector('#card-description'),
-                        intro: $translate.instant("TUT_CARD_DESC")
+                        intro: $translate.instant("TUT_CARD_DESC"),
+                        position: "right"
                     },
                     {
                         element: document.querySelector('#card-image'),
-                        intro: $translate.instant("TOOLTIP_EDITOR_IMAGE")
+                        intro: $translate.instant("TOOLTIP_EDITOR_IMAGE"),
+                        position: "right"
                     },
                     {
                         element: document.querySelector('#card-attack'),
-                        intro: $translate.instant("TOOLTIP_EDITOR_ATTACK")
+                        intro: $translate.instant("TOOLTIP_EDITOR_ATTACK"),
+                        position: "right"
                     },
                     {
                         element: document.querySelector('#card-lifeforce'),
-                        intro: $translate.instant("TOOLTIP_EDITOR_LIFEFORCE_1") + $translate.instant("TOOLTIP_EDITOR_LIFEFORCE_2")
+                        intro: $translate.instant("TOOLTIP_EDITOR_LIFEFORCE_1") + $translate.instant("TOOLTIP_EDITOR_LIFEFORCE_2"),
+                        position: "right"
                     },
                     {
                         element: document.querySelector('#card-action'),
-                        intro: $translate.instant("TUT_CARD_ACTIONS")
+                        intro: $translate.instant("TUT_CARD_ACTIONS"),
+                        position: "right"
                     },
                     {
                         element: document.querySelector('#card-stars'),
-                        intro: $translate.instant("TOOLTIP_EDITOR_STARS_1") + $translate.instant("TOOLTIP_EDITOR_STARS_2")
+                        intro: $translate.instant("TOOLTIP_EDITOR_STARS_1") + $translate.instant("TOOLTIP_EDITOR_STARS_2"),
+                        position: "right"
                     },
                     {
                         element: document.querySelector('#card-confirm'),
-                        intro: $translate.instant("TUT_CARD_FINISHED")
+                        intro: $translate.instant("TUT_CARD_FINISHED"),
+                        position: "right"
                     }
                 ],
                 keyboardNavigation: false,

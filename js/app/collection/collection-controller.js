@@ -213,19 +213,22 @@
                             {
                                 element: document.querySelector('#collection-cards'),
                                 intro: $translate.instant("TUT_DECK_CARDS"),
-                                position: 'right'
+                                position: 'top'
                             },
                             {
                                 element: document.querySelector('#deck-content'),
-                                intro: $translate.instant("TUT_DECK_REMOVE_CARD")
+                                intro: $translate.instant("TUT_DECK_REMOVE_CARD"),
+                                position: 'left'
                             },
                             {
                                 element: document.querySelector('#card-count'),
-                                intro: $translate.instant("TUT_DECK_NUM_CARDS")
+                                intro: $translate.instant("TUT_DECK_NUM_CARDS"),
+                                position: 'left'
                             },
                             {
                                 element: document.querySelector('#save-deck'),
-                                intro: $translate.instant("TUT_DECK_FINISHED")
+                                intro: $translate.instant("TUT_DECK_FINISHED"),
+                                position: 'left'
                             }
                         ],
                         keyboardNavigation: false,

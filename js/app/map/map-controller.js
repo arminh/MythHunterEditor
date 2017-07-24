@@ -118,11 +118,14 @@
                         },
                         {
                             element: document.querySelector('#map-task'),
-                            intro: $translate.instant("TUT_MAP_TASK")
+                            intro: $translate.instant("TUT_MAP_TASK"),
+                            position: 'right'
                         },
                         {
                             element: document.querySelector('#add-task'),
-                            intro: $translate.instant("TUT_MAP_ADD_TASK")
+                            intro: $translate.instant("TUT_MAP_ADD_TASK"),
+                            position: 'right'
+
                         }
                     ],
                     keyboardNavigation: false,

@@ -30,15 +30,18 @@
                     },
                     {
                         element: document.querySelector('#quest-description'),
-                        intro: $translate.instant("TOOLTIP_QUEST_DESCRIPTION_1") + $translate.instant("TOOLTIP_QUEST_DESCRIPTION_2")
+                        intro: $translate.instant("TOOLTIP_QUEST_DESCRIPTION_1") + $translate.instant("TOOLTIP_QUEST_DESCRIPTION_2"),
+                        position: "top"
                     },
                     {
                         element: document.querySelector('#quest-reward'),
-                        intro: $translate.instant("TOOLTIP_QUEST_REWARD_1") + $translate.instant("TOOLTIP_QUEST_REWARD_2")
+                        intro: $translate.instant("TOOLTIP_QUEST_REWARD_1") + $translate.instant("TOOLTIP_QUEST_REWARD_2"),
+                        position: "top"
                     },
                     {
                         element: document.querySelector('#quest-confirm'),
-                        intro: $translate.instant("TUT_QUEST_FINISHED")
+                        intro: $translate.instant("TUT_QUEST_FINISHED"),
+                        position: "top"
                     }
                 ],
                 keyboardNavigation: false,

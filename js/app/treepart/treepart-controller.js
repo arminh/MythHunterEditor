@@ -102,7 +102,8 @@
                             {
                                 element: document.querySelector('#task-content'),
                                 intro: $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_1") + " "
-                                + $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_2")
+                                + $translate.instant("TOOLTIP_START_TASK_DESCRIPTION_2"),
+                                position: "top"
                             }
                         ];
                         introOptions.steps = introOptions.steps.concat(startSteps);
@@ -112,7 +113,7 @@
                         var quizSteps = [
                             {
                                 element: document.querySelector('.task-input'),
-                                intro: $translate.instant("TUT_TASK_INPUT")
+                                intro: $translate.instant("TUT_TASK_INPUT"),
                             },
                             {
                                 element: document.querySelector('.task-radio'),
@@ -124,11 +125,13 @@
                             },
                             {
                                 element: document.querySelector('#task-content'),
-                                intro: $translate.instant("TUT_TASK_QUIZ_CONTENT")
+                                intro: $translate.instant("TUT_TASK_QUIZ_CONTENT"),
+                                position: "top"
                             },
                             {
                                 element: document.querySelector('#task-complete-content'),
-                                intro: $translate.instant("TUT_TASK_QUIZ_COMPLETE_CONTENT")
+                                intro: $translate.instant("TUT_TASK_QUIZ_COMPLETE_CONTENT"),
+                                position: "top"
                             }
                         ];
                         introOptions.steps = introOptions.steps.concat(quizSteps);
@@ -136,23 +139,28 @@
                         var fightSteps = [
                             {
                                 element: document.querySelector('#task-content'),
-                                intro: $translate.instant("TUT_TASK_FIGHT_CONTENT")
+                                intro: $translate.instant("TUT_TASK_FIGHT_CONTENT"),
+                                position: "top"
                             },
                             {
                                 element: document.querySelector('#task-complete-content'),
-                                intro: $translate.instant("TUT_TASK_FIGHT_COMPLETE_CONTENT")
+                                intro: $translate.instant("TUT_TASK_FIGHT_COMPLETE_CONTENT"),
+                                position: "top"
                             },
                             {
                                 element: document.querySelector('#enemy-name'),
-                                intro: $translate.instant("TUT_TASK_ENEMY_NAME")
+                                intro: $translate.instant("TUT_TASK_ENEMY_NAME"),
+                                position: "right"
                             },
                             {
                                 element: document.querySelector('#enemy-description'),
-                                intro: $translate.instant("TUT_TASK_ENEMY_DESC")
+                                intro: $translate.instant("TUT_TASK_ENEMY_DESC"),
+                                position: "right"
                             },
                             {
                                 element: document.querySelector('#enemy-deck'),
-                                intro: $translate.instant("TUT_TASK_ENEMY_DECK")
+                                intro: $translate.instant("TUT_TASK_ENEMY_DECK"),
+                                position: "right"
                             }
                         ];
                         introOptions.steps = introOptions.steps.concat(fightSteps);
@@ -161,7 +169,8 @@
                     introOptions.steps.push(
                         {
                             element: document.querySelector('#task-confirm'),
-                            intro: $translate.instant("TUT_TASK_FINISHED")
+                            intro: $translate.instant("TUT_TASK_FINISHED"),
+                            position: "right"
                         }
                     );
 
