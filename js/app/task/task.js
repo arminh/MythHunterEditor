@@ -174,16 +174,24 @@
                 multiple: true
             });
 
-            promise.then(function(text) {
-                var content = "<input ";
-                content += "id='textbox" + textBoxCounter++ + "' ";
-                content += "class='quiz-input'";
-                content += "type='text' ";
-                content += "value='" + text + "' ";
-                content = content + "/>";
-
-
-                selected.append(angular.element(content));
+            promise.then(function(parts) {
+                var content = "<p>";
+                for(var i = 0; i < parts.length; i++) {
+                    if(parts[i].type == "text") {
+                        content += parts[i].text;
+                    } else {
+                        content += "<input ";
+                        content += "id='textbox" + textBoxCounter++ + "' ";
+                        content += "class='quiz-input'";
+                        content += "type='text' ";
+                        content += "value='" + parts[i].text + "' ";
+                        content += "/>";
+                    }
+                }
+                content += "</p><br>";
+                var element = angular.element(content);
+                selected.after(element);
+                taSelection.setSelectionToElementEnd(element[0]);
                 return null;
             });
 

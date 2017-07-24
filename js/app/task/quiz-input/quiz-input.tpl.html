@@ -12,10 +12,24 @@
         <md-dialog-content class="quiz-group-dialog-content">
             <div class="md-dialog-content">
                 <md-label class="description-label">{{'TEXT_QUIZ_SOLUTION' | translate}}</md-label><br><br>
-                <md-input-container>
-                    <label>{{'LABEL_QUIZ_SOLUTION' | translate}}</label>
-                    <input required name="quizInputText" ng-model="quizInputCtrl.text" autofocus md-select-on-focus>
-                </md-input-container>
+                <span ng-repeat="part in quizInputCtrl.parts" ng-switch="part.type">
+                    <md-input-container ng-switch-when="text">
+                        <label>{{'LABEL_QUIZ_TEXT' | translate}}</label>
+                        <input name="quizInputText" ng-model="part.text" autofocus md-select-on-focus>
+                    </md-input-container>
+                   <md-input-container ng-switch-when="gap">
+                        <label>{{'LABEL_QUIZ_SOLUTION' | translate}}</label>
+                        <input required name="quizInputText" ng-model="part.text" autofocus md-select-on-focus>
+                    </md-input-container>
+                </span>
+
+
+                <div>
+                    <md-button class="quiz-group-add" ng-click="quizInputCtrl.addGap()">
+                        <md-icon md-svg-icon="media/add_icon.svg"></md-icon>
+                        <md-label>{{'LABEL_QUIZ_ADD_GAP' | translate}}</md-label>
+                    </md-button>
+                </div>
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">

@@ -14,15 +14,41 @@
     /* @ngInject */
     function QuizInputController($mdDialog) {
         var vm = this;
-        vm.text = "Solution";
+        vm.parts = [];
 
+        vm.addGap = addGap;
         vm.confirm = confirm;
         vm.cancel = cancel;
 
+        activate();
+
         ////////////////
 
+        function Text(text) {
+            this.type = "text";
+            this.text = "";
+
+        }
+
+        function Gap() {
+            this.type = "gap";
+            this.text = "";
+        }
+
+        function activate() {
+            vm.parts.push(new Text());
+            vm.parts.push(new Gap());
+            vm.parts.push(new Text());
+        }
+
+
+        function addGap() {
+            vm.parts.push(new Gap());
+            vm.parts.push(new Text());
+        }
+
         function confirm(evt) {
-            $mdDialog.hide(vm.text);
+            $mdDialog.hide(vm.parts);
         }
 
         function cancel() {
