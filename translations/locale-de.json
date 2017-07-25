@@ -251,7 +251,7 @@
   "TEXT_TUT_EDIT_STORYLINE_DESC": "Bis jetzt is deine Aufgabe linear, das heißt die Stationen werden eine nach der anderen fertiggestellt.<br>Dieser graphische Editor ermöglicht es dir komplexe Aufgaben mit mehreren parallelen Pfade zu erstellen.<br>Du kannst alle Elemente frei herumziehen.",
   "TITLE_TUT_STORYLINE_IMPLICIT_OR": "Oder- Verknüpfung",
   "TITLE_TUT_STORYLINE_CONNECTORS": "Werkzeug-Palette",
-  "TEXT_TUT_STORYLINE_CONNECTORS": "Verwende die Verknüpfungen in der Werkzeug-Palette um eine komplexe Aufgabe zu erstellen. Klicke auf ein Werkzeug um eine neue Verknüpfung zu erstellen.",
+  "TEXT_TUT_STORYLINE_CONNECTORS": "Verwende die Verknüpfungen (Und, Oder) in der Werkzeug-Palette um eine komplexe Aufgabe zu erstellen. Klicke auf ein Werkzeug um eine neue Verknüpfung zu erstellen.",
   "TEXT_TUT_STORYLINE_ADD_REMOVE": "Hinzufügen und löschen",
   "TEXT_TUT_STORYLINE_COMPLEX": "Komplexer Handlungsstrang",
   "TEXT_TUT_STORYLINE_DRAW": "<b>Füge</b> eine neue Linie <b>hinzu</b> indem du auf eine Markierung oder eine Verknüpfung klickst.",
