@@ -78,7 +78,9 @@
                 target: container
             });
 
-            activateClick();}
+            activateClick();
+            initDrag();
+        }
 
         function centerOnCurrentLocation() {
 
@@ -124,6 +126,33 @@
             }
         }
 
+        function initDrag() {
+            var movingFeature = null;
+
+            map.on('pointerdown', function (event) {
+                var pixel = map.getEventPixel(event.originalEvent);
+                movingFeature = map.forEachFeatureAtPixel(pixel, function (feature) {
+                    return feature;
+                });
+                if(movingFeature && !drawInteraction) {
+                    event.preventDefault();
+                }
+            });
+
+            map.on('pointerup', function (evt) {
+                if(movingFeature) {
+                    $rootScope.$broadcast("markerChanged", {marker: movingFeature});
+                    movingFeature = null;
+                }
+            });
+
+            map.on('pointermove', function (event) {
+                if (movingFeature) {
+                    movingFeature.getGeometry().setCoordinates(event.coordinate);
+                }
+            });
+        }
+
         function removeClick() {
             map.unByKey(clickEvent);
         }
@@ -133,10 +162,6 @@
             var dragInteraction = new ol.interaction.Modify({
                 features: new ol.Collection([feature]),
                 style: null
-            });
-
-            dragInteraction.on('modifyend', function (evt) {
-                $rootScope.$broadcast("markerChanged", {marker: evt.features.getArray()[0]});
             });
 
             feature.getGeometry().on("change", markerChanged);
